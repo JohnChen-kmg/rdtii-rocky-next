@@ -1,5 +1,10 @@
 # How this repository was assembled
 
+Created 2026-09-29 as `rdtii-finale-submission`, renamed the same day to **`rdtii rocky finale 9.30`**
+after the team name and the submission date. GitHub does not allow spaces in a repository name, so the
+remote will be `rdtii-rocky-finale-9.30` or whatever is chosen at the first push. The folder name and the
+repository name do not have to match, and nothing inside this tree depends on either.
+
 Created 2026-09-29. **This is the submission repository.** The release tag cut here is what a marker
 deploys and what runs on 15 October, so what is in this tree is the submission and what is outside it
 is not.
