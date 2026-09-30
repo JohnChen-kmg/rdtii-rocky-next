@@ -1,0 +1,1583 @@
+# Curated exemplars per indicator: (sheet, row) in the host workbooks + a teaching note.
+# Pillars 6-7 migrated from Round 1; other pillars drafted 2026-09-13, pending review.
+'1.4':
+- sheet: India
+  row: 4
+  note: 'Canonical 0.25: one active anti-dumping duty on printed circuit boards from China and Hong Kong, China;
+    matches the Guide''s own India example.'
+- sheet: Russian Federation
+  row: 3
+  note: '0.25: EAEU anti-dumping duty on aluminium alloy strips; the Guide names these strips as ICT-related components,
+    so inputs count, not only finished goods.'
+- sheet: Australia
+  row: 3
+  note: '0.5: one row carrying two active duties (power transformers; PVC flat electric cables); each measure adds
+    0.25.'
+- sheet: China
+  row: 3
+  note: '0.25: optical fibre duty kept in force through expiry reviews; an extended measure is still active and
+    counts.'
+- sheet: Singapore
+  row: 3
+  note: 'Absence row: anti-dumping act exists but no duty on ICT products is in force, so score 0 with the act as
+    reference.'
+- sheet: Lao PDR
+  row: 3
+  note: 'Absence row: trade remedy law adopted and notified to WTO, yet no case on ICT goods; enabling law alone
+    scores 0.'
+'2.1':
+- sheet: China
+  row: 8
+  note: 'Canonical score-1: procurement law requires domestic goods and services unless unavailable in China; foreign
+    supply only as fallback is a full exclusion.'
+- sheet: India
+  row: 8
+  note: 'Boundary, coded 1: only local suppliers may bid where local capacity exists. Local supplier status turns
+    on local content, so 2.1 versus 2.3 is debatable.'
+- sheet: Mongolia
+  row: 5
+  note: 'Score-1: listed goods (including electrical connection equipment) must be bought from domestic manufacturers;
+    foreign bidders protected only above value thresholds.'
+- sheet: Russian Federation
+  row: 6
+  note: '0.5: ban on certain organisations using a named list of foreign messengers; the Guide''s Russian example
+    of excluding a specific group of foreign firms.'
+- sheet: India
+  row: 11
+  note: 'Boundary with 2.3: preference for India-registered cyber security firms is a limitation, not an exclusion,
+    so 2.1 = 0 (same order scores 1 under 2.3).'
+- sheet: India
+  row: 10
+  note: 'Boundary with 2.3: 25% MSE procurement target is a quota limitation (Guide''s 2.3 example), scored 0 here.'
+- sheet: Thailand
+  row: 5
+  note: 'Negative: procurement act gives equal treatment; Thai-nationality rules for construction design and supervision
+    are outside digital-trade procurement and not scored.'
+- sheet: Singapore
+  row: 5
+  note: 'Absence row: GPA-implementing procurement act grants foreign suppliers non-discriminatory access; cited
+    as the reference law with score 0.'
+'2.2':
+- sheet: Indonesia
+  row: 10
+  note: 'Canonical score-1: developers of custom software for public electronic systems must hand source code and
+    documentation to the institution (Guide''s Indonesia example).'
+- sheet: Lao PDR
+  row: 6
+  note: 'Negative: procurement law obliges the buyer to protect bidders'' trade secrets; a confidentiality duty
+    is not a surrender requirement.'
+- sheet: Thailand
+  row: 7
+  note: 'Negative: integrated-circuit layout design protection law sets no disclosure condition for tenders; IP
+    statutes alone are not 2.2.'
+- sheet: Mongolia
+  row: 6
+  note: 'Absence row: no source code, trade secret or encryption condition for winning bids; score 0 with the procurement
+    law cited.'
+- sheet: Australia
+  row: 6
+  note: 'Absence row: Commonwealth Procurement Rules contain no source code or encryption conditions to win tenders.'
+'2.3':
+- sheet: Singapore
+  row: 7
+  note: 'Absence row: national treatment in procurement regulations; the minister''s power to make regulations is
+    only a legal basis, so 0.'
+- sheet: Australia
+  row: 9
+  note: '0.5: Indigenous procurement set-aside and minimum participation targets turn on business status, not nationality;
+    one equal-treatment limitation.'
+- sheet: India
+  row: 18
+  note: 'Score-1: procurement preference for cyber security products of India-incorporated firms with Indian-owned
+    IP discriminates directly against foreign bidders.'
+- sheet: Mongolia
+  row: 7
+  note: 'Score-1: several preferences combine: 10-15% bid price deductions for domestic goods and SMEs plus reductions
+    for Mongolian-owned bidders in works.'
+- sheet: Indonesia
+  row: 11
+  note: 'Score-1: services procurement must involve domestic companies majority-owned by Indonesians; ownership-based
+    preference is direct discrimination.'
+'3.1':
+- sheet: China
+  row: 12
+  note: 'Score-1: negative list prohibits foreign investment in internet news, online publishing and online audiovisual
+    services; a ban in one sector is enough.'
+- sheet: India
+  row: 22
+  note: 'Score-1: minority caps in several digital-trade sectors (49% FM radio and news channels, 26% digital news
+    media).'
+- sheet: Thailand
+  row: 15
+  note: '0.8: 25% foreign cap in broadcasting (reviewer marked correct); broadcasting caps stay in 3.1 because Pillar
+    5 excludes broadcasting.'
+- sheet: Russian Federation
+  row: 12
+  note: '0.8: foreign persons may not found mass media or hold over 20% of founders, editorial boards or broadcasters;
+    one minority cap in one sector.'
+- sheet: Indonesia
+  row: 26
+  note: '0.5: horizontal 49% cap on foreign shares in SOEs; SOE-only limits score 0.5 and horizontal SOE caps are
+    recorded only under 3.1.'
+- sheet: Singapore
+  row: 9
+  note: 'Absence row: Companies Act sets no foreign ownership limit in digital-trade sectors, so full ownership
+    allowed and score 0.'
+- sheet: Lao PDR
+  row: 9
+  note: 'Absence row: investment law allows full foreign ownership outside listed activities; no cap in digital-trade
+    sectors.'
+'3.2':
+- sheet: China
+  row: 14
+  note: 'Canonical score-1: foreign VPN providers must operate through joint ventures capped at 50% in pilot zones
+    (Guide''s China example).'
+- sheet: Indonesia
+  row: 27
+  note: 'Score-1: IPTV consortia must include at least two Indonesian entities, and foreign investors must comply;
+    a mandated local partner.'
+- sheet: Indonesia
+  row: 28
+  note: 'Score-1 boundary with 3.1: digital banks with foreign owners must be held in partnership with Indonesian
+    parties; the 99% ceiling itself is a 3.1 matter.'
+- sheet: Malaysia
+  row: 15
+  note: 'Boundary with 3.1: equity caps may make local partners commercially necessary, but no law mandates a joint
+    venture, so 3.2 = 0.'
+- sheet: Indonesia
+  row: 29
+  note: 'Negative: pairing foreign workers with Indonesian counterparts for skills transfer is a labour rule, not
+    a joint venture requirement.'
+- sheet: Lao PDR
+  row: 10
+  note: 'Negative: investment law defines joint ventures and a 10% minimum foreign contribution but does not require
+    one; score 0.'
+'3.3':
+- sheet: Singapore
+  row: 11
+  note: 'Canonical score-1: every company needs at least one director ordinarily resident in Singapore (Guide''s
+    Singapore example).'
+- sheet: Indonesia
+  row: 31
+  note: 'Score-1: manpower regulation closes 19 positions, including directors and managers, to foreigners (Guide''s
+    Indonesia example).'
+- sheet: India
+  row: 26
+  note: 'Score-1 sectoral: broadcasting carriage firms need a majority of Indian-citizen directors and a resident
+    Indian CEO.'
+- sheet: Australia
+  row: 13
+  note: 'Score-1: proprietary companies need one Australian-resident director, public companies two; horizontal
+    company-law rule.'
+- sheet: Russian Federation
+  row: 17
+  note: 'Boundary: a rule on foreign chief accountants (officers, not directors or managers) and a delegated procedure
+    with no stated restriction do not count; 0.'
+- sheet: China
+  row: 15
+  note: 'Absence row: no nationality or residency condition for directors or managers in digital-trade sectors;
+    score 0.'
+'3.4':
+- sheet: China
+  row: 18
+  note: 'Canonical 0.25: security review measures require declaring foreign investment in important IT and internet
+    products and services; review can block.'
+- sheet: Singapore
+  row: 13
+  note: '0.25: Significant Investments Review Act requires notice or approval for stakes in designated entities
+    on national security grounds.'
+- sheet: Russian Federation
+  row: 20
+  note: '0.25 not 1: strategic-sector approval covers encryption, broadcasting and platform operators, but no blocked
+    ICT deal is reported.'
+- sheet: Mongolia
+  row: 12
+  note: '0.25 sectoral: foreign state-owned investors taking 33% or more in press, information and communication
+    firms need permission.'
+- sheet: Lao PDR
+  row: 15
+  note: '0.25: controlled-business list puts online activities such as VPN under prior ministry and investment committee
+    approval.'
+- sheet: Thailand
+  row: 18
+  note: '0.25: Foreign Business Act permission weighs national security and economic effects before foreigners operate
+    listed businesses.'
+- sheet: Indonesia
+  row: 32
+  note: 'Absence row: job creation law opens all sectors except a closed list and removed national-interest blocking,
+    so no screening mechanism; 0.'
+'3.5':
+- sheet: Malaysia
+  row: 20
+  note: 'Canonical score-1: a foreign company must incorporate locally or register a branch to carry on business
+    (Guide''s Malaysia example).'
+- sheet: Lao PDR
+  row: 18
+  note: 'Canonical score-1: satellite communication businesses need an enterprise registration and a physical office
+    (Guide''s Lao PDR example).'
+- sheet: Russian Federation
+  row: 23
+  note: 'Boundary with 12.8: large foreign internet firms must open a branch, representative office or Russian entity;
+    entity establishment makes it 3.5.'
+- sheet: Thailand
+  row: 21
+  note: 'Score-1: foreign satellite services only through Thai-law companies with an establishment in Thailand (reviewer
+    marked correct).'
+- sheet: Singapore
+  row: 14
+  note: 'Boundary with 12.8: foreign companies need a place of business and a registered office open to the public;
+    scored 3.5 = 1, 12.8 = 0.'
+- sheet: China
+  row: 21
+  note: 'Boundary with 9.4: internet information service licence requires a legally established company with premises;
+    licence and presence condition are recorded separately.'
+- sheet: Lao PDR
+  row: 16
+  note: 'Absence row: no rule makes commercial presence a condition for supplying services cross-border; score 0
+    with the enterprise law cited.'
+'4.01':
+- sheet: Malaysia
+  row: 22
+  note: 'Score-1: non-residents must appoint a local patent agent; the rule that residents file domestically first
+    is only a 0.5-type procedural burden.'
+- sheet: China
+  row: 23
+  note: 'Score-1: foreigners without a Chinese establishment must use a local patent agency; the pre-filing confidentiality
+    examination is the Guide''s procedural example.'
+- sheet: Russian Federation
+  row: 25
+  note: 'Score-1: foreign applicants deal with the patent office through registered Russian patent attorneys; a
+    six-month wait before filing abroad adds a procedural layer.'
+- sheet: Lao PDR
+  row: 20
+  note: 'Score-1: applicants residing abroad need a business premise or an authorised representative in Lao PDR;
+    canonical local-representative clause.'
+- sheet: Thailand
+  row: 25
+  note: 'Score-1: applicants not residing in Thailand must authorise an agent or patent attorney registered with
+    the Department of Intellectual Property (Ministerial Regulation No.21, clause 13).'
+- sheet: Australia
+  row: 18
+  note: 'Absence row: no local presence requirement to apply for a patent; cites the Patents Act as governing law,
+    score 0.'
+- sheet: India
+  row: 34
+  note: 'Negative: amendments easing foreign-application information duties and working statements are not restrictions,
+    so score 0 even though other Indian rules score 1.'
+'4.2':
+- sheet: Indonesia
+  row: 37
+  note: 'Canonical score-0: civil suits for damages plus Commercial Court provisional determinations to block infringing
+    goods and secure evidence (TRIPS Art.50 functions).'
+- sheet: India
+  row: 36
+  note: 'Score-0: statutory reliefs (injunction, damages, seizure) plus temporary injunctions under the Civil Procedure
+    Code; general procedure law counts.'
+- sheet: China
+  row: 24
+  note: 'Score-0: court or administrative handling of infringement, statutory damages, and agency powers to seize
+    and secure evidence cover both elements.'
+- sheet: Malaysia
+  row: 23
+  note: 'Score-0: infringement actions, injunctions and interim injunctions, plus enforcement officers'' search
+    and seizure powers.'
+- sheet: Mongolia
+  row: 16
+  note: 'Score-0: court actions plus state inspectors'' powers to stop violations and seize infringing items, treated
+    as provisional measures.'
+'4.3':
+- sheet: Lao PDR
+  row: 22
+  note: 'Negative: government exploitation of patents in emergencies with compensation mirrors TRIPS Art.31, so
+    it is not a restriction; score 0.'
+- sheet: Russian Federation
+  row: 27
+  note: 'Negative: state use for defence, security or health with notice and compensation, applied regardless of
+    residency; TRIPS-consistent, score 0.'
+- sheet: Thailand
+  row: 27
+  note: 'Negative: compulsory licences and government use with remuneration and appeal rights; TRIPS Arts 31 and
+    31bis exceptions, score 0.'
+- sheet: Indonesia
+  row: 38
+  note: 'Boundary: local-working duty can be met by importing or licensing, plus TRIPS-type compulsory licences;
+    host scored 0.'
+- sheet: Malaysia
+  row: 24
+  note: 'Boundary: five-year limitation period for infringement actions; the row note says it could read as 0 or
+    0.5, and the host chose 0.'
+- sheet: Singapore
+  row: 18
+  note: 'Absence row: no enforcement restriction; patents granted through any route get the same court remedies,
+    score 0.'
+'4.5':
+- sheet: Indonesia
+  row: 39
+  note: 'Score-0.5: closed list of non-commercial exceptions (education, research, personal use, review) with no
+    fair use or fair dealing test; matches the Guide''s Indonesia example.'
+- sheet: Australia
+  row: 21
+  note: 'Score-0: listed fair dealing purposes (research, criticism, parody, news, disability access, professional
+    advice); inverted polarity.'
+- sheet: Malaysia
+  row: 25
+  note: 'Score-0: fair dealing with statutory fairness factors (purpose, nature of work, amount used, market effect).'
+- sheet: Singapore
+  row: 19
+  note: 'Score-0: fair use provision plus specific permitted uses under the Copyright Act 2021.'
+- sheet: India
+  row: 38
+  note: 'Score-0: fair dealing under section 52 for private use, criticism, review and reporting of current events.'
+- sheet: Lao PDR
+  row: 23
+  note: 'Boundary: statute labels its list ''fair use'' and calls for an overall assessment; host scored 0 although
+    the list is closed (compare Indonesia at 0.5).'
+'4.6':
+- sheet: Malaysia
+  row: 26
+  note: 'Score-0: notice-and-takedown with counter-notice, court injunctions and compounding of offences; covers
+    online enforcement explicitly.'
+- sheet: Singapore
+  row: 21
+  note: 'Score-0: infringement actions, court orders to disable access to infringing online locations, and takedown
+    notices.'
+- sheet: China
+  row: 27
+  note: 'Score-0: civil liability, administrative penalties and pre-suit court measures to preserve property, order
+    conduct or secure evidence.'
+- sheet: Russian Federation
+  row: 29
+  note: 'Score-0: statutory compensation plus court injunctions including website blocking; blocking statistics
+    in the note are context, not the basis.'
+- sheet: Thailand
+  row: 29
+  note: 'De jure rule: score changed from 1 to 0 once statutory remedies and notice-and-takedown were confirmed;
+    watch-list reports did not decide.'
+- sheet: India
+  row: 40
+  note: 'Score-0: statutory injunctions plus court-made dynamic injunctions against pirate websites; case law counts
+    as an official source.'
+'4.9':
+- sheet: Thailand
+  row: 31
+  note: 'Negative: state agencies may disclose trade secrets only for public health, safety or non-commercial public
+    interest with protective steps; safeguards mean not scored.'
+- sheet: Australia
+  row: 23
+  note: 'Absence row: no mandatory disclosure of trade secrets found in corporate or privacy law; score 0.'
+- sheet: Lao PDR
+  row: 25
+  note: 'Negative: trade secret definition and owner rights are protection (4.1 material), not a disclosure mandate;
+    score 0.'
+- sheet: Indonesia
+  row: 41
+  note: 'Boundary with 2.2: source code for custom public-sector software must be submitted or escrowed; host scored
+    0.5 here and 1 under 2.2 (Indonesia row 10).'
+- sheet: China
+  row: 28
+  note: 'Score-0.5: national-security duty on network operators to give technical support to security organs; algorithm
+    filing judged not to expose trade secrets.'
+- sheet: India
+  row: 42
+  note: 'Score-1: any person in charge of a computer resource must assist decryption on state-security or public-order
+    orders; horizontal; the same section is also coded 7.5 (India row 98).'
+- sheet: Russian Federation
+  row: 30
+  note: 'Score-1: organisers of information dissemination that encrypt users'' messages must give the security service
+    decoding information; also coded 7.5 (Russian Federation row 58).'
+'4.1':
+- sheet: Singapore
+  row: 23
+  note: 'Canonical score-0: no statute, but common-law breach of confidence and case law give effective protection;
+    the Guide''s own example.'
+- sheet: Thailand
+  row: 32
+  note: 'Score-0: dedicated Trade Secrets Act with a definition, a mediation board, injunctions and damages; inverted
+    polarity.'
+- sheet: China
+  row: 29
+  note: 'Score-0: no single statute, but unfair-competition, criminal and civil provisions together protect trade
+    secrets with fines and imprisonment.'
+- sheet: India
+  row: 43
+  note: 'Score-0: equity, contract and common-law breach of confidence enforced by courts; no dedicated statute
+    needed.'
+- sheet: Russian Federation
+  row: 32
+  note: 'Score-0: Federal Law on Trade Secret defines protectable information and the trade secret regime.'
+- sheet: Lao PDR
+  row: 26
+  note: 'Boundary score-0.5: protection rests on clauses inside the general IP law (methodology criterion 2), though
+    they include legal action and compensation.'
+'5.1':
+- sheet: Indonesia
+  row: 44
+  note: 'Score-0: omnibus Job Creation Law obliges holders of passive telecom infrastructure (ducts, towers, poles)
+    to share access with operators.'
+- sheet: Mongolia
+  row: 24
+  note: 'Score-0: regulator resolution bars unjustified refusal to share networks and infrastructure; dominant providers
+    must ensure joint use.'
+- sheet: Singapore
+  row: 26
+  note: 'Score-0: exclusive access agreements are prohibited and the regulator can require sharing of critical support
+    infrastructure.'
+- sheet: Russian Federation
+  row: 34
+  note: 'Score-0: government decree requires infrastructure owners to grant non-discriminatory access for deploying
+    telecom networks.'
+- sheet: Australia
+  row: 26
+  note: 'Score-0.5: commercially negotiated co-location plus access to declared services on request; matches the
+    Guide''s Australian ''upon request'' example.'
+'5.2':
+- sheet: Australia
+  row: 27
+  note: 'Score-0.8: incumbent Telstra capped at 35% aggregate and 5% individual foreign ownership; a minority-only
+    cap in one measure.'
+- sheet: China
+  row: 32
+  note: 'Score-0.8: foreign capital capped at 49% in basic and 50% in value-added telecom; one regulation, minority-only.'
+- sheet: Malaysia
+  row: 32
+  note: 'Score-0.5: 70% foreign cap on network facilities and network service licensees still allows a controlling
+    stake.'
+- sheet: Singapore
+  row: 27
+  note: 'Score-0: sector fully liberalised; approval thresholds for acquiring control are screening, not an equity
+    cap.'
+- sheet: India
+  row: 49
+  note: 'Score-0: FDI policy allows 100% foreign ownership in all telecom services through the automatic route.'
+- sheet: Russian Federation
+  row: 35
+  note: 'Negative: no telecom-specific cap; prior approval of foreign-state acquisitions above 25% is horizontal
+    screening, not a telecom equity cap.'
+'5.3':
+- sheet: China
+  row: 34
+  note: 'Score-1: three wholly state-owned operators provide basic, mobile and value-added services; the Guide''s
+    multiple-SOE example.'
+- sheet: Australia
+  row: 28
+  note: 'Score-1: statute requires the Commonwealth to keep full ownership of NBN Co; legal evidence of 100% state
+    ownership.'
+- sheet: Singapore
+  row: 28
+  note: 'Boundary score-1: sovereign fund Temasek holds about 51% of Singtel; indirect government ownership counted
+    as above 50%.'
+- sheet: Indonesia
+  row: 50
+  note: 'Score-1: Government holds 52.09% of Telkom Indonesia, the dominant operator; evidence from annual reports
+    and shareholder records.'
+- sheet: Thailand
+  row: 37
+  note: 'Score-1: National Telecom is 100% owned by the Ministry of Finance with 66% of fixed-line; evidence from
+    the regulator''s market report.'
+- sheet: India
+  row: 52
+  note: 'Row-level score-0.5: one company (Vodafone Idea) with a government stake between 1% and 50%; India''s other
+    rows (BSNL, MTNL) score 1.'
+- sheet: Russian Federation
+  row: 37
+  note: 'Score-0.5: Federal Property Agency holds 38.2% of Rostelecom, one company in the 1-50% band; evidence is
+    the annual report.'
+'5.4':
+- sheet: Australia
+  row: 29
+  note: 'Score-0: functional separation for SMP operators under the Telecommunications Act plus separate accounts
+    for NBN Co; both mandated.'
+- sheet: Thailand
+  row: 38
+  note: 'Canonical score-0.5: regulator notification requires SMP operators to file accounting separation reports;
+    no functional separation.'
+- sheet: India
+  row: 53
+  note: 'Score-0.5: accounting separation reports required from licensees above a turnover threshold; no functional
+    separation.'
+- sheet: Russian Federation
+  row: 38
+  note: 'Score-0.5: ministerial order requires separate accounting of revenues and costs by activity, service and
+    network part.'
+- sheet: China
+  row: 35
+  note: 'Score-1: no functional or accounting separation requirement in the Telecommunications Regulations; inverted
+    polarity.'
+- sheet: Mongolia
+  row: 27
+  note: 'Score-1: the communications law defines network categories but imposes no separation mandate; absence scores
+    1.'
+'5.5':
+- sheet: Malaysia
+  row: 35
+  note: 'Canonical score-1: foreign companies ineligible for individual network licences, plus 30% Bumiputera shareholding
+    and RM2 million paid-up capital.'
+- sheet: China
+  row: 36
+  note: 'Score-1: basic telecom licensees need at least 51% state equity and registered capital of RMB 100 million
+    or 1 billion.'
+- sheet: Australia
+  row: 30
+  note: 'Score-0: carrier licence open to constitutional corporations with no discriminatory terms; content services
+    need no licence.'
+- sheet: Russian Federation
+  row: 39
+  note: 'Score-0: communications licence for entities registered in Russia, issued on application or, where the
+    Communications Law says so, by tender; no strict condition identified.'
+- sheet: Lao PDR
+  row: 32
+  note: 'Boundary score-0: identical criteria for foreign and domestic applicants; host judged an unquantified ''adequate
+    financial resources'' test not strict because it does not discriminate.'
+- sheet: Mongolia
+  row: 28
+  note: 'Score-0: Permit Law bars refusing applications without reason and sets short processing deadlines.'
+'5.7':
+- sheet: China
+  row: 37
+  note: 'Score-1: a government ministry (MIIT) is the telecom regulator; there is no separate independent authority.'
+- sheet: Indonesia
+  row: 56
+  note: 'Score-1: Presidential Regulation dissolved the telecom regulatory body and moved its functions, staff and
+    budget into the ministry.'
+- sheet: Russian Federation
+  row: 40
+  note: 'Score-1: the sector is regulated by a ministry and a federal service subordinate to it.'
+- sheet: Singapore
+  row: 31
+  note: 'Score-1: regulator sits under a ministry whose Minister can issue orders overriding its decisions; functional
+    independence fails.'
+- sheet: Thailand
+  row: 41
+  note: 'Score-0: statute establishes the NBTC, bars conflicts of interest for commissioners and gives it licensing
+    powers; inverted polarity.'
+- sheet: Australia
+  row: 32
+  note: 'Boundary score-0: the Minister may give the regulator written directions but cannot overrule its decisions,
+    so independence holds.'
+'6.1':
+- sheet: Malaysia
+  row: 38
+  note: 'TRAP TEACHING: PDPA s.129 prohibits transfer unless gazetted/consented — coded 0 under 6.1 because a compliant
+    path exists; the substance is 6.4=1 (see Malaysia 6.4 exemplar). Ban-vs-conditional applied correctly.'
+- sheet: Australia
+  row: 34
+  note: Sectoral personal-data processing/storage mandate = 0.5 (category 2); dual-recorded with 6.2 per the Guide's
+    dual-recording rule.
+- sheet: Singapore
+  row: 33
+  note: 'Absence row: no ban/local-processing measure — cites the governing law, score 0.'
+- sheet: Russian Federation
+  row: 42
+  note: 'Canonical score-1: horizontal local-processing requirement on personal data.'
+- sheet: China
+  row: 39
+  note: Sectoral platform measure (ride-hailing) local processing = 0.5.
+- sheet: India
+  row: 59
+  note: One-country/blacklist-style restriction sits in 6.1 category 2 (0.5) — not in 6.4 (cf. India 6.4=0 row).
+'6.2':
+- sheet: Australia
+  row: 35
+  note: Dual-recorded with 6.1 (same measure covers processing AND storage).
+- sheet: Singapore
+  row: 34
+  note: Specific data (accounting records) kept in Singapore = 0.5; same provision also carries a 5-year duration
+    -> dual-mapped to 7.3 (two rows).
+- sheet: Malaysia
+  row: 42
+  note: Tax records 'must be retained in Malaysia' = location rule (0.5); the 7-year duration in the same section
+    maps separately to 7.3.
+- sheet: China
+  row: 45
+  note: 'Score-1: horizontal personal-information storage mandate (PIPL).'
+- sheet: India
+  row: 61
+  note: Sectoral payment-data storage directive = 0.5.
+- sheet: Malaysia
+  row: 39
+  note: 'Negative: no blanket localization; conditional-transfer safeguards are not storage mandates.'
+'6.3':
+- sheet: China
+  row: 47
+  note: 'Score-1: platform must use servers located in-country (ride-hailing).'
+- sheet: Russian Federation
+  row: 46
+  note: 'Score-1: personal-data databases must be located on national territory.'
+- sheet: Indonesia
+  row: 63
+  note: 'Score-1: financial-sector data centre must be established in-country.'
+- sheet: Mongolia
+  row: 34
+  note: 'Score-1: ministerial order — servers physically located within the economy.'
+- sheet: Australia
+  row: 36
+  note: 'Absence row: no infrastructure requirement found, score 0.'
+- sheet: India
+  row: 67
+  note: 'Negative: comprehensive DP law imposes no infrastructure requirement.'
+'6.4':
+- sheet: Singapore
+  row: 36
+  note: 'CANONICAL: PDPA s.26 — transfer only per prescribed comparable-protection requirements; conditional (path
+    exists), horizontal personal data -> 1.'
+- sheet: Malaysia
+  row: 45
+  note: PDPA s.129 exceptions list (consent, contract, legal right...) -> 6.4=1; pairs with the 6.1=0 row for the
+    ban-vs-conditional trap.
+- sheet: Australia
+  row: 37
+  note: 'APP 8: cross-border disclosure allowed on comparable-protection/consent conditions -> 1.'
+- sheet: China
+  row: 51
+  note: Security-assessment / standard-contract / certification routes = conditions -> 1.
+- sheet: Lao PDR
+  row: 39
+  note: Conditions limited to a specific data category (financial) -> 0.5.
+- sheet: India
+  row: 68
+  note: 'Negative: free transfer except blacklist = NO conditional regime (0); the blacklist maps to 6.1 at 0.5.'
+'7.1':
+- sheet: Singapore
+  row: 38
+  note: Comprehensive horizontal PDPA -> score 0 (inverted polarity); the law itself is the verbatim evidence.
+- sheet: Malaysia
+  row: 49
+  note: Comprehensive PDPA 2010 + 2024 amendment -> 0.
+- sheet: Australia
+  row: 39
+  note: Privacy Act 1988 with 13 APPs -> 0.
+- sheet: Singapore
+  row: 39
+  note: Sectoral complement (Banking Act secrecy) recorded alongside the horizontal law, scored 0 — sectoral rows
+    don't lift the score.
+- sheet: Lao PDR
+  row: 41
+  note: Framework not comprehensive (e-data law) -> 0.5.
+- sheet: Indonesia
+  row: 76
+  note: Regulation-level framework pre-omnibus-law -> 0.5.
+'7.2':
+- sheet: Singapore
+  row: 40
+  note: Dedicated horizontal Cybersecurity Act 2018 -> 0 (inverted).
+- sheet: Malaysia
+  row: 52
+  note: Computer Crimes Act (offences only) superseded as controlling evidence by the dedicated Cyber Security Act
+    854/2024 -> 0.
+- sheet: Australia
+  row: 40
+  note: 'CANONICAL 0.5: no single dedicated act — cyber governed via SOCI Act + Privacy Act + Criminal Code mixture;
+    pending Cyber Security Bill NOT scored (enforced-only rule).'
+- sheet: Thailand
+  row: 55
+  note: Dedicated CSMA B.E.2562 -> 0.
+- sheet: Russian Federation
+  row: 51
+  note: Non-dedicated mixture -> 0.5.
+- sheet: Indonesia
+  row: 80
+  note: Institutional regulation, no dedicated act -> 0.5.
+'7.3':
+- sheet: Singapore
+  row: 41
+  note: 'THE NEGATIVE: PDPA s.25 retention-limitation (''cease retaining when no longer necessary'') is a MAXIMUM-period
+    rule -> 0.'
+- sheet: Singapore
+  row: 42
+  note: 'Score-1: telecom licence — keep IP-assignment/subscriber records 12 months.'
+- sheet: Australia
+  row: 41
+  note: 'Score-1: TIA Act s.187C — telecoms keep specified data for two years.'
+- sheet: Malaysia
+  row: 57
+  note: 'Score-1: Income Tax Act s.82 — records for at least seven years.'
+- sheet: Singapore
+  row: 45
+  note: 'Score-1: Employment Act s.95 — employee records two years / one year.'
+- sheet: Malaysia
+  row: 55
+  note: 'Subtle negative: banking CoP ''may be retained for seven years'' is permissive + retention-principle framing
+    -> 0.'
+- sheet: Indonesia
+  row: 84
+  note: 'Negative: PDP-law retention limitation -> 0.'
+- sheet: India
+  row: 86
+  note: 'Score-1: cyber-café user-ID records for at least one year (Guide''s own example).'
+'7.4':
+- sheet: Singapore
+  row: 46
+  note: 'Score-1: PDPA s.11(3) mandatory DPO (horizontal); DPIA advisory only — the DPO duty carries the score.'
+- sheet: Malaysia
+  row: 58
+  note: 'Score-1: 2024 amendment s.12a mandates DPO(s) horizontally + DPIA for high-risk processing.'
+- sheet: Australia
+  row: 42
+  note: 'THE NEGATIVE: PIA ''contemplated but not mandated'' (except govt agencies); advisory/recommended -> 0.'
+- sheet: India
+  row: 96
+  note: 'Score-1: DPDP Act DPO duty (significant data fiduciaries) applied horizontally.'
+- sheet: India
+  row: 95
+  note: 'Adjacent-role negative: intermediary compliance/grievance officers are not DPOs -> 0.'
+- sheet: Thailand
+  row: 67
+  note: 'Score-1: PDPA B.E.2562 horizontal DPO duty.'
+'7.5':
+- sheet: Singapore
+  row: 47
+  note: 'CANONICAL look-beyond-privacy-law: CPC ss.20/39/40 — police access to computers and decrypted information,
+    production orders -> 1.'
+- sheet: Malaysia
+  row: 64
+  note: CPC s.116B — access to computerized data incl. passwords/encryption codes; court-order need unclear -> 1.
+- sheet: Malaysia
+  row: 63
+  note: SOSMA s.6(3) — police interception without Public Prosecutor authorization in urgent cases -> 1.
+- sheet: Australia
+  row: 44
+  note: TIA Act — warrantless interception in emergencies; industry assistance powers -> 1.
+- sheet: Malaysia
+  row: 59
+  note: 'Negative WITH RATIONALE: PDPA investigation powers are warrant-gated -> 0 (reviewer note explains the call).'
+- sheet: Thailand
+  row: 68
+  note: 'Negative: cyber-security access powers are court-order-gated -> 0.'
+- sheet: China
+  row: 66
+  note: 'Score-1: counter-espionage law — access on national-security grounds.'
+'8.1':
+- sheet: Singapore
+  row: 49
+  note: 'Canonical score-0: Copyright Act 2021 gives network service providers a horizontal safe harbour tied to
+    notice-and-takedown; the conditions do not defeat the shield.'
+- sheet: Russian Federation
+  row: 60
+  note: 'Score-0: Civil Code Art. 1253.1 shields information intermediaries for IP infringement. IP-only shield,
+    so 8.2 is decided separately (Russia 8.2 row 61 scores 1).'
+- sheet: India
+  row: 103
+  note: 'Score-0: IT Act s.79 immunity for all third-party unlawful content also covers copyright; a general shield
+    answers 8.1 without naming copyright.'
+- sheet: China
+  row: 72
+  note: 'Score-0: network dissemination-right regulation gives network service providers a copyright safe harbour;
+    storage and linking services must follow notice-and-removal to keep it.'
+- sheet: Thailand
+  row: 72
+  note: 'Score-0: Copyright Act amendments protect service providers that follow the notice-and-takedown route;
+    horizontal copyright framework.'
+- sheet: Indonesia
+  row: 95
+  note: 'Score-0.5: e-commerce regulation exempts e-commerce operators and intermediaries that remove illegal content
+    once aware; sectoral framework.'
+'8.2':
+- sheet: Singapore
+  row: 50
+  note: 'Canonical score-0: Electronic Transactions Act s.26 exempts network service providers from civil and criminal
+    liability for third-party material they merely give access to.'
+- sheet: India
+  row: 106
+  note: 'Score-0: IT Rules 2021 keep the intermediary safe harbour conditional on due diligence and 36-hour removal;
+    conditions do not remove the shield.'
+- sheet: Thailand
+  row: 74
+  note: 'Score-0, boundary with 8.4: ministerial notice-and-takedown procedure; providers removing flagged data
+    within the deadlines avoid being treated as supporting the offence.'
+- sheet: Lao PDR
+  row: 51
+  note: 'Score-0: e-transactions law exempts intermediaries lacking actual knowledge for all unlawful data; the
+    same law should also answer 8.1 (row 50 scored 1).'
+- sheet: Indonesia
+  row: 98
+  note: 'Score-0.5: exemptions confined to e-commerce operators and private electronic system operators that take
+    content down on notice; sectoral framework.'
+- sheet: Russian Federation
+  row: 61
+  note: 'Score-1: no safe harbour beyond IP; the information law makes hosting providers restrict access instead.
+    Pairs with Russia 8.1 row 60 (IP-only shield).'
+- sheet: Mongolia
+  row: 46
+  note: 'Absence row, score-1: communications law sets provider duties and civil liability but gives intermediaries
+    no liability limitation for users'' content.'
+'8.3':
+- sheet: China
+  row: 76
+  note: 'Canonical score-1: forum and comment services must verify users'' real identity at registration and refuse
+    publishing services to unverified users.'
+- sheet: Russian Federation
+  row: 62
+  note: 'Score-1: instant-messaging organisers must identify users through their mobile subscriber number, ending
+    anonymous messaging use.'
+- sheet: Lao PDR
+  row: 52
+  note: 'Score-1: decree requires people opening social media accounts to register their full names and current
+    address.'
+- sheet: India
+  row: 109
+  note: 'Score-1, boundary with 7.3: cyber cafés must establish user identity before computer use; the one-year
+    record-keeping part is 7.3 (India row 86).'
+- sheet: Australia
+  row: 49
+  note: 'Canonical score-0.5: carriers must check identity before activating a prepaid mobile service; SIM-only
+    requirement.'
+- sheet: Malaysia
+  row: 69
+  note: 'Score-0.5: prepaid SIM registration verified against original ID documents; no service for unregistered
+    end-users.'
+- sheet: Indonesia
+  row: 100
+  note: 'Score-0.5: prepaid and postpaid SIM registration cross-checked with population or immigration records;
+    still SIM registration, not online-service access.'
+- sheet: China
+  row: 78
+  note: 'Negative, score-0: national network identity authentication is voluntary and platforms are only encouraged
+    to support it.'
+'8.4':
+- sheet: Lao PDR
+  row: 54
+  note: 'Canonical score-1: ISPs may inspect users'' activities and website owners must check content before others
+    disseminate it; matches the Guide''s Lao PDR example.'
+- sheet: Mongolia
+  row: 49
+  note: 'Score-1, indirect monitoring: website services must run the regulator''s word-filter software and erase
+    prohibited user content.'
+- sheet: Singapore
+  row: 55
+  note: 'Score-1: online safety code makes designated social media proactively detect and swiftly remove child abuse
+    and terrorism content.'
+- sheet: China
+  row: 79
+  note: 'Score-1: ISPs must manage user postings, stop transmission of prohibited information, remove it and report
+    it.'
+- sheet: Australia
+  row: 50
+  note: 'Score-1, removal branch: offence for hosting and content services that fail to expeditiously remove abhorrent
+    violent material.'
+- sheet: Indonesia
+  row: 102
+  note: 'Score-1: private electronic system operators must block or remove unlawful content within 24 hours of government
+    notice (4 if urgent); notice-triggered removal counts.'
+- sheet: Russian Federation
+  row: 64
+  note: 'Boundary with 8.1, score-0: a knew-or-ought-to-have-known liability standard may encourage monitoring but
+    is not a monitoring requirement.'
+- sheet: Lao PDR
+  row: 56
+  note: 'Boundary with 7.3, score-0: cybercrime law''s traffic-data retention periods are not a monitoring duty
+    (the same law is Lao PDR 7.3 row 45).'
+'9.1':
+- sheet: Indonesia
+  row: 107
+  note: 'Canonical Score-1: PSE regulation lets Kominfo order ISPs to block whole systems; PayPal and Steam were
+    blocked in 2022 for non-registration.'
+- sheet: Russian Federation
+  row: 72
+  note: 'Score-1: foreign internet entities that breach the local-branch duty face partial or complete restriction
+    of access, a blocking measure aimed at commercial platforms.'
+- sheet: China
+  row: 86
+  note: 'Score-1 practice evidence: Freedom House and GreatFire.org document blocked commercial platforms (Google
+    services, Facebook, WhatsApp); secondary sources are allowed for this indicator.'
+- sheet: Lao PDR
+  row: 60
+  note: 'Score-1 legal basis: authorities may block or remove content threatening national security, public order
+    or social stability, matching the Guide''s broad-grounds examples.'
+- sheet: Australia
+  row: 54
+  note: 'Negative: copyright site-blocking injunctions against carriage service providers score 0; blocking for
+    IP infringement is not a restriction.'
+- sheet: Australia
+  row: 55
+  note: 'Negative: ISP blocking of abhorrent violent material scores 0; criminal content is excluded even where
+    the blocking power is strong.'
+- sheet: India
+  row: 118
+  note: 'Negative: blocking orders against illegal betting apps score 0; already-illegal services are not commercial
+    web content (host hands-on training p.10).'
+- sheet: Mongolia
+  row: 54
+  note: 'Absence row: no official blocking or filtering found; the 2023 social networks law was vetoed and repealed,
+    so it is not scored.'
+'9.3':
+- sheet: Russian Federation
+  row: 75
+  note: 'Canonical Score-1 and the Guide''s own example: ad distributors, placement services and aggregators must
+    give 5% of ad volume to unpaid social advertising and report.'
+- sheet: Russian Federation
+  row: 74
+  note: 'Score-1: every online ad must carry a token and be reported to Roskomnadzor''s unified register through
+    advertising data operators.'
+- sheet: Malaysia
+  row: 75
+  note: 'Score-1 (weaker): content code covering electronic ads lists unacceptable products and services, including
+    non-health items such as marriage agencies.'
+- sheet: India
+  row: 120
+  note: 'Negative: tobacco and e-cigarette advertising bans are product-specific public-health limits, scored 0.'
+- sheet: Indonesia
+  row: 109
+  note: 'Negative: consumer protection law banning misleading or incorrect ads scores 0 even though it reaches online
+    ads (host exception).'
+- sheet: Indonesia
+  row: 117
+  note: 'Negative: election-law limits on campaign advertising are non-commercial, scored 0.'
+- sheet: Thailand
+  row: 83
+  note: 'Negative: ETDA advertising guideline for digital platforms is not legally binding, so its ad-review and
+    verification duties score 0.'
+'9.4':
+- sheet: China
+  row: 90
+  note: 'Canonical Score-1 strict: news information service licence requires a PRC legal entity and a Chinese-citizen
+    chief executive and editor-in-chief.'
+- sheet: Malaysia
+  row: 76
+  note: 'Score-1 strict: content applications licence bars foreign companies from individual licences and sets Bumiputera
+    equity and paid-up capital; network facility and service parts are 5.5.'
+- sheet: China
+  row: 88
+  note: 'Score-1 strict, boundary with 6.3: online publishing licence requires servers and storage in China; the
+    same clause is coded 6.3 in China row 49.'
+- sheet: Singapore
+  row: 63
+  note: 'Score-1: online news licence with SGD 50,000 performance bond; Singapore also class-licenses ICPs and ISPs,
+    so the more-than-one-scheme rule applies.'
+- sheet: India
+  row: 122
+  note: 'Score-0.5, boundary with 5.5: ISP authorisation under the Unified Licence is a single non-strict scheme
+    recorded in 9.4, not the telecom licence indicator.'
+- sheet: Thailand
+  row: 87
+  note: 'Boundary: digital platform prior-notification duty is recorded but scored 0 because notification is not
+    a licence.'
+- sheet: Australia
+  row: 57
+  note: 'Absence row: no licensing requirement for online service providers found (ABLIS check), score 0.'
+'10.1':
+- sheet: Singapore
+  row: 65
+  note: 'Score-1 canonical: telecom act schedule bars import of several ICT items (scanning receivers, jammers,
+    radio gear in set bands); several products in one measure.'
+- sheet: India
+  row: 125
+  note: 'Score-1: batches of mobile apps banned in 2020 under IT Act s.69A; banning applications is an import ban
+    on online services (Guide p.74).'
+- sheet: Malaysia
+  row: 79
+  note: 'Score-1: customs prohibition order lists broadcast receivers, discs and diskettes; the 2024 metal-scrap
+    additions were left unscored, matching the waste exclusion.'
+- sheet: Lao PDR
+  row: 66
+  note: 'Score-0.5: one product only, an open-ended suspension of satellite receiver imports. Confirm it is still
+    in force before reuse.'
+- sheet: Lao PDR
+  row: 65
+  note: 'Absence row (0). Boundary with 10.2: reviewer note moves permit-conditioned walkie-talkie and satellite
+    equipment rules to 10.2 at 0.5.'
+- sheet: China
+  row: 95
+  note: 'Negative (0): ban on used electromechanical products treated as an e-waste environmental measure (Internal
+    Guide p.7); no ICT technology on the prohibited list.'
+- sheet: Australia
+  row: 59
+  note: 'Absence row (0). Boundary with 2.1: the government-device TikTok ban was coded under 2.1 (Australia row
+    5), not here.'
+- sheet: Russian Federation
+  row: 80
+  note: 'Negative (0): EAEU prohibited-goods list only bars media carrying extremist or obscene content; no ICT
+    product ban.'
+'10.2':
+- sheet: Singapore
+  row: 66
+  note: 'Canonical 0.5: telecom equipment imported for sale needs an IMDA dealer''s licence and a customs import
+    permit; adds cost without blocking.'
+- sheet: Thailand
+  row: 91
+  note: 'Canonical 0.5: licence required to import radio communication equipment, valid 180 days, with NBTC fees
+    and standards documents.'
+- sheet: India
+  row: 128
+  note: '0.5: electronics and IT goods importable only if BIS-registered and labelled. Registration as import condition;
+    the lab-testing side is 11.3 (India row 138).'
+- sheet: Russian Federation
+  row: 81
+  note: '0.5: EAEU permit to import radio-electronic, covert surveillance and encryption devices. Import licensing
+    of encryption goods is pillar 10, not 11.4 (Guide p.81).'
+- sheet: Lao PDR
+  row: 68
+  note: 'Boundary with 10.1: walkie-talkie imports barred without a permit or licence; the licence path makes it
+    a restriction (0.5), not a ban.'
+- sheet: Indonesia
+  row: 131
+  note: 'Only unstruck score-1 row: import approval plus surveyor report for consumer electronics, two cost-adding
+    measures. Indonesia row 127 scored a similar pair 0.5.'
+- sheet: Mongolia
+  row: 61
+  note: 'Absence row (0): ordinary customs declaration documents for all goods; no ICT-specific licence, quota or
+    approval.'
+'10.3':
+- sheet: India
+  row: 130
+  note: 'Score-1, the Guide''s own example (p.76): single-brand retail incl. e-commerce must source 30% of goods
+    from India for foreign ownership above 51%.'
+- sheet: Indonesia
+  row: 136
+  note: 'Score-1: IP set-top boxes need 20% local content rising to 50%, plus domestic content shares for IPTV;
+    matches the Guide''s Indonesia example (p.76).'
+- sheet: Indonesia
+  row: 134
+  note: 'Score-1 sector level: operators must source 50% of network capex locally. The same regulation appears in
+    procurement rows 2.1/2.3 (Indonesia rows 8, 16).'
+- sheet: Indonesia
+  row: 135
+  note: 'Score-1: two product-level LCRs (4G smartphones 30%, base stations 40%). The resulting iPhone 16 sales
+    ban was coded separately under 10.1 (Indonesia row 126).'
+- sheet: China
+  row: 98
+  note: 'Only 0.5 row: a website''s foreign drama and film imports capped at 30% of its domestic purchases; host
+    coded this content-share cap as an LCR.'
+- sheet: Russian Federation
+  row: 83
+  note: 'Score-1: technically complex devices must allow use with pre-installed Russian or EAEU software; internet
+    software must offer a domestic search engine by default.'
+- sheet: Lao PDR
+  row: 74
+  note: 'Negative (0): decree cancels local content requirements in earlier investment decrees; a repealing instrument
+    is not an LCR.'
+- sheet: Malaysia
+  row: 83
+  note: 'Negative (0): act names local content only as a policy objective; no binding share for ICT products.'
+'10.4':
+- sheet: China
+  row: 99
+  note: 'Score-1 canonical: dual-use export licence catalogue covers computers, security chips and encryption devices;
+    rare-earth controls noted as non-ICT.'
+- sheet: India
+  row: 131
+  note: 'Score-1: dual-use exports incl. computers and information security are prohibited or licensed; mirrors
+    the Guide''s strategic-items example (p.76).'
+- sheet: Australia
+  row: 62
+  note: 'Score-1: DSGL export prohibition without permit covers telecom and information-security goods, including
+    intangible technology.'
+- sheet: Russian Federation
+  row: 85
+  note: 'Score-1, ban type: temporary export ban list includes telecommunication equipment and video displays, with
+    listed exceptions.'
+- sheet: Lao PDR
+  row: 76
+  note: 'Score-1 sectoral: exporting any satellite communication equipment needs ministry permission; one licence
+    measure is enough for the binary score.'
+- sheet: Indonesia
+  row: 140
+  note: 'Negative (0): nickel ore export ban and mineral export duties touch ICT supply chains, but raw materials
+    are out of scope (Internal Guide p.14).'
+- sheet: Thailand
+  row: 93
+  note: 'Absence row (0): act empowers ministerial export ban or licence lists, but no ICT product is listed; reviewer
+    marked it correct.'
+- sheet: Mongolia
+  row: 63
+  note: 'Absence row (0): no export restrictions on ICT goods or services under the customs law.'
+'11.1':
+- sheet: China
+  row: 102
+  note: 'Canonical 0 (inverted polarity): foreign-invested firms join standardization on equal terms; draft national
+    standards get 60-day public comment and WTO notification.'
+- sheet: Russian Federation
+  row: 87
+  note: '0: foreign parties may comment on EAEU draft technical regulations for 60+ days; foreign standards bodies
+    as non-voting observers was not treated as exclusion.'
+- sheet: Lao PDR
+  row: 80
+  note: '0: standards law encourages foreign private-sector participation and draft standards are posted for public
+    comment for at least 60 days.'
+- sheet: Singapore
+  row: 71
+  note: '0: Singapore Standards Council process is open to industry, including Singapore-based foreign-owned organisations.'
+- sheet: Indonesia
+  row: 142
+  note: 'Boundary 0: SNI drafts go to online public enquiry; an implied national-interest preference without explicit
+    foreign exclusion did not trigger 1.'
+- sheet: Malaysia
+  row: 87
+  note: '0: consensus-based national standards system with no explicit bar on foreign participation.'
+'11.2':
+- sheet: Australia
+  row: 65
+  note: 'Canonical 0: suppliers, including overseas manufacturers, make and hold a Declaration of Conformity for
+    telecom and radio equipment; SDoC accepted.'
+- sheet: Mongolia
+  row: 66
+  note: '0: standardization law accepts a supplier''s statement of conformity and recognises certificates under
+    international agreements.'
+- sheet: Malaysia
+  row: 88
+  note: 'Canonical 0.5: mandatory type approval, no self-certification, but APEC MRA approvals accepted; MRA members
+    score 0.5 or less (Internal Guide p.15).'
+- sheet: Indonesia
+  row: 144
+  note: '0.5: SDPPI certificate required and SDoC not permitted, but certification from conformity assessment bodies
+    in a number of countries is accepted.'
+- sheet: China
+  row: 103
+  note: 'Score-1: CCC products must be certified by state-designated bodies; the self-declaration route (Type A)
+    covers no ICT products.'
+- sheet: Russian Federation
+  row: 88
+  note: 'Score-1: communication devices need mandatory certification or a registered declaration backed by accredited
+    lab tests; SDoC and voluntary third-party certificates not recognised.'
+- sheet: India
+  row: 134
+  note: 'Score-1: MTCTE certificates issued only on tests by TEC-designated Indian labs. Same measure also scored
+    under 11.3 (India row 137).'
+- sheet: Indonesia
+  row: 146
+  note: 'Negative (0): Indonesian-language labelling duty is not a certification limitation; labelling as an import
+    condition belongs to 10.2 (Guide p.75).'
+'11.3':
+- sheet: India
+  row: 137
+  note: 'Score-1, the Guide''s own example (p.80): all telecom equipment tested by TEC-designated Indian labs before
+    sale, import or use.'
+- sheet: India
+  row: 138
+  note: 'Score-1: BIS registration requires testing at BIS-recognised labs, all inside India; country-accredited
+    in-country testing counts as domestic (Guide p.80).'
+- sheet: China
+  row: 105
+  note: 'Score-1 security screening: National Security Law art.59 review of network IT products and services. The
+    investment limb was coded 3.4 (China row 20).'
+- sheet: Singapore
+  row: 73
+  note: 'Canonical 0.5: equipment registration accepts test reports from MRA-recognised or accredited foreign labs
+    and from manufacturers.'
+- sheet: Mongolia
+  row: 67
+  note: '0.5: type approval file combines a supplier declaration, EN-standard test results and a sample for testing.'
+- sheet: Indonesia
+  row: 147
+  note: 'Mixed case 0.5: in-country SDPPI sample testing, but foreign labs recognised for devices other than phones
+    and tablets; partial acceptance (Guide p.80).'
+- sheet: Australia
+  row: 66
+  note: 'Negative (0): Information Security Manual is a voluntary cyber framework; no mandated product screening
+    or testing.'
+'11.4':
+- sheet: India
+  row: 140
+  note: 'Canonical 0: payment-security direction requires strong, internationally accepted, non-deprecated algorithms
+    and key lengths; alignment, not deviation.'
+- sheet: China
+  row: 107
+  note: 'Boundary 0: Chinese algorithms (SM2, SM3, SM9, ZUC) adopted as ISO/IEC standards; sales certification demands
+    no trade-secret disclosure.'
+- sheet: Indonesia
+  row: 150
+  note: 'Boundary 0: national algorithm policy references SNI ISO/IEC 19790, still allows international algorithms
+    and requires no trade-secret disclosure.'
+- sheet: Russian Federation
+  row: 92
+  note: 'Negative (0): licensing encryption activities is not a deviation (Guide p.81); the licence itself was coded
+    9.4 (Russia row 77).'
+- sheet: Australia
+  row: 67
+  note: '0: approved algorithms for government systems (AES 128-256, RSA, ECDH, SHA-2) follow international standards.'
+- sheet: Malaysia
+  row: 93
+  note: 'Boundary 0: ISO/IEC 19790 module validation alongside a sovereign-algorithm programme (MySEAL); no mandated
+    deviation recorded.'
+- sheet: Thailand
+  row: 105
+  note: 'Negative (0): no encryption standard; the decryption power in the Computer-Related Crime Act was coded
+    7.5 (Thailand row 69).'
+- sheet: Lao PDR
+  row: 83
+  note: 'Absence row (0): no encryption policy; the standards law commits to international alignment.'
+'12.01':
+- sheet: India
+  row: 142
+  note: 'Score-1: FDI policy bars foreign investment in inventory-based B2C e-commerce while allowing 100% in marketplaces;
+    an outright ban scores 1.'
+- sheet: Lao PDR
+  row: 85
+  note: 'Score-0.5: e-commerce decree lets foreigners hold up to 90% of an e-commerce entity; controlling stake
+    allowed but capped.'
+- sheet: China
+  row: 109
+  note: 'Score-0: ministry notice lifts foreign equity limits for operational e-commerce, allowing 100% foreign
+    ownership; canonical full-ownership row.'
+- sheet: Indonesia
+  row: 152
+  note: 'Boundary with 3.1: 49% foreign ownership limit on express delivery companies is not an e-commerce sector
+    cap; scored 0 here.'
+- sheet: Malaysia
+  row: 96
+  note: 'Boundary: foreign equity caps on hypermarkets and convenience stores target physical retail formats, not
+    e-commerce; reviewer set 0.'
+- sheet: Russian Federation
+  row: 94
+  note: 'Absence row: foreign investment law sets no e-commerce equity limit; the horizontal law is cited as the
+    general rule, score 0.'
+'12.2':
+- sheet: Indonesia
+  row: 154
+  note: 'Canonical score-1 (the Guide''s own example): foreign delivery firms confined to provincial level and required
+    to cooperate with local delivery companies.'
+- sheet: China
+  row: 110
+  note: 'Score-1: annual quota and single-transaction limit on cross-border e-commerce retail imports bought by
+    individuals.'
+- sheet: Russian Federation
+  row: 95
+  note: 'Negative: remote-sale bans on alcohol and tobacco and medicine-sale licensing are consumer-protection exceptions;
+    no general purchase or delivery limit, score 0.'
+- sheet: Indonesia
+  row: 155
+  note: 'Negative: VAT collector thresholds for foreign digital sellers are taxation, which this indicator excludes;
+    score 0.'
+- sheet: India
+  row: 143
+  note: 'Boundary with Pillar 3: 25% single-vendor sales cap on marketplaces is an FDI-policy condition, not a purchase
+    or delivery limit; score 0.'
+- sheet: Mongolia
+  row: 72
+  note: 'Negative: postal service licences with no restriction on application or renewal do not limit delivery;
+    score 0.'
+'12.3':
+- sheet: Lao PDR
+  row: 87
+  note: 'Canonical score-1 (Guide example): e-commerce decree requires acknowledgement certificates and an e-commerce
+    business licence for electronic marketplaces.'
+- sheet: Indonesia
+  row: 158
+  note: 'Score-1: e-commerce regulation requires a business licence to trade through electronic systems; medium
+    and large firms need the e-commerce trade licence.'
+- sheet: China
+  row: 111
+  note: 'Score-1, 9.4 boundary: E-Commerce Law art.12 plus value-added telecom licences for online transaction processing;
+    the ICP licence alone is also coded 9.4.'
+- sheet: Singapore
+  row: 80
+  note: 'Negative: business-name registration applies to every business, online or offline; not an e-commerce licence,
+    score 0.'
+- sheet: Mongolia
+  row: 73
+  note: 'Negative: permits for communications and postal services exist but do not apply to e-commerce operators;
+    score 0.'
+- sheet: Russian Federation
+  row: 96
+  note: 'Absence row: licensing law imposes no special licence or registration on e-commerce businesses; score 0.'
+- sheet: Australia
+  row: 71
+  note: 'Absence row: e-commerce businesses are set up under general corporations law with no dedicated licence;
+    score 0.'
+12.4.1:
+- sheet: India
+  row: 145
+  note: 'Score-1: non-bank prepaid instrument issuers must keep outstanding balances in escrow with an Indian scheduled
+    commercial bank.'
+- sheet: India
+  row: 146
+  note: 'Score-1: prepaid instruments may be loaded electronically only through payment instruments issued by regulated
+    entities in India.'
+- sheet: Lao PDR
+  row: 88
+  note: 'Score-1: payment system law requires online payment services to use local bank accounts for receipts and
+    disbursements; ignore the row''s e-signature point.'
+- sheet: Singapore
+  row: 81
+  note: 'Negative: payment services licensing regime with no local bank account mandate; score 0.'
+- sheet: Thailand
+  row: 114
+  note: 'Absence row: payment systems act imposes no duty to open or use a local bank account; score 0.'
+- sheet: Mongolia
+  row: 74
+  note: 'Absence row: national payment system law covers e-payments but does not mandate a local bank account; score
+    0.'
+12.4.2:
+- sheet: India
+  row: 147
+  note: 'Score-1: foreign exchange rules require trade with Nepal and Bhutan to be settled in Indian rupees, a currency
+    mandate on international payments.'
+- sheet: Indonesia
+  row: 161
+  note: 'Boundary: Rupiah obligation exempts international trade transactions, so international payment currency
+    is not fixed; score 0 (conflicts with row 160).'
+- sheet: Thailand
+  row: 116
+  note: 'Negative: e-money value may be recorded in baht or in foreign currencies; no currency mandate, score 0.'
+- sheet: Mongolia
+  row: 76
+  note: 'Negative: currency law routes foreign-currency transactions through authorised banks but fixes no currency
+    for international payments; score 0.'
+- sheet: Singapore
+  row: 82
+  note: 'Absence row: payment services act defines e-money without mandating a currency; score 0.'
+12.4.3:
+- sheet: China
+  row: 114
+  note: 'Negative: national mobile payment standard is based on ISO/IEC 18092 and 21481, so it does not deviate;
+    score 0.'
+- sheet: India
+  row: 148
+  note: 'Negative: digital payment security directions require internationally accepted, non-deprecated standards;
+    score 0.'
+- sheet: Indonesia
+  row: 164
+  note: 'Negative: central bank payment system security rules align with ISO 27001 and PCI-DSS; score 0.'
+- sheet: Singapore
+  row: 83
+  note: 'Negative: unified SGQR payment code is built on the EMVCo QR standard; score 0.'
+- sheet: Singapore
+  row: 84
+  note: 'Negative: TR 76 is voluntary e-commerce transaction guidance, not a binding deviating standard; score 0.'
+- sheet: Thailand
+  row: 117
+  note: 'Absence row: payment systems act supervision follows international standards and PromptPay uses ISO 20022;
+    score 0.'
+12.4.4:
+- sheet: Singapore
+  row: 85
+  note: 'Canonical score-1: payment service licence requires a Singapore company or registered foreign corporation
+    and a citizen or permanent-resident director.'
+- sheet: China
+  row: 115
+  note: 'Score-1: payment business licence available only to non-financial legal entities established in China (local
+    incorporation).'
+- sheet: Thailand
+  row: 118
+  note: 'Score-1: e-payment licence requires a company form and at least one Thai-national director residing in
+    Thailand.'
+- sheet: Russian Federation
+  row: 100
+  note: 'Score-1: foreign payment systems must open a representative office and enter the central bank register
+    before handling cross-border transfers.'
+- sheet: Australia
+  row: 75
+  note: 'Score-1: stored-value providers must be deposit-taking institutions; foreign ADI branches get licences
+    barring retail deposits.'
+- sheet: Malaysia
+  row: 102
+  note: 'Negative: e-money approval with capital, trust-account and security conditions but no nationality or incorporation
+    restriction; score 0.'
+- sheet: Mongolia
+  row: 79
+  note: 'Negative: payment licences open to domestic and foreign applicants with capital, technical and business-plan
+    conditions only; score 0.'
+12.4.5:
+- sheet: Singapore
+  row: 86
+  note: 'Canonical score-1: personal e-money accounts capped at SGD 20,000 stored and SGD 100,000 transferred per
+    year.'
+- sheet: China
+  row: 116
+  note: 'Score-1: daily cumulative payment-account limits of 5,000 or 1,000 yuan depending on the authentication
+    used.'
+- sheet: India
+  row: 150
+  note: 'Score-1: cross-border payment aggregators may process at most 2.5 million rupees per unit of goods or services.'
+- sheet: Indonesia
+  row: 166
+  note: 'Score-1: e-money holding limits of IDR 2 million unregistered and IDR 10 million registered; wallet caps
+    treated as ceilings.'
+- sheet: Australia
+  row: 76
+  note: 'Negative: AML reporting of transactions of 10,000 dollars or more is a reporting threshold, not a payment
+    ceiling; score 0.'
+- sheet: Lao PDR
+  row: 94
+  note: 'Negative: wire-transfer reporting thresholds under AML rules do not cap payments; score 0.'
+- sheet: India
+  row: 151
+  note: 'Boundary: raised limit for recurring e-mandate payments without extra authentication is an authentication
+    threshold, not a ceiling; score 0.'
+12.4.6:
+- sheet: Indonesia
+  row: 167
+  note: 'Boundary: duty to work with authorised payment system providers is not a mandate to use a specific intermediary;
+    score 0.'
+- sheet: Mongolia
+  row: 82
+  note: 'Negative: all payment service providers must be licensed, but no specific or local operator is mandated;
+    score 0.'
+- sheet: Russian Federation
+  row: 102
+  note: 'Negative: operators may engage transfer intermediaries, payment agents or aggregators by agreement; a permission,
+    not a mandate; score 0.'
+- sheet: Lao PDR
+  row: 95
+  note: 'Negative: electronic transactions law defines intermediaries'' roles and liabilities without mandating
+    any for payments; score 0.'
+- sheet: Singapore
+  row: 87
+  note: 'Absence row: payment services act does not mandate specific intermediaries for online transactions; score
+    0.'
+12.4.7:
+- sheet: Russian Federation
+  row: 103
+  note: 'Score-1: foreign payment providers may operate only through an agreement with a Russian operator plus central
+    bank register listing (possible 12.4.6 overlap).'
+- sheet: Singapore
+  row: 88
+  note: 'Negative: ban on using customer money to fund the business and licensed-agent rule are safeguards, not
+    restrictions; score 0.'
+- sheet: Malaysia
+  row: 105
+  note: 'Negative: reported credit card fraud is a market problem, not a regulatory restriction; score 0.'
+- sheet: Indonesia
+  row: 168
+  note: 'Boundary: domestic-ownership conditions for payment provider licences scored 0 as ''other''; such conditions
+    sit in 12.4.4, equity caps in 3.1.'
+- sheet: Mongolia
+  row: 83
+  note: 'Negative: no e-payment restrictions beyond AML/CFT rules, which are not scored as restrictions; score 0.'
+'12.5':
+- sheet: Singapore
+  row: 89
+  note: 'Score-0: SGD 400 relief threshold (about USD 298) is at or above USD 200; GST now collected from overseas
+    vendors does not remove it.'
+- sheet: Russian Federation
+  row: 104
+  note: 'Score-0: EAEU postal threshold of EUR 200 for personal-use goods (about USD 230) meets the USD 200 benchmark.'
+- sheet: Malaysia
+  row: 106
+  note: 'Score-0.5: RM 500 duty and tax exemption for air-courier consignments (about USD 120) is a de minimis below
+    USD 200.'
+- sheet: Indonesia
+  row: 169
+  note: 'Score-0.5 canonical: finance ministry rule on consigned goods sets a USD 3 per-consignment threshold, far
+    below USD 200.'
+- sheet: Lao PDR
+  row: 97
+  note: 'Score-0.5: 2020 customs law amendment created a LAK 1,500,000 exemption (about USD 150) for non-commercial
+    goods; no de minimis existed before.'
+- sheet: China
+  row: 119
+  note: 'Boundary: exemption keyed to a duty amount under RMB 50, not to goods value, yet coded as a low de minimis
+    (0.5).'
+- sheet: Russian Federation
+  row: 105
+  note: 'Boundary: EUR 10,000 air-baggage allowance excludes internet purchases and post; the postal threshold in
+    row 104 decides the score.'
+'12.6':
+- sheet: Indonesia
+  row: 170
+  note: 'Score-0.5 canonical: Chapter 99 tariff lines for software and digital goods at 0% duty show a legal mechanism,
+    as in the Guide''s Indonesia example.'
+- sheet: Russian Federation
+  row: 106
+  note: 'Score-0: EAEU Customs Code charges duties on goods, defined as movable property; no customs payment on
+    digitally transmitted products.'
+- sheet: Lao PDR
+  row: 98
+  note: 'Score-0: customs law and implementing decree reach physical goods only; no mechanism to levy duties on
+    electronic transmissions.'
+- sheet: India
+  row: 155
+  note: 'Boundary: GST registration for offshore online information and database services is a consumption tax,
+    not a customs duty; coded 0.'
+- sheet: Mongolia
+  row: 85
+  note: 'Absence row: customs tariff law contains no provision allowing duties on electronic transmissions; score
+    0.'
+- sheet: Australia
+  row: 80
+  note: 'Absence row: Customs Tariff Act imposes no duty on electronic transmissions and Australia follows the WTO
+    moratorium; score 0.'
+'12.7':
+- sheet: Australia
+  row: 81
+  note: 'Score-1: .com.au limited to Australian-registered companies or foreign companies licensed to trade locally,
+    a presence condition on the local domain.'
+- sheet: Thailand
+  row: 125
+  note: 'Score-1: .in.th requires an official location in Thailand, Thai citizenship or a Thai work permit, so presence
+    gates the domain.'
+- sheet: Malaysia
+  row: 108
+  note: 'Score-0.5 canonical: since 2023 foreign entities may register .my without local presence if they appoint
+    a local administrative contact.'
+- sheet: Singapore
+  row: 91
+  note: 'Score-0.5: foreign registrants of .sg or .com.sg must appoint a local administrative contact (Singapore
+    address or locally registered entity).'
+- sheet: Lao PDR
+  row: 99
+  note: 'Negative: .la open to domestic and foreign applicants; the duty for party and government websites to use
+    .la is excluded as non-commercial.'
+- sheet: China
+  row: 121
+  note: 'Negative: .cn local presence rule removed in 2012; a duty to give true registrant identity information
+    is not a domain name requirement.'
+- sheet: Russian Federation
+  row: 107
+  note: 'Absence row: foreign persons and non-residents may register .ru and .рф on equal terms; no local domain
+    needed to sell.'
+'12.8':
+- sheet: Indonesia
+  row: 179
+  note: 'Score-1 canonical, the Guide''s Indonesia example: foreign operators register and appoint Indonesia-domiciled
+    liaison officers; row note rules out 3.5 because no entity is required.'
+- sheet: China
+  row: 122
+  note: 'Score-1: PIPL Article 53 requires offshore personal information processors to set up a dedicated body or
+    designate a representative in China.'
+- sheet: Indonesia
+  row: 178
+  note: 'Score-1: foreign e-commerce operators above consumer, package or traffic thresholds must appoint a representative
+    located in Indonesia.'
+- sheet: Australia
+  row: 82
+  note: 'Negative: Corporations Act registered office for registered foreign companies is post-establishment corporate
+    law; coded 0 here, 1 under 3.5 (row 16).'
+- sheet: Singapore
+  row: 92
+  note: 'Negative: Companies Act place-of-business and registered-office duties are not local presence; the same
+    provisions are coded 1 under 3.5 (row 14).'
+- sheet: Russian Federation
+  row: 108
+  note: 'Boundary with 3.5: 236-FZ makes large foreign internet resources open a branch, representative office or
+    entity; coded 0 here, 1 under 3.5 (row 23).'
+- sheet: Mongolia
+  row: 87
+  note: 'Negative: only a commercial presence requirement exists; registering high-traffic websites with the regulator
+    is not a local presence duty.'
+- sheet: Lao PDR
+  row: 100
+  note: 'Absence row: investment law and e-commerce decree require no local office, agent or representative for
+    digital service providers.'
+'12.9':
+- sheet: Singapore
+  row: 93
+  note: 'Score-0 canonical: no e-commerce-specific statute, but the general fair trading act covers electronic transactions,
+    which is enough.'
+- sheet: India
+  row: 158
+  note: 'Score-0: e-commerce consumer protection rules cover all online goods and services, including foreign platforms
+    selling to Indian consumers.'
+- sheet: Malaysia
+  row: 111
+  note: 'Score-0: regulations under the Consumer Protection Act impose disclosure, error-correction and order-acknowledgement
+    duties on online sellers and marketplaces.'
+- sheet: Lao PDR
+  row: 101
+  note: 'Score-0: general consumer protection law applies to all goods and services, online sales included, through
+    its scope article.'
+- sheet: Mongolia
+  row: 88
+  note: 'Score-0: general consumer law rights apply to online transactions; a draft chapter on remote sales still
+    in progress does not change that.'
+- sheet: China
+  row: 124
+  note: 'Score-0: E-Commerce Law adds consumer rights tailored to online buyers on top of the general consumer rights
+    law.'
+- sheet: Russian Federation
+  row: 109
+  note: 'Score-0: consumer rights law applies to foreign online sellers targeting Russian consumers, even without
+    local presence.'
+- sheet: Thailand
+  row: 131
+  note: 'Score-0: Consumer Protection Act contract and advertising rules protect online buyers; its advertising
+    sections are coded 0 under 9.3 (row 82).'

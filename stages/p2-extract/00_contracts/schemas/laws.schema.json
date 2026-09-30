@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rdtii-rocky/contracts/schemas/laws.schema.json",
+  "title": "RDTII Hand-off #2 law-level coverage index row",
+  "description": "One row per doc_id P2 processed (contract section 3.7), INCLUDING laws that yielded zero citable provisions - this is what lets P3 emit deterministic 'No provision found' rows (7.2).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "doc_id",
+    "economy",
+    "law_name",
+    "law_number",
+    "source_url",
+    "pillars_in_scope",
+    "indicators_searched",
+    "provision_count",
+    "searched"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "doc_id": {
+      "type": "string",
+      "pattern": "^[a-z]{2}-[a-z0-9]+-\\d{3}$",
+      "description": "Stable join key <cc>-<lawslug>-<seq>, e.g. sg-pdpa2012-001 or la-la2537-001. A two-letter class since 0.3.0, so a seventh economy needs no schema edit."
+    },
+    "economy": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "law_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "law_number": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_url": {
+      "type": "string",
+      "pattern": "^https?://"
+    },
+    "pillars_in_scope": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 12
+      }
+    },
+    "indicators_searched": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(P[0-9]{1,2}-I[0-9]{1,2}|[0-9]{1,2}(\\.[0-9]{1,2}){1,2})$"
+      }
+    },
+    "provision_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "searched": {
+      "type": "boolean"
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "coverage_status": {
+      "enum": [
+        "searched",
+        "zero_provisions",
+        "skipped",
+        "excluded"
+      ]
+    },
+    "exclusion_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "language_of_source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "document_kind": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "legal_status": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "use": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "content_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "access_date_basis": {
+      "type": "string",
+      "enum": [
+        "http_fetch_utc",
+        "collector_local_naive",
+        "collector_date_only",
+        "bulk_export_session_naive",
+        "not_observed"
+      ],
+      "description": "What the retrieval time actually rests on. 'http_fetch_utc': a second-precision UTC instant was recorded at fetch, and access_date carries it. 'collector_local_naive': a real instant was recorded without a timezone. 'collector_date_only': a date, no time. 'bulk_export_session_naive': the timestamp of the bulk download session, not of this document. 'not_observed': nothing was recorded. access_date is non-null ONLY for http_fetch_utc - every other basis leaves it null and puts the collector's own string in access_date_observed, because a fabricated instant in this column is worse than an admitted gap."
+    },
+    "access_date_observed": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The retrieval time exactly as collection recorded it, in whatever shape - '2026-09-21T00:39:38', '2026-09-22', '20260921_222525', '(resumed)'. Never reformatted, so the original evidence survives."
+    },
+    "act_index": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "1-based position of this act inside the document, null when the document holds one act or when the acts could not all be located."
+    },
+    "act_count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "How many acts the document holds, from the collection sidecar. Authoritative even when act_index is null."
+    },
+    "law_name_en": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "law_name_original": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "law_name_en_source": {
+      "enum": [
+        "publisher_translation",
+        "rendered",
+        "source_is_english",
+        "none",
+        null
+      ]
+    },
+    "acts_located": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "How many of act_count acts were located in the text. Less than act_count means act_index was withheld for the whole document."
+    }
+  }
+}

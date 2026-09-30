@@ -1,0 +1,68 @@
+# requirements-demo.txt — one venv for `main.py --demo` and `main.py --mini-run`.
+#
+#   python -m venv .venv && .venv\Scripts\pip install -r requirements-demo.txt
+#   .venv\Scripts\pip install -e stages/p2-extract        (P2 CLI + its config spine)
+#   python -m playwright install chromium                 (LIVE mini-run only;
+#                                                          --offline never needs it)
+#   External, non-pip: Tesseract 5 for the scanned doc
+#                      (winget install UB-Mannheim.TesseractOCR)
+#
+# This is the UNION of the stage dependencies the mini-run path actually
+# imports, pinned to the versions in the stages' own lock files
+# (stages/p2-extract/requirements.lock, stages/p3-map/requirements.lock,
+# stages/p1-scrape/requirements.txt).
+#
+# DELIBERATELY EXCLUDED (and why):
+#   torch / sentence-transformers  — only the dense-embedding prefilter leg
+#       imports them (stages/p3-map/src/p3map/prefilter/dense.py, lazy import);
+#       the mini-run uses the bm25-only leg. Verified by a dry run of the full
+#       offline chain in this torch-free venv, 2026-07-19: no torch import
+#       fired. If you DO want the dense leg (full pipeline), install the CPU
+#       wheel:  pip install torch --index-url https://download.pytorch.org/whl/cpu
+#       then    pip install sentence-transformers
+#       (P3's own lock pins torch==2.6.0+cu124 — that is the CUDA dev box; a
+#       reviewer without CUDA should use the CPU index-url above.)
+#   scikit-learn — only S10 eval imports it; the mini-run skips eval
+#       (n/a on a 5-doc slice).
+#   paddleocr / paddlepaddle — opt-in alternative OCR engine, never default.
+#
+# Version-pin notes: PyYAML pinned 6.0.3 and jsonschema 4.26.0 (the P2/P3
+# lock versions); P1's requirements.txt pins 6.0.2 / 4.23.0 — the newer
+# patch/minor versions satisfy P1's usage too (same API), and one venv can
+# only hold one version.
+
+# --- P1 live-crawl leg (offline mode does not exercise these, but the live
+#     mini-run does; pins from stages/p1-scrape/requirements.txt) ---
+playwright==1.49.1
+requests==2.32.3
+tenacity==9.0.0
+python-dateutil==2.9.0.post0
+
+# --- shared across stages ---
+pypdfium2==5.11.0
+httpx==0.28.1
+jsonschema==4.23.0
+PyYAML==6.0.3
+python-dotenv==1.2.2
+pydantic==2.13.4
+tqdm==4.68.4
+
+# --- LLM backends (keyless -> local Ollama fallback, announced loudly) ---
+anthropic==0.116.0
+ollama==0.6.2
+
+# --- P2 extract (direct deps; `pip install -e stages/p2-extract` resolves
+#     against these pins instead of floating to latest) ---
+pytesseract==0.3.13
+Pillow==12.3.0
+jiwer==4.0.0
+beautifulsoup4==4.15.0
+lxml==6.1.1
+selectolax==0.4.10
+
+# --- P3 map, bm25-only path ---
+bm25s==0.3.9
+PyStemmer==3.1.0
+numpy==2.5.1
+pandas==3.0.3
+openpyxl==3.1.5

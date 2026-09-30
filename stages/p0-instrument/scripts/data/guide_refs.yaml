@@ -1,0 +1,534 @@
+# The Guide's defining sentence for each indicator, verbatim, with PRINTED page numbers
+# (printed = PDF page - 12). Pillars 6-7 from the Round 1 codebook; other pillars drafted 2026-09-13 and
+# machine-checked against the Guide text (RDTII_GUIDE_TEXT) by validate_instrument.py.
+'1.4':
+  guide_heading: Trade defence measures, including anti-dumping, countervailing duties and safeguards on ICT goods
+    and ICT-related goods imported by other economies within the considered United Nations region
+  guide_pages:
+  - 16
+  - 17
+  asks: The indicator looks at whether an economy is enforcing trade defence measures such as anti-dumping duties,
+    countervailing duties, and safeguard measures against ICT goods and ICT-related goods imported from any economy
+    in the considered region.
+  asks_page: 16
+  scoring_page: 17
+'2.1':
+  guide_heading: Foreign exclusions from public procurement
+  guide_pages:
+  - 19
+  asks: This indicator covers measures that exclude foreign enterprises from public procurement, including for ICT
+    goods and online services.
+  asks_page: 19
+  scoring_page: 19
+'2.2':
+  guide_heading: Specific requirements on source code, encryption and trade secrets
+  guide_pages:
+  - 19
+  - 20
+  asks: 'The indicator asks: (a) whether firms are required to surrender source code, encryption or other trade
+    secrets, or to transfer ownership of exclusive rights to use IP such as patented technology, as a condition
+    for successful public procurement and (b) whether firms are required to use a specific encryption standard to
+    be successful for their bidding.'
+  asks_page: 19
+  scoring_page: 20
+'2.3':
+  guide_heading: Limitations in procurement bidding
+  guide_pages:
+  - 20
+  asks: This indicator covers limitations on participation in public procurement.
+  asks_page: 20
+  scoring_page: 20
+'3.1':
+  guide_heading: Foreign equity limits
+  guide_pages:
+  - 25
+  asks: This indicator concerns the maximum foreign equity shares in sectors related to digital trade.
+  asks_page: 25
+  scoring_page: 25
+'3.2':
+  guide_heading: Joint venture requirements
+  guide_pages:
+  - 25
+  asks: This indicator asks whether there is a requirement for firms to engage in a joint venture with a local firm
+    in order to invest or operate in the economy.
+  asks_page: 25
+  scoring_page: 25
+'3.3':
+  guide_heading: Nationality or residency requirements for the board of directors or managers in sectors relevant
+    to digital trade
+  guide_pages:
+  - 26
+  asks: This indicator asks whether there are nationality or residency requirements for members of the board of
+    directors or managers.
+  asks_page: 26
+  scoring_page: 26
+'3.4':
+  guide_heading: Investment screenings
+  guide_pages:
+  - 26
+  - 27
+  asks: This indicator asks whether (a) an economy has adopted any screening mechanism for foreign investment or
+    mergers and acquisitions (M&A) in sectors relevant to digital trade, excluding those implemented solely for
+    antitrust purposes, unless such mechanisms are found to be discriminatory; and (b) whether there was a case
+    of blocking investment or M&A based on the use of the concerned screening measure in sectors relevant to digital
+    trade.
+  asks_page: 26
+  scoring_page: 27
+'3.5':
+  guide_heading: Commercial presence requirements
+  guide_pages:
+  - 27
+  - 28
+  asks: This indicator asks whether an economy requires foreign service providers to establish a commercial presence.
+  asks_page: 27
+  scoring_page: 28
+'4.01':
+  guide_heading: Patent application issues
+  guide_pages:
+  - 29
+  - 30
+  asks: The indicator asks whether (a) there is a restriction on the patent application process, and (b) what type
+    of restriction.
+  asks_page: 29
+  scoring_page: 30
+'4.2':
+  guide_heading: 'Patent enforcement issues: civil and administrative procedures, and provisional measures'
+  guide_pages:
+  - 30
+  - 31
+  asks: This indicator asks whether an economy's legal framework concerning patents incorporates (a) civil and administrative
+    procedures; and (b) provisional measures.
+  asks_page: 30
+  scoring_page: 31
+'4.3':
+  guide_heading: 'Patent enforcement issues: others'
+  guide_pages:
+  - 31
+  asks: This indicator covers measures on the enforcement of patents. The indicator asks whether there is a restriction
+    on patent enforcement and the scope of such restriction.
+  asks_page: 31
+  scoring_page: 31
+'4.5':
+  guide_heading: Lack of a copyright framework and exceptions
+  guide_pages:
+  - 33
+  asks: This indicator asks for the presence of a copyright legal framework and what type of copyright exceptions,
+    if any, an economy has adopted.
+  asks_page: 33
+  scoring_page: 33
+'4.6':
+  guide_heading: 'Online copyright enforcement issues: civil and administrative procedures and provisional measures'
+  guide_pages:
+  - 34
+  asks: This indicator asks whether an economy's intellectual property rights legal frameworks concerning copyright
+    incorporate (a) civil and administrative procedures; and (b) provisional measures.
+  asks_page: 34
+  scoring_page: 34
+'4.9':
+  guide_heading: Mandatory disclosure of trade secrets
+  guide_pages:
+  - 37
+  - 38
+  asks: This indicator asks whether a Government mandates the disclosure of trade secrets, such as source code and
+    algorithms.
+  asks_page: 37
+  scoring_page: 37
+'4.1':
+  guide_heading: Lack of effective trade secrets legal framework
+  guide_pages:
+  - 37
+  - 38
+  asks: This indicator asks whether an economy has adopted a trade secrets legal framework that provides effective
+    protection of trade secrets.
+  asks_page: 37
+  scoring_page: 38
+'5.1':
+  guide_heading: Lack of passive infrastructure sharing
+  guide_pages:
+  - 41
+  - 42
+  asks: This indicator looks at (a) whether there is an obligation for passive infrastructure sharing in the economy,
+    and (b) whether the adopted regulatory approach is mandatory or voluntary sharing.
+  asks_page: 41
+  scoring_page: 42
+'5.2':
+  guide_heading: Foreign equity limits in telecom sector
+  guide_pages:
+  - 42
+  asks: This indicator concerns the maximum foreign equity shares in the specific sector of telecommunications.
+    The indicator covers restrictions on foreign equity shares in (a) privately owned companies, and (b) Government-controlled
+    companies—fully or partially SOEs.
+  asks_page: 42
+  scoring_page: 42
+'5.3':
+  guide_heading: Shares owned by the Government
+  guide_pages:
+  - 42
+  - 43
+  asks: This indicator concerns the percentage of shares owned by the Government in telecom companies, including
+    the case in which the telecom operator is an SOE.
+  asks_page: 42
+  scoring_page: 43
+'5.4':
+  guide_heading: Lack of functional/accounting separation
+  guide_pages:
+  - 43
+  - 44
+  asks: This indicator asks whether the economy mandates functional and/or accounting separation for operators with
+    significant market power (SMP) in the telecom market.
+  asks_page: 43
+  scoring_page: 44
+'5.5':
+  guide_heading: Licensing requirements in telecom sector
+  guide_pages:
+  - 44
+  asks: This indicator refers to a license for private telecommunication services or a license to operate telecommunication
+    facilities. It asks whether the licensing requirements include (a) discriminatory conditions against foreign
+    firms, or (b) create significant barriers to entry for both foreign and local service providers.
+  asks_page: 44
+  scoring_page: 44
+'5.7':
+  guide_heading: Lack of independent telecom authority
+  guide_pages:
+  - 46
+  asks: This indicator asks whether an economy has an independent telecommunications regulator.
+  asks_page: 46
+  scoring_page: 46
+'6.1':
+  guide_heading: Ban and local processing requirements
+  guide_pages:
+  - 50
+  - 51
+  asks: This indicator asks whether there is a ban on data transfer and a local processing requirement.
+  asks_page: 50
+  scoring_page: 50
+'6.2':
+  guide_heading: Local storage requirements
+  guide_pages:
+  - 50
+  - 51
+  asks: This indicator asks whether there is a local storage requirement.
+  asks_page: 50
+  scoring_page: 51
+'6.3':
+  guide_heading: Infrastructure requirements
+  guide_pages:
+  - 51
+  - 52
+  asks: This indicator asks whether there is an infrastructure requirement.
+  asks_page: 51
+  scoring_page: 52
+'6.4':
+  guide_heading: Conditional flow regimes
+  guide_pages:
+  - 52
+  - 53
+  - 54
+  asks: This indicator asks whether an economy adds other conditions for cross-border data transfer.
+  asks_page: 52
+  scoring_page: 54
+'7.1':
+  guide_heading: Lack of comprehensive legal framework for data protection
+  guide_pages:
+  - 57
+  - 58
+  asks: This indicator asks whether an economy has adopted a comprehensive data protection legal framework that
+    applies to personal data across sectors.
+  asks_page: 57
+  scoring_page: 58
+'7.2':
+  guide_heading: Lack of dedicated legal framework for cybersecurity
+  guide_pages:
+  - 59
+  asks: This indicator asks whether an economy has adopted a dedicated cybersecurity legal framework.
+  asks_page: 59
+  scoring_page: 59
+'7.3':
+  guide_heading: Minimum period of data retention requirements
+  guide_pages:
+  - 59
+  - 60
+  asks: This indicator asks whether an economy imposes a minimum period of data retention requirements.
+  asks_page: 59
+  scoring_page: 60
+'7.4':
+  guide_heading: Data Protection Impact Assessment or Data Protection Officer requirements
+  guide_pages:
+  - 60
+  - 61
+  asks: This indicator asks whether an economy requires firms to appoint a Data Protection Officer (DPO) or perform
+    a Data Protection Impact Assessment (DPIA).
+  asks_page: 60
+  scoring_page: 61
+'7.5':
+  guide_heading: Requirements to allow government access to personal data
+  guide_pages:
+  - 62
+  asks: The indicator asks whether the Government can access personal data without the explicit authorization of
+    an independent judicial body, such as a court decision, a judicial warrant or an equivalent order issued by
+    a truly independent tribunal with due process safeguards.
+  asks_page: 62
+  scoring_page: 62
+'8.1':
+  guide_heading: Lack of safe harbour for copyright infringements
+  guide_pages:
+  - 64
+  - 65
+  asks: This indicator asks whether an economy has a safe harbour provision for copyright infringement. A safe harbour
+    provision protects the Internet intermediaries from legal liability for certain activities performed by their
+    users.
+  asks_page: 64
+  scoring_page: 65
+'8.2':
+  guide_heading: Lack of safe harbour for other illegal activities
+  guide_pages:
+  - 65
+  - 66
+  asks: This indicator asks whether an economy has a safe harbour provision for illegal activities other than copyright
+    infringement. As mentioned, a safe harbour provision protects the Internet intermediaries from legal liability
+    for certain activities performed by their users.
+  asks_page: 65
+  scoring_page: 66
+'8.3':
+  guide_heading: User identity requirements
+  guide_pages:
+  - 66
+  - 67
+  asks: The indicator asks whether an economy imposes user identity requirements. The ‘user identity requirement’
+    mandates that Internet intermediaries verify and record accurate personal information of their users as a condition
+    for accessing their services or networks.
+  asks_page: 66
+  scoring_page: 67
+'8.4':
+  guide_heading: Monitoring requirements
+  guide_pages:
+  - 67
+  asks: The entry asks whether an economy imposes content monitoring requirements. The ‘monitoring requirement’
+    mandates that Internet intermediaries actively monitor the users’ activities or remove or block content that
+    is deemed illegal to avoid legal liability due to such content.
+  asks_page: 67
+  scoring_page: 67
+'9.1':
+  guide_heading: Blocking or filtering commercial web content
+  guide_pages:
+  - 69
+  - 70
+  asks: This indicator asks whether there have been any instances of blocking or filtering commercial web content
+    either by a Government or Internet intermediaries as required by the Government
+  asks_page: 69
+  scoring_page: 70
+'9.3':
+  guide_heading: Online advertising requirements
+  guide_pages:
+  - 71
+  asks: The indicator covers requirements for online advertising. The measures could be limitations affecting online
+    advertising, but exclude general consumer protection measures, such as prohibitions on misleading or false advertising,
+    and restrictions on specific products and services (e.g., weapons, drugs, tobacco, alcohol, or medicine) for
+    public health or safety reasons.
+  asks_page: 71
+  scoring_page: 71
+'9.4':
+  guide_heading: Licensing requirements for online service providers
+  guide_pages:
+  - 71
+  - 72
+  asks: It asks whether (a) the ICPs are subjected to licensing requirements to operate their business, and (b)
+    whether the licensing requirement is considered as a “strict” requirement, in that they have the potential to
+    block businesses from operating their services.
+  asks_page: 71
+  scoring_page: 72
+'10.1':
+  guide_heading: Import bans on ICT goods and online services
+  guide_pages:
+  - 74
+  asks: This indicator looks at import bans on ICT goods and online services. It covers bans that specifically target
+    ICT goods and online services, as well as broader bans affecting multiple goods or services that include ICT
+    products and online services.
+  asks_page: 74
+  scoring_page: 74
+'10.2':
+  guide_heading: Other import restrictions on ICT goods and online services
+  guide_pages:
+  - 75
+  asks: This indicator covers import restrictions, excluding other than import bans and local content requirements
+    on imports
+  asks_page: 75
+  scoring_page: 75
+'10.3':
+  guide_heading: Local content requirements for the commercial market
+  guide_pages:
+  - 75
+  - 76
+  asks: This indicator covers 'local content requirements' (LCRs), i.e., requirements to use domestically manufactured
+    goods or domestically supplied services in the production of ICT-related goods and online services.
+  asks_page: 75
+  scoring_page: 76
+'10.4':
+  guide_heading: Export restrictions on ICT goods and online services
+  guide_pages:
+  - 76
+  asks: This indicator covers export restrictions on ICT goods and services. These restrictions include export bans,
+    export licenses and other restrictions limiting the number of goods or services to be exported.
+  asks_page: 76
+  scoring_page: 76
+'11.1':
+  guide_heading: Technical standards issues
+  guide_pages:
+  - 78
+  - 79
+  asks: This indicator asks whether (a) participation from relevant stakeholders, including foreign businesses,
+    is not allowed or restricted in the standard-setting of the standards in sectors relevant to digital trade,
+    and (b) whether there are transparent public consultation or engagement mechanisms exist.
+  asks_page: 78
+  scoring_page: 79
+'11.2':
+  guide_heading: Self-certification limitations for product safety (radio transmissions, EMC/EMI)
+  guide_pages:
+  - 79
+  asks: This indicator asks whether the self-certification of product safety by suppliers is not allowed. Certification
+    refers to a process of verifying that imported products meet domestic standards.
+  asks_page: 79
+  scoring_page: 79
+'11.3':
+  guide_heading: Product screening and testing requirements
+  guide_pages:
+  - 80
+  asks: The indicator asks whether an economy imposes an additional screening or testing requirement on ICT imports.
+    Additional screening or testing refers to processes where products are required to undergo further technical
+    tests beyond standard conformity assessments to verify certain aspects of compliance before they are allowed
+    into the market.
+  asks_page: 80
+  scoring_page: 80
+'11.4':
+  guide_heading: Deviation from international encryption standards
+  guide_pages:
+  - 80
+  - 81
+  asks: The indicator asks whether an economy adopts encryption standards that deviate from internationally recognized
+    standards based on the principles in the International Organization for Standardization (ISO) and International
+    Electrotechnical Commission (IEC) encryption standards.
+  asks_page: 80
+  scoring_page: 81
+'12.01':
+  guide_heading: Foreign equity limits in the e-commerce sector
+  guide_pages:
+  - 84
+  asks: This indicator concerns the maximum foreign equity shares in the specific sector of e-commerce.
+  asks_page: 84
+  scoring_page: 84
+'12.2':
+  guide_heading: Online purchases and delivery limitations
+  guide_pages:
+  - 84
+  asks: The indicator covers direct requirements on online purchases and the requirements on the delivery of products
+    bought online that affect consumers or retailers.
+  asks_page: 84
+  scoring_page: 84
+'12.3':
+  guide_heading: Licensing requirements in the e-commerce sector
+  guide_pages:
+  - 85
+  asks: The indicator covers any licensing scheme for e-commerce providers, including both business-to-business
+    (B2B) and business-to-consumer (B2C) platforms.
+  asks_page: 85
+  scoring_page: 85
+12.4.1:
+  guide_heading: Online payment limitations
+  guide_pages:
+  - 85
+  - 86
+  asks: Requirements to use a local bank account
+  asks_page: 85
+  scoring_page: 86
+12.4.2:
+  guide_heading: Online payment limitations
+  guide_pages:
+  - 85
+  - 86
+  asks: Requirements on the currency used for international payments
+  asks_page: 85
+  scoring_page: 86
+12.4.3:
+  guide_heading: Online payment limitations
+  guide_pages:
+  - 85
+  - 86
+  asks: National standards for payment security that deviate from international standards
+  asks_page: 85
+  scoring_page: 86
+12.4.4:
+  guide_heading: Online payment limitations
+  guide_pages:
+  - 85
+  - 86
+  asks: Licensing requirements with restrictive conditions (such as local incorporation requirements, nationality
+    restrictions, or limitations on the types or numbers of licenses that can be obtained)
+  asks_page: 85
+  scoring_page: 86
+12.4.5:
+  guide_heading: Online payment limitations
+  guide_pages:
+  - 85
+  - 86
+  asks: Ceilings on the maximum amount that can be paid by electronic payment methods
+  asks_page: 85
+  scoring_page: 86
+12.4.6:
+  guide_heading: Online payment limitations
+  guide_pages:
+  - 85
+  - 86
+  asks: Requirements mandating the use of specific intermediaries for online payments
+  asks_page: 85
+  scoring_page: 86
+12.4.7:
+  guide_heading: Online payment limitations
+  guide_pages:
+  - 85
+  - 86
+  asks: The indicator covers requirements for online payments and other requirements affecting the use of electronic
+    payment and credit services.
+  asks_page: 85
+  scoring_page: 86
+'12.5':
+  guide_heading: Low de minimis
+  guide_pages:
+  - 86
+  asks: The indicator asks whether an economy adopts a threshold for the de minimis rule. The de minimis rule sets
+    a valuation ceiling for goods below which no duty or tax is charged at the border to ensure the flow of digital
+    trade.
+  asks_page: 86
+  scoring_page: 86
+'12.6':
+  guide_heading: Imposition of customs duties on electronic transmission
+  guide_pages:
+  - 86
+  asks: This indicator asks whether an economy imposes customs duties or cross-border duties on electronic transmission.
+    The electronic transmission could refer to the import and export of digital products by electronic means.
+  asks_page: 86
+  scoring_page: 86
+'12.7':
+  guide_heading: Domain name requirements
+  guide_pages:
+  - 87
+  asks: The indicator covers requirements on commercial domain names.
+  asks_page: 87
+  scoring_page: 87
+'12.8':
+  guide_heading: Local presence requirements
+  guide_pages:
+  - 87
+  - 88
+  asks: This indicator asks whether an economy imposes local presence requirements on online service providers.
+    The 'local presence requirement' requires companies to have a physical representative office, local agent, legal
+    representative or a post-box within the economy to provide their services.
+  asks_page: 87
+  scoring_page: 88
+'12.9':
+  guide_heading: Lack of legal framework for online consumer protection
+  guide_pages:
+  - 88
+  asks: This indicator asks whether an economy has adopted an online consumer protection legal framework. The domestic
+    laws of consumer protection need not be specific to e-commerce.
+  asks_page: 88
+  scoring_page: 88

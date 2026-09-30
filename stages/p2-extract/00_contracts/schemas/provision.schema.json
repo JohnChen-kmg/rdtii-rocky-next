@@ -1,0 +1,538 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rdtii-rocky/contracts/schemas/provision.schema.json",
+  "title": "RDTII Hand-off #2 Provision-Record",
+  "description": "One grounded provision per line of provisions.jsonl (contract section 3.3). Grounding rule (3.2): verbatim_snippet MUST equal source_text/<doc_id>.txt[snippet_char_start:snippet_char_end]; the schema checks shape, the validate CLI checks the assertion. Includes the PATCH-additive provenance fields from PLAN.md 2.4.3a/2.6b (snippet_source, grounded-metadata offsets, processing_time_seconds, model_version) - optional-with-null, backward-compatible per contract section 8.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "provision_id",
+    "doc_id",
+    "economy",
+    "law_name",
+    "law_number",
+    "last_amended",
+    "article_section",
+    "verbatim_snippet",
+    "snippet_char_start",
+    "snippet_char_end",
+    "location_reference",
+    "source_url",
+    "raw_context_before",
+    "raw_context_after",
+    "scope",
+    "data_type",
+    "obligation_type",
+    "source_file_path",
+    "source_type",
+    "pdf_is_scanned",
+    "ocr_quality_cer",
+    "ocr_engine",
+    "retrieval_method",
+    "extraction_model",
+    "access_date"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "instrument_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "provision_id": {
+      "type": "string",
+      "pattern": "^[a-z]{2}-[a-z0-9]+-\\d{3}(#a\\d+)?#.+$",
+      "description": "<doc_id>#<article_section>, or <doc_id>#a<act_index>#<section> when one document holds several acts, as a Timorese gazette issue does."
+    },
+    "doc_id": {
+      "type": "string",
+      "pattern": "^[a-z]{2}-[a-z0-9]+-\\d{3}$",
+      "description": "Stable join key <cc>-<lawslug>-<seq>, e.g. sg-pdpa2012-001 or la-la2537-001. A two-letter class since 0.3.0, so a seventh economy needs no schema edit."
+    },
+    "economy": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "law_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "law_name_grounded": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "True when law_name bytes were copied from source_text (2.6b); false when carried from the manifest guess."
+    },
+    "law_name_char_start": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "law_name_char_end": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "law_number": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "law_number_char_start": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "law_number_char_end": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "last_amended": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "last_amended_char_start": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "last_amended_char_end": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "article_section": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verbatim_snippet": {
+      "type": "string",
+      "minLength": 1
+    },
+    "snippet_char_start": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snippet_char_end": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "snippet_source": {
+      "enum": [
+        "html",
+        "native",
+        "native_twin",
+        "ocr",
+        "docx",
+        null
+      ]
+    },
+    "location_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_url": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^https?://",
+      "description": "Exact URL the bytes came from, or null when none was recorded and none can be established without guessing - see source_url_basis."
+    },
+    "raw_context_before": {
+      "type": "string"
+    },
+    "raw_context_after": {
+      "type": "string"
+    },
+    "scope": {
+      "enum": [
+        "horizontal",
+        "sectoral",
+        null
+      ]
+    },
+    "data_type": {
+      "enum": [
+        "personal",
+        "non-personal",
+        null
+      ]
+    },
+    "obligation_type": {
+      "enum": [
+        "ban",
+        "storage",
+        "infrastructure",
+        "conditional",
+        "retention_minimum",
+        "dp_framework",
+        "cybersecurity",
+        "dpia_dpo",
+        "gov_access",
+        "other",
+        null
+      ],
+      "description": "Non-exclusive soft prefilter hint (contract 3.3 boundary note) - NEVER the indicator decision."
+    },
+    "extraction_confidence": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "source_file_path": {
+      "type": "string",
+      "pattern": "^(?![A-Za-z]:)(?![\\\\/]).+"
+    },
+    "source_type": {
+      "enum": [
+        "html",
+        "pdf_native",
+        "pdf_scanned",
+        "docx",
+        "doc"
+      ]
+    },
+    "pdf_is_scanned": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "ocr_quality_cer": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "ocr_engine": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "retrieval_method": {
+      "enum": [
+        "playwright",
+        "requests",
+        "api",
+        "hand_collected"
+      ]
+    },
+    "extraction_model": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The model that produced this record's tags, or null when none has run. Never the configured default (contract 5.2)."
+    },
+    "model_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "LLM_MODEL plus '+<ocr_engine>' only when the record was actually OCR'd (contract 5.2)."
+    },
+    "extraction_confidence_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "access_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+      "description": "ISO-8601 UTC retrieval time with a trailing Z, or null when no such instant was ever observed - see access_date_basis. A null here is a recorded gap, not a missing value."
+    },
+    "processing_time_seconds": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "act_index": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "act_count": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "law_name_en": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "law_name_original": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "law_name_en_source": {
+      "enum": [
+        "publisher_translation",
+        "rendered",
+        "source_is_english",
+        "none",
+        null
+      ],
+      "description": "Where the English title came from. source_is_english: the law is published in English, so the title is the original and nothing was translated. rendered: machine-made and labelled as such. publisher_translation: an official English edition exists and this is its printed title."
+    },
+    "article_number_as_read": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "citation_confidence": {
+      "enum": [
+        "exact",
+        "sequence_repaired",
+        "sequence_restart",
+        "unverified",
+        null
+      ],
+      "description": "How the article number was arrived at. exact: the text printed it and it continues the run. sequence_repaired: the text printed something else and position was trusted instead - article_number_as_read keeps what was read. sequence_restart: the number dropped sharply AND a new ascending run begins from it, which is a new instrument starting inside the same document, so the TEXT is trusted and nothing is repaired."
+    },
+    "citation_repair_method": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "page": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "language_of_source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "language_of_source_name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "language_source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "collection_channel": {
+      "enum": [
+        "portal_crawl",
+        "api",
+        "hand_collected",
+        null
+      ]
+    },
+    "in_official_database": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "source_authority": {
+      "enum": [
+        "national_database",
+        "official_gazette",
+        "ministry_site",
+        "agency_announcement",
+        "mirror",
+        null
+      ]
+    },
+    "collection_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "provenance_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "content_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "document_kind": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "legal_status": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "use": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "ocr_cer_method": {
+      "enum": [
+        "gold_page",
+        "native_twin",
+        "rendered_twin",
+        "engine_fixture_estimate",
+        "none",
+        null
+      ]
+    },
+    "ocr_script": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tags_source": {
+      "type": "string",
+      "enum": [
+        "llm",
+        "llm_failed",
+        "not_tagged"
+      ],
+      "description": "Where scope/data_type/obligation_type came from. 'llm': a model judged this provision and extraction_model names it. 'llm_failed': the model was called and errored, so the fields are the fallback and extraction_confidence is 0.0. 'not_tagged': no model has run, the three fields are null, and extraction_model is null. A record must never carry a model name that did not produce its tags."
+    },
+    "access_date_basis": {
+      "type": "string",
+      "enum": [
+        "http_fetch_utc",
+        "collector_local_naive",
+        "collector_date_only",
+        "bulk_export_session_naive",
+        "not_observed"
+      ],
+      "description": "What the retrieval time actually rests on. 'http_fetch_utc': a second-precision UTC instant was recorded at fetch, and access_date carries it. 'collector_local_naive': a real instant was recorded without a timezone. 'collector_date_only': a date, no time. 'bulk_export_session_naive': the timestamp of the bulk download session, not of this document. 'not_observed': nothing was recorded. access_date is non-null ONLY for http_fetch_utc - every other basis leaves it null and puts the collector's own string in access_date_observed, because a fabricated instant in this column is worse than an admitted gap."
+    },
+    "access_date_observed": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The retrieval time exactly as collection recorded it, in whatever shape - '2026-09-21T00:39:38', '2026-09-22', '20260921_222525', '(resumed)'. Never reformatted, so the original evidence survives."
+    },
+    "source_url_basis": {
+      "type": "string",
+      "enum": [
+        "document_address",
+        "database_root",
+        "source_site",
+        "parent_page",
+        "not_recorded"
+      ],
+      "description": "What source_url points at. 'document_address': it resolves to THIS document. 'database_root': the database's own address, because the host publishes no per-document URL and forbids automated collection - trace by law_name_guess plus publication_date. 'parent_page': an attachment, carrying the address of the page that served it. 'source_site': the publishing body's own site, where the document's own address was never recorded but the source is known and documented. 'not_recorded': neither the document nor its source is known and none can be established without guessing; source_url is null. A URL that resolves to a DIFFERENT version of the instrument is not this document's address and must be 'not_recorded'."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source_type": {
+            "const": "pdf_scanned"
+          }
+        },
+        "required": [
+          "source_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "ocr_quality_cer": {
+            "type": "number"
+          },
+          "ocr_engine": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_type": {
+            "enum": [
+              "html",
+              "pdf_native"
+            ]
+          }
+        },
+        "required": [
+          "source_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "ocr_quality_cer": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

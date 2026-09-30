@@ -1,0 +1,351 @@
+"""Stage E — instrument validation, finale edition (61 scoreable indicators).
+
+Exit code 0 = the instrument is consistent and frozen-ready. Checks, grouped:
+
+  0  indicator_order.yaml   62 listed IDs, canonical decimal text, pillar derivation, 61 in scope,
+                            6.5 declared out of scope, host trap rows present; matches the host
+                            template's Indicator Reference when the template is present
+  1  codebook               indicators.yaml holds every in-scope ID exactly once, in host order, each
+                            block tier A, B or C; the file's `tiers` key describes all three; required
+                            fields per tier
+  1b methodology            for ALL 61: category_official and scoring.values machine-match the host
+                            methodology sheet; one scoring branch per allowed score, in order
+  1c citations              Tier A/B: every definition, coding rule, exception and disambiguation line
+                            ends with a host citation; Tier A carries the Round 1 trap wording and the
+                            finale template's trap rows 80-84 on the right indicators
+  2  guide_refs             every in-scope ID has the Guide's defining sentence; when RDTII_GUIDE_TEXT
+                            points at a page-numbered Guide extract, each sentence is checked verbatim
+                            on its printed page
+  3  policies.yaml          contract §4.2 keys plus the finale additions
+  4  signatures/            one file per in-scope ID, named by ID; >=3 exemplars from >=2 economies,
+                            every exemplar round-trips to its workbook row; no suspect row used
+  5  gold/gold_set.jsonl    row count equals a fresh parse of both workbooks; every row round-trips;
+                            flag statuses valid; exemplar_for matches the curated data
+  6  hygiene                no legacy P6-I1-style IDs in output files; indicator_ids.py identical to
+                            the mapping stage's vendored copy
+  info                      whether output/ has been re-vendored into p3-map/contracts/instrument/,
+                            compared file by file, subfolders included, ignoring CRLF against LF
+                            (reported, not enforced; pass --require-vendored to enforce)
+
+The mapping stage is looked for beside this stage (stages/p3-map). When the instrument is built
+outside the finale repo, set RDTII_FINALE_REPO to the repo root; if neither is found, the two
+mapping-stage checks are skipped and an INFO line says so.
+
+What this does NOT prove: Tier A/B prose is written, not extracted, and spot-checked, not machine-diffed
+against the Guide; Tier C blocks restate host text and carry no traps; candidate label flags
+are machine signals, not reviewed judgements.
+"""
+from __future__ import annotations
+
+import json
+import os
+import re
+import sys
+from collections import Counter, defaultdict
+from pathlib import Path
+
+import openpyxl
+import yaml
+
+from indicator_ids import BadIndicatorId, normalize, pillar_of
+from rdtii_examples import (DATA, REPO, ROUND1, ROUND1_SHEETS, ROUND2, ROUND2_SHEETS, SCRIPTS,
+                            TEMPLATE_FINAL, category_first_line, load_all, load_methodology,
+                            parse_workbook, score_values)
+
+OUT = REPO / "output"
+P3MAP = (Path(os.environ["RDTII_FINALE_REPO"]) / "stages" / "p3-map" if os.environ.get("RDTII_FINALE_REPO")
+         else REPO.parent / "p3-map")
+VENDORED = P3MAP / "contracts" / "instrument"
+VENDORED_IDS = P3MAP / "config" / "indicator_ids.py"
+
+CITE = re.compile(r"\((?=[^()]*\b(Guide pp?\.|Internal Guide pp?\.|Methodology sheet|Indicator Reference|"
+                  r"workbook round[12]|Extraction slides|Assignment [12]|Canvas deck|Hands-on deck|"
+                  r"Non-regulatory|answer key))[^()]*\)")
+LEGACY = re.compile(r"\bP\d{1,2}-I\d{1,2}\b")
+GUIDE_PAGE = re.compile(r"Guide pp?\.(\d{1,3})(?:\s*[-–]\s*(\d{1,3}))?")
+TIER_A_TRAP_TEXT = ("CONDITIONAL FLOW REGIME", "longer than necessary", "GOVERNMENT data",
+                    "INVERTED POLARITY", "WARNING_DO_NOT_USE")
+HOST_ROW_ON = {"80": ["7.1", "7.2"], "81": ["7.3"], "82": ["7.5"], "83": ["6.2"], "84": ["6.1", "6.4"]}
+REQUIRED_ALL = ("id", "pillar", "tier", "review_status", "name", "category_official", "question",
+                "scoring", "scoring_tree", "exceptions", "disambiguation")
+REQUIRED_AB = ("definition", "coding_rules", "disambiguation")
+
+errs: list[str] = []
+info: list[str] = []
+
+
+def check(cond: bool, msg: str) -> None:
+    if not cond:
+        errs.append(msg)
+
+
+def norm_text(s: str) -> str:
+    s = (s or "").replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
+    return re.sub(r"\s+", " ", s).replace("- ", "-").strip().lower()
+
+
+def load_yaml(p: Path):
+    return yaml.safe_load(p.read_text(encoding="utf-8"))
+
+
+# --- 0. indicator order -----------------------------------------------------
+order = load_yaml(OUT / "indicator_order.yaml")
+entries = order["indicators"]
+ids = [e["id"] for e in entries]
+check(len(ids) == 62 and len(set(ids)) == 62, f"order: expected 62 unique IDs, got {len(ids)}/{len(set(ids))}")
+for e in entries:
+    try:
+        check(normalize(e["id"]) == e["id"], f"order: {e['id']!r} is not canonical decimal text")
+        check(pillar_of(e["id"]) == e["pillar"], f"order: {e['id']} pillar {e['pillar']} wrong")
+    except BadIndicatorId:
+        errs.append(f"order: bad ID {e['id']!r}")
+in_scope = [e["id"] for e in entries if e["status"] == "in_scope"]
+check(len(in_scope) == 61, f"order: expected 61 in scope, got {len(in_scope)}")
+check("6.5" in (order.get("out_of_scope") or {}) and "6.5" not in in_scope, "order: 6.5 must be declared out of scope")
+trap_rows = {str(t["template_row"]) for t in order.get("host_mapping_traps", [])}
+check({"80", "81", "82", "83", "84", "85"} <= trap_rows, f"order: host trap rows missing: {sorted({'80','81','82','83','84','85'} - trap_rows)}")
+if TEMPLATE_FINAL.exists():
+    ws = openpyxl.load_workbook(TEMPLATE_FINAL, data_only=True)["Indicator Reference"]
+    tmpl = []
+    for r in range(4, ws.max_row + 1):
+        b = ws.cell(r, 2).value
+        if str(ws.cell(r, 1).value or "").lower().startswith("the five mapping traps"):
+            break
+        if b is not None:
+            tmpl.append((str(b).strip(), str(ws.cell(r, 3).value or "").strip()))
+    check([t[0] for t in tmpl] == ids, "order: IDs/order differ from the template's Indicator Reference")
+    names = {e["id"]: e["name"] for e in entries}
+    check(all(names.get(i) == n for i, n in tmpl), "order: names differ from the template's Indicator Reference")
+else:
+    info.append("template not present: order not re-checked against the Indicator Reference")
+
+# --- 1. codebook -------------------------------------------------------------
+meth = load_methodology()
+hand = load_yaml(OUT / "indicators.yaml")
+check(not (OUT / "indicators_generated.yaml").exists(),
+      "codebook: indicators_generated.yaml exists, but the codebook is one file (indicators.yaml) since 2026-09-13")
+defined = Counter()
+blocks: dict[str, dict] = {}
+file_order: list[str] = []
+for b in hand["indicators"]:
+    try:
+        iid = normalize(b["id"])
+    except BadIndicatorId:
+        errs.append(f"codebook: bad id {b.get('id')!r}")
+        continue
+    defined[iid] += 1
+    blocks[iid] = b
+    file_order.append(iid)
+    check(isinstance(b["id"], str) and b["id"] == iid, f"codebook: id {b['id']!r} must be quoted decimal text")
+    check(b.get("tier") in ("A", "B", "C"), f"codebook {iid}: tier must be A, B or C")
+for iid in in_scope:
+    check(defined[iid] == 1, f"codebook: {iid} defined {defined[iid]} times (must be exactly once)")
+for iid in defined:
+    check(iid in in_scope, f"codebook: {iid} is not an in-scope ID")
+check(file_order == [i for i in in_scope if i in defined],
+      "codebook: blocks are not in host order (python scripts/build_indicators_from_methodology.py --reorder)")
+check(set(hand.get("tiers") or {}) == {"A", "B", "C"}, "codebook: the top-level 'tiers' key must describe A, B and C")
+check("6.5" in (hand.get("scope", {}).get("out_of_scope") or {}), "codebook: 6.5 exclusion missing from indicators.yaml scope")
+itext = (OUT / "indicators.yaml").read_text(encoding="utf-8")
+for phrase in TIER_A_TRAP_TEXT:
+    check(phrase in itext, f"indicators.yaml: Tier A trap text missing: {phrase}")
+
+tier_count = Counter()
+for iid, b in blocks.items():
+    tier = b.get("tier")
+    tier_count[tier] += 1
+    for k in REQUIRED_ALL:
+        check(k in b, f"codebook {iid}: missing {k}")
+    if tier in ("A", "B"):
+        for k in REQUIRED_AB:
+            check(bool(b.get(k)), f"codebook {iid}: tier {tier} needs non-empty {k}")
+    check(b.get("pillar") == pillar_of(iid), f"codebook {iid}: pillar {b.get('pillar')} wrong")
+    # 1b methodology cross-check
+    m = meth.get(iid)
+    check(m is not None, f"codebook {iid}: no methodology row")
+    if m:
+        check(norm_text(b.get("category_official", "")) == norm_text(category_first_line(m["category"])),
+              f"codebook {iid}: category_official != methodology: {category_first_line(m['category'])!r}")
+        want = score_values(m["possible_scores"])
+        got = [float(v) for v in (b.get("scoring") or {}).get("values", [])]
+        check(got == want, f"codebook {iid}: scoring.values {got} != methodology {want}")
+        tree = b.get("scoring_tree") or []
+        check(len(tree) == len(want), f"codebook {iid}: {len(tree)} branches for {len(want)} scores")
+        if tree:
+            check("else" in tree[-1], f"codebook {iid}: last scoring branch must be else")
+            branch_scores = [float(t["score"]) if "score" in t else float(t["else"]["score"]) for t in tree]
+            check(branch_scores == want, f"codebook {iid}: branch scores {branch_scores} != {want}")
+    # 1c citations
+    if tier in ("A", "B"):
+        if b.get("definition"):
+            check(bool(CITE.search(str(b["definition"]))), f"codebook {iid}: definition lacks a citation")
+        for fld in ("coding_rules", "exceptions", "disambiguation"):
+            for line in b.get(fld) or []:
+                check(bool(CITE.search(str(line))), f"codebook {iid}: {fld} line lacks a citation: {str(line)[:70]}")
+        if str(b.get("name", "")).startswith("Lack of"):
+            check(b.get("polarity") == "inverted" or "INVERTED" in json.dumps(b.get("disambiguation")),
+                  f"codebook {iid}: 'Lack of' indicator must declare inverted polarity")
+    blob = json.dumps(b, ensure_ascii=False)
+    for mm in GUIDE_PAGE.finditer(blob):
+        for pg in (mm.group(1), mm.group(2)):
+            if pg:
+                check(1 <= int(pg) <= 118, f"codebook {iid}: Guide page {pg} outside the printed range")
+for row, targets in HOST_ROW_ON.items():
+    for iid in targets:
+        if iid in blocks:
+            check(f"Indicator Reference row {row}" in json.dumps(blocks[iid], ensure_ascii=False),
+                  f"codebook {iid}: host trap row {row} not encoded")
+
+# --- 2. guide refs -------------------------------------------------------------
+refs = {normalize(k): v for k, v in (load_yaml(DATA / "guide_refs.yaml") or {}).items()}
+for iid in in_scope:
+    r = refs.get(iid)
+    check(bool(r and r.get("asks") and r.get("asks_page")), f"guide_refs: {iid} missing defining sentence")
+guide_text_path = os.environ.get("RDTII_GUIDE_TEXT")
+guide_checked = 0
+if guide_text_path and Path(guide_text_path).exists():
+    parts = re.split(r"\n=== PDF PAGE (\d+) ===\n", Path(guide_text_path).read_text(encoding="utf-8"))
+    printed = {int(parts[i]) - 12: parts[i + 1] for i in range(1, len(parts), 2)}
+    for iid, r in refs.items():
+        if not (r and r.get("asks")):
+            continue
+        page = printed.get(r["asks_page"], "") + " " + printed.get(r["asks_page"] + 1, "")
+        check(norm_text(r["asks"]) in norm_text(page), f"guide_refs {iid}: sentence not verbatim on printed p.{r['asks_page']}")
+        guide_checked += 1
+else:
+    info.append("Guide sentences not machine-checked (set RDTII_GUIDE_TEXT to a page-numbered Guide extract)")
+
+# --- 3. policies ---------------------------------------------------------------
+pol = load_yaml(OUT / "policies.yaml")
+for k in ("source_hierarchy", "citation_url_preference", "conflict_rule", "citation_contract",
+          "edge_cases", "measure_inclusion", "scoring_policy", "id_policy"):
+    check(k in pol, f"policies.yaml: missing {k}")
+for k in ("no_provision_found", "repealed", "broken_url", "same_provision_two_indicators",
+          "one_indicator_many_laws", "sectoral_and_horizontal", "bad_country_input",
+          "dual_processing_and_storage", "unspecified_retention_period",
+          "datacentre_rules_without_mandate", "government_data_measure",
+          "amending_act_cited_instead_of_principal"):
+    check(k in pol.get("edge_cases", {}), f"policies.yaml: edge case missing: {k}")
+for k in ("practice_based", "non_regulatory", "enforced_only"):
+    check(k in pol.get("measure_inclusion", {}), f"policies.yaml: measure_inclusion.{k} missing")
+check("economy_level_indicators" in pol.get("scoring_policy", {}), "policies.yaml: scoring_policy.economy_level_indicators missing")
+
+# --- 4. signatures -------------------------------------------------------------
+gold = [json.loads(l) for l in (OUT / "gold" / "gold_set.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+suspect_keys = {(g["provenance"]["sheet"], g["provenance"]["row"]) for g in gold
+                if (g.get("label_flag") or {}).get("status") in ("suspect", "host_marked")}
+all_rows = {(r["sheet"], r["row"]): r for r in load_all()}
+sig_dir = OUT / "signatures"
+files = {p.stem: p for p in sig_dir.glob("*.yaml")}
+check(set(files) == set(in_scope), f"signatures: files differ from in-scope IDs; missing {sorted(set(in_scope)-set(files))[:8]} extra {sorted(set(files)-set(in_scope))[:8]}")
+n_exemplars, exemplar_keys = 0, defaultdict(set)
+for iid in in_scope:
+    p = files.get(iid)
+    if not p:
+        continue
+    sig = load_yaml(p)
+    check(sig.get("indicator") == iid, f"signatures {iid}: indicator field {sig.get('indicator')!r}")
+    if iid in blocks:
+        check(sig.get("tier") == blocks[iid].get("tier"), f"signatures {iid}: tier {sig.get('tier')} != codebook {blocks[iid].get('tier')}")
+    check(len(sig.get("keywords", [])) >= 8, f"signatures {iid}: too few keywords")
+    check(len(sig.get("definition_text", "")) > 100, f"signatures {iid}: definition_text too short")
+    check(bool(sig.get("exemplar_law_types")), f"signatures {iid}: exemplar_law_types missing")
+    check(bool(sig.get("negative_signals")), f"signatures {iid}: negative_signals missing")
+    exs = sig.get("exemplars", [])
+    check(len(exs) >= 3, f"signatures {iid}: only {len(exs)} exemplars (need >=3)")
+    check(len({e["economy"] for e in exs}) >= 2, f"signatures {iid}: exemplars from fewer than 2 economies")
+    for e in exs:
+        key = (e["provenance"]["sheet"], e["provenance"]["row"])
+        src = all_rows.get(key)
+        check(src is not None, f"signatures {iid}: exemplar source row not found: {key}")
+        if src is None:
+            continue
+        n_exemplars += 1
+        exemplar_keys[key].add(iid)
+        check(src["indicator"] == iid, f"signatures {iid}: exemplar {key} is {src['indicator']}")
+        check(src["raw_score"] == e["score"], f"signatures {iid}: exemplar {key} score drift")
+        check(not src["strikethrough"], f"signatures {iid}: exemplar {key} struck through")
+        check(key not in suspect_keys, f"signatures {iid}: exemplar {key} is flagged suspect or host-marked Not correct")
+        src_law = re.sub(r"\s+", " ", src["law"] or "")
+        check(src_law.startswith(re.sub(r"\s+", " ", e["law"] or "")[:30].split("…")[0]),
+              f"signatures {iid}: exemplar {key} law text drift")
+
+# --- 5. gold set -----------------------------------------------------------------
+fresh = [r for r in (parse_workbook(ROUND1, ROUND1_SHEETS, "round1") + parse_workbook(ROUND2, ROUND2_SHEETS, "round2"))
+         if not r["strikethrough"]]
+check(len(gold) == len(fresh), f"gold rows {len(gold)} != workbook rows {len(fresh)}")
+fresh_by_key = {(r["sheet"], r["row"]): r for r in fresh}
+flag_count = Counter()
+for g in gold:
+    key = (g["provenance"]["sheet"], g["provenance"]["row"])
+    src = fresh_by_key.get(key)
+    check(src is not None, f"gold {g['gold_id']}: source row gone")
+    if src is None:
+        continue
+    check(g["gold_id"] == src["gold_id"], f"gold {g['gold_id']}: id != {src['gold_id']}")
+    for fld in ("economy", "indicator", "raw_score", "law", "coverage"):
+        check(g[fld] == src[fld if fld != "raw_score" else "raw_score"], f"gold {g['gold_id']}: {fld} round-trip mismatch")
+    check(g["indicator"] in in_scope, f"gold {g['gold_id']}: indicator {g['indicator']} not in scope")
+    lf = g.get("label_flag")
+    if lf:
+        check(lf.get("status") in ("suspect", "advisory", "host_marked", "candidate"), f"gold {g['gold_id']}: bad flag status {lf.get('status')}")
+        check(bool(lf.get("reason")), f"gold {g['gold_id']}: flag without reason")
+        flag_count[lf["status"]] += 1
+    check(sorted(g.get("exemplar_for") or []) == sorted(exemplar_keys.get(key, set())),
+          f"gold {g['gold_id']}: exemplar_for {g.get('exemplar_for')} != signatures {sorted(exemplar_keys.get(key, set()))}")
+gold_ind = {g["indicator"] for g in gold}
+check(gold_ind == set(in_scope), f"gold: indicators without rows: {sorted(set(in_scope) - gold_ind)}")
+
+# --- 6. hygiene -----------------------------------------------------------------
+for p in [OUT / "indicators.yaml", OUT / "policies.yaml", OUT / "indicator_order.yaml",
+          DATA / "signature_spec.yaml", DATA / "curated_exemplars.yaml", *files.values()]:
+    if p.exists():
+        hits = LEGACY.findall(p.read_text(encoding="utf-8"))
+        shown = p.relative_to(REPO) if p.is_relative_to(REPO) else p.relative_to(SCRIPTS.parent)
+        check(not hits, f"{shown}: legacy IDs {sorted(set(hits))[:5]}")
+
+
+def same_content(a: Path, b: Path) -> bool:
+    """Byte comparison that ignores CRLF against LF: git checkouts on Windows (core.autocrlf) differ
+    in line endings only, and the committed content is the same."""
+    return a.read_bytes().replace(b"\r\n", b"\n") == b.read_bytes().replace(b"\r\n", b"\n")
+
+
+def tree_diff(a: Path, b: Path) -> list[str]:
+    """Relative paths that differ between two folders: missing on either side, or different content."""
+    fa = {p.relative_to(a).as_posix() for p in a.rglob("*") if p.is_file() and "__pycache__" not in p.parts}
+    fb = {p.relative_to(b).as_posix() for p in b.rglob("*") if p.is_file() and "__pycache__" not in p.parts}
+    return sorted(fa ^ fb) + sorted(r for r in fa & fb if not same_content(a / r, b / r))
+
+
+canon_ids = SCRIPTS / "indicator_ids.py"
+if VENDORED_IDS.exists():
+    check(same_content(canon_ids, VENDORED_IDS), "indicator_ids.py differs from p3-map/config/indicator_ids.py")
+else:
+    info.append(f"mapping stage not found at {P3MAP} (set RDTII_FINALE_REPO): indicator_ids.py and vendored-copy checks skipped")
+
+
+vendored_ok = None
+if VENDORED.exists():
+    vendored_diff = tree_diff(OUT, VENDORED)
+    vendored_ok = not vendored_diff
+    info.append("vendored copy p3-map/contracts/instrument/ is " + ("identical" if vendored_ok else
+                f"NOT re-vendored yet ({len(vendored_diff)} files differ, e.g. {vendored_diff[:3]})"))
+if "--require-vendored" in sys.argv:
+    check(bool(vendored_ok), "vendored copy differs from output/" if VENDORED.exists()
+          else f"--require-vendored: no vendored copy at {VENDORED}")
+
+# --- report ----------------------------------------------------------------------
+for i in info:
+    print("INFO  -", i)
+if errs:
+    print(f"FAIL — {len(errs)} problem(s):")
+    for e in errs[:200]:
+        print("  -", e)
+    if len(errs) > 200:
+        print(f"  ... and {len(errs) - 200} more")
+    sys.exit(1)
+print(f"PASS — {len(in_scope)}/{len(ids)} indicators in scope (6.5 excluded); tiers "
+      f"{dict(sorted(tier_count.items()))}; category names + score sets machine-match the methodology "
+      f"sheet for all {len(in_scope)}; {n_exemplars} exemplars round-trip; gold {len(gold)} rows round-trip 1:1 "
+      f"(flags {dict(sorted(flag_count.items()))}); Guide sentences checked {guide_checked}; policies complete.")

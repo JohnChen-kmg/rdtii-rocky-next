@@ -1,0 +1,54 @@
+Laws of Malaysia Act 563
+
+3%”
+
+“computer network” means the interconnection of
+communication lines and circuits with a computer or a
+complex consisting of two or more interconnected
+computers;
+
+“computer output” or “output” means a statement or
+a representation whether in written, printed, pictorial,
+film, graphical, acoustic or other form—
+
+(a) produced by a computer;
+(b) displayed on the screen of a computer; or
+
+(c) accurately translated from a statement or
+representation so produced;
+
+“data” means representations of information or of
+concepts that are being prepared or have been prepared
+in a form suitable for use in a computer;
+
+“function” includes logic, control, arithmetic, deletion,
+storage and retrieval and communication or
+telecommunication to, from or within a computer;
+
+“premises” includes land, buildings, movable structures
+and any conveyance by land, water and air;
+
+“program” means data representing instructions or
+statements that, when executed in a computer, causes
+the computer to perform a function.
+
+(2) For the purposes of this Act, a person secures
+access to any program or data held in a computer if, by
+causing a computer to perform any function, he—
+
+(a) alters or erases the program or data;
+
+(b) copies or moves it to any storage medium other
+than that in which it is held or to a different
+location in the storage medium in which it is
+held;
+
+(c) uses it; or
+
+(d) causes it to be output from the computer in
+which it is held whether by having it displayed
+or in any other manner,
+
+we
+
+))

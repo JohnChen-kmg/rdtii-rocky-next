@@ -1,0 +1,2681 @@
+# Curated retrieval vocabulary per indicator (Stage C content; not mined from the workbooks). Keys are decimal IDs.
+# Pillars 6-7 migrated from Round 1; other pillars drafted 2026-09-13, pending review.
+'1.4':
+  name: Trade defence measures including anti-dumping, countervailing duties and safeguards on ICT-related goods
+    imported by other economies within the considered United Nations region
+  keywords:
+  - anti-dumping duty
+  - antidumping duty
+  - anti-dumping measure
+  - definitive anti-dumping duty
+  - provisional anti-dumping duty
+  - countervailing duty
+  - countervailing measure
+  - safeguard measure
+  - safeguard duty
+  - dumping margin
+  - injury to the domestic industry
+  - sunset review
+  - expiry review
+  - originating in or exported from
+  - trade remedy
+  - subsidized imports
+  - subsidised imports
+  - Customs (ADD)
+  definition_text: 'An economy is enforcing anti-dumping duties, countervailing duties or safeguard measures on
+    ICT goods or ICT-related goods, meaning finished products and components such as cables, power transformers,
+    circuit boards, optical fibre or aluminium strips, imported from other economies in the region. Each active
+    measure adds 0.25, up to 1. Investigations not yet in force, terminated measures and raw materials do not count.
+
+    '
+  exemplar_law_types:
+  - customs notifications imposing anti-dumping or countervailing duties
+  - trade remedy authority final findings and sunset or expiry review rulings
+  - ministry of commerce announcements on anti-dumping measures
+  - regional economic commission decisions on anti-dumping duties (e.g., Eurasian Economic Commission)
+  - anti-dumping, countervailing duty and safeguard acts (reference rows only)
+  scope_patterns:
+    horizontal: trade remedy acts and investigating authorities; on their own they score 0 unless an active measure
+      hits ICT goods
+    sectoral: product-specific duty notices naming HS codes and origin economies (optical fibre, printed circuit
+      boards, calculators, transformers, cables, aluminium strips)
+  negative_signals:
+  - anti-dumping duty on raw materials such as rare earths, lithium, cobalt or silicon -> not scored
+  - investigation opened but no duty in force, or a terminated or expired measure -> not scored
+  - trade remedy act with no active measure on ICT goods -> not scored
+  - import ban on ICT goods -> 10.1
+  - import quota or import licensing on ICT goods -> 10.2
+  spec_note: Workbook rows score each measure 0.25 (one Australia row bundles two measures at 0.5); no row carries
+    0.75 or 1, which exist only as economy totals.
+'2.1':
+  name: Foreign exclusions from public procurement related to ICT goods and digital services
+  keywords:
+  - public procurement
+  - government procurement
+  - public tenders
+  - domestic goods
+  - domestic products
+  - domestic suppliers
+  - local supplier
+  - non-local supplier
+  - foreign supplier
+  - foreign bidder
+  - foreign-owned
+  - international tender
+  - international competitive bidding
+  - not available domestically
+  - cannot be obtained
+  - ban on the procurement
+  - eligible to bid
+  - national treatment
+  definition_text: 'A procurement measure bars foreign firms, or foreign goods and services, from public tenders
+    for ICT goods or digital services, or bans named foreign companies or economies. Letting foreign bidders in
+    only when no domestic supplier can meet demand is also an exclusion. Quotas, price preferences and local-content
+    conditions are limitations (2.3); a bare legal power to exclude scores 0.
+
+    '
+  exemplar_law_types:
+  - public or government procurement acts and implementing regulations
+  - presidential or government regulations on procurement of goods and services
+  - domestic-preference public procurement orders
+  - information technology or information security laws restricting state bodies' use of foreign products
+  - foreign investment laws guaranteeing equal access to procurement (score-0 reference rows)
+  scope_patterns:
+    horizontal: procurement laws closing tenders to foreign goods or suppliers across sectors, including ICT
+    sectoral: product- or service-specific bans (messenger services, security products, mobile phones, listed electrical
+      equipment)
+  negative_signals:
+  - quota, set-aside, price preference or local-content condition that still lets foreign bidders compete -> 2.3
+  - condition to hand over source code or use a specific encryption standard to win a tender -> 2.2
+  - ban on importing a foreign product, not limited to procurement -> 10.1
+  - clause empowering the government to restrict foreign participation, with no implementing measure -> not scored
+  - nationality rules limited to construction or other non-digital procurement -> not scored
+  spec_note: Round2 Indonesia rows 6-9 code local-content, quota and price-preference rules as 2.1 = 1; the Guide
+    treats these as 2.3 limitations, so they were not curated.
+'2.2':
+  name: Specific requirements on source codes, encryption and trade secrets
+  keywords:
+  - source code
+  - submit the source code
+  - source code and documentation
+  - escrow
+  - trade secret
+  - patented technology
+  - transfer of technology
+  - exclusive rights
+  - royalty-free
+  - encryption
+  - encryption standard
+  - cryptographic
+  - custom software
+  - software developer
+  - public electronic system
+  - public procurement
+  - tender
+  - bidding
+  definition_text: 'A public procurement rule makes taking part in or winning a tender conditional on handing over
+    source code, trade secrets or patent rights (score 1), or on using a specific encryption standard (score 0.5).
+    Typical cases are custom software for public electronic systems and software registers for government buyers.
+    Disclosure duties outside procurement belong to 4.9; encryption standards in general belong to 11.4.
+
+    '
+  exemplar_law_types:
+  - electronic systems and transactions regulations (software for public institutions)
+  - public procurement acts and software procurement guidelines
+  - e-government open source or open standards policies
+  - encryption and information security rules for public information systems
+  scope_patterns:
+    horizontal: procurement laws requiring all bidders to disclose code or trade secrets, or to use a set encryption
+      standard
+    sectoral: custom software for public electronic systems, e-governance applications, security products for classified
+      systems
+  negative_signals:
+  - duty to disclose source code or algorithms to a regulator outside procurement -> 4.9
+  - national encryption algorithm or standard imposed generally -> 11.4
+  - procuring entity must keep bidders' trade secrets confidential -> not scored
+  - exclusion of foreign software suppliers from tenders -> 2.1
+  - intellectual property statute with no tender condition -> not scored
+  spec_note: No 0.5 (encryption-to-win) row exists in either workbook; only two score-1 rows (Indonesia source code,
+    India open-source policy).
+'2.3':
+  name: Limitations in procurement bidding
+  keywords:
+  - price preference
+  - preference margin
+  - domestic preference
+  - local content
+  - domestic component level
+  - reserved for
+  - set aside
+  - annual procurement target
+  - micro and small enterprises
+  - small and medium-sized enterprises
+  - indigenous business
+  - locally manufactured goods
+  - domestically manufactured
+  - bid price discount
+  - price evaluation preference
+  - procurement quota
+  - priority procurement
+  - Made in
+  definition_text: 'A procurement rule limits participation without closing tenders to foreign bidders: quotas or
+    set-asides, preferences for certain suppliers, or price preferences, triggered by supplier nationality, a status
+    such as SME or indigenous, or local content. Discriminating against foreign bidders, or two or more equal-treatment
+    limits, scores 1; a single local-content or performance condition applied to all bidders scores 0.5.
+
+    '
+  exemplar_law_types:
+  - public procurement acts and implementing instructions
+  - domestic-preference and local-content procurement orders
+  - SME, micro and small enterprise or indigenous procurement policies
+  - industrial regulations obliging use of domestic products in procurement
+  - ministerial regulations on promoted goods lists (innovation lists, made-in marks, digital catalogues)
+  scope_patterns:
+    horizontal: procurement-wide price preferences, SME quotas and domestic-product obligations
+    sectoral: product lists (electronics, telecom equipment, cyber security products, radio-electronic products,
+      cloud services)
+  negative_signals:
+  - foreign bidders barred, or admitted only if no domestic supplier exists -> 2.1
+  - local content requirement for products sold in the commercial market -> 10.3
+  - target price set the same way for all applicants -> not scored
+  - source code or encryption condition for winning tenders -> 2.2
+  - clause that only empowers the government to adopt preferences -> not scored
+  spec_note: Round2 rows score almost every limitation 1, including single local-content rules such as the Guide's
+    own Indonesia transmission-tower example; round1 Australia rows keep per-measure 0.5.
+'3.1':
+  name: Foreign equity limits in sectors relevant to digital trade
+  keywords:
+  - foreign equity
+  - foreign ownership
+  - foreign shareholding
+  - foreign capital
+  - foreign investment shall not exceed
+  - percent of the shares
+  - prohibited for foreign investment
+  - negative list
+  - positive investment list
+  - minority stake
+  - wholly owned by citizens
+  - foreign participation in the authorized capital
+  - state-owned enterprise
+  - broadcasting
+  - mass media
+  - foreign business
+  - foreign direct investment policy
+  - government route
+  definition_text: 'A law caps or bans foreign equity in firms in sectors relevant to digital trade other than telecom
+    and e-commerce, such as broadcasting, online media, computer services or fintech, in private firms or state-owned
+    enterprises. A ban, or minority caps in two or more sectors, scores 1; a minority cap in one sector 0.8; a majority
+    cap, or limits only in SOEs, 0.5; full ownership allowed 0.
+
+    '
+  exemplar_law_types:
+  - foreign investment laws and negative or positive investment lists
+  - FDI policy circulars and press notes
+  - broadcasting and mass media acts
+  - state-owned enterprise and privatisation laws
+  - financial regulator rules on e-money, fintech or lending platform ownership
+  - foreign business acts
+  scope_patterns:
+    horizontal: foreign business acts, investment lists and SOE-wide caps (recorded only under 3.1)
+    sectoral: broadcasting, online news and publishing, audiovisual services, satellites, digital payments, peer-to-peer
+      lending
+  negative_signals:
+  - foreign equity cap on telecommunications services or network licences -> 5.2
+  - foreign equity cap on e-commerce or online retail businesses -> 12.01
+  - requirement to invest through a joint venture with a local partner -> 3.2
+  - approval needed above an ownership threshold -> 3.4
+  - government-held shares in telecom companies -> 5.3
+  spec_note: 'Rows are scored per measure; the economy total rises to 1 when minority caps exist in several sectors
+    (reviewer note, round2 Indonesia row 26). No clean 0.5 controlling-stake row: 85% caps are coded 0.8.'
+'3.2':
+  name: Joint venture requirements
+  keywords:
+  - joint venture
+  - joint-venture company
+  - joint venture with a local
+  - form a joint venture
+  - local partner
+  - domestic partner
+  - in partnership with
+  - partnership between
+  - consortium
+  - consist of at least two
+  - jointly established
+  - cooperation with a domestic enterprise
+  - local participation
+  - equity joint venture
+  - contractual joint venture
+  - national partner
+  definition_text: 'A measure requires foreign investors or firms to form a joint venture, partnership or consortium
+    with local firms or nationals in order to invest or operate in the economy, for example to supply VPN, IPTV
+    or digital banking services. Any such requirement scores 1. Laws that only define voluntary joint ventures,
+    equity caps without a mandated partner, and duties to train local staff are not joint venture requirements.
+
+    '
+  exemplar_law_types:
+  - foreign investment or investment promotion laws
+  - telecom and value-added service regulations (VPN, IPTV)
+  - financial regulator rules on bank ownership
+  - sectoral opening measures for pilot free trade zones
+  - foreign business acts
+  scope_patterns:
+    horizontal: investment laws that make local partners mandatory for foreign investors
+    sectoral: VPN, IPTV, digital banking, printing and advertising businesses
+  negative_signals:
+  - foreign equity cap with no mandated local partner -> 3.1
+  - foreign bidders must team up with domestic firms to join public tenders -> 2.1
+  - foreign postal operators must cooperate with local delivery companies -> 12.2
+  - employer must pair foreign workers with local counterparts -> not scored
+  - law only defines how a voluntary joint venture is formed -> not scored
+  spec_note: Round2 Indonesia rows 27 and 30 code the same IPTV consortium rule as 1 and 0.
+'3.3':
+  name: Nationality or residency requirements for board of directors or managers
+  keywords:
+  - director
+  - board of directors
+  - resident director
+  - ordinarily resident
+  - reside in
+  - residency
+  - domicile
+  - citizens of
+  - nationality
+  - nationals
+  - managing director
+  - manager
+  - chief executive officer
+  - majority of directors
+  - positions closed to foreign
+  - foreign manpower
+  - local director
+  - resident in the country
+  definition_text: 'A law requires at least one board member or manager to be a national or resident of the economy,
+    whether for all companies under company law or in digital-trade sectors such as broadcasting or internet services.
+    Any such requirement scores 1. Rules for officers who are neither directors nor managers, such as company secretaries
+    or chief accountants, and general local-hiring quotas do not count.
+
+    '
+  exemplar_law_types:
+  - companies acts (resident director rules)
+  - public companies acts
+  - foreign business acts
+  - FDI policy conditions for broadcasting services
+  - manpower regulations reserving positions for nationals
+  - banking regulator rules on executive bodies
+  scope_patterns:
+    horizontal: company-law resident director rules applying to every company
+    sectoral: 'broadcasting, internet service providers, banks: nationality or residency of directors, CEO or key
+      managers'
+  negative_signals:
+  - residency or nationality rule only for officers who are not directors or managers -> not scored
+  - quota for local employees in the workforce -> not scored
+  - foreign equity cap in the same provision, outside telecom and e-commerce -> 3.1
+  - duty to appoint a local representative or contact point for online services -> 12.8
+  spec_note: Beyond absence rows the pool has one true boundary negative (Russian chief accountant rule); round2
+    India row 27 carries no director rule.
+'3.4':
+  name: Screening of investment and acquisitions
+  keywords:
+  - foreign investment review
+  - security review
+  - national security review
+  - prior approval
+  - government approval route
+  - investment screening
+  - foreign acquisition
+  - acquisition of control
+  - strategic importance
+  - strategic enterprises
+  - national interest
+  - call-in
+  - controlled business
+  - designated entity
+  - prohibit the investment
+  - divest
+  - notify the authority before acquiring
+  - foreign state-owned
+  definition_text: 'A mechanism lets the government review, approve, condition or block foreign investment or acquisitions
+    in sectors relevant to digital trade, on national security, public order or economic grounds. One mechanism
+    scores 0.25, two or more 0.5, and a documented case of blocking an investment in a digital-trade sector 1. Merger
+    control run purely for antitrust purposes is excluded unless it discriminates.
+
+    '
+  exemplar_law_types:
+  - foreign investment and foreign acquisitions acts
+  - national security review measures and strategic sector laws
+  - FDI policy approval-route rules
+  - controlled-business decrees and investment promotion laws
+  - sectoral acts requiring approval of stakes in media or telecom licensees
+  - official announcements of blocked or unwound deals (practice evidence)
+  scope_patterns:
+    horizontal: economy-wide national security or economic-benefit screening of foreign investment
+    sectoral: media, telecom, encryption, online platforms, VPN and other controlled online activities
+  negative_signals:
+  - competition-law merger review applied to all firms -> not scored
+  - foreign equity cap or prohibition -> 3.1
+  - blocked deal outside digital-trade sectors -> not scored
+  - telecom operating licence conditions -> 5.5
+  spec_note: 'Practice-based (Internal Guide p.8). Both workbook score-1 rows are doubtful (Australia: rare earths;
+    India: pending approvals), so no score-1 exemplar is curated; 0.5 appears only as an economy total.'
+'3.5':
+  name: Commercial presence requirements to offer cross-border services in sectors relevant to digital trade
+  keywords:
+  - commercial presence
+  - establish a branch
+  - register a branch
+  - incorporate a local company
+  - locally incorporated
+  - incorporated in
+  - juristic person under
+  - legal entity established
+  - representative office
+  - place of business
+  - registered office
+  - local office
+  - subsidiary
+  - foreign company
+  - carry on business
+  - established under the laws of
+  - physical office
+  - permanent establishment
+  definition_text: 'A measure requires foreign service providers to set up a commercial presence, meaning a local
+    branch, subsidiary, incorporated company or office, before supplying services in sectors relevant to digital
+    trade (GATS Mode 3). It may sit in company law or in licence conditions for telecom, satellite, broadcasting,
+    gaming or large online platforms. Any requirement scores 1; registration without a physical or operational presence
+    does not.
+
+    '
+  exemplar_law_types:
+  - companies acts (foreign company branch and registered office provisions)
+  - telecom, satellite and broadcasting licensing regulations
+  - laws on large foreign internet platforms
+  - internet information service regulations
+  - FDI policy operating conditions
+  scope_patterns:
+    horizontal: company law requiring a foreign company carrying on business to incorporate locally or register
+      a branch or place of business
+    sectoral: licence eligibility limited to locally established companies (telecom, satellite, broadcasting, online
+      services)
+  negative_signals:
+  - duty to appoint a local agent, legal representative or contact point while serving remotely -> 12.8
+  - business registration with no physical or operational presence -> not scored
+  - licensing scheme for online content services as such -> 9.4
+  - foreign equity cap inside licence conditions, outside telecom and e-commerce -> 3.1
+  spec_note: Only two score-0 rows (both Lao PDR). The same company-law and platform-law provisions appear as 12.8
+    = 0 rows (round1 Singapore row 92; round2 Russian Federation row 108).
+'4.01':
+  name: Patent application issues
+  keywords:
+  - patent application
+  - application for a patent
+  - patent agent
+  - patent attorney
+  - industrial property agent
+  - authorized representative
+  - address for service
+  - non-resident applicant
+  - foreign applicant
+  - residing abroad
+  - filing abroad
+  - foreign filing licence
+  - foreign filing license
+  - secrecy direction
+  - confidential examination
+  - translation into
+  - official language
+  - qualifications of applicants
+  definition_text: 'A patent-law provision that restricts the patent application process. The strongest form requires
+    foreign or non-resident applicants to act through a local patent agent, attorney or representative, or allows
+    discriminatory rejection. Lighter procedural burdens on all applicants include filing domestically or obtaining
+    security clearance before filing abroad and translating the application into a local language.
+
+    '
+  exemplar_law_types:
+  - patents acts and patent laws
+  - patent rules and ministerial regulations issued under the patent act
+  - general intellectual property laws or codes
+  - civil code parts on intellectual property
+  - patent office regulations on PCT national-phase filing
+  scope_patterns:
+    horizontal: patent statutes apply to all inventions in all sectors; workbook rows are coded Horizontal
+    sectoral: 'rare: rules confined to PCT national-phase filings or to inventions made in the economy'
+  negative_signals:
+  - compulsory licence or government use of a granted patent -> 4.3
+  - court or administrative remedies and provisional measures for patent infringement -> 4.2
+  - local agent required only for enforcement-related matters -> 4.3
+  - membership of, or filing through, the Patent Cooperation Treaty -> not scored (4.4 is non-regulatory)
+  - trademark or industrial design filing agent rules -> not scored (patent-only indicator)
+  spec_note: 'No score-0.5 row exists: the only procedural-only row (round1 Singapore row 16) is scored 1, against
+    Guide p.30. Host ID "4.01" is not "4.1" (trade secrets).
+
+    '
+'4.2':
+  name: 'Patent enforcement issues: civil and administrative procedures and remedies; and provisional measures'
+  keywords:
+  - patent infringement
+  - infringement proceedings
+  - action for infringement
+  - injunction
+  - interim injunction
+  - temporary injunction
+  - preliminary injunction
+  - provisional measures
+  - provisional determination
+  - damages
+  - account of profits
+  - seizure of infringing goods
+  - destruction of infringing goods
+  - preservation of evidence
+  - civil remedies
+  - administrative enforcement
+  - Commercial Court
+  - Civil Procedure Code
+  definition_text: 'Whether the patent legal framework gives right holders civil and administrative procedures and
+    remedies (lawsuits, damages, administrative handling of infringement) and provisional measures (urgent orders
+    to stop infringement, keep infringing goods out of commerce or preserve evidence), following TRIPS Articles
+    42-50. Civil codes and procedure laws count. Absence scores 1; one element 0.5; both 0.
+
+    '
+  exemplar_law_types:
+  - patents acts (infringement and remedies chapters)
+  - civil procedure codes (temporary injunction orders)
+  - general intellectual property laws
+  - civil code parts on intellectual property
+  - laws on enforcement of intellectual property rights
+  scope_patterns:
+    horizontal: patent remedies and court procedures apply to all sectors; all workbook rows are coded Horizontal
+      or Patent
+    sectoral: not observed; specialised IP courts or divisions are institutional, not sectoral
+  negative_signals:
+  - compulsory licensing or government use provisions -> 4.3
+  - copyright infringement remedies, notice-and-takedown or site blocking -> 4.6
+  - criminal offences and fines only, with no civil or administrative route -> not scored as 4.2 evidence
+  - provisional protection of a published application before grant -> not scored (not a TRIPS Art.50 provisional
+    measure)
+  - local agent or foreign-filing rules at the application stage -> 4.01
+  spec_note: 'Absence-based polarity: 1 when both elements are missing. All 10 workbook rows score 0, so there is
+    no 0.5 or 1 example.
+
+    '
+'4.3':
+  name: 'Patent enforcement issues: others'
+  keywords:
+  - compulsory licence
+  - compulsory license
+  - government use
+  - use without authorization of the right holder
+  - exploitation without permission
+  - working of the patent
+  - local working
+  - non-working
+  - national emergency
+  - extreme urgency
+  - adequate remuneration
+  - public non-commercial use
+  - revocation of the patent
+  - term of protection
+  - rights of the patentee
+  - limitation period
+  - patent agency
+  definition_text: 'Other restrictions on enforcing patents: state intervention that curtails patent holders'' rights,
+    terms of protection that discriminate against foreign applicants, or burdens such as a local agent for enforcement
+    matters. Exceptions consistent with TRIPS Articles 30, 31 and 31bis, including compulsory licences and government
+    use with remuneration, are not restrictions. Scope and number of measures set the score.
+
+    '
+  exemplar_law_types:
+  - patents acts (compulsory licence and government use parts)
+  - civil code patent chapters
+  - general intellectual property laws
+  - laws on administrative infringement enforcement
+  - patent laws with local working requirements
+  scope_patterns:
+    horizontal: restriction on patent rights across all circumstances and sectors (1 when high impact)
+    sectoral: measure limited to one case or sector, e.g. a specific product field (0.5 unless TRIPS-consistent)
+  negative_signals:
+  - TRIPS-consistent compulsory licence or government use with remuneration -> not scored
+  - presence or absence of infringement lawsuits, injunctions or provisional measures -> 4.2
+  - local agent or pre-filing security clearance at the application stage -> 4.01
+  - government access to trade secrets or source code -> 4.9
+  spec_note: 'All 10 workbook rows score 0; no 0.5 or 1 example. Internal Guide p.12 files the TRIPS Art.31 FAQ
+    under "4.2 (Patent enforcement)", but its content matches this indicator (Guide p.31).
+
+    '
+'4.5':
+  name: Lack of copyright framework and exceptions
+  keywords:
+  - fair use
+  - fair dealing
+  - exceptions to copyright
+  - limitations on copyright
+  - permitted use
+  - free use
+  - acts not constituting infringement
+  - not an infringement of copyright
+  - research or private study
+  - criticism or review
+  - reporting of current events
+  - parody or satire
+  - quotation
+  - teaching purposes
+  - normal exploitation of the work
+  - unreasonably prejudice the legitimate interests
+  - non-commercial purposes
+  - copyright act
+  definition_text: 'Whether a copyright law exists and what exceptions it adopts. A flexible fair use test or a
+    fair dealing regime (listed purposes plus a fairness requirement) scores 0. Exceptions limited to a three-step
+    test or a closed list of permitted uses score 0.5. No copyright law, or no exceptions at all, scores 1. Inverted
+    polarity: a clear exception regime lowers the score.
+
+    '
+  exemplar_law_types:
+  - copyright acts
+  - civil code copyright chapters
+  - general intellectual property laws
+  - copyright amendment acts (fair dealing and accessibility exceptions)
+  scope_patterns:
+    horizontal: copyright statutes and their exception chapters apply to all works and sectors
+    sectoral: exceptions for specific users or works (libraries, education, print-disabled persons) inside the same
+      statute
+  negative_signals:
+  - infringement remedies, injunctions, notice-and-takedown or blocking of pirate sites -> 4.6
+  - safe harbour protecting intermediaries from liability for user infringement -> 8.1
+  - exceptions to patent rights (TRIPS Art.30) -> 4.3
+  - accession to the WIPO Copyright Treaty or WPPT -> not scored (4.7 and 4.8 are non-regulatory)
+  - piracy-rate statistics or trade watch-list reports -> not scored (not legislation; see notes)
+  spec_note: 'TRAP: inverted polarity. Guide p.33 puts closed-list exceptions at 0.5, but several civil-law rows
+    with that structure are scored 0 (see notes). No score-1 row.
+
+    '
+'4.6':
+  name: 'Online copyright enforcement issues: civil and administrative procedures and remedies; and provisional
+    measures'
+  keywords:
+  - copyright infringement
+  - online infringement
+  - infringing copies
+  - injunction
+  - interim injunction
+  - dynamic injunction
+  - notice and takedown
+  - takedown notice
+  - disable access
+  - blocking order
+  - online location
+  - provisional measures
+  - preservation of evidence
+  - damages
+  - statutory compensation
+  - account of profits
+  - network service provider
+  - seizure
+  definition_text: 'Whether the copyright legal framework gives right holders civil and administrative procedures
+    and remedies and provisional measures against infringement, including online: lawsuits and damages, administrative
+    penalties, injunctions, orders to disable access to infringing online locations, and orders preserving evidence.
+    General civil and procedural laws count. Absence scores 1; one element 0.5; both 0.
+
+    '
+  exemplar_law_types:
+  - copyright acts (remedies, takedown and site-blocking parts)
+  - civil code copyright liability chapters
+  - computer crime laws with court orders to block IP-infringing data
+  - rules of court and IP court procedures
+  - court judgments granting dynamic injunctions
+  scope_patterns:
+    horizontal: copyright remedies apply to all works; online tools (takedown, blocking) sit in the same horizontal
+      statute
+    sectoral: film or broadcast piracy laws (e.g. cinematograph acts) covering one content type
+  negative_signals:
+  - copyright exceptions, fair use or fair dealing -> 4.5
+  - conditions for intermediary safe harbour from liability -> 8.1
+  - government blocking of commercial websites on non-IP grounds -> 9.1
+  - patent infringement procedures and remedies -> 4.2
+  - piracy prevalence or enforcement statistics -> not scored (see notes)
+  spec_note: 'Absence-based polarity. All 13 workbook rows score 0; round2 Thailand row 29 records a switch from
+    1 to 0 under a de jure approach.
+
+    '
+'4.9':
+  name: Mandatory disclosure of trade secrets, such as source code and algorithms
+  keywords:
+  - source code
+  - algorithm
+  - trade secret
+  - disclosure
+  - submit the source code
+  - escrow
+  - decryption
+  - decrypt
+  - encryption key
+  - means of encryption
+  - technical assistance
+  - technical support
+  - confidential business information
+  - undisclosed information
+  - unfair commercial use
+  - technical documentation
+  - access to information constituting a trade secret
+  - national security
+  definition_text: 'A government mandate requiring firms to disclose trade secrets such as source code, algorithms,
+    decryption means or other confidential technical information. Not scored when the state protects the disclosed
+    information against unfair commercial use. Without safeguards, a duty limited to certain products or circumstances
+    scores 0.5; a sector-wide or horizontal duty, or several limited duties, scores 1.
+
+    '
+  exemplar_law_types:
+  - information technology and cybersecurity laws (decryption or technical assistance duties)
+  - counter-terrorism and national security laws
+  - electronic systems and transactions regulations (source code submission or escrow)
+  - trade secrets acts (state disclosure exceptions)
+  - criminal procedure codes (access to encrypted data)
+  scope_patterns:
+    horizontal: duty on any person in charge of a computer resource, or on all network operators
+    sectoral: duty limited to one product type or circumstance, e.g. custom software for public-sector systems
+  negative_signals:
+  - trade secret definitions, owner rights and misappropriation remedies -> 4.1
+  - source code surrender as a condition of winning public tenders -> 2.2
+  - source code or key disclosure when certifying encryption products -> 11.4
+  - government access to personal data without judicial authorisation -> 7.5 (record both when one provision fits
+    both)
+  - algorithm filing that records only descriptive information -> not scored
+  spec_note: 'Tier B. Name corrects the reference typo "souce". Every workbook row scored 0.5 or 1 falls inside
+    a Guide p.37 carve-out (procurement or encryption); see the codebook and notes.
+
+    '
+'4.1':
+  name: Lack of effective trade secrets legal framework
+  keywords:
+  - trade secret
+  - trade secrets
+  - confidential information
+  - breach of confidence
+  - undisclosed information
+  - know-how
+  - commercial secret
+  - manufacturing secret
+  - organizational secret
+  - misappropriation
+  - unfair competition
+  - commercial value
+  - reasonable measures to keep it confidential
+  - unauthorized disclosure
+  - non-disclosure agreement
+  - springboard
+  - trade secret regime
+  definition_text: 'Whether the economy protects trade secrets effectively: confidential business or commercially
+    valuable information shielded from unauthorised acquisition, use or disclosure by enforceable statutes, unfair-competition
+    or criminal provisions, or established common-law breach-of-confidence doctrine, with remedies such as injunctions
+    and damages. Inverted polarity: effective protection in any form scores 0; narrow coverage 0.5; none 1.
+
+    '
+  exemplar_law_types:
+  - dedicated trade secrets acts
+  - anti-unfair competition laws
+  - criminal codes (infringement of trade secrets)
+  - civil code chapters on know-how
+  - general intellectual property laws with trade secret clauses
+  - court judgments on breach of confidence
+  scope_patterns:
+    horizontal: dedicated statute, or common-law doctrine, protecting all confidential business information
+    sectoral: narrow clauses, e.g. confidentiality offences confined to one enforcement act or to company officers
+  negative_signals:
+  - government power to demand source code or other trade secrets -> 4.9
+  - confidentiality duty of officials handling information obtained in investigations -> not scored (safeguard evidence
+    for 4.9)
+  - personal data protection law -> 7.1
+  - copyright or patent protection of software -> not scored
+  - patent application rules carrying host ID 4.1 by mistake -> 4.01
+  spec_note: 'TRAP: inverted polarity, and ID hazard (host "4.1" is the Guide''s 10th pillar-4 indicator). The only
+    score-1 row (round2 Indonesia row 35) is a mis-tagged patent-application row.
+
+    '
+'5.1':
+  name: Lack of passive infrastructure sharing
+  keywords:
+  - infrastructure sharing
+  - passive infrastructure
+  - co-location
+  - colocation
+  - tower sharing
+  - towers
+  - masts
+  - ducts
+  - poles
+  - access to facilities
+  - shared use of telecommunications infrastructure
+  - essential facilities
+  - critical support infrastructure
+  - non-discriminatory access to infrastructure
+  - right of way
+  - reference offer
+  - mandatory standard on access
+  definition_text: 'Whether telecom operators must share passive (non-electronic) infrastructure such as buildings,
+    sites, towers, masts, poles, ducts and cabinets with other operators. A mandatory sharing obligation scores
+    0. Sharing that is voluntary but practised, or mandated only case by case or on request, scores 0.5. No obligation
+    scores 1. Active network sharing (radio access, core) is a different concept.
+
+    '
+  exemplar_law_types:
+  - telecommunications acts
+  - regulator notifications on infrastructure sharing
+  - government decrees on access to infrastructure
+  - omnibus investment laws amending telecom rules
+  - telecom competition codes of practice
+  - mandatory standards on access
+  scope_patterns:
+    horizontal: 'rare: general rules on access to transport or energy infrastructure for network deployment'
+    sectoral: telecom-sector obligations on licensees, dominant operators or infrastructure owners, fixed or mobile
+  negative_signals:
+  - active infrastructure or spectrum sharing only -> not scored as passive sharing
+  - network interconnection obligations -> not scored as passive sharing
+  - functional or accounting separation for SMP operators -> 5.4
+  - consultation papers or pending sharing regulations -> not scored (not enforced)
+  spec_note: 'TRAP: inverted polarity (a sharing mandate scores 0). No score-1 row in the workbooks.
+
+    '
+'5.2':
+  name: Foreign equity limits in telecom sector
+  keywords:
+  - foreign equity
+  - foreign ownership
+  - foreign shareholding
+  - foreign capital contribution
+  - foreign investors
+  - shall not exceed 49
+  - per cent of the shares
+  - foreign-invested telecommunications enterprise
+  - aggregate foreign ownership
+  - individual foreign investor
+  - voting shares
+  - controlling interest
+  - local shareholding
+  - foreigner
+  - network facilities provider
+  - telecommunications licensee
+  - foreign direct investment
+  definition_text: 'A cap on the share of a telecommunications company that foreign persons may hold, in private
+    operators or in state-owned telecom companies. A ban, or minority-only caps in more than one measure, scores
+    1; a single minority-only cap 0.8; a cap that still allows control, or caps only on SOEs, 0.5; full foreign
+    ownership 0. Broadcasting and horizontal FDI caps belong to Pillar 3.
+
+    '
+  exemplar_law_types:
+  - regulations on foreign-invested telecom enterprises
+  - telecommunications business acts (licence eligibility tied to foreign shareholding)
+  - privatised-incumbent acts (e.g. ownership caps on the former state operator)
+  - FDI policy circulars and investment lists
+  - regulator licensing guidebooks
+  scope_patterns:
+    horizontal: horizontal FDI or SOE caps are recorded under 3.1, not 5.2
+    sectoral: caps specific to telecom operators, telecom licence types or the incumbent
+  negative_signals:
+  - foreign equity caps in broadcasting, media or other digital sectors -> 3.1
+  - foreign equity caps in the e-commerce sector -> 12.01
+  - prior approval or screening of acquisitions -> 3.4
+  - Government's own shareholding in operators -> 5.3
+  - local incorporation required to hold a licence -> 3.5
+  spec_note: 'No score-1 row. Several horizontal SOE caps appear under both 3.1 and 5.2 in the workbooks, contrary
+    to Guide p.25 (see notes).
+
+    '
+'5.3':
+  name: Shares owned by the Government in telecom companies
+  keywords:
+  - state-owned enterprise
+  - state enterprise
+  - government-owned
+  - wholly owned by the Government
+  - government shareholding
+  - shares held by the State
+  - Ministry of Finance
+  - sovereign wealth fund
+  - government-linked
+  - incumbent operator
+  - national telecommunications company
+  - retain full ownership
+  - privatisation
+  - shareholding pattern
+  - market share
+  - annual report
+  - golden share
+  definition_text: 'How much of each telecom operator the Government owns, directly or through state entities, and
+    the operator''s market presence. Practice-based: evidence includes shareholding records, annual reports, regulator
+    market reports and SOE lists, as well as ownership statutes. Ownership above 50% in one company, or 1-50% in
+    several companies, scores 1; 1-50% in one company 0.5; none 0.
+
+    '
+  exemplar_law_types:
+  - statutes requiring state ownership of an operator (e.g. national broadband company acts)
+  - company annual reports and shareholding pattern filings
+  - telecom regulator market reports
+  - SOE lists of finance or SOE ministries
+  - privatisation laws fixing minimum state holdings
+  scope_patterns:
+    horizontal: SOE and privatisation laws that fix state holdings across sectors (check which telecom companies
+      they reach)
+    sectoral: ownership of specific telecom operators, fixed or mobile, including indirect holdings
+  negative_signals:
+  - foreign equity caps on telecom operators -> 5.2
+  - regulator owning or controlling an operator -> 5.7
+  - temporary state control of networks in emergencies -> not scored (not ownership)
+  - state-owned postal or broadcasting companies -> not scored (outside Pillar 5)
+  spec_note: 'Practice-based indicator (Internal Guide p.8): factual secondary sources are admissible evidence.
+    The score counts companies, so a row-level score can differ from the economy-level score.
+
+    '
+'5.4':
+  name: Lack of functional/accounting separation
+  keywords:
+  - accounting separation
+  - separate accounts
+  - separate accounting
+  - regulatory financial statements
+  - cost allocation
+  - cross-subsidisation
+  - cross-subsidization
+  - functional separation
+  - operational separation
+  - structural separation
+  - significant market power
+  - dominant licensee
+  - dominant operator
+  - wholesale and retail
+  - accounting separation report
+  - separation of network operations
+  definition_text: 'Whether operators with significant market power must separate their businesses. Accounting separation
+    keeps separate books so the costs, revenues and assets of each service can be identified; functional (operational
+    or structural) separation splits units such as network and retail. Both mandated scores 0; functional only 0.25;
+    accounting only 0.5; neither 1. Inverted polarity.
+
+    '
+  exemplar_law_types:
+  - regulator notifications on accounting separation reports
+  - accounting separation regulations or guidelines
+  - telecommunications acts (SMP and separation powers)
+  - ministerial orders on separate accounting
+  - carrier licence conditions declarations
+  scope_patterns:
+    horizontal: not observed; separation duties are telecom-specific
+    sectoral: SMP or dominant telecom operators, or all licensees above a turnover threshold
+  negative_signals:
+  - passive infrastructure sharing or access duties on dominant operators -> 5.1
+  - general accounting standards or statistical reporting to the regulator -> not scored
+  - abuse-of-dominance prohibition without a separation mandate -> not scored
+  - other licence conditions -> 5.5
+  spec_note: 'TRAP: inverted polarity with four levels (1, 0.5, 0.25, 0). No reliable 0.25 row (round2 Lao PDR row
+    31 contradicts itself).
+
+    '
+'5.5':
+  name: Licensing requirements in telecom sector for operators
+  keywords:
+  - telecommunications licence
+  - telecommunications license
+  - carrier licence
+  - individual licence
+  - class licence
+  - unified licence
+  - network facilities provider
+  - network service provider
+  - licence fee
+  - entry fee
+  - revenue share
+  - minimum paid-up capital
+  - registered capital
+  - performance requirements
+  - rollout obligations
+  - number of licences
+  - allocation of radio frequencies
+  - eligibility of applicants
+  definition_text: 'Conditions attached to licences to supply telecommunication services or operate telecom facilities,
+    basic or value-added. Scores 1 when conditions discriminate against foreign firms or create significant entry
+    barriers for all providers, such as minimum capital, mandatory performance requirements, caps on the number
+    of licences, separate value-added licences or revenue sharing on top of fees; otherwise 0.
+
+    '
+  exemplar_law_types:
+  - telecommunications acts and telecommunications business acts
+  - administrative measures on telecom business licensing
+  - regulator licensing guidebooks and notifications
+  - unified licence agreements
+  - satellite licensing notifications
+  - general laws on licensing of activities
+  scope_patterns:
+    horizontal: general licensing-of-activities laws that list communication services among licensed activities
+    sectoral: telecom operator, facilities, value-added and satellite licences issued by the telecom regulator or
+      ministry
+  negative_signals:
+  - licences for ISPs, ICPs, cloud, VPN or other digital service providers -> 9.4
+  - broadcasting licences -> 9.4
+  - e-commerce platform licences -> 12.3
+  - telecom equipment certification or type approval -> 11.2
+  - standalone foreign equity cap on operators -> 5.2
+  spec_note: 'Tier B. Host coding is inconsistent on local-incorporation conditions and on revenue-based licence
+    fees (see codebook and notes).
+
+    '
+'5.7':
+  name: Lack of independent telecom authority
+  keywords:
+  - independent regulator
+  - regulatory authority
+  - regulatory commission
+  - body corporate
+  - statutory body
+  - independence
+  - ministerial direction
+  - the Minister may give directions
+  - appointment of members
+  - term of office
+  - removal from office
+  - conflict of interest
+  - budget of the Commission
+  - industry levy
+  - not subject to the direction
+  - telecommunications regulatory authority
+  - dissolution of the regulatory body
+  definition_text: 'Whether telecommunications are supervised by an authority independent of operators, the Government
+    and other interested parties. Functional independence: decisions without government or operator approval, limited
+    and defined overrides, equal treatment of SOEs and rivals. Institutional and financial independence: separation
+    from operators, stable budget, control of staff. Inverted polarity: no independent authority scores 1.
+
+    '
+  exemplar_law_types:
+  - regulator establishment acts
+  - telecommunications acts (authority and ministerial powers)
+  - presidential or state council decrees on ministry structure
+  - regulations dissolving or merging regulatory bodies
+  - regulator staff and appointment regulations
+  scope_patterns:
+    horizontal: not observed; converged communications regulators may also cover broadcasting and media
+    sectoral: telecom or ICT regulator established by statute or decree
+  negative_signals:
+  - Government ownership of telecom operators -> 5.3
+  - commitment to the WTO Telecom Reference Paper -> not scored (5.6 is non-regulatory)
+  - independence of data protection or competition authorities -> not scored
+  - appeal tribunal for telecom disputes on its own -> not scored as the regulator
+  spec_note: 'TRAP: inverted polarity (an independent regulator scores 0). The Guide does not say how many independence
+    criteria must fail for a score of 1 (see notes).
+
+    '
+'6.1':
+  name: Ban and local processing requirements
+  keywords:
+  - shall not transfer
+  - prohibited from transferring
+  - ban on transfer
+  - cross-border transfer
+  - transfer outside
+  - outside the country
+  - outside the Federation
+  - processed locally
+  - local processing
+  - process within
+  - processed within the territory
+  - data localization
+  - onshore processing
+  - domestic processing
+  - may not be transferred
+  - transfer of personal data abroad
+  definition_text: A law prohibits, per se, the cross-border transfer of data, or mandates that certain data be
+    processed domestically (processing = collection, organization, structuring, storage, adaptation, use, disclosure,
+    dissemination). A complete prohibition with no compliant transfer path, or an obligation that processing happen
+    only in-country. Higher restriction when it covers personal data generally or applies horizontally across all
+    sectors.
+  exemplar_law_types:
+  - comprehensive data-protection statutes (transfer-prohibition provisions)
+  - sectoral health-records laws
+  - financial/credit-reporting regulations
+  - ride-hailing / platform-sector interim measures
+  - national payment-system laws
+  scope_patterns:
+    horizontal: prohibition/processing mandate on personal data across all sectors
+    sectoral: health records, credit data, ride-hailing, payment data, single-country bans
+  negative_signals:
+  - transfer permitted when conditions met (consent/adequacy/approval) -> 6.4
+  - copy must remain in-country while transfer allowed -> 6.2
+  - must build/use local server or data centre -> 6.3
+  - bank-secrecy/confidentiality disclosure rules are not transfer bans
+  - measures on government data are not scored
+'6.2':
+  name: Local storage requirements
+  keywords:
+  - copy stored
+  - stored locally
+  - store within
+  - kept in
+  - maintained in
+  - stored in the country
+  - retained in
+  - local storage
+  - store a copy
+  - shall be kept at
+  - registered office
+  - data storage within
+  - store user data within
+  - maintain their databases in
+  definition_text: A law mandates that a copy of certain data be stored within the economy; the data may still be
+    transferred abroad as long as a domestic copy remains. About the LOCATION of a copy, not the duration of retention
+    and not a mandate to build infrastructure. Higher restriction when it covers personal data generally or applies
+    across sectors.
+  exemplar_law_types:
+  - comprehensive data-protection laws (storage provisions)
+  - companies/accounting acts
+  - tax acts (records retained in-country)
+  - social-media/user-data localization rules
+  - health-information administrative measures
+  - payment-systems directives
+  scope_patterns:
+    horizontal: personal-data storage mandate across sectors (e.g. CN PIPL, RU 152-FZ)
+    sectoral: accounting records, tax records, health data, payment data
+  negative_signals:
+  - duration-based record-keeping (keep for N years, location-free) -> 7.3
+  - requirement to establish a data centre/server -> 6.3
+  - processing (not just storage) must be domestic -> 6.1 (record both if both)
+  - measures on government data are not scored
+'6.3':
+  name: Infrastructure requirements
+  keywords:
+  - data centre
+  - data center
+  - local server
+  - server located
+  - servers within
+  - physically located
+  - establish a data
+  - local infrastructure
+  - computing facilities
+  - hosted in
+  - store in servers
+  - maintain at least one local server
+  - contingency data processing centre
+  definition_text: A law mandates establishing or using dedicated local physical infrastructure — a data centre
+    or in-country server — as a precondition for providing services using data. Unlike a storage rule (which can
+    be satisfied by renting existing facilities), this obliges the provider to set up or use local infrastructure.
+  exemplar_law_types:
+  - platform-sector measures (ride-hailing, online publishing, maps)
+  - personal-data laws with database-location provisions (RU 152-FZ)
+  - financial-regulator rules (data centre in-country)
+  - ministerial/technical orders on server location
+  scope_patterns:
+    horizontal: rare — usually a general database-location provision in the DP law
+    sectoral: ride-hailing, maps, online publishing, banking/finance, sensitive-data servers
+  negative_signals:
+  - licensing/registration to build or operate data centres -> indicator 9.4, out of scope
+  - operational/technical rules on existing data centres (security, privacy) -> not scored
+  - copy-in-country rules satisfiable by renting -> 6.2
+  - measures on government data are not scored
+'6.4':
+  name: Conditional flow regimes
+  keywords:
+  - unless
+  - except in accordance
+  - subject to the following conditions
+  - adequate level of protection
+  - comparable standard of protection
+  - adequacy
+  - consent of the data subject
+  - explicit consent
+  - prior authorization
+  - prior approval
+  - security assessment
+  - standard contractual clauses
+  - binding corporate rules
+  - whitelist
+  - specified in the Gazette
+  - transfer impact assessment
+  definition_text: 'Cross-border data transfer is permitted only if conditions are satisfied: data-subject consent,
+    adequacy or equivalence of protection in the destination, contractual safeguards or self-assessment, or government
+    approval/authorization. The drafting is often a default prohibition with exceptions — that pattern is a conditional
+    flow regime, not a ban, because a compliant transfer path exists.'
+  exemplar_law_types:
+  - comprehensive data-protection statutes (cross-border transfer sections)
+  - privacy principles in omnibus acts (e.g. APP 8)
+  - sectoral codes of practice (banking, communications)
+  - central-bank/cloud outsourcing rules
+  - CAC-style security-assessment provisions
+  scope_patterns:
+    horizontal: conditions on personal data generally (scores 1 even if sector-specific)
+    sectoral: conditions limited to specific NON-personal data categories score 0.5
+  negative_signals:
+  - complete prohibition with no compliant path -> 6.1
+  - transfer freely allowed except to blacklisted countries -> 6.1 at 0.5, not 6.4
+  - conditions applied to government data are not scored
+'7.1':
+  name: Lack of comprehensive legal framework for data protection
+  keywords:
+  - personal data protection act
+  - data protection law
+  - privacy act
+  - personal information protection
+  - data subject rights
+  - right of access
+  - rectification
+  - erasure
+  - data portability
+  - data controller
+  - data processor
+  - processing of personal data
+  - privacy principles
+  - breach notification
+  definition_text: 'Whether the economy has a comprehensive data-protection legal framework: a horizontal law applying
+    across sectors with detailed provisions on data subjects'' rights and obligations (access, rectification, erasure,
+    portability) covering collection, processing and cross-border transfer of personal data. INVERTED: a comprehensive
+    law scores 0; sectoral-only 0.5; none 1.'
+  exemplar_law_types:
+  - omnibus data-protection statutes (PDPA, Privacy Act, PIPL, DPDP)
+  - sectoral data-protection codes (banking, communications, health) — recorded as complements
+  scope_patterns:
+    horizontal: the omnibus act itself -> controlling evidence, score 0
+    sectoral: sector codes/rules exist but no omnibus law -> 0.5
+  negative_signals:
+  - 'INVERTED POLARITY: finding a strong comprehensive law means score 0, never 1'
+  - sectoral complements are recorded but do not change the indicator score when a horizontal law exists
+  - constitutional privacy rights alone are not a framework
+  spec_note: No score-1 exemplar exists in the Round 1/Round 2 economies (all have some framework). Score 1 = documented
+    absence of any DP legal framework.
+'7.2':
+  name: Lack of dedicated legal framework for cybersecurity
+  keywords:
+  - cybersecurity act
+  - cyber security law
+  - critical information infrastructure
+  - computer misuse
+  - computer crimes
+  - cybercrime
+  - incident response
+  - cybersecurity service provider
+  - cyber threat
+  - network security
+  - information security
+  - CII
+  - security of computer systems
+  definition_text: 'Whether the economy has a dedicated cybersecurity legal framework: cybersecurity-specific laws
+    applying horizontally (score 0), versus reliance on other laws to govern cyber threats or dedicated laws limited
+    to specific sectors (0.5), versus no cybersecurity framework (1). INVERTED polarity.'
+  exemplar_law_types:
+  - dedicated cybersecurity acts (SG CA 2018, MY Act 854, TH CSMA, MN, CN CSL)
+  - computer-crimes/misuse statutes (offence-focused predecessors)
+  - critical-infrastructure security acts + strategies (non-dedicated mixtures)
+  scope_patterns:
+    horizontal: a dedicated framework act covering all sectors -> 0
+    sectoral: cyber rules per sector / scattered provisions -> 0.5
+  negative_signals:
+  - 'INVERTED POLARITY: a dedicated horizontal act means score 0'
+  - pending bills are not scored (enforced measures only)
+  - the same act's access powers may separately evidence 7.5
+  spec_note: No score-1 exemplar exists in the Round 1/Round 2 economies.
+'7.3':
+  name: Minimum period of data retention requirements
+  keywords:
+  - retain for
+  - retained for
+  - kept for
+  - preserve for
+  - maintain records for
+  - not less than
+  - at least
+  - minimum period
+  - for a period of
+  - years from
+  - months from
+  - retention period
+  - keep records
+  - log retention
+  - call detail record
+  - subscriber records
+  definition_text: A requirement that data be retained for AT LEAST a specified minimum period (days, months, years
+    — or permanently), typically so authorities can access it for investigations. About DURATION, not location.
+    Requirements to not keep data longer than necessary are maximum-period rules and are NOT scored.
+  exemplar_law_types:
+  - telecom/interception acts and licences (12-24 month data retention)
+  - tax and companies acts (5-7 year record keeping)
+  - employment acts
+  - AML/KYC and financial regulations
+  - e-commerce transaction rules
+  - cyber-café / intermediary rules
+  scope_patterns:
+    horizontal: rare — general record-keeping mandates
+    sectoral: telecom, tax, accounting, employment, banking/AML — the usual carriers
+  negative_signals:
+  - '''not longer than necessary'' / ''as long as necessary'' retention-limitation principles -> score 0 (maximum-period
+    rule)'
+  - permissive 'may be retained for N years' without obligation -> 0
+  - where the copy must be located -> 6.2
+  - retention requirements on government data are not scored
+'7.4':
+  name: DPIA or DPO requirements
+  keywords:
+  - data protection officer
+  - DPO
+  - appoint one or more
+  - data protection impact assessment
+  - DPIA
+  - privacy impact assessment
+  - responsible for compliance
+  - designate a person
+  - compliance officer
+  - high risk processing
+  - risk assessment of processing
+  definition_text: 'A mandatory duty to appoint a Data Protection Officer and/or perform Data Protection Impact
+    Assessments. Score anchors on the DPO duty: horizontal DPO requirement scores 1, sector-specific 0.5, none 0.
+    The duty must be mandatory — advisory or recommended assessments do not count.'
+  exemplar_law_types:
+  - comprehensive data-protection statutes (DPO sections; modern amendments)
+  - privacy-regulator guides (advisory — negative exemplars)
+  - intermediary/platform rules with adjacent officers (negative exemplars)
+  scope_patterns:
+    horizontal: DPO duty on all organisations processing personal data -> 1
+    sectoral: DPO duty limited to a sector or entity class -> 0.5
+  negative_signals:
+  - advisory/recommended DPIA (e.g. 'organisations are advised') -> not a mandate
+  - grievance/compliance/security officers or registry contact persons are not DPOs
+  - DPIA-only mandate = theoretical 0.25 per Guide — flag for human review, do not emit
+'7.5':
+  name: Requirements to allow government access to personal data
+  keywords:
+  - without a warrant
+  - without court order
+  - without judicial
+  - access to computerized data
+  - interception of communication
+  - lawful interception
+  - production order
+  - provide access to
+  - shall be given access
+  - disclose to the authority
+  - surveillance
+  - police officer
+  - authorized officer
+  - intelligence
+  - national security
+  - decryption
+  - password
+  - encryption code
+  definition_text: 'A measure allowing the Government to access personal data without the explicit authorization
+    of an independent judicial body (court decision, judicial warrant, or equivalent). Includes standing access
+    for agencies, access on regulator or ministerial request, and interception authorized by non-judicial or undefined
+    authorities. Usually found OUTSIDE privacy law: criminal procedure codes, surveillance and interception statutes,
+    telecom and intelligence laws.'
+  exemplar_law_types:
+  - criminal procedure codes (computer-access / production powers)
+  - security-offences and surveillance acts
+  - interception/telecom access acts
+  - cybersecurity acts (search/access powers)
+  - intelligence laws
+  - data-availability / government data-sharing schemes
+  scope_patterns:
+    horizontal: CPC powers, intelligence acts, data-sharing schemes
+    sectoral: telecom operator obligations, sector codes' law-enforcement carve-outs
+  negative_signals:
+  - access gated on a judicial warrant or court order -> score 0
+  - the privacy act's own investigation powers may be warrant-gated (score 0) while the CPC is not — cite the CPC
+'8.1':
+  name: Lack of safe harbour for copyright infringements
+  keywords:
+  - safe harbour
+  - safe harbor
+  - service provider shall not be liable
+  - not liable for infringement
+  - limitation of liability
+  - exempt from liability
+  - network service provider
+  - online service provider
+  - information intermediary
+  - intermediary service provider
+  - copyright infringement
+  - infringing material
+  - notice and takedown
+  - takedown notice
+  - actual knowledge
+  - expeditiously remove
+  - disable access
+  - mere conduit
+  - caching
+  - storage at the direction of a user
+  definition_text: 'A statutory shield limits the liability of Internet intermediaries (access providers, hosts,
+    caching, search and platform services) for copyright infringement by their users, usually if they lack knowledge
+    and remove material on notice. Inverted polarity: no shield scores 1; a shield only in a sectoral law such as
+    an e-commerce or telecoms rule scores 0.5; a horizontal shield scores 0. General intermediary exemptions count
+    for copyright too.
+
+    '
+  exemplar_law_types:
+  - copyright acts (service-provider liability limits, notice-and-takedown)
+  - civil codes (IP liability of information intermediaries)
+  - information technology or electronic transactions acts (general intermediary immunity)
+  - regulations on the right of communication over information networks
+  - e-commerce regulations (intermediary liability exemptions)
+  scope_patterns:
+    horizontal: copyright act, civil code or IT act covering intermediaries in all sectors (SG Copyright Act 2021,
+      RU Civil Code Art. 1253.1, IN IT Act s.79)
+    sectoral: e-commerce or telecommunications instruments that limit intermediary liability (ID GR 80/2019; Georgia's
+      e-commerce law in the Guide)
+  negative_signals:
+  - rights-holder remedies (injunctions, takedown procedures) with no liability limit for intermediaries -> 4.6
+  - shield limited to non-copyright unlawful content -> 8.2 (a general shield counts for both)
+  - duty to prevent infringement or block infringing works, with no shield -> 8.4
+  - blocking of copyright-infringing websites -> not scored under 9.1
+  spec_note: 'No trustworthy score-1 exemplar: the only score-1 row (Lao PDR row 50) conflicts with Guide p.65 footnote
+    40. See notes.md.'
+'8.2':
+  name: Lack of safe harbour for other illegal activities
+  keywords:
+  - safe harbour
+  - safe harbor
+  - intermediary liability
+  - third-party material
+  - third party content
+  - network service provider
+  - shall not be subject to any civil or criminal liability
+  - not liable for
+  - innocent carrier
+  - mere conduit
+  - hosting provider
+  - exempt from liability
+  - actual knowledge
+  - remove or disable access
+  - notice and takedown
+  - illegal content
+  - prohibited content
+  - good faith
+  - interactive computer service
+  - electronic system operator
+  definition_text: 'A provision shields Internet intermediaries from civil or criminal liability for users'' unlawful
+    content or conduct other than copyright infringement (harmful, defamatory or prohibited material), typically
+    if they did not initiate it, lacked knowledge and removed it promptly. Inverted polarity: no shield scores 1;
+    a shield only in a sectoral rule (e.g. e-commerce operators) 0.5; a horizontal shield 0. Copyright-only safe
+    harbours do not count.
+
+    '
+  exemplar_law_types:
+  - electronic transactions acts (network service provider exemption)
+  - information technology acts and intermediary due-diligence rules
+  - e-commerce and electronic system operator regulations
+  - computer crime acts with ministerial notice-and-takedown procedures
+  - provider liability or harmful digital communications acts
+  scope_patterns:
+    horizontal: exemption for all network service providers or intermediaries (SG Electronic Transactions Act s.26;
+      IN IT Rules 2021; TH computer-crime notice procedure)
+    sectoral: exemptions confined to e-commerce operators or private electronic system operators (ID GR 80/2019,
+      MOCI Reg 5/2020)
+  negative_signals:
+  - copyright- or IP-only safe harbour -> 8.1
+  - copyright offences (illicit streaming devices, sharing access to infringing works) -> 8.1 context, not 8.2
+  - duty to remove or block content on notice or direction -> 8.4 (and 9.1 if commercial web content is blocked)
+  - general information-security, secrecy or transparency laws with no intermediary clause -> not a safe harbour
+    (8.2 stays 1 if nothing else exists)
+  spec_note: Only one clean score-1 row (Russian Federation row 61); the Mongolia score-1 rows rest on laws that
+    never address intermediary liability.
+'8.3':
+  name: User identity requirements
+  keywords:
+  - real name
+  - real-name
+  - real identity information
+  - verify the identity
+  - identity verification
+  - identification of users
+  - identity document
+  - identity card
+  - passport
+  - register subscribers
+  - subscriber registration
+  - SIM card registration
+  - prepaid
+  - know your customer
+  - e-KYC
+  - first originator
+  - anonymous use
+  - authentication
+  - registration of end-users
+  - biometric
+  definition_text: 'A law obliges Internet intermediaries or operators to collect, verify, record or authenticate
+    users'' identity (names, ID numbers or documents, phone numbers, biometrics) before users may connect to the
+    Internet or use online services such as social media, messaging, forums, apps or cyber cafés (score 1), or only
+    when registering a SIM card (score 0.5). Identity checks that are merely encouraged are not a requirement.
+
+    '
+  exemplar_law_types:
+  - internet information service provisions (forums, comments, apps, messaging)
+  - information or IT laws and intermediary rules (instant-messaging and first-originator identification)
+  - cyber café rules
+  - SIM and mobile subscriber registration regulations and guidelines
+  - counter-terrorism laws (customer identity checks)
+  - telecom licence conditions (subscriber registration)
+  scope_patterns:
+    horizontal: identity checks for all telecom and internet service customers (CN Counterterrorism Law Art. 21)
+    sectoral: SIM registration for mobile operators; cyber cafés; named online services such as social media, forums,
+      comments, apps and messaging
+  negative_signals:
+  - retention of user ID records or traffic data for a set period -> 7.3
+  - authorities obtaining subscriber lists or user data from providers -> 7.5
+  - duty to monitor, filter or remove users' content -> 8.4
+  - voluntary or merely encouraged identity authentication -> not scored
+'8.4':
+  name: Monitoring requirements
+  keywords:
+  - monitor
+  - content moderation
+  - proactively detect
+  - prohibited content
+  - illegal content
+  - harmful content
+  - remove or disable access
+  - take down
+  - block access
+  - filter
+  - word-filter
+  - pre-review
+  - real-time monitoring
+  - inspect the activities
+  - check content
+  - within 24 hours
+  - technology-based measures
+  - automated tools
+  - cease transmission
+  - best efforts to ensure
+  definition_text: 'A law obliges Internet intermediaries to police user content: monitor users'' activities, pre-screen
+    posts, run mandated filters, moderation systems or algorithms that detect prohibited content, or remove or block
+    content deemed illegal, including by deadlines after a notice or official direction. Any removal or blocking
+    duty scores 1; a monitoring duty with no removal or blocking obligation scores 0.5; none scores 0.
+
+    '
+  exemplar_law_types:
+  - internet or information management decrees and laws
+  - online safety codes of practice and online harms acts
+  - content service conditions and communications content codes
+  - counter-terrorism laws (content monitoring and deletion)
+  - intermediary guidelines and electronic system operator regulations
+  - platform-specific provisions (apps, comment services, generative AI)
+  scope_patterns:
+    horizontal: duties on all ISPs, hosts or website owners (RU 149-FZ, CN NPC Decision 2012, LA Decree 164/Gov,
+      AU abhorrent violent material offences)
+    sectoral: designated social media, comment, app, generative AI or e-commerce services; licensed ISPs and content
+      providers under SG broadcasting codes
+  negative_signals:
+  - interception, decryption or subscriber-list access for security agencies -> 7.5
+  - traffic data retention for a set period -> 7.3
+  - first-originator or real-name identification duty -> 8.3
+  - knowledge-based liability or safe-harbour takedown condition -> 8.1 or 8.2
+  - government blocking of commercial websites -> 9.1 (record under 8.4 too if intermediaries must carry it out)
+  spec_note: No score-0.5 row exists in either workbook, so the monitoring-without-removal branch is untested.
+'9.1':
+  name: Blocking or filtering commercial web content
+  keywords:
+  - block access
+  - blocking of access
+  - access blocking order
+  - blocking direction
+  - disable access
+  - prevent access
+  - restrict access
+  - restriction of access
+  - access termination
+  - filtering
+  - filter content
+  - remove or block
+  - prohibited content
+  - online location
+  - domain names
+  - IP addresses
+  - deep packet inspection
+  - unified register
+  - internet access service provider
+  - blocked websites
+  definition_text: 'A government blocks or filters commercial web content, or requires internet service providers
+    and platforms to do so. Blocking denies access to a whole website or online service; filtering restricts only
+    certain content on it. Covers blocking powers on broad grounds such as national security or public order, DNS,
+    IP, URL or deep packet inspection blocking, and blocking of services that ignore registration or local-branch
+    rules.
+
+    '
+  exemplar_law_types:
+  - information technology / internet content laws and intermediary rules
+  - ISP licensing and operation rules
+  - cybercrime, computer-crime and offences acts
+  - broadcasting, online safety and communications acts (operator blocking duties and systems)
+  - laws on foreign internet entities and electronic system operator registration
+  - government blocking announcements and technical monitoring reports (practice evidence)
+  scope_patterns:
+    horizontal: general power to block any online information or resource on broad grounds (national security, public
+      order, morality, violation of law)
+    sectoral: 'blocking tied to a service type or regime: online news media, VPNs, apps, unregistered electronic
+      system operators, foreign platforms'
+  negative_signals:
+  - copyright or other IP site-blocking injunction -> not scored (IP exclusion, Guide p.70)
+  - blocking child sexual abuse, terrorist, violent, pornographic or already-illegal gambling content -> not scored
+    (excluded content)
+  - intermediary duty to monitor, or to remove/block user content on notice -> 8.4 (add 9.1 only if commercial web
+    content is blocked)
+  - government ban on named (often foreign) applications -> 10.1 (check; may be recorded under both)
+  - power to shut down or take control of networks -> not scored (9.2 Internet shutdowns is non-regulatory)
+  spec_note: 'Practice-based indicator: documented instances and secondary sources may be recorded (Internal Guide
+    p.8). No score-0.5 (filtering) row exists in the Round 1/Round 2 workbooks; the 0.5 branch is Guide-only.
+
+    '
+'9.3':
+  name: Online advertising requirements
+  keywords:
+  - advertisement
+  - advertising
+  - advertiser
+  - online advertising
+  - internet advertising
+  - advertising distributor
+  - advertising system operator
+  - advertising on the Internet
+  - social advertising
+  - shall not be advertised
+  - prohibited from advertising
+  - approval of advertisements
+  - advertising permit
+  - marking of advertising
+  - advertising identifier
+  - language of advertisements
+  - comparative advertising
+  - prices in foreign currency
+  definition_text: 'Requirements that limit online advertising, including general advertising rules that do not
+    exclude online media: prior approval of ads, mandatory languages, bans on comparative ads or on prices in foreign
+    currency, quotas of unpaid social advertising, and marking, registration or reporting duties for online ads.
+    Excludes consumer protection rules such as bans on misleading ads, public-health or safety limits on products,
+    and offline-only rules.
+
+    '
+  exemplar_law_types:
+  - general advertising laws
+  - internet advertising measures and amendments
+  - communications and multimedia content codes
+  - language laws governing advertisements
+  - consumer protection laws (mostly negatives)
+  scope_patterns:
+    horizontal: advertising laws silent on medium, presumed to cover online ads unless clearly offline-only
+    sectoral: online-specific duties on ad distributors, platforms and aggregators; sector ad rules (financial,
+      gambling)
+  negative_signals:
+  - prohibition on misleading or false advertising -> not scored (consumer protection)
+  - ad bans on tobacco, alcohol, drugs, weapons or medicine for public health or safety -> not scored
+  - rules that apply only to offline advertising such as billboards -> not scored
+  - election or political campaign advertising rules -> not scored (non-commercial)
+  - platform duty to moderate user content, including ads -> 8.4
+  spec_note: 'Only Russian Federation rows match a Guide example (5% unpaid social advertising quota). Several workbook
+    score-1 rows are consumer-protection or moderation duties (see notes.md).
+
+    '
+'9.4':
+  name: Licensing requirements for online content providers and applications (social media platforms, news providers,
+    VPN, cloud services, etc.)
+  keywords:
+  - licence
+  - license
+  - licensing requirement
+  - class licence
+  - individual licence
+  - special license
+  - permit to operate
+  - content applications service
+  - applications service provider
+  - internet content provider
+  - internet information service
+  - online news
+  - online publishing
+  - broadcasting licence
+  - broadcasting license
+  - virtual private network
+  - cloud computing service
+  - data center
+  - data centre
+  - social media platform
+  definition_text: 'Licensing schemes that online service providers must meet to operate: licences or special permits
+    for internet content providers and ISPs, social media and messaging platforms, online news and publishing, broadcasting,
+    VPNs, cloud and data-centre services. A scheme is strict when conditions limit market access, such as local
+    incorporation, nationality or residency, high paid-up capital, local servers or approved technology.
+
+    '
+  exemplar_law_types:
+  - communications and multimedia or broadcasting acts, licence notifications and licensing guidebooks
+  - internet information service, online news and online publishing regulations
+  - licensing-of-activities and permit laws
+  - telecom-law authorisations applied to ISPs, VPNs and IoT connectivity
+  - digital platform and electronic system operator rules (registration-only negatives)
+  scope_patterns:
+    horizontal: permit or licensing-of-activities laws listing content, broadcasting or encryption services
+    sectoral: 'service-specific licences: online news, publishing, broadcasting, ISP authorisation, VPN, maps, ride-hailing,
+      IoT, social media above a user threshold'
+  negative_signals:
+  - telecom network facilities, network services or operator licence -> 5.5
+  - e-commerce business or marketplace licence -> 12.3 (record both if it also covers social media or apps)
+  - condition to locate servers or a data centre in-country -> 6.3 (also makes the licence strict)
+  - registration or prior notification without a licence -> not scored (recorded at 0 in workbooks)
+  - standalone duty to establish a local entity or appoint a local representative -> 3.5 / 12.8
+  spec_note: 'Workbooks apply the Guide''s more-than-one-scheme escalation inconsistently, and the Guide''s own
+    strict example (Indonesia IoT licence) is scored 0.5 in workbook round2 Indonesia row 120.
+
+    '
+'10.1':
+  name: Import ban applied to ICT goods and online services (e.g. network equipment, servers, handsets, applications,
+    and data processing)
+  keywords:
+  - import ban
+  - prohibited imports
+  - prohibition of imports
+  - importation is prohibited
+  - absolutely prohibited
+  - shall not be imported
+  - prohibited from import
+  - prohibited goods
+  - list of prohibited items
+  - schedule of prohibited goods
+  - suspension of importation
+  - temporary suspension
+  - embargo
+  - banned apps
+  - ban on mobile applications
+  - prohibited telecommunication equipment
+  - jamming devices
+  definition_text: 'A measure that flatly prohibits bringing ICT goods into the economy (network equipment, servers,
+    handsets, receivers, storage media) or bars named online services and applications, whether the ban targets
+    ICT products alone or is a general prohibited-goods list that includes them. One ban on a single product weighs
+    less than a ban on several products or several bans.
+
+    '
+  exemplar_law_types:
+  - customs prohibition-of-imports orders and prohibited-goods schedules
+  - telecommunications acts and dealer regulations listing prohibited equipment
+  - import-export of goods acts and ministerial prohibition notifications
+  - IT acts and blocking rules used to ban named mobile applications
+  - customs-union non-tariff measure decisions (e.g. EAEU prohibited-goods list)
+  - regulator notifications suspending imports of a specific device
+  scope_patterns:
+    horizontal: general customs prohibition lists or import-export acts whose schedules include ICT items (MY, RU,
+      TH rows)
+    sectoral: telecom-act schedules of prohibited equipment (SG), named-app bans (IN), single-device import suspensions
+      such as satellite receivers (LA)
+  negative_signals:
+  - import barred unless a permit or licence is obtained -> 10.2 (workbook round2 Lao PDR row 65)
+  - ban limited to government entities or government devices -> 2.1 (Internal Guide p.11; workbook round1 Australia
+    row 5)
+  - bans on e-waste, used ICT products or raw materials such as rare earths -> not scored (Internal Guide pp.7,
+    14)
+  - blocking or filtering of websites and web content -> 9.1 (Guide p.69)
+  - domestic-content threshold that a banned product failed to meet -> 10.3 (Guide pp.75-76)
+  spec_note: Row scores are per measure. Only one 0.5 row in the pool (Lao PDR row 66). E-waste, counterfeit and
+    obscene-media bans were scored 0 in the workbooks.
+'10.2':
+  name: Other import restrictions on ICT goods and online services
+  keywords:
+  - import licence
+  - import license
+  - import permit
+  - non-automatic import licensing
+  - import approval
+  - prior approval for import
+  - restricted items
+  - import quota
+  - registered importer
+  - importer registration
+  - dealer's licence
+  - permission to import
+  - surveyor report
+  - pre-shipment verification
+  - labelling requirements
+  - import control
+  - certificate of approval
+  - import notification
+  definition_text: 'A measure short of a ban that makes importing ICT goods or online services slower or costlier:
+    import licences or permits (automatic or non-automatic), prior approvals, importer or product registration,
+    dealer licences, surveyor or pre-shipment checks, labelling conditions and other import controls, plus trade-blocking
+    quotas. Quotas, or two or more cost-adding measures, weigh most.
+
+    '
+  exemplar_law_types:
+  - import policy schedules and foreign trade notifications (restricted-items lists)
+  - radio communication and telecommunications acts requiring import licences for equipment
+  - trade ministry regulations on import approvals, surveyor reports and importer registration
+  - strategic trade acts and customs-union decisions requiring permits for encryption or radio-electronic goods
+  - customs regulations on import notification, including for intangible goods
+  scope_patterns:
+    horizontal: general import licensing or registration regimes whose lists include ICT goods (ID trade regulations,
+      IN ITC(HS) schedule, LA importer registration)
+    sectoral: telecom and radio equipment import or dealer licences (TH, SG), product-specific licences (IN colour
+      TVs, laptops), walkie-talkie and satellite equipment permits (LA)
+  negative_signals:
+  - outright prohibition with no licence path -> 10.1 (Guide p.74)
+  - whether SDoC or foreign certificates are accepted -> 11.2; added in-country testing -> 11.3 (Internal Guide
+    p.15); the import permit itself stays here
+  - mandated encryption algorithm or key length -> 11.4, while an import licence for encryption devices stays 10.2
+    (Guide p.81)
+  - customs duties on electronic transmissions -> 12.6; tariffs and taxes sit outside pillar 10 (Guide pp.74, 86)
+  - licence to operate a telecom network or service -> 5.5 (workbook round1 Singapore row 30)
+  spec_note: Workbook scores each measure row 0.5 even where one economy has several (Lao PDR 7 rows); the Guide's
+    two-or-more rule looks economy-level. Only one unstruck score-1 row (Indonesia row 131).
+'10.3':
+  name: Local content requirements
+  keywords:
+  - local content
+  - local content requirement
+  - domestic component level
+  - TKDN
+  - domestic content
+  - minimum local content
+  - locally manufactured
+  - locally sourced
+  - local sourcing
+  - domestic products
+  - domestically produced
+  - local components
+  - percentage of domestic components
+  - domestic origin
+  - content quota
+  - local content share
+  - import substitution
+  - pre-installed software
+  definition_text: 'A commercial-market rule (not public procurement) obliging makers or sellers of ICT goods or
+    providers of online services to use a set share of domestically made components, domestic services or local
+    content: minimum domestic component levels for phones, set-top boxes or network gear, local sourcing conditions
+    on retailers, or local content shares for streaming and IPTV.
+
+    '
+  exemplar_law_types:
+  - telecom and ICT ministry regulations setting domestic component levels for devices and network equipment
+  - spectrum and broadband regulations with equipment local content thresholds
+  - IPTV, OTT and broadcasting content regulations with domestic content shares
+  - FDI policy conditions tied to local sourcing (single-brand retail)
+  - consumer-protection or device rules mandating domestic pre-installed software
+  scope_patterns:
+    horizontal: LCR across a sector or an HS-2/HS-4 product group, e.g. operator capex local-component rules or
+      retail sourcing conditions (score 1)
+    sectoral: LCR on a named product at HS-6/HS-8 level such as smartphones or set-top boxes (0.5 each), or on a
+      specific online content service
+  negative_signals:
+  - local content or domestic preference applied in public procurement tenders -> 2.3 (Guide pp.20, 75)
+  - policy objective or institution promoting local content with no binding share -> not scored (workbook round1
+    Malaysia row 83)
+  - decree cancelling earlier LCRs -> not scored (workbook round2 Lao PDR row 74)
+  - quota on the volume of imported ICT goods -> 10.2 (Guide p.75)
+  - requirements on raw materials used to make ICT products -> not scored (Internal Guide p.14)
+  spec_note: HS-level criteria are written for goods; the workbook applies them loosely to content quotas (Australia
+    row 61 = 1, China row 98 = 0.5). Only one 0.5 row in the pool.
+'10.4':
+  name: Export restrictions on ICT goods and online services
+  keywords:
+  - export licence
+  - export license
+  - export permit
+  - export control
+  - prohibited exports
+  - prohibition of exports
+  - export ban
+  - temporary export ban
+  - strategic items
+  - strategic goods
+  - dual-use items
+  - dual-use goods
+  - controlled goods
+  - export authorisation
+  - restricted from export
+  - defence and strategic goods list
+  - permission to export
+  - technology export
+  definition_text: 'A measure that bans or limits exporting ICT goods or related technologies and services: export
+    prohibitions, temporary export bans, export licences or permits, dual-use and strategic-goods controls covering
+    computers, telecom or information-security products, and catalogues of technologies restricted from export.
+    One such measure on products in the WTO ITA lists is enough.
+
+    '
+  exemplar_law_types:
+  - strategic trade and export control acts with dual-use lists (computers, telecom, information security)
+  - customs prohibited-exports regulations and orders
+  - catalogues of technologies prohibited or restricted from export
+  - radio communication and satellite decrees requiring export licences for equipment
+  - government resolutions imposing temporary export bans
+  - customs-union non-tariff measure decisions (e.g. EAEU permits)
+  scope_patterns:
+    horizontal: general export control or prohibited-exports regimes whose lists include ICT items (AU DSGL, CN
+      dual-use catalogue, IN SCOMET, RU temporary export ban)
+    sectoral: export licences or permissions for radio or satellite communication equipment (LA, TH) and encryption
+      devices
+  negative_signals:
+  - export bans or duties on raw materials such as nickel ore or rare earths -> not scored (Internal Guide p.14;
+    workbook round2 Indonesia row 140)
+  - export duties and taxes -> outside pillar 10 (Guide p.74)
+  - enabling power to list goods with no ICT item actually listed -> not scored (workbook round2 Thailand row 93)
+  - import-side licence under the same instrument -> 10.2 (workbook round2 Russian Federation row 81)
+  - export controls on e-waste or used ICT products -> not scored (Internal Guide p.7)
+  spec_note: Binary. Singapore row 69 (strategic goods export licensing scored 0) conflicts with Guide p.76 examples;
+    Thailand row 94 mirrors a Guide example but carries a reviewer note 'Not correct'.
+'11.1':
+  name: Lack of transparent technical standards
+  keywords:
+  - standard-setting
+  - standards development
+  - development of standards
+  - national standards body
+  - technical committee
+  - standardization committee
+  - standards council
+  - public consultation
+  - public enquiry
+  - public comment
+  - draft standard
+  - comment period
+  - notification to the WTO
+  - stakeholders
+  - foreign-invested enterprises
+  - participation in standardization
+  - consensus
+  - nominating organisation
+  definition_text: 'Inverted polarity: scores 1 where the process of setting technical standards for digital-trade
+    sectors is closed or opaque, meaning foreign firms or other stakeholders are barred or restricted from standard-setting
+    bodies, or there is no public consultation, no public notice of drafts or no channel for stakeholder comment;
+    scores 0 where participation is open and drafts are consulted.
+
+    '
+  exemplar_law_types:
+  - standardization acts and national standards body statutes
+  - procedures for developing and adopting national standards
+  - guidelines on foreign-invested enterprise participation in standardization
+  - technical regulation laws with public comment periods
+  - telecom regulator acts empowering equipment and service standard-setting
+  scope_patterns:
+    horizontal: national standardization law and standards-body procedures (every row in the pool is of this kind)
+    sectoral: telecom regulator standard-setting for equipment and ICT services (e.g. NBTC, TEC)
+  negative_signals:
+  - mandatory conformity with a standard, certification or testing -> 11.2 or 11.3 (Guide pp.79-80)
+  - adopting or aligning with ISO/IEC standards, without participation or consultation facts -> not scored under
+    11.1 (Guide p.78)
+  - cybersecurity agency powers with no standard-setting participation rules -> not scored (host hands-on exercise
+    1, 11.1 India)
+  spec_note: Inverted polarity (a 'Lack of' indicator). Pool has 13 rows, all score 0; neither workbook holds a
+    score-1 example.
+'11.2':
+  name: Self-certification limitations for product safety (radio transmissions, EMC/EMI)
+  keywords:
+  - certification
+  - license
+  - licence
+  - supplier's declaration of conformity
+  - SDoC
+  - declaration of conformity
+  - self-declaration
+  - self-certification
+  - type approval
+  - certificate of conformity
+  - conformity assessment body
+  - certification body
+  - mutual recognition arrangement
+  - compulsory certification
+  - certification mark
+  - equipment registration
+  - electromagnetic compatibility
+  - radio equipment
+  definition_text: 'Asks whether suppliers of radio, telecom and electrical ICT products may certify conformity
+    themselves. Score 0 if a supplier''s declaration of conformity (SDoC) is accepted from foreign businesses for
+    at least some ICT products; 0.5 if SDoC is refused but certificates from foreign conformity assessment bodies
+    are accepted (e.g. via ASEAN or APEC MRAs); 1 if neither is accepted and local lab testing is required.
+
+    '
+  exemplar_law_types:
+  - communications and telecommunications acts with technical standards and type approval regulations
+  - radio communication regulator notifications on equipment certification and SDoC
+  - standards and conformity assessment acts
+  - compulsory product certification provisions and catalogues
+  - mutual recognition arrangements (ASEAN EE MRA, APEC TEL MRA, SAARC arrangement)
+  scope_patterns:
+    horizontal: standards and conformity assessment acts and regional MRAs covering electrical and electronic equipment
+    sectoral: telecom and radio equipment type approval and SDoC rules (MCMC, SDPPI, NBTC, TEC)
+  negative_signals:
+  - additional or in-country testing procedures -> 11.3 (Internal Guide p.15)
+  - language or product-information labelling duty -> not scored under 11.2; labelling as an import condition is
+    10.2 (Guide p.75; workbook round2 Indonesia row 146)
+  - import licence or permit for equipment -> 10.2 (Guide p.75)
+  - licence to operate telecom networks or services -> 5.5 (Guide p.44)
+  spec_note: 'ASEAN/APEC MRA members should score 0.5 or less (Internal Guide p.15). Local-entity SDoC rules scored
+    inconsistently: Singapore row 72 = 0.5, Thailand row 102 = 0.'
+'11.3':
+  name: Product screening and testing requirements
+  keywords:
+  - testing
+  - test report
+  - mandatory testing
+  - type testing
+  - local testing
+  - in-country testing
+  - designated laboratory
+  - accredited laboratory
+  - recognised testing laboratory
+  - foreign testing laboratories
+  - sample testing
+  - security testing
+  - security review
+  - national security review
+  - screening
+  - inspection and testing
+  - essential requirements
+  - acceptance of test results
+  definition_text: 'A requirement that ICT products pass screening or technical tests, often justified by national
+    security, before sale, import or use. Score 1 where testing must happen in-country or by domestically designated
+    or accredited bodies with no outside results accepted; 0.5 where results from third-party or foreign accredited
+    labs are accepted, at least for some products; 0 where no such requirement exists.
+
+    '
+  exemplar_law_types:
+  - telegraph and telecom rules on mandatory testing and certification of equipment
+  - standards bureau conformity assessment regulations with in-country lab testing
+  - national security laws providing security review of network products and services
+  - regulator decisions recognising foreign test laboratories
+  - type approval guidelines accepting foreign test reports
+  scope_patterns:
+    horizontal: national security review provisions and standards-law testing regimes covering many products
+    sectoral: telecom and radio equipment testing (MTCTE, SDPPI, NBTC Class A/B, IMDA registration)
+  negative_signals:
+  - certification or marking scheme (SDoC versus third-party certificate) -> 11.2 (Internal Guide p.15)
+  - voluntary security manual or framework with no mandated product testing -> not scored (workbook round1 Australia
+    row 66)
+  - national security review of foreign investment -> 3.4 (workbook round2 China row 20)
+  spec_note: Guide p.80 gives two conflicting rules for mixed cases (0.5 vs 1). Workbook scores routine RF/EMC type-approval
+    testing here although Guide footnote 48 separates safety tests from security screening.
+'11.4':
+  name: Deviation from international encryption standards (ISO, IEC, ITU, FIPS, AES, TDES, and ECC)
+  keywords:
+  - encryption
+  - cryptography
+  - cryptographic algorithm
+  - encryption algorithm
+  - commercial cryptography
+  - national cryptographic algorithm
+  - encryption standard
+  - key length
+  - key management
+  - block cipher
+  - cryptographic module
+  - approved cryptographic algorithms
+  - encryption keys
+  - source code
+  - ISO/IEC 18033
+  - ISO/IEC 11770
+  - ISO/IEC 19790
+  - cipher
+  definition_text: 'A binding rule to use encryption that departs from ISO/IEC-recognised practice: mandated domestic
+    algorithms not listed in ISO/IEC 18033, block sizes or key lengths below recommended minimums (e.g. symmetric
+    keys under 128 bits), key management outside ISO/IEC 11770, or forced disclosure of source code or keys when
+    certifying encryption products beyond ISO/IEC validation requirements.
+
+    '
+  exemplar_law_types:
+  - cryptography laws and commercial cryptography regulations
+  - cyber and crypto agency regulations on national algorithms and module certification
+  - financial regulator security directions specifying encryption strength
+  - national cryptographic module validation schemes
+  - government security manuals listing approved algorithms
+  scope_patterns:
+    horizontal: cryptography laws or national algorithm policies applying to all commercial encryption products
+    sectoral: banking and payment security directions, government or classified systems, critical infrastructure
+      operators
+  negative_signals:
+  - licence or registration to use, import or distribute encryption devices -> 9.4 or 10.2, not 11.4 (Guide p.81;
+    workbook round2 Russian Federation row 77)
+  - specific encryption required to win public tenders -> 2.2 (Guide p.19)
+  - payment-security standards that deviate from international standards -> 12.4.3 (Guide p.85)
+  - government power to order decryption of data -> 7.5 (workbook round2 Thailand row 69)
+  - domestic algorithm already adopted into ISO/IEC standards -> not scored (workbook round2 China row 107)
+  spec_note: Binary. Pool has 11 rows, all score 0; no score-1 example. Guide p.37 routes encryption-related trade-secret
+    disclosure to pillar 11, not 4.9.
+'12.01':
+  name: Foreign equity limits in e-commerce sector
+  keywords:
+  - foreign equity
+  - foreign ownership
+  - foreign shareholding
+  - foreign direct investment
+  - FDI
+  - foreign investor
+  - equity participation
+  - per cent of the shares
+  - percent of the registered capital
+  - minority stake
+  - not exceeding 49%
+  - reserved for domestic investors
+  - positive investment list
+  - negative investment list
+  - electronic commerce business
+  - e-commerce platform
+  - inventory-based model
+  - marketplace-based model
+  - retail trading through e-commerce
+  definition_text: 'Maximum share of equity that foreign natural or legal persons may hold in firms of the e-commerce
+    sector itself: bans on foreign investment in online retail or e-commerce platforms, minority-only limits (below
+    50%), or caps above 50%. Excludes equity caps in telecoms or other digital-trade sectors, caps set by horizontal
+    investment laws, and caps on delivery or physical retail firms.
+
+    '
+  exemplar_law_types:
+  - foreign direct investment policy circulars and press notes
+  - e-commerce decrees and regulations
+  - investment laws and positive or negative investment lists
+  - retail and wholesale trade rules on foreign participation
+  - foreign business acts
+  scope_patterns:
+    horizontal: general investment laws or investment lists capping foreign ownership across sectors (Guide p.25
+      records these under 3.1); cited as the general rule when e-commerce has no cap
+    sectoral: caps written for e-commerce itself, e.g. an FDI ban on inventory-based online retail or a foreign-share
+      limit in an e-commerce decree
+  negative_signals:
+  - foreign equity cap in the telecom sector -> 5.2
+  - foreign equity cap in other digital-trade sectors or under a horizontal investment law -> 3.1
+  - foreign equity cap on express delivery, postal or logistics firms -> 3.1
+  - physical-store or local-establishment condition on e-commerce FDI -> 3.5
+  - local sourcing condition attached to e-commerce FDI -> 10.3
+  spec_note: 'Thin score spread: one score-1 row (India FDI ban on inventory-based B2C) and one 0.5 row (Lao PDR
+    90% cap); the rest are 0. A 0% ban is not listed in the methodology criteria but scored 1.'
+'12.2':
+  name: Online purchases and delivery limitations
+  keywords:
+  - cross-border e-commerce
+  - retail import
+  - annual quota
+  - single transaction limit
+  - purchase limit
+  - maximum value per shipment
+  - per month
+  - personal use
+  - express consignment
+  - courier
+  - express delivery
+  - postal operator
+  - delivery service
+  - intercity delivery
+  - cooperate with local delivery
+  - remote sale
+  - distance selling
+  - sale of goods by remote means
+  - online purchase
+  definition_text: 'Direct limits on what consumers or retailers can buy online, or on delivery of goods bought
+    online: caps on the number or value of goods bought or imported via e-commerce platforms, and restrictions on
+    delivery firms (e.g. foreign couriers barred from intercity delivery) or on how, where or when buyers receive
+    parcels. Excludes taxes, duties and fees, consumer-protection limits on alcohol, tobacco or medicines, and FDI
+    rules on delivery firms.
+
+    '
+  exemplar_law_types:
+  - cross-border e-commerce retail import notices (annual quotas, per-transaction limits)
+  - customs rules for express consignments and personal imports
+  - postal and courier services regulations
+  - e-commerce and retail sale regulations
+  scope_patterns:
+    horizontal: civil code or retail sale rules cited as the general rule when no limit exists
+    sectoral: cross-border e-commerce import channels, postal and express delivery operators
+  negative_signals:
+  - VAT or tax-collector thresholds on e-commerce sales -> not scored under 12.2
+  - general de minimis duty or tax exemption threshold for low-value consignments -> 12.5
+  - remote-sale bans or licences for alcohol, tobacco or pharmaceuticals -> not scored
+  - foreign equity cap on delivery companies -> 3.1; commercial presence rule for them -> 3.5
+  - postal or courier licence with no purchase or delivery limit -> score 0 (and not 12.3)
+  spec_note: Methodology criterion reads 'purchase limit AND delivery restriction'; Guide p.84 and workbook score
+    either one. Guide lists a tax-free monthly allowance (Argentina) as a limit while excluding taxation measures.
+'12.3':
+  name: Licensing scheme for e-commerce providers (B2B and B2C)
+  keywords:
+  - e-commerce business licence
+  - e-commerce business license
+  - business licence
+  - business license
+  - licence to operate
+  - license to operate
+  - prior approval
+  - electronic commerce
+  - e-commerce operator
+  - e-commerce platform
+  - electronic marketplace
+  - trading through electronic systems
+  - online data processing and transaction processing
+  - value-added telecommunications business
+  - acknowledgement certificate
+  - commercial registry
+  - B2B
+  - B2C
+  definition_text: 'Whether businesses selling or intermediating goods or services online, including B2B and B2C
+    platforms, marketplaces and online sellers, must hold a licence or prior approval to run the e-commerce business
+    itself, such as an e-commerce business licence or marketplace approval. Any licence scores; strict conditions
+    are not needed. Licences for adjacent activities, such as online payment services or delivery, are excluded.
+
+    '
+  exemplar_law_types:
+  - e-commerce laws and decrees
+  - trade laws and regulations on trading through electronic systems
+  - telecom licensing measures for online data and transaction processing
+  - commercial registration notifications covering online sellers
+  - digital platform regulations
+  scope_patterns:
+    horizontal: general company, trade or business registration laws for all businesses; a registration duty on
+      every business was scored 0
+    sectoral: e-commerce business licences, marketplace or platform operator licences and approvals
+  negative_signals:
+  - licence to operate online payment or e-money services -> 12.4.4 (only if conditions are restrictive)
+  - licence for ISPs, ICPs, social media, news, VPN or cloud services -> 9.4
+  - licence for telecom services or facilities -> 5.5
+  - postal, courier or delivery licence -> not 12.3; delivery limits -> 12.2
+  - duty to open a local representative office or appoint a local liaison officer -> 12.8
+  spec_note: 'Unresolved: Guide p.85 counts Colombia''s commercial-registry registration of websites, but workbook
+    rows score e-commerce registration and prior-notification duties 0 (Thailand, Indonesia).'
+12.4.1:
+  name: 'Online payment limitations: mandate local bank account'
+  keywords:
+  - local bank account
+  - bank account in
+  - domestic bank
+  - local bank
+  - licensed bank
+  - scheduled commercial bank
+  - escrow account
+  - settlement account
+  - account opened with a bank
+  - bank established in
+  - regulated entities in
+  - resident account
+  - onshore account
+  - payment shall be made through a bank
+  - receipt and disbursement
+  definition_text: 'Online payment rule obliging merchants, payment providers or payers to hold or route funds through
+    a bank account in the regulating economy: for example customer balances kept in escrow with a domestic bank,
+    wallets loadable only from locally regulated accounts, or online payment services required to receive and pay
+    out through local bank accounts. One of seven binary online payment sub-indicators.
+
+    '
+  exemplar_law_types:
+  - central bank directions on prepaid payment instruments and payment aggregators
+  - payment system laws
+  - electronic money regulations
+  scope_patterns:
+    horizontal: payment system, banking or AML laws for all payment services; cited as the general rule when no
+      mandate exists
+    sectoral: e-money and prepaid instrument issuers, payment aggregators, e-commerce payment collection
+  negative_signals:
+  - domestic processing of payment transactions -> 6.1, not a bank-account mandate
+  - local storage of payment data -> 6.2
+  - currency in which payments must be made -> 12.4.2
+  - local incorporation as a payment licence condition -> 12.4.4
+  - requirements on cryptocurrencies or digital payment tokens -> not scored
+  spec_note: One Indonesia score-1 row rests on domestic processing of e-money transactions rather than an account
+    mandate; excluded as exemplar (see notes).
+12.4.2:
+  name: 'Online payment limitations: mandate currency used for international payments'
+  keywords:
+  - national currency
+  - local currency
+  - legal tender
+  - denominated in
+  - settled in
+  - settlement currency
+  - foreign currency
+  - international payments
+  - cross-border payments
+  - international trade transactions
+  - foreign exchange
+  - currency regulation
+  - obligation to use
+  - unit of electronic money
+  - transactions within the territory
+  definition_text: 'Online payment rule fixing the currency in which cross-border payments must be paid or settled,
+    e.g. trade with certain partners settled only in the national currency, or e-commerce payments required in local
+    currency. A domestic legal-tender rule exempting international trade, or e-money that may be held in foreign
+    currency, does not fix the currency of international payments. One of seven binary online payment sub-indicators.
+
+    '
+  exemplar_law_types:
+  - foreign exchange management regulations
+  - currency laws
+  - central bank regulations on mandatory use of the national currency
+  - electronic money regulations
+  - e-commerce regulations
+  scope_patterns:
+    horizontal: currency and foreign-exchange laws covering all transactions
+    sectoral: e-money issuers, payment system operators, e-commerce operators
+  negative_signals:
+  - advertising ban on prices shown in foreign currency -> 9.3
+  - requirement to use a local bank account -> 12.4.1
+  - foreign-exchange reporting or authorised-channel rules without a currency mandate -> score 0
+  - domestic-only legal tender rule exempting international trade -> score 0 (workbook split; see notes)
+  spec_note: 'Workbook inconsistent on domestic local-currency rules: Indonesia rows 160/162 score 1 but row 161
+    scores 0; Lao PDR e-money-in-Kip scores 1 but Mongolia e-money-in-MNT scores 0.'
+12.4.3:
+  name: 'Online payment limitations: deviate national standards'
+  keywords:
+  - payment security
+  - security standard
+  - national standard
+  - technical standard
+  - PCI DSS
+  - ISO/IEC
+  - EMVCo
+  - ISO 20022
+  - ISO 27001
+  - internationally accepted standards
+  - authentication
+  - encryption
+  - cryptographic
+  - security controls
+  - mobile payment
+  - QR code
+  - information security
+  definition_text: 'Online payment rule requiring payment security (card data protection, authentication, encryption,
+    QR or mobile payment interfaces) to follow national standards that deviate from international ones. Any international
+    standard referenced in law counts, e.g. ISO/IEC or PCI DSS; national standards built on them, or rules requiring
+    internationally accepted standards, are not deviations. One of seven binary online payment sub-indicators.
+
+    '
+  exemplar_law_types:
+  - central bank payment security directions
+  - payment system regulations
+  - national technical standards for mobile or QR payments
+  - e-payment guidelines and technical references
+  scope_patterns:
+    horizontal: information-security or encryption rules for all sectors (see 11.4)
+    sectoral: payment systems, card payments, mobile and QR payments, e-money
+  negative_signals:
+  - general encryption algorithm, key-length or key-management mandates not specific to payments -> 11.4
+  - voluntary technical reference or industry guidance -> score 0
+  - national standard adopting ISO/IEC or EMVCo specifications -> score 0
+  spec_note: No score-1 row in either workbook (all 12 rows score 0). Split between 12.4.3 and 11.4 for payment-specific
+    encryption rules is an inference.
+12.4.4:
+  name: 'Online payment limitations: licensing requirements'
+  keywords:
+  - payment service licence
+  - payment service license
+  - payment business license
+  - electronic money issuer
+  - e-money issuer
+  - authorisation to operate a payment system
+  - payment aggregator
+  - payment gateway
+  - money transfer operator
+  - incorporated in
+  - established within the territory
+  - citizen or permanent resident
+  - national residing in
+  - representative office
+  - foreign payment system
+  - register of foreign payment systems
+  - number of licences
+  - paid-up capital
+  definition_text: 'Licensing or authorisation of payment service providers (e-money issuers, payment gateways and
+    aggregators, money transfer or payment system operators) with restrictive conditions: local incorporation, nationality
+    or residency of directors, a local office for foreign payment systems, or limits on licence types or numbers.
+    Licences with only prudential conditions, such as capital and fund safeguarding, were mostly scored 0.
+
+    '
+  exemplar_law_types:
+  - payment services acts
+  - national payment system laws
+  - central bank licensing notifications for e-payment businesses
+  - electronic money regulations
+  - banking acts covering stored-value facilities
+  scope_patterns:
+    horizontal: banking or payment system laws covering all payment service providers
+    sectoral: e-money, payment gateway and aggregator, remittance and card scheme licences
+  negative_signals:
+  - licence to run the e-commerce business itself -> 12.3
+  - foreign equity cap on payment or e-money firms -> 3.1
+  - resident or national director rule under general company law -> 3.3
+  - payment licence with only capital, fit-and-proper or safeguarding conditions -> score 0
+  - electronic signature certification licence -> not an online payment licence (see notes)
+  spec_note: Workbook split on prudential-only licences (Lao PDR row 92 scores 1; Malaysia and Mongolia score 0).
+    India row 149 scores 0 although the same RBI guidelines require incorporation in India.
+12.4.5:
+  name: 'Online payment limitations: ceiling on the maximum amount'
+  keywords:
+  - maximum amount
+  - maximum value
+  - transaction limit
+  - daily limit
+  - cumulative transaction amount
+  - shall not exceed
+  - wallet limit
+  - stored value
+  - electronic money balance
+  - holding limit
+  - per transaction
+  - annual limit
+  - unregistered electronic money
+  - value per unit of goods
+  - small-value transactions
+  - total amount transferred
+  definition_text: 'Online payment rule capping how much can be paid, transferred or held through electronic payment
+    methods: per-transaction or daily limits, annual transfer caps, e-wallet or stored-value holding limits, or
+    a maximum value per cross-border sale via payment aggregators. AML reporting thresholds, and limits above which
+    extra authentication is needed, are not ceilings. One of seven binary online payment sub-indicators.
+
+    '
+  exemplar_law_types:
+  - payment services acts
+  - electronic money regulations and central bank notifications
+  - online payment business measures for non-bank payment institutions
+  - cross-border payment aggregator directions
+  scope_patterns:
+    horizontal: AML/CFT or payment system laws for all payments (reporting thresholds are not ceilings)
+    sectoral: e-money wallets, non-bank online payment accounts, cross-border payment aggregators
+  negative_signals:
+  - AML threshold or suspicious transaction reporting amount -> score 0
+  - higher limit allowed once extra authentication is used -> score 0
+  - tax-free monthly allowance on online purchases -> 12.2
+  - de minimis duty threshold on low-value imports -> 12.5
+  spec_note: Workbook treats e-wallet holding caps as ceilings (Singapore, Indonesia, Malaysia, Mongolia) but scored
+    Russia 0 although its row note lists e-money balance caps.
+12.4.6:
+  name: 'Online payment limitations: mandate specific intermediaries'
+  keywords:
+  - payment intermediary
+  - national payment gateway
+  - switching institution
+  - processed through
+  - exclusively through
+  - single operator
+  - designated operator
+  - national payment card system
+  - clearing
+  - settlement institution
+  - payment agent
+  - payment aggregator
+  - acquirer
+  - authorised payment system provider
+  - domestic processing
+  definition_text: 'Online payment rule forcing merchants, platforms or payers to route online payments through
+    a particular intermediary, such as a named or state-designated switch, clearing house, gateway, bank or operator.
+    A general duty to use licensed or authorised payment providers, a licensing duty for aggregators, or a permission
+    to engage agents is not such a mandate. One of seven binary online payment sub-indicators.
+
+    '
+  exemplar_law_types:
+  - national payment system laws
+  - central bank payment system and electronic money regulations
+  - e-commerce regulations on payment processing
+  scope_patterns:
+    horizontal: payment system laws naming a national switch or single processor
+    sectoral: card payments, e-money, e-commerce payment collection
+  negative_signals:
+  - duty to use licensed or authorised payment providers -> score 0
+  - optional engagement of payment agents or aggregators -> score 0
+  - authorisation of payment aggregators with restrictive conditions -> 12.4.4
+  - local processing of payment card transactions -> 6.1
+  spec_note: The only score-1 row (India, non-bank payment aggregator authorisation) reads as a licensing measure;
+    no clean score-1 exemplar exists.
+12.4.7:
+  name: 'Online payment limitations: other restrictions'
+  keywords:
+  - foreign payment service provider
+  - electronic payment instrument
+  - electronic payment and credit services
+  - cross-border payment
+  - online payment gateway
+  - export-related receipts
+  - permitted goods and services
+  - prohibited from accepting
+  - agreement with a money transfer operator
+  - register maintained by the central bank
+  - prepaid payment instrument
+  - credit card
+  - restriction on payment
+  - payment method
+  definition_text: 'Residual online payment sub-indicator for requirements affecting electronic payment and credit
+    services that fall outside the six named types (local bank account, currency, deviating security standards,
+    restrictive licensing, amount ceilings, specific intermediaries). Example: foreign payment providers allowed
+    to operate only through an agreement with a domestic operator and a central-bank register listing. Safeguarding
+    and AML duties scored 0.
+
+    '
+  exemplar_law_types:
+  - national payment system laws
+  - central bank circulars on cross-border online payments
+  - payment services acts
+  scope_patterns:
+    horizontal: payment system laws applying to all payment instruments
+    sectoral: foreign payment systems and cross-border online payment gateways
+  negative_signals:
+  - value ceilings on payments -> 12.4.5
+  - restrictive licence conditions for payment providers -> 12.4.4
+  - customer-fund safeguarding or licensed-agent rules -> score 0
+  - AML/CFT obligations -> score 0
+  - market problems such as card fraud without a legal measure -> not scored
+  spec_note: Reference name typo fixed ('others restrictions' -> 'other restrictions'). No Guide bullet for this
+    residual type; two score-1 rows, one overlapping 12.4.5.
+'12.5':
+  name: Low De Minimis
+  keywords:
+  - de minimis
+  - low value goods
+  - low-value goods
+  - low value consignment
+  - value not exceeding
+  - does not exceed the equivalent of
+  - exempt from customs duties
+  - exempted from import duty
+  - free of customs duties and taxes
+  - duty-free threshold
+  - customs value
+  - CIF value
+  - goods for personal use
+  - international postal items
+  - courier consignments
+  - express consignments
+  - consigned goods
+  - relief from duty
+  - customs duty exemption
+  - import relief threshold
+  definition_text: 'A de minimis rule sets a value ceiling for imported goods below which no customs duty or border
+    tax is collected. The indicator grades that ceiling: no de minimis rule at all is the most restrictive case,
+    a threshold below USD 200 is intermediate, and a threshold of USD 200 or more is the least restrictive. Values
+    are converted to USD at IMF rates. Found in customs codes, tariff laws and postal or courier import rules.
+
+    '
+  exemplar_law_types:
+  - customs acts and customs codes (duty exemptions for low-value goods)
+  - customs tariff laws and decrees
+  - courier and postal import regulations
+  - finance ministry regulations on consigned goods
+  - customs union decisions on goods for personal use (EAEU)
+  - GST or sales tax acts with low-value goods provisions (context only)
+  scope_patterns:
+    horizontal: one economy-wide value threshold for all imported consignments
+    sectoral: 'thresholds limited to a channel or goods class: air courier, international post, personal-use goods,
+      gifts or samples'
+  negative_signals:
+  - per-shipment or annual value cap on cross-border e-commerce purchases -> 12.2
+  - customs duty on software or other digitally transmitted products -> 12.6
+  - merger-control de minimis exemption (asset or turnover thresholds) -> not scored
+  - rules-of-origin de minimis tolerance for non-originating materials -> not scored
+  - GST or VAT collected by overseas vendors on low-value imports -> not scored (the border threshold still decides
+    12.5)
+  spec_note: 'Polarity hazard: absence of any de minimis rule scores 1, not 0 (Guide p.86). No reliable score-1
+    exemplar: both score-1 rows (India 154, Mongolia 84) describe value-based exemptions. Workbook conversions use
+    mixed dates and sources, not the IMF rate of 31 August (Internal Guide p.15).
+
+    '
+'12.6':
+  name: Imposition of customs duties on electronic transmission
+  keywords:
+  - electronic transmission
+  - electronic transmissions
+  - transmitted electronically
+  - electronically transmitted
+  - customs duties on electronic transmissions
+  - intangible goods
+  - digital products
+  - software and other digital products
+  - Chapter 99
+  - heading 99.01
+  - HS code
+  - goods classification system
+  - import duty tariff
+  - customs tariff book
+  - tariff nomenclature
+  - zero percent import duty
+  - moratorium on customs duties
+  - digital goods
+  definition_text: 'Customs duties or other cross-border duties charged on digital products delivered by electronic
+    means, such as software, electronic data and multimedia. The top score needs duties actually imposed; an intermediate
+    score applies where the law creates a mechanism to levy them, such as tariff lines for electronically transmitted
+    goods even at a zero rate. Consumption taxes on digital services and tariffs on physical goods are outside.
+
+    '
+  exemplar_law_types:
+  - customs tariff books and HS nomenclature regulations
+  - finance ministry regulations on import duty tariffs and goods classification
+  - customs acts and customs codes defining dutiable goods
+  - customs union codes (EAEU Customs Code)
+  scope_patterns:
+    horizontal: tariff chapter or customs rule covering all electronically transmitted goods
+    sectoral: duty lines for specific digital product classes (software, applications, audio, video)
+  negative_signals:
+  - GST or VAT registration for offshore online information and database access services -> not scored
+  - tariffs on physical ICT goods -> not scored (tariff indicators 1.1 and 1.2 are non-regulatory)
+  - duty exemption threshold for low-value parcels -> 12.5
+  - statement of adherence to the WTO moratorium or JSI -> not scored (supports score 0)
+  spec_note: 'No score-1 row exists (10 rows at 0, one at 0.5). Indonesia row 171 scores 0 for the same zero-rated
+    Chapter 99 lines that row 170 and the Guide''s Indonesia example treat as 0.5.
+
+    '
+'12.7':
+  name: Domain name requirements
+  keywords:
+  - domain name
+  - domain names
+  - country code top-level domain
+  - ccTLD
+  - second-level domain
+  - sub-domain
+  - registrant
+  - administrative contact
+  - domain name registration policy
+  - domain name registry
+  - registrar
+  - national domain name
+  - top-level domain
+  - shall use the domain name
+  - eligibility to register
+  - registered office or branch
+  - resided in
+  - power of attorney
+  - local presence
+  definition_text: 'Conditions on commercial country-code domain names that raise compliance costs for foreign sellers:
+    a rule that companies must use a local domain name to do e-commerce, a physical or legal presence condition
+    for registering the local domain (both the top score), or a duty to appoint a local administrative contact or
+    representative (intermediate). Government, military and education domains are outside.
+
+    '
+  exemplar_law_types:
+  - ccTLD registry registration policies (auDA, MYNIC, SGNIC, THNIC, PANDI)
+  - ministerial regulations on domain name management
+  - internet management and domain name decrees
+  - e-commerce or online-content regulations mandating the national domain
+  - telecommunications laws assigning domain administration
+  scope_patterns:
+    horizontal: eligibility rules for the main commercial ccTLD or its commercial second-level domains
+    sectoral: domain categories reserved for a sector (telecom licensees, SMEs) or a mandate on licensed news sites
+      and portals
+  negative_signals:
+  - local representative required of foreign online providers, not tied to a domain -> 12.8
+  - registration of commercial websites in a commercial registry or e-commerce licence -> 12.3
+  - national domain mandate for government, party or military websites -> not scored
+  - duty to give true registrant identity information -> not scored
+  - law that only encourages or prioritises the national domain -> not scored (coded 0)
+  spec_note: 'Indonesia .co.id, .net.id and .biz.id rows (173-175) score 0.5 for local-entity eligibility with no
+    administrator element, while Thailand and Australia score similar presence conditions 1; excluded.
+
+    '
+'12.8':
+  name: Local presence requirements for online service providers
+  keywords:
+  - local representative
+  - legal representative
+  - local agent
+  - authorized representative
+  - appoint a representative
+  - designate a representative
+  - representative office
+  - point of contact
+  - contact person
+  - liaison officer
+  - domiciled in
+  - located within the territory
+  - foreign service provider
+  - offshore
+  - foreign electronic system operator
+  - without a physical office
+  - post-box
+  - post office box
+  - daily users
+  definition_text: 'A rule that a foreign online service provider must have a representative office, local agent,
+    legal representative, contact point or post-box in the economy as a condition for supplying services remotely,
+    without setting up a subsidiary or branch. Often triggered by user or transaction thresholds and found in platform,
+    e-commerce, electronic systems and personal information laws. Corporate-law registered offices do not count.
+
+    '
+  exemplar_law_types:
+  - electronic system operator and platform registration regulations
+  - e-commerce trade regulations (foreign operators above thresholds)
+  - personal information protection laws (offshore processor representatives)
+  - social network or internet resource laws for foreign providers
+  - digital platform service decrees (local point of contact)
+  scope_patterns:
+    horizontal: all foreign electronic system operators or all offshore personal information processors
+    sectoral: social networks, e-commerce platforms, digital platforms, IT service providers above user thresholds
+  negative_signals:
+  - must incorporate locally, open a branch or subsidiary, or set up a permanent office -> 3.5
+  - foreign-company registered office or registered agent under companies law -> 3.5 (score 0 here)
+  - local administrative contact to register a ccTLD domain -> 12.7
+  - appointment of a Data Protection Officer or person in charge of data protection -> 7.4
+  - local agent for patent applications or patent enforcement -> 4.01 / 4.3
+  spec_note: 'Clean score-1 rows are few: Indonesia 178 and 179, China 122. Malaysia 109 (local incorporation),
+    Thailand 127 and 129 are doubtful; Thailand 128 codes a mandated local contact point 0 against Guide pp.87-88.
+
+    '
+'12.9':
+  name: Lack of legal framework for online consumer protection
+  keywords:
+  - consumer protection
+  - protection of consumer rights
+  - consumer rights
+  - consumer protection act
+  - electronic trade transactions
+  - e-commerce entity
+  - distance selling
+  - online purchase
+  - right to return
+  - refund
+  - cooling-off period
+  - unfair contract terms
+  - unfair trade practices
+  - misleading advertisement
+  - consumer complaint
+  - grievance redressal
+  - fair trading
+  - information to consumers
+  definition_text: 'Whether any consumer protection law reaches online purchases. A general consumer protection
+    act covering all transactions is enough, as are e-commerce consumer rules on disclosure, returns, refunds, complaints
+    or unfair terms. Inverted polarity: an economy with such a law scores 0, and it scores 1 only when no consumer
+    protection law applies to online purchases, for example a regime limited to offline sales.
+
+    '
+  exemplar_law_types:
+  - general consumer protection or consumer rights acts
+  - e-commerce consumer protection rules and regulations
+  - e-commerce laws with consumer rights chapters
+  - fair trading and unfair contract terms acts
+  - electronic transactions laws (consumer protection provisions only)
+  scope_patterns:
+    horizontal: cross-sector consumer protection act whose scope covers online transactions
+    sectoral: e-commerce consumer rules, telecom and internet service consumer decisions, e-money user protections
+  negative_signals:
+  - provisions giving legal validity to electronic signatures, messages or contracts -> not scored (UNCITRAL indicators
+    12.11 and 12.12 are non-regulatory)
+  - personal data consent or breach-notification duties -> 7.1
+  - online advertising limits not aimed at consumer protection -> 9.3
+  - e-money or payment service approval and licensing rules -> 12.4.4
+  - sale or delivery limits on alcohol, tobacco or medicines for consumer protection -> not scored under 12.2
+  spec_note: 'All 23 workbook rows score 0 and every economy has a general consumer protection law, so no score-1
+    example exists. Several rows attach non-consumer laws (Russia 110 e-signatures, Indonesia 185 data protection,
+    Malaysia 110 e-commerce recognition act).
+
+    '

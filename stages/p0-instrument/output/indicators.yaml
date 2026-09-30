@@ -1,0 +1,3239 @@
+# ============================================================================
+# RDTII 2.1 — CODEBOOK
+# Finale instrument · conforms to INTERFACE_CONTRACT.md §4.1
+#
+# One block per scoreable indicator: every in-scope ID of output/indicator_order.yaml, in
+# that order, grouped by pillar. The validator fails if an ID is missing, repeated or out of
+# order. Every block is read the same way: `tier` says how deep it goes (see `tiers` below)
+# and `review_status` says how it was made.
+#
+# Edit any block in place. scripts/build_indicators_from_methodology.py only adds a Tier C
+# block for an in-scope ID that has none; it never changes an existing block.
+#
+# Sources (in authority order; every Tier A scoring_tree is triple-attested):
+#   1. Host methodology sheet "RDTII 2.1 Methodology" (Round 1 database; the Round 2
+#      database carries an identical copy): category, criteria, possible scores
+#   2. RDTII 2.1 Guide, pillar chapters. ALL page citations are PRINTED page numbers
+#      (printed = PDF page - 12). Pillars 6-7 are printed pp.48-63.
+#   3. RDTII 2.1 Internal Guide: data-collection SOP pp.5-10, FAQ by pillar pp.11-15
+#   4. Finale template OUTPUT_TEMPLATE_FINAL_ROUND.xlsx, sheet "Indicator Reference":
+#      IDs, names, exception notes, and the host's five mapping traps (rows 79-85)
+#   5. Host training: 5 June extraction slides ("Extraction slides"), Assignment 1 answer
+#      key, Assignment 2 brief, Canvas Design Workshop and Hands-on workshop decks
+# Citations are inline, in parentheses, at the end of the line they support.
+# ============================================================================
+
+instrument_version: "2.1.0"          # RDTII methodology tag — informational, NOT the seam version
+id_format: "decimal text, e.g. '6.1', '4.01', '12.4.1'; order comes from indicator_order.yaml"
+methodology_source: "RDTII 2.1 Methodology sheet (host databases) + RDTII 2.1 Guide + Internal Guide FAQ + finale Indicator Reference"
+tiers:
+  A: >
+    Pillars 6-7. The Round 1 codebook (2026-07-12), used in the Round 1 run, migrated to
+    decimal IDs and extended with the finale template's trap rows on 2026-09-13. Scoring
+    tree, coding rules, traps, disambiguation and Guide examples, every line cited.
+  B: >
+    Drafted 2026-09-13 at Tier A depth from the Guide, the Internal Guide FAQ, the
+    methodology sheet, the Indicator Reference notes and the host workbook rows, every line
+    cited. Not yet reviewed.
+  C: >
+    Extracted by script from host text only: the methodology criteria as scoring branches,
+    the possible scores, the host exception notes and the Guide's defining sentence. No
+    traps, no coding rules of our own, no worked examples. Rows mapped under a Tier C
+    indicator must name the tier in Notes, and need a higher confidence than Tier A rows
+    before they are tagged NEW (decision D4).
+
+WARNING_DO_NOT_USE: >
+  The Round 1 template OUTPUT_TEMPLATE_31MAY.xlsx 'Indicator Reference' tab is WRONG
+  (GDPR-style taxonomy). It mislabels 6.1 as 'General prohibition', 6.2 'Adequacy
+  standard', 6.3 'Contractual safeguards', 6.4 'Consent exception', 7.1 'Legal basis
+  for processing', etc. IGNORE it. The finale template's Indicator Reference sheet is
+  correct: it is taken from the host methodology sheet.
+
+scope:
+  pillars: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  order_file: indicator_order.yaml   # the ordered list of the 61 in-scope IDs lives there
+  out_of_scope:
+    "6.5": >
+      "Not in an agreement with binding commitments on data transfer" is a
+      NON-REGULATORY indicator sourced from treaty-participation checks (TAPED
+      dataset / agreement texts), not from national legislation. The methodology
+      sheet has no criteria row for it, and its header note says gaps in the
+      Indicator_ID sequence are intentional because non-regulatory indicators were
+      excluded and the automation tool is not required to extract them. The finale
+      template notes it is not present in the database extract. Do not emit rows
+      for 6.5.
+  non_regulatory: >
+    1.1, 1.2, 1.3, 2.4, 4.4, 4.7, 4.8, 5.6, 6.5, 9.2 and 12.10-12.13 come from external
+    databases and treaty status and are not extracted by the tool (Non-regulatory
+    indicators note). Of these, only 6.5 appears in the finale Indicator Reference.
+  economies_round1: [SG, AU, MY]
+
+weights_note: >
+  Per-indicator 'weight' values are the Guide's stated pillar-internal weights
+  (Guide p.55 for pillar 6, p.62 for pillar 7; the finale template gives weights for
+  pillars 6-7 only). Informational: scores are per measure, and weights matter for index
+  aggregation, which is out of tool scope. The Guide's pillar 6 figures (38/12/31/12 +
+  8 for excluded 6.5) sum to 101%, the Guide's own rounding, transcribed as printed.
+
+score_polarity: >
+  GLOBAL RULE — the score runs from 0 (simplified / low compliance cost) to
+  1 (heavily regulated / high compliance cost). A HIGHER score always means a
+  MORE restrictive regulatory environment (Methodology sheet header; Internal Guide
+  p.10). For the "Lack of ..." indicators this reads inverted: an economy WITH the
+  framework scores 0, an economy with NO framework scores 1 (Assignment 1 answer key p.2).
+
+definitions:
+  personal_data: >
+    Any information relating to an identified or directly/indirectly
+    identifiable individual — including sensitive data (name, email, ID card,
+    IP address, cookie ID, health data, racial/ethnic origin, beliefs,
+    religion) AND pseudonymous or 'de-identified' data that make an individual
+    identifiable with additional information. (Guide p.49)
+  non_personal_data: >
+    Anonymous data that do not relate to an identified or identifiable
+    individual. (Guide p.49)
+  processing: >
+    Various activities involving data: collection, organization, structuring,
+    storage, adaptation, use, disclosure and dissemination. (Guide p.50)
+  horizontal: "A measure applying broadly across sectors. (Internal Guide p.9)"
+  sectoral: >
+    A measure applying to a specific sector (e.g. financial services, health,
+    telecommunications) or specific data types (e.g. accounting data, health
+    records) (Guide p.50). Round 1 convention, not host text: a law covering
+    two sectors is still sectoral.
+
+indicators:
+
+# ----------------------------------------------------------------------------
+# PILLAR 1 — TARIFFS AND TRADE DEFENCE
+# ----------------------------------------------------------------------------
+
+  - id: "1.4"
+    pillar: 1
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Trade defence measures including anti-dumping, countervailing duties and safeguards on ICT-related
+      goods imported by other economies within the considered United Nations region
+    category_official: Trade defence measures including anti-dumping, countervailing duties and safeguards
+      on ICT-related goods imported by other economies within the considered United Nations region
+    question: The indicator looks at whether an economy is enforcing trade defence measures such as anti-dumping
+      duties, countervailing duties, and safeguard measures against ICT goods and ICT-related goods imported
+      from any economy in the considered region. (Guide p.16)
+    definition: The indicator looks at whether an economy is enforcing trade defence measures such as anti-dumping
+      duties, countervailing duties, and safeguard measures against ICT goods and ICT-related goods imported
+      from any economy in the considered region. (Guide p.16)
+    scoring:
+      values:
+      - 1
+      - 0.75
+      - 0.5
+      - 0.25
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: More than three measures (Methodology sheet 1.4)
+      score: 1
+    - if: Three measures (Methodology sheet 1.4)
+      score: 0.75
+    - if: Two measures (Methodology sheet 1.4)
+      score: 0.5
+    - if: One measure (Methodology sheet 1.4)
+      score: 0.25
+    - else:
+        score: 0
+        meaning: No measure (Methodology sheet 1.4)
+    coding_rules:
+    - (0.25 for each measure, up to 1) (Methodology sheet 1.4)
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 3
+      template_row: 5
+      guide_pages:
+      - 16
+      - 17
+      guide_heading: Trade defence measures, including anti-dumping, countervailing duties and safeguards
+        on ICT goods and ICT-related goods imported by other economies within the considered United Nations
+        region
+
+# ----------------------------------------------------------------------------
+# PILLAR 2 — PUBLIC PROCUREMENT
+# ----------------------------------------------------------------------------
+
+  - id: "2.1"
+    pillar: 2
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Foreign exclusions from public procurement related to ICT goods and digital services
+    category_official: Foreign exclusions from public procurement related to ICT goods and digital services
+    question: Does a legislative measure bar foreign firms, or a specific group of foreign firms, from public
+      procurement of ICT goods or digital services?
+    definition: 'An exclusion exists when foreign enterprises may not take part in public procurement of
+      certain ICT goods and online services, or when a list of specific economies, groups or companies is
+      banned from public tenders (Guide p.19). Rules that let foreign enterprises bid only when domestic
+      suppliers are not participating or not available are also forms of exclusion (Guide p.19; Internal
+      Guide p.11).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_features: []
+    scoring_tree:
+    - if: 'A legislative measure excludes foreign firms, or foreign goods and services, from public procurement,
+        including rules that admit them only when domestic suppliers cannot meet the demand; or two or more
+        measures each exclude a specific (group of) foreign firm(s) (Guide p.19; Internal Guide p.11; Methodology
+        sheet 2.1).
+
+        '
+      score: 1
+    - if: 'A single measure excludes a specific foreign firm, group of firms or the firms of specific economies,
+        such as a ban on a listed set of foreign messenger services (Guide p.19; Methodology sheet 2.1;
+        workbook round2 Russian Federation row 6).
+
+        '
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No exclusion, or only a legal basis that empowers the government to exclude foreign firms
+          (Guide p.19; Methodology sheet 2.1).
+    coding_rules:
+    - 'Combine measures at economy level: two or more exclusions of specific firms or groups, each worth
+      0.5, raise the indicator to 1 (Guide p.19; Methodology sheet 2.1).'
+    - A rule that shuts out all foreign companies whenever national suppliers can meet demand scores 1,
+      not 0.5, because it is not limited to specific companies (Internal Guide p.11).
+    - An enabling clause that lets the government adopt bans scores 0 until an implementing exclusion is
+      found; record and score the implementing instrument (Guide p.19; Methodology sheet 2.1).
+    - Where no exclusion exists, cite the public procurement act or other governing procurement rules as
+      the reference row with score 0 (Guide p.12).
+    exceptions:
+    - Exclusions confined to non-digital procurement, such as nationality rules for construction design
+      and supervision work, are not scored (Guide p.18; workbook round2 Thailand row 5).
+    - Procurement reservations in a trade agreement schedule are preferential commitments, not domestic
+      measures, and are not scored (Internal Guide p.8; Hands-on workshop deck p.17).
+    disambiguation:
+    - 'TRAP: quotas, set-asides, price preferences and local-content conditions are limitations under 2.3
+      even when they disadvantage foreign bidders; decide limitation versus exclusion before scoring (Guide
+      p.20).'
+    - 'TRAP: a ban on government bodies using a named foreign application or product can be a procurement
+      restriction (2.1) or an import ban (10.1); check which applies, and list the measure under each indicator
+      that fits (Internal Guide p.11).'
+    - 'TRAP: a procurement preference is not an exclusion even when it favours national firms; the workbook
+      scores India''s cyber security product preference 2.1 = 0 and 2.3 = 1 (workbook round2 India row 11;
+      workbook round2 India row 18).'
+    - Preferences reserved for a status group such as Bumiputera, SME or indigenous suppliers also disadvantage
+      domestic firms outside the group; treat them as 2.3 limitations, not 2.1 exclusions (Guide p.20; Hands-on
+      workshop deck p.17).
+    - Conditions to hand over source code or trade secrets, or to use a specific encryption standard, in
+      order to win tenders are 2.2 (Guide pp.19-20).
+    guide_examples:
+    - 'Russian Federation: ban on the use of foreign messenger services in public procurement (Guide p.19).'
+    - 'Nigeria: government entities must buy hardware locally and procure software from local developers
+      (Guide p.19).'
+    - 'Nepal: foreign suppliers are accepted only when competitive prices are not available from more than
+      one local supplier, no national bids are submitted, or the goods are certified as complex or specialised
+      (Guide p.19).'
+    - 'Bolivia: national purchases up to about US$ 1,166,000 are reserved to national production companies,
+      with foreign companies allowed only if no national provider is available (Guide p.19).'
+    - 'Thailand: foreign consultants must team up with domestic consultants to take part in public tenders
+      (Guide p.19).'
+    sources:
+      guide_pages:
+      - 12
+      - 18
+      - 19
+      - 20
+      methodology_row_round1_db: 5
+      faq_pages:
+      - 11
+      template_row: 7
+
+  - id: "2.2"
+    pillar: 2
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Specific requirements on source codes, encryption and trade secrets
+    category_official: Specific requirements on source codes, encryption and trade secrets
+    question: 'The indicator asks: (a) whether firms are required to surrender source code, encryption or
+      other trade secrets, or to transfer ownership of exclusive rights to use IP such as patented technology,
+      as a condition for successful public procurement and (b) whether firms are required to use a specific
+      encryption standard to be successful for their bidding. (Guide p.19)'
+    definition: 'The indicator asks: (a) whether firms are required to surrender source code, encryption
+      or other trade secrets, or to transfer ownership of exclusive rights to use IP such as patented technology,
+      as a condition for successful public procurement and (b) whether firms are required to use a specific
+      encryption standard to be successful for their bidding. (Guide p.19)'
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: For any requirement to surrender patents, source codes or trade secrets as a condition for participating
+        in tenders (Methodology sheet 2.2)
+      score: 1
+    - if: For any requirement to use specific encryption to win tenders (Methodology sheet 2.2)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No measure (Methodology sheet 2.2)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 6
+      template_row: 8
+      guide_pages:
+      - 19
+      - 20
+      guide_heading: Specific requirements on source code, encryption and trade secrets
+
+  - id: "2.3"
+    pillar: 2
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Limitations in procurement bidding
+    category_official: Limitations in procurement bidding
+    question: Does a procurement measure limit bidding through quotas, supplier preferences or price preferences,
+      and does it discriminate against foreign bidders or apply to all bidders alike?
+    definition: 'Limitations restrict participation in public procurement through a quota, a preference
+      for certain suppliers or a price preference, triggered by the nationality of suppliers, another status
+      such as being an SME or indigenous, or the local content of supplies (Guide p.20). A measure is first
+      distinguished from a 2.1 exclusion and then classed as discriminatory against foreign suppliers or
+      equally applied to all suppliers (Guide p.20).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_features: []
+    scoring_tree:
+    - if: 'At least one limitation discriminates directly against foreign bidders, for example a quota,
+        preference or price margin that depends on the bidder''s nationality; or two or more limitations
+        of the 0.5 kind apply (Guide p.20; Methodology sheet 2.3).
+
+        '
+      score: 1
+    - if: 'One limitation applies to all bidders, domestic or foreign, such as a local content requirement
+        or a performance-based condition (Guide p.20; Methodology sheet 2.3).
+
+        '
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No limitation, or only a legal basis that empowers the government to impose limitations
+          (Guide p.20; Methodology sheet 2.3).
+    coding_rules:
+    - 'Apply the two steps in order: first rule out an exclusion under 2.1, then decide whether the limitation
+      targets foreign suppliers or applies equally to all suppliers (Guide p.20).'
+    - 'Count limitations across the economy''s measures: two or more equal-treatment limitations together
+      score 1 (Guide p.20; Methodology sheet 2.3).'
+    - Set-asides triggered by status, such as SME or indigenous business targets, are limitations; the round1
+      workbook scores such a scheme 0.5 as one measure when nationality is not a condition (Guide p.20;
+      workbook round1 Australia row 9).
+    - The Guide also gives 1 where institutional transparency is absent, meaning procurement laws, rules,
+      guidelines and bidding procedures are not publicly and easily available; the methodology criteria
+      omit this trigger, so state the evidence explicitly (Guide p.20; Guide p.12; Methodology sheet 2.3).
+    exceptions:
+    - Setting or changing a target price is a normal government process and is not scored, unless it treats
+      domestic and foreign applicants differently, e.g. a lower price for domestic applicants (Internal
+      Guide p.11).
+    - A provision that only empowers the government to impose limitations is not itself a limitation (Guide
+      p.20; Methodology sheet 2.3).
+    disambiguation:
+    - 'TRAP: when foreign bidders are barred, or admitted only if no domestic supplier is available, the
+      measure is an exclusion under 2.1, not a 2.3 limitation (Guide p.19; Guide p.20; Internal Guide p.11).'
+    - 'TRAP: local content requirements in the commercial market are 10.3; local content conditions in public
+      procurement tenders stay in Pillar 2 (Guide p.75).'
+    - 'TRAP: a preference in a procurement order is scored here even when the same order is also recorded
+      under 2.1; the workbook scores India''s cyber security product preference 2.3 = 1 and 2.1 = 0 (workbook
+      round2 India row 18; workbook round2 India row 11).'
+    - Conditions to surrender source code, trade secrets or patents, or to use a specific encryption standard,
+      to win tenders are 2.2 (Guide pp.19-20).
+    guide_examples:
+    - 'Argentina: at least 33% of the goods and services used in public-private partnership contracts must
+      come from local companies (Guide p.20).'
+    - 'Azerbaijan: procurement discount of up to 20% in favour of locally produced goods (Guide p.20).'
+    - 'India: 25% of the annual procurement quota reserved for micro and small enterprises, including 3%
+      for women-owned firms (Guide p.20).'
+    - 'Indonesia: minimum 40% domestic content for transmission towers and steel-reinforced conductors in
+      public procurement (Guide p.20).'
+    - 'Rwanda: 15% preference for locally produced goods and 10% for bidders registered in Rwanda (Guide
+      p.20).'
+    - 'Sri Lanka: 20% domestic preference margin for government-funded purchases of manufactured goods that
+      pass a 30% local value-added test and other eligibility criteria (Guide p.20).'
+    sources:
+      guide_pages:
+      - 12
+      - 19
+      - 20
+      - 75
+      methodology_row_round1_db: 7
+      faq_pages:
+      - 11
+      template_row: 9
+
+# ----------------------------------------------------------------------------
+# PILLAR 3 — FOREIGN DIRECT INVESTMENT
+# ----------------------------------------------------------------------------
+
+  - id: "3.1"
+    pillar: 3
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Foreign equity limits in sectors relevant to digital trade
+    category_official: Foreign equity limits in sectors relevant to digital trade
+    question: This indicator concerns the maximum foreign equity shares in sectors related to digital trade.
+      (Guide p.25)
+    definition: This indicator concerns the maximum foreign equity shares in sectors related to digital
+      trade. (Guide p.25)
+    scoring:
+      values:
+      - 1
+      - 0.8
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Ban (0%) in at least one sector OR if only a minority stake in more than one sector (Methodology
+        sheet 3.1)
+      score: 1
+    - if: A minority stake (1-50%) allowed in one sector (Methodology sheet 3.1)
+      score: 0.8
+    - if: A controlling stake (51-99%) allowed OR restrictions only exist in SOEs (Methodology sheet 3.1)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: Full ownership (100%) allowed in relevant for digital trade (Methodology sheet 3.1)
+    coding_rules: []
+    exceptions:
+    - 'Exception: Not cover foreign equity cap in telecom sector (covered under Pillar 5) and e-commerce
+      sector (covered under Pillar 12) (Methodology sheet 3.1)'
+    disambiguation: []
+    sources:
+      methodology_row: 9
+      template_row: 11
+      guide_pages:
+      - 25
+      guide_heading: Foreign equity limits
+
+  - id: "3.2"
+    pillar: 3
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Joint venture requirements
+    category_official: Joint venture requirements
+    question: This indicator asks whether there is a requirement for firms to engage in a joint venture
+      with a local firm in order to invest or operate in the economy. (Guide p.25)
+    definition: This indicator asks whether there is a requirement for firms to engage in a joint venture
+      with a local firm in order to invest or operate in the economy. (Guide p.25)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: For any measure (Methodology sheet 3.2)
+      score: 1
+    - else:
+        score: 0
+        meaning: No measure (Methodology sheet 3.2)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 10
+      template_row: 12
+      guide_pages:
+      - 25
+      guide_heading: Joint venture requirements
+
+  - id: "3.3"
+    pillar: 3
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Nationality or residency requirements for board of directors or managers
+    category_official: Nationality or residency requirements for board of directors or managers
+    question: This indicator asks whether there are nationality or residency requirements for members of
+      the board of directors or managers. (Guide p.26)
+    definition: This indicator asks whether there are nationality or residency requirements for members
+      of the board of directors or managers. (Guide p.26)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: For any measure (Methodology sheet 3.3)
+      score: 1
+    - else:
+        score: 0
+        meaning: No measure (Methodology sheet 3.3)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 11
+      template_row: 13
+      guide_pages:
+      - 26
+      guide_heading: Nationality or residency requirements for the board of directors or managers in sectors
+        relevant to digital trade
+
+  - id: "3.4"
+    pillar: 3
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Screening of investment and acquisitions
+    category_official: Screening of investment and acquisitions
+    question: This indicator asks whether (a) an economy has adopted any screening mechanism for foreign
+      investment or mergers and acquisitions (M&A) in sectors relevant to digital trade, excluding those
+      implemented solely for antitrust purposes, unless such mechanisms are found to be discriminatory;
+      and (b) whether there was a case of blocking investment or M&A based on the use of the concerned screening
+      measure in sectors relevant to digital trade. (Guide p.26)
+    definition: This indicator asks whether (a) an economy has adopted any screening mechanism for foreign
+      investment or mergers and acquisitions (M&A) in sectors relevant to digital trade, excluding those
+      implemented solely for antitrust purposes, unless such mechanisms are found to be discriminatory;
+      and (b) whether there was a case of blocking investment or M&A based on the use of the concerned screening
+      measure in sectors relevant to digital trade. (Guide p.26)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0.25
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: A case that the screening mechanism has been used to block an investment in a sector relevant
+        for digital trade (Methodology sheet 3.4)
+      score: 1
+    - if: Two or more investment screening mechanisms (Methodology sheet 3.4)
+      score: 0.5
+    - if: A screening mechanism (Methodology sheet 3.4)
+      score: 0.25
+    - else:
+        score: 0
+        meaning: No screening mechanism (Methodology sheet 3.4)
+    coding_rules:
+    - 'Screening of investment: the top score needs a case where screening blocked an investment (Internal
+      Guide p.8; Methodology sheet 3.4)'
+    exceptions:
+    - 'Exception: Anti-trust measures related to M&A are not considered a restriction, unless discriminatory.
+      (Methodology sheet 3.4)'
+    disambiguation: []
+    sources:
+      methodology_row: 12
+      template_row: 14
+      guide_pages:
+      - 26
+      - 27
+      guide_heading: Investment screenings
+
+  - id: "3.5"
+    pillar: 3
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Commercial presence requirements to offer cross-border services in sectors relevant to digital
+      trade
+    category_official: Commercial presence requirements to offer cross-border services in sectors relevant
+      to digital trade
+    question: Must a foreign service provider establish a local branch, subsidiary, company or office in
+      the economy in order to supply services in a sector relevant to digital trade?
+    definition: 'A commercial presence requirement obliges foreign service providers to supply services
+      through a locally established office, branch, subsidiary or representative office, which corresponds
+      to Mode 3 under the WTO GATS, in sectors relevant to digital trade (Guide p.27). Requirements limited
+      to business registration, with no physical or operational presence, are not covered (Guide p.27).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_features: []
+    scoring_tree:
+    - if: 'At least one measure requires foreign providers to set up a local branch, subsidiary, locally
+        incorporated company or other physical or operational office as a condition for supplying services
+        in a sector relevant to digital trade (Guide pp.27-28; Methodology sheet 3.5).
+
+        '
+      score: 1
+    - else:
+        score: 0
+        meaning: No commercial presence requirement; registration-only rules and local contact-point duties
+          do not count (Guide p.27; Guide p.88).
+    coding_rules:
+    - 'Horizontal company-law rules count: a foreign company that must incorporate a local company or register
+      a branch before carrying on business meets the test (Guide p.27).'
+    - 'Sector rules count too: licences reserved for locally established companies in telecom, satellite
+      or online gaming services are commercial presence requirements (Guide pp.27-28).'
+    - Commercial presence conditions in telecommunications rules are recorded under 3.5; the telecom pillar
+      keeps the telecom-specific foreign ownership limits (5.2) (Guide p.11).
+    - A presence duty that applies only above a size threshold, such as a user count for social media companies,
+      still counts (Guide p.27).
+    - When one law requires both a local entity and a local representative, classify it as a commercial
+      presence requirement (Guide p.88).
+    - A registered office that must be open to the public or staffed during set hours is a physical presence;
+      the workbook scores such rules 1 (workbook round1 Australia row 16; workbook round1 Singapore row
+      14).
+    exceptions:
+    - Business registration requirements that involve no physical or operational presence are not scored
+      (Guide p.27).
+    disambiguation:
+    - 'TRAP: a duty to appoint a local agent, legal representative, contact point or post-box while serving
+      remotely is a local presence requirement under 12.8; a duty to establish a branch, subsidiary or company
+      is 3.5 (Guide pp.87-88).'
+    - 'TRAP: corporate-law registered office rules are not 12.8 local presence requirements; the workbook
+      records the same Singapore Companies Act provision as 3.5 = 1 and 12.8 = 0 (Guide pp.87-88; workbook
+      round1 Singapore row 14; workbook round1 Singapore row 92).'
+    - 'TRAP: a licensing scheme for online services whose conditions include a legally established local
+      company is a licence under 9.4, while the establishment condition is also recorded under 3.5 (Guide
+      p.72; Guide p.11; workbook round2 China row 21; workbook round2 China row 89).'
+    - Both the 3.5 and 12.8 sections mention representative offices; decide by whether the law requires
+      establishing a local entity or office to supply services (3.5) or only administrative representation
+      for remote supply (12.8) (Guide p.27; Guide pp.87-88).
+    - Commercial presence requirements aimed at delivery service providers are recorded in Pillar 3, not
+      under online purchase and delivery limitations in 12.2 (Guide p.84).
+    guide_examples:
+    - 'Colombia: foreign companies must set up a branch to engage in permanent business, such as opening
+      business offices or acting as contractors for works or services (Guide p.27).'
+    - 'Lao PDR: satellite communication businesses must establish a registered business with a local office
+      (Guide p.27).'
+    - 'Malaysia: a foreign company carrying out business in Malaysia must incorporate a local company or
+      register a branch (Guide p.27).'
+    - 'Pakistan: significant social media companies, with over 500,000 users or listed by the Authority,
+      must establish a permanent registered office in the country (Guide p.27).'
+    - 'Kyrgyzstan: telecom licence applicants must establish a local presence by filing legal registration
+      documents, taxpayer identification and other local documents (Guide p.28).'
+    - 'Viet Nam: providers of specific online gaming services to local users must establish a company in
+      Viet Nam to obtain a licence (Guide p.28).'
+    sources:
+      guide_pages:
+      - 11
+      - 27
+      - 28
+      - 72
+      - 84
+      - 87
+      - 88
+      methodology_row_round1_db: 13
+      faq_pages:
+      - 11
+      template_row: 15
+
+# ----------------------------------------------------------------------------
+# PILLAR 4 — INTELLECTUAL PROPERTY RIGHTS
+# ----------------------------------------------------------------------------
+
+  - id: "4.01"
+    pillar: 4
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Patent application issues
+    category_official: Patent application issues
+    question: The indicator asks whether (a) there is a restriction on the patent application process, and
+      (b) what type of restriction. (Guide p.29)
+    definition: The indicator asks whether (a) there is a restriction on the patent application process,
+      and (b) what type of restriction. (Guide p.29)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Differential treatment between local and foreign firms, requirements to appoint local representative,
+        and a rejection of patent application in a discriminatory manner. (Methodology sheet 4.01)
+      score: 1
+    - if: Non-transparent process, high filing fees, high registration costs, substantive examination, and
+        the requirement to file a patent locally before filing abroad. (Methodology sheet 4.01)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 4.01)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 15
+      template_row: 17
+      guide_pages:
+      - 29
+      - 30
+      guide_heading: Patent application issues
+
+  - id: "4.2"
+    pillar: 4
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Patent enforcement issues: civil and administrative procedures and remedies; and provisional
+      measures'
+    category_official: 'Patent enforcement issues: civil and administrative procedures and remedies; and
+      provisional measures'
+    question: This indicator asks whether an economy's legal framework concerning patents incorporates (a)
+      civil and administrative procedures; and (b) provisional measures. (Guide p.30)
+    definition: This indicator asks whether an economy's legal framework concerning patents incorporates
+      (a) civil and administrative procedures; and (b) provisional measures. (Guide p.30)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Abesence of civil and administrative procedures and remedies, and provisional measures (Methodology
+        sheet 4.2)
+      score: 1
+    - if: Adopt civil and administrative procedures and remedies, or provisional measures (Methodology sheet
+        4.2)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: Adopt civil and administrative procedures and remedies, and provisional measures (Methodology
+          sheet 4.2)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 16
+      template_row: 18
+      guide_pages:
+      - 30
+      - 31
+      guide_heading: 'Patent enforcement issues: civil and administrative procedures, and provisional measures'
+
+  - id: "4.3"
+    pillar: 4
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Patent enforcement issues: others'
+    category_official: 'Patent enforcement issues: others'
+    question: This indicator covers measures on the enforcement of patents. The indicator asks whether there
+      is a restriction on patent enforcement and the scope of such restriction. (Guide p.31)
+    definition: This indicator covers measures on the enforcement of patents. The indicator asks whether
+      there is a restriction on patent enforcement and the scope of such restriction. (Guide p.31)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: For any restriction with high impact, when the issue affecting all circumstances and sectors,
+        OR more than one measure of category (2) (Methodology sheet 4.3)
+      score: 1
+    - if: For any restriction with limited impact, when the issue affecting to a specific circumstance or
+        sector (Methodology sheet 4.3)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 4.3)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 17
+      template_row: 19
+      guide_pages:
+      - 31
+      guide_heading: 'Patent enforcement issues: others'
+
+  - id: "4.5"
+    pillar: 4
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Lack of copyright framework and exceptions
+    category_official: Lack of copyright framework and exceptions
+    question: This indicator asks for the presence of a copyright legal framework and what type of copyright
+      exceptions, if any, an economy has adopted. (Guide p.33)
+    definition: This indicator asks for the presence of a copyright legal framework and what type of copyright
+      exceptions, if any, an economy has adopted. (Guide p.33)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Lack of copyright legal framework OR lack of copyright exceptions (Methodology sheet 4.5)
+      score: 1
+    - if: Unclear copyright exceptions, such as three-step test and other types of copyright exceptions
+        (Methodology sheet 4.5)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: Clear copyright exceptions following fair use or fair dealing model (Methodology sheet
+          4.5)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 18
+      template_row: 20
+      guide_pages:
+      - 33
+      guide_heading: Lack of a copyright framework and exceptions
+
+  - id: "4.6"
+    pillar: 4
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Online copyright enforcement issues: civil and administrative procedures and remedies; and provisional
+      measures'
+    category_official: 'Online copyright enforcement issues: civil and administrative procedures and remedies;
+      and provisional measures'
+    question: This indicator asks whether an economy's intellectual property rights legal frameworks concerning
+      copyright incorporate (a) civil and administrative procedures; and (b) provisional measures. (Guide
+      p.34)
+    definition: This indicator asks whether an economy's intellectual property rights legal frameworks concerning
+      copyright incorporate (a) civil and administrative procedures; and (b) provisional measures. (Guide
+      p.34)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Abesence of civil and administrative procedures and remedies, and provisional measures (Methodology
+        sheet 4.6)
+      score: 1
+    - if: Adopt civil and administrative procedures and remedies, or provisional measures (Methodology sheet
+        4.6)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: Adopt civil and administrative procedures and remedies, and provisional measures (Methodology
+          sheet 4.6)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 19
+      template_row: 21
+      guide_pages:
+      - 34
+      guide_heading: 'Online copyright enforcement issues: civil and administrative procedures and provisional
+        measures'
+
+  - id: "4.9"
+    pillar: 4
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Mandatory disclosure of trade secrets, such as source code and algorithms
+    category_official: Mandatory disclosure of trade secrets, such as souce code and algorithms
+    question: Does a law require firms to disclose trade secrets such as source code, algorithms or decryption
+      means to a government authority without protecting that information against unfair commercial use?
+    definition: 'Captures government mandates to disclose trade secrets, for example source code and algorithms
+      (Guide p.37). A disclosure duty that comes with protection against unfair commercial use is not scored;
+      without such safeguards, the score depends on how far the duty reaches, from specific products or
+      circumstances up to a whole sector or all sectors (Guide p.37). The Guide''s examples include encryption
+      service providers declaring their source code and authorities'' statutory access to trade secret information
+      (Guide p.37).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_features:
+    - 'safeguards: protection of the disclosed information against unfair commercial use means the duty
+      is not scored (Guide p.37)'
+    - 'scope: a duty affecting an entire sector or all sectors scores above one limited to specific products
+      or circumstances (Guide p.37; Methodology sheet 4.9)'
+    - 'number of measures: more than one limited-scope duty escalates to 1 (Guide p.37; Methodology sheet
+      4.9)'
+    - 'national-security basis: scored 0.5 or 1 according to scope, because the security ground is broad
+      and unclear (Guide p.37 fn 22)'
+    scoring_tree:
+    - if: 'Without safeguards against unfair commercial use, a disclosure requirement affects an entire
+        sector or all sectors horizontally, OR there is more than one limited-scope disclosure requirement
+        of the kind described in the next branch (Guide p.37; Methodology sheet 4.9).
+
+        '
+      score: 1
+    - if: 'Without safeguards against unfair commercial use, one disclosure requirement of limited scope
+        applies only to specific types of products or specific circumstances, such as disclosure through
+        court orders, regulatory proceedings or a national-security provision aimed at certain companies
+        (Guide p.37; Methodology sheet 4.9).
+
+        '
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No disclosure requirement, or the Government mandates disclosure where needed to protect
+          the public interest and safeguards the information against unfair commercial use (Guide p.37;
+          Methodology sheet 4.9).
+    coding_rules:
+    - 'Check for safeguards before scoring: an exception that lets a state agency disclose trade secrets
+      only for public health, safety or non-commercial public interest, with steps against unfair trading
+      use, scores 0 (Guide p.37; workbook round2 Thailand row 31).'
+    - A duty that becomes mandatory only in certain circumstances, such as source code held in escrow and
+      released if the supplier fails, is a limited-scope requirement (Guide p.37).
+    - A national-security justification does not remove the score; it is scored 0.5 or 1 depending on scope
+      (Guide p.37 fn 22).
+    - Host coders scored duties to hand over decryption information or give decryption assistance to security
+      agencies under this indicator, at 1 when the duty is horizontal (workbook round2 India row 42; workbook
+      round2 Russian Federation row 30).
+    - Host coders scored a national-security duty on network operators to give technical support to security
+      organs at 0.5 (workbook round2 China row 28).
+    - Algorithm filing that records only descriptive information (service form, algorithm type, self-assessment)
+      was judged not to disclose trade secrets (workbook round2 China row 28).
+    exceptions:
+    - Do not score disclosure requirements tied to public procurement here; Pillar 2 captures them (Guide
+      p.37).
+    - Do not score disclosure of source code or encryption keys demanded when certifying encryption products
+      here; 11.4 captures it (Guide p.37; Guide p.81).
+    - Do not score mandated disclosure that is needed to protect the public and is paired with safeguards
+      against unfair commercial use (Guide p.37; Methodology sheet 4.9).
+    disambiguation:
+    - 'TRAP: a law that PROTECTS trade secrets (definitions, owner''s rights, remedies) is evidence for
+      4.1, not a disclosure mandate, and scores 0 here (Guide pp.37-38; workbook round2 Lao PDR row 25).'
+    - 'TRAP: surrendering source code, encryption or other trade secrets as a condition of public procurement
+      is 2.2 (Guide p.19; Guide p.37). The host coded Indonesia''s public-sector source-code rule under
+      2.2 at 1 and under 4.9 at 0.5, so map it to 2.2 and flag any 4.9 row for review (workbook round2 Indonesia
+      row 10; workbook round2 Indonesia row 41).'
+    - 'TRAP: an interception or decryption power can also be 7.5 when it gives the Government access to
+      personal data without independent judicial authorisation; emit both rows (Guide p.62; workbook round2
+      India row 98; workbook round2 Russian Federation row 58).'
+    - Disclosure of proprietary information beyond ISO/IEC validation when certifying encryption products
+      is 11.4 (Guide p.81).
+    - 'Neither the Guide nor the methodology names judicial oversight as a safeguard: host coders scored
+      warrant-based police access to decryption codes 0, while the methodology lists court-order disclosure
+      at 0.5; treat such rows as review cases (workbook round1 Malaysia row 27; Methodology sheet 4.9).'
+    guide_examples:
+    - 'Malawi: encryption service providers must declare their means of encryption and the source code of
+      their software; the Guide names the Malawi Communications Regulatory Authority (Guide p.37).'
+    - 'Solomon Islands: disclosure of trade secrets to panel members is mandatory in proceedings, and members
+      may not disclose them further (Guide p.37).'
+    - 'Turkmenistan: authorities may access trade secret information within their competence, handled under
+      set procedures and not disclosed further (Guide p.37).'
+    - 'Indonesia: escrow requirement for custom-made software, cited as a limited-scope, conditional disclosure
+      (Guide p.37).'
+    sources:
+      guide_pages:
+      - 37
+      - 38
+      methodology_row_round1_db: 20
+      methodology_row_round2_db: 20
+      faq_pages: []
+      template_row: 22
+
+  - id: "4.1"
+    pillar: 4
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Lack of effective trade secrets legal framework
+    category_official: Lack of effective trade secrets legal framework
+    question: This indicator asks whether an economy has adopted a trade secrets legal framework that provides
+      effective protection of trade secrets. (Guide p.37)
+    definition: This indicator asks whether an economy has adopted a trade secrets legal framework that
+      provides effective protection of trade secrets. (Guide p.37)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Lack of trade secrets legal framework that is able to provide effective protection (Methodology
+        sheet 4.1)
+      score: 1
+    - if: Limited practice/scope addressing protection of trade secrets OR practices with certain clauses
+        included in the IP law/ relevant law (Methodology sheet 4.1)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: Presence of effective protection of trade secrets protection in any forms (Methodology
+          sheet 4.1)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 21
+      template_row: 23
+      guide_pages:
+      - 37
+      - 38
+      guide_heading: Lack of effective trade secrets legal framework
+
+# ----------------------------------------------------------------------------
+# PILLAR 5 — TELECOM REGULATIONS & COMPETITION
+# ----------------------------------------------------------------------------
+
+  - id: "5.1"
+    pillar: 5
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Lack of passive infrastructure sharing
+    category_official: Lack of passive infrastructure sharing
+    question: This indicator looks at (a) whether there is an obligation for passive infrastructure sharing
+      in the economy, and (b) whether the adopted regulatory approach is mandatory or voluntary sharing.
+      (Guide p.41)
+    definition: This indicator looks at (a) whether there is an obligation for passive infrastructure sharing
+      in the economy, and (b) whether the adopted regulatory approach is mandatory or voluntary sharing.
+      (Guide p.41)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: No passive infrastructure sharing obligation (Methodology sheet 5.1)
+      score: 1
+    - if: Passive sharing is not mandated, but it is practiced in the market (Methodology sheet 5.1)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: Passive sharing is mandated (Methodology sheet 5.1)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 23
+      template_row: 25
+      guide_pages:
+      - 41
+      - 42
+      guide_heading: Lack of passive infrastructure sharing
+
+  - id: "5.2"
+    pillar: 5
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Foreign equity limits in telecom sector
+    category_official: Foreign equity limits in telecom sector
+    question: This indicator concerns the maximum foreign equity shares in the specific sector of telecommunications.
+      The indicator covers restrictions on foreign equity shares in (a) privately owned companies, and (b)
+      Government-controlled companies—fully or partially SOEs. (Guide p.42)
+    definition: This indicator concerns the maximum foreign equity shares in the specific sector of telecommunications.
+      The indicator covers restrictions on foreign equity shares in (a) privately owned companies, and (b)
+      Government-controlled companies—fully or partially SOEs. (Guide p.42)
+    scoring:
+      values:
+      - 1
+      - 0.8
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Ban (0%) OR if only a minority stake in more than one measures (Methodology sheet 5.2)
+      score: 1
+    - if: A minority stake (1-50%) allowed (Methodology sheet 5.2)
+      score: 0.8
+    - if: A controlling stake (51-99%) allowed OR restrictions only exist in SOEs (Methodology sheet 5.2)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: Full ownership (100%) allowed in telecommunication sector (Methodology sheet 5.2)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 24
+      template_row: 26
+      guide_pages:
+      - 42
+      guide_heading: Foreign equity limits in telecom sector
+
+  - id: "5.3"
+    pillar: 5
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Shares owned by the Government in telecom companies
+    category_official: Shares owned by the Government in telecom companies
+    question: This indicator concerns the percentage of shares owned by the Government in telecom companies,
+      including the case in which the telecom operator is an SOE. (Guide p.42)
+    definition: This indicator concerns the percentage of shares owned by the Government in telecom companies,
+      including the case in which the telecom operator is an SOE. (Guide p.42)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: At least one companies with government shares above 50% OR more than one measure of category (2)
+        (Methodology sheet 5.3)
+      score: 1
+    - if: One company with government shares between 1% and 50% (Methodology sheet 5.3)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No shares owned by the government in telecom companies (Methodology sheet 5.3)
+    coding_rules:
+    - 'Government shares in telecom companies: ownership facts from SOE lists, market reports and company
+      records (Internal Guide pp.8, 12)'
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 25
+      template_row: 27
+      guide_pages:
+      - 42
+      - 43
+      guide_heading: Shares owned by the Government
+
+  - id: "5.4"
+    pillar: 5
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Lack of functional/accounting separation
+    category_official: Lack of functional/accounting separation
+    question: This indicator asks whether the economy mandates functional and/or accounting separation for
+      operators with significant market power (SMP) in the telecom market. (Guide p.43)
+    definition: This indicator asks whether the economy mandates functional and/or accounting separation
+      for operators with significant market power (SMP) in the telecom market. (Guide p.43)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0.25
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: No funcation/accounting separation is mandated (Methodology sheet 5.4)
+      score: 1
+    - if: Only accounting separation is mandated (Methodology sheet 5.4)
+      score: 0.5
+    - if: Only functional seperation is mandated (Methodology sheet 5.4)
+      score: 0.25
+    - else:
+        score: 0
+        meaning: Both accounting and functional separations are mandated (Methodology sheet 5.4)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 26
+      template_row: 28
+      guide_pages:
+      - 43
+      - 44
+      guide_heading: Lack of functional/accounting separation
+
+  - id: "5.5"
+    pillar: 5
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Licensing requirements in telecom sector for operators
+    category_official: Licensing requirements in telecom sector for operators
+    question: Do the conditions for obtaining a licence to supply telecommunication services or operate
+      telecom facilities discriminate against foreign firms or create significant entry barriers for all
+      providers?
+    definition: 'Concerns licences for private telecommunication services or for operating telecommunication
+      facilities, and asks whether their conditions discriminate against foreign firms or create significant
+      barriers to entry for foreign and local providers alike (Guide p.44). Pillar 5 covers basic and value-added
+      telecommunication services whatever the technology, but not broadcasting (Guide p.40). Barrier types
+      named by the Guide include mandatory performance requirements, separate licensing for value-added
+      services, caps on the number of licences and capital restrictions (Guide p.44).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_features: []
+    scoring_tree:
+    - if: 'At least one telecom licensing scheme includes a strict condition: discrimination against foreign
+        providers, a minimum capital requirement, mandatory performance requirements, or another significant
+        entry barrier such as a cap on the number of licences, separate value-added licensing, or revenue
+        sharing with the regulator on top of licence fees (Guide p.44; Methodology sheet 5.5).
+
+        '
+      score: 1
+    - else:
+        score: 0
+        meaning: Licensing without strict conditions, or no licence required for the service (Guide p.44;
+          Methodology sheet 5.5).
+    coding_rules:
+    - Holding a licence is not scored by itself; the eligibility criteria and licence conditions decide,
+      so capture the clauses that set them (Guide p.44).
+    - 'The Guide counts as barriers: administrative allocation of radio frequencies instead of auctions,
+      revenue sharing with the regulator on top of acquisition and annual fees, and a mandatory public offering
+      of part of the licensee''s shares (Guide p.44).'
+    - Radio-frequency and VoIP licensing count as telecom licensing for this pillar (Internal Guide p.11;
+      Guide p.44).
+    - Licence eligibility that excludes foreign companies or requires local shareholding scores 1 here even
+      when the same limit is also recorded under 5.2 (workbook round1 Malaysia row 35; workbook round2 Thailand
+      row 39).
+    - Host coders scored capacity criteria applied identically to foreign and domestic applicants (adequate
+      financial resources, qualified staff, infrastructure) 0, reasoning that they do not discriminate (workbook
+      round2 Lao PDR row 32).
+    exceptions:
+    - 'Do not score broadcasting licences here: broadcasting is outside Pillar 5 (Guide p.40), and the broadcasting
+      licence is captured under 9.4 (Internal Guide p.14).'
+    - Do not score e-commerce platform licences here; Pillar 12 captures them (Indicator Reference note,
+      9.4; Guide p.85).
+    disambiguation:
+    - 'TRAP: licences for digital service providers such as ISPs and ICPs belong to 9.4, while telecom licences
+      belong to 5.5; classify by licence type (Internal Guide p.12; Indicator Reference note, 9.4).'
+    - 'TRAP: a standalone foreign equity cap on telecom operators is 5.2; commercial presence requirements
+      are 3.5 and investment screening is 3.4 (Guide p.11).'
+    - 'TRAP: host coders split on bare local-registration licence conditions, scoring Singapore''s facilities-based
+      licence 1 but Russia''s communications licence 0; record such a condition under 3.5 and flag any 5.5
+      score of 1 that rests on it alone (Guide p.11; workbook round1 Singapore row 30; workbook round2 Russian
+      Federation row 39).'
+    - 'TRAP: host coders scored India''s unified licence 0 despite an entry fee plus a licence fee of 8%
+      of adjusted gross revenue, while the Guide treats revenue sharing on top of fees as a barrier; flag
+      for review (workbook round2 India row 54; Guide p.44).'
+    - Certification or type approval of telecom equipment is a standards matter under 11.2, not operator
+      licensing (Internal Guide p.14).
+    - Licences to deal in encryption tools or services are not telecom operator licences, even when the
+      same licensing law lists both (Guide p.81; workbook round2 Russian Federation row 77).
+    guide_examples:
+    - 'Indonesia: radio frequencies allocated through administrative licensing rather than auctions (Guide
+      p.44).'
+    - 'Bangladesh: nationwide transmission network operators share revenue with the regulator from the second
+      year, on top of licence acquisition and annual fees (Guide p.44).'
+    - 'Tanzania: network facilities and network services licensees must offer at least 25% of their shares
+      to the public through an IPO (Guide p.44).'
+    - 'Other barriers: separate licensing for value-added telecommunication services and caps on the number
+      of licences issued (Guide p.44).'
+    sources:
+      guide_pages:
+      - 40
+      - 44
+      methodology_row_round1_db: 27
+      methodology_row_round2_db: 27
+      faq_pages:
+      - 11
+      - 12
+      - 14
+      template_row: 29
+
+  - id: "5.7"
+    pillar: 5
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Lack of independent telecom authority
+    category_official: Lack of independent telecom authority
+    question: This indicator asks whether an economy has an independent telecommunications regulator. (Guide
+      p.46)
+    definition: This indicator asks whether an economy has an independent telecommunications regulator.
+      (Guide p.46)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: No independent telecom authority (Methodology sheet 5.7)
+      score: 1
+    - else:
+        score: 0
+        meaning: Independent telecom authority is established (Methodology sheet 5.7)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 28
+      template_row: 30
+      guide_pages:
+      - 46
+      guide_heading: Lack of independent telecom authority
+
+# ----------------------------------------------------------------------------
+# PILLAR 6 — CROSS-BORDER DATA POLICIES
+# Where the measures live: comprehensive data-protection statutes AND sectoral
+# laws for health, finance (credit-card information) and telecommunications
+# (computer traffic data). (Guide p.49)
+# ----------------------------------------------------------------------------
+
+  - id: "6.1"
+    pillar: 6
+    tier: A
+    review_status: "Round 1 codebook (2026-07-12); migrated 2026-09-13"
+    name: "Ban and local processing requirements"
+    category_official: "Ban and local processing requirements"   # methodology sheet row 30
+    weight: 0.38                     # informational — pillar-internal weight (Guide p.55)
+    question: "Does a law prohibit cross-border data transfer outright, or require that certain data be processed domestically?"
+    definition: >
+      'Ban on data transfers' prohibits, per se, cross-border transfer of
+      data. 'Local processing requirement' mandates that businesses process
+      certain data domestically (processing = collection, organization,
+      structuring, storage, adaptation, use, disclosure, dissemination). Both
+      are classified under this single indicator because their business costs
+      are similar. (Guide p.50)
+    scoring: {values: [1, 0.5, 0], type: ordinal}
+    scoring_features:
+      - "type of data: personal scores higher than non-personal (Guide p.50)"
+      - "scope: horizontal (all sectors) scores higher than sectoral / specific data types (Guide p.50)"
+      - "number of economies: a ban toward more economies scores higher than a ban toward one economy (Guide p.50)"
+    scoring_tree:
+      - if: >
+          A ban and/or local processing requirement covers personal data
+          generally or applies horizontally across all sectors — OR there is
+          MORE THAN ONE measure of category (2) (multiple sector-/data-limited
+          or single-country measures escalate to 1). (Guide p.50; Methodology sheet 6.1)
+        score: 1
+      - if: >
+          ONE ban and/or local processing requirement applied to a specific
+          sector, a specific set of data, or non-personal data only — or
+          transfer is prohibited to one country only. (Guide p.50; Methodology sheet 6.1)
+        score: 0.5
+      - else: {score: 0, meaning: "Data may be transferred freely; no ban or local-processing requirement. (Guide p.50)"}
+    coding_rules:
+      - "Applies to measures potentially affecting COMMERCIAL transactions by private organisations. (Guide p.50)"
+      - >
+        A sectoral measure on personal data (e.g. health records only) is
+        category (2) → 0.5, not 1 — 'personal data' in category (1) means
+        personal data generally/horizontally. Escalate to 1 only via the
+        more-than-one-measure rule. (workbook round1 Australia row 34: My Health Records = 0.5)
+      - >
+        DUAL-RECORDING RULE: where one law imposes BOTH local processing and
+        local storage, record the measure under BOTH 6.1 and 6.2. (Guide p.51, Australia example)
+      - "Local processing subsumes storage in practice, but is recorded here; a storage-only rule is 6.2. (Guide p.51)"
+    exceptions:
+      - "Do NOT score data-localization measures applied to GOVERNMENT data (applies to all of 6.1-6.4). (Indicator Reference note; Guide p.50)"
+    disambiguation:
+      - >
+        TRAP (the #1 mis-mapping): a law that prohibits transfer BUT allows it
+        when conditions are fulfilled (consent, adequacy, contract, approval)
+        is a CONDITIONAL FLOW REGIME → 6.4, NOT a ban. Only a COMPLETE
+        prohibition (or a mandate to process locally) is 6.1. 'Must not transfer
+        UNLESS [condition]' is 6.4. (Internal Guide p.13; Indicator Reference row 84; Extraction slides pp.33, 56)
+      - >
+        TRAP: banking/professional CONFIDENTIALITY or secrecy rules (e.g.
+        Singapore Banking Act s.47 customer-information secrecy) are not, by
+        themselves, cross-border transfer bans. Check whether the provision
+        regulates the MOVEMENT of data across borders, not merely disclosure.
+        (Canvas deck pp.10-11; workbook round1 Singapore row 39)
+      - "A requirement to keep a COPY domestically while transfer remains allowed → 6.2. (Guide p.50)"
+      - "A requirement to establish/use a local data centre or server as a service precondition → 6.3. (Guide p.51)"
+    guide_examples:
+      - "Australia: health records containing personal/identifying information must be stored and processed locally (sectoral → also recorded under 6.2). (Guide p.50)"
+      - "Republic of Korea: financial service providers using cloud services must locally process credit and unique identification information. (Guide p.50)"
+      - "Thailand: credit information companies / information controllers / processors operating in Thailand must control or process information locally. (Guide p.50)"
+
+  - id: "6.2"
+    pillar: 6
+    tier: A
+    review_status: "Round 1 codebook (2026-07-12); migrated 2026-09-13"
+    name: "Local storage requirements"
+    category_official: "Local storage requirements"               # methodology sheet row 31
+    weight: 0.12
+    question: "Must a COPY of certain data be stored domestically, while transfer abroad may still be permitted?"
+    definition: >
+      A 'local storage requirement' mandates that a copy of certain data be
+      kept within the economy. Businesses can transfer the data across borders
+      as long as a copy remains domestically. Less demanding than local
+      processing: a processing mandate typically necessitates local storage,
+      but a storage mandate does not imply local processing. (Guide pp.50-51)
+    scoring: {values: [1, 0.5, 0], type: ordinal}
+    scoring_features:
+      - "type of data: personal scores higher than non-personal (Guide p.51)"
+      - "scope: horizontal scores higher than sectoral / specific data types (Guide p.51)"
+    scoring_tree:
+      - if: >
+          A local storage requirement covers personal data generally or
+          applies horizontally across all sectors — OR there are TWO OR MORE
+          local storage requirements applied to non-personal data or specific
+          sets of data (multiple category-(2) measures escalate to 1). (Guide p.51; Methodology sheet 6.2)
+        score: 1
+      - if: "ONE local storage requirement applied to a specific sector, a specific set of data, or non-personal data only. (Guide p.51; Methodology sheet 6.2)"
+        score: 0.5
+      - else: {score: 0, meaning: "Data may be transferred freely; no copy-retention-in-country requirement. (Guide p.51)"}
+    coding_rules:
+      - "Applies to measures potentially affecting COMMERCIAL transactions. (Guide p.51)"
+      - >
+        Sectoral personal-data storage mandates are category (2) → 0.5.
+        (workbook round1 Australia row 35: My Health Records = 0.5)
+      - >
+        DUAL-RECORDING RULE: a law imposing BOTH local processing and local
+        storage is recorded under BOTH 6.1 and 6.2. (Guide p.51)
+    exceptions:
+      - "Do NOT score data-localization measures applied to GOVERNMENT data. (Indicator Reference note; Guide p.51)"
+    disambiguation:
+      - >
+        TRAP: storage (LOCATION) vs retention (DURATION). A rule about HOW
+        LONG data must be kept is 7.3, not 6.2 — under a retention rule
+        the data may be kept anywhere, including abroad. Only a rule about
+        WHERE data must reside is 6.2. (Guide p.59 fn.34)
+      - >
+        TRAP: 6.2 is data STORED in-country — a storage locus, not general
+        record-keeping. A duty to keep books or records, with no requirement
+        about where they are kept, is not 6.2. (Indicator Reference row 83)
+      - "A storage rule does NOT require building/owning a data centre — an establishment mandate is 6.3. (Guide p.51)"
+      - "If processing (not just storage) must happen domestically → 6.1 (and record both if both are mandated). (Guide p.51)"
+    guide_examples:
+      - "Australia: health records stored and processed locally (also 6.1). (Guide p.50)"
+      - "Malawi: local storage requirement for health-related data. (Guide p.50)"
+      - "New Zealand: registered entities must store specified tax-related records locally. (Guide p.50)"
+      - "El Salvador: data information agencies must maintain their databases in the country with access for the financial superintendence. (Guide p.51)"
+      - "Türkiye: social network providers with >1M daily users must store user data within the economy. (Guide p.51)"
+
+  - id: "6.3"
+    pillar: 6
+    tier: A
+    review_status: "Round 1 codebook (2026-07-12); migrated 2026-09-13"
+    name: "Infrastructure requirements"
+    category_official: "Infrastructure requirements"              # methodology sheet row 32
+    weight: 0.31
+    question: "Must a service provider establish or use dedicated local physical infrastructure (data centre, local server) as a precondition for supplying services?"
+    definition: >
+      An 'infrastructure requirement' mandates the establishment of a local
+      data centre (or dedicated local physical infrastructure such as a local
+      server) as a condition to provide certain services using data. Distinct
+      from 6.2: a storage rule can be satisfied by renting existing local
+      facilities; an infrastructure rule obliges the provider to establish or
+      use dedicated local physical infrastructure. (Guide p.51)
+    scoring: {values: [1, 0], type: binary}
+    scoring_tree:
+      - if: "There is at least one infrastructure requirement (as defined above) acting as a barrier/precondition to data movement or service supply. (Guide p.52; Methodology sheet 6.3)"
+        score: 1
+      - else: {score: 0, meaning: "No requirement to establish/use local physical infrastructure. (Guide p.52)"}
+    coding_rules:
+      - "Applies to measures potentially affecting COMMERCIAL transactions. (Guide p.52)"
+      - >
+        The indicator captures requirements that act as a PRIMARY BARRIER to
+        data movement — regulations explicitly mandating establishment of a
+        data centre or other local data-storage infrastructure as a condition
+        for service. (Guide p.52)
+      - >
+        FAQ rule: where a country has data-centre regulations but NO
+        establishment mandate for data-transfer purposes, the information MAY
+        be recorded with score 0.00 (note-only row). (Internal Guide p.13)
+    exceptions:
+      - "Do NOT score data-localization measures applied to GOVERNMENT data. (Indicator Reference note; Guide p.52)"
+      - >
+        Do NOT score operational/technical requirements applied to
+        already-established data centres (e.g. security controls, privacy
+        obligations on the collected data). (Guide p.52; Internal Guide p.13)
+      - >
+        Do NOT score licensing/registration requirements for building or
+        operating data centres — those belong to indicator 9.4, not 6.3. (Internal Guide pp.13-14)
+    disambiguation:
+      - "TRAP: a data-centre LICENSING or registration scheme is NOT 6.3 (it is 9.4). 6.3 = 'you must build/use local infrastructure to serve customers'. (Internal Guide pp.13-14)"
+      - "A rule that a copy of data reside locally (rentable, no build mandate) → 6.2. (Guide p.51)"
+      - >
+        Guide erratum: the Guide's 6.3 section once says local storage is
+        'indicator 6.1' — a typo for 6.2. Ignore it; the mapping here is
+        authoritative. (Guide p.51)
+      - "Network-security or access-control rules for licensees are not infrastructure requirements; judge the legal function, not the keywords. (Extraction slides pp.36-37)"
+    guide_examples:
+      - "Chile: banks outsourcing data processing abroad must have a contingency data processing centre located in-country. (Guide p.51)"
+      - "Mongolia: servers processing sensitive, biometric and genetic data must be physically located within the economy. (Guide p.51)"
+      - "Kazakhstan: communications-network operators must establish a local centralized network-management system. (Guide p.52)"
+      - "Viet Nam: providers of websites, social networks, mobile networks and online games must maintain at least one local server. (Guide p.52)"
+
+  - id: "6.4"
+    pillar: 6
+    tier: A
+    review_status: "Round 1 codebook (2026-07-12); migrated 2026-09-13"
+    name: "Conditional flow regimes"
+    category_official: "Conditional flow regimes"                 # methodology sheet row 33
+    weight: 0.12
+    question: "Is cross-border data transfer permitted ONLY IF conditions are met (data-subject consent, adequacy/equivalence of protection, contracts/self-assessment, or government approval)?"
+    definition: >
+      Conditions businesses must satisfy to transfer data across borders,
+      typically preventing transfer to economies whose data protection is not
+      adequate/equivalent to domestic protection. The deciding entity varies —
+      (a) the data subject via consent, (b) the business via adequacy
+      self-assessment, (c) the Government via adequacy determinations or
+      approvals — but the SCORE DOES NOT DEPEND on which entity decides. (Guide pp.52-54)
+    scoring: {values: [1, 0.5, 0], type: ordinal}
+    scoring_features:
+      - "type of data: personal scores higher than non-personal (Guide p.54)"
+      - "scope: horizontal scores higher than specific data types (Guide p.54)"
+    scoring_tree:
+      - if: >
+          The conditional regime covers PERSONAL data — regardless of whether it
+          is horizontal or sector-specific — OR applies horizontally across all
+          sectors (even if only to non-personal or specific data types). (Guide p.54; Methodology sheet 6.4)
+        score: 1
+      - if: "The conditional regime applies to non-personal data and/or a specific set of data only (e.g. geographical survey data, financial/telecom/cloud data categories). (Guide p.54; Methodology sheet 6.4)"
+        score: 0.5
+      - else: {score: 0, meaning: "No condition attached to cross-border transfer. (Guide p.54)"}
+    coding_rules:
+      - "Applies to measures potentially affecting COMMERCIAL transactions. (Guide p.54)"
+      - >
+        NOTE the asymmetry vs 6.1/6.2: for 6.4 the Guide EXPLICITLY scores
+        personal-data conditions 1 even when sector-specific. A
+        financial-sector-only condition on personal data is still 1 here,
+        whereas a sectoral personal-data ban/storage rule is 0.5 under 6.1/6.2. (Guide p.54 vs pp.50-51)
+      - "There is NO more-than-one-measure escalation clause for 6.4 (unlike 6.1/6.2). (Guide p.54; Methodology sheet 6.4)"
+      - >
+        All condition types score identically: consent regimes, business
+        adequacy self-assessment, standard contractual clauses, prior
+        government authorization, whitelist/adequacy determinations. (Guide p.54)
+    exceptions:
+      - "Do NOT score conditions applied to GOVERNMENT data. (Indicator Reference note; Guide p.54)"
+    disambiguation:
+      - >
+        TRAP (mirror of the 6.1 trap): 'prohibited unless conditions are
+        met' — the default-prohibition + exception drafting pattern (e.g.
+        Singapore PDPA s.26: transfer only per prescribed requirements
+        ensuring comparable protection) — is 6.4, NOT a 6.1 ban. Classify
+        by whether a compliant transfer path EXISTS: conditions → 6.4;
+        no path → 6.1. (Guide p.54; Canvas deck p.7; Indicator Reference row 84)
+      - "If, in addition to conditions, a COPY must stay onshore → also record 6.2; if processing must be local → also record 6.1. (Guide p.51)"
+    guide_examples:
+      - "Singapore: PDPA requires transfers abroad to meet prescribed requirements ensuring a standard of protection comparable to the PDPA (consent + comparable protection) → 1. (Guide p.54)"
+      - "Brazil: central-bank-regulated institutions hiring cloud services that store/process data abroad need prior authorization (60 days) absent a regulator agreement. (Guide p.54)"
+      - "Palau: agencies must notify the Ministry of State and obtain individual consent before transferring personal information abroad. (Guide p.54)"
+      - "Republic of Korea: transfer abroad of geographical/survey data requires ministerial permission (specific non-personal data → 0.5 pattern). (Guide p.54)"
+      - "Uzbekistan: cross-border personal data transfer allowed only on adequacy, consent, public-order grounds or treaty requirement. (Guide p.54)"
+
+# ----------------------------------------------------------------------------
+# PILLAR 7 — DOMESTIC DATA PROTECTION AND PRIVACY
+# Where the measures live: data-protection statutes, cybersecurity acts, AND
+# NON-privacy laws (criminal procedure, surveillance/interception, telecom,
+# AML/financial, tax/corporate record-keeping). (Guide pp.57-62; Extraction slides p.47)
+# ----------------------------------------------------------------------------
+
+  - id: "7.1"
+    pillar: 7
+    tier: A
+    review_status: "Round 1 codebook (2026-07-12); migrated and extended with host row 80 on 2026-09-13"
+    name: "Lack of comprehensive legal framework for data protection"
+    category_official: "Lack of comprehensive legal framework for data protection"   # sheet row 35
+    weight: 0.31
+    polarity: inverted               # higher score = LESS protection in place
+    level: economy                   # answered once per economy (Indicator Reference row 80)
+    question: "Does the economy LACK a comprehensive (horizontal) data-protection legal framework for personal data?"
+    definition: >
+      'Comprehensive' = broad, cross-sectoral (horizontal) applicability PLUS
+      detailed provisions on the scope and application of data subjects'
+      rights and obligations — e.g. rights of access, rectification, erasure,
+      portability — covering activities such as collection, processing and
+      cross-border transfer of personal data. (Guide p.58)
+    scoring: {values: [1, 0.5, 0], type: ordinal}
+    scoring_tree:
+      - if: "No data-protection legal framework exists at all. (Guide p.58; Methodology sheet 7.1)"
+        score: 1
+      - if: "A data-protection legal framework exists but applies only to specific sectors (sectoral law(s) only). (Guide p.58; Methodology sheet 7.1)"
+        score: 0.5
+      - else: {score: 0, meaning: "A comprehensive horizontal data-protection framework exists (e.g. SG PDPA 2012, MY PDPA 2010, AU Privacy Act 1988). (Guide p.58; workbook round1 Singapore row 38)"}
+    coding_rules:
+      - "Comprehensive = the law applies horizontally across all sectors; if it applies to a specific sector, assign 0.5. (Internal Guide p.13)"
+      - >
+        ECONOMY-LEVEL: answer once per economy. Record the framework (or its
+        absence) once, citing the comprehensive act's scope/application
+        provision as the verbatim evidence. Per-provision citations of a
+        data-protection act tagged 7.1 are not discoveries and score zero. (Indicator Reference row 80)
+      - >
+        Sectoral data-protection instruments are part of the economy-level
+        answer: they decide 0.5 when no comprehensive law exists, and they do
+        not lift a 0 when one does. (Guide p.58; Assignment 1 answer key p.2)
+    exceptions: []
+    disambiguation:
+      - >
+        TRAP — INVERTED POLARITY: this indicator measures the LACK of a
+        framework. An economy WITH a comprehensive DP law scores 0 (good for
+        digital trade), NOT 1. Never emit 1 because a strong law was found. (Methodology sheet 7.1; Guide p.58; Assignment 1 answer key p.2)
+      - >
+        TRAP: economy-level, not provision-level. The question is whether the
+        framework exists at all, not whether one provision does; individual
+        provisions of the act are not separate 7.1 discoveries. (Indicator Reference row 80)
+      - >
+        The existence of sectoral DP rules alongside a comprehensive law does
+        not lift the score above 0 — the comprehensive law controls the score. (Assignment 1 answer key p.2)
+      - "General/constitutional privacy rights without detailed data-protection provisions do not constitute a comprehensive framework by themselves. (Guide p.58)"
+
+  - id: "7.2"
+    pillar: 7
+    tier: A
+    review_status: "Round 1 codebook (2026-07-12); migrated and extended with host row 80 on 2026-09-13"
+    name: "Lack of dedicated legal framework for cybersecurity"
+    category_official: "Lack of dedicated legal framework for cybersecurity"          # sheet row 36
+    weight: 0.31
+    polarity: inverted
+    level: economy                   # answered once per economy (Indicator Reference row 80)
+    question: "Does the economy LACK a dedicated cybersecurity legal framework?"
+    definition: >
+      'Dedicated' = broadly applicable cybersecurity-SPECIFIC laws
+      (horizontal), or cybersecurity-focused laws applicable to specific
+      sectors (sectoral). 'Non-dedicated' = no specific cybersecurity law;
+      the economy relies on other laws to govern cyber threats (monitoring,
+      detection, prevention, mitigation, incident management). (Guide p.59)
+    scoring: {values: [1, 0.5, 0], type: ordinal}
+    scoring_tree:
+      - if: "No cybersecurity legal framework exists at all. (Guide p.59; Methodology sheet 7.2)"
+        score: 1
+      - if: "Only a non-dedicated framework (cyber threats governed via other laws) AND/OR a dedicated cybersecurity law limited to specific sectors. (Guide p.59; Methodology sheet 7.2)"
+        score: 0.5
+      - else: {score: 0, meaning: "A dedicated cybersecurity legal framework applies across all sectors (horizontal), e.g. SG Cybersecurity Act 2018, MY Cyber Security Act 854 (2024). (Guide p.59; workbook round1 Singapore row 40)"}
+    coding_rules:
+      - >
+        ECONOMY-LEVEL: answer once per economy, citing the dedicated act's
+        scope provision. Per-provision citations of a cybersecurity act tagged
+        7.2 are not discoveries and score zero. (Indicator Reference row 80)
+      - "Sectoral cybersecurity instruments (e.g. a financial regulator's cyber-hygiene notice) are recorded, but the horizontal act is the controlling evidence for the score. (Assignment 1 answer key pp.1-2)"
+    exceptions: []
+    disambiguation:
+      - "TRAP — INVERTED POLARITY: an economy WITH a dedicated horizontal cybersecurity act scores 0, not 1. (Methodology sheet 7.2; Guide p.59; Extraction slides p.44)"
+      - "TRAP: economy-level, not provision-level — individual provisions of the cybersecurity act are not separate 7.2 discoveries. (Indicator Reference row 80)"
+      - >
+        Computer-misuse/cybercrime statutes are a signal but check scope: a
+        law relying on offence provisions without a cybersecurity-specific
+        framework is 'non-dedicated'; judge against the 'dedicated'
+        definition and cite what exists. (Guide p.59)
+      - "The same act's powers to access data without court orders evidence 7.5 separately. (Guide p.62)"
+
+  - id: "7.3"
+    pillar: 7
+    tier: A
+    review_status: "Round 1 codebook (2026-07-12); migrated and extended with host row 81 on 2026-09-13"
+    name: "Minimum period of data retention requirements"
+    category_official: "Minimum period of data retention requirements"               # sheet row 37
+    weight: 0.16
+    question: "Does any law require that data be retained for AT LEAST a specified minimum period?"
+    definition: >
+      Under a 'minimum period of retention', firms MUST retain data for at
+      least a specific prescribed period (days, months or years) and keep it
+      available for authorities. Purpose is typically investigative/law
+      enforcement (corporate affairs, tax, telecom communications data). A
+      'permanent retention' mandate is an atypical minimum-period requirement
+      and also scores 1. (Guide pp.59-60; Guide p.60 fn.36)
+    scoring: {values: [1, 0], type: binary}
+    scoring_tree:
+      - if: "A requirement exists to retain data for at least a specified minimum period (duration in days/months/years explicitly stated, or permanent retention mandated). (Guide p.60; Methodology sheet 7.3)"
+        score: 1
+      - else: {score: 0, meaning: "No retention requirement — OR a requirement exists but specifies no minimum period (e.g. 'as long as necessary'). (Guide p.60)"}
+    coding_rules:
+      - >
+        If the duration is clearly specified → minimum period → 1. If the
+        retention period is NOT specified, the measure MAY still be recorded in
+        the database but scored 0.00. (Internal Guide p.13)
+      - >
+        A 'prescribed period' with no number, a notification deadline or an
+        appeal window is not a retention rule. (Indicator Reference row 81)
+      - >
+        Carriers are usually NOT the privacy statute: look in telecom /
+        interception laws, AML & financial due-diligence rules, tax and
+        corporate record-keeping, e-commerce transaction rules, employment
+        record rules. (Guide pp.59-60; Assignment 2 brief p.2)
+    exceptions:
+      - "Do NOT score retention requirements applied to GOVERNMENT data. (Indicator Reference note; Guide p.60)"
+    disambiguation:
+      - >
+        TRAP (multiply attested): 'do not keep longer than necessary' /
+        'as long as necessary' retention-limitation principles in data
+        protection laws are MAXIMUM-period rules — NOT scored under RDTII 2.1
+        (score 0). Only 'retain for AT LEAST N' (a floor) scores 1. Look for
+        the words 'minimum', 'at least', 'not less than', or an explicit
+        period the data must survive until. (Guide p.60 fn.35; Internal Guide p.13; Extraction slides p.45; Indicator Reference row 81)
+      - "TRAP: needs a SPECIFIED minimum duration ('5 years'); a 'prescribed period' with no number, a notification deadline or an appeal window does not count. (Indicator Reference row 81)"
+      - "Retention (DURATION) vs local storage (LOCATION): retained data may live abroad → 7.3; a domestic-copy rule → 6.2. (Guide p.59 fn.34)"
+    guide_examples:
+      - "Bangladesh: e-commerce business transaction data retained for 6 years from transaction date. (Guide p.60)"
+      - "Botswana: Financial Intelligence Act — customer due-diligence records retained 20 years; Electronic Payments Services Regulations — at least 5 years. (Guide p.60)"
+      - "India: cyber cafés must keep authenticated user-ID records for at least 1 year. (Guide p.60)"
+      - "Malawi: required retention period of at least 7 years. (Guide p.60)"
+      - "Mexico: telecom concessionaires keep user data 12 months in a system + 12 further months in electronic storage. (Guide p.60)"
+      - "Peru: concessionaires keep specified telecom data 12 months + an additional 24 months. (Guide p.60)"
+
+  - id: "7.4"
+    pillar: 7
+    tier: A
+    review_status: "Round 1 codebook (2026-07-12); migrated 2026-09-13"
+    name: "Data Protection Impact Assessment (DPIA) or Data Protection Officer (DPO) requirements"
+    category_official: "Data Protection Impact Assessment (DPIA) or Data Protection Officer (DPO) requirements"   # sheet row 38
+    weight: 0.06
+    question: "Are firms required to appoint a Data Protection Officer and/or perform Data Protection Impact Assessments?"
+    definition: >
+      DPOs ensure a company processes personal data in compliance with data
+      protection rules; a DPIA is a process for identifying the risks of data
+      processing operations to users' rights. The scoring metric anchors on
+      the presence of the DPO requirement (DPIA duties usually follow DPO
+      appointment). (Guide pp.60-61)
+    scoring: {values: [1, 0.5, 0], type: ordinal}
+    scoring_tree:
+      - if: "A DPO requirement (alone, or together with a DPIA requirement) applies to ALL sectors. (Guide p.61; Methodology sheet 7.4)"
+        score: 1
+      - if: "A DPO requirement (alone, or together with a DPIA requirement) applies only to a SPECIFIC sector. (Guide p.61; Methodology sheet 7.4)"
+        score: 0.5
+      - else: {score: 0, meaning: "No DPO/DPIA requirement. (Guide p.61)"}
+    coding_rules:
+      - >
+        SPECIAL CASE — DPIA-only: the Guide notes a theoretical 0.25 where
+        ONLY a DPIA is required (never observed in practice; absent from the
+        methodology sheet's allowed scores). If encountered: do not emit 0.25;
+        flag the row for human review in Notes and leave score_hint to the
+        reviewer. (Guide p.61; Methodology sheet 7.4)
+      - "The duty must be MANDATORY. Advisory/recommended DPIAs (e.g. Singapore's advised DPIA for children's products) do not create a DPIA mandate — Singapore scores on its mandatory DPO duty. (Guide p.61)"
+    exceptions: []
+    disambiguation:
+      - >
+        TRAP: adjacent roles are NOT DPOs — a registry contact person (e.g.
+        Türkiye's VERBIS contact), a local representative, or a general
+        compliance/security officer does not satisfy the DPO definition unless
+        the role is responsibility for personal-data-protection compliance. (Guide p.61)
+      - "General risk-assessment or breach-notification duties are not DPIAs; a DPIA specifically assesses data-processing risks to individuals' rights. (Guide pp.60-61)"
+    guide_examples:
+      - "Colombia: controllers/processors must appoint a person or division responsible for personal-data protection and data-subject claims. (Guide p.61)"
+      - "Ghana: Data Protection Act requires controllers to appoint a data protection officer/supervisor. (Guide p.61)"
+      - "Singapore: organisations must appoint one or more DPOs under the PDPA (DPIA advised, not mandated) → horizontal DPO duty. (Guide p.61)"
+      - "Türkiye: 'data controller' + VERBIS contact person + local representative — no DPO/DPIA mandate (negative example). (Guide p.61)"
+
+  - id: "7.5"
+    pillar: 7
+    tier: A
+    review_status: "Round 1 codebook (2026-07-12); migrated and extended with host row 82 on 2026-09-13"
+    name: "Requirements to allow government access to personal data"
+    category_official: "Requirements to allow government access to personal data"     # sheet row 39
+    weight: 0.16
+    question: "Can the Government access personal data WITHOUT the explicit authorization of an independent judicial body?"
+    definition: >
+      The indicator asks whether Government can access personal data without a
+      court decision, judicial warrant, or an equivalent order issued by a
+      truly independent tribunal with due-process safeguards. Lack of judicial
+      oversight of this discretionary power undermines fundamental rights and
+      digital trust. (Guide p.62)
+    scoring: {values: [1, 0], type: binary}
+    scoring_tree:
+      - if: "Any measure allows the Government to access (personal) data without a court order / independent judicial authorization — including access on regulator or ministerial request, mandatory standing access for agencies, or surveillance authorized by a non-judicial or undefined authority. (Guide p.62; Methodology sheet 7.5)"
+        score: 1
+      - else: {score: 0, meaning: "No such measure — access requires independent judicial authorization. (Guide p.62)"}
+    coding_rules:
+      - >
+        SEARCH BEYOND PRIVACY LAW: the enabling provisions typically live in
+        criminal procedure codes, surveillance/interception statutes, telecom
+        acts, intelligence/security laws — and sometimes in the DP law's own
+        law-enforcement exemptions. (Extraction slides p.47; Guide p.62)
+      - >
+        Ambiguity counts: where the authorizing 'authority' is undefined or
+        not demonstrably an independent judicial body (e.g. Cambodia's
+        'legitimate authority'), the measure scores 1. (Guide p.62)
+    exceptions: []
+    disambiguation:
+      - "Access gated on a judicial warrant/court order from an independent tribunal → NOT a measure (score 0). (Guide p.62)"
+      - "TRAP: do not stop at the privacy act. A comprehensive DP law with a broad law-enforcement exemption PLUS a CPC production-order regime without court order → the CPC provision is the evidence. (Extraction slides pp.47-49; workbook round1 Singapore row 47)"
+      - >
+        TRAP: 7.5 is government access to PERSONAL data without independent
+        judicial authorisation — not generic inspection of business records by
+        a regulator, and not a secrecy duty with a court-order carve-out. (Indicator Reference row 82)
+      - "Data-retention schemes designed to guarantee authority access can evidence BOTH 7.3 (if a minimum period is set) and 7.5 (if access needs no court order) — emit two rows; indicators are not mutually exclusive. (Guide p.59; Assignment 1 answer key p.3)"
+    guide_examples:
+      - "Cambodia: telecom operators must provide service data to the Ministry; secret surveillance allowed on authorization of an undefined 'legitimate authority' → 1. (Guide p.62)"
+      - "Cuba: criminal investigator may exceptionally use electronic surveillance without the Attorney General's authorization. (Guide p.62)"
+      - "India: ISPs must maintain user logs and give authorized intelligence agencies password-controlled access to subscriber lists at any time. (Guide p.62)"
+      - "Sri Lanka: mobile operators must open databases/networks to the Telecommunications Regulatory Commission upon request. (Guide p.62)"
+
+# ----------------------------------------------------------------------------
+# PILLAR 8 — INTERNET INTERMEDIARY LIABILITY
+# ----------------------------------------------------------------------------
+
+  - id: "8.1"
+    pillar: 8
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    polarity: inverted
+    name: Lack of safe harbour for copyright infringements
+    category_official: Lack of safe harbour for copyright infringements
+    question: Does any law shield Internet intermediaries from liability for their users' copyright infringement,
+      and is that shield sector-specific or horizontal? (No shield scores 1.)
+    definition: 'A safe harbour protects Internet intermediaries, such as ISPs and Internet content providers,
+      from legal liability for certain activities of their users; without it, an intermediary hosting copyright-infringing
+      content is liable per se even when it is unaware of that content (Guide p.64). The protection can
+      sit in sector-specific laws, for example rules for telecommunications or e-commerce service providers,
+      or apply across all sectors (Guide p.65). Lacking safe-harbour provisions for intermediaries is one
+      of the gaps that push an indicator score towards 1 (Guide p.10).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_features: []
+    scoring_tree:
+    - if: 'TRAP inverted polarity: no provision limits intermediaries'' liability for users'' copyright
+        infringement, i.e. no intermediary liability framework is in place (Guide p.65; Methodology sheet
+        8.1).'
+      score: 1
+    - if: A safe harbour covering copyright infringement exists only in a sectoral framework, such as an
+        e-commerce or telecommunications instrument (Guide p.65; Methodology sheet 8.1).
+      score: 0.5
+    - else:
+        score: 0
+        meaning: A horizontal framework, applying across sectors, protects intermediaries from liability
+          for users' copyright infringement (Guide p.65; Methodology sheet 8.1).
+    coding_rules:
+    - A general intermediary exemption that never mentions copyright still counts as a copyright safe harbour
+      (Guide p.65, footnote 40).
+    - Conditions such as no specific or actual knowledge and prompt removal once aware or notified do not
+      stop a provision from being a safe harbour (Guide p.65).
+    - One law that protects intermediaries against both copyright claims and other unlawful content is evidence
+      for 8.1 and 8.2; record it under both (Guide pp.65-66; Guide p.11).
+    - A safe harbour limited to copyright answers 8.1 only; decide 8.2 on the other laws (Guide p.65).
+    - The workbook treats a shield in a copyright act, civil code or IT act that reaches intermediaries
+      in every sector as horizontal (0) and one confined to e-commerce operators as sectoral (0.5) (workbook
+      round1 Singapore row 49; workbook round2 Russian Federation row 60; workbook round2 Indonesia row
+      95).
+    - Global Network Initiative reports and the World Intermediary Liability Map may point to the law but
+      are not evidence themselves (Guide p.64).
+    exceptions: []
+    disambiguation:
+    - 'TRAP inverted polarity: score 1 means the economy LACKS a copyright safe harbour; finding a shield
+      lowers the score (Guide p.65; Methodology sheet 8.1).'
+    - 'TRAP: do not score 8.1 as 1 only because a general intermediary safe harbour omits the word copyright;
+      the workbook scores one Lao law 1 for 8.1 and 0 for 8.2, against the Guide (Guide p.65, footnote 40;
+      workbook round2 Lao PDR rows 50, 51).'
+    - 'TRAP: a copyright clause that only obliges intermediaries to prevent infringement or block infringing
+      works gives no shield, so it is not a safe harbour; the duty itself is 8.4 material (Guide p.64; Internal
+      Guide p.13; workbook round2 Mongolia row 44).'
+    - 'TRAP: takedown procedures, injunctions and other remedies framed for rights holders are 4.6 evidence;
+      they count for 8.1 only where they also limit intermediaries'' liability (Guide p.34; workbook round1
+      Malaysia rows 26, 66; workbook round2 Thailand rows 29, 72).'
+    - 'An IP-only safe harbour leaves 8.2 open: Russia''s Civil Code shield gives 8.1 a 0 while 8.2 scores
+      1 (Guide p.65; workbook round2 Russian Federation rows 60, 61).'
+    - Blocking or filtering of copyright-infringing content is not a 9.1 restriction (Guide p.70).
+    guide_examples:
+    - 'New Zealand: the Copyright (New Technologies) Amendment Act protects ISPs from users'' infringing
+      content if they lack specific knowledge or promptly disable it on notice (Guide p.65).'
+    - 'Japan: Act No.137 of 2001 protects telecommunications service providers from damages over distributed
+      information unless they knew or had good reason to know of the infringement (Guide p.65).'
+    - 'Republic of Korea: the Copyright Act protects online service providers where it is technically impossible
+      for them to take the listed measures, but offers no safe harbour for other activities (Guide p.65).'
+    - 'Georgia: the Law on E-commerce exempts intermediaries for handling, caching or hosting under conditions
+      and still applies to copyright (Guide p.65, footnote 40).'
+    sources:
+      guide_pages:
+      - 64
+      - 65
+      methodology_row_round1_db: 41
+      faq_pages: []
+      template_row: 44
+
+  - id: "8.2"
+    pillar: 8
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    polarity: inverted
+    name: Lack of safe harbour for other illegal activities
+    category_official: Lack of safe harbour for other illegal activities
+    question: Does any law shield Internet intermediaries from liability for users' illegal content or activities
+      other than copyright infringement, and is that shield sector-specific or horizontal? (No shield scores
+      1.)
+    definition: 'This indicator looks for a safe harbour covering users'' illegal activities other than
+      copyright infringement; without one, an intermediary hosting such content is liable per se even when
+      it has not been notified of it (Guide p.65). The protection can sit in sector-specific laws, such
+      as rules for telecommunications or e-commerce providers, or apply across all sectors (Guide p.66).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_features: []
+    scoring_tree:
+    - if: 'TRAP inverted polarity: no provision limits intermediaries'' liability for users'' non-copyright
+        illegal content or activities, i.e. no intermediary liability framework is in place (Guide p.66;
+        Methodology sheet 8.2).'
+      score: 1
+    - if: A safe harbour for non-copyright illegal content exists only in a sectoral framework, such as
+        an e-commerce or telecommunications instrument (Guide p.66; Methodology sheet 8.2).
+      score: 0.5
+    - else:
+        score: 0
+        meaning: A horizontal framework protects intermediaries from liability for users' illegal activities
+          other than copyright infringement (Guide p.66; Methodology sheet 8.2).
+    coding_rules:
+    - Protection conditioned on not initiating or altering the information, lacking actual knowledge and
+      removing illegal content promptly once aware is still a safe harbour (Guide p.66, footnote 41).
+    - Immunity for deleting content the provider reasonably believes infringes others' rights, or after
+      an unanswered notice to the uploader, is part of a safe harbour regime (Guide p.66).
+    - One law covering both copyright and other unlawful content is evidence for 8.2 as well as 8.1 (Guide
+      p.66; Guide p.11).
+    - The workbook treats an exemption for all network service providers in an electronic-transactions or
+      IT law as horizontal (0) and one confined to e-commerce or private electronic system operators as
+      sectoral (0.5) (workbook round1 Singapore row 50; workbook round2 Indonesia row 98).
+    - A safe harbour that lapses when statutory due-diligence duties are breached still counts as a safe
+      harbour (workbook round2 India row 106).
+    - When no provision limits intermediaries' liability for such content, cite the general laws searched
+      and score 1 (Methodology sheet 8.2; Internal Guide p.10; workbook round2 Russian Federation row 61).
+    exceptions: []
+    disambiguation:
+    - 'TRAP inverted polarity: score 1 means NO safe harbour for non-copyright content; finding a shield
+      lowers the score (Guide p.66; Methodology sheet 8.2).'
+    - 'TRAP: a copyright-only or IP-only safe harbour is not 8.2 evidence; it belongs to 8.1. The workbook
+      cites the same Chinese copyright regulation under both (Guide p.65; workbook round2 China rows 72,
+      73).'
+    - 'TRAP: copyright offences, such as supplying illicit streaming devices or sharing access to infringing
+      works, are 8.1 context and do not show a missing safe harbour for other illegal activities (Guide
+      p.65; workbook round1 Malaysia row 68).'
+    - 'TRAP: a duty to remove or block content by a deadline is an 8.4 requirement; for 8.2 ask whether
+      complying providers are exempt. A notice procedure with an exemption scored 0, a blocking duty with
+      no exemption scored 1 (Internal Guide p.13; workbook round2 Thailand row 74; workbook round2 Russian
+      Federation row 61).'
+    - An immunity covering all unlawful content, such as Lao PDR's e-transactions law, answers 8.1 as well
+      (Guide p.65, footnote 40; workbook round2 Lao PDR rows 50, 51).
+    guide_examples:
+    - 'New Zealand: the Harmful Digital Communications Act protects an online content host for illegal content
+      posted by its users (Guide p.66).'
+    - 'Japan: Act No.137 of 2001 shields telecommunications service providers from damages to others'' rights
+      unless aware, and from damages for deleting content believed to infringe IP or privacy (Guide p.66).'
+    - 'Georgia: the Law on E-commerce exempts intermediaries that did not initiate or alter information,
+      lack actual knowledge of illegal content and remove it promptly (Guide p.66, footnote 41).'
+    sources:
+      guide_pages:
+      - 65
+      - 66
+      methodology_row_round1_db: 42
+      faq_pages: []
+      template_row: 45
+
+  - id: "8.3"
+    pillar: 8
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: User identity requirements
+    category_official: User identify requirements
+    question: Must Internet intermediaries verify and record users' identity as a condition for connecting
+      to the Internet or using online services, or only for SIM card registration?
+    definition: 'A user identity requirement obliges Internet intermediaries to verify and record accurate
+      personal information about their users as a condition for access to their services or networks; it
+      can involve collecting, storing and sometimes authenticating identity documents or other identifying
+      data (Guide p.66). The intermediary thereby acts as a gatekeeper that polices users on behalf of the
+      Government (Guide p.66).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_features: []
+    scoring_tree:
+    - if: A user identity requirement applies to connecting to the Internet or accessing online services
+        (Guide p.67; Methodology sheet 8.3).
+      score: 1
+    - if: The user identity requirement applies to SIM card registration (Guide p.67; Methodology sheet
+        8.3).
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No mandatory user identity requirement for Internet access, online services or SIM registration
+          (Guide p.67; Methodology sheet 8.3).
+    coding_rules:
+    - The duty must fall on the intermediary or operator to collect, verify or record user identity as a
+      condition of service; storing or authenticating ID documents or other identifying data all count (Guide
+      p.66).
+    - A duty to enable identification of the first originator of messages on a messaging service is a user
+      identity requirement (Guide p.66).
+    - Identity checks before a user may use an Internet access point, such as a cyber café computer, fall
+      in the connect-to-the-Internet branch (Methodology sheet 8.3; workbook round2 India row 109).
+    - Prepaid or postpaid SIM registration stays at 0.5 even with ID-database cross-checks or biometrics
+      (Guide p.67; workbook round1 Australia row 49; workbook round2 Indonesia row 100).
+    - Identity authentication that users may choose and platforms are merely encouraged to support is not
+      a requirement (workbook round2 China row 78).
+    - 'One economy can hold both levels: real-name rules for online services score 1 while its SIM registration
+      row scores 0.5 (workbook round2 China rows 76, 77).'
+    exceptions: []
+    disambiguation:
+    - 'TRAP: keeping user-identification records or traffic data for a set period is 7.3; record the verification
+      duty under 8.3 and the retention period under 7.3. The Guide lists India''s cyber-café ID records
+      under 7.3 and the workbook codes the same instruments under both (Guide p.60; workbook round2 India
+      rows 86, 109; workbook round2 Thailand rows 65, 76).'
+    - 'TRAP: a first-originator identification duty is 8.3, not 8.4; the workbook also codes India''s rule
+      as 8.4 (Guide p.66; workbook round2 India rows 108, 113).'
+    - 'TRAP: a government power to obtain subscriber lists or user data from providers is 7.5; 8.3 covers
+      the provider''s duty to collect and verify identity (Guide p.62; Guide p.67).'
+    - Duties in the same instrument to pre-review, monitor or delete users' posts are 8.4 (Guide p.67; workbook
+      round2 China rows 76, 82).
+    guide_examples:
+    - 'Argentina: mobile communications providers must keep a registry of subscribers with name, surname,
+      national identity document and address (Guide p.66).'
+    - 'Bangladesh: social media intermediaries offering messaging must enable identification of the first
+      originator and keep registration data for 180 days after cancellation (Guide p.66).'
+    - 'Rwanda: electronic communications providers must ensure users supply accurate personal information
+      (Guide p.67).'
+    - 'Tajikistan: users must present identity documents for electronic communication contracts, and operators
+      must verify them before providing service (Guide p.67).'
+    - 'Uganda: the Regulation of Interception of Communications Act requires intermediaries to collect customer
+      names, addresses and identification numbers (Guide p.67).'
+    - 'Venezuela: mobile telephony operators must collect subscribers'' ID number, address, signature and
+      fingerprints (Guide p.67).'
+    sources:
+      guide_pages:
+      - 66
+      - 67
+      methodology_row_round1_db: 43
+      faq_pages: []
+      template_row: 46
+
+  - id: "8.4"
+    pillar: 8
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Monitoring requirements
+    category_official: Monitoring requirements
+    question: Must Internet intermediaries monitor users' activities, or remove or block content deemed
+      illegal?
+    definition: 'A monitoring requirement obliges Internet intermediaries to actively monitor users'' activities
+      or to remove or block content deemed illegal, so that they police content on behalf of the Government
+      (Guide p.67). It can be explicit or indirect, for example a duty to install software, algorithms or
+      other tools that detect or manage prohibited content (Guide p.67). The indicator captures both duties
+      to monitor content and duties to block or remove content (Internal Guide p.13).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_features: []
+    scoring_tree:
+    - if: At least one requirement obliges intermediaries to remove or block content, on its own or together
+        with monitoring users' activities (Guide p.67; Internal Guide p.13; Methodology sheet 8.4).
+      score: 1
+    - if: Intermediaries must actively monitor users' activities but carry no legal obligation to remove
+        or block the content (Guide p.67; Methodology sheet 8.4).
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No duty on intermediaries to monitor users' activities or to remove or block content (Guide
+          p.67; Methodology sheet 8.4).
+    coding_rules:
+    - 'Indirect monitoring counts: mandated filters, moderation systems, algorithms or pre-publication review
+      of user content (Guide p.67; workbook round2 Mongolia row 49).'
+    - A legal duty to remove or block content counts even when a notice or official direction triggers it
+      rather than proactive monitoring (Internal Guide p.13; workbook round2 Indonesia row 102).
+    - Duties aimed at child sexual abuse or terrorist content still count; the carve-out for political,
+      criminal, age-restricted and defamatory content is stated for 9.1 only (Guide p.70; Indicator Reference
+      note for 9.1; workbook round1 Singapore row 55).
+    - A liability rule turning on what the intermediary knew or ought to have known may encourage monitoring
+      but is not itself a monitoring requirement (workbook round2 Russian Federation row 64).
+    - Record the same measure under 8.4 and under any other indicator whose scope it also meets, applying
+      each indicator's own test (Guide p.11).
+    exceptions: []
+    disambiguation:
+    - 'TRAP: duties to give security agencies interception, monitoring or decryption facilities, or subscriber
+      lists, are government access (7.5). The Guide uses India''s subscriber-list licence clause as a 7.5
+      example, yet the workbook codes those clauses and IT Act s.69 under both 7.5 and 8.4 (Guide p.62;
+      workbook round2 India rows 97, 98, 111, 112).'
+    - 'TRAP: keeping traffic data for a minimum period is 7.3, not monitoring (Guide p.59; workbook round2
+      Lao PDR rows 45, 56).'
+    - 'TRAP: a duty to identify the first originator of messages is 8.3, even inside intermediary due-diligence
+      rules (Guide p.66; workbook round2 India rows 108, 113).'
+    - 'TRAP: many takedown and blocking provisions are also recorded under 9.1, which needs blocking or
+      filtering of commercial web content and excludes non-commercial content; 8.4 asks whether intermediaries
+      carry the duty (Guide pp.69-70; Internal Guide p.13; workbook round2 Indonesia rows 102, 107).'
+    - A notice-and-takedown condition for keeping a safe harbour is scored under 8.1 or 8.2 (Guide p.65;
+      workbook round2 Russian Federation rows 60, 64).
+    guide_examples:
+    - 'Georgia: internet site owners must periodically review links so linked content is not offensive or
+      inappropriate, and remove such content (Guide p.67).'
+    - 'Kazakhstan: online platforms must strengthen moderation systems and AI algorithms against illegal
+      content and report on moderation and complaints (Guide p.67).'
+    - 'Lao PDR: ISPs are empowered to inspect users'' activities and warn, stop or discipline them; website
+      owners must check content before others disseminate it (Guide p.67).'
+    - 'Nepal: social network platform operators must verify the facts of content published on their platforms
+      (Guide p.67).'
+    sources:
+      guide_pages:
+      - 67
+      methodology_row_round1_db: 44
+      faq_pages:
+      - 13
+      template_row: 47
+
+# ----------------------------------------------------------------------------
+# PILLAR 9 — CONTENT ACCESS
+# ----------------------------------------------------------------------------
+
+  - id: "9.1"
+    pillar: 9
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Blocking or filtering commercial web content
+    category_official: Blocking or filtering commercial web content
+    question: Has the Government blocked or filtered commercial web content, or required Internet intermediaries
+      to do so, outside the excluded content categories?
+    definition: 'Blocking denies access to a commercial website in its entirety, while filtering limits
+      access only to certain content on a given website; both count whether carried out by the Government
+      or by Internet intermediaries as the Government requires (Guide p.69). The concern is limiting commercial
+      websites or web content on broadly defined public-policy grounds, such as public morality or national
+      security, without clear or objective criteria (Guide p.69).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_features:
+    - Blocking a whole website scores higher than filtering specific content on it (Guide p.70).
+    - 'Every blocking technique counts: IP address and protocol-based, deep packet inspection, URL and DNS
+      blocking (Guide p.70).'
+    scoring_tree:
+    - if: 'Any blocking measure: access to a commercial website or online service is denied in its entirety,
+        by the Government or by an intermediary as the Government requires (Guide pp.69-70; Methodology
+        sheet 9.1).'
+      score: 1
+    - if: 'Any filtering measure and no blocking measure: access is limited only to certain content on a
+        given commercial website (Guide pp.69-70; Methodology sheet 9.1).'
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No case of blocking or filtering commercial web content, or blocking only of excluded content
+          such as internationally agreed illegal content or child pornography (Methodology sheet 9.1; Guide
+          p.70).
+    coding_rules:
+    - 'Score per measure: each blocking measure scores 1 and each filtering measure scores 0.5 (Guide p.70).'
+    - 'EVIDENCE TYPE: practice-based indicator. Record legal bases that empower or require blocking and
+      documented instances of blocking; enforcement and practice sources such as government blocking announcements
+      and technical monitoring reports may be recorded and scored here, not only primary law (Internal Guide
+      p.8; Extraction slides pp.8-9, 21).'
+    - Use the named secondary sources (Global Network Initiative, World Intermediary Liability Map, Freedom
+      House on the Net) to reach the primary source wherever one exists (Guide p.70).
+    - 'A legal power or duty to block on broad grounds counts without a documented incident: the Guide''s
+      examples are a best-efforts ban on content against the public interest or national harmony, and powers
+      to block for national security, public order and crime prevention (Guide p.69; workbook round2 Lao
+      PDR row 60).'
+    - 'The stated ground does not decide the case: Government blocking may rest on political or public-policy
+      justifications and is recorded when it impacts commercial websites (Internal Guide p.14), but not
+      when the content blocked is itself political, criminal, age-restricted, defamatory or otherwise non-commercial
+      (Guide p.70).'
+    - A measure letting authorities block an entire service for failing registration or local-branch duties
+      is a blocking measure (workbook round2 Indonesia row 107; workbook round2 Russian Federation row 72).
+    - A measure that allows blocking whole websites is scored as blocking even if it also allows removal
+      or filtering of specific content (Methodology sheet 9.1; Guide p.70).
+    - Workbook practice records ancillary fines on ISPs that fail to block at 0, while the blocking duty
+      itself carries the score (workbook round2 Russian Federation rows 68 and 70).
+    exceptions:
+    - Do not score blocking or filtering of political content, criminal content (e.g. child pornography),
+      age-restricted content, defamation or other non-commercial content (Indicator Reference note; Guide
+      p.70).
+    - Do not score blocking or filtering based on intellectual property violations such as copyright-infringing
+      content; it is not considered a restriction (Guide p.70; workbook round1 Australia row 54).
+    - Do not record blocking of services that are already illegal in the economy, such as illegal betting
+      apps or unauthorised remote gambling sites, as commercial web content (workbook round2 India row 118;
+      Hands-on deck p.10).
+    disambiguation:
+    - 'TRAP: an intermediary''s duty to monitor content, or to remove or block illegal content, is 8.4;
+      add a 9.1 row only when the measure blocks or filters commercial web content (Guide p.67; Internal
+      Guide p.13; Guide p.11).'
+    - 'TRAP: the same instrument often carries both an 8.4 row and a 9.1 row, so check both (workbook round2
+      Indonesia rows 102 and 107; workbook round2 Russian Federation rows 65 and 70).'
+    - 'TRAP: a government ban on named applications may be an import ban on online services, 10.1; the workbooks
+      code India''s 2020 ban of 267 apps as 10.1 but a later app-blocking wave as 9.1 (Guide p.74; workbook
+      round2 India rows 119 and 125).'
+    - 'TRAP: network-wide disruption of Internet access or online services is 9.2 Internet shutdowns, which
+      is non-regulatory and not extracted; do not map shutdown powers to 9.1 (Guide p.70; Non-regulatory
+      note; Internal Guide p.8).'
+    - A duty to open a local branch or entity is 3.5 (a representative-only duty is 12.8); the access restriction
+      imposed for breaching it is 9.1 (Guide pp.27-28; Guide pp.87-88; workbook round2 Russian Federation
+      row 72).
+    - The registration or licensing precondition itself is recorded under 9.4; blocking a service that has
+      not registered is 9.1 (workbook round2 Indonesia rows 107 and 122).
+    guide_examples:
+    - 'Brunei Darussalam: bans, or requires licensed Internet service providers and online content providers
+      to use their best efforts to ban, online content against the public interest or national harmony (Guide
+      p.69).'
+    - 'Türkiye: authorities may block or remove online content for national security, public order and crime
+      prevention; social network providers with over one million daily users must remove or block illegal
+      content within 24 hours of notification, on pain of fines, advertising bans or bandwidth throttling
+      (Guide p.69).'
+    sources:
+      guide_pages:
+      - 69
+      - 70
+      methodology_row_round1_db: 46
+      faq_pages:
+      - 8
+      - 13
+      - 14
+      template_row: 49
+
+  - id: "9.3"
+    pillar: 9
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Online advertising requirements
+    category_official: Online advertising requirements
+    question: The indicator covers requirements for online advertising. The measures could be limitations
+      affecting online advertising, but exclude general consumer protection measures, such as prohibitions
+      on misleading or false advertising, and restrictions on specific products and services (e.g., weapons,
+      drugs, tobacco, alcohol, or medicine) for public health or safety reasons. (Guide p.71)
+    definition: The indicator covers requirements for online advertising. The measures could be limitations
+      affecting online advertising, but exclude general consumer protection measures, such as prohibitions
+      on misleading or false advertising, and restrictions on specific products and services (e.g., weapons,
+      drugs, tobacco, alcohol, or medicine) for public health or safety reasons. (Guide p.71)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Any restriction on online advertising (Methodology sheet 9.3)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 9.3)
+    coding_rules: []
+    exceptions:
+    - 'Exception: Not score requirements that advertising should not be misleading (Methodology sheet 9.3)'
+    disambiguation: []
+    sources:
+      methodology_row: 47
+      template_row: 50
+      guide_pages:
+      - 71
+      guide_heading: Online advertising requirements
+
+  - id: "9.4"
+    pillar: 9
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Licensing requirements for online content providers and applications (social media platforms,
+      news providers, VPN, cloud services, etc.)
+    category_official: Licensing requirements for online content providers and applications (social media
+      platforms, new providers, VPN, cloud servics, etc.)
+    question: Must an online content provider or digital application (social media, news or broadcast service,
+      VPN, cloud or data-centre service) hold a licence to operate, and is that licence strict?
+    definition: 'A licensing scheme applicable to online service providers, meaning Internet content providers
+      and applications such as social media platforms, news providers (media and broadcast services), VPNs
+      and cloud services (Guide p.71). It excludes telecommunication facilities and service providers, covered
+      by Pillar 5, and e-commerce platforms, covered by Pillar 12 (Guide p.71). A scheme is strict when
+      licence conditions significantly limit market access or competition beyond normal regulatory standards,
+      such as commercial presence, nationality or residency, excessively high minimum paid-up capital, or
+      mandated government-approved systems, local data storage or proprietary technology (Guide p.72).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_features:
+    - Strictness of the licence conditions (Guide p.72).
+    - Number of licensing schemes the economy imposes on online content providers and applications (Guide
+      p.72).
+    scoring_tree:
+    - if: At least one strict licensing scheme, or more than one licensing scheme in this category even
+        if none is individually strict (Guide p.72; Methodology sheet 9.4).
+      score: 1
+    - if: Exactly one licensing scheme for online content providers or applications, with no strict conditions
+        (Guide p.72; Methodology sheet 9.4).
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No licensing requirement for online content providers or applications (Guide p.72; Methodology
+          sheet 9.4).
+    coding_rules:
+    - Scope includes licences for digital service providers such as ISPs and ICPs (Internal Guide p.12),
+      broadcasting licences, and licences for digital services and applications such as cloud computing
+      and data centres (Internal Guide p.14).
+    - Judge strictness from the licence conditions, not the licence name; the Guide's strict examples are
+      an IoT licence tied to a local numbering or addressing system, a broadcasting licence closed to foreigners,
+      and social network licences limited to locally established companies (Guide p.72).
+    - The more-than-one-scheme escalation is an economy-level rule (Guide p.72), yet Round 2 rows still
+      score each non-strict scheme 0.5 when an economy has several (workbook round2 China rows 89 and 91;
+      workbook round2 Russian Federation rows 77 and 78).
+    - A duty only to register or to give prior notification was recorded but scored 0 as not a licence (workbook
+      round2 Thailand row 87; workbook round2 Indonesia row 123).
+    - A law requiring licences for digital platforms that span online marketplaces, car sharing and social
+      media is recorded under both 9.4 and 12.3 (Guide p.11).
+    - Record the licence here and its component conditions under their own indicators as well, for example
+      an in-country server condition under 6.3 (Guide p.11; workbook round2 China rows 49 and 88).
+    exceptions:
+    - Do not cover licences for telecommunication facilities and service providers; they are captured under
+      Pillar 5 (Indicator Reference note; Guide p.71).
+    - Do not cover licences for e-commerce platforms; they are captured under Pillar 12 (Indicator Reference
+      note; Guide p.71).
+    disambiguation:
+    - 'TRAP: a telecom operator licence (network facilities, network services, basic or value-added telecom
+      operation) is 5.5, while a licence for digital service providers such as ISPs and ICPs is 9.4; classify
+      by licence type (Internal Guide p.12; workbook round2 India rows 54 and 122).'
+    - 'TRAP: an e-commerce business or marketplace licence is 12.3; a platform licence that also reaches
+      social media or other applications is recorded under both 12.3 and 9.4 (Guide p.11; Guide p.85).'
+    - 'TRAP: data-centre licensing or registration is not 6.3 but may be 9.4, whereas a licence condition
+      to keep servers in-country is also recorded under 6.3 and makes the licence strict (Internal Guide
+      p.13; Guide p.72; workbook round2 China rows 49 and 88).'
+    - 'TRAP: broadcasting licences are 9.4, not 5.5, because Pillar 5 does not cover broadcasting services
+      (Internal Guide p.14; Guide p.40).'
+    - A standalone duty to establish a local office or entity is 3.5 and one to appoint a local representative
+      is 12.8; a commercial presence condition inside a licence also makes the 9.4 scheme strict (Guide
+      pp.27-28; Guide pp.87-88; Guide p.72).
+    - Blocking a service that operates without a required registration or licence is 9.1, not 9.4 (workbook
+      round2 Indonesia rows 107 and 122).
+    guide_examples:
+    - 'Indonesia: Internet of Things service providers must obtain a licence or partner with a licensed
+      telecom operator, and must implement a unique addressing system such as a local MSISDN, device end-user
+      ID or IP number (strict) (Guide p.72).'
+    - 'Pakistan: a broadcasting media and distribution licence is barred to persons who are neither citizens
+      nor residents, foreign companies, foreign-controlled companies and anyone funded by a foreign Government
+      or organisation (strict) (Guide p.72).'
+    - 'Viet Nam: aggregate sites and social networks must be operated by companies legally established in
+      Viet Nam that meet technical and operational standards in order to register for a licence (strict)
+      (Guide p.72).'
+    sources:
+      guide_pages:
+      - 71
+      - 72
+      methodology_row_round1_db: 48
+      faq_pages:
+      - 12
+      - 13
+      - 14
+      template_row: 51
+
+# ----------------------------------------------------------------------------
+# PILLAR 10 — NON-TECHNICAL NTMS
+# ----------------------------------------------------------------------------
+
+  - id: "10.1"
+    pillar: 10
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Import ban applied to ICT goods and online services (e.g. network equipment, servers, handsets,
+      applications, and data processing)
+    category_official: Import ban applied to ICT goods and online services (e.g. network equipment, servers,
+      handsets, applications, and data processing)
+    question: This indicator looks at import bans on ICT goods and online services. It covers bans that
+      specifically target ICT goods and online services, as well as broader bans affecting multiple goods
+      or services that include ICT products and online services. (Guide p.74)
+    definition: This indicator looks at import bans on ICT goods and online services. It covers bans that
+      specifically target ICT goods and online services, as well as broader bans affecting multiple goods
+      or services that include ICT products and online services. (Guide p.74)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Ban on more than one ICT goods or digital services (Methodology sheet 10.1)
+      score: 1
+    - if: Ban on one specific product or services (Methodology sheet 10.1)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No measure (Methodology sheet 10.1)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 50
+      template_row: 53
+      guide_pages:
+      - 74
+      guide_heading: Import bans on ICT goods and online services
+
+  - id: "10.2"
+    pillar: 10
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Other import restrictions on ICT goods and online services
+    category_official: Other import restrictions on ICT goods and online services
+    question: This indicator covers import restrictions, excluding other than import bans and local content
+      requirements on imports (Guide p.75)
+    definition: This indicator covers import restrictions, excluding other than import bans and local content
+      requirements on imports (Guide p.75)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Import restrictions that potentially block trade (e.g., quotas) OR at least two measures of category
+        (2) (Methodology sheet 10.2)
+      score: 1
+    - if: Import estrictions that add regulatory compliance costs to trade in ICT goods and online services
+        (e.g., licenses, permits, authorization, registration for ICT goods and labelling requirements and
+        import controls) (Methodology sheet 10.2)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 10.2)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 51
+      template_row: 54
+      guide_pages:
+      - 75
+      guide_heading: Other import restrictions on ICT goods and online services
+
+  - id: "10.3"
+    pillar: 10
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Local content requirements
+    category_official: Local content requirements
+    question: This indicator covers 'local content requirements' (LCRs), i.e., requirements to use domestically
+      manufactured goods or domestically supplied services in the production of ICT-related goods and online
+      services. (Guide p.75)
+    definition: This indicator covers 'local content requirements' (LCRs), i.e., requirements to use domestically
+      manufactured goods or domestically supplied services in the production of ICT-related goods and online
+      services. (Guide p.75)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: At least one LCR at sectoral or horizontal level (i.e. HS-4 (e.g.telephony equipment)) and HS-2
+        levels) OR at least two LCRs of category (2) (Methodology sheet 10.3)
+      score: 1
+    - if: At least one LCR at product level (i.e. HS-6 and HS-8 levels (e.g. mobile phones and smartphones)
+        (Methodology sheet 10.3)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No measure (Methodology sheet 10.3)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 52
+      template_row: 55
+      guide_pages:
+      - 75
+      - 76
+      guide_heading: Local content requirements for the commercial market
+
+  - id: "10.4"
+    pillar: 10
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Export restrictions on ICTgoods and online services
+    category_official: Export restrictions on ICTgoods and online services
+    question: This indicator covers export restrictions on ICT goods and services. These restrictions include
+      export bans, export licenses and other restrictions limiting the number of goods or services to be
+      exported. (Guide p.76)
+    definition: This indicator covers export restrictions on ICT goods and services. These restrictions
+      include export bans, export licenses and other restrictions limiting the number of goods or services
+      to be exported. (Guide p.76)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Export restriction (Methodology sheet 10.4)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 10.4)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 53
+      template_row: 56
+      guide_pages:
+      - 76
+      guide_heading: Export restrictions on ICT goods and online services
+
+# ----------------------------------------------------------------------------
+# PILLAR 11 — STANDARDS AND PROCEDURES
+# ----------------------------------------------------------------------------
+
+  - id: "11.1"
+    pillar: 11
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Lack of transparent technical standards
+    category_official: Lack of transparent technical standards
+    question: This indicator asks whether (a) participation from relevant stakeholders, including foreign
+      businesses, is not allowed or restricted in the standard-setting of the standards in sectors relevant
+      to digital trade, and (b) whether there are transparent public consultation or engagement mechanisms
+      exist. (Guide p.78)
+    definition: This indicator asks whether (a) participation from relevant stakeholders, including foreign
+      businesses, is not allowed or restricted in the standard-setting of the standards in sectors relevant
+      to digital trade, and (b) whether there are transparent public consultation or engagement mechanisms
+      exist. (Guide p.78)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Not allowed foreigners to participate in the standard-setting bodies, OR non transparent standard-setting
+        (Methodology sheet 11.1)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 11.1)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 55
+      template_row: 58
+      guide_pages:
+      - 78
+      - 79
+      guide_heading: Technical standards issues
+
+  - id: "11.2"
+    pillar: 11
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Self-certification limitations for product safety (radio transmissions, EMC/EMI)
+    category_official: Self-certification limitations for product safety (radio transmissions, EMC/EMI)
+    question: This indicator asks whether the self-certification of product safety by suppliers is not allowed.
+      Certification refers to a process of verifying that imported products meet domestic standards. (Guide
+      p.79)
+    definition: This indicator asks whether the self-certification of product safety by suppliers is not
+      allowed. Certification refers to a process of verifying that imported products meet domestic standards.
+      (Guide p.79)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Not allow SDoC and third-party certification (Methodology sheet 11.2)
+      score: 1
+    - if: SDoC is not allowed, but accept 3rd party-certification from CABs from a number of countries with
+        MRA (Methodology sheet 11.2)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: SDoC is allowed for foreign business (Methodology sheet 11.2)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 56
+      template_row: 59
+      guide_pages:
+      - 79
+      guide_heading: Self-certification limitations for product safety (radio transmissions, EMC/EMI)
+
+  - id: "11.3"
+    pillar: 11
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Product screening and testing requirements
+    category_official: Product screening and testing requirements
+    question: The indicator asks whether an economy imposes an additional screening or testing requirement
+      on ICT imports. Additional screening or testing refers to processes where products are required to
+      undergo further technical tests beyond standard conformity assessments to verify certain aspects of
+      compliance before they are allowed into the market. (Guide p.80)
+    definition: The indicator asks whether an economy imposes an additional screening or testing requirement
+      on ICT imports. Additional screening or testing refers to processes where products are required to
+      undergo further technical tests beyond standard conformity assessments to verify certain aspects of
+      compliance before they are allowed into the market. (Guide p.80)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Measure in place and used for products in scope (Methodology sheet 11.3)
+      score: 1
+    - if: Measure in place, but acceptance of 3rd party testing results (Methodology sheet 11.3)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No requirement (Methodology sheet 11.3)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 57
+      template_row: 60
+      guide_pages:
+      - 80
+      guide_heading: Product screening and testing requirements
+
+  - id: "11.4"
+    pillar: 11
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Deviation from international encryption standards (ISO, IEC, ITU, FIPS, AES, TDES, and ECC)
+    category_official: Deviation from international encryption standards (ISO, IEC, ITU, FIPS, AES, TDES,
+      and ECC)
+    question: The indicator asks whether an economy adopts encryption standards that deviate from internationally
+      recognized standards based on the principles in the International Organization for Standardization
+      (ISO) and International Electrotechnical Commission (IEC) encryption standards. (Guide p.80)
+    definition: The indicator asks whether an economy adopts encryption standards that deviate from internationally
+      recognized standards based on the principles in the International Organization for Standardization
+      (ISO) and International Electrotechnical Commission (IEC) encryption standards. (Guide p.80)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: For any measure or known case (Methodology sheet 11.4)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 11.4)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 58
+      template_row: 61
+      guide_pages:
+      - 80
+      - 81
+      guide_heading: Deviation from international encryption standards
+
+# ----------------------------------------------------------------------------
+# PILLAR 12 — ONLINE SALES AND TRANSACTIONS
+# ----------------------------------------------------------------------------
+
+  - id: "12.01"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Foreign equity limits in e-commerce sector
+    category_official: Foreign equity limits in e-commerce sector
+    question: This indicator concerns the maximum foreign equity shares in the specific sector of e-commerce.
+      (Guide p.84)
+    definition: This indicator concerns the maximum foreign equity shares in the specific sector of e-commerce.
+      (Guide p.84)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: A minority stakes (1-50%) allowed (Methodology sheet 12.01)
+      score: 1
+    - if: A controlling stake (51-99%) allowed (Methodology sheet 12.01)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: Full ownership (100%) allowed in e-commerce sector (Methodology sheet 12.01)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 60
+      template_row: 63
+      guide_pages:
+      - 84
+      guide_heading: Foreign equity limits in the e-commerce sector
+
+  - id: "12.2"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Online purchases and delivery limitations
+    category_official: Online purchases and delivery limitations
+    question: The indicator covers direct requirements on online purchases and the requirements on the delivery
+      of products bought online that affect consumers or retailers. (Guide p.84)
+    definition: The indicator covers direct requirements on online purchases and the requirements on the
+      delivery of products bought online that affect consumers or retailers. (Guide p.84)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Any measure limits the number of products that can be purchases online AND restrictions to delivery
+        of products bought online (Methodology sheet 12.2)
+      score: 1
+    - else:
+        score: 0
+        meaning: No measure (Methodology sheet 12.2)
+    coding_rules: []
+    exceptions:
+    - 'Exception: Not score limitations on online purchases and delivery applied specifically to products
+      related to consumer protection, notably restrictions on alcoholic beverages, tobacco, and pharmaceuticals.
+      (Methodology sheet 12.2)'
+    disambiguation: []
+    sources:
+      methodology_row: 61
+      template_row: 64
+      guide_pages:
+      - 84
+      guide_heading: Online purchases and delivery limitations
+
+  - id: "12.3"
+    pillar: 12
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Licensing scheme for e-commerce providers (B2B and B2C)
+    category_official: Licensing scheme for e-commerce providers (B2B and B2C)
+    question: Must a business that sells or intermediates goods or services online (a B2B or B2C platform,
+      marketplace or e-commerce operator) obtain a licence to operate its e-commerce business?
+    definition: 'Captures any licensing scheme imposed on e-commerce providers, covering both business-to-business
+      and business-to-consumer platforms (Guide p.85). The target is the licence to run the e-commerce business
+      itself; licences for other aspects of that business, such as operating online payment services or
+      delivery, fall outside the indicator (Guide p.85; Indicator Reference note).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_features: []
+    scoring_tree:
+    - if: At least one licensing requirement applies to e-commerce providers, whether B2B or B2C (Guide
+        p.85; Methodology sheet 12.3).
+      score: 1
+    - else:
+        score: 0
+        meaning: No licence is required to operate an e-commerce business.
+    coding_rules:
+    - 'Any licence scores 1: unlike 5.5 and 9.4, the criteria do not ask for strict, discriminatory or entry-blocking
+      conditions (Methodology sheet 12.3; Guide p.85; Guide p.44; Guide p.72).'
+    - Prior approval to operate an e-commerce portal or platform counts, as in the Guide's Bhutan example
+      (Guide p.85).
+    - A licence triggered only above a size threshold still counts, as in the Guide's Türkiye example based
+      on annual transaction value and number (Guide p.85).
+    - A licensing law for digital platforms that include online marketplaces is recorded under both 9.4
+      and 12.3 (Guide p.11).
+    - When one measure has elements of several indicators, record it under each applicable indicator (Guide
+      p.11).
+    - A prior-notification duty for digital platforms was recorded under 12.3 but scored 0 because it is
+      not a licence (workbook round2 Thailand row 112; workbook round2 Thailand row 109).
+    - A registration duty imposed on every business, online or offline, was not treated as an e-commerce
+      licence and scored 0 (workbook round1 Singapore row 80).
+    - Cite official laws, regulations and other measures; secondary sources such as the OECD Digital STRI
+      only guide researchers to them (Guide p.85).
+    exceptions:
+    - Do not capture licences for other aspects of e-commerce businesses, such as licences to operate online
+      payment services or delivery (Indicator Reference note; Guide p.85).
+    disambiguation:
+    - 'TRAP: a licence to operate online payment or e-money services is not 12.3; when its conditions are
+      restrictive (local incorporation, nationality, limits on licence types or numbers) it is 12.4.4 (Indicator
+      Reference note; Guide p.85).'
+    - 'TRAP: licences for ISPs, ICPs, social media, news, VPN or cloud services are 9.4, and 9.4 excludes
+      e-commerce platform licences, which belong to Pillar 12 (Internal Guide p.12; Guide p.71; Indicator
+      Reference note, 9.4).'
+    - 'TRAP: a licence to provide telecom services or operate telecom facilities is 5.5; an e-commerce platform
+      licence issued under telecom rules (China''s online transaction processing licence) was still coded
+      12.3 (Guide p.44; Internal Guide p.12; workbook round2 China row 111).'
+    - A postal, courier or delivery licence is not 12.3; restrictions on delivering goods bought online
+      are 12.2 (Indicator Reference note; Guide p.84).
+    - A condition to set up a local company in order to obtain the licence is also a commercial presence
+      requirement under 3.5 (Guide p.28; workbook round2 China row 21).
+    - A duty on foreign e-commerce operators to open a local representative office or appoint a domiciled
+      liaison officer is 12.8, not a licence (Guide p.88; workbook round2 Indonesia row 178).
+    - 'Other duties inside e-commerce statutes map elsewhere: a three-year transaction-record retention
+      duty is 7.3 and a personal-data export condition is 6.4 (workbook round2 China row 62; workbook round2
+      Indonesia row 70).'
+    guide_examples:
+    - 'Bhutan: a company or a Bhutanese individual aged 18 or older needs a licence to run an e-commerce
+      business, and a national e-commerce portal or platform needs prior approval from the Department of
+      Trade (Guide p.85).'
+    - 'Colombia: commercial, financial or service websites of Colombian origin must be entered in the commercial
+      registry and give the tax and customs directorate information on their transactions (Guide p.85).'
+    - 'Lao PDR: B2B and B2C e-commerce businesses need an acknowledgement certificate from the Ministry
+      of Industry and Commerce; electronic marketplaces must be incorporated and hold an e-commerce business
+      licence and a technical conformity certificate (Guide p.85).'
+    - 'Türkiye: e-commerce service providers above 10 billion lira of annual net transactions and 100,000
+      transactions need a licence from the Ministry (Guide p.85).'
+    sources:
+      guide_pages:
+      - 85
+      related_guide_pages:
+      - 11
+      - 28
+      - 44
+      - 71
+      - 72
+      - 84
+      - 88
+      methodology_row_round1_db: 62
+      faq_pages:
+      - 12
+      template_row: 65
+    review_notes:
+    - 'UNRESOLVED: the Guide''s Colombia example is a commercial-registry registration of commercial websites,
+      yet e-commerce-specific registration duties were scored 0 in the workbook (Guide p.85; workbook round2
+      Thailand row 109; workbook round2 Indonesia row 156).'
+
+  - id: "12.4.1"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Online payment limitations: mandate local bank account'
+    category_official: 'Online payment limitations: mandate local bank account'
+    question: Requirements to use a local bank account (Guide p.85)
+    definition: Requirements to use a local bank account (Guide p.85)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Requirements to use a local bank account (Methodology sheet 12.4.1)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 12.4.1)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 63
+      template_row: 66
+      guide_pages:
+      - 85
+      - 86
+      guide_heading: Online payment limitations
+
+  - id: "12.4.2"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Online payment limitations: mandate currency used for international payments'
+    category_official: 'Online payment limitations: mandate currency used for international payments'
+    question: Requirements on the currency used for international payments (Guide p.85)
+    definition: Requirements on the currency used for international payments (Guide p.85)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Requirements on the currency used for international payments (Methodology sheet 12.4.2)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 12.4.2)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 64
+      template_row: 67
+      guide_pages:
+      - 85
+      - 86
+      guide_heading: Online payment limitations
+
+  - id: "12.4.3"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Online payment limitations: deviate national standards'
+    category_official: 'Online payment limitations: deviate national standards'
+    question: National standards for payment security that deviate from international standards (Guide p.85)
+    definition: National standards for payment security that deviate from international standards (Guide
+      p.85)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: National standards for payment security that deviate from international standards (Methodology
+        sheet 12.4.3)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 12.4.3)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 65
+      template_row: 68
+      guide_pages:
+      - 85
+      - 86
+      guide_heading: Online payment limitations
+
+  - id: "12.4.4"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Online payment limitations: licensing requirements'
+    category_official: 'Online payment limitations: licensing requirements'
+    question: Licensing requirements with restrictive conditions (such as local incorporation requirements,
+      nationality restrictions, or limitations on the types or numbers of licenses that can be obtained)
+      (Guide p.85)
+    definition: Licensing requirements with restrictive conditions (such as local incorporation requirements,
+      nationality restrictions, or limitations on the types or numbers of licenses that can be obtained)
+      (Guide p.85)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Licensing requirements with restrictive conditions (Methodology sheet 12.4.4)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 12.4.4)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 66
+      template_row: 69
+      guide_pages:
+      - 85
+      - 86
+      guide_heading: Online payment limitations
+
+  - id: "12.4.5"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Online payment limitations: ceiling on the maximum amount'
+    category_official: 'Online payment limitations: ceiling on the maximum amount'
+    question: Ceilings on the maximum amount that can be paid by electronic payment methods (Guide p.85)
+    definition: Ceilings on the maximum amount that can be paid by electronic payment methods (Guide p.85)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Ceilings on the maximum amount that can be paid by electronic payment methods (Methodology sheet
+        12.4.5)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 12.4.5)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 67
+      template_row: 70
+      guide_pages:
+      - 85
+      - 86
+      guide_heading: Online payment limitations
+
+  - id: "12.4.6"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Online payment limitations: mandate specific intermediaries'
+    category_official: 'Online payment limitations: mandate specific intermediaries'
+    question: Requirements mandating the use of specific intermediaries for online payments (Guide p.85)
+    definition: Requirements mandating the use of specific intermediaries for online payments (Guide p.85)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Requirements mandating the use of specific intermediaries for online payments (Methodology sheet
+        12.4.6)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 12.4.6)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 68
+      template_row: 71
+      guide_pages:
+      - 85
+      - 86
+      guide_heading: Online payment limitations
+
+  - id: "12.4.7"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: 'Online payment limitations: others restrictions'
+    category_official: 'Online payment limitations: others restrictions'
+    question: The indicator covers requirements for online payments and other requirements affecting the
+      use of electronic payment and credit services. (Guide p.85)
+    definition: The indicator covers requirements for online payments and other requirements affecting the
+      use of electronic payment and credit services. (Guide p.85)
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_tree:
+    - if: Other restrctions (Methodology sheet 12.4.7)
+      score: 1
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 12.4.7)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 69
+      template_row: 72
+      guide_pages:
+      - 85
+      - 86
+      guide_heading: Online payment limitations
+
+  - id: "12.5"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Low De Minimis
+    category_official: Low De Minimis
+    question: The indicator asks whether an economy adopts a threshold for the de minimis rule. The de minimis
+      rule sets a valuation ceiling for goods below which no duty or tax is charged at the border to ensure
+      the flow of digital trade. (Guide p.86)
+    definition: The indicator asks whether an economy adopts a threshold for the de minimis rule. The de
+      minimis rule sets a valuation ceiling for goods below which no duty or tax is charged at the border
+      to ensure the flow of digital trade. (Guide p.86)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: No De Minimis (Methodology sheet 12.5)
+      score: 1
+    - if: De Minimis below < 200 USD (Methodology sheet 12.5)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: De Minimis ≥ 200 USD (Methodology sheet 12.5)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 70
+      template_row: 73
+      guide_pages:
+      - 86
+      guide_heading: Low de minimis
+
+  - id: "12.6"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Imposition of custom duties on electronic transmission
+    category_official: Imposition of custom duties on electronic transmission
+    question: This indicator asks whether an economy imposes customs duties or cross-border duties on electronic
+      transmission. The electronic transmission could refer to the import and export of digital products
+      by electronic means. (Guide p.86)
+    definition: This indicator asks whether an economy imposes customs duties or cross-border duties on
+      electronic transmission. The electronic transmission could refer to the import and export of digital
+      products by electronic means. (Guide p.86)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Imposition of custom duties on electronic transmission (Methodology sheet 12.6)
+      score: 1
+    - if: Legal mechanisms or regulations applicable to impose custom duties on electronic transmission
+        (Methodology sheet 12.6)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 12.6)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 71
+      template_row: 74
+      guide_pages:
+      - 86
+      guide_heading: Imposition of customs duties on electronic transmission
+
+  - id: "12.7"
+    pillar: 12
+    tier: C
+    review_status: extracted by script from host sheets on 2026-09-13; not reviewed
+    name: Domain name requirements
+    category_official: Domain name requirements
+    question: The indicator covers requirements on commercial domain names. (Guide p.87)
+    definition: The indicator covers requirements on commercial domain names. (Guide p.87)
+    scoring:
+      values:
+      - 1
+      - 0.5
+      - 0
+      type: ordinal
+    scoring_tree:
+    - if: Physical presence required, requirements to the registrater a local domain name to conduct electronic
+        retail (Methodology sheet 12.7)
+      score: 1
+    - if: Local representative required (Methodology sheet 12.7)
+      score: 0.5
+    - else:
+        score: 0
+        meaning: No restriction (Methodology sheet 12.7)
+    coding_rules: []
+    exceptions: []
+    disambiguation: []
+    sources:
+      methodology_row: 72
+      template_row: 75
+      guide_pages:
+      - 87
+      guide_heading: Domain name requirements
+
+  - id: "12.8"
+    pillar: 12
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    name: Local presence requirements for online service providers
+    category_official: Local presence requirements for online service providers
+    question: Must a foreign online service provider appoint or keep a local representative, agent, contact
+      point, representative office or post-box in the economy as a condition for supplying its services
+      remotely?
+    definition: 'A local presence requirement obliges companies to have a physical representative office,
+      local agent, legal representative or post-box in the economy in order to provide their services (Guide
+      p.87). The indicator targets preconditions on cross-border (Mode 1) online supply: it asks only for
+      administrative representation, such as an agent or contact point, whereas commercial presence (Mode
+      3) means setting up a local subsidiary or branch (Guide p.87).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_features: []
+    scoring_tree:
+    - if: At least one law or regulation, in at least one sector, requires a foreign online service provider
+        to appoint or keep a local representative, agent, contact point, representative office or post-box
+        as a condition for supplying services remotely without an establishment (Guide pp.87-88; Methodology
+        sheet 12.8).
+      score: 1
+    - else:
+        score: 0
+        meaning: No local presence precondition on cross-border online supply; entity-establishment duties
+          and corporate-law registered offices do not count here (Guide pp.87-88; Methodology sheet 12.8).
+    coding_rules:
+    - One sector or one class of provider is enough for score 1 (Methodology sheet 12.8).
+    - 'Threshold-triggered duties count: the Guide''s Türkiye example applies only above one million daily
+      accesses (Guide p.88), and Indonesia''s e-commerce rule applies above consumer, package or traffic
+      thresholds (workbook round2 Indonesia row 178).'
+    - 'The representative''s mandate does not narrow the indicator: Guide examples include liaison officers
+      who facilitate government access requests and local agents responsible for data privacy compliance
+      (Guide p.88).'
+    - 'Look beyond e-commerce law: a personal information protection law requiring offshore processors to
+      designate a representative in China was coded 1 (workbook round2 China row 122).'
+    - 'Registration with a ministry is not entity establishment: the Guide''s Indonesia example pairs ministry
+      registration with domiciled liaison officers and still counts here (Guide p.88).'
+    - Administrative representation is enough; the provider need not have any physical office (Guide pp.87-88).
+    exceptions:
+    - Requirements to maintain a registered office or registered agent, typically under corporate law, are
+      not local presence requirements because they apply only after a company has a legal presence (Mode
+      3) (Guide pp.87-88).
+    disambiguation:
+    - 'TRAP: a duty to incorporate, open a branch or subsidiary, or set up a permanent office before serving
+      the market is commercial presence, 3.5; when one law requires both registration as a legal entity
+      and a local representative, classify it as 3.5 (Guide p.88; Guide p.27).'
+    - 'TRAP: the same foreign-company registered-office provisions were coded 3.5 = 1 and 12.8 = 0 in Australia
+      and Singapore (workbook round1 Australia rows 16 and 82; workbook round1 Singapore rows 14 and 92).'
+    - 'TRAP: Russia''s 236-FZ duty to open a branch, representative office or legal entity was coded 3.5
+      = 1 and 12.8 = 0, while the Guide''s 12.8 Türkiye example asks only for an appointed representative
+      (workbook round2 Russian Federation rows 23 and 108; Guide p.88).'
+    - 'TRAP: a representative or administrative contact required only to register a local domain name is
+      12.7, scored 0.5 there (Guide p.87).'
+    - 'TRAP: a Data Protection Officer or person-in-charge duty is 7.4, while an offshore processor''s local
+      representative is 12.8; China''s PIPL Article 52 was coded 7.4 and Article 53 was coded 12.8 (Guide
+      p.61; Guide p.88; workbook round2 China rows 63 and 122).'
+    - A local agent or representative required for patent applications is 4.01, and one for patent enforcement
+      matters is 4.3 (Guide pp.29-31).
+    - A representative office that a foreign payment system must open to be registered was coded 12.4.4,
+      payment licensing with restrictive conditions (workbook round2 Russian Federation row 100; Guide p.85).
+    - Registration of electronic system operators without a licence was coded 0 under 9.4, while the liaison
+      officer duty in the same regulation was coded 12.8 = 1 (workbook round2 Indonesia rows 121 and 179).
+    guide_examples:
+    - 'Indonesia: private electronic system operators must register with the relevant ministry and appoint
+      liaison officers domiciled in Indonesia to facilitate government access requests (Guide p.88).'
+    - 'Republic of Korea: foreign IT service providers without a physical office must designate a local
+      agent responsible for data privacy compliance (Guide p.88).'
+    - 'Türkiye: foreign-based social network providers accessed from Türkiye more than one million times
+      a day must appoint a local real or legal person representative (Guide p.88).'
+    sources:
+      guide_pages:
+      - 87
+      - 88
+      methodology_row_round1_db: 73
+      methodology_row_round2_db: 73
+      faq_pages: []
+      template_row: 76
+
+  - id: "12.9"
+    pillar: 12
+    tier: B
+    review_status: draft 2026-09-13 (Claude), pending human review
+    polarity: inverted
+    name: Lack of legal framework for online consumer protection
+    category_official: Lack of legal framework for online consumer protection
+    question: 'Does the economy lack any consumer protection law that applies to online purchases? (Inverted
+      polarity: lacking one scores 1, having one scores 0.)'
+    definition: 'The indicator checks whether an economy has adopted a legal framework protecting consumers
+      in online transactions (Guide p.88). The law need not be specific to e-commerce: a cross-sector consumer
+      protection law can extend to online purchases, and the protection may sit in the rules for offline
+      transactions or in a separate regulation (Guide p.88). It is a lack indicator, so the absence of such
+      a law scores 1 (Guide p.88).
+
+      '
+    scoring:
+      values:
+      - 1
+      - 0
+      type: binary
+    scoring_features: []
+    scoring_tree:
+    - if: 'No consumer protection legal framework applies to online commerce: the economy has no consumer
+        protection law, or none of its consumer protection laws reaches online purchases (Guide p.88; Methodology
+        sheet 12.9).'
+      score: 1
+    - else:
+        score: 0
+        meaning: At least one consumer protection law, general or e-commerce specific, applies to online
+          purchases (Guide p.88; Methodology sheet 12.9).
+    coding_rules:
+    - 'Answer once per economy: one consumer protection law that reaches online purchases gives 0, and further
+      consumer-related rows only complement it (Guide p.88; workbook round2 Indonesia rows 181-184).'
+    - A general consumer protection law with cross-sector scope counts even if it never mentions e-commerce
+      (Guide p.88; workbook round1 Singapore row 93).
+    - E-commerce-specific consumer rules also count, whether in a separate regulation or an e-commerce law
+      (Guide p.88; workbook round2 India row 158; workbook round2 China row 124).
+    - A consumer protection regime limited to offline transactions leaves online purchases without equivalent
+      safeguards and supports score 1 (Guide p.10; Guide p.88).
+    - Cite the primary law; the UNCTAD Cyber Tracker only points researchers to it (Guide p.88).
+    exceptions: []
+    disambiguation:
+    - 'TRAP: inverted polarity. Consumer protection text found in legislation is evidence of presence and
+      scores 0; score 1 is reserved for economies where no consumer protection law reaches online purchases
+      (Guide p.88; Methodology sheet 12.9).'
+    - 'TRAP: consumer-protection rules on advertising, such as bans on misleading ads, score 0 under 9.3;
+      Thailand''s Consumer Protection Act was coded 0 under both 9.3 and 12.9 (Guide p.71; Internal Guide
+      p.14; workbook round2 Thailand rows 82 and 131).'
+    - 'TRAP: provisions that only give legal validity to electronic messages, contracts or signatures relate
+      to the UNCITRAL model-law indicators 12.11 and 12.12, which are not extracted, and do not by themselves
+      show consumer protection; an e-signature law was nonetheless filed under 12.9 (Guide p.89; Non-regulatory
+      note; workbook round2 Russian Federation row 110).'
+    - 'TRAP: personal data duties such as consent and breach notification belong to pillar 7 (7.1 data protection
+      framework), not to online consumer protection; one such row was filed under 12.9 (Guide p.57; workbook
+      round2 Indonesia row 185).'
+    - Purchase or delivery limits adopted for consumer protection, such as on alcohol, tobacco or pharmaceuticals,
+      are not 12.2 restrictions (Guide p.84).
+    guide_examples: []
+    sources:
+      guide_pages:
+      - 88
+      methodology_row_round1_db: 74
+      methodology_row_round2_db: 74
+      faq_pages: []
+      template_row: 77

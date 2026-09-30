@@ -1,0 +1,25 @@
+{
+  "doc_id": "my-cca1997-001",
+  "cer_method": "gold_page",
+  "reference_source": "fixtures\\ocr_reference\\my-cca1997-001\\gold_page_0005.txt",
+  "ocr_engine": "tesseract-5.4.0.20240606-eng",
+  "preprocessing": [
+    "rasterize@300dpi",
+    "grayscale",
+    "autocontrast",
+    "binarize@180"
+  ],
+  "pages_evaluated": [
+    5
+  ],
+  "per_page_cer": [
+    {
+      "page": 5,
+      "cer": 0.00931,
+      "reference_chars": 1504
+    }
+  ],
+  "doc_cer": 0.00931,
+  "normalization": "NFC + collapse-whitespace + strip",
+  "measured_at": "2026-07-12T22:06:06Z"
+}

@@ -1,0 +1,30 @@
+# P2 — OCR & Tag Extraction
+# After first install, pin exact versions:  pip freeze > requirements.lock
+# (rubric requires pinned deps — no "latest")
+
+# --- PDF (native text layer) ---
+# ⚠️ Do NOT add PyMuPDF/fitz: AGPL-3.0, incompatible with the Apache-2.0 mandate.
+pypdfium2>=4
+
+# --- OCR (Lane C) — engine decided by the CER pilot (docs/KICKOFF_DECISIONS §1.2) ---
+pytesseract>=0.3          # requires the Tesseract 5 binary on PATH (UB Mannheim build on Windows)
+Pillow>=10
+jiwer>=3                  # CER measurement for the pilot + contract §3.5 fixture
+# paddleocr>=3            # pilot alternate — uncomment for the pilot only; heavy install
+# paddlepaddle>=3
+
+# --- HTML (Lane A) ---
+beautifulsoup4>=4.12
+lxml>=5
+selectolax>=0.3
+
+# --- LLM tag extraction (local-first; Claude optional) ---
+ollama>=0.4               # local qwen2.5:14b for obligation_type tagging (dev GPU)
+anthropic>=0.40           # ⚠️ floor only; bump to the current SDK at install time, then freeze via requirements.lock
+
+# --- plumbing ---
+pydantic>=2
+jsonschema>=4
+python-dotenv>=1
+tqdm>=4
+pytest>=8

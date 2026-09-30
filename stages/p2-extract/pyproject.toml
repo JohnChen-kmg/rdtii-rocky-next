@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rdtii-p2-extract"
+version = "0.1.0"
+description = "RDTII Rocky Project 2 - OCR & tag extraction: raw legal documents -> grounded Provision-Records (Hand-off #2)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "pypdfium2>=4",
+    "pytesseract>=0.3",
+    "Pillow>=10",
+    "jiwer>=3",
+    "beautifulsoup4>=4.12",
+    "lxml>=5",
+    "selectolax>=0.3",
+    "ollama>=0.4",
+    "anthropic>=0.40",
+    "pydantic>=2",
+    "jsonschema>=4",
+    "python-dotenv>=1",
+    "tqdm>=4",
+]
+
+[project.optional-dependencies]
+# PaddleOCR is a heavy, Windows-unfriendly install: opt-in only (PLAN.md finding #7)
+paddle = ["paddleocr>=3", "paddlepaddle>=3"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+p2-extract = "rdtii_p2.cli:main"
+
+[tool.setuptools]
+# rdtii_p2 lives in src/; the shared model-swap package `config/` is vendored at the
+# repo root per contract section 5.2 (identical tree in rdtii-p3-map).
+package-dir = { "rdtii_p2" = "src/rdtii_p2", "config" = "config" }
+packages = [
+    "rdtii_p2",
+    "config",
+    "config.llm",
+    "config.ocr",
+    "config.embed",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.pyright]
+extraPaths = ["src", ".", "tests"]
