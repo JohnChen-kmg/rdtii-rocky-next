@@ -1,0 +1,153 @@
+# ============================================================================
+# RDTII 2.1 — FROZEN CROSS-CUTTING POLICIES (finale instrument, all twelve pillars)
+# Conforms to INTERFACE_CONTRACT.md §4.2. Read by the mapping stage (rulebook);
+# informational for crawl and extraction.
+#
+# Sources: INTERFACE_CONTRACT.md §4.2 (frozen skeleton) · RDTII 2.1 Internal Guide
+#   (SOP pp.5-10: measure inclusion, scoring polarity, absence handling) · RDTII 2.1 Guide
+#   (printed pages) · finale template Indicator Reference (host trap rows 79-85) ·
+#   Non-regulatory indicators note · Assignment 1 answer key.
+# Finale changes (2026-09-13): decimal indicator IDs; host row 85 (amending act cited in
+#   place of the principal act); non-regulatory and practice-based indicator rules;
+#   economy-level indicators (host row 80); indicator ID policy; the Instructions sheet's
+#   wrong-section rule on citation_contract.section_rule.
+# ============================================================================
+
+instrument_version: "2.1.0"
+
+# --- WHAT COUNTS AS A MEASURE (RDTII 2.1 SOP — Internal Guide pp.5-10) --------
+measure_inclusion:
+  enforced_only: >
+    Record ENFORCED measures only. Pending drafts and bills are excluded.
+    Repealed/superseded measures are excluded (see edge_cases.repealed). Drafts,
+    repealed provisions, and an amending act cited in place of the principal act all
+    score zero (Internal Guide p.8; Indicator Reference row 85).
+  non_preferential_only: >
+    Record non-preferential measures: domestic regulations and specific
+    international frameworks. Preferential trade-agreement provisions are
+    excluded (treaty-participation indicators are out of scope anyway — 6.5). (Internal Guide p.8)
+  official_sources_only: >
+    Measures come from official sources: laws, regulations, guidelines,
+    government decisions, case law. Secondary sources (tracker databases,
+    reports, news, legal reviews) are NEVER evidence — they "serve only to
+    guide researchers to the primary sources" (Guide, pillar chapters; Internal Guide p.8).
+    Exception: see practice_based.
+  practice_based: >
+    Indicators 3.4, 5.3 and 9.1 focus on enforcement and practice. For these, the
+    host allows secondary sources (official announcements, market reports, SOE lists,
+    company records) to evidence the practice, alongside the legal basis. Rows built on
+    such evidence must say so in Notes. (Internal Guide p.8; Assignment 2 brief p.2)
+  non_regulatory: >
+    Indicators 1.1, 1.2, 1.3, 2.4, 4.4, 4.7, 4.8, 5.6, 6.5, 9.2 and 12.10-12.13 come from
+    external databases and treaty status; the tool does not extract them and emits no
+    rows for them. Only 6.5 appears in the finale Indicator Reference, and it is
+    declared out of scope. (Non-regulatory indicators note; Internal Guide p.8)
+  commercial_focus: >
+    The database captures measures potentially affecting COMMERCIAL
+    transactions. Measures applied to GOVERNMENT data are not scored for
+    6.1-6.4 and 7.3. Other indicator-specific exceptions (3.1, 3.4, 9.1, 9.3, 9.4,
+    12.2, 12.3) are carried on the indicator blocks. (Indicator Reference notes; Internal Guide p.9)
+  vertical_coverage: >
+    All levels of the legal hierarchy count as instruments: overarching Acts
+    down to supplementary regulations, decrees, decisions, subsidiary
+    legislation. (Internal Guide p.9)
+  regional_consistency: >
+    Membership of regional groups / economic unions (ASEAN, APEC, EAEU, ...)
+    entails commitments to specific laws in their frameworks; answers tied to
+    such membership should be applied consistently across economies. (Internal Guide p.4)
+
+# --- INDICATOR IDS ----------------------------------------------------------------
+id_policy:
+  format: "decimal text exactly as the host writes it: '6.1', '4.01', '12.4.1' (Indicator Reference row 2)"
+  never_numeric: "never parse an ID as a number: 4.01 and 4.1 are different indicators, and 12.4.1 is not a number"
+  order: "order and scope come from indicator_order.yaml, never from sorting IDs"
+  legacy: "Round 1 files used a legacy P<pillar>-I<n> form for the nine pillar 6-7 indicators; translate with indicator_ids.legacy_of() only when reading Round 1 artefacts"
+
+# --- SOURCE & CITATION POLICY ------------------------------------------------
+source_hierarchy: [statute, regulation, guidance, tracker]   # LEGAL AUTHORITY: statute > regulation > guidance > tracker
+hierarchy_is_not_a_filter: >
+  The hierarchy resolves conflicts and determines CONTROLLING EVIDENCE for the
+  indicator-level score — it does NOT filter recording. "Any legal text
+  published by a government body is recorded"; regulator Notices are legal
+  instruments too (Assignment 1 answer key p.2: Cybersecurity Act 2018 is the
+  controlling evidence, but MAS Notice FSM-N16 Cyber Hygiene is still
+  recorded as a sectoral measure).
+citation_url_preference:        # WHERE to fetch/cite the Source URL (distinct axis from legal authority)
+  - official_statutes_portal              # e.g. SG sso.agc.gov.sg · AU legislation.gov.au; per-economy lists live in p1-scrape sources_<cc>.yaml
+  - official_regulator_or_agency_site     # e.g. pdpc.gov.sg, oaic.gov.au, pdp.gov.my, mcmc.gov.my
+  - official_gazette_scan                 # e.g. MY lom.agc.gov.my / federalgazette (often scanned)
+  - whitelisted_reputable_secondary       # LAST RESORT ONLY where no official copy is reachable; flag in Notes
+
+conflict_rule: "lex specialis — the more specific instrument governs when two conflict"
+
+citation_contract:
+  requires: [verbatim_snippet, article_section_with_paragraph, working_source_url]
+  rule: "every SUBSTANTIVE output row MUST carry all three; missing any => not audit-valid"
+  verbatim_rule: "snippet is an exact substring of the frozen source text — no paraphrase, no editing, no ellipsis-splicing"
+  section_rule: "cite article AND paragraph (s. 26(1), Art. 26(2)) — never the bare article. A real act cited to the wrong section scores zero (finale template, Instructions sheet B22)"
+
+# --- SCORING POLICY (cross-indicator) ----------------------------------------
+scoring_policy:
+  polarity: "0 = simplified / low compliance cost; 1 = heavily regulated / high compliance cost (Methodology sheet header). 'Lack of ...' indicators (4.5, 4.1, 5.1, 5.4, 5.7, 7.1, 7.2, 8.1, 8.2, 11.1, 12.9) and absence-based criteria (4.2, 4.6, 12.5) score 1 when the framework or mechanism is ABSENT; an existing framework scores 0 (Methodology sheet criteria)."
+  economy_level_indicators: >
+    7.1 and 7.2 are ECONOMY-LEVEL: does the framework exist, answered once per economy.
+    Per-provision citations of a data-protection or cybersecurity act tagged 7.1/7.2 are
+    not discoveries and score zero. (Indicator Reference row 80)
+  score_greater_than_zero_means:      # Internal Guide p.10 — any one of:
+    - "differential treatment between domestic and foreign providers in the same or similar circumstances"
+    - "a measure with a non-economic objective that nonetheless blocks or discourages participation in digital trade"
+    - "failure to adopt an agreement/legislation/mechanism of significant importance for digital trade (the 'Lack of ...' indicators)"
+  absence_handling: >
+    A score of 0 for absence is still a recorded, evidenced answer: cite the
+    relevant general rules if any exist and state the reason (Internal Guide
+    p.10: "state the reason in the 'Impact' column" — our Notes/Rationale).
+  score_is_hint_only: >
+    The final 0/0.5/1 assignment remains a human decision. The tool emits
+    score_hint + the features that drive it (data type, scope, conditionality,
+    minimum period, judicial oversight); a clean, correctly-mapped record
+    outranks an aggressive score claim.
+
+# --- EDGE CASES (contract §4.2 — frozen) --------------------------------------
+edge_cases:
+  no_provision_found:
+    rule: 'write a row per (governing law × searched in-scope indicator) that yielded nothing; never blank'
+    row_shape: 'Verbatim Snippet="No provision found"; Article/Section="n/a"; cite governing law (name+number+working law-level URL) and reason in Notes'
+    schema_variant: 'validated by the No-provision branch of final_record.schema.json — verbatim/section/anchor relaxed, governing-law citation + reason REQUIRED'
+  repealed: >
+    do not record; or set Notes=repealed/superseded — a repealed law recorded
+    as active is wrong evidence (penalty). If an instrument was
+    canceled/replaced, record its CURRENT SUCCESSOR instead (Assignment 1 answer key p.1:
+    MAS Notice 1119 was canceled 2022 → record Notice FSM-N16). Verify
+    currency, not just existence.
+  amending_act_cited_instead_of_principal: >
+    An amending act cited in place of the principal act scores zero. Cite the principal
+    act as amended (its consolidated text where the portal provides one), and name the
+    amending act in Notes/Timeframe. (Indicator Reference row 85)
+  broken_url: "flag in Notes; prefer official replacement URL"
+  same_provision_two_indicators: "emit two rows — indicators are not mutually exclusive (e.g. a retention-for-access scheme can be 7.3 and 7.5) (Assignment 1 answer key p.3)"
+  one_indicator_many_laws: "separate rows, cross-referenced in Notes"
+  sectoral_and_horizontal: >
+    record both; authority = who enacted it (legal hierarchy), not breadth;
+    sectoral rules are NOT dropped because a horizontal law exists — "they are
+    relevant and recorded even if a cross-cutting/comprehensive framework is
+    available" (Assignment 1 answer key p.2). The horizontal law is the CONTROLLING EVIDENCE
+    for the indicator-level score; sectoral rows are complements.
+  bad_country_input: "must not crash; skip with logged warning"
+  # --- additional frozen rules mined from the framework docs (PATCH-level additions) ---
+  dual_processing_and_storage: >
+    One law imposing BOTH local processing and local storage is recorded under
+    BOTH 6.1 and 6.2 (Guide p.51, Australia example).
+  unspecified_retention_period: >
+    A retention rule with no specified minimum period ('as long as necessary',
+    'no longer than necessary', a 'prescribed period' with no number) is NOT a 7.3
+    measure: either omit, or record with score_hint 0 and the reason in Notes
+    (Internal Guide p.13; Indicator Reference row 81).
+  datacentre_rules_without_mandate: >
+    Data-centre regulations without an establishment mandate (licensing,
+    registration, security controls on existing centres) are NOT 6.3: either
+    omit, or record with score_hint 0 and the reason in Notes (Internal Guide
+    p.13); licensing schemes belong to 9.4 (Internal Guide p.14).
+  government_data_measure: >
+    A localization/retention measure applying only to GOVERNMENT data is not
+    scored (6.1-6.4, 7.3). If retrieved, record nothing or a Notes-only
+    explanation — never a scored row. (Indicator Reference notes)

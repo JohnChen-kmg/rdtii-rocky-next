@@ -1,0 +1,63 @@
+{
+  "economy": "SG",
+  "scores": {
+    "6.1": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "6.2": {
+      "score": 1.0,
+      "basis": "escalation clause: 2 distinct verified half-point measures",
+      "evidence_rows": 2,
+      "pending": 0
+    },
+    "6.3": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "6.4": {
+      "score": 1.0,
+      "basis": "max over 12 verified fires",
+      "evidence_rows": 12,
+      "pending": 0
+    },
+    "7.1": {
+      "score": 0.0,
+      "basis": "Singapore has the Personal Data Protection Act 2012, a horizontal statute establishing a general framework for personal data protection, indicating a comprehensive law exists rather than an absence of one.",
+      "controlling_law": "Personal Data Protection Act 2012 s.3",
+      "evidence_rows": 1,
+      "rejected_rows": 0
+    },
+    "7.2": {
+      "score": 0.0,
+      "basis": "Singapore has a dedicated, horizontal cybersecurity statute—the Cybersecurity Act 2018 (s.5(1) establishing the framework), further expanded by the Cybersecurity (Amendment) Act 2024 covering CII, entities of special cybersecurity interest, and foundational digital infrastructure providers, plus subsidiary regulations and a Code of Practice. This constitutes a comprehensive dedicated framework, so SG does not lack one.",
+      "controlling_law": "Cybersecurity Act 2018 s.5(1)",
+      "evidence_rows": 1,
+      "rejected_rows": 21
+    },
+    "7.3": {
+      "score": 1.0,
+      "basis": "max over 59 verified fires",
+      "evidence_rows": 59,
+      "pending": 0
+    },
+    "7.4": {
+      "score": 1.0,
+      "basis": "max over 2 verified fires",
+      "evidence_rows": 2,
+      "pending": 0
+    },
+    "7.5": {
+      "score": 1.0,
+      "basis": "max over 101 verified fires",
+      "evidence_rows": 101,
+      "pending": 0
+    }
+  },
+  "economy_level_model": "claude-sonnet-5",
+  "cost_usd": 0.0215
+}

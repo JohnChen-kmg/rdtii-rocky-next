@@ -1,0 +1,71 @@
+{
+  "economy": "CN",
+  "resolvable_gold_rows": 21,
+  "row_recall": 0.619,
+  "cited_but_unparsed_sources": 0,
+  "cited_but_unparsed_examples": [],
+  "gold_rows_with_parsed_sources": 21,
+  "row_recall_on_parsed_sources": 0.619,
+  "known_tag_accuracy_on_hits": 0.6154,
+  "misses": [
+    {
+      "gold": "r2-cn-044",
+      "ind": "6.2",
+      "law": [
+        "Data Protection Measure for Industrial and Telecom Companies \u300a\u5de5\u4e1a\u548c\u4fe1\u606f\u5316\u9886\u57df\u6570\u636e\u5b89\u5168\u7ba1\u7406\u529e\u6cd5\uff08\u8bd5\u884c\uff09\u300b"
+      ]
+    },
+    {
+      "gold": "r2-cn-048",
+      "ind": "6.3",
+      "law": [
+        "Map Management Regulations \u300a\u5730\u56fe\u7ba1\u7406\u6761\u4f8b\u300b"
+      ]
+    },
+    {
+      "gold": "r2-cn-055",
+      "ind": "7.1",
+      "law": [
+        "Data Security Law of the People's Republic of China\u300a\u4e2d\u534e\u4eba\u6c11\u5171\u548c\u56fd\u6570\u636e\u5b89\u5168\u6cd5\u300b"
+      ]
+    },
+    {
+      "gold": "r2-cn-059",
+      "ind": "7.3",
+      "law": [
+        "Regulation on Internet Information Services of the People's Republic of China \u300a\u4e92\u8054\u7f51\u4fe1\u606f\u670d\u52a1\u7ba1\u7406\u529e\u6cd5\u300b"
+      ]
+    },
+    {
+      "gold": "r2-cn-065",
+      "ind": "7.4",
+      "law": [
+        "Cybersecurity Law of the People's Republic of China\u300a\u4e2d\u534e\u4eba\u6c11\u5171\u548c\u56fd\u7f51\u7edc\u5b89\u5168\u6cd5\u300b"
+      ]
+    },
+    {
+      "gold": "r2-cn-067",
+      "ind": "7.5",
+      "law": [
+        "Measures for the Administration of Internet E-mail Services 2006 \u300a\u4e92\u8054\u7f51\u7535\u5b50\u90ae\u4ef6\u670d\u52a1\u7ba1\u7406\u529e\u6cd5\u300b"
+      ]
+    },
+    {
+      "gold": "r2-cn-069",
+      "ind": "7.5",
+      "law": [
+        "Provisions on the Management of Internet Post Comments Services \u300a\u4e92\u8054\u7f51\u8ddf\u5e16\u8bc4\u8bba\u670d\u52a1\u7ba1\u7406\u89c4\u5b9a\u300b"
+      ]
+    },
+    {
+      "gold": "r2-cn-070",
+      "ind": "7.5",
+      "law": [
+        "Interim Administrative Measures for Generative Artificial Intelligence Services\u300a\u751f\u6210\u5f0f\u4eba\u5de5\u667a\u80fd\u670d\u52a1\u7ba1\u7406\u6682\u884c\u529e\u6cd5\u300b"
+      ]
+    }
+  ],
+  "csv_rows": 56,
+  "note": "allowlist OFF; label-noise gold rows excluded (decision #9/#11)",
+  "law_match": "config/lawnames.py: the CITED law's tokens must be covered by the candidate name (not the other way round), and an original-script title matches by containment, because an English name here is a translation"
+}

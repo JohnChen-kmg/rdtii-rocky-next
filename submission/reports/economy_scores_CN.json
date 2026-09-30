@@ -1,0 +1,63 @@
+{
+  "economy": "CN",
+  "scores": {
+    "6.1": {
+      "score": 1.0,
+      "basis": "escalation clause: 10 distinct verified half-point measures",
+      "evidence_rows": 12,
+      "pending": 0
+    },
+    "6.2": {
+      "score": 1.0,
+      "basis": "escalation clause: 7 distinct verified half-point measures",
+      "evidence_rows": 8,
+      "pending": 0
+    },
+    "6.3": {
+      "score": 1.0,
+      "basis": "max over 2 verified fires",
+      "evidence_rows": 2,
+      "pending": 0
+    },
+    "6.4": {
+      "score": 1.0,
+      "basis": "max over 80 verified fires",
+      "evidence_rows": 80,
+      "pending": 0
+    },
+    "7.1": {
+      "score": 0.0,
+      "basis": "The evidence shows China has a dedicated, comprehensive statute—the Personal Information Protection Law—with foundational articles (Arts. 1, 2, 4) establishing its purpose, scope, and definitions covering personal information processing broadly. This indicates a horizontal, comprehensive legal framework rather than an absence or merely sectoral regulation.",
+      "controlling_law": "中华人民共和国个人信息保护法 (Personal Information Protection Law of the PRC)",
+      "evidence_rows": 4,
+      "rejected_rows": 0
+    },
+    "7.2": {
+      "score": 0.0,
+      "basis": "The evidence shows China's Cybersecurity Law is a broadly applicable (horizontal), comprehensive statute covering scope, principles, network operator obligations, security protections, and incident/emergency provisions (Arts. 1,2,4,5,6,9,11,23,53,55,57), supplemented by sectoral regulations for critical information infrastructure (关键信息基础设施安全保护条例) and legacy computer system protection rules. This constitutes a dedicated, comprehensive cybersecurity legal framework rather than an absence or mere sectoral patchwork, so the inverted indicator scores 0 (framework exists).",
+      "controlling_law": "中华人民共和国网络安全法 (Cybersecurity Law of the PRC)",
+      "evidence_rows": 18,
+      "rejected_rows": 29
+    },
+    "7.3": {
+      "score": 1.0,
+      "basis": "max over 114 verified fires",
+      "evidence_rows": 114,
+      "pending": 0
+    },
+    "7.4": {
+      "score": 1.0,
+      "basis": "max over 21 verified fires",
+      "evidence_rows": 21,
+      "pending": 0
+    },
+    "7.5": {
+      "score": 1.0,
+      "basis": "max over 110 verified fires",
+      "evidence_rows": 110,
+      "pending": 0
+    }
+  },
+  "economy_level_model": "claude-sonnet-5",
+  "cost_usd": 0.0247
+}

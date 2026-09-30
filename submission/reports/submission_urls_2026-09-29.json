@@ -1,0 +1,1270 @@
+{
+ "checked": 147,
+ "not_ok": 1,
+ "results": [
+  {
+   "url": "http://www.mj.gov.tl/jornal/public/docs/2016/serie_1/SERIE_I_NO_32.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:6.2:row2",
+    "TL:7.3:row9"
+   ]
+  },
+  {
+   "url": "https://flk.npc.gov.cn/",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.1:row2",
+    "CN:6.1:row4",
+    "CN:6.1:row5",
+    "CN:6.1:row6",
+    "CN:6.1:row7",
+    "CN:6.2:row8",
+    "CN:6.2:row10",
+    "CN:6.4:row14",
+    "CN:6.4:row22",
+    "CN:7.2:row24",
+    "CN:7.2:row25",
+    "CN:7.2:row26",
+    "CN:7.3:row27",
+    "CN:7.3:row30",
+    "CN:7.3:row33",
+    "CN:7.3:row35",
+    "CN:7.3:row37",
+    "CN:7.3:row38",
+    "CN:7.4:row39",
+    "CN:7.5:row46",
+    "CN:7.5:row47",
+    "CN:7.5:row48",
+    "CN:7.5:row49",
+    "CN:7.5:row50",
+    "CN:7.5:row51",
+    "CN:7.5:row52",
+    "CN:7.5:row53",
+    "CN:7.5:row54",
+    "CN:7.5:row55",
+    "CN:7.5:row56"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/0918570.pdf",
+   "status": "error:ConnectError",
+   "ok": false,
+   "rows": [
+    "LA:6.4:row4",
+    "LA:6.4:row5"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1. Law on cyber crime.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.2:row8"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1009ອຊ31.8.2023.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.5:row20"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1158-30-4-2026_0001.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:6.3:row2",
+    "LA:7.3:row13"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1939ກງ2021.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.3:row14"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/199ທຫລ2021.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.3:row9",
+    "LA:7.3:row10"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/29ທຫລ2019.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.3:row15"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/3643,29,9,2025.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:6.3:row3"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/3899-28-8-2026_00001.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.3:row12"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/45 ສພຊ20.11.2023.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.3:row16"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/46ສພຊ20.11.2023.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.3:row11"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/553,4,9,2025.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.5:row19"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/789-21-8-2026_0001.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.3:row18"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/87.25.6.2025_0001.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.2:row6",
+    "LA:7.2:row7"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/ກົດໝາຍວ່າດ້ວຍ ການຟອກເງິນ ແລະ ການສະໜອງທຶນໃຫ້ແກ່ການກໍ່ການຣ້າຍ(ສະບັບປັບປຸງ)64.01.07.2024.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.3:row17"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/ກົດໝາຍເຕັກໂນໂລຊີການສື່ສານ.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.5:row21"
+   ]
+  },
+  {
+   "url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/ດຳລັດວ່າດ້ວຍ  ການຄຸ້ມຄອງຂໍ້ມູນຂ່າວສານ ຜ່ານອິນເຕີເນັດ.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.5:row22"
+   ]
+  },
+  {
+   "url": "https://laotradeportal.gov.la/upload/files/Legal_1557474430lo_LA.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:6.1:row23",
+    "LA:6.2:row24"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/9.%20Act%20731%20-%2022.10.2015.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row48"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20453%20-%20Securities%20Industry%20(Central%20Depositories)%20Act%201991.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.3:row30"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20563%20-%20Computer%20Crimes%20Act%201997.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row44"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20588%202006.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row46",
+    "MY:7.5:row50"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20723%20(REPRINT%202018).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.3:row32"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20747%20-TPPUU).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row40"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/15687_BI/Act%20655%20reprint%20BI.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row47"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1688718_BI/Act%20776%20-%20Draf%20Bersih.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row49"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1719599_BI/010722_Act%20613_final.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.3:row29",
+    "MY:7.5:row51"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1726091_BI/ACT%20709-REPRINT%202023.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.4:row12",
+    "MY:7.1:row21",
+    "MY:7.5:row38"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1738979_BI/Act%20777-%20Final%20Draft%20(1.8.2022).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.2:row9"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1744567_BI/Reprint%20Act%20265%20(Final).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.3:row28"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1841142_BI/Act%20593%20-%20Muktamad%20as%20at%204.7.23%20(1.12.23)%20(2).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row41"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1867241_BI/Act%20618%20-%20Final%20(6.10.2023).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row52"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1878731_BI/WJW24%EF%80%A20906%20Act%20710.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.3:row26",
+    "MY:7.5:row43"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2177706_BI/Act%20854.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.2:row22",
+    "MY:7.3:row31",
+    "MY:7.5:row39"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2430673_BI/Act%20A1727.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.4:row35"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2669326_BI/A1743%20BI-%20COMMUNICATIONS%20AND%20MULTIMEDIA%20(AMENDMENT)%20ACT%202025.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row42"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2694480_BI/Act%20A1746%20BI%20-%20TRUSTEES%20(INCORPORATION)%20(AMENDMENT)%20ACT%202025.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.2:row11"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3165320_BI/Act%20246%20(REPRINT%202018).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.3:row34"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3252974_BI/ACT%20758%20%20AS%20AT%202025.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.5:row45"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3252998_BI/Act%20671%20(Online%202026).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.3:row25"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345906_BI/Act%20169%20(Online%202026).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.2:row7"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345910_BI/Act%2053%20(Online%202026).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.2:row3",
+    "MY:6.2:row5",
+    "MY:6.2:row10",
+    "MY:7.3:row24",
+    "MY:7.3:row27"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345980_BI/ACT%20543%20AS%20AT%202026%20(ONLINE%202026).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.2:row4"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3465678_BI/Act%20807%20(Online%202026).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.2:row2",
+    "MY:7.3:row23",
+    "MY:7.3:row33"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3571303_BI/Act%20445%20(Online%202026).pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.2:row8"
+   ]
+  },
+  {
+   "url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3667676_BI/ACT%20702%20-%20REPRINT%202019.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.2:row6"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/BTA2004?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row20"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/CA1960?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row21"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/CA2018?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.2:row10"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/CDTOSCCBA1992?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row22"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/CPC2010?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.5:row26"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/CoA1967?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:6.2:row2",
+    "SG:7.3:row11"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/FAA2001?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.5:row32"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/FSMA2022?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.5:row29",
+    "SG:7.5:row35"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/GSTA1993?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row23"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/HTA2010?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.5:row31"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/IA1966?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:6.2:row3",
+    "SG:7.5:row28"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/ITA1947?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row12"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/LPA2008?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row16"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/MA2008?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row24"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/OCA2015?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.5:row33"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/PCA1960?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.5:row30"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:6.4:row4",
+    "SG:6.4:row8",
+    "SG:7.1:row9",
+    "SG:7.3:row14",
+    "SG:7.4:row25",
+    "SG:7.5:row27",
+    "SG:6.1:row37",
+    "SG:6.3:row38"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/POSSPA2018?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.5:row34"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/PSIA2007?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row19"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/SFA2001?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row18",
+    "SG:7.5:row36"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/SGDA2007?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row17"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/Act/TCA2005?ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row15"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/SL/EmA1968-S148-2016?DocDate=20160401&ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:7.3:row13"
+   ]
+  },
+  {
+   "url": "https://sso.agc.gov.sg/SL/PDPA2012-S63-2021?DocDate=20260831&ViewType=Pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "SG:6.4:row5",
+    "SG:6.4:row6",
+    "SG:6.4:row7"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2016-02/15/c_1118048596.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.3:row12"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2016-07/06/c_1119159909.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:7.3:row34"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2017-09/28/c_1121737753.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.3:row13"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2018-09/01/c_1123362506.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:7.3:row28"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2021-08/20/c_1631049984897667.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.2:row9"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2021-08/20/c_1631050028355286.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:7.1:row23",
+    "CN:7.4:row40"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2022-07/07/c_1658811536396503.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.4:row17"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2023-02/24/c_1678884830036813.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.4:row20",
+    "CN:6.4:row21"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2024-03/22/c_1712776611775634.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.4:row16"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2024-09/30/c_1729384452307680.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.4:row15",
+    "CN:7.4:row42"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2025-02/14/c_1741233507681519.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:7.4:row43",
+    "CN:7.4:row45"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2025-03/21/c_1744174262156096.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.1:row3",
+    "CN:7.3:row29",
+    "CN:7.4:row44"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2025-10/17/c_1762449728720008.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.4:row18"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2025-12/29/c_1768735112911946.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.2:row11"
+   ]
+  },
+  {
+   "url": "https://www.cac.gov.cn/2026-01/07/c_1769516655383334.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:7.3:row32"
+   ]
+  },
+  {
+   "url": "https://www.gov.cn/gongbao/2026/issue_12766/202605/content_7070600.html",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:7.3:row31",
+    "CN:7.3:row36"
+   ]
+  },
+  {
+   "url": "https://www.gov.cn/zhengce/zhengceku/202510/content_7044914.htm",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "CN:6.4:row19",
+    "CN:7.4:row41"
+   ]
+  },
+  {
+   "url": "https://www.laoofficialgazette.gov.la/kcfinder/upload/files/0918570.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "LA:7.1:row25",
+    "LA:7.4:row26"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A00109/2026-08-27/2026-08-27/text/original/epub#_Toc239659414",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.4:row11"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A00109/2026-08-27/2026-08-27/text/original/epub#_Toc239659489",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.2:row4"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A00818/2026-08-27/2026-08-27/text/original/epub#_Toc239675794",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row21"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A01387/2026-08-27/2026-08-27/text/original/epub#_Toc239323351",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row38"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A01387/2026-08-27/2026-08-27/text/original/epub#_Toc239323364",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row37"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02123/2026-08-27/2026-08-27/text/original/epub#_Toc239520889",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row27"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02123/2026-08-27/2026-08-27/text/original/epub#_Toc239520901",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row30"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02123/2026-08-27/2026-08-27/text/original/epub#_Toc239520918",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row29"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239333387",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row16"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239334020",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row31"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239334021",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row28"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239334025",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row33"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239334026",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row32"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239334027",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row36"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239334028",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row34"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239334031",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.5:row35"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A03712/2026-06-04/2026-06-04/text/original/epub",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.4:row40"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A03712/2026-06-04/2026-06-04/text/original/epub#_Toc232574834",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.1:row13"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A03712/2026-06-04/2026-06-04/text/original/epub#_Toc232574929",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.2:row7"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A03712/2026-06-04/2026-06-04/text/original/epub#_Toc232575248",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.4:row10"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A04633/2026-08-10/2026-08-10/text/original/epub#_Toc237259584",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.2:row9"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A04633/2026-08-10/2026-08-10/text/original/epub#_Toc237259589",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.2:row6"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A04860/2025-02-21/2025-02-21/text/original/epub#_Toc191395675",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.2:row8"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A05159/2026-07-01/2026-07-01/text/original/epub#_Toc235451186",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.2:row5"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2004A05168/2023-10-20/2023-10-20/text/original/epub#_Toc150259146",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row19"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2006A00169/2026-07-01/2026-07-01/text/original/epub#_Hlk75772597",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row25"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2006A00169/2026-07-01/2026-07-01/text/original/epub#_Toc234565511",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row20"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2006A00169/2026-07-01/2026-07-01/text/original/epub#_Toc234565516",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row24"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2006A00169/2026-07-01/2026-07-01/text/original/epub#_Toc234565518",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row17"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2006A00169/2026-07-01/2026-07-01/text/original/epub#_Toc234565523",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row22"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2010A00104/2026-07-01/2026-07-01/text/original/epub#_Toc235018556",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row26"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2012A00063/2026-07-01/2026-07-01/text/original/epub#_Toc234668137",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.1:row2",
+    "AU:6.2:row3"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2012A00153/2024-10-14/2024-10-14/text/original/epub#_Toc179460052",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row23"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2018A00029/2026-06-04/2026-06-04/text/original/epub#_Toc231561400",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.2:row15"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2022A00011/2024-12-11/2024-12-11/text/original/epub#_Hlk80869974",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:6.4:row12"
+   ]
+  },
+  {
+   "url": "https://www.legislation.gov.au/C2024A00098/asmade/2024-11-29/text/original/pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.2:row14"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2002_2005/decreto_lei_governo/13_2005.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row13"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2006/serie_1/serie1_no5.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row16"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2008/serie_1/serie1_no14.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.3:row3",
+    "TL:7.3:row4",
+    "TL:7.3:row10"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2008/serie_1/serie1_no27.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row21"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2009/serie_1/serie1_no25.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row22"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2009/serie_1/serie1_no27.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.3:row7"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2009/serie_1/serie1_no41.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row15"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2015/serie_1/SERIE_I_NO_23.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.3:row12"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2017/serie_1/SERIE_I_NO_19_SUPLEMENTO.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.3:row11"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2017/serie_1/SERIE_I_NO_4.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row18"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2020/serie_1/SERIE_I_NO_53A.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row14"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2021/serie_1/SERIE_I_NO_27.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.3:row5"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2024/serie_1/SERIE_I_NO_7.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.3:row6"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2025/serie_1/SERIE_I_NO_31.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row20"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2025/serie_1/SERIE_I_NO_33.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row17"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2026/serie_1/SERIE_I_NO_32.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.3:row8"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2026/serie_1/SERIE_I_NO_6.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:7.5:row19"
+   ]
+  },
+  {
+   "url": "https://www.oaic.gov.au/__data/assets/pdf_file/0029/242588/Privacy-Credit-Reporting-Code-2024.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "AU:7.3:row18",
+    "AU:6.3:row39"
+   ]
+  },
+  {
+   "url": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:6.4:row13",
+    "MY:6.4:row14",
+    "MY:6.4:row15",
+    "MY:6.4:row16",
+    "MY:6.4:row17",
+    "MY:6.4:row18",
+    "MY:6.4:row19",
+    "MY:6.4:row20"
+   ]
+  },
+  {
+   "url": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "MY:7.4:row36",
+    "MY:7.4:row37",
+    "MY:6.1:row53",
+    "MY:6.3:row54"
+   ]
+  },
+  {
+   "url": "n/a — 2,879 Timor-Leste instruments from www.mj.gov.tl searched, none governing this indicator",
+   "status": "placeholder",
+   "rows": [
+    "TL:6.1:row23",
+    "TL:6.3:row24",
+    "TL:6.4:row25",
+    "TL:7.1:row26",
+    "TL:7.2:row27",
+    "TL:7.4:row28"
+   ]
+  }
+ ]
+}

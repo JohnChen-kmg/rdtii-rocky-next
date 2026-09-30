@@ -1,0 +1,796 @@
+{
+ "contract_version": "0.3.0",
+ "economy": "LA",
+ "economy_name": "Lao PDR",
+ "laws": [
+  {
+   "law_name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ການດຳເນີນທຸລະກິດ ບໍລິການອິນເຕີເນັດ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1158-30-4-2026_0001.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ການດຳເນີນທຸລະກິດ ບໍລິການອິນເຕີເນັດ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.3",
+     "Article / Section": "Art. 13",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.6",
+     "Verbatim Snippet": "ຕ້ອງສ້າງຕັ້ງສະຖານີດາວທຽມພາກພື້ນດິນ ຢູ່ໃນ ສປປ ລາວ ເພືອຮັບ-ສົ່ງສັນຍານອິນເຕີເນັດ ລະຫວ່າງ",
+     "Mapping Rationale": "Mandate to establish local ground satellite station as precondition to provide satellite-based internet service = infrastructure requirement, not mere licensing/storage.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1158-30-4-2026_0001.pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decision on Operating Internet Service Businesses",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2589/20260921T0046Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "າງຕັ້ງເປັນບໍລິສັດຮ່ວມທຶນກັບລັດຖະບານ ສປປ ລາວ;\n20. ຕ້ອງສ້າງຕັ້ງສະຖານີດາວທຽມພາກພື້ນດິນ ຢູ່ໃນ ສປປ ລາວ ເພືອຮັບ-ສົ່ງສັນຍານອິນເຕີເນັດ ລະຫວ່າງ\nະເທດ;\n21. ເງື່ອນໄຂອື່ນ ທີ່ກະຊວງ ເຕັກໂນໂລຊີ ແລະ ການສື່ສານ ກໍານົດ.\n",
+      "after": " ຮູບສີ 3 %4 ຈໍານວນ 02 ໃບ ທີ່ມີອາຍຸບໍ່ເກີນ 03 ເດືອນ.\nສໍາລັບກິດຈະການບໍລິການອິນເຕີເນັດ ຜ່ານການສື່ສານຜ່ານດາວທຽມ, ນອກຈາກເງື່ອນໄຂຂ້າງເທິງນັ້ນ\n\nຍັງມີເອກກະສານສະເພາະ ດັງນີ່:\n\n16. ໃບອະນຸຍາດ ສິດໃນການໃຫ້ບໍລິການສື"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2589-001#Art. 13",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ການດຳເນີນທຸລະກິດ ບໍລິການອິນເຕີເນັດ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 23",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.12",
+     "Verbatim Snippet": "ບັນທຶກ ແລະ ເກັບຮັກສາ ຂໍ້ມູນປະຫວັດການນໍາໃຊ້ ຂອງຜູ້ໃຊ້ບໍ່ລິການອິນເຕີເນັ້ດ ຢ່າງຫ້ອຍ 01 ປີ",
+     "Mapping Rationale": "Explicit minimum retention period of at least 1 year for user usage-history data, imposed on ISPs under a sectoral telecom/internet regulation.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1158-30-4-2026_0001.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decision on Operating Internet Service Businesses",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2589/20260921T0046Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " ຕໍ່ພະນັກງານ ຂະແຫງການ ເຕັກໂນໂລຊີ ແລະ ການສື່ສານ\nແລະ ເຈົ້າຫ້າທີ່ ທີ່ກ່ຽວຂ້ອງໃນການຕິດຕາມ ແລະ ກວດກາ ການດໍາເນີນທຸລະກິດ;\nຮັບປະກັນ, ປະຕິບັດຕາມຫຼັກການ, ເງື່ອນໄຂ ແລະ ມາດຕະຖານ.ທີ່ກໍານົດໄວ້ໃນ ມາດຕາ 4, ມາດຕາ 12,\n",
+      "after": "\n\nໄລ\nໃສ,\n\nມາດຕາ\nກ\n2:\n\nມາດຕາ\n\nອ ງ ຫ໌ >\n\nລາຍງານຂໍ້ມູນການບໍລິການ ຂອງຕົນ ເຊັນ: ການນໍໍາໃຊ້ຊັບພະຍາກອນໂທລະຄົມມະນາຄົມ, ເຕັກນິກ\nຄວາມປອດໄພ ແລະ ການເຊື່ອມຕໍ່ ໃຫ້ຂະແຫນງການ ເຕັກໂນໂລຊີ ແລະ ການສື່ສານ ຢ່າງເປັນ\nປົກກະຕິ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2589-001#Art. 23",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ການດຳເນີນທຸລະກິດດ້ານເຕັກໂນໂລຊີດີຈີຕອນ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/3643,29,9,2025.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ການດຳເນີນທຸລະກິດດ້ານເຕັກໂນໂລຊີດີຈີຕອນ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.3",
+     "Article / Section": "Art. 22",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.10",
+     "Verbatim Snippet": "ຕ້ອງນໍາໃຊ້ໂຄງລາງພື້ນຖານ ຈາກຜູ້ໃຫ້ບໍລິການສູນຂໍ້ມູນ ທີຢູ່ໃນ ສປປ ລາວ ຫຼື ມາດຕາ 20 ຂອງຂໍ້ຕົກລົງສະບັບນີ້ (ໃນກໍລະນີ ສ້າງໂຄງລາງພື້ນຖານເບັນ ຂອງຕົນເອງ)",
+     "Mapping Rationale": "Mandates use of local data-centre infrastructure or establishment of own local infrastructure as precondition for operating blockchain/distributed ledger businesses - a clear 6.3 infrastructure requirement, binary =1 regardless of sectoral scope.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/3643,29,9,2025.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decree on the Operation of Digital Technology Businesses",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2464/20260921T0048Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " ຕ້ອງແມ່ນຜູ້ທີໄດ້ຮັບອະນຸຍາດໃຫ້\nເຂົາເຖິງເທົານັ້ນ;\n\n- ຕ້ອງມີລະບົບການຕິດຕາມ ແລະ ເຝົ່າລະວັງການເຮັດວຽກ ຂອງການໃຫ້ບໍລິການທັງຫນົດ;\n\n- ຕ້ອງມີລະບົບແຈ້ງເຕືອນ ໃນກໍລະນີລະບົບການໃຫ້ບໍລິການໃດຫນຶ່ງ ຫາກເກີດຂໍ້ຜິດພາດ.\n\n",
+      "after": "\nມາດຕາ 20 ຂອງຂໍ້ຕົກລົງສະບັບນີ້ (ໃນກໍລະນີ ສ້າງໂຄງລາງພື້ນຖານເບັນ ຂອງຕົນເອງ);\n\n- ສອດຄອງຕາມມາດຕະຖານເຕັກນິກສາກົນ ສໍາລັບການພັດທະນາເຕັກໂນໂລຊີກູມຂໍມູນຜູກພັນ ແລະ\nເຕັກໂນໂລຊີ ການເກັບກໍາຂໍ້ມູນແບບກະຈາຍ (1315119ແຂຜ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2464-001#Art. 22",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ກົດໝາຍ ວ່າດ້ວຍການປົກປ້ອງຂໍ້ມູນເອເລັກໂຕຣນິກ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/0918570.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ກົດໝາຍ ວ່າດ້ວຍການປົກປ້ອງຂໍ້ມູນເອເລັກໂຕຣນິກ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 17",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "p.7",
+     "Verbatim Snippet": "ໄດ້ຮັບອະນຸຍາດຈາກເຈົ້າຂອງຂໍມູນ ແລະ ຮັບປະກັນວ່າຜູ້ຮັບ ສາມາດປົກປ້ອງຂໍມູນ ນັ້ນໄດ້",
+     "Mapping Rationale": "Cross-border transfer of data, including personal data, is conditioned on data owner's consent and recipient's capacity to protect data — a consent-based conditional flow regime covering personal data, applies horizontally to all persons/entities, scores 1 per Guide p.54.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/0918570.pdf",
+     "Confidence": 0.85,
+     "Notes": "matches baseline r2-la-038; English title (machine-rendered, not official): Law on Electronic Data Protection",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_1216/20260921T0028Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ໍາ, ຮັກສາ ຫຼື ຄຸ້ມຄອງ ໃຫ້ແກ່ບຸກຄົນ\n\nທີສາມ ຖ້າຫາກບໍ່ໄດ້ຮັບອະນຸຍາດຈາກເຈົ້າຂອງຂໍ້ມູນດັງກ່າວ ຫຼື ຫຼື ມີການສະເຫຂອງອົງການຈັດຕັ້ງລັດທີ່ມີສິດອໍານາດ\nກ່ຽວຂ້ອງ ຕາມທີ່ໄດ້ກໍານົດໄວ້ໃນກົດຫງາຍ.\n\n3”\n\nງື ຄຸ້ມຄອງ ກໍຕໍ\n\n",
+      "after": "\n\nມາດຕາ 18 ການເຂົ້າເຖິງຂໍ້ມູນເອເລັກໂຕຣນິກ\nບຸກຄົນ, ນິຕິບຸກຄົນ ຫຼື ການຈັດຕັ້ງ ທີ່ມີຈຸດປະສົງເຂົ້າເຖິງຂໍມູນເອເລັກໂຕຣນິກ ທີ່ບໍ່ແມ່ນຂໍ້ມູນທົ່ວໄປ\nຕ້ອງສະເຫືຕໍ່ຜູ້ຄຸ້ມຄອງຂໍ້ມູນທີ່ກ່ຽວຂ້ອງ ຕາມທີ່ໄດ້ກໍານົດໄວ້ໃນມ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la1216-001#Art. 17",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ກົດໝາຍ ວ່າດ້ວຍການປົກປ້ອງຂໍ້ມູນເອເລັກໂຕຣນິກ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 18",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.7",
+     "Verbatim Snippet": "ບໍ່ສາມາດສົ່ງ ຫຼື ໂອນ ຂໍມູນສ່ວນບຸກຄົນ ແລະ ຂໍ້ມູນທາງລັດຖະ ການອອກນອກ ສປປ ລາວ ຖ້າຫາກບໍ່ໄດ້ຮັບຄໍາເຫັນດີຂອງເຈົ້າຂອງຂໍ້ມູນນັ້ນ ຫຼື ຫາກຂັດກັບກົດຫາຍ",
+     "Mapping Rationale": "Cross-border transfer of personal data is prohibited unless data-subject consent is obtained — a conditional regime covering personal data, scored 1 regardless of sector per 6.4 tree.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/0918570.pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.18 not cited by baseline (matched on the English name); English title (machine-rendered, not official): Law on Electronic Data Protection",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_1216/20260921T0028Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ູນຫາກປະ ຕໍ້ເສດຮັບເອົາ,\n\nບຸກຄົນ, ນິຕິບຸກຄົນ ຫຼື ການຈັດຕັ້ງ ບໍ່ສາມາດສົ່ງ ຫຼື ໂອນ ຂໍມູນສ່ວນບຸກຄົນ ແລະ ຂໍ້ມູນທາງລັດຖະ\nການອອກນອກ ສປປ ລາວ ຖ້າຫາກບໍ່ໄດ້ຮັບຄໍາເຫັນດີຂອງເຈົ້າຂອງຂໍ້ມູນນັ້ນ ຫຼື ຫາກຂັດກັບກົດຫາຍ.\n\n",
+      "after": "\n\nມາດຕາ 19 ການປັບປຸງ ຫຼື ແກ້ໄຂ ຂໍ້ມູນເອເລັກໂຕຣນິກ\nເຈົ້າຂອງຂໍ້ມູນ ສາມາດຮຽກຮ້ອງໃຫ້ຜູ້ຄົ້ມຄອງຂໍ້ມູນ ປັບປຸງ ຫຼື ແກ້ໄຂຂໍ້ມູນເອເລັກໂຕຣນິກຂອງຕົນ ຫຼື\nຮຽກຮ້ອງໃຫ້ຢຸດ ສົ່ງ ຫຼື ໂອນ ຂໍ້ມູນຂອງຕົນ ໃຫ້ບຸກຄົນທີ່ສາມ.\nເ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la1216-001#Art. 18",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ກົດໝາຍວ່າດ້ວຍ ຄວາມປອດໄພໄຊເບີ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/87.25.6.2025_0001.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ກົດໝາຍວ່າດ້ວຍ ຄວາມປອດໄພໄຊເບີ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.2",
+     "Article / Section": "Art. 88",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກທີ່ ໄ/!|, p.22",
+     "Verbatim Snippet": "ໃນການຄູ້ມຄອງວຽກງານຄວາມປອດໄພໄຊເບີ ກະຊວງເຕັກໂນໂລຊີ ແລະ ການສີສານ ມີ ສິດ ແລະ ຫາທີ່",
+     "Mapping Rationale": "Evidence of a dedicated, horizontal cybersecurity legal framework (Law on Cybersecurity) with a designated ministry managing it economy-wide; framework EXISTS so 7.2 (lack of framework) scores 0 per inverted polarity.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/87.25.6.2025_0001.pdf",
+     "Confidence": 0.75,
+     "Notes": "controlling horizontal framework evidence; English title (machine-rendered, not official): Law on Cyber Security",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2537/20260921T0027Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ຫ້ວຽກງານຄວາມປອດໄພໄຂເບີ ໄດ້ດໍາເນີນໄປຢ່າງມີປະສິດທິພາບ ແລະ ປະສິດທິຜົນນັ້ນ\nອົງການຄູ້ມຄອງວຽກງານຄວາມປອດໄພໄຊເບີ ອາດມອບໃຫ້ຄະນະກໍາມະການບົກຄອງຕາແສງ ຊ່ວຍໃນການຄູ້ມ\nຄອງວຽກງານຄວາມປອດໄພໄຊເບີ ຕາມລະບຽບການໃນເຕລະເລຍະ.\n\n",
+      "after": " ປະສານສົມທົບກັບ ກະຊວງ, ອົງການ, ອົງການປົກຄອງທ້ອງຖິນ ແລະ ພາກສວນທີກ່ຽວຂ້ອງ\nກັບວຽກງານຄວາມປອດໄພໄຂເບີ;\n\n17. ພົວພັນ ແລະ ຮ່ວມມືກັບຕ່າງປະທດ, າກພື້ນ ແລະ ສາກົນ ກ່ຽວກັບວຽກງານຄວາມປອດໄພໄຂເປີ;\n\n18. ສະຫຼຸບ ແລະ ລາຍງານ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2537-001#Art. 88~2",
+     "_score_hint": "0"
+    },
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ກົດໝາຍວ່າດ້ວຍ ຄວາມປອດໄພໄຊເບີ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.2",
+     "Article / Section": "Art. 21",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກທີ ||, p.9",
+     "Verbatim Snippet": "ຫງ່ວຍງານໂຄງລາງພື້ນຖານ ຂໍ້ມູນ ຂ່າວສານ ທີສໍາຄັນຂອງຊາດ ຕ້ອງມີຄວາມຮັບຜິດຊອບ ດັງນີ",
+     "Mapping Rationale": "This is a provision-level citation within a dedicated cybersecurity law limited to critical information infrastructure operators; evidences a dedicated but sector-limited (critical infra) cybersecurity framework, not full absence.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/87.25.6.2025_0001.pdf",
+     "Confidence": 0.55,
+     "Notes": "sectoral framework recorded, not controlling; English title (machine-rendered, not official): Law on Cyber Security",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2537/20260921T0027Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ວດກາ ແລະ ປະເມີນຜົນ\n\n.37 < ຮ້ ? ເ ວ ວ.” !, ແມ,\nຄວາມຟ້ອມຂອງຫ)່ວຍງານໂຄງລ່າງພົນຖານ ຂໍ້ມູນ ຂ່າວສານ ທີສໍາຄັນຂອງຊາດ ຢ່າງເປັນປະຈໍາ;\n\nໃນກໍລະນີເ\n\n5. ຕ້ອງລາຍງານຜົນການກວດກາ ແລະ ການປະເມີນຜົນ ຕໍ່ລັດຖະບານ ໃນທັນທີ.\n\n",
+      "after": "\n\nມາດຕາ 22 ລະບົບປະຕິບັດການຄວາມປອດໄພໄຂເບີແຫ່ງຊາດ\n\nລະບົບປະຕິບັດການຄວາມປອດໄພໄຊເບີແຫ່ງຊາດ ແມ່ນ ສູນກາງການຕິດຕາມ, ວິເຄາະ ແລະ ຕອບໂຕ້ຕໍ່\nໄຟຄຸກຄາມທາງໄຊເບີຂອງປະເທດ. ລະບົບດັງກາວຂຶ້ນກັບກະຊວງເຕັກໂນໂລຊີ ແລະ ການສື່ສ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2537-001#Art. 21",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "ກົດໝາຍ ວ່າດ້ວຍ ການຕ້ານ ແລະ ສະກັດກັ້ນອາຊະຍາກຳທາງລະບົບຄອມພິວເຕີ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1. Law on cyber crime.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ກົດໝາຍ ວ່າດ້ວຍ ການຕ້ານ ແລະ ສະກັດກັ້ນອາຊະຍາກຳທາງລະບົບຄອມພິວເຕີ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.2",
+     "Article / Section": "Art. 24",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກທີ ນາ, p.10",
+     "Verbatim Snippet": "ວຽກງານສະກັດກັນອາຊະຍາກາໍທາງລະບົບຄອມພິວເບື ມດງນ",
+     "Mapping Rationale": "Dedicated cybercrime-prevention law exists but is limited to computer-crime/cybersecurity activities rather than a fully horizontal cybersecurity framework across all sectors; economy-level evidence still supports a dedicated (if narrower) framework, so not fully absent.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1. Law on cyber crime.pdf",
+     "Confidence": 0.45,
+     "Notes": "sectoral framework recorded, not controlling; English title (machine-rendered, not official): Law on Combating and Preventing Computer Crimes",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_861/20260921T0029Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ຕະຕ້ອງເຖິງຄວາມບພັນຄົງຂອງຊາດ ປຼ ກຽດສັກສີຂອງບຸກຄົນໃດຫຶ່ງນັ້ນ ຂະ\n\n<,\n\nແບນງການທີ່ກຸ່ງວຂ້ອງ ທັງສູນກາງ ແລະ ທ້ອງຖິນ ຕ້ອງຄົນຄວ້າພຶຈາລະນາຕອບໂຕ້ຕາມແຕ່ລະກໍລະນີ.\n\nປມວດທີ\nວ]ກງານສະກັດກັນອາຊະຍາກາໍທາງລະບົບຄອມພິວເຕີ\n\n",
+      "after": "\n\nມາດຕາ 25 ການຈັດຕັ້ງໂຄສະນາເຫຜີຍແຜ່\nເມ > > ໃ, \"ມ ຫ້ ຫພ 3 <\n. ກະຊວງໄປສະນີ, ໂທລະຄົມມະນາຄົມ ແລະ ການສື່ສານ ເປັນຜູ່ສ້າງປິມຄູມື, ສະຕິກເກີ,\nເ. + . >” + <“ > %ມ ເພ“ ດາ ກ, ເ.\nແຜ່ນໂຄສະນາ, ສື່ສິ່ງພິມ ແລະ ວີດີໂອ "
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la861-001#Art. 24",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "ຂໍ້ຕົກລົງ ວ່າດ້ວຍການໃຫ້ບໍລິການຜະລິດຕະພັນຂອງທະນາຄານທຸລະກິດ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/199ທຫລ2021.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຂໍ້ຕົກລົງ ວ່າດ້ວຍການໃຫ້ບໍລິການຜະລິດຕະພັນຂອງທະນາຄານທຸລະກິດ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 16",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.8",
+     "Verbatim Snippet": "ຕ້ອງເກັບຮັກສາໄວ້ຢ່າງຫນ້ອຍ ສິບ (1 0) ປີ",
+     "Mapping Rationale": "Explicit minimum retention period of at least 10 years for documents/data/electronic copies satisfies the 7.3 minimum-retention scoring branch.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/199ທຫລ2021.pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decision on the Provision of Products of Commercial Banks",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_1774/20260921T0054Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "າຄານທຸລະກິດ ເພືອອໍານວຍຄວາມສະດວກໃນການກວດກາ ຫຼື ການດໍາເນີນການທາງກົດຫນາຍທີອາດ\nເກີດຂຶ້ນ. ເອກະສານ, ຂໍ້ມູນ ລວມທັງສໍາເນົາທາງເອເລັກໂຕຣນຶກ ຕ້ອງເກັບຮັກສາໄວ້ຢ່າງຫນ້ອຍ ສິບ (1 0) ປີ.\nມາດຕະການຕໍ່ຜູ້ລະເມີດ\n\nມ 9 ເງ\n\n",
+      "after": "\n\nມາດຕາ 17 ມາດຕະການຕໍ່ຜູ້ລະເມີດລະບຽບໃນການໃຫ້ບໍລິການຜະລິດຕະພັນຂອງທະນາຄານທຸລະກິດ\nການໃຫ້ບໍລິການຜະລິດຕະພັນໃດຫນຶ່ງຂອງທະນາຄານທຸລະກິດ ຫາກບໍ່ສອດຄອງຕາມຂໍ້ຕົກລົງສະບັບນີ້\nຫຼື ອາດຈະສ້າງຄວາມເສຍຫາຍໃຫ້ແກ້ລະບົບທະນາຄາ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la1774-001#Art. 16",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຂໍ້ຕົກລົງ ວ່າດ້ວຍການໃຫ້ບໍລິການຜະລິດຕະພັນຂອງທະນາຄານທຸລະກິດ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 15",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.7",
+     "Verbatim Snippet": "ຕ້ອງເກັບຮັກສາໄວ້ຢ່າງຫນ້ອຍ ສິບ (1 0) ປີ",
+     "Mapping Rationale": "Explicit minimum retention period of 10 years for commercial bank documents/records - qualifies as minimum retention requirement under 7.3.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/199ທຫລ2021.pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decision on the Provision of Products of Commercial Banks",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_1774/20260921T0054Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ບນີ້ຂອງບັນດາ\nທະນາຄານທຸລະກິດ ຕາມລະບອບການກວດກາທີ ທະນາຄານແຫ່ງ ສປປ ລາວ ກໍານົດໃນແຕ່ລະໄລຍ#.\nໃນກໍລະນີຈໍາເປັນ, ກົມຄຸ້ມຄອງທະນາຄານທຸລະກິດ ຈະລົງກວດກາທະນາຄານທຸລະກິດດັງກ່າວແບບສະ\nເພາະກິດ ໂດຍບໍ່ຈໍາເປັນແຈ້ງລວງຫນ້າ.\n\n",
+      "after": "\n\nມາດຕາ 16 ມາດຕະການຕໍ່ຜູ້ລະເມີດການໃຫ້ບໍລິການຜະລິດຕະພັນ ທີບໍ່ໄດ້ຮັບອະນຸຍາດ\nການໃຫ້ບໍລິການຜະລິດຕະພັນ ທີທະນາຄານທຸລະກິດ ບໍ່ເຄີຍໃຫ້ບໍ່ລິການມາກອນ ໂດຍບໍ່ໄດ້ຮັບອະນຸ\nຍາດຈາກທະນາຄານແຫ່ງ ສປປ ລາວ ຈະຖືກປັບໃຫເຕາມລະບຽ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la1774-001#Art. 15",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ກົດໝາຍວ່າດ້ວຍ ການບັນຊີ (ສະບັບປັບປຸງ)",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/46ສພຊ20.11.2023.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ກົດໝາຍວ່າດ້ວຍ ການບັນຊີ (ສະບັບປັບປຸງ)",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 50",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກທີ່ |||, p.19",
+     "Verbatim Snippet": "ຕ໋ອງເກັບຮັກສາເອກະສານການບັນຊິໄວ້ຢ່າງຫ້້ອຍ ເປັນເວລາ ສິບປີ ໃນກໍລະນີ ເອກະສານດັງກາວ ພົວພັນກັບສັນຍາໃດຫນຶ່ງ ຕ້ອງຮັກສາໄວ້ຕື່ມອີກ ສິບປີ ພາຍຫຼັງສັນຍາໄດ້ສິ້ນສຸດລົງ",
+     "Mapping Rationale": "Specifies an explicit minimum retention period (at least 10 years, plus 10 more for contract-related documents) — a clear floor duration, satisfying the 7.3 minimum-retention branch.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/46ສພຊ20.11.2023.pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Law on Accounting (Amended)",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2207/20260921T0120Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ຽວຂ້ອງ. ສໍາລັບເອກະສານລາຍງານ\nການເງິນຂອງບໍລິສັດຈົດທະບຽນໃນຕະຫຼາດຫຼັກຊັບ ຕ້ອງເປີດເຜີຍຂໍ້ມູນໃຫ້ມວນຊົນ ຕາມທີໄດ້ກໍານົດໄວ້ໃນ\nກົດຫາຍວ່າດ້ວຍຫຼັກຊັບ.\nໆມນວດທີ່\nການເກັບຮັກສາ, ການທໍາລາຍ\nເອກະສານ ແລະ ຂໍມູນ ການບັນຊີ\n\n",
+      "after": "\n\nມາດຕາ 51 (ປັບປຸງ) ການເກັບມ້ຽນຂໍ້ມູນບັນຊີທາງເອເລັກໂຕຣນິກ\nຫົວຫ່ວຍຖືບັນຊີ ທີປະຕິບັດລະບົບບັນຊີ ໂດຍນໍາໃຊ້ເຄື່ອງມືທາງເອເລັກໂຕຣນຶກ ຕ້ອງຮັກສາຂໍ້ມູນ\nດ້ານການບັນຊີໄວ້ໃນຖານຂໍ້ມູນ ໃຫ້ມີຄວາມຫນັນຄົງ ແລະ ປອດໄພ, ສາມ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2207-001#Art. 50",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ທຸລະກິດກ່ຽວກັບຢາງພາລາ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/3899-28-8-2026_00001.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ທຸລະກິດກ່ຽວກັບຢາງພາລາ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 60",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກເສດຖະກິດ, p.15",
+     "Verbatim Snippet": "ຮັກສາໃວ້ຢ່າງໆນ້ອຍ ສິບປີ",
+     "Mapping Rationale": "Explicit minimum retention period of at least 10 years for business documents (rubber processing sector) - meets 'at least X' minimum-period rule.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/3899-28-8-2026_00001.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decree on Rubber Businesses",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2627/20260921T0312Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ະ ສິ່ງແວດລ້ອມ ຂັ້ນເມືອງ ເພື່ອຊາບ ແລະ\nຫ້ອງການກະສິກໍາ ແລະ ສິ່ງແວດລ້ອມ ຂັ້ນເມືອງ ຕ້ອງສົມທົບກັບພາກສ່ວນທີ່ກ່ຽວຂ້ອງ ລົງກວດກາຂໍ້ມູນຕົວຈິງ\nແລະ ສ້າງບົດບັນທຶກຮັບຮູ້ ໂດຍກໍານົດວັນທີ ທີ່ຈະສົງບົດລາຍງານຢ່າງຈະແຈ້ງ.\n\n",
+      "after": "\n\nມາດຕາ 61 ສິດ ຂອງຜູ້ດໍາເນີນທຸລະກິດກ່ຽວກັບຢາງພາລາ\nຜູ້ດໍາເນີນທຸລະກິດກ່ຽວກັບຢາງພາລາ ມີ ສິດ ດັງນີ້:\n1. ສະເຫຼີ ແຜນການເກັບຊື້ ຂາຍ ຢາງພາລາ ຕາມລະບຽບການ;\n2. ເປັນເຈົ້າກໍາມະສິດທຸລະກິດ, ກິດຈະການ ແລະ ໄດ້ຮັບຜົນປະໂ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2627-001#Art. 60",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ຄຳແນະນຳ ວ່າດ້ວຍການຈັດຕັ້ງປະຕິບັດ ກົດໝາຍວ່າດ້ວຍອາກອນມູນຄ່າເພີ່ມ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1939ກງ2021.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຄຳແນະນຳ ວ່າດ້ວຍການຈັດຕັ້ງປະຕິບັດ ກົດໝາຍວ່າດ້ວຍອາກອນມູນຄ່າເພີ່ມ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 24",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກສ່ວນທີ່ໄດ້ຮັບການຍົກເວັ້ນໄປແລ້ວນັ້ນ,ຫາກພົບເຫັນກໍລະນີນໍາໃຊ້, p.91",
+     "Verbatim Snippet": "ເອກະສານ ແລະ ຂໍ້ມູນການລົງບັນຊີ ຕ້ອງເກັບຮັກສາໄວ້ພາຍໃນເວລາ 10 ປີ",
+     "Mapping Rationale": "Specifies a minimum retention duration of 10 years for accounting documents/data, satisfying the specified-minimum-period branch of 7.3.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1939ກງ2021.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Guidance on the Implementation of the Law on Value Added Tax",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_1793/20260921T0510Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ມີອາກອນຕ້ອງມອບຕື່ມ ກໍຕ້ອງມອບໃຫ້ຖືກຕ້ອງ ຄົບຖ້ວນ ຈຶ່ງ\nສໍາມາດອອກຈາກລະບົບໄດ້, .ຖ້າມີການມອບເກີນ ກໍຈະໄດ້ຮັບການສົ່ງຄືນໃຫ້ ຕາມລະບຽບກົດພາຍ\nກໍານົດໄວ້.\n\nໆນວດທີ\nການຖືບັນຊີ, ການນໍາໃຊ້ໃບເກັບເງິນ ແລະ ເຄື່ອງມືອື່ນໆ\n\n",
+      "after": "\n\nມາດຕາ 25 ການນໍໍາໃຊ້ໃບເກັບເງິນ\n\" ການອອກໃບເກັບເງິນ ແມ່ນ ການອອກເອກະສານຢັ້ງຢືນ ການບັນທຶກບັນຊີ ໃນການສະຫນອງສິນຄ້າ ແລະ\nການບໍລິການ, ການຈ່າຍອາກອນມູນຄ່າເພີ່ມໃນເວລາຊື , ການເກັບອາກອນມູນຄ່າເພີມເວລາສະຫນອງ, ການ\nຫັ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la1793-001#Art. 24",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ຂໍ້ຕົກລົງ ວ່າດ້ວຍລະບົບການຊຳລະທີ່ສຳຄັນ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/29ທຫລ2019.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຂໍ້ຕົກລົງ ວ່າດ້ວຍລະບົບການຊຳລະທີ່ສຳຄັນ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 32",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກທີ [ໄ/, p.10",
+     "Verbatim Snippet": "ຕ້ອງເກັບຮັກສາຂໍ້ມູນ ແລະ ເອກະສານທີກ່ຽວຂ້ອງ ກັບການລາຍງານ ແລະ ການເປິດເຜີຍຂໍມູນ ຢ່າງຫນ້ອຍ ສິບປີ",
+     "Mapping Rationale": "Explicit minimum retention period of 10 years ('at least 10 years') for reporting/disclosure data of payment system operators - meets 7.3 minimum-period test.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/29ທຫລ2019.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decision Concerning the Important Payment System",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_1487/20260921T0058Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ຽງ ແລະ ກວດກາການຈັດຕັ້ງປະຕິບັດ\nຕາມກົດຫາຍ ແລະ ລະບຽບການ ກຽວກັບການເຄືອນໄຫວວຽກງານຂອງລະບົບການຊໍາລະທີສໍາຄັນ.\n\nການກວດກາກັບທີ ແມ່ນການລົງເກັບກໍາຂໍ້ມູນ ແລະ ເອກະສານຕ່າງໆ ລວມທັງ ການສໍາພາດ. ໂອ໋\nລົມ ແລະ ປຶກສາຫາລື.\n\n",
+      "after": "\nມາດຕາ 33 ການຈັດຕັງປະຕິບັດ\n\nກົມຄູ່ມຄອງລະບົບຊໍາລະສະສາງ, ຜູ້ຄວບຄຸມລະບົບສໍາຄັນ ແລະ ພາກສວນທິກຽວຂ້ອງກັບລະບົບ\nການຊໍາລະທິສໍາຄັນ ເປ້ນເຈົາການປະຕິບັດຂໍຕົກລົງສະບັບນີຢ່າງເຂັມງວດ.\n\nມາດຕາ 34 ຜົນສັກສິດ\n\nຂໍຕົກລົງສະບັ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la1487-001#Art. 32",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ກົດໝາຍວ່າດ້ວຍ ລະບົບການຊຳລະ (ສະບັບປັບປຸງ)",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/45 ສພຊ20.11.2023.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ກົດໝາຍວ່າດ້ວຍ ລະບົບການຊຳລະ (ສະບັບປັບປຸງ)",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 39",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກທີບໍ່ຮັບເງິນຝາກ ສາມາດເຜັ້ນຜູ້ໃຫ້ບໍ່ລິການຊໍາລະເງິນ ໂດຍບໍ່ຈ, p.14",
+     "Verbatim Snippet": "ຕ້ອງເກັບຮັກສາໄວ້ ຢ່າງຫ້ອຍ ສິບປີ",
+     "Mapping Rationale": "Specifies a minimum retention period (at least 10 years) for transaction data/records held by payment service operators, satisfying the minimum-period retention rule.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/45 ສພຊ20.11.2023.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Law on the Payment System (Amended Version)",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2202/20260921T0028Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ວນປ່ຽນແປງທຶນ ແລະ ບົດອະທິບາຍຊ້ອນທ້າຍເອກະສານລາຍງານ\nການເງິນ.\n\nມາດຕາ 38 (ໃຫມ່) ການລາຍງານ\nຜູ້ດໍາເນີນທຸລະກິດການຊໍາລະ ຕ້ອງລາຍງານການເຄືອນໄຫວທຸລະກິດຂອງຕົນ ຕາມລະບຽບການ\nແລະ ແບບພຶມລາຍງານ ຂອງທະນາຄານແຫ່ງ ສປປ ລາວ.\n\n",
+      "after": "\n\nມາດຕາ 40 (ໃຫນ່) ການກວດສອບ\nໃນແຕ່ລະປີ ຜູ້ດໍາເນີນທຸລະກິດການຊ້າລະ ຕ້ອງໄດ້ຮັບການກວດສອບ ໂດຍບໍລິສັດກວດສອບ\nເພື່ອຢັ້ງຢຶນຄວາມຖືກຕ້ອງ ແລະ ຄົບຖ້ວນ ຂອງການຖືບັນຊີ, ເອກະສານລາຍງານການເງິນ, ລະບົບຄວບຄຸມພາຍໃນ,\nະສິດທິພາ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2202-001#Art. 39",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ກົດໝາຍວ່າດ້ວຍ ການຕ້ານ ການຟອກເງິນ ແລະ ການສະໜອງທຶນໃຫ້ແກ່ການກໍ່ການຮ້າຍ(ສະບັບປັບປຸງ)",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/ກົດໝາຍວ່າດ້ວຍ ການຟອກເງິນ ແລະ ການສະໜອງທຶນໃຫ້ແກ່ການກໍ່ການຣ້າຍ(ສະບັບປັບປຸງ)64.01.07.2024.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ກົດໝາຍວ່າດ້ວຍ ການຕ້ານ ການຟອກເງິນ ແລະ ການສະໜອງທຶນໃຫ້ແກ່ການກໍ່ການຮ້າຍ(ສະບັບປັບປຸງ)",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 26",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກທີ |!|, p.14",
+     "Verbatim Snippet": "ຕ້ອງເກັບຮັກສາໄວ້ຢ່າງຫ້ອຍ ສິບປີ ນັບແຕ່ວັນ",
+     "Mapping Rationale": "Explicit minimum retention period of at least 10 years (floor) from transaction completion/end of business relationship, in AML/CFT law - sectoral financial data retention mandate.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/ກົດໝາຍວ່າດ້ວຍ ການຟອກເງິນ ແລະ ການສະໜອງທຶນໃຫ້ແກ່ການກໍ່ການຣ້າຍ(ສະບັບປັບປຸງ)64.01.07.2024.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Law on the Prevention of Money Laundering and the Financing of Terrorism (Amended)",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2304/20260921T0030Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ງການ\n\n<5ງ- [ງາເ .55\n\nນທີ່ກ່ຽວຂ້ອງ ໃຫ້ທັນສະພາບການ.\nຂໍມູນຕາມທີໄດ້ກໍານົດໄວ້ໃນວັກທີຫຶງຂອງມາດຕານີ ຕ້ອງເກັບຮັກສາໄວ້ຢ່າງຫ້ອຍ ສິບປີ ນັບແຕ່ວັນ\n\nໄດ້ປະຕິບັດສໍາເລັດ ເປັນຕົນໄປ ຫຼື ສິນສຸດສາຍພົວພັນທຸລະກິດກັບລູກຄ້າ.\n",
+      "after": "\n\nມາດຕາ 27 (ປັບປຸງ) ການລາຍງານທຸລະກໍາທີ່ສິ່ງໄສ\nໃນກໍລະນີມີຂໍ້ສົງໄສ ຫຼື ສາເຫດທີ່ພາໃຫ້ສົງໄສວ່າ ທຸລະກໍາຂອງລູກຄ້າ ອາດແມ່ນຜົນຈາກການກະທໍາຜິດ\nຕົນ, ພົວພັນ ຫຼື ເຊືອມໂຍງກັບການຟອກເງິນ ແລະ ການສະຫນອງທຶນໃຫ້ແກ່ການກໍກາ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2304-001#Art. 26",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ການບໍລິຫານຄວາມສ່ຽງ, ຂໍ້ຈຳກັດ ແລະ ຂໍ້ຫ້າມ ທີ່ກ່ຽວຂ້ອງກັບມາດຕະການຈຳກັດຂອງສາກົນ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/789-21-8-2026_0001.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ການບໍລິຫານຄວາມສ່ຽງ, ຂໍ້ຈຳກັດ ແລະ ຂໍ້ຫ້າມ ທີ່ກ່ຽວຂ້ອງກັບມາດຕະການຈຳກັດຂອງສາກົນ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 66",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.34",
+     "Verbatim Snippet": "ເກັບຮັກສາບັນທຶກການກວດສອບ ໄວ້ຢ່າງຫຼ້ອຍ ຫ້າ ປີ ເພື່ອລາຍງານຕໍ່ ທຫລ ໄດ້ຕະຫຼອດເວລາ ເມື່ອ ມີການຮຽກເອົາຂໍ້ມູນ",
+     "Mapping Rationale": "Explicit minimum retention period of five years for audit records, reportable to central bank on demand — satisfies 'at least X' minimum-duration rule for a specified sector (financial institutions).",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/789-21-8-2026_0001.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decree on Risk Management, Restrictions and Prohibitions Related to International Restriction Measures",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2636/20260921T0311Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ນທຶກລົງໃນລະບົບຄຸ້ມຄອງທຸລະກໍາ;\n\n4. ເກັບຮັກສາບັນທຶກການກວດສອບ ໄວ້ຢ່າງຫຼ້ອຍ ຫ້າ ປີ ເພື່ອລາຍງານຕໍ່ ທຫລ ໄດ້ຕະຫຼອດເວລາ ເມື່ອ\nມີການຮຽກເອົາຂໍ້ມູນ.\n\nປນວດທີ\nການຝຶກອົບຮົມ, ການລາຍງານ, ການຄຸ້ມຄອງ ແລະ ການບັງຄັບໃຊ້\n\n",
+      "after": "\n\nມາດຕາ 67 ການລາຍງານແຕ່ລະໄລຍະ ແລະ ບົດລາຍງານທຸລະກໍາທີ່ມີຄວາມສົງໄສ (ຮາຍ\n\nສະຖາບັນການເງິນ ຕ້ອງລາຍງານການຈັດຕັ້ງປະຕິບັດຂໍ້ຕົກລົງສະບັບນີ ຕ ຕໍ່ກົມຄຸ້ມຄອງລະບົບການຊໍາລະ\nຢ່າງພ້ອຍທຸກໆໄຕມາດ ຊຶ່ງກວມເອົາ ສະຖິຕິການແຈ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2636-001#Art. 66",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ດຳລັດວ່າດ້ວຍ ການກັກ, ຍຶດ ແລະ ອາຍັດທຶນ ຂອງຜູ້ຢູ່ໃນບັນຊີລາຍຊື່ທີ່ພົວພັນກັບ ການກໍ່ການຮ້າຍ ແລະ ການສະໜອງທຶນໃຫ້ແກ່ການກໍ່ການຮ້າຍ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/553,4,9,2025.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ດຳລັດວ່າດ້ວຍ ການກັກ, ຍຶດ ແລະ ອາຍັດທຶນ ຂອງຜູ້ຢູ່ໃນບັນຊີລາຍຊື່ທີ່ພົວພັນກັບ ການກໍ່ການຮ້າຍ ແລະ ການສະໜອງທຶນໃຫ້ແກ່ການກໍ່ການຮ້າຍ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 18",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກສວນ ຫຼື ມິຄວາມຫຍູ້ງຍາກສັບສົນນັ້ນ ສາມາດຕໍ່ກໍານົດເວລາການເກັ, p.7",
+     "Verbatim Snippet": "ໂດຍບໍ່ ຈໍາເປັນຜ່ານຂັ້ນຕອນການດໍາເນີນຄະດີອາຍາ ຫຼື ມີຄໍາຕັດສິນຂອງສານ ແລະ ບໍ່ຈໍາເປັນມີການກະທໍາຜິດເກີດຂຶ້ນ",
+     "Mapping Rationale": "Ministry can designate persons/entities on a terrorism list based on its own evidentiary assessment, explicitly bypassing court order/judicial decision - non-judicial government access/action on personal data of listed persons.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/553,4,9,2025.pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decree on Seizure, Confiscation and Forfeiture of Funds of Persons on Lists Related to Terrorist Activities and Funding of Terrorist Activities",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2451/20260921T0037Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ົດຊີເຂົ້າໃນບັນຊີລາຍຊີພາຍໃນ\nປະເທດ ຫາກມີຂໍມູນຫຼັກຖານຢັ້ງຢືນ ວ່າຕົນບໍ່ພົວພັນກັບ ການກໍ່ການຮ້າຍ ແລະ ການສະຫອງທຶນໃຫ້ແກການກໍ\nການຮ້າຍ ສາມາດສະເຫນີຕໍ່ ອົງການ ທີມືສິດ ແລະ ຫນ້າທີ ທີກ່ຽວຂ້ອງ ພິຈາລະນາຄືນຕາມກົດຫາຍ.\n\n",
+      "after": "\n\nກະຊວງປ້ອງກັນຄວາມສະຫງົບ ຕ້ອງແຈ້ງ ສິດ, ພັນທະ ແລະ ລາຍລະອຽດການຮ້ອງຂໍ ໃຫ້ ບຸກຄົນ,\nນິຕິບຸກຄົນ ແລະ ອົງການຈັດຕັງ ຫຼື ກຸ່ມຄົນ ທີຖືກກໍານົດໃນບັນຊີລາຍຊີພາຍໃນປະເທດ ພາຍຫຼັງ ຄຕຟງ ກໍານົດ\nຊີບຸກຄົນ. ນິຕິບຸກຄົນ ແລະ ກາ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2451-001#Art. 18",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ການນຳໃຊ້, ກະກັດກັ້ນ ແລະ ແກ້ໄຂບັນຫາ ສື່ສັງຄົມອອນລາຍ ຢູ່ແຂວງ ອຸດົມໄຊ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1009ອຊ31.8.2023.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ຂໍ້ຕົກລົງວ່າດ້ວຍ ການນຳໃຊ້, ກະກັດກັ້ນ ແລະ ແກ້ໄຂບັນຫາ ສື່ສັງຄົມອອນລາຍ ຢູ່ແຂວງ ອຸດົມໄຊ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 30",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.9",
+     "Verbatim Snippet": "ເກັບກໍາ, ກວດກາ ແລະ ຄົນຄວ້າວິໄຈ ຂໍ້ມູນ ຂ່າວສານ ຜ່ານອິນເຕີເນັດ ຫຼື ສືສັງຄົມອອນລາຍ ທີ ມີລັກສະນະ ເປັນໄພຄຸກຄາມເຖິງ ຄວາມຫນັ້ນຄົງຂອງຊາດ",
+     "Mapping Rationale": "Provincial security command is authorized to collect, inspect and investigate personal data/information over internet/social media without any court order or independent judicial authorization requirement mentioned.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/1009ອຊ31.8.2023.pdf",
+     "Confidence": 0.8,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decision on the Use, Prevention, and Resolution of Issues Related to Online Social Media in Oudomxay Province",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_2123/20260921T0346Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ະສານສົມທົບກັບຂະແຫງການທີກຽວຂ້ອງ ເພື່ອແຈ້ງແຫຼງຂໍ້ມູນ ຂ່າວສານ ທີກະທົບຕໍ່ຄວາມ\nຫມັ້ນຄົງຂອງຊາດ ແລະ ຄວາມເປັນລະບຽບຮຽບຮ່ອຍຂອງສັງຄົມ ພາຍໃນເມືອງ:\n\n4. ປະຕິບັດສິດ ແລະ ຫ້າທີອືນຕາມທີກໍານົດໄວ້ໃນກົດຫາຍ ແລະ ລະບຽບການ.\n\n",
+      "after": "\n\nມາດຕາ 31 ສິດ ແລະ ຫນ້າທີ ຂອງກອງບັນຊາການປ້ອງກັນຄວາມສະຫງົບ ເມືອງ\n\n1]. ຮັບແຈ້ງຄວາມຈາກ ບຸກຄົນ, ນິຕິບຸກຄົນ ແລະ ອົງການການຈັດຕັ້ງ ໃນກໍລະນີມືການກະທໍາຜິດທີ\nທີເປັນໄພຄຸກຄາມພົວພັນເຖິງຄວາມຫນັ້ນຄົງຂອງຊາດ ແລະ ຄວາມເ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la2123-001#Art. 30",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ກົດໝາຍວ່າດ້ວຍ ເຕັກໂນໂລຊີການສື່ສານ ຂໍ້ມູນ ຂ່າວສານ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/ກົດໝາຍເຕັກໂນໂລຊີການສື່ສານ.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ກົດໝາຍວ່າດ້ວຍ ເຕັກໂນໂລຊີການສື່ສານ ຂໍ້ມູນ ຂ່າວສານ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 14",
+     "Discovery Tag": "NEW",
+     "Location Reference": "ພາກທີ ||, p.8",
+     "Verbatim Snippet": "ລັດ ມີສິດນາໍໃຊ້ ເຕັກໂນໄລຊີການສີສານ ຂໍມູນ ຂ່າວສານ ຂອງທຸກພາກສ່ວນໃນພາວະສຸກເສີນ",
+     "Mapping Rationale": "State granted right to access/use data of all sectors during emergencies with no mention of court order or independent judicial authorization; undefined authority triggers score 1 per Guide p.62.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/ກົດໝາຍເຕັກໂນໂລຊີການສື່ສານ.pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Law on Information and Communication Technology",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_1136/20260921T0029Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ຸລະກິດ ຕ້ອງຮັບຜິດຊອບຕໍ່ຄວາມປອດໄພໃນ\nວ 3” ແມ <ມ < ຮ໌ ! ຮ໌ ແ 7 <3 ຫ. ໃ, ່\nການນາໍໃຊ້ ເຜັກໂນໂລຊີການສີສານ ຂໍມູນ ຂ່າວສານ ແລະ ຂໍມູນເອເລັກໂຕຣນິກຂອງຕົນເອງ ເພືອບ\n\nໃຫ້ມີຜົນກະທົບກັບຜູ້ອືນ.\n\n< < ຜູ່ າ, ເ, 5 ຮ ! <,\n",
+      "after": "\n\nມາດຕາ 15 ການສ້າງເວັບໄຊ\nບຸກຄົນ, ນິຕິບຸກຄົນ ຜຼື ການຈັດຕັງ ສາມາດສ້າງເວັບໄຂ, ຄຸ້ມຄອງເນື້ອໃນ ແລະ ບໍລິຫານຈັດ\nການເວັບໄຊຂອງຕົນ ໂດຍຮັບປະກັນເນື້ອໃນ ແລະ ຄວາມຖືກຕ້ອງຂອງຂໍມູນ ຂ່າວສານ, ຄວາມປອດ\nໄພຂອງຜູ້ຊົມໃຊ້ ແລະ "
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la1136-001#Art. 14",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ດຳລັດວ່າດ້ວຍ ການຄຸ້ມຄອງຂໍ້ມູນຂ່າວສານ ຜ່ານອິນເຕີເນັດ",
+   "law_number": "",
+   "source_url": "https://laoofficialgazette.gov.la/kcfinder/upload/files/ດຳລັດວ່າດ້ວຍ  ການຄຸ້ມຄອງຂໍ້ມູນຂ່າວສານ ຜ່ານອິນເຕີເນັດ.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "ດຳລັດວ່າດ້ວຍ ການຄຸ້ມຄອງຂໍ້ມູນຂ່າວສານ ຜ່ານອິນເຕີເນັດ",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 20",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.7",
+     "Verbatim Snippet": "ເກັບກໍາ, ກວດກາ ແລະ ຄົ້ນຄ້ວາວິໄຈ ຂໍ້ມູນຂ່າວສານ ຜ່ານອິນເຕີເນັດ ທີ່ມີລັກສະນະ ຄຸກຄາມເຖິງ ຄວາມຫັ້ນຄົງຂອງຊາດ, ຄວາມລັບຂອງຊາດ ແລະ ຄວາມສະຫງົບຂອງສັງຄົມ",
+     "Mapping Rationale": "Security sector is empowered to collect, inspect and investigate internet information without any stated requirement of a court order or independent judicial authorization -> government access without judicial oversight.",
+     "Source URL": "https://laoofficialgazette.gov.la/kcfinder/upload/files/ດຳລັດວ່າດ້ວຍ  ການຄຸ້ມຄອງຂໍ້ມູນຂ່າວສານ ຜ່ານອິນເຕີເນັດ.pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Decree on the Management of Information via the Internet",
+     "Language of Source": "Lao",
+     "source_pdf_path": "raw/la/la_636/20260921T0041Z__scanned.pdf",
+     "ocr_quality_cer": 0.0272,
+     "processing_time": 0.0,
+     "model_version": "OCR: tesseract-lao; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "າວສານຢ່າງເປັນທາງການ ເພື່ອຊີ່ແຈງກ່ຽວກັບຂໍ້ມູນ\nຂ່າວສານ ທີ່ບໍ່ຖືກຕ້ອງ;\n\n3. ປະສານສົມທົບກັບຂະແຫນງການທີ່ກ່ຽວຂ້ອງ ເພື່ອແຈ້ງແຫຼ່ງຂໍ້ມູນຂ່າວສານ ທີ່ກະທົບຕໍ່\nຄວາມພັ້ນຄົງຂອງຊາດ ແລະ ຄວາມເປັນລະບຽບຮຽບຮ້ອຍຂອງສັງຄົມ.\n",
+      "after": "\n\nມາດຕາ 21 ຄວາມຮັບຜິດຊອບ ຂອງຂະແຫງການສຶກສາທິການ ແລະ ກິລາ\nໃນການຄຸ້ມຄອງ ຂໍ້ມູນຂ່າວສານ ຜ່ານອິນເຕີເນັດ ຂະແຫນງການສຶກສາທິການ ແລະ ກິລາ\nຮັບຜິດຊອບ ເຜີຍແຜ່ນິຕິກໍາຕ່າງໆ ກ່ຽວກັບ ການຄຸ້ມຄອງການນໍໍາໃຊ້ອິນເຕີເນັດ, ຄວາ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "la-la636-001#Art. 20",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Law on Electronic Data Protection No.25/NA 2017",
+   "law_number": "",
+   "source_url": "https://laotradeportal.gov.la/upload/files/Legal_1557474430lo_LA.pdf",
+   "provisions": [
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "Law on Electronic Data Protection No.25/NA 2017",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.1",
+     "Article / Section": "n/a",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "",
+     "Verbatim Snippet": "No provision found",
+     "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+     "Source URL": "https://laotradeportal.gov.la/upload/files/Legal_1557474430lo_LA.pdf",
+     "Confidence": "",
+     "Notes": "no-provision row: no complete cross-border transfer-prohibition measure found; the Lao PDR regime is conditional-flow — see the 6.4 rows; reproduces the 2025 baseline's own absence row for this indicator; governing law cited for reference; Language of Source is the economy's language of legislation, not a per-document reading: this row cites a governing law from the baseline rather than a corpus document",
+     "Language of Source": "Lao",
+     "source_pdf_path": null,
+     "ocr_quality_cer": null,
+     "processing_time": null,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": null,
+     "_record_type": "no_provision",
+     "_provision_id": "",
+     "_score_hint": "0"
+    },
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "Law on Electronic Data Protection No.25/NA 2017",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "n/a",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "",
+     "Verbatim Snippet": "No provision found",
+     "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+     "Source URL": "https://laotradeportal.gov.la/upload/files/Legal_1557474430lo_LA.pdf",
+     "Confidence": "",
+     "Notes": "no-provision row: no data-storage/localization measure found in the corpus; reproduces the 2025 baseline's own absence row for this indicator; governing law cited for reference; Language of Source is the economy's language of legislation, not a per-document reading: this row cites a governing law from the baseline rather than a corpus document",
+     "Language of Source": "Lao",
+     "source_pdf_path": null,
+     "ocr_quality_cer": null,
+     "processing_time": null,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": null,
+     "_record_type": "no_provision",
+     "_provision_id": "",
+     "_score_hint": "0"
+    },
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "Law on Electronic Data Protection No.25/NA 2017",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.1",
+     "Article / Section": "n/a",
+     "Discovery Tag": "",
+     "Location Reference": "",
+     "Verbatim Snippet": "No provision found",
+     "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+     "Source URL": "https://www.laoofficialgazette.gov.la/kcfinder/upload/files/0918570.pdf",
+     "Confidence": "",
+     "Notes": "no-provision row: no personal-data-protection framework evidence collected; the 2025 baseline records a measure for this indicator that this run did not find; Discovery Tag left blank because the row is neither a discovery nor a baseline reproduction; governing law cited for reference; Language of Source is the economy's language of legislation, not a per-document reading: this row cites a governing law from the baseline rather than a corpus document",
+     "Language of Source": "Lao",
+     "source_pdf_path": null,
+     "ocr_quality_cer": null,
+     "processing_time": null,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": null,
+     "_record_type": "no_provision",
+     "_provision_id": "",
+     "_score_hint": "0"
+    },
+    {
+     "Economy": "Lao PDR",
+     "Law Name": "Law on Electronic Data Protection No.25/NA 2017",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "n/a",
+     "Discovery Tag": "",
+     "Location Reference": "",
+     "Verbatim Snippet": "No provision found",
+     "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+     "Source URL": "https://www.laoofficialgazette.gov.la/kcfinder/upload/files/0918570.pdf",
+     "Confidence": "",
+     "Notes": "no-provision row: no statutory DPO-appointment or DPIA mandate found in the corpus (guidance-only instruments are non-binding and not scored); the 2025 baseline records a measure for this indicator that this run did not find; Discovery Tag left blank because the row is neither a discovery nor a baseline reproduction; governing law cited for reference; Language of Source is the economy's language of legislation, not a per-document reading: this row cites a governing law from the baseline rather than a corpus document",
+     "Language of Source": "Lao",
+     "source_pdf_path": null,
+     "ocr_quality_cer": null,
+     "processing_time": null,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": null,
+     "_record_type": "no_provision",
+     "_provision_id": "",
+     "_score_hint": "0"
+    }
+   ]
+  }
+ ]
+}

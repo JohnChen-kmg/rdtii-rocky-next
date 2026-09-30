@@ -1,0 +1,14 @@
+{
+  "economy": "TL",
+  "resolvable_gold_rows": 0,
+  "row_recall": null,
+  "cited_but_unparsed_sources": 0,
+  "cited_but_unparsed_examples": [],
+  "gold_rows_with_parsed_sources": 0,
+  "row_recall_on_parsed_sources": null,
+  "known_tag_accuracy_on_hits": null,
+  "misses": [],
+  "csv_rows": 27,
+  "note": "allowlist OFF; label-noise gold rows excluded (decision #9/#11)",
+  "law_match": "config/lawnames.py: the CITED law's tokens must be covered by the candidate name (not the other way round), and an original-script title matches by containment, because an English name here is a translation"
+}

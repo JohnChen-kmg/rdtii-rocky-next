@@ -1,0 +1,1168 @@
+{
+ "contract_version": "0.3.0",
+ "economy": "SG",
+ "economy_name": "Singapore",
+ "laws": [
+  {
+   "law_name": "Companies Act 1967",
+   "law_number": "",
+   "source_url": "https://sso.agc.gov.sg/Act/CoA1967?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Companies Act 1967",
+     "Law Number / Ref": "",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.199(4)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part 6 — FINANCIAL STATEMENTS AND AUDIT, Division 1 — Financial statements, s.199, p.364",
+     "Verbatim Snippet": "there must be sent to and kept at a place in Singapore and be at all times open to inspection by the directors such statements and returns with respect to the business dealt with in the records so kept",
+     "Mapping Rationale": "Requires copy of accounting statements/returns be kept in Singapore even if records kept abroad; sector-specific (corporate accounting records), so category (2) -> 0.5.",
+     "Source URL": "https://sso.agc.gov.sg/Act/CoA1967?ViewType=Pdf",
+     "Confidence": 0.75,
+     "Notes": "matches baseline r1-sg-034",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/companies_act_1967/20260915T1417Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " referred to in subsection (1) must be kept at the registered office of the company or at such other place as the directors think fit and must at all times be open to inspection by the directors.\n(4) ",
+      "after": "\n(5) The Court may in any particular case order that the accounting and other records of a company be open to inspection by a public accountant acting for a director, but only upon an undertaking in w"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-ca1967-001#s.199(4)",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Companies Act 1967",
+     "Law Number / Ref": "",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.199(2)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part 6 — FINANCIAL STATEMENTS AND AUDIT, Division 1 — Financial statements, s.199, p.363",
+     "Verbatim Snippet": "The company must retain the records referred to in subsection (1) for a period of not less than 5 years from the end of the financial year in which the transactions or operations to which those records relate are completed.",
+     "Mapping Rationale": "Explicit minimum retention period (not less than 5 years) for corporate accounting records satisfies 7.3 minimum-retention branch.",
+     "Source URL": "https://sso.agc.gov.sg/Act/CoA1967?ViewType=Pdf",
+     "Confidence": 0.95,
+     "Notes": "matches baseline r1-sg-043",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/companies_act_1967/20260915T1417Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "d any documents required to be attached thereto to be prepared from time to time, and must cause those records to be kept in such manner as to enable them to be conveniently and properly audited.\n(2) ",
+      "after": "\n(2A) Every public company and every subsidiary company of a public company must devise and maintain a system of internal accounting controls sufficient to provide a reasonable assurance that —\n(a) as"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-ca1967-001#s.199(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Insurance Act 1966",
+   "law_number": "",
+   "source_url": "https://sso.agc.gov.sg/Act/IA1966?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Insurance Act 1966",
+     "Law Number / Ref": "",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.94(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 3 — RETURNS, INSPECTIONS AND INVESTIGATIONS,, Division 1 — Returns, s.94, p.128",
+     "Verbatim Snippet": "cause to be kept in Singapore such books and records as will sufficiently explain the transactions and financial position of the insurer or insurance broker",
+     "Mapping Rationale": "Sectoral (insurance) local storage requirement for books/records in Singapore; not horizontal, single sector -> 0.5.",
+     "Source URL": "https://sso.agc.gov.sg/Act/IA1966?ViewType=Pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/insurance_act_1966/20260915T2301Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": ") A registered insurance broker must prepare such statements of account and other statements and in such form and manner as may be prescribed and lodge them with the Authority. [23/2003; 11/2013]\n(2) ",
+      "after": "\n(3) A licensed insurer or an authorised reinsurer must prepare and lodge with the Authority such statements of accounts and other statements relating to its business and in such form and manner as ma"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-ia1966-001#s.94(2)",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Insurance Act 1966",
+     "Law Number / Ref": "",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.101L",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 3 — RETURNS, INSPECTIONS AND INVESTIGATIONS,, Division 2A — Investigative powers of Authority, p.150",
+     "Verbatim Snippet": "the Authority may, in writing, require",
+     "Mapping Rationale": "MAS investigative power to compel production/access to books, information, data without court order or judicial warrant; sectoral (insurance).",
+     "Source URL": "https://sso.agc.gov.sg/Act/IA1966?ViewType=Pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/insurance_act_1966/20260915T2301Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "estrictions.\n[Act 12 of 2024 wef 24/01/2025]\nSubdivision (4) — Powers to obtain information\nPower of Authority to order production of books, provision of information or giving of access to data\n101L. ",
+      "after": "\nPower to enter premises without warrant\n101M.—(1) In connection with an investigation under this\nDivision, any officer of the Authority who is authorised by the\nAuthority to do so (called in this sec"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-ia1966-001#s.101L",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Personal Data Protection Act 2012",
+   "law_number": "Act 26 of 2012",
+   "source_url": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Act 2012",
+     "Law Number / Ref": "Act 26 of 2012",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.26(1)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part 6 — CARE OF PERSONAL DATA, s.26, p.33",
+     "Verbatim Snippet": "An organisation must not transfer any personal data to a country or territory outside Singapore except in accordance with requirements prescribed under this Act to ensure that organisations provide a standard of protection to personal data so transferred that is comparable to the protection under this Act.",
+     "Mapping Rationale": "Default-prohibition-with-exception pattern covering personal data horizontally = conditional flow regime scoring 1 regardless of sector.",
+     "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+     "Confidence": 0.97,
+     "Notes": "matches baseline r1-sg-036",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/personal_data_protection_act_2012/20260915T1409Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "was collected is no longer being served by retention of the personal data; and\n(b) retention is no longer necessary for legal or business purposes.\nTransfer of personal data outside Singapore\n26.—(1) ",
+      "after": "\n(2) The Commission may, on the application of any organisation, by written notice exempt the organisation from any requirement prescribed pursuant to subsection (1) in respect of any transfer of pers"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pdpa2012-001#s.26(1)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Act 2012",
+     "Law Number / Ref": "Act 26 of 2012",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.25",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 6 — CARE OF PERSONAL DATA, p.33",
+     "Verbatim Snippet": "An organisation must not transfer any personal data to a country or territory outside Singapore except in accordance with requirements prescribed",
+     "Mapping Rationale": "Conditional cross-border transfer regime covering personal data horizontally (all sectors) -> score 1 per scoring tree.",
+     "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "provision-level NEW: law known, s.25 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/personal_data_protection_act_2012/20260915T1409Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ss, collection, use, disclosure, copying, modification or disposal, or similar risks; and\n(b) the loss of any storage medium or device on which personal data is stored.\nRetention of personal data\n25. ",
+      "after": "\nTransfer of personal data outside Singapore\n26.—(1) An organisation must not transfer any personal data to a country or territory outside Singapore except in accordance with requirements prescribed u"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pdpa2012-001#s.25",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Act 2012",
+     "Law Number / Ref": "Act 26 of 2012",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.1",
+     "Article / Section": "s.3",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part 1 — PRELIMINARY, p.13",
+     "Verbatim Snippet": "The purpose of this Act is to govern the collection, use and disclosure of personal data by organisations in a manner that recognises both the right of individuals to protect their personal data and the need of organisations to collect, use or disclose personal data for purposes that a reasonable person would consider appropriate in the circumstances.",
+     "Mapping Rationale": "PDPA 2012 is a comprehensive horizontal data-protection law covering organisations generally; economy-level framework exists -> lack-indicator scores 0.",
+     "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "controlling horizontal framework evidence",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/personal_data_protection_act_2012/20260915T1409Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "0]\n(2) The Minister may, by notification in the Gazette, specify any statutory body established under a public Act for a public function to be a public agency for the purposes of this Act.\nPurpose\n3. ",
+      "after": "\nApplication of Act\n4.—(1) Parts 3, 4, 5, 6, 6A and 6B do not impose any obligation on —\n(a) any individual acting in a personal or domestic capacity;\n(b) any employee acting in the course of his or h"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pdpa2012-001#s.3",
+     "_score_hint": "0"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Act 2012",
+     "Law Number / Ref": "Act 26 of 2012",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.50(4)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 10 — GENERAL, s.50, p.78",
+     "Verbatim Snippet": "must retain records relating to an investigation under this section for one year after the conclusion of the investigation or any longer period specified in writing by the Commission",
+     "Mapping Rationale": "Specifies a minimum retention period (one year, or longer as specified) for investigation records — meets minimum-period retention rule.",
+     "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+     "Confidence": 0.75,
+     "Notes": "provision-level NEW: law known, s.50 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/personal_data_protection_act_2012/20260915T1409Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "tion under this section at any time if an organisation or a person fails to comply with a voluntary undertaking given by the organisation or person under section 48L(1) in relation to any matter.\n(4) ",
+      "after": "\nOffences and penalties\n51.—(1) A person shall be guilty of an offence if the person —\n(a) makes a request under section 21(1) to obtain access to personal data about another individual without the au"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pdpa2012-001#s.50(4)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Act 2012",
+     "Law Number / Ref": "Act 26 of 2012",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.4",
+     "Article / Section": "s.11(3)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part 3 — GENERAL RULES WITH RESPECT TO, s.11, p.19",
+     "Verbatim Snippet": "An organisation must designate one or more individuals to be responsible for ensuring that the organisation complies with this Act.",
+     "Mapping Rationale": "Mandatory DPO-equivalent designation requirement applying to all organisations under the horizontal PDPA -> DPO requirement across all sectors.",
+     "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "matches baseline r1-sg-046",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/personal_data_protection_act_2012/20260915T1409Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "an organisation must consider what a reasonable person would consider appropriate in the circumstances.\n(2) An organisation isresponsible for personal data in its possession or under its control.\n(3) ",
+      "after": "\n(4) An individual designated under subsection (3) may delegate to another individual the responsibility conferred by that designation.\n(5) An organisation must make available to the public the busine"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pdpa2012-001#s.11(3)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Act 2012",
+     "Law Number / Ref": "Act 26 of 2012",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.5",
+     "Article / Section": "sch.2 cl.4",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Schedule 2 — SECOND SCHEDULE, p.107",
+     "Verbatim Snippet": "The disclosure of personal data about any individual to any officer of a prescribed law enforcement agency, upon production of written authorisation signed by the head or director of that prescribed law enforcement agency or a person of a similar rank, certifying that the personal data is necessary for the purposes of the functions or duties of the officer.",
+     "Mapping Rationale": "Allows government law-enforcement access to personal data based on internal agency-head authorisation, not a court order or independent judicial body — fires the 7.5 non-judicial access branch.",
+     "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/personal_data_protection_act_2012/20260915T1409Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "lic agency for the purposes of policy formulation or review:\n(a) [Deleted by Act 19 of 2025 wef 05/12/2025]\n(b) a licensee under the Healthcare Services Act 2020;\n(c) a prescribed healthcare body.\n4. ",
+      "after": "\n1. The disclosure of personal data about an individual for a research purpose\n(including historical or statistical research), if —\n(a) the research purpose cannot reasonably be accomplished unless th"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pdpa2012-001#sch.2 cl.4",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Act 2012",
+     "Law Number / Ref": "Act 26 of 2012",
+     "Last Amended": "",
+     "Indicator ID": "6.1",
+     "Article / Section": "n/a",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "",
+     "Verbatim Snippet": "No provision found",
+     "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+     "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+     "Confidence": "",
+     "Notes": "no-provision row: no complete cross-border transfer-prohibition measure found; the Singapore regime is conditional-flow — see the 6.4 rows; reproduces the 2025 baseline's own absence row for this indicator; governing law cited for reference",
+     "Language of Source": "English",
+     "source_pdf_path": null,
+     "ocr_quality_cer": null,
+     "processing_time": null,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": null,
+     "_record_type": "no_provision",
+     "_provision_id": "",
+     "_score_hint": "0"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Act 2012",
+     "Law Number / Ref": "Act 26 of 2012",
+     "Last Amended": "",
+     "Indicator ID": "6.3",
+     "Article / Section": "n/a",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "",
+     "Verbatim Snippet": "No provision found",
+     "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+     "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+     "Confidence": "",
+     "Notes": "no-provision row: no local data-processing or infrastructure-localization requirement found in the corpus; reproduces the 2025 baseline's own absence row for this indicator; governing law cited for reference",
+     "Language of Source": "English",
+     "source_pdf_path": null,
+     "ocr_quality_cer": null,
+     "processing_time": null,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": null,
+     "_record_type": "no_provision",
+     "_provision_id": "",
+     "_score_hint": "0"
+    }
+   ]
+  },
+  {
+   "law_name": "Personal Data Protection Regulations 2021",
+   "law_number": "Act 5",
+   "source_url": "https://sso.agc.gov.sg/SL/PDPA2012-S63-2021?DocDate=20260831&ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Regulations 2021",
+     "Law Number / Ref": "Act 5",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.10(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 1A — BUSINESS CONTACT INFORMATION, s.10, p.11",
+     "Verbatim Snippet": "take appropriate steps to ascertain whether, and to ensure that, the recipient of the personal data is bound by legally enforceable obligations (in accordance with regulation 11) to provide to the transferred personal data a standard of protection that is at least comparable to the protection under the Act",
+     "Mapping Rationale": "Personal data conditional flow regime (comparable-protection requirement) applying horizontally — scores 1 per 6.4 scoring tree.",
+     "Source URL": "https://sso.agc.gov.sg/SL/PDPA2012-S63-2021?DocDate=20260831&ViewType=Pdf",
+     "Confidence": 0.95,
+     "Notes": "provision-level NEW: law known, s.10 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/personal_data_protection_regulations_2021/20260915T1410Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "nisation that transfers the personal data through Singapore to the country or territory outside Singapore;\n“transportation” includes transmission in electronic form.\nRequirements for transfer\n10.—(1) ",
+      "after": "\n(2) A transferring organisation is taken to have satisfied the requirements of paragraph (1) in respect of an individual’s personal data which it transfers to a recipient in a country or territory ou"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pdpr20217142-001#s.10(1)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Regulations 2021",
+     "Law Number / Ref": "Act 5",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.11(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 1A — BUSINESS CONTACT INFORMATION, s.11, p.13",
+     "Verbatim Snippet": "require the recipient to provide a standard of protection for the personal data transferred to the recipient that is at least comparable to the protection under the Act",
+     "Mapping Rationale": "Cross-border transfer of personal data permitted only if contractual conditions ensuring comparable protection are met; covers personal data horizontally -> score 1.",
+     "Source URL": "https://sso.agc.gov.sg/SL/PDPA2012-S63-2021?DocDate=20260831&ViewType=Pdf",
+     "Confidence": 0.92,
+     "Notes": "provision-level NEW: law known, s.11 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/personal_data_protection_regulations_2021/20260915T1410Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ersonal data under —\n(a) any law;\n(b) any contract in accordance with paragraph (2);\n(c) any binding corporate rules in accordance with paragraph (3); or\n(d) any other legally binding instrument.\n(2) ",
+      "after": "\n(3) The binding corporate rules mentioned in paragraph (1)(c) —\n(a) must require every recipient of the transferred personal data that is related to the transferring organisation and does not already"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pdpr20217142-001#s.11(2)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Personal Data Protection Regulations 2021",
+     "Law Number / Ref": "Act 5",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.12(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 1A — BUSINESS CONTACT INFORMATION, s.12, p.14",
+     "Verbatim Snippet": "a recipient of an individual’s personal data in a country or territory outside Singapore is taken to be bound by legally enforceable obligations to provide a standard of protection for the transferred personal data that is at least comparable to the protection under the Act if the recipient holds a specified certification",
+     "Mapping Rationale": "Conditional flow regime: cross-border transfer permitted if recipient holds specified certification ensuring comparable protection; covers personal data generally -> score 1",
+     "Source URL": "https://sso.agc.gov.sg/SL/PDPA2012-S63-2021?DocDate=20260831&ViewType=Pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.12 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/personal_data_protection_regulations_2021/20260915T1410Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ransferring organisation; or\n(c) the recipient and the transferring organisation are, directly or indirectly, under the control of a common person.\nRecipients holding specified certifications\n12.—(1) ",
+      "after": "\n(2) In this regulation, “specified certification”, in relation to a recipient of an individual’s personal data, means a certification under —\n(a) where the recipient is a data intermediary —\n(i) the "
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pdpr20217142-001#s.12(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Cybersecurity Act 2018",
+   "law_number": "Act 9 of 2018",
+   "source_url": "https://sso.agc.gov.sg/Act/CA2018?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Cybersecurity Act 2018",
+     "Law Number / Ref": "Act 9 of 2018",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.2",
+     "Article / Section": "s.5(1)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part 2 — ADMINISTRATION, s.5, p.19",
+     "Verbatim Snippet": "to oversee and promote the cybersecurity of computers and computer systems in Singapore",
+     "Mapping Rationale": "Provision-level citation of Cybersecurity Act; economy-level 7.2 answered once citing scope provision, not per-provision duties list. SG has dedicated horizontal cybersecurity act -> economy score 0.",
+     "Source URL": "https://sso.agc.gov.sg/Act/CA2018?ViewType=Pdf",
+     "Confidence": 0.75,
+     "Notes": "controlling horizontal framework evidence",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/cybersecurity_act_2018/20260915T1410Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "nder this subsection, or section 6,\n6A, 7, 9, 9A, 12, 16A, 16C, 16D, 16G, 17, 17B, 17C, 17E,\n18, 18B, 18C, 18E, 18G, 18I, 18J, 18L, 20(5), 35A, 37A or\n37C.\nDuties and functions of Commissioner\n5.—(1) ",
+      "after": "\n(ea) to identify and designate designated providers responsible for third‑party‑owned critical information infrastructure, entities of special cybersecurity interest or major foundational digital inf"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-ca2018-001#s.5(1)",
+     "_score_hint": "n/a"
+    }
+   ]
+  },
+  {
+   "law_name": "Income Tax Act 1947",
+   "law_number": "",
+   "source_url": "https://sso.agc.gov.sg/Act/ITA1947?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Income Tax Act 1947",
+     "Law Number / Ref": "",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.34F(6)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 7 — ASCERTAINMENT OF CERTAIN INCOME, s.34F, p.681",
+     "Verbatim Snippet": "must retain in safe custody transfer pricing documentation prepared by the person for each transaction, for a period of at least 5 years from the end of the basis period in which the transaction took place",
+     "Mapping Rationale": "Explicit minimum retention period of 'at least 5 years' for transfer pricing documentation; sectoral (tax) rule.",
+     "Source URL": "https://sso.agc.gov.sg/Act/ITA1947?ViewType=Pdf",
+     "Confidence": 0.95,
+     "Notes": "provision-level NEW: law known, s.34F not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/income_tax_act_1947/20260915T1421Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "e arm’s length conditions within the meaning of section 34D(1)(b); and\n(c) must comply with all other requirements as to their form and content as may be prescribed by rules made under section 7.\n(6) ",
+      "after": "\n(7) The Comptroller may, by written notice served on a person in subsection (3)(a), (b) or (c) personally or by registered post, require the person to furnish to the Comptroller a copy of any transfe"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-ita1947-001#s.34F(6)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Employment (Employment Records, Key Employment Terms and Pay Slips) Regulations 2016",
+   "law_number": "",
+   "source_url": "https://sso.agc.gov.sg/SL/EmA1968-S148-2016?DocDate=20160401&ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Employment (Employment Records, Key Employment Terms and Pay Slips) Regulations 2016",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.5",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.2",
+     "Verbatim Snippet": "a period of 2 years after the entry is made and, if employment with the employer ends, for one year after the last day of employment with the employer",
+     "Mapping Rationale": "Specifies explicit minimum retention durations (2 years / 1 year) for employee records; sectoral (employment records), not government data.",
+     "Source URL": "https://sso.agc.gov.sg/SL/EmA1968-S148-2016?DocDate=20160401&ViewType=Pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.5 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/employment_employment_records_key_employment_terms_and_pay_slips_regulations_2016/20260915T1420Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ployment with the employer, starting from —\n(a) 1 April 2016; or\n(b) the first day of the employee’s employment with the employer if that is after 1 April 2016.\nEmployee records — retention period\n5. ",
+      "after": "\nKey employment terms\n6.—(1) For the purposes of section 95A(1)(b) of the Act, the prescribed minimum period of service is a continuous period of\n14 days.\n(2) For the purposes of section 95A(7) of the"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-er201640ed-001#s.5",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Trust Companies Act 2005",
+   "law_number": "",
+   "source_url": "https://sso.agc.gov.sg/Act/TCA2005?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Trust Companies Act 2005",
+     "Law Number / Ref": "",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.28(4)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 6 — BOOKS, ACCOUNTS AND AUDIT, Division 1 — Books and accounts, s.28, p.54",
+     "Verbatim Snippet": "A licensed trust company must retain such books as may be required to be kept under this Act for a period of at least 5 years.",
+     "Mapping Rationale": "Explicit minimum retention period (at least 5 years) for trust company books; sectoral (trust companies) scope.",
+     "Source URL": "https://sso.agc.gov.sg/Act/TCA2005?ViewType=Pdf",
+     "Confidence": 0.95,
+     "Notes": "provision-level NEW: law known, s.28 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/trust_companies_act_2005/20260916T0906Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ed.\n(3) An entry in the books of a licensed trust company required to be kept in accordance with this section is deemed to have been made by, or with the authority of, the licensed trust company.\n(4) ",
+      "after": "\n(5) A licensed trust company must —\n(a) provide such returns and records in such form and manner as may be prescribed or as may be notified by the Authority in writing; and\n(b) provide such informati"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-tca2005-001#s.28(4)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Limited Partnerships Act 2008",
+   "law_number": "Act 37 of 2008",
+   "source_url": "https://sso.agc.gov.sg/Act/LPA2008?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Limited Partnerships Act 2008",
+     "Law Number / Ref": "Act 37 of 2008",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.27(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 4 — DUTIES, OFFENCES AND POWERS OF ENFORCEMENT, s.27, p.34",
+     "Verbatim Snippet": "must be retained for a period of at least 5 years after the completion of the transactions or operations to which they respectively relate",
+     "Mapping Rationale": "Specifies explicit minimum retention duration (5 years) for accounting records of limited partnerships - a floor requirement.",
+     "Source URL": "https://sso.agc.gov.sg/Act/LPA2008?ViewType=Pdf",
+     "Confidence": 0.95,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/limited_partnerships_act_2008/20260915T2343Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "neral partner of a limited partnership must ensure that such accounting and other records as will sufficiently explain the transactions and financial position of the limited partnership are kept.\n(2) ",
+      "after": "\n(3) The Registrar may, by written notice to any of the general partners of a limited partnership, require that person to produce the records referred to in subsection (1) for the Registrar’s inspecti"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-lpa2008-001#s.27(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Secondhand Goods Dealers Act 2007",
+   "law_number": "Act 4 of 2007",
+   "source_url": "https://sso.agc.gov.sg/Act/SGDA2007?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Secondhand Goods Dealers Act 2007",
+     "Law Number / Ref": "Act 4 of 2007",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.10(3)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.10, p.8",
+     "Verbatim Snippet": "retain the records mentioned in subsection (1) for a period of not less than 5 years from the end of the financial year",
+     "Mapping Rationale": "Explicit minimum retention period (not less than 5 years) specified; sectoral (secondhand goods dealers) scope.",
+     "Source URL": "https://sso.agc.gov.sg/Act/SGDA2007?ViewType=Pdf",
+     "Confidence": 0.93,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/secondhand_goods_dealers_act_2007/20260916T0309Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " to the Licensing\nOfficer the records referred to in subsection (1) at such time and in such format and through such medium (whether electronic or otherwise) as the Licensing Officer may require.\n(3) ",
+      "after": "\n(4) Every secondhand goods dealer must produce the records mentioned in subsection (1) for examination at any time on demand by any Magistrate, Justice of the Peace, the Licensing Officer or a police"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-sgda2007-001#s.10(3)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Securities and Futures Act 2001",
+   "law_number": "Act 42 of 2001",
+   "source_url": "https://sso.agc.gov.sg/Act/SFA2001?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Securities and Futures Act 2001",
+     "Law Number / Ref": "Act 42 of 2001",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.102(3)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 5 — BOOKS, CUSTOMER ASSETS AND AUDIT, Division 1 — Books, s.102, p.448",
+     "Verbatim Snippet": "A holder of a capital markets services licence must retain such books as may be required to be kept under this Act for a period of not less than 5 years.",
+     "Mapping Rationale": "Explicit minimum retention period (not less than 5 years) for licensee books under securities/futures sector law.",
+     "Source URL": "https://sso.agc.gov.sg/Act/SFA2001?ViewType=Pdf",
+     "Confidence": 0.92,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/securities_and_futures_act_2001/20260916T0312Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": ") An entry in the books of a holder of a capital markets services licence required to be kept in accordance with this section is deemed to have been made by, or with the authority of, the holder.\n(3) ",
+      "after": "\n(4) A holder of a capital markets services licence must —\n(a) furnish such returns and records in such form and manner as may be prescribed or as may be notified by the Authority in writing; and\n(b) "
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-sfa2001-001#s.102(3)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Securities and Futures Act 2001",
+     "Law Number / Ref": "Act 42 of 2001",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.164(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 9 — SUPERVISION AND INVESTIGATION, Division 3 — Investigative Powers of Authority, s.164, p.652",
+     "Verbatim Snippet": "any officer of the Authority who is authorised by the Authority to do so (called in this section an investigator) and such other officers or persons as the Authority has authorised in writing to accompany the investigator (each called in this section an authorised person) may enter any premises",
+     "Mapping Rationale": "MAS investigator may enter premises and access books/data without a court warrant, per s.164(1) power to enter without warrant; no judicial authorization required.",
+     "Source URL": "https://sso.agc.gov.sg/Act/SFA2001?ViewType=Pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/securities_and_futures_act_2001/20260916T0312Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " reasonable assistance as the Authority or an investigator may require for the purposes of accessing the book or data.\n[Act 12 of 2024 wef 24/01/2025]\nPower to enter premises without warrant\n164.—(1) ",
+      "after": "\n(2) An investigator or authorised person accompanying the investigator must not enter any premises in the exercise of the powers under this section unless the investigator has given the occupier of t"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-sfa2001-001#s.164(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Private Security Industry Act 2007",
+   "law_number": "Act 38 of 2007",
+   "source_url": "https://sso.agc.gov.sg/Act/PSIA2007?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Private Security Industry Act 2007",
+     "Law Number / Ref": "Act 38 of 2007",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.12(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 2 — PRIVATE INVESTIGATORS AND PRIVATE, s.12, p.17",
+     "Verbatim Snippet": "retain every such record for a period of at least 5 years",
+     "Mapping Rationale": "Explicit minimum retention period (at least 5 years) for private investigation agency records; sectoral scope.",
+     "Source URL": "https://sso.agc.gov.sg/Act/PSIA2007?ViewType=Pdf",
+     "Confidence": 0.92,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/private_security_industry_act_2007/20260916T0207Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "hat person shall be guilty of an offence and shall be liable on conviction to a fine not exceeding\n$50,000 or to imprisonment for a term not exceeding 2 years or to both.\nDuty to keep records\n12.—(1) ",
+      "after": "\n(2) Every employer of a licensed private investigator who is not a licensed private investigation agency must —\n(a) retain a record of every assignment handled by the private investigator while in hi"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-psia2007-001#s.12(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Business Trusts Act 2004",
+   "law_number": "",
+   "source_url": "https://sso.agc.gov.sg/Act/BTA2004?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Business Trusts Act 2004",
+     "Law Number / Ref": "",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.75(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 10 — ACCOUNTS, AUDIT AND DISCLOSURE, Division 1 — Accounts, s.75, p.118",
+     "Verbatim Snippet": "must retain the records mentioned in subsection (1) for at least 5 years from the end of the financial year in which the transactions or operations to which those records relate are completed",
+     "Mapping Rationale": "Explicit minimum retention period (at least 5 years) specified for business trust accounting records; sectoral (business trusts) but meets 7.3's minimum-period test.",
+     "Source URL": "https://sso.agc.gov.sg/Act/BTA2004?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/business_trusts_act_2004/20260915T1825Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "documentsrequired to be attached to the accountsto be prepared from time to time, and must cause those records to be kept in such manner as to enable them to be conveniently and properly audited.\n(2) ",
+      "after": "\n(3) The trustee‑manager of a registered business trust must devise and maintain a system of internal accounting controls sufficient to provide a reasonable assurance that —\n(a) assets that are part o"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-bta2004-001#s.75(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Customs Act 1960",
+   "law_number": "Act 3",
+   "source_url": "https://sso.agc.gov.sg/Act/CA1960?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Customs Act 1960",
+     "Law Number / Ref": "Act 3",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.90(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 12 — MISCELLANEOUS PROVISIONS, s.90, p.73",
+     "Verbatim Snippet": "for a period of at least 5 years from the date th",
+     "Mapping Rationale": "Explicit minimum retention period (at least 5 years) for trade documents/records by importers/exporters - sectoral (customs/trade) retention floor.",
+     "Source URL": "https://sso.agc.gov.sg/Act/CA1960?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/customs_act_1960/20260915T1935Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "public authority established by or under any public Act for a public purpose or a member, an officer or an employee, or any department, thereof.\n[25/2011; 3/2014]\nRetention of trade documents\n90.—(1) ",
+      "after": "\n(2) The documents and records mentioned in subsection (1) must be retained —\n(a) in relation to goodsin a Government warehouse or licensed warehouse, for a period of at least 5 years from the date th"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-ca1960-001#s.90(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Corruption, Drug Trafficking and Other Serious Crimes (Confiscation of Benefits) Act 1992",
+   "law_number": "Act 29 of 1992",
+   "source_url": "https://sso.agc.gov.sg/Act/CDTOSCCBA1992?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Corruption, Drug Trafficking and Other Serious Crimes (Confiscation of Benefits) Act 1992",
+     "Law Number / Ref": "Act 29 of 1992",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.42(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 5 — INFORMATION GATHERING POWERS, Division 3 — Record-keeping and suspicious transaction reports, s.42, p.61",
+     "Verbatim Snippet": "the period of 5 years after the day on which the account is closed",
+     "Mapping Rationale": "Defines 'minimum retention period' explicitly as 5 years for financial transaction documents held by financial institutions - a specified minimum duration floor.",
+     "Source URL": "https://sso.agc.gov.sg/Act/CDTOSCCBA1992?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/corruption_drug_trafficking_and_other_serious_crimes_confiscation_of_benefits_act_1992/20260915T1932Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "aft, hovercraft or offshore structure; and\n(b) any tent or movable structure.\n[21/2014; 40/2019]\nDivision 3 — Record-keeping and suspicious transaction reports\nInterpretation of this Division\n42.—(1) ",
+      "after": "\n(b) if the document relatesto the opening by a person of a deposit box held by the institution, the period of\n5 years after the day on which the deposit box ceases to be used by the person; or\n(c) in"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-cdtosca1992-001#s.42(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Goods and Services Tax Act 1993",
+   "law_number": "Act 31 of 1993",
+   "source_url": "https://sso.agc.gov.sg/Act/GSTA1993?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Goods and Services Tax Act 1993",
+     "Law Number / Ref": "Act 31 of 1993",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.46(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 7 — ACCOUNTING AND ASSESSMENTS, s.46, p.144",
+     "Verbatim Snippet": "for a period of not less than 5 years after the end of the prescribed accounting period",
+     "Mapping Rationale": "Explicit minimum retention period (not less than 5 years, formerly 7 years) for GST accounting records — sectoral tax record-keeping rule.",
+     "Source URL": "https://sso.agc.gov.sg/Act/GSTA1993?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/goods_and_services_tax_act_1993/20260915T2201Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "antly taxable goods, or a supply of distantly taxable goods that is treated (by reason of an election by the taxable person under paragraph 4A of the Seventh Schedule) as not being such a supply.\n(2) ",
+      "after": "\n(3) The duty under this section to preserve records may be discharged by the preservation of the information contained therein by such means as the Comptroller may approve.\n(3AA) Without affecting su"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-gsta1993-001#s.46(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Moneylenders Act 2008",
+   "law_number": "Act 31 of 2008",
+   "source_url": "https://sso.agc.gov.sg/Act/MA2008?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Moneylenders Act 2008",
+     "Law Number / Ref": "Act 31 of 2008",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.38(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 3 — REGULATION OF BUSINESS OF MONEYLENDING,, s.38, p.56",
+     "Verbatim Snippet": "for a period of 5 years after the date on which the form or copy is received",
+     "Mapping Rationale": "Explicit minimum 5-year retention period for loan-related records in moneylending sector; sectoral, specified minimum duration.",
+     "Source URL": "https://sso.agc.gov.sg/Act/MA2008?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/moneylenders_act_2008/20260916T0034Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": ".\n(6) Nothing in this section derogates from —\n(a) the jurisdiction or powers of any court; or\n(b) the powers of the Official Assignee.\nAccounts, etc., to be kept and submissions to Registrar\n38.—(1) ",
+      "after": "\n(2) Subject to subsection (3), despite the revocation or expiry of the licence of a person, the person must continue to keep or cause to be kept each document mentioned in subsection (1) until the ex"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-ma2008-001#s.38(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Criminal Procedure Code 2010 and is generally referred to in this Act",
+   "law_number": "Act 15 of 2010",
+   "source_url": "https://sso.agc.gov.sg/Act/CPC2010?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Criminal Procedure Code 2010 and is generally referred to in this Act",
+     "Law Number / Ref": "Act 15 of 2010",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.20(1)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part 4 — INFORMATION TO POLICE AND, Division 1 — Duties of police officer on receiving information about offences, s.20, p.41",
+     "Verbatim Snippet": "the police officer or authorised person may — (a) issue a written order to require a person in whose possession or power the document or thing is believed to be — (i) to produce the document or thing at the time and place stated in the order",
+     "Mapping Rationale": "Police/authorised persons can compel production of or access to documents/data (including personal data) without any court order or independent judicial authorization; qualifies as government access without judicial oversight.",
+     "Source URL": "https://sso.agc.gov.sg/Act/CPC2010?ViewType=Pdf",
+     "Confidence": 0.9,
+     "Notes": "matches baseline r1-sg-047",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/criminal_procedure_code_2010/20260915T1411Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ries in the diary that the officer or prosecutor has referred to; and\n(b) the prosecutor must conceal or obliterate any other entries.\nPower to order production of any document or other thing\n20.—(1) ",
+      "after": "\n(1A) Without limiting subsection (1), where a police officer of or above the rank ofsergeant, or an authorised person, considersthat any data (other than data in the custody of the Postal Authority, "
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-cpc2010-001#s.20(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Financial Services and Markets Act 2022",
+   "law_number": "",
+   "source_url": "https://sso.agc.gov.sg/Act/FSMA2022?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Financial Services and Markets Act 2022",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.173L",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 10A — INVESTIGATIONS, Division 2 — Investigative powers of Authority, p.297",
+     "Verbatim Snippet": "the Authority may, in writing, require",
+     "Mapping Rationale": "MAS may compel production of/access to data and information for investigations without requiring a prior court order or judicial warrant; authorization is purely administrative.",
+     "Source URL": "https://sso.agc.gov.sg/Act/FSMA2022?ViewType=Pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/financial_services_and_markets_act_2022/20260915T2024Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "estrictions.\n[Act 12 of 2024 wef 24/01/2025]\nSubdivision (3) — Powers to obtain information\nPower of Authority to order production of books, provision of information or giving of access to data\n173L. ",
+      "after": "\nPower to enter premises without warrant\n173M.—(1) In connection with an investigation under this\nDivision, any officer of the Authority who is authorised by the\nAuthority to do so (called in this sec"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-fsma2022-001#s.173L",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Singapore",
+     "Law Name": "Financial Services and Markets Act 2022",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.173U",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 10A — INVESTIGATIONS, Division 3 — Transfer of evidence, p.309",
+     "Verbatim Snippet": "may be provided to the following persons for the following purposes, if it is in the public interest to do so",
+     "Mapping Rationale": "Data obtained by police/CAD/authorised persons under CPC powers can be shared with the Authority or Minister on a public-interest test, without independent judicial authorization for the transfer/access.",
+     "Source URL": "https://sso.agc.gov.sg/Act/FSMA2022?ViewType=Pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/financial_services_and_markets_act_2022/20260915T2024Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " with the rules of evidence under written law and any relevant rules of law. [Act 12 of 2024 wef 24/01/2025]\nEvidence obtained under Criminal Procedure Code 2010 may be used for purposes of Act\n173U. ",
+      "after": "\nPART 11\nOFFENCES\nOffences by corporations\n174.—(1) Where, in a proceeding for an offence under this Act, it is necessary to prove the state of mind of a corporation in relation to a particular conduc"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-fsma2022-001#s.173U",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Prevention of Corruption Act 1960",
+   "law_number": "Act 35",
+   "source_url": "https://sso.agc.gov.sg/Act/PCA1960?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Prevention of Corruption Act 1960",
+     "Law Number / Ref": "Act 35",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.20(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.20, p.23",
+     "Verbatim Snippet": "The Public Prosecutor may, if he considers that any evidence of the commission of an offence under this Act or under sections 161 to 165 or 213 to 215 of the Penal Code 1871",
+     "Mapping Rationale": "Public Prosecutor (executive, non-judicial officer) can authorise inspection/access to bankers' books (personal financial data) without a court order/judicial warrant.",
+     "Source URL": "https://sso.agc.gov.sg/Act/PCA1960?ViewType=Pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/prevention_of_corruption_act_1960/20260916T0605Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "under any written law, all or any of the powers in relation to police investigations given by the Criminal Procedure Code 2010.\nPublic Prosecutor’s power to order inspection of bankers’ books\n20.—(1) ",
+      "after": "\n(2) For the purpose of this section —\n“bank” means any company carrying on the business of bankers in Singapore incorporated or licensed under any written law;\n“banker’s book” includes any ledger, da"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-pca1960-001#s.20(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Hostage-Taking Act 2010",
+   "law_number": "Act 19 of 2010",
+   "source_url": "https://sso.agc.gov.sg/Act/HTA2010?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Hostage-Taking Act 2010",
+     "Law Number / Ref": "Act 19 of 2010",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.7(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.7, p.5",
+     "Verbatim Snippet": "the Public Prosecutor may, if he or she considers that any evidence of the commission by a person of",
+     "Mapping Rationale": "Public Prosecutor (non-judicial authority) can order inspection of bank customer information without a court order/judicial warrant, enabling government access to personal data absent independent judicial authorization.",
+     "Source URL": "https://sso.agc.gov.sg/Act/HTA2010?ViewType=Pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/hostage_taking_act_2010/20260915T2226Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " to comply with an order under subsection (1) shall be guilty of an offence and shall be liable on conviction to a fine not exceeding $20,000.\nPower to order inspection of customer information\n7.—(1) ",
+      "after": "\n(2) The police officer so authorised may, at all reasonable times, enter the premises of the bank specified in the order and inspect the documents kept therein and may take copies of any relevant ent"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-hta2010-001#s.7(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Financial Advisers Act 2001",
+   "law_number": "Act 43 of 2001",
+   "source_url": "https://sso.agc.gov.sg/Act/FAA2001?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Financial Advisers Act 2001",
+     "Law Number / Ref": "Act 43 of 2001",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.97",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 6 — SUPERVISION AND INVESTIGATION, Division 3 — Investigative powers of Authority, p.132",
+     "Verbatim Snippet": "the Authority may, in writing, require",
+     "Mapping Rationale": "MAS investigative power to compel production/access to books, information or data without court order or judicial warrant; authority is the regulator itself (non-judicial).",
+     "Source URL": "https://sso.agc.gov.sg/Act/FAA2001?ViewType=Pdf",
+     "Confidence": 0.82,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/financial_advisers_act_2001/20260915T2022Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " restrictions.\n[Act 12 of 2024 wef 24/01/2025]\nSubdivision (4) — Powers to obtain information\nPower of Authority to order production of books, provision of information or giving of access to data\n97. ",
+      "after": "\nPower to enter premises without warrant\n98.—(1) In connection with an investigation under this Division, any officer of the Authority who is authorised by the Authority to do so (called in this secti"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-faa2001-001#s.97",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Organised Crime Act 2015",
+   "law_number": "Act 26 of 2015",
+   "source_url": "https://sso.agc.gov.sg/Act/OCA2015?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Organised Crime Act 2015",
+     "Law Number / Ref": "Act 26 of 2015",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.41(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 7 — POWERS TO INVESTIGATE AND TO OBTAIN, s.41, p.53",
+     "Verbatim Snippet": "the Public Prosecutor may, despite anything in any other written law to the contrary, by written notice require the Comptroller",
+     "Mapping Rationale": "Public Prosecutor (non-judicial authority) can compel disclosure of personal tax/financial information without a court order or judicial warrant.",
+     "Source URL": "https://sso.agc.gov.sg/Act/OCA2015?ViewType=Pdf",
+     "Confidence": 0.8,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/organised_crime_act_2015/20260916T0115Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "cts the power of investigation of a police officer under the Criminal Procedure\nCode 2010.\nPower to obtain information from Comptroller of Income Tax and Comptroller of Goods and Services Tax\n41.—(1) ",
+      "after": "\n(2) The Comptroller to whom a notice is sent by the Public\nProsecutor under subsection (1) is, despite the provisions of any written law or any oath of secrecy to the contrary, legally bound to compl"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-oca2015-001#s.41(1)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Public Order and Safety (Special Powers) Act 2018",
+   "law_number": "Act 26 of 2018",
+   "source_url": "https://sso.agc.gov.sg/Act/POSSPA2018?ViewType=Pdf",
+   "provisions": [
+    {
+     "Economy": "Singapore",
+     "Law Name": "Public Order and Safety (Special Powers) Act 2018",
+     "Law Number / Ref": "Act 26 of 2018",
+     "Last Amended": "1 December 2021",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.17(1)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part 4 — SPECIAL POWERS, s.17, p.23",
+     "Verbatim Snippet": "A police officer may, pursuant to a special authorisation, request an individual whose identity is unknown to the police officer to disclose the individual’s identity and residential address",
+     "Mapping Rationale": "Police can compel disclosure of personal identity/address data based on executive 'special authorisation' rather than judicial warrant/court order — no independent judicial oversight required.",
+     "Source URL": "https://sso.agc.gov.sg/Act/POSSPA2018?ViewType=Pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/sg/public_order_and_safety_special_powers_act_2018/20260916T0221Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "fence under subsection (2) shall be liable on conviction to a fine not exceeding $20,000 or to imprisonment for a term not exceeding 2 years or to both.\nPower to obtain disclosure of identity\n17.—(1) ",
+      "after": "\n(2) A police officer may detain an individual mentioned in subsection (1) for so long as is reasonably necessary for the purposes of this section.\n(3) A police officer may request an individual who i"
+     },
+     "_record_type": "scored",
+     "_provision_id": "sg-posa2018-001#s.17(1)",
+     "_score_hint": "1"
+    }
+   ]
+  }
+ ]
+}

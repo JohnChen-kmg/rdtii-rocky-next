@@ -1,0 +1,249 @@
+{
+ "checked": 23,
+ "not_ok": 0,
+ "results": [
+  {
+   "url": "http://www.mj.gov.tl/jornal/public/docs/2016/serie_1/SERIE_I_NO_26A.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:12.9:row7",
+    "TL:12.9:row8",
+    "TL:12.9:row9",
+    "TL:12.9:row10",
+    "TL:12.9:row11",
+    "TL:12.9:row12",
+    "TL:12.9:row13"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2002_2005/decreto_lei_governo/10_2005.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:2.3:row20"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2002_2005/leis_parlamento_nacional/6_2005.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:3.3:row23",
+    "TL:3.3:row24",
+    "TL:3.3:row25",
+    "TL:3.5:row28"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2006/serie_1/serie1_no6.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:12.5:row3",
+    "TL:12.5:row4"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2007/serie_1/serie1_no24.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:3.5:row29",
+    "TL:3.5:row30"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2008/serie_1/serie1_no14.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:8.3:row44"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2008/serie_1/serie1_no31.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:2.3:row19",
+    "TL:2.3:row21"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2009/serie_1/serie1_no38.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:2.1:row14"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2012/serie_1/serie1_no12.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:3.5:row33",
+    "TL:5.1:row34",
+    "TL:5.1:row35",
+    "TL:5.4:row36",
+    "TL:5.7:row37",
+    "TL:5.7:row40",
+    "TL:5.7:row43"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2012/serie_1/serie1_no25a.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:3.5:row32"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2015/serie_1/SERIE_I_NO_23.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:12.4.4:row2"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2017/serie_1/SERIE_I_NO_20.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:8.4:row45"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2019/serie_1/SERIE_I_NO_13.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:5.7:row42"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2022/serie_1/SERIE_I_NO_19.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:2.3:row16"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2022/serie_1/SERIE_I_NO_52.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:2.3:row22"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2023/serie_1/SERIE I N. 20 NORMAL.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:3.5:row31"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2023/serie_1/SERIE_I_NO_34_D.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:5.7:row41"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2024/serie_1/SERIE_I_NO_7.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:12.9:row6"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2025/serie_1/SERIE_I_NO_2.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:2.3:row15",
+    "TL:2.3:row18"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2025/serie_1/SERIE_I_NO_42_A4.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:12.8:row5",
+    "TL:3.3:row26",
+    "TL:5.7:row38",
+    "TL:5.7:row39"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2025/serie_1/SERIE_I_NO_45.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:3.3:row27"
+   ]
+  },
+  {
+   "url": "https://www.mj.gov.tl/jornal/public/docs/2026/serie_1/SERIE_I_NO_3_B_LOOS.pdf",
+   "status": "200",
+   "ok": true,
+   "rows": [
+    "TL:2.3:row17"
+   ]
+  },
+  {
+   "url": "n/a — 2,879 Timor-Leste instruments from www.mj.gov.tl searched, none governing this indicator",
+   "status": "placeholder",
+   "rows": [
+    "TL:1.4:row46",
+    "TL:10.1:row47",
+    "TL:10.2:row48",
+    "TL:10.3:row49",
+    "TL:10.4:row50",
+    "TL:11.1:row51",
+    "TL:11.2:row52",
+    "TL:11.3:row53",
+    "TL:11.4:row54",
+    "TL:12.01:row55",
+    "TL:12.2:row56",
+    "TL:12.3:row57",
+    "TL:12.4.1:row58",
+    "TL:12.4.2:row59",
+    "TL:12.4.3:row60",
+    "TL:12.4.5:row61",
+    "TL:12.4.6:row62",
+    "TL:12.4.7:row63",
+    "TL:12.6:row64",
+    "TL:12.7:row65",
+    "TL:2.2:row66",
+    "TL:3.1:row67",
+    "TL:3.2:row68",
+    "TL:3.4:row69",
+    "TL:4.01:row70",
+    "TL:4.1:row71",
+    "TL:4.2:row72",
+    "TL:4.3:row73",
+    "TL:4.5:row74",
+    "TL:4.6:row75",
+    "TL:4.9:row76",
+    "TL:5.2:row77",
+    "TL:5.3:row78",
+    "TL:5.5:row79",
+    "TL:8.1:row80",
+    "TL:8.2:row81",
+    "TL:9.1:row82",
+    "TL:9.3:row83",
+    "TL:9.4:row84"
+   ]
+  }
+ ]
+}

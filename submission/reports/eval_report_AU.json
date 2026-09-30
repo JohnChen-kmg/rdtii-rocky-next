@@ -1,0 +1,29 @@
+{
+  "economy": "AU",
+  "resolvable_gold_rows": 8,
+  "row_recall": 0.75,
+  "cited_but_unparsed_sources": 0,
+  "cited_but_unparsed_examples": [],
+  "gold_rows_with_parsed_sources": 8,
+  "row_recall_on_parsed_sources": 0.75,
+  "known_tag_accuracy_on_hits": 0.8333,
+  "misses": [
+    {
+      "gold": "r1-au-036",
+      "ind": "6.3",
+      "law": [
+        "Privacy Act 1988"
+      ]
+    },
+    {
+      "gold": "r1-au-043",
+      "ind": "7.5",
+      "law": [
+        "Data Availability and Transparency Act 2022"
+      ]
+    }
+  ],
+  "csv_rows": 39,
+  "note": "allowlist OFF; label-noise gold rows excluded (decision #9/#11)",
+  "law_match": "config/lawnames.py: the CITED law's tokens must be covered by the candidate name (not the other way round), and an original-script title matches by containment, because an English name here is a translation"
+}

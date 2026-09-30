@@ -1,0 +1,125 @@
+{
+  "economies": {
+    "AU": {
+      "arms": [
+        "C:\\Users\\woshi\\Desktop\\rdtii-finale-p3-runs\\run_2026-09-27\\out"
+      ],
+      "rows": 39,
+      "indicators": 9,
+      "scored": 37,
+      "languages": {
+        "English": 39
+      }
+    },
+    "CN": {
+      "arms": [
+        "C:\\Users\\woshi\\Desktop\\rdtii-finale-p3-runs\\run_2026-09-27\\out"
+      ],
+      "rows": 55,
+      "indicators": 9,
+      "scored": 55,
+      "languages": {
+        "Chinese": 55
+      }
+    },
+    "LA": {
+      "arms": [
+        "C:\\Users\\woshi\\Desktop\\rdtii-finale-p3-runs\\run_2026-09-27\\out"
+      ],
+      "rows": 25,
+      "indicators": 9,
+      "scored": 21,
+      "languages": {
+        "Lao": 25
+      }
+    },
+    "MY": {
+      "arms": [
+        "C:\\Users\\woshi\\Desktop\\rdtii-finale-p3-runs\\run_2026-09-27\\out"
+      ],
+      "rows": 53,
+      "indicators": 9,
+      "scored": 51,
+      "languages": {
+        "English": 53
+      }
+    },
+    "SG": {
+      "arms": [
+        "C:\\Users\\woshi\\Desktop\\rdtii-finale-p3-runs\\run_2026-09-27\\out"
+      ],
+      "rows": 37,
+      "indicators": 9,
+      "scored": 35,
+      "languages": {
+        "English": 37
+      }
+    },
+    "TL": {
+      "arms": [
+        "C:\\Users\\woshi\\Desktop\\rdtii-finale-p3-runs\\run_2026-09-27\\out",
+        "C:\\Users\\woshi\\Desktop\\rdtii-finale-p3-runs\\run_2026-09-27\\out_tl52"
+      ],
+      "rows": 110,
+      "indicators": 61,
+      "scored": 65,
+      "languages": {
+        "Portuguese": 110
+      }
+    }
+  },
+  "warnings": [],
+  "output_data": {
+    "available_scored_rows": 264,
+    "cells_evidenced": 51,
+    "slots": 101,
+    "filed": 101,
+    "by_economy": {
+      "Australia": 14,
+      "China": 20,
+      "Lao PDR": 11,
+      "Malaysia": 16,
+      "Singapore": 14,
+      "Timor-Leste": 26
+    },
+    "by_pillar": {
+      "2": 3,
+      "3": 4,
+      "5": 5,
+      "6": 29,
+      "7": 52,
+      "8": 2,
+      "12": 6
+    },
+    "by_discovery_tag": {
+      "KNOWN": 25,
+      "NEW": 76
+    },
+    "with_citation_caveat": 17,
+    "languages": {
+      "Chinese": 20,
+      "English": 44,
+      "Lao": 11,
+      "Portuguese": 26
+    },
+    "template": "C:\\Users\\woshi\\Desktop\\RDTII Finale Plan\\1_Rules\\Final_Round\\OUTPUT_TEMPLATE_FINAL_ROUND.xlsx",
+    "out": "C:\\Users\\woshi\\Desktop\\rdtii-rocky-finale\\submission\\OUTPUT_DATA_FILLED.xlsx"
+  },
+  "output_data_verified": {
+    "rows": 101,
+    "distinct_indicators": 22,
+    "indicator_ids_not_text": [],
+    "cells_not_text_formatted": [],
+    "column_O_formulas_intact": 101,
+    "example_block_cleared": true,
+    "economies": {
+      "Australia": 14,
+      "China": 20,
+      "Lao PDR": 11,
+      "Malaysia": 16,
+      "Singapore": 14,
+      "Timor-Leste": 26
+    }
+  },
+  "total_rows": 319
+}

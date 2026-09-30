@@ -1,0 +1,31 @@
+# P3 — Mapping to the RDTII Index
+# After first install, pin exact versions:  pip freeze > requirements.lock
+# (rubric requires pinned deps — no "latest")
+
+# --- LLM backends (config-swap via .env, contract §5) ---
+anthropic>=0.40           # ⚠️ floor only; bump to the current SDK at install time, then freeze via requirements.lock
+ollama>=0.4               # mandatory no-key fallback (llama3.1:8b)
+
+# --- prefilter: sparse + dense retrieval ---
+bm25s[full]>=0.2          # MIT; NumPy-only BM25 (100-500x rank_bm25, CPU)
+PyStemmer>=2
+sentence-transformers>=3  # serves BAAI/bge-m3 (dense leg; CPU-capable, GPU-accelerated on dev box)
+numpy>=1.26
+
+# --- baseline / gold-set handling ---
+pandas>=2
+openpyxl>=3.1             # Round 1 baseline parsing (country sheets, merged cells, formatting-aware)
+
+# --- output contract + validation ---
+pydantic>=2
+jsonschema>=4
+httpx>=0.27               # URL liveness HEAD checks
+
+# --- eval harness ---
+scikit-learn>=1.4         # F1 / field-accuracy metrics vs gold set
+
+# --- plumbing ---
+python-dotenv>=1
+PyYAML>=6                 # reads the P0 instrument (indicators.yaml, signatures/)
+tqdm>=4
+pytest>=8

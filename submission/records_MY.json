@@ -1,0 +1,1642 @@
+{
+ "contract_version": "0.3.0",
+ "economy": "MY",
+ "economy_name": "Malaysia",
+ "laws": [
+  {
+   "law_name": "Service Tax Act 2018",
+   "law_number": "Act 807",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3465678_BI/Act%20807%20(Online%202026).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Service Tax Act 2018",
+     "Law Number / Ref": "Act 807",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.24(2)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part V — ACCOUNTING, ASSESSMENT, RECOVERY, ETC., s.24, p.37",
+     "Verbatim Snippet": "kept in Malaysia, except as otherwise approved by the Director General and subject to such conditions as he deems fit.",
+     "Mapping Rationale": "Sector-specific (service tax records) local storage requirement, category (2) -> 0.5; conditional exception via DG approval doesn't negate the default local-storage mandate.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3465678_BI/Act%20807%20(Online%202026).pdf",
+     "Confidence": 0.75,
+     "Notes": "matches baseline r1-my-042",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/service_tax_act_2018/20260915T0505Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "r to that taxable person including invoices, receipts, debit notes and credit notes;\n(aa) all records of imported taxable service; and\n(b) all other records as the Director General may determine.\n(2) ",
+      "after": "\n(3) Where the record is in an electronically readable form, the record shall be kept in such manner as to enable the record to be readily accessible and convertible into writing.\n(4) Where the record"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-sta2018-001#s.24(2)",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Service Tax Act 2018",
+     "Law Number / Ref": "Act 807",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.24(2)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part V — ACCOUNTING, ASSESSMENT, RECOVERY, ETC., s.24, p.37",
+     "Verbatim Snippet": "preserved for a period of seven years from the latest date to which the record relates",
+     "Mapping Rationale": "Specifies explicit minimum retention duration (7 years) for tax records, satisfying the minimum-period rule.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3465678_BI/Act%20807%20(Online%202026).pdf",
+     "Confidence": 0.85,
+     "Notes": "matches baseline r1-my-056",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/service_tax_act_2018/20260915T0505Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "r to that taxable person including invoices, receipts, debit notes and credit notes;\n(aa) all records of imported taxable service; and\n(b) all other records as the Director General may determine.\n(2) ",
+      "after": "\n(3) Where the record is in an electronically readable form, the record shall be kept in such manner as to enable the record to be readily accessible and convertible into writing.\n(4) Where the record"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-sta2018-001#s.24(2)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Service Tax Act 2018",
+     "Law Number / Ref": "Act 807",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.56J(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part IXA — DIGITAL SERVICES, s.56J, p.72",
+     "Verbatim Snippet": "Any record kept under this section shall be preserved for a period of seven years from the latest date to which the record relates.",
+     "Mapping Rationale": "Specifies a minimum retention period (7 years) for digital service records of foreign registered persons - sectoral (digital services tax) minimum retention rule.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3465678_BI/Act%20807%20(Online%202026).pdf",
+     "Confidence": 0.9,
+     "Notes": "provision-level NEW: law known, s.56J not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/service_tax_act_2018/20260915T0505Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "llowing records:\n(a) all records of provision of digital service by the foreign registered person including invoices and receipts; and\n(b) all other records as the Director General may determine.\n(2) ",
+      "after": "\n(3) Where the record is in an electronically readable form, the record shall be kept in such manner as to enable the record to be readily accessible and convertible in writing.\n(4) A copy of the reco"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-sta2018-001#s.56J(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Income Tax Act 1967",
+   "law_number": "Act 53",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345910_BI/Act%2053%20(Online%202026).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Income Tax Act 1967",
+     "Law Number / Ref": "Act 53",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.82(7)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part V — RETURNS, s.82, p.299",
+     "Verbatim Snippet": "All records that relate to any business in Malaysia shall be kept and retained in Malaysia.",
+     "Mapping Rationale": "Local storage requirement for business tax records, a specific set of data (category 2) -> 0.5.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345910_BI/Act%2053%20(Online%202026).pdf",
+     "Confidence": 0.7,
+     "Notes": "matches baseline r1-my-043",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/income_tax_act_1967/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": ".\n(6) Any person who under subsection (1) is required to keep records shall cause appropriate entries to be made in those records in respect of transactions within sixty days of each transaction.\n(7) ",
+      "after": "\n(8) All records that relate to any business in Malaysia shall be kept and retained in Malaysia.\n(9) For the purposes of this section, “records” include—\n(a) books of account recording receipts and pa"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-ita1967-001#s.82(7)",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Income Tax Act 1967",
+     "Law Number / Ref": "Act 53",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.82A(4)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part V — RETURNS, s.82A, p.300",
+     "Verbatim Snippet": "All documents that relate to any income in Malaysia shall be kept and retained in Malaysia.",
+     "Mapping Rationale": "Tax records (income-related documents) must be kept and retained domestically - a sectoral/data-specific local storage requirement, not horizontal to all sectors/data.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345910_BI/Act%2053%20(Online%202026).pdf",
+     "Confidence": 0.75,
+     "Notes": "provision-level NEW: law known, s.82A not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/income_tax_act_1967/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "f seven years after the end of the year in which the return is furnished.\n(3) The Director General may waive all or any of the provisions of subsection (1) in respect of any income or deductions.\n(4) ",
+      "after": "\n(5) All documents that relate to any income in Malaysia shall be kept and retained in Malaysia.\n(6) For the purposes of this section, “documents” means—\n(a) statement of income and expenditure; and\n("
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-ita1967-001#s.82A(4)",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Income Tax Act 1967",
+     "Law Number / Ref": "Act 53",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.207(6)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part XI — IMPLEMENTATION OF DOMESTIC TOP-UP TAX AND, s.207, p.549",
+     "Verbatim Snippet": "All documents for the purpose of administering and determining liability to Domestic Top-up Tax and Multinational Top-up Tax in Malaysia shall be kept and retained in Malaysia.",
+     "Mapping Rationale": "Sector-specific (tax) local storage requirement for a specific set of documents; single measure limited to a specific data set => 0.5.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345910_BI/Act%2053%20(Online%202026).pdf",
+     "Confidence": 0.75,
+     "Notes": "provision-level NEW: law known, s.207 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/income_tax_act_1967/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "r\n(b) has originally kept documents in a manual form and subsequently converts those documents into an electronic form shall retain those documents prior to the conversion in their original form.\n(6) ",
+      "after": "\n(7) For the purposes of this section, “documents” means—\n(a) any documents as are necessary to verify the particulars in an information return or Top-up Tax return furnished by a\nConstituent Entity; "
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-ita1967-001#s.207(6)",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Income Tax Act 1967",
+     "Law Number / Ref": "Act 53",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.82(1A)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part V — RETURNS, s.82, p.298",
+     "Verbatim Snippet": "shall keep and retain the records referred to in subsection (1) that relate to that year of assessment for a period of seven years after the end of the year in which the return is furnished",
+     "Mapping Rationale": "Specifies explicit minimum retention duration (7 years) for tax/business records - a floor, scores 1 under 7.3.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345910_BI/Act%2053%20(Online%202026).pdf",
+     "Confidence": 0.85,
+     "Notes": "matches baseline r1-my-057",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/income_tax_act_1967/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "um received in that year of assessment in respect of goods sold or services performed in the course of or in connection with the business and shall retain a duplicate of every receipt so issued.\n(1A) ",
+      "after": "\n(2) Where in the carrying on of a business a machine is used for recording sales, the issue of receipts pursuant to paragraph (1)(b) may be dispensed with except where the Director General is not sat"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-ita1967-001#s.82(1A)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Income Tax Act 1967",
+     "Law Number / Ref": "Act 53",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.82A(3)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part V — RETURNS, s.82A, p.300",
+     "Verbatim Snippet": "shall keep and retain the documents referred to in subsection (1) that relate to that year of assessment for a period of seven years after the end of the year in which the return is furnished",
+     "Mapping Rationale": "Specifies explicit minimum retention period (7 years) for tax records - a minimum duration requirement, not a location rule.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345910_BI/Act%2053%20(Online%202026).pdf",
+     "Confidence": 0.9,
+     "Notes": "provision-level NEW: law known, s.82A not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/income_tax_act_1967/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "on shall keep and retain the documents referred to in subsection (1) that relate to that year of assessment for a period of seven years after the end of the year in which the return is furnished.\n(3) ",
+      "after": "\n(4) Any person who is required by this section to keep documents and—\n(a) does so electronically shall retain them in an electronically readable form and shall keep the documents in such a manner as "
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-ita1967-001#s.82A(3)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Petroleum (Income Tax) Act 1967",
+   "law_number": "Act 543",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345980_BI/ACT%20543%20AS%20AT%202026%20(ONLINE%202026).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Petroleum (Income Tax) Act 1967",
+     "Law Number / Ref": "Act 543",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.34A(6)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part VI — RETURNS, s.34A, p.57",
+     "Verbatim Snippet": "All records that relate to any petroleum operation in Malaysia shall be kept and retained in Malaysia.",
+     "Mapping Rationale": "Sector-specific (petroleum) local storage requirement for records; single sectoral measure -> 0.5 under 6.2 scoring tree.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345980_BI/ACT%20543%20AS%20AT%202026%20(ONLINE%202026).pdf",
+     "Confidence": 0.8,
+     "Notes": "provision-level NEW: law known, s.34A not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/petroleum_income_tax_act_1967/20260914T0718Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ectronic form shall retain those records prior to the conversion in their original form.\n(5) All records that relate to any petroleum operation in Malaysia shall be kept and retained in Malaysia.\n(6) ",
+      "after": "\nDuty to issue electronic invoice\n34B. (1) Subject to this section, a person shall, in a year of assessment, issue an electronic invoice for each transaction in respect of any goods sold or services p"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pa1967-001#s.34A(6)",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "Finance Act 2010",
+   "law_number": "Act 702",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3667676_BI/ACT%20702%20-%20REPRINT%202019.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Finance Act 2010",
+     "Law Number / Ref": "Act 702",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.25(5)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.25, p.22",
+     "Verbatim Snippet": "All records that relate to any petroleum operation in Malaysia shall be kept and retained in Malaysia.",
+     "Mapping Rationale": "Sector-specific (petroleum operations) local storage mandate; single measure limited to specific data set -> 0.5 under 6.2 scoring tree.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3667676_BI/ACT%20702%20-%20REPRINT%202019.pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/finance_act_2010/20260914T0732Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "e into writing;\nor\n(b) has originally kept records manually and subsequently converts those records into electronic form shall retain those records prior to the conversion in their original form.\n(5) ",
+      "after": "\n(6) For the purposes of this section—\n“exploration period” has the same meaning assigned to it under section 30a; and\n“records” includes—\n(a) books of account recording receipts and payments or incom"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-fa20106431-001#s.25(5)",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "Real Property Gains Tax Act 1976",
+   "law_number": "Act 169",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345906_BI/Act%20169%20(Online%202026).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Real Property Gains Tax Act 1976",
+     "Law Number / Ref": "Act 169",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.28C(5)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part IV — INVESTIGATORY AND PENAL, s.28C, p.49",
+     "Verbatim Snippet": "All documents that relate to any disposal of chargeable assets situated in Malaysia shall be kept and retained in Malaysia.",
+     "Mapping Rationale": "Sector-specific (tax/property gains) local storage requirement mandating documents be kept in-country; single category-2 measure -> 0.5.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3345906_BI/Act%20169%20(Online%202026).pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/real_property_gains_tax_act_1976/20260914T0720Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "\n(b) has originally kept documents in a manual form and subsequently converts those documents into an electronic form, shall retain those documents prior to the conversion in their original form.\n(5) ",
+      "after": "\n(6) For the purposes of this section, “documents” includes—\n(a) statement of chargeable gains;\n(b) statement of income and incidental cost; and\n(c) invoices, vouchers, receipts and such other documen"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-rpgta1976-001#s.28C(5)",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "Labuan Business Act",
+   "law_number": "Act 445",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3571303_BI/Act%20445%20(Online%202026).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Labuan Business Act",
+     "Law Number / Ref": "Act 445",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.22E(5)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part VI — SUPPLEMENTAL, s.22E, p.43",
+     "Verbatim Snippet": "All documents that relate to any profit in Malaysia shall be kept and retained in Malaysia.",
+     "Mapping Rationale": "Sectoral (Labuan business tax/profit documents) requirement to keep a copy of documents domestically = category (2) local storage requirement, scored 0.5.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3571303_BI/Act%20445%20(Online%202026).pdf",
+     "Confidence": 0.8,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/labuan_business_activity_tax_act_1990/20260914T0719Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "\n(b) has originally kept documents in a manual form and subsequently converts those documents into an electronic form, shall retain those documents prior to the conversion in their original form.\n(5) ",
+      "after": "\n(6) For the purposes of this section, “documents” means—\n(a) statement of profits; and\n(b) invoices, vouchers, receipts and such other documents as are necessary to verify the particulars in a return"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-lbata1990-001#s.22E(5)",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "Companies Act 2016",
+   "law_number": "Act 777",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1738979_BI/Act%20777-%20Final%20Draft%20(1.8.2022).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Companies Act 2016",
+     "Law Number / Ref": "Act 777",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.245(5)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part III — MANAGEMENT OF COMPANY, Division 3 — Accounts and Audit, s.245, p.269",
+     "Verbatim Snippet": "such accounting and other records shall be sent to and kept at a place in Malaysia and be made available for inspection by the directors at all times",
+     "Mapping Rationale": "Requires a copy of company accounting records (a specific data set, corporate/accounting records) to be stored domestically while allowing records of overseas operations to be kept abroad initially - a sectoral (accounting-records) local storage requirement, scored 0.5 absent a second such measure.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1738979_BI/Act%20777-%20Final%20Draft%20(1.8.2022).pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/companies_act_2016/20260914T0712Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "erred to in subsection (1) shall be kept at the registered office of the company or at such other place as the directors think fit, and shall at all times be open for inspection by the directors.\n(5) ",
+      "after": "\n(6) The accounting and other records referred to in subsection (5) shall include such statements and returns with respect to the business dealt with in the records so kept as to enable the preparatio"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-ca2016-001#s.245(5)",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "TRUSTEES (INCORPORATION) (AMENDMENT) ACT 2025",
+   "law_number": "Act A1746",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2694480_BI/Act%20A1746%20BI%20-%20TRUSTEES%20(INCORPORATION)%20(AMENDMENT)%20ACT%202025.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "TRUSTEES (INCORPORATION) (AMENDMENT) ACT 2025",
+     "Law Number / Ref": "Act A1746",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "s.2(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.2, p.5",
+     "Verbatim Snippet": "such other office shall not be outside Peninsular Malaysia",
+     "Mapping Rationale": "Register of beneficial owners of trusts must be kept within Peninsular Malaysia - a local storage requirement limited to a specific sector (trust beneficial ownership registers), scoring 0.5 as sectoral.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2694480_BI/Act%20A1746%20BI%20-%20TRUSTEES%20(INCORPORATION)%20(AMENDMENT)%20ACT%202025.pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/trustees_incorporation_amendment_act_2025/20260914T0801Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "as entered into the register as a beneficial owner;\n(d) the date on which any beneficial owner ceased to be a beneficial owner; and\n(e) any other information as may be prescribed by the Minister.\n(2) ",
+      "after": "\n(3) The trustee shall send a notice to the Minister in the form and manner as may be determined by the Minister, of the place or any change of place where its register of beneficial owners is kept, w"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-ta2025-001#s.2(2)~2",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "Personal Data Protection Act 2010",
+   "law_number": "Act 709",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1726091_BI/ACT%20709-REPRINT%202023.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Act 2010",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.129(2)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part VIII — INSPECTION, COMPLAINT AND INVESTIGATION, Division 4 — of Part II;, s.129, p.88",
+     "Verbatim Snippet": "the Minister may specify any place outside Malaysia if— (a) there is in that place in force any law which is substantially similar to this Act, or that serves the same purposes as this Act; or (b) that place ensures an adequate level of protection in relation to the processing of personal data which is at least equivalent to the level of protection afforded by this Act.",
+     "Mapping Rationale": "Personal data transfer permitted only to whitelisted/adequate jurisdictions or upon consent - conditional flow regime covering personal data horizontally, scores 1 per Guide p.54.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1726091_BI/ACT%20709-REPRINT%202023.pdf",
+     "Confidence": 0.92,
+     "Notes": "matches baseline r1-my-045",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_act_2010/20260914T0705Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "rsonal data of a data subject to a place outside Malaysia unless to such place as specified by the Minister, upon the recommendation of the\nCommissioner, by notification published in the Gazette.\n(2) ",
+      "after": "\n(3) Notwithstanding subsection (1), a data user may transfer any personal data to a place outside Malaysia if—\n(a) the data subject has given his consent to the transfer;\n(b) the transfer is necessar"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpa2010-001#s.129(2)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Act 2010",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "7.1",
+     "Article / Section": "s.2(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part VIII — INSPECTION, COMPLAINT AND INVESTIGATION, s.2, p.12",
+     "Verbatim Snippet": "This Act applies to— (a) any person who processes; and (b) any person who has control over or authorizes the processing of, any personal data in respect of commercial transactions.",
+     "Mapping Rationale": "Establishes horizontal scope of Malaysia's comprehensive PDPA 2010, controlling evidence a comprehensive framework exists (score 0, framework present).",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1726091_BI/ACT%20709-REPRINT%202023.pdf",
+     "Confidence": 0.85,
+     "Notes": "controlling horizontal framework evidence",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_act_2010/20260914T0705Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ication\n2. (1) This Act applies to—\n(a) any person who processes; and\n(b) any person who has control over or authorizes the processing of, any personal data in respect of commercial transactions.\n(2) ",
+      "after": "\n(3) A person falling within paragraph (2)(b) shall nominate for the purposes of this Act a representative established in Malaysia.\n(4) For the purposes of subsections (2) and (3), each of the followi"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpa2010-001#s.2(2)",
+     "_score_hint": "0"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Act 2010",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.114",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part VIII — INSPECTION, COMPLAINT AND INVESTIGATION, Division 4 — of Part II;, p.79",
+     "Verbatim Snippet": "the authorized officer may enter the premises and exercise in, upon and in respect of the premises all the powers referred to in section 113 in as full and ample a manner as if he were authorized to do so by a warrant issued under that section",
+     "Mapping Rationale": "Authorized officer may search/seize and access personal data without a warrant based on own belief, i.e. no independent judicial authorization required.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1726091_BI/ACT%20709-REPRINT%202023.pdf",
+     "Confidence": 0.85,
+     "Notes": "matches baseline r1-my-059",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_act_2010/20260914T0705Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "n offence and shall, on conviction, be liable to a fine not exceeding fifty thousand ringgit or to imprisonment for a term not exceeding six months or to both.\nSearch and seizure without warrant\n114. ",
+      "after": "\nAccess to computerized data\n115. (1) An authorized officer conducting a search under sections 113 and 114 shall be given access to computerized data whether stored in a computer or otherwise.\n(2) For"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpa2010-001#s.114",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+   "law_number": "Act 709",
+   "source_url": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.3",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — HANDLING CROSS BORDER PERSONAL DATA TRANSFER ........................, p.3",
+     "Verbatim Snippet": "a data controller may transfer any personal data of a data subject to any place outside Malaysia if: (a) there is in that place in force any law which is substantially similar to the Act 709; or (b) that place ensures an adequate level of protection in relation to the processing of personal data which is at least equivalent to the level of protection afforded by the Act",
+     "Mapping Rationale": "Conditional flow regime: transfer permitted only if adequacy/similar-law conditions met, applies to personal data generally -> score 1 per 6.4 tree.",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+     "Confidence": 0.93,
+     "Notes": "provision-level NEW: law known, s.? not cited by baseline; re-anchored from source-text chunk to my-pdpgcbpdt2025-001#s.3",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_cross_border_personal_data_transfer_gp_3_2025/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "de any other data protection-related laws and regulations in effect at any given time.\n2. Legal Provisions\n2.1. This Guideline is issued by the Commissioner pursuant to subsection 48(g) of the Act\n3. ",
+      "after": "\nPLACES OUTSIDE MALAYSIA\n4. Conditions for cross border personal data transfer\n4.1. Subsection 129(2) of the Act 709 provides that a data controller may transfer any personal data of a data subject to"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgcbpdt2025-001#st.4",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.7",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — HANDLING CROSS BORDER PERSONAL DATA TRANSFER ........................, p.8",
+     "Verbatim Snippet": "Data controller may refer to paragraph 129(3)(a) of the Act 709 for cross border personal data transfer if the data subject has given consent to the transfer.",
+     "Mapping Rationale": "Conditional flow regime based on data-subject consent for personal data transfer; personal data -> score 1 regardless of sector.",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+     "Confidence": 0.92,
+     "Notes": "provision-level NEW: law known, s.7 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_cross_border_personal_data_transfer_gp_3_2025/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "roller shall review the changes or amendments made to determine whether, as a result of the change or amendment, personal data is still provided with adequate protection equivalent to the Act 709.\n7. ",
+      "after": "\n8. Transfer necessary for the performance of a contract between data subject and data controller\n8.1. Data controller who has contract with data subject may refer to paragraph 129(3)(b) of the Act 70"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgcbpdt2025-001#s.7",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.5",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — HANDLING CROSS BORDER PERSONAL DATA TRANSFER ........................, p.5",
+     "Verbatim Snippet": "Data controller may refer to paragraph 129(2)(a) of the Act 709 if it makes a finding that the place it intends to transfer personal data to has in place a law substantially similar to the Act 709.",
+     "Mapping Rationale": "Adequacy/equivalence self-assessment condition on transfer of personal data (via TIA), applies horizontally to all data controllers under Act 709 - scores 1 per personal-data rule.",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+     "Confidence": 0.9,
+     "Notes": "provision-level NEW: law known, s.5 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_cross_border_personal_data_transfer_gp_3_2025/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " inform data subject about the transfer.\n4.4. The Commissioner may conduct an investigation on data controller to ascertain whether any act, practice or request contravenes Section 129 of Act 709.\n5. ",
+      "after": " whether there are similar Personal Data Protection Principles in place such as the Security Principle;\n5.4.3. whether there are similar requirement and protection with regards to the processing of pe"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgcbpdt2025-001#s.5",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.12",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — HANDLING CROSS BORDER PERSONAL DATA TRANSFER ........................, p.12",
+     "Verbatim Snippet": "Data controller may refer to paragraph 129(3)(f) of the Act 709 for any cross border personal data transfer if the data controller has taken all reasonable precautions and exercised all due diligence to ensure that the personal data will not in that place be processed in any manner which, if that place is Malaysia, would be a contravention of the Act 709.",
+     "Mapping Rationale": "Conditional transfer regime for personal data via due diligence/BCR/CC/Certification; personal data + horizontal application scores 1 under 6.4 tree",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.12 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_cross_border_personal_data_transfer_gp_3_2025/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "tionate steps have been taken to try and contact them; or\n11.2.3. data subject is unable to provide consent due to insufficient time for the provision of all the information needed for a consent.\n12. ",
+      "after": " the BCR contains the following details:\n(a) parties governed under BCR;\n(b) specified countries/ jurisdictions where personal data may be transferred to;\n(c) the legally binding nature of the BCR to "
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgcbpdt2025-001#s.12",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.8",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — HANDLING CROSS BORDER PERSONAL DATA TRANSFER ........................, p.8",
+     "Verbatim Snippet": "ler must obtain consent of data subject for the personal data transfer.",
+     "Mapping Rationale": "Conditional flow regime: transfer permitted via consent or contract-necessity test under s.129(3) of the Act, covering personal data generally -> score 1 per scoring tree.",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.8 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_cross_border_personal_data_transfer_gp_3_2025/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ler must obtain consent of data subject for the personal data transfer. The consent must be recorded and maintained in accordance with the requirements of the Personal Data Protection Regulations.\n8. ",
+      "after": "\nOn the other hand, the travel agency would be said to be transferring personal data out of Malaysia for a specified purpose if the transfer is for the purposes of booking accommodation or event ticke"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgcbpdt2025-001#s.8",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.13",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — HANDLING CROSS BORDER PERSONAL DATA TRANSFER ........................, p.16",
+     "Verbatim Snippet": "Data controller may refer to paragraph 129(3)(g) of the Act 709 for any cross border personal data transfer if:",
+     "Mapping Rationale": "Conditional flow regime allowing transfer only where vital-interest exception conditions are met, covering personal data generally under the horizontal PDPA framework.",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.13 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_cross_border_personal_data_transfer_gp_3_2025/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "a. In the event that the data controller discovers a breach of such obligations, the data controller shall cease the transfer of personal data to the receiver until the breach has been rectified.\n13. ",
+      "after": "\nPART C HANDLING CROSS BORDER PERSONAL DATA TRANSFER\n14. Responsibilities of the data controller when transferring personal data\n14.1. Data controller is responsible for the security of personal data "
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgcbpdt2025-001#s.13",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.11",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — HANDLING CROSS BORDER PERSONAL DATA TRANSFER ........................, p.12",
+     "Verbatim Snippet": "Data controller may refer to paragraph 129(3)(e) of the Act 709 for cross border personal data transfers if it has reasonable grounds for believing that:",
+     "Mapping Rationale": "Sets conditions (reasonable grounds, exception to consent) under which cross-border transfer of personal data is permitted -- conditional flow regime for personal data, scores 1 regardless of sector.",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.11 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_cross_border_personal_data_transfer_gp_3_2025/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " about the legal risk in bringing or defending a claim; or\n10.3.3. has received a request for information from an overseas regulatory authority with a view to it potentially taking formal action.\n11. ",
+      "after": "\n12. Requirement to take all reasonable precautions and exercise all due diligence for cross border transfers of personal data\n12.1. Data controller may refer to paragraph 129(3)(f) of the Act 709 for"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgcbpdt2025-001#s.11",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "s.10",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — HANDLING CROSS BORDER PERSONAL DATA TRANSFER ........................, p.11",
+     "Verbatim Snippet": "Data controller may refer to paragraph 129(3)(d) of the Act 709 for cross border personal data transfer if the transfer is for the purpose of:",
+     "Mapping Rationale": "Conditional regime covering personal data generally under PDPA s.129(3)(d) exception; personal data condition scores 1 regardless of sector per 6.4 tree.",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.10 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_cross_border_personal_data_transfer_gp_3_2025/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " the factors listed under paragraphs 8.3 and\n8.4 in relation to the conclusion or performance of the contract between the data controller and third party to ensure that the transfer is necessary.\n10. ",
+      "after": "\n11. Reasonable grounds of the data controller\n11.1. Data controller may refer to paragraph 129(3)(e) of the Act 709 for cross border personal data transfers if it has reasonable grounds for believing"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgcbpdt2025-001#s.10",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Cyber Security Act 2024",
+   "law_number": "Act 854",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2177706_BI/Act%20854.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Cyber Security Act 2024",
+     "Law Number / Ref": "Act 854",
+     "Last Amended": "",
+     "Indicator ID": "7.2",
+     "Article / Section": "s.4",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "p.8",
+     "Verbatim Snippet": "In this Act, unless the context otherwise requires",
+     "Mapping Rationale": "Economy-level indicator; this is a per-provision definitions clause, not the controlling scope citation. MY Cyber Security Act 2024 is a dedicated horizontal cybersecurity law, so economy score is 0, but this individual provision is not a separate discovery.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2177706_BI/Act%20854.pdf",
+     "Confidence": 0.6,
+     "Notes": "controlling horizontal framework evidence",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/cyber_security_act_2024/20260914T0705Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "aysia.\n(2) For the purposes of subsection (1), this Act shall apply if for the offence in question, the national critical information infrastructure is wholly or partly in Malaysia.\nInterpretation\n4. ",
+      "after": "\n“cyber security incident” means an act or activity carried out on or through a computer or computer system, without lawful authority, that jeopardizes or adversely affects the cyber security of that "
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-csa2024-001#s.4",
+     "_score_hint": "n/a"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Cyber Security Act 2024",
+     "Law Number / Ref": "Act 854",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.32(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.32, p.31",
+     "Verbatim Snippet": "retained for a period of not less than six years from the date the cyber security service was provided",
+     "Mapping Rationale": "Explicit minimum retention period (not less than six years) for licensee records, satisfying the 7.3 minimum-duration test; sectoral (cyber security service licensees only).",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2177706_BI/Act%20854.pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/cyber_security_act_2024/20260914T0705Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " by the licensee or other person on behalf of the licensee;\n(d) details of the type of cyber security service provided;\nand\n(e) such other particulars as may be determined by the\nChief Executive.\n(2) ",
+      "after": "\n(3) Any person who contravenes subsection (1) or (2) commits an offence and shall, on conviction, be liable to a fine not exceeding one hundred thousand ringgit or to imprisonment for a term not exce"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-csa2024-001#s.32(2)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Cyber Security Act 2024",
+     "Law Number / Ref": "Act 854",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.40",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "p.37",
+     "Verbatim Snippet": "the authorized officer may enter the premises and exercise in, upon and in respect of the premises all the powers referred to in section 39 in as full and ample a manner as if he were authorized to do so by a warrant issued under that section",
+     "Mapping Rationale": "Allows warrantless search/seizure of data by authorized officer absent independent judicial authorization, satisfying 7.5 disqualifier-free branch (no court order required).",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2177706_BI/Act%20854.pdf",
+     "Confidence": 0.85,
+     "Notes": "matches baseline r1-my-062",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/cyber_security_act_2024/20260914T0705Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "fence and shall, on conviction, be liable to a fine not exceeding one hundred thousand ringgit or to imprisonment for a term not exceeding two years or to both.\nSearch and seizure without warrant\n40. ",
+      "after": "\n41. (1) Where any seizure is made under this Act, an authorized officer making the seizure shall prepare a list of the object, book, account, document, computerized data, signboard, card, letter, pam"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-csa2024-001#s.40",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "CAPITAL MARKETS AND SERVICES ACT 2007",
+   "law_number": "Act 671",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3252998_BI/Act%20671%20(Online%202026).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "CAPITAL MARKETS AND SERVICES ACT 2007",
+     "Law Number / Ref": "Act 671",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.108(3)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part III — CAPITAL MARKETS SERVICES, Division 4 — Books, client’s assets protection and audit, s.108, p.186",
+     "Verbatim Snippet": "shall retain such accounting records and other books as may be required to be maintained under this Act for a period of not less than seven years",
+     "Mapping Rationale": "Explicit minimum retention period (7 years) specified for CMSL holders' accounting records — sectoral (capital markets) minimum-retention rule.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3252998_BI/Act%20671%20(Online%202026).pdf",
+     "Confidence": 0.95,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/capital_markets_and_services_act_2007/20260914T0714Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "other books of a holder of a Capital Markets Services Licence required to be maintained in accordance with this section shall be deemed to have been made by, or with the authority of, the holder.\n(3) ",
+      "after": "\n(4) A holder of a Capital Markets Services Licence shall―\n(a) furnish such returns and records in such form and manner as may be specified by the Commission; and\n(b) provide such information relating"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-cmsa2007-001#s.108(3)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "CREDIT REPORTING AGENCIES ACT 2010",
+   "law_number": "Act 710",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1878731_BI/WJW24%EF%80%A20906%20Act%20710.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "CREDIT REPORTING AGENCIES ACT 2010",
+     "Law Number / Ref": "Act 710",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.26(7)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.26, p.31",
+     "Verbatim Snippet": "the access log contains records of all accesses made for a period of not less than two years preceding the date of the access",
+     "Mapping Rationale": "Explicit minimum retention period ('not less than two years') for access log records under sectoral credit reporting law.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1878731_BI/WJW24%EF%80%A20906%20Act%20710.pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/credit_reporting_agencies_act_2010/20260914T0713Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "b) shall identify or provide a means to identify the specific person of the subscriber who has accessed that credit information and the specific customer whose credit information was so accessed.\n(7) ",
+      "after": "\n(8) A credit reporting agency which contravenes this section commits an offence and shall, upon conviction, be liable to a fine not exceeding five hundred thousand ringgit or to imprisonment for a te"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-craa2010-001#s.26(7)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "CREDIT REPORTING AGENCIES ACT 2010",
+     "Law Number / Ref": "Act 710",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.45",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.51",
+     "Verbatim Snippet": "the authorized officer may enter the premises and exercise in, upon and in respect of the premises all the powers referred to in section 44 in as full and ample a manner as if he were authorized to do so by a warrant issued under that section",
+     "Mapping Rationale": "Allows warrantless search/seizure and access to data by authorized officer without court order, based on officer's own belief - no independent judicial authorization required.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1878731_BI/WJW24%EF%80%A20906%20Act%20710.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/credit_reporting_agencies_act_2010/20260914T0713Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "an offence and shall, on conviction, be liable to a fine not exceeding fifty thousand ringgit or to imprisonment for a term not exceeding six months or to both.\nSearch and seizure without warrant\n45. ",
+      "after": "\nAccess to computerized data\n46. (1) An authorized officer conducting a search under sections 44 and 45 shall be given access to computerized data whether stored in a computer or otherwise.\n(2) For th"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-craa2010-001#s.45",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Employment Act 1955",
+   "law_number": "Act 265",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1744567_BI/Reprint%20Act%20265%20(Final).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Employment Act 1955",
+     "Law Number / Ref": "Act 265",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.61(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.61, p.70",
+     "Verbatim Snippet": "every particular recorded therein shall be available for inspection for not less than six years after the recording thereof",
+     "Mapping Rationale": "Explicit minimum retention period of 6 years for employee registers under Employment Act; sectoral (employment records).",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1744567_BI/Reprint%20Act%20265%20(Final).pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/employment_act_1955/20260914T0720Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "rs\n61. (1) Every employer shall prepare and keep one or more registers containing such information regarding each employee employed by him as may be prescribed by regulations made under this Act.\n(2) ",
+      "after": "\n(3) Notwithstanding subsections (1) and (2), the Director\nGeneral, on a written application by an employer, may permit the employer to keep the information required under subsection (1) in any other "
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-ea1955-001#s.61(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "ANTI-MONEY LAUNDERING, ANTI-TERRORISM FINANCING, ANTI-RESTRICTED ACTIVITY FINANCING AND PROCEEEDS OF UNLAWFUL ACTIVITIES ACT 2001",
+   "law_number": "Act 613",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1719599_BI/010722_Act%20613_final.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "ANTI-MONEY LAUNDERING, ANTI-TERRORISM FINANCING, ANTI-RESTRICTED ACTIVITY FINANCING AND PROCEEEDS OF UNLAWFUL ACTIVITIES ACT 2001",
+     "Law Number / Ref": "Act 613",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.17(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part IV — REPORTING OBLIGATIONS, s.17, p.37",
+     "Verbatim Snippet": "for a period of at least six years from the date the transaction is completed or terminated",
+     "Mapping Rationale": "Explicit minimum retention period (at least six years) for transaction records under AML/CFT law; sectoral (financial reporting institutions).",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1719599_BI/010722_Act%20613_final.pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/anti_money_laundering_anti_terrorism_financing_anti_restricted_activity_financing_and_proceeeds_of_unlawful_activities_act_2001/20260914T0715Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "y analysis undertaken, as the case may be, for a period of at least six years from the date the account is closed or the business relationship, transaction or activity is completed or terminated.\n(2) ",
+      "after": "\n(3) Subsections (1) and (2) will not apply where a reporting institution has transmitted the account, record, business correspondence and document to the competent authority or an enforcement agency."
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-amlatfarafpuaa2001-001#s.17(2)",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "ANTI-MONEY LAUNDERING, ANTI-TERRORISM FINANCING, ANTI-RESTRICTED ACTIVITY FINANCING AND PROCEEEDS OF UNLAWFUL ACTIVITIES ACT 2001",
+     "Law Number / Ref": "Act 613",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.48(3)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part VI — FREEZING, SEIZURE AND FORFEITURE, s.48, p.76",
+     "Verbatim Snippet": "an investigating officer authorized under subsection (1) may take possession of any account, book, document, information, title, capital market products or cash to which he has access under that subsection",
+     "Mapping Rationale": "Investigating officer may take possession of account/document/information based on own opinion, no court order or judicial authorization required.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1719599_BI/010722_Act%20613_final.pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/anti_money_laundering_anti_terrorism_financing_anti_restricted_activity_financing_and_proceeeds_of_unlawful_activities_act_2001/20260914T0715Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "f any safe deposit box in the financial institution; or\n(d) request for any other information relating to any document, information, account or article referred to in paragraphs (a), (b) and (c).\n(3) ",
+      "after": "\n(4) Any person who wilfully fails or refuses to disclose any information or to produce any account, book, document, information or article under subsection (2) to the investigating officer authorized"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-amlatfarafpuaa2001-001#s.48(3)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "SECURITIES INDUSTRY (CENTRAL DEPOSITORIES) ACT 1991",
+   "law_number": "Act 453",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20453%20-%20Securities%20Industry%20(Central%20Depositories)%20Act%201991.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "SECURITIES INDUSTRY (CENTRAL DEPOSITORIES) ACT 1991",
+     "Law Number / Ref": "Act 453",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.59",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part VII — GENERAL, p.71",
+     "Verbatim Snippet": "preserve all records and communications in relation to a depositor’s account and such other records and accounts as will sufficiently explain the transactions and operations of the central depository and authorized depository agents in relation to deposited securities, for a period of seven years",
+     "Mapping Rationale": "Specifies explicit minimum retention period (7 years) for securities depository records, satisfying 7.3 minimum-retention branch.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20453%20-%20Securities%20Industry%20(Central%20Depositories)%20Act%201991.pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/securities_industry_central_depositories_act_1991/20260914T0718Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " person has been charged with an offence in respect of the contravention, or whether or not the contravention has been proved in prosecution.\nPART VII\nGENERAL\nPreservation of records and accounts\n59. ",
+      "after": "\nPower of Commission to compound\n60. (1) The Commission may, with the concurrence of the Public\nProsecutor without instituting proceedings against any person for an offence under this Act other than o"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-sia1991-001#s.59",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "PRICE CONTROL AND ANTI-PROFITEERING ACT 2011",
+   "law_number": "Act 723",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20723%20(REPRINT%202018).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "PRICE CONTROL AND ANTI-PROFITEERING ACT 2011",
+     "Law Number / Ref": "Act 723",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.53(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.53, p.33",
+     "Verbatim Snippet": "preserved for a period of seven years from the latest date to which the record relates",
+     "Mapping Rationale": "Explicit minimum retention period (7 years) for business records under price control law; sectoral scope, not government data.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20723%20(REPRINT%202018).pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/price_control_and_anti_profiteering_act_2011/20260914T0731Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "itions;\n(d) documents relating to the determination of pricing for the goods or services;\n(e) records of remunerations, allowances or wages; and\n(f) tax records and any related documents, if any.\n(2) ",
+      "after": "\n(3) Any person who fails to comply with subsection (1) or (2) commits an offence.\nPart VIII\nGENERAL\nJurisdiction to try offences\n54. Notwithstanding anything to the contrary written in any law, a Ses"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pcapa2011-001#s.53(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "PRIVATE EMPLOYMENT AGENCIES ACT 1981",
+   "law_number": "Act 246",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3165320_BI/Act%20246%20(REPRINT%202018).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "PRIVATE EMPLOYMENT AGENCIES ACT 1981",
+     "Law Number / Ref": "Act 246",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "s.19(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.19, p.22",
+     "Verbatim Snippet": "A private employment agency shall keep the records for a period of not less than six years from the date after it is recorded.",
+     "Mapping Rationale": "Explicit minimum retention period (not less than six years) for private employment agency records.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3165320_BI/Act%20246%20(REPRINT%202018).pdf",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/private_employment_agencies_act_1981/20260914T0720Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "acancies of employment;\n(d) records of placement of job seekers and for non-citizen employees;\n(e) records of fees collected; and\n(f) any other records as may be required by the Director\nGeneral.\n(2) ",
+      "after": "\n(3) A private employment agency shall submit all the records under subsection (1) if the Director General, by written direction, requires the private employment agency to submit such records.\n(4) A p"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-peaa1981-001#s.19(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Personal Data Protection (Amendment) Act 2024",
+   "law_number": "Act A1727",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2430673_BI/Act%20A1727.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection (Amendment) Act 2024",
+     "Law Number / Ref": "Act A1727",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "s.6(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.6, p.6",
+     "Verbatim Snippet": "A data controller shall appoint one or more data protection officers who shall be accountable to the data controller for the compliance with this Act.",
+     "Mapping Rationale": "Mandatory DPO requirement applying to all data controllers (and processors) horizontally, not limited to a specific sector -> score 1.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2430673_BI/Act%20A1727.pdf",
+     "Confidence": 0.9,
+     "Notes": "provision-level NEW: law known, s.6 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_amendment_act_2024/20260914T0705Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ointment of data protection officer\n12a. (1) A data controller shall appoint one or more data protection officers who shall be accountable to the data controller for the compliance with this Act.\n(2) ",
+      "after": "\n(3) The data controller shall notify the Commissioner on the appointment of data protection officer in the manner form as determined by the Commissioner.\n(4) The appointment of data protection office"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpa2024-001#s.6(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Personal Data Protection Guideline on the Appointment of Data Protection Officer (2025)",
+   "law_number": "Act 709",
+   "source_url": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on the Appointment of Data Protection Officer (2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "s.9",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — : THE ROLES OF DATA PROTECTION OFFICER, p.3",
+     "Verbatim Snippet": "Section 12A of the Personal Data Protection Act 2010 (“Act 709”) sets the requirement for both data controller and data processor to appoint one or more data protection officer to oversee their compliance with Act 709.",
+     "Mapping Rationale": "Mandatory DPO appointment requirement for all data controllers/processors under Act 709, applied horizontally across sectors -> DPO mandate score 1.",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.? not cited by baseline; re-anchored from source-text chunk to my-pdpgadpo2025-001#s.9",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_the_appointment_of_data_protection_officer_2025/20260914T0707Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "n of Data Protection Officer Appointment\nPART C: THE ROLES OF DATA PROTECTION OFFICER\n8. Responsibilities of Data Protection Officer in relation to the\nAppointing Data Controller or Data Processor\n9. ",
+      "after": "\nSubjects\n10. Responsibilities of Data Protection Officer in relation to the\nCommissioner\n11. Independence of Data Protection Officer\n12. Term of Service of Data Protection Officer\nPART D: RESPONSIBIL"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgadpo2025-001#st.1",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on the Appointment of Data Protection Officer (2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "s.16",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part C — : THE ROLES OF DATA PROTECTION OFFICER, p.3",
+     "Verbatim Snippet": "Section 12A of the Personal Data Protection Act 2010 (“Act 709”) sets the requirement for both data controller and data processor to appoint one or more data protection officer to oversee their compliance with Act 709.",
+     "Mapping Rationale": "Mandatory DPO appointment requirement applies to all data controllers/processors under Act 709, horizontally across sectors.",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf",
+     "Confidence": 0.9,
+     "Notes": "provision-level NEW: law known, s.16 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/personal_data_protection_guideline_on_the_appointment_of_data_protection_officer_2025/20260914T0707Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ATA\nPROCESSOR\n13. Involvement of Data Protection Officer\n14. Allocation of Resources to Data Protection Officer\n15. Publication and Communication of the Contact Details of Data\nProtection Officer\n16. ",
+      "after": "\nInterpretations\n3.1 Unless otherwise defined in this Guideline, the terms and expressions used herein shall have the same meanings as those assigned to them under the Act\n709, the Circular No. 1/2025"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-pdpgadpo2025-001#s.16",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on the Appointment of Data Protection Officer (2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.1",
+     "Article / Section": "n/a",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "",
+     "Verbatim Snippet": "No provision found",
+     "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf",
+     "Confidence": "",
+     "Notes": "no-provision row: no complete cross-border transfer-prohibition measure found; the Malaysia regime is conditional-flow — see the 6.4 rows; reproduces the 2025 baseline's own absence row for this indicator; governing law cited for reference",
+     "Language of Source": "English",
+     "source_pdf_path": null,
+     "ocr_quality_cer": null,
+     "processing_time": null,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": null,
+     "_record_type": "no_provision",
+     "_provision_id": "",
+     "_score_hint": "0"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Personal Data Protection Guideline on the Appointment of Data Protection Officer (2025)",
+     "Law Number / Ref": "Act 709",
+     "Last Amended": "",
+     "Indicator ID": "6.3",
+     "Article / Section": "n/a",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "",
+     "Verbatim Snippet": "No provision found",
+     "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+     "Source URL": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf",
+     "Confidence": "",
+     "Notes": "no-provision row: no local data-processing or infrastructure-localization requirement found in the corpus; reproduces the 2025 baseline's own absence row for this indicator; governing law cited for reference",
+     "Language of Source": "English",
+     "source_pdf_path": null,
+     "ocr_quality_cer": null,
+     "processing_time": null,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": null,
+     "_record_type": "no_provision",
+     "_provision_id": "",
+     "_score_hint": "0"
+    }
+   ]
+  },
+  {
+   "law_name": "Security Offences (Special Measures) Act 2012",
+   "law_number": "Act 747",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20747%20-TPPUU).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Security Offences (Special Measures) Act 2012",
+     "Law Number / Ref": "Act 747",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.6(2)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part II — SPECIAL POWERS FOR SECURITY OFFENCES, s.6, p.12",
+     "Verbatim Snippet": "require a communications service provider to intercept and retain a specified communication or communications of a specified description received or transmitted, or about to be received or transmitted by that communications service provider",
+     "Mapping Rationale": "Public Prosecutor (non-judicial authority) may compel interception/retention of communications without court order or judicial warrant.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20747%20-TPPUU).pdf",
+     "Confidence": 0.9,
+     "Notes": "matches baseline r1-my-063",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/security_offences_special_measures_act_2012/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "l article in the course of transmission by post;\n(b) to intercept any message transmitted or received by any communication; or\n(c) to intercept or listen to any conversation by any communication.\n(2) ",
+      "after": "\n(3) Notwithstanding subsection (1), a police officer not below the rank of Superintendent of Police may—\n(a) intercept, detain and open any postal article in the course of transmission by post;\n(b) i"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-soa2012-001#s.6(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Criminal Procedure Code, and is referred to in this Act",
+   "law_number": "Act 593",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1841142_BI/Act%20593%20-%20Muktamad%20as%20at%204.7.23%20(1.12.23)%20(2).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Criminal Procedure Code, and is referred to in this Act",
+     "Law Number / Ref": "Act 593",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.116C(2)",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "Part V — INFORMATION TO POLICE AND THEIR POWERS, s.116C, p.87",
+     "Verbatim Snippet": "The Public Prosecutor, if he considers that any communication is likely to contain any information relating to the commission of an offence, may— (a) require a communications service provider to intercept and retain a specified communication",
+     "Mapping Rationale": "Public Prosecutor (non-judicial executive authority) can order interception/retention of communications without court order or independent judicial authorization.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1841142_BI/Act%20593%20-%20Muktamad%20as%20at%204.7.23%20(1.12.23)%20(2).pdf",
+     "Confidence": 0.9,
+     "Notes": "matches baseline r1-my-064",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/criminal_procedure_code/20260914T0706Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ticle in the course of transmission by post;\n(b) to intercept any message transmitted or received by any communication; or\n(c) to intercept, listen to or record any conversation by communication.\n(2) ",
+      "after": "\n(3) Where any person is charged with an offence, any information obtained under subsection (1) or (2), whether before or after such person is charged, shall be admissible in evidence at his trial.\n(4"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-cpc-001#s.116C(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "COMMUNICATIONS AND MULTIMEDIA (AMENDMENT) ACT 2025",
+   "law_number": "Act A1743",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2669326_BI/A1743%20BI-%20COMMUNICATIONS%20AND%20MULTIMEDIA%20(AMENDMENT)%20ACT%202025.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "COMMUNICATIONS AND MULTIMEDIA (AMENDMENT) ACT 2025",
+     "Law Number / Ref": "Act A1743",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.235(3)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.235, p.49",
+     "Verbatim Snippet": "the police officer or authorized officer may, by written notice given to a person in control of the communications system, require the person to disclose such communications data",
+     "Mapping Rationale": "Police/authorized officer can compel disclosure of communications data without court order or judicial warrant, satisfying non-judicial access disqualifier.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/2669326_BI/A1743%20BI-%20COMMUNICATIONS%20AND%20MULTIMEDIA%20(AMENDMENT)%20ACT%202025.pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.235 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/communications_and_multimedia_amendment_act_2025/20260914T0716Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "lose the existence and content of the written notice, the procedure, method, manner or any matter related to the preservation of communications data under subsection (1) without lawful authority.\n(3) ",
+      "after": "\n(2) The person to whom the written notice is given under subsection (1)—\n(a) shall disclose such communications data in the manner specified in the written notice; and\n(b) shall not disclose the exis"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-cma2025-001#s.235(3)~4",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Computer Crimes Act 1997",
+   "law_number": "Act 10",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20563%20-%20Computer%20Crimes%20Act%201997.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Computer Crimes Act 1997",
+     "Law Number / Ref": "Act 10",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.10(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part III — ANCILLARY AND GENERAL PROVISIONS, s.10, p.13",
+     "Verbatim Snippet": "he may exercise in and in respect of the premises all the powers mentioned in subsection (1) in as full and ample a measure as if he were empowered to do so by warrant issued under that subsection",
+     "Mapping Rationale": "Police officer (Inspector rank) may search/seize computer data without a warrant where delay is believed to frustrate the search - no independent judicial authorization required.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20563%20-%20Computer%20Crimes%20Act%201997.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/computer_crimes_act_1997/20260914T0705Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "agraph (a); and\n(c) require any information contained in a computer and accessible from the premises to be produced in a form in which it can be taken away and in which it is visible and legible.\n(2) ",
+      "after": "\n(3) Any police officer may arrest without a warrant any person whom he reasonably believes to have committed or to be committing an offence against this Act, and every offence against this Act shall "
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-cca1997-001#s.10(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Financial Services Act 2013",
+   "law_number": "Act 758",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3252974_BI/ACT%20758%20%20AS%20AT%202025.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Financial Services Act 2013",
+     "Law Number / Ref": "Act 758",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "sch.16 cl.222",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Schedule 16 — SCHEDULE 16, p.206",
+     "Verbatim Snippet": "the investigating officer may enter the premises and exercise in, upon and in respect of the premises all the powers referred to in section 221 in as full and ample a manner as if he was authorized to do so by a warrant issued under that section",
+     "Mapping Rationale": "Investigating officer can search/seize (including data/computer output) without a warrant, bypassing judicial authorization, based on own belief of urgency.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/3252974_BI/ACT%20758%20%20AS%20AT%202025.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/financial_services_act_2013/20260914T0712Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "se of a search under this section shall, notwithstanding any law to the contrary, be admissible in evidence in any proceedings under this\nAct.\nPowers of entry, search and seizure without warrant\n222. ",
+      "after": "\n223. (1) An investigating officer, in the course of his investigation or search, shall—\n(a) prepare and sign a list of all property, apparatus, equipment, machinery, computer, computer output, system"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-fsa2013-001#sch.16 cl.222",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "COMMUNICATIONS AND MULTIMEDIA ACT 1998",
+   "law_number": "Act 588",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20588%202006.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "COMMUNICATIONS AND MULTIMEDIA ACT 1998",
+     "Law Number / Ref": "Act 588",
+     "Last Amended": "1 January 2006",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.248",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.129",
+     "Verbatim Snippet": "the officer may enter the premises and exercise in, upon and in respect of the premises all the powers referred to in section 247 in as full and ample a manner as if he were authorized to do so by a warrant issued under that section",
+     "Mapping Rationale": "Warrantless search/seizure by police officer without judicial authorization, based on officer's own belief; no independent judicial order required.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20588%202006.pdf",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.248 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/communications_and_multimedia_act_1998/20260914T0716Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ment, radio apparatus or radio-sensitive equipment, the authorized officer may direct that necessary steps be taken to ensure an interference-free environment.\nSearch and seizure without warrant\n248. ",
+      "after": "\nAccess to computerized data\n249. (1) A police officer conducting a search under section 247 or 248 or an authorized officer conducting a search under section\n247 shall be given access to computerized"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-cma1998-001#s.248",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "Malaysia",
+     "Law Name": "COMMUNICATIONS AND MULTIMEDIA ACT 1998",
+     "Law Number / Ref": "Act 588",
+     "Last Amended": "1 January 2006",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.252(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "s.252, p.131",
+     "Verbatim Snippet": "authorize the officer to intercept or to listen to any communication transmitted or received by any communications",
+     "Mapping Rationale": "Interception authorized by Public Prosecutor (non-judicial authority), not a court/independent tribunal; evidence obtained admissible at trial - access without judicial warrant.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20588%202006.pdf",
+     "Confidence": 0.75,
+     "Notes": "provision-level NEW: law known, s.252 not cited by baseline",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/communications_and_multimedia_act_1998/20260914T0716Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": " authorized officer or a police officer of or above the rank of Superintendent, authorize the officer to intercept or to listen to any communication transmitted or received by any communications.\n(2) ",
+      "after": "\n(3) An authorization by the Public Prosecutor under subsection\n(1) may be given either orally or in writing; but if an oral authorization is given, the Public Prosecutor shall, as soon as practicable"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-cma1998-001#s.252(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Water Services Industry Act",
+   "law_number": "Act 655",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/15687_BI/Act%20655%20reprint%20BI.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Water Services Industry Act",
+     "Law Number / Ref": "Act 655",
+     "Last Amended": "1 August 2006",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.150",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part XI — INFORMATION-GATHERING POWERS AND ENFORCEMENT, p.107",
+     "Verbatim Snippet": "the officer may enter the premises and exercise in, upon and in respect of the premises all the powers referred to in section 149 in as full and ample a manner as if he were authorized to do so by a warrant issued under that section",
+     "Mapping Rationale": "Allows warrantless entry, search and seizure (including access to computerized data) by authorized officer without prior judicial authorization, based only on officer's own belief.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/15687_BI/Act%20655%20reprint%20BI.pdf",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/water_services_industry_act_2006/20260914T0735Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": ", on conviction, be liable to a fine not exceeding fifty thousand ringgit or to imprisonment for a term not exceeding six months or to both.\nPower of entry and search and seizure without warrant\n150. ",
+      "after": "\nAccess to computerized data\n151. (1) An authorized officer conducting a search under section 149 or 150 shall be given access to computerized data whether stored in a computer or otherwise.\n(2) For t"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-wsia2006-001#s.150",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "Money Services Business Act",
+   "law_number": "Act 731",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/9.%20Act%20731%20-%2022.10.2015.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "Money Services Business Act",
+     "Law Number / Ref": "Act 731",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.67",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part VII — INVESTIGATION AND ENFORCEMENT, p.68",
+     "Verbatim Snippet": "the Bank, on its own initiative, or at the request of a police officer or any public authority or institution, in the course of any investigation under any law, may allow that police officer, public authority or institution to have access to or a copy of",
+     "Mapping Rationale": "Allows Bank/police/public authority access to documents/records without requiring a court order or judicial warrant.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/9.%20Act%20731%20-%2022.10.2015.pdf",
+     "Confidence": 0.8,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/money_services_business_act_2011/20260914T0713Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "ct 155].\n(9) Notwithstanding subsection (3), any person who fails to comply with the written notice under subsection (1) commits an offence.\nAssistance to police officer or public authority, etc.\n67. ",
+      "after": "\nInvestigating officer deemed to be public servant and public officer\n68. An investigating officer shall be deemed to be a public servant for the purposes of the Penal Code [Act 574], and to be a publ"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-msba2011-001#s.67",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "National Security Council Act",
+   "law_number": "Act 776",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1688718_BI/Act%20776%20-%20Draf%20Bersih.pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "National Security Council Act",
+     "Law Number / Ref": "Act 776",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.26(2)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part V — SPECIAL POWERS OF THE DIRECTOR OF OPERATIONS AND, s.26, p.21",
+     "Verbatim Snippet": "Any member of the Security Forces may, without warrant, enter and search any premises or place if he suspects that any article or thing being evidence of the commission of an offence against any written law is likely to be found on the premises or place, and may seize any article or thing so found.",
+     "Mapping Rationale": "Warrantless search/seizure power by Security Forces without judicial authorization; may capture personal data/documents held on premises.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1688718_BI/Act%20776%20-%20Draf%20Bersih.pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/national_security_council_act_2016/20260914T0712Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "nce of the commission of an offence against any written law is likely to be found on the individual or in the vehicle, vessel, aircraft or conveyance, and may seize any article or thing so found.\n(2) ",
+      "after": "\nPower to search premises for dangerous things\n27. (1) If any member of the Security Forces believes on reasonable grounds that—\n(a) there is a dangerous thing on any premises in the security area; an"
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-nsca2016-001#s.26(2)",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "DEVELOPMENT FINANCIAL INSTITUTIONS ACT 2002",
+   "law_number": "Act 618",
+   "source_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1867241_BI/Act%20618%20-%20Final%20(6.10.2023).pdf",
+   "provisions": [
+    {
+     "Economy": "Malaysia",
+     "Law Name": "DEVELOPMENT FINANCIAL INSTITUTIONS ACT 2002",
+     "Law Number / Ref": "Act 618",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "s.89(3)",
+     "Discovery Tag": "NEW",
+     "Location Reference": "Part VIII — EXAMINATION AND INVESTIGATION, s.89, p.103",
+     "Verbatim Snippet": "An investigating officer may seize, take possession of, and detain for such duration as he thinks necessary, any property, record, report, document, apparatus, equipment, machinery, computer, computer output, system, data, books or information produced before him in the course of his investigation or found on the person who is being searched by him.",
+     "Mapping Rationale": "Investigating officer under DFIA can seize/access data during investigation with no mention of court order or judicial warrant; access based on regulator's own investigative power, not independent judicial authorization.",
+     "Source URL": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1867241_BI/Act%20618%20-%20Final%20(6.10.2023).pdf",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell",
+     "Language of Source": "English",
+     "source_pdf_path": "raw/my/development_financial_institutions_act_2002/20260914T0715Z__native.pdf",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": ") remove by force any obstruction to such entry, search, seizure, detention or removal as he is empowered to effect;\nor\n(c) detain any person found on such premises until the search is completed.\n(3) ",
+      "after": "\n(3A) An investigating officer shall, for the purposes of this section, be provided with the necessary password, encryption code, decryption code, software or hardware and any other means required to "
+     },
+     "_record_type": "scored",
+     "_provision_id": "my-dfia2002-001#s.89(3)",
+     "_score_hint": "1"
+    }
+   ]
+  }
+ ]
+}

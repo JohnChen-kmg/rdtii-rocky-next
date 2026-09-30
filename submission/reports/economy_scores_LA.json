@@ -1,0 +1,63 @@
+{
+  "economy": "LA",
+  "scores": {
+    "6.1": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "6.2": {
+      "score": 1.0,
+      "basis": "max over 2 verified fires",
+      "evidence_rows": 2,
+      "pending": 0
+    },
+    "6.3": {
+      "score": 1.0,
+      "basis": "max over 2 verified fires",
+      "evidence_rows": 2,
+      "pending": 0
+    },
+    "6.4": {
+      "score": 1.0,
+      "basis": "max over 3 verified fires",
+      "evidence_rows": 3,
+      "pending": 0
+    },
+    "7.1": {
+      "score": 0.5,
+      "basis": "no reason returned by the economy-level call",
+      "controlling_law": "ກົດໝາຍ ວ່າດ້ວຍການປົກປ້ອງຂໍ້ມູນເອເລັກໂຕຣນິກ (Law on Electronic Data Protection)",
+      "evidence_rows": 0,
+      "rejected_rows": 13
+    },
+    "7.2": {
+      "score": 0.0,
+      "basis": "Lao PDR has a dedicated horizontal Cybersecurity Law with 88+ articles covering scope, definitions, obligations, incident response, registration, and enforcement, plus a separate Anti-Computer Crime Law. Together these constitute a comprehensive dedicated cybersecurity legal framework, not merely sectoral or operational provisions, so LA does NOT lack such a framework.",
+      "controlling_law": "ກົດໝາຍວ່າດ້ວຍ ຄວາມປອດໄພໄຊເບີ (Cybersecurity Law)",
+      "evidence_rows": 36,
+      "rejected_rows": 45
+    },
+    "7.3": {
+      "score": 1.0,
+      "basis": "max over 71 verified fires",
+      "evidence_rows": 71,
+      "pending": 0
+    },
+    "7.4": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "7.5": {
+      "score": 1.0,
+      "basis": "max over 6 verified fires",
+      "evidence_rows": 6,
+      "pending": 0
+    }
+  },
+  "economy_level_model": "claude-sonnet-5",
+  "cost_usd": 0.0445
+}

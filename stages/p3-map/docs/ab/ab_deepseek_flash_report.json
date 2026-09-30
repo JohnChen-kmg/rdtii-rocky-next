@@ -1,0 +1,130 @@
+{
+  "ab3": {
+    "test": "A/B-3 triage (DeepSeek vs Haiku reference)",
+    "status": "complete",
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "mode": "non-thinking",
+    "base_url": "https://api.deepseek.com",
+    "price_table": {
+      "cache_hit": 0.0028,
+      "cache_miss": 0.14,
+      "output": 0.28
+    },
+    "price_meta": {
+      "source": "https://api-docs.deepseek.com/quick_start/pricing",
+      "retrieved": "2026-07-18",
+      "currency": "USD per 1,000,000 tokens",
+      "note": "reasoner = thinking mode of v4-flash; reasoning tokens billed as output. deepseek-chat/deepseek-reasoner deprecate 2026-07-24."
+    },
+    "sample_provenance": {
+      "branch": "redraw",
+      "n": 200,
+      "dead_ab1_ids": [
+        "au-cca1995-001#s.105.39(7)",
+        "au-ma1958-001#s.140ZH(2)",
+        "au-ta1979-001#s.38B(1)",
+        "au-ta1997-001#s.305(1)",
+        "au-ta1979-001#s.142A(1)",
+        "au-ta1979-001#s.11B(2)",
+        "au-ta1979-001#s.163",
+        "au-ta1979-001#s.181A(2)",
+        "au-ta1979-001#s.186D(3)",
+        "au-ta1979-001#s.77(2)",
+        "au-ba2015-001#s.294(1)",
+        "au-ta1979-001#s.55(4)",
+        "au-ca1914-001#s.3L(1A)",
+        "au-ta1979-001#s.161",
+        "au-opggsa2006-001#s.201",
+        "au-cca2010-001#s.51ABZZQ(1)",
+        "au-wa2007-001#s.135N(1)",
+        "au-ta1979-001#s.49(4)",
+        "au-ssa1999dcb5-001#s.123YE(1)",
+        "au-ta1979-001#s.6T",
+        "au-ta1979-001#s.180K(1)",
+        "au-cca1995-001#s.105A.7B(6)"
+      ],
+      "n_dead": 22,
+      "redraw_source": "out/triage/haiku_results.jsonl",
+      "reason": "22 of 200 A/B-1 seed-42 ids no longer resolve in the v2.4b index (retirement / re-segmentation)"
+    },
+    "n_judged": 200,
+    "confusion": {
+      "deepseek=K|haiku=K": 49,
+      "deepseek=D|haiku=K": 51,
+      "deepseek=D|haiku=D": 99,
+      "deepseek=K|haiku=D": 1
+    },
+    "deepseek_false_negative_rate": 0.34,
+    "overall_agreement": 0.74,
+    "schema_parse_failure_rate": 0.0,
+    "fresh_haiku_calls": 0,
+    "gate": "FAIL (>=5% FN): DeepSeek triage not viable",
+    "deepseek_cost_usd": 0.015,
+    "deepseek_calls": 200,
+    "deepseek_cache_hit_share": 0.0,
+    "reference_haiku_cost_usd": 0.0,
+    "disagreements": [
+      {
+        "provision_id": "sg-pdpa2012-001#s.56",
+        "indicator": "P7-I1",
+        "deepseek_keep": false,
+        "haiku_keep": true,
+        "deepseek_why": "Provision only sets penalties for offences; no relation to data protection framework comprehensiveness.",
+        "parse_ok": true,
+        "mode": "non-thinking"
+      },
+      {
+        "provision_id": "au-data2022-001#s.127(1)",
+        "indicator": "P7-I1",
+        "deepseek_keep": false,
+        "haiku_keep": true,
+        "deepseek_why": "Provision concerns guidelines for data sharing scheme, not a comprehensive data protection law.",
+        "parse_ok": true,
+        "mode": "non-thinking"
+      },
+      {
+        "provision_id": "au-scia2018-001#st.91",
+        "indicator": "P6-I3",
+        "deepseek_keep": false,
+        "haiku_keep": true,
+        "deepseek_why": "Provision concerns critical infrastructure for DNS, not a mandate for local physical infrastructure as precondition for ",
+        "parse_ok": true,
+        "mode": "non-thinking"
+      },
+      {
+        "provision_id": "my-pcapa2011-001#s.30",
+        "indicator": "P6-I4",
+        "deepseek_keep": false,
+        "haiku_keep": true,
+        "deepseek_why": "Provision concerns search and seizure powers for enforcement, not cross-border data transfer conditions.",
+        "parse_ok": true,
+        "mode": "non-thinking"
+      },
+      {
+        "provision_id": "my-bfia1989-001#s.71(2)",
+        "indicator": "P7-I5",
+        "deepseek_keep": false,
+        "haiku_keep": true,
+        "deepseek_why": "Provision concerns bank supervision access to documents, not government access to personal data for surveillance.",
+        "parse_ok": true,
+        "mode": "non-thinking"
+      }
+    ]
+  },
+  "_meta": {
+    "provider": "deepseek",
+    "price_meta": {
+      "source": "https://api-docs.deepseek.com/quick_start/pricing",
+      "retrieved": "2026-07-18",
+      "currency": "USD per 1,000,000 tokens",
+      "note": "reasoner = thinking mode of v4-flash; reasoning tokens billed as output. deepseek-chat/deepseek-reasoner deprecate 2026-07-24."
+    },
+    "notes": [
+      "TEST-ONLY: no S3/S4/S5 default changed; nothing written to out/map, out/verify, out/submission, or any judged CSV.",
+      "S5 blind verify remains Claude-family by design (cross-family verification), regardless of this outcome.",
+      "No cross-provider output parity is claimed; the only admissible claim shape is identical citations + disclosed deltas (project honesty rule).",
+      "API key is env-only and never written to any file/log/report."
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "economy": "LA",
+  "resolvable_gold_rows": 10,
+  "row_recall": 0.4,
+  "cited_but_unparsed_sources": 0,
+  "cited_but_unparsed_examples": [],
+  "gold_rows_with_parsed_sources": 10,
+  "row_recall_on_parsed_sources": 0.4,
+  "known_tag_accuracy_on_hits": 0.5,
+  "misses": [
+    {
+      "gold": "r2-la-037",
+      "ind": "6.3",
+      "law": [
+        "Law on Electronic Data Protection No.25/NA 2017"
+      ]
+    },
+    {
+      "gold": "r2-la-038",
+      "ind": "6.4",
+      "law": [
+        "Law on Electronic Data Protection No.25/NA 2017"
+      ]
+    },
+    {
+      "gold": "r2-la-039",
+      "ind": "6.4",
+      "law": [
+        "Decree on the Financial Consumer Protection No. 225/GOL 2020"
+      ]
+    },
+    {
+      "gold": "r2-la-043",
+      "ind": "7.3",
+      "law": [
+        "Law on Electronic Transactions No.20/NA 2010"
+      ]
+    },
+    {
+      "gold": "r2-la-044",
+      "ind": "7.3",
+      "law": [
+        "Law on Electronic Data Protection No.25/NA 2017"
+      ]
+    },
+    {
+      "gold": "r2-la-047",
+      "ind": "7.5",
+      "law": [
+        "Law on Electronic Data Protection No.25/NA 2017"
+      ]
+    }
+  ],
+  "csv_rows": 25,
+  "note": "allowlist OFF; label-noise gold rows excluded (decision #9/#11)",
+  "law_match": "config/lawnames.py: the CITED law's tokens must be covered by the candidate name (not the other way round), and an original-script title matches by containment, because an English name here is a translation"
+}

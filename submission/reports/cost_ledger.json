@@ -1,0 +1,56 @@
+{
+  "run_id": "run_2026-09-27",
+  "generated": "2026-09-29T21:45:32",
+  "currency": "USD",
+  "engine": "A (Anthropic; Claude Sonnet 5 mapper, Haiku 4.5 triage and verifier, Opus tiebreak). Engine B (qwen2.5:14b, local) costs $0 and is not in these figures.",
+  "total_usd": 275.24,
+  "by_stage_usd": {
+    "S4 mapping (Sonnet)": 126.69,
+    "S3b triage (Haiku)": 100.89,
+    "S5 blind verification (Haiku + Opus)": 41.33,
+    "S9b gloss, provision text": 4.46,
+    "S9b gloss, quotes": 1.52,
+    "S6 economy-level rollup": 0.35
+  },
+  "free_stages": [
+    "S0 ingest",
+    "S1 BM25 + BGE-M3 dense retrieval (local embeddings)",
+    "S2 selection",
+    "S3a local triage (qwen2.5:14b)",
+    "S7 NEW/KNOWN",
+    "S9 emit",
+    "S9c template fill",
+    "S9d packaging",
+    "S10 eval"
+  ],
+  "S4_detail": {
+    "batch_lane_usd": 123.42,
+    "retry_live_usd": 3.27,
+    "retry_live_calls": 196,
+    "by_economy": {
+      "AU": 26.83,
+      "CN": 22.83,
+      "LA": 9.5,
+      "MY": 12.71,
+      "SG": 15.48,
+      "TL": 8.37,
+      "TL (52-indicator arm)": 30.97
+    }
+  },
+  "notes": [
+    "S4 is priced from Message Batches result usage at the 50% discount, summed once per batch id; a re-ingest of a retained batch is free and is not counted again.",
+    "Live retries of batch results that would not parse are billed at FULL price: 196 calls, $3.27. They recovered 187 of 196 provisions that had produced no verdict.",
+    "Every figure is read from the run's own reports rather than a price list; the source files are listed below so any number here can be re-derived."
+  ],
+  "derived_from": [
+    "out/run_manifest.json",
+    "out\\map\\map_report_AU.json",
+    "out\\map\\map_report_CN.json",
+    "out\\map\\map_report_LA.json",
+    "out\\map\\map_report_MY.json",
+    "out\\map\\map_report_SG.json",
+    "out\\map\\map_report_TL.json",
+    "out_tl52/run_manifest.json",
+    "out_tl52\\map\\map_report_TL.json"
+  ]
+}

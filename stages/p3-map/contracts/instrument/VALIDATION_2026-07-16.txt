@@ -1,0 +1,8 @@
+# Instrument validation run — 2026-07-16
+# Command: python -X utf8 scripts/validate_instrument.py
+# Python: Python 3.12.10 · openpyxl 3.1.5 · PyYAML 6.0.3
+# Tree: post-audit hardening (pre-commit; parent 200f1e5)
+
+PASS — 9/9 indicators; category names + score sets machine-match the methodology sheet; signatures >=3 exemplars each, all round-trip; gold 51 rows round-trip 1:1 (2 suspect-flagged); policies complete.
+
+exit code: 0

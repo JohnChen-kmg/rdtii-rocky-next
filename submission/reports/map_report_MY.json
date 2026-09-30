@@ -1,0 +1,19 @@
+{
+  "economy": "MY",
+  "provisions": 1674,
+  "verdict_fires": 438,
+  "ungrounded_fires": 1,
+  "errors": 0,
+  "cost_usd": 12.71,
+  "cost_usd_batch_lane": 12.56,
+  "retry_live_usd": 0.1517,
+  "retry_live_calls": 10,
+  "cost_note": "cost_usd is the TOTAL billed for this economy = cost_usd_batch_lane + retry_live_usd. Batch rows are priced at the Message Batches 50% discount from result usage, summed once per batch id; a re-ingest of a retained batch is free and does not add to it. Live retries of rows whose batch result would not parse are priced at FULL rate and accumulate across fetches, because each retry is a new billed call",
+  "batches": [
+    {
+      "batch_id": "msgbatch_011gA8SYjw38R1XAZMG1835i",
+      "n_requests": 1674,
+      "cost_usd": 12.5627
+    }
+  ]
+}

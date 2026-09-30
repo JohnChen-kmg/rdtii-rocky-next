@@ -1,0 +1,1758 @@
+{
+ "contract_version": "0.3.0",
+ "economy": "CN",
+ "economy_name": "China",
+ "laws": [
+  {
+   "law_name": "征信业管理条例",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "征信业管理条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.1",
+     "Article / Section": "Art. 24",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 征信业务规则, p.1",
+     "Verbatim Snippet": "征信机构在中国境内采集的信息的整理、保存和加工，应当在中国境内进行。",
+     "Mapping Rationale": "Mandates domestic processing (整理、保存和加工) of information collected in China, limited to the credit-reporting sector — sectoral local processing requirement → 0.5 under 6.1 category (2).",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Regulations on the Administration of Credit Reference Industry",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/征信业管理条例_20130121.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "保障信息安全的规章制度，并采取有效技术措施保障信息安全。\n经营个人征信业务的征信机构应当对其工作人员查询个人信息的权限和程序作出明确规定，对工作人员查询个人信息的情况进行登记，如实记载查询工作人员的姓名，查询的时间、内容及用途。工作人员不得违反规定的权限和程序查询信息，不得泄露工作中获取的信息。\n第二十三条　征信机构应当采取合理措施，保障其提供信息的准确性。\n征信机构提供的信息供信息使用者参考。\n",
+      "after": "\n第二十五条　信息主体认为征信机构采集、保存、提供的信息存在错误、遗漏的，有权向征信机构或者信息提供者提出异议，要求更正。\n征信机构或者信息提供者收到异议，应当按照国务院征信业监督管理部门的规定对相关信息作出存在异议的标注，自收到异议之日起20日内进行核查和处理，并将结果书面答复异议人。\n经核查，确认相关信息确有错误、遗漏的，信息提供者、征信机构应当予以更正；确认不存在错误、遗漏的，应当取消异议标"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc7ff451ee-001#Art. 24",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "人脸识别技术应用安全管理办法",
+   "law_number": "第19号",
+   "source_url": "https://www.cac.gov.cn/2025-03/21/c_1744174262156096.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "人脸识别技术应用安全管理办法",
+     "Law Number / Ref": "第19号",
+     "Last Amended": "",
+     "Indicator ID": "6.1",
+     "Article / Section": "Art. 8",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "人脸信息应当存储于人脸识别设备内，不得通过互联网对外传输",
+     "Mapping Rationale": "Requires face-recognition data be stored/processed locally on device, prohibiting internet transmission (unless consent/law exception) - a sector/data-specific (facial recognition data) local processing mandate, not horizontal personal data.",
+     "Source URL": "https://www.cac.gov.cn/2025-03/21/c_1744174262156096.htm",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Measures for the Security Management of Application of Facial Recognition Technology",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/人脸识别技术应用安全管理办法-d9b14244.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "人脸信息的，个人有权撤回同意，个人信息处理者应当提供便捷的撤回同意的方式。个人撤回同意，不影响撤回前基于个人同意已进行的个人信息处理活动的效力。\n第七条 基于个人同意处理不满十四周岁未成年人人脸信息的，应当取得未成年人的父母或者其他监护人的同意。\n个人信息处理者应用人脸识别技术处理不满十四周岁未成年人人脸信息的，应当在存储、使用、转移、披露等方面制定专门的处理规则，依法保护未成年人个人信息安全。\n",
+      "after": "\n第九条 个人信息处理者应用人脸识别技术处理人脸信息，应当事前进行个人信息保护影响评估，并对处理情况进行记录。个人信息保护影响评估主要包括下列内容：\n（一）人脸信息的处理目的、处理方式是否合法、正当、必要；\n（二）对个人权益带来的影响，以及降低不利影响的措施是否有效；\n（三）发生人脸信息泄露、篡改、丢失、毁损或者被非法获取、出售、使用的风险以及可能造成的危害；\n（四）所采取的保护措施是否合法、有效"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacbf399bd0-001#Art. 8",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "人脸识别技术应用安全管理办法",
+     "Law Number / Ref": "第19号",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 9",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "个人信息保护影响评估报告和处理情况记录应当至少保存3年。",
+     "Mapping Rationale": "Explicit minimum retention period of 'at least 3 years' for PIPIA reports and processing records, satisfying the minimum-duration retention rule; sectoral (facial recognition data only).",
+     "Source URL": "https://www.cac.gov.cn/2025-03/21/c_1744174262156096.htm",
+     "Confidence": 0.95,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Measures for the Security Management of Application of Facial Recognition Technology",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/人脸识别技术应用安全管理办法-d9b14244.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "应当取得未成年人的父母或者其他监护人的同意。\n个人信息处理者应用人脸识别技术处理不满十四周岁未成年人人脸信息的，应当在存储、使用、转移、披露等方面制定专门的处理规则，依法保护未成年人个人信息安全。\n第八条 除法律、行政法规另有规定或者取得个人单独同意外，人脸信息应当存储于人脸识别设备内，不得通过互联网对外传输。\n除法律、行政法规另有规定外，人脸信息的保存期限不得超过实现处理目的所必需的最短时间。\n",
+      "after": "\n第十条 实现相同目的或者达到同等业务要求，存在其他非人脸识别技术方式的，不得将人脸识别技术作为唯一验证方式。个人不同意通过人脸信息进行身份验证的，应当提供其他合理、便捷的方式。\n国家对应用人脸识别技术验证个人身份另有规定的，从其规定。\n第十一条 应用人脸识别技术验证个人身份、辨识特定个人的，鼓励优先使用国家人口基础信息库、国家网络身份认证公共服务等渠道实施，减少人脸信息收集、存储，保护人脸信息安"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacbf399bd0-001#Art. 9",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "人脸识别技术应用安全管理办法",
+     "Law Number / Ref": "第19号",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "Art. 11",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "应当重新进行个人信息保护影响评估",
+     "Mapping Rationale": "Mandatory DPIA (个人信息保护影响评估) requirement triggered by change of purpose/method or major security incident; limited to facial recognition sector, so 0.5.",
+     "Source URL": "https://www.cac.gov.cn/2025-03/21/c_1744174262156096.htm",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Measures for the Security Management of Application of Facial Recognition Technology",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/人脸识别技术应用安全管理办法-d9b14244.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "程度相适应。\n个人信息保护影响评估报告和处理情况记录应当至少保存3年。处理人脸信息的目的、方式发生变化，或者发生重大安全事件的，应当重新进行个人信息保护影响评估。\n第十条 实现相同目的或者达到同等业务要求，存在其他非人脸识别技术方式的，不得将人脸识别技术作为唯一验证方式。个人不同意通过人脸信息进行身份验证的，应当提供其他合理、便捷的方式。\n国家对应用人脸识别技术验证个人身份另有规定的，从其规定。\n",
+      "after": "\n第十二条 任何组织和个人不得以办理业务、提升服务质量等为由，误导、欺诈、胁迫个人接受人脸识别技术验证个人身份。\n第十三条 在公共场所安装人脸识别设备，应当为维护公共安全所必需，依法合理确定人脸信息采集区域，并设置显著提示标识。\n任何组织和个人不得在宾馆客房、公共浴室、公共更衣室、公共卫生间等公共场所中的私密空间内部安装人脸识别设备。\n第十四条 人脸识别技术应用系统应当采取数据加密、安全审计、访问"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacbf399bd0-001#Art. 11",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "非银行支付机构监督管理条例",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "非银行支付机构监督管理条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.1",
+     "Article / Section": "Art. 33",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 支付业务规则, p.1",
+     "Verbatim Snippet": "其在境内收集和产生的个人信息的处理应当在境内进行",
+     "Mapping Rationale": "Local processing requirement for personal information, but limited to non-bank payment institutions meeting CII/threshold criteria — sectoral personal-data category (2) => 0.5.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Regulations on the Supervision and Administration of Non-bank Payment Institutions",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/非银行支付机构监督管理条例_20231209.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "理的目的、期限、方式、保护措施等取得用户单独同意。非银行支付机构还应当与关联公司就上述内容以及双方的权利义务等作出约定，并对关联公司的用户信息处理活动进行监督，确保用户信息处理活动依法合规、风险可控。\n用户发现非银行支付机构违反法律、行政法规、国家有关规定或者双方约定处理其信息的，有权要求非银行支付机构删除其信息并依法承担责任。用户发现其信息不准确或者不完整的，有权要求非银行支付机构更正、补充。\n",
+      "after": "\n第三十四条　非银行支付机构应当依照有关价格法律、行政法规的规定，合理确定并公开支付业务的收费项目和收费标准，进行明码标价。\n非银行支付机构应当在经营场所的显著位置以及业务办理途径的关键节点，清晰、完整标明服务内容、收费项目、收费标准、限制条件以及相关要求等，保障用户知情权和选择权，不得收取任何未予标明的费用。\n第三十五条　非银行支付机构应当及时妥善处理与用户的争议，履行投诉处理主体责任，切实保护"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npce6045e35-001#Art. 33",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "非银行支付机构监督管理条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.1",
+     "Article / Section": "Art. 19",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 支付业务规则, p.1",
+     "Verbatim Snippet": "非银行支付机构为境内交易提供支付服务的，应当在境内完成交易处理、资金结算和数据存储。",
+     "Mapping Rationale": "Local processing requirement (transaction processing, settlement, data storage domestically) limited to non-bank payment institutions sector -> category (2) sectoral measure = 0.5.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Regulations on the Supervision and Administration of Non-bank Payment Institutions",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/非银行支付机构监督管理条例_20231209.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "可。\n第十七条　非银行支付机构应当按照审慎经营要求，建立健全并落实合规管理制度、内部控制制度、业务管理制度、风险管理制度、突发事件应急预案以及用户权益保障机制。\n第十八条　非银行支付机构应当具备必要和独立的业务系统、设施和技术，按照强制性国家标准以及相关网络、数据安全管理要求，确保支付业务处理的及时性、准确性和支付业务的连续性、安全性、可溯源性。\n非银行支付机构的业务系统及其备份应当存放在境内。\n",
+      "after": "\n第二十条　非银行支付机构应当与用户签订支付服务协议。非银行支付机构应当按照公平原则拟定协议条款，并在其经营场所、官方网站、移动互联网应用程序等的显著位置予以公示。\n支付服务协议应当明确非银行支付机构与用户的权利义务、支付业务流程、电子支付指令传输路径、资金结算、纠纷处理原则以及违约责任等事项，且不得包含排除、限制竞争以及不合理地免除或者减轻非银行支付机构责任、加重用户责任、限制或者排除用户主要权"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npce6045e35-001#Art. 19",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "非银行支付机构监督管理条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 39",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第四章 监督管理, p.1",
+     "Verbatim Snippet": "经中国人民银行或者其省一级派出机构负责人批准，查询当事人和与被调查事件有关的单位账户信息",
+     "Mapping Rationale": "PBOC can access account/personal data of investigated parties via internal approval by its own leadership, not an independent judicial authorization/court order.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Regulations on the Supervision and Administration of Non-bank Payment Institutions",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/非银行支付机构监督管理条例_20231209.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "业务类型的非银行支付机构，国家另有规定的除外。\n第三十七条　非银行支付机构应当按照规定向中国人民银行报送支付业务信息、经审计的财务会计报告、经营数据报表、统计数据，以及中国人民银行要求报送的与公司治理、业务运营相关的其他资料。\n第三十八条　中国人民银行按照规定对非银行支付机构进行分类评级，并根据分类评级结果实施分类监督管理。\n中国人民银行依法制定系统重要性非银行支付机构的认定标准和监督管理规则。\n",
+      "after": "\n第四十条　中国人民银行依法履行职责，进行现场检查或者调查，其现场检查、调查的人员不得少于2人，并应当出示合法证件和执法文书。现场检查、调查的人员少于2人或者未出示合法证件和执法文书的，被检查、调查的单位和个人有权拒绝。\n中国人民银行依法履行职责，被检查、调查的单位和个人应当配合，如实提供有关文件、资料和业务系统，不得拒绝、阻挠和隐瞒。\n第四十一条　非银行支付机构发生对其经营发展、支付业务稳定性和"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npce6045e35-001#Art. 39",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国生物安全法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国生物安全法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.1",
+     "Article / Section": "Art. 56",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第六章 人类遗传资源与生物资源安全, p.1",
+     "Verbatim Snippet": "境外组织、个人及其设立或者实际控制的机构不得在我国境内采集、保藏我国人类遗传资源，不得向境外提供我国人类遗传资源。",
+     "Mapping Rationale": "Outright ban on foreign entities collecting/storing or transferring abroad human genetic resources; sectoral (human genetic resources data), not horizontal personal data - category (2) => 0.5",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Biosecurity Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国生物安全法_20240426.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "类遗传资源和生物资源调查。\n国务院卫生健康主管部门组织开展我国人类遗传资源调查，制定重要遗传家系和特定地区人类遗传资源申报登记办法。\n国务院卫生健康、科学技术、自然资源、生态环境、农业农村、林业草原、中医药主管部门根据职责分工，组织开展生物资源调查，制定重要生物资源申报登记办法。\n第五十五条　采集、保藏、利用、对外提供我国人类遗传资源，应当符合伦理原则，不得危害公众健康、国家安全和社会公共利益。\n",
+      "after": "\n第五十七条　将我国人类遗传资源信息向境外组织、个人及其设立或者实际控制的机构提供或者开放使用的，应当向国务院卫生健康主管部门事先报告并提交信息备份。\n第五十八条　采集、保藏、利用、运输出境我国珍贵、濒危、特有物种及其可用于再生或者繁殖传代的个体、器官、组织、细胞、基因等遗传资源，应当遵守有关法律法规。\n境外组织、个人及其设立或者实际控制的机构获取和利用我国生物资源，应当依法取得批准。\n第五十九条"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npca882ac4e-001#Art. 56",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国人类遗传资源管理条例",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国人类遗传资源管理条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.1",
+     "Article / Section": "Art. 7",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第一章 总 则, p.1",
+     "Verbatim Snippet": "外国组织、个人及其设立或者实际控制的机构不得在我国境内采集、保藏我国人类遗传资源，不得向境外提供我国人类遗传资源。",
+     "Mapping Rationale": "Outright ban on foreign entities transferring/exporting Chinese human genetic resources abroad - a specific data/resource category, no conditional path, so sectoral ban = 0.5",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Regulations of the People's Republic of China on the Administration of Human Genetic Resources",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国人类遗传资源管理条例_20240310.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "本行政区域有关人类遗传资源管理工作。\n第五条　国家加强对我国人类遗传资源的保护，开展人类遗传资源调查，对重要遗传家系和特定地区人类遗传资源实行申报登记制度。\n国务院卫生健康主管部门负责组织我国人类遗传资源调查，制定重要遗传家系和特定地区人类遗传资源申报登记具体办法。\n第六条　国家支持合理利用人类遗传资源开展科学研究、发展生物医药产业、提高诊疗技术，提高我国生物安全保障能力，提升人民健康保障水平。\n",
+      "after": "\n第八条　采集、保藏、利用、对外提供我国人类遗传资源，不得危害我国公众健康、国家安全和社会公共利益。\n第九条　采集、保藏、利用、对外提供我国人类遗传资源，应当符合伦理原则，并按照国家有关规定进行伦理审查。\n采集、保藏、利用、对外提供我国人类遗传资源，应当尊重人类遗传资源提供者的隐私权，取得其事先知情同意，并保护其合法权益。\n采集、保藏、利用、对外提供我国人类遗传资源，应当遵守国务院卫生健康主管部门"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc3eb914a2-001#Art. 7",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国个人信息保护法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国个人信息保护法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "Art. 40",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "第三章 个人信息跨境提供的规则, 第三节 国家机关处理个人信息的特别规定, p.1",
+     "Verbatim Snippet": "关键信息基础设施运营者和处理个人信息达到国家网信部门规定数量的个人信息处理者，应当将在中华人民共和国境内收集和产生的个人信息存储在境内",
+     "Mapping Rationale": "Mandatory local storage of personal data limited to CII operators and high-volume processors -> sector/threshold-limited category (2) storage rule.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.8,
+     "Notes": "matches baseline r2-cn-045; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Personal Information Protection Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国个人信息保护法_20210820.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "定对向中华人民共和国境外提供个人信息的条件等有规定的，可以按照其规定执行。\n个人信息处理者应当采取必要措施，保障境外接收方处理个人信息的活动达到本法规定的个人信息保护标准。\n第三十九条　个人信息处理者向中华人民共和国境外提供个人信息的，应当向个人告知境外接收方的名称或者姓名、联系方式、处理目的、处理方式、个人信息的种类以及个人向境外接收方行使本法规定权利的方式和程序等事项，并取得个人的单独同意。\n",
+      "after": "\n第四十一条　中华人民共和国主管机关根据有关法律和中华人民共和国缔结或者参加的国际条约、协定，或者按照平等互惠原则，处理外国司法或者执法机构关于提供存储于境内个人信息的请求。非经中华人民共和国主管机关批准，个人信息处理者不得向外国司法或者执法机构提供存储于中华人民共和国境内的个人信息。\n第四十二条　境外的组织、个人从事侵害中华人民共和国公民的个人信息权益，或者危害中华人民共和国国家安全、公共利益的"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npcda28e080-001#Art. 40",
+     "_score_hint": "0.5"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国个人信息保护法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 38",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "第三章 个人信息跨境提供的规则, 第三节 国家机关处理个人信息的特别规定, p.1",
+     "Verbatim Snippet": "个人信息处理者因业务等需要，确需向中华人民共和国境外提供个人信息的，应当具备下列条件之一： （一）依照本法第四十条的规定通过国家网信部门组织的安全评估； （二）按照国家网信部门的规定经专业机构进行个人信息保护认证； （三）按照国家网信部门制定的标准合同与境外接收方订立合同，约定双方的权利和义务； （四）法律、行政法规或者国家网信部门规定的其他条件。",
+     "Mapping Rationale": "Horizontal conditional flow regime for personal information cross-border transfer requiring security assessment, certification, standard contract, or other government-prescribed conditions -> personal data horizontal conditional regime scores 1.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.95,
+     "Notes": "matches baseline r2-cn-050; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Personal Information Protection Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国个人信息保护法_20210820.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "依照本法规定履行告知义务；有本法第十八条第一款规定的情形，或者告知将妨碍国家机关履行法定职责的除外。\n第三十六条　国家机关处理的个人信息应当在中华人民共和国境内存储；确需向境外提供的，应当进行安全评估。安全评估可以要求有关部门提供支持与协助。\n第三十七条　法律、法规授权的具有管理公共事务职能的组织为履行法定职责处理个人信息，适用本法关于国家机关处理个人信息的规定。\n第三章　个人信息跨境提供的规则\n",
+      "after": "\n第三十九条　个人信息处理者向中华人民共和国境外提供个人信息的，应当向个人告知境外接收方的名称或者姓名、联系方式、处理目的、处理方式、个人信息的种类以及个人向境外接收方行使本法规定权利的方式和程序等事项，并取得个人的单独同意。\n第四十条　关键信息基础设施运营者和处理个人信息达到国家网信部门规定数量的个人信息处理者，应当将在中华人民共和国境内收集和产生的个人信息存储在境内。确需向境外提供的，应当通过"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npcda28e080-001#Art. 38",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国个人信息保护法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.1",
+     "Article / Section": "Art. 4",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "第一章 总 则, 第三节 国家机关处理个人信息的特别规定",
+     "Verbatim Snippet": "在中华人民共和国境内处理自然人个人信息的活动，适用本法",
+     "Mapping Rationale": "PIPL is China's comprehensive horizontal data-protection law; its existence means the economy does NOT lack such a framework, so score is 0 (inverted polarity).",
+     "Source URL": "https://www.cac.gov.cn/2021-08/20/c_1631050028355286.htm",
+     "Confidence": 0.9,
+     "Notes": "controlling horizontal framework evidence; English title (machine-rendered, not official): Personal Information Protection Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/中华人民共和国个人信息保护法-ec116706.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "信息合理利用，根据宪法，制定本法。\n第二条 自然人的个人信息受法律保护，任何组织、个人不得侵害自然人的个人信息权益。\n第三条 在中华人民共和国境内处理自然人个人信息的活动，适用本法。\n在中华人民共和国境外处理中华人民共和国境内自然人个人信息的活动，有下列情形之一的，也适用本法：\n（一）以向境内自然人提供产品或者服务为目的；\n（二）分析、评估境内自然人的行为；\n（三）法律、行政法规规定的其他情形。\n",
+      "after": "\n第五条 处理个人信息应当遵循合法、正当、必要和诚信原则，不得通过误导、欺诈、胁迫等方式处理个人信息。\n第六条 处理个人信息应当具有明确、合理的目的，并应当与处理目的直接相关，采取对个人权益影响最小的方式。\n收集个人信息，应当限于实现处理目的的最小范围，不得过度收集个人信息。\n第七条 处理个人信息应当遵循公开、透明原则，公开个人信息处理规则，明示处理的目的、方式和范围。\n第八条 处理个人信息应当保"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacd5388753-001#Art. 4",
+     "_score_hint": "0"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国个人信息保护法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "Art. 55",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "第五章 个人信息处理者的义务, 第三节 国家机关处理个人信息的特别规定, p.1",
+     "Verbatim Snippet": "个人信息处理者应当事前进行个人信息保护影响评估，并对处理情况进行记录",
+     "Mapping Rationale": "Mandatory DPIA requirement applying horizontally to all personal information processors under enumerated high-risk circumstances (sensitive data, automated decision-making, cross-border transfer, etc.).",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.9,
+     "Notes": "matches baseline r2-cn-063; English title (machine-rendered, not official): Personal Information Protection Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国个人信息保护法_20210820.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "系方式，并将个人信息保护负责人的姓名、联系方式等报送履行个人信息保护职责的部门。\n第五十三条　本法第三条第二款规定的中华人民共和国境外的个人信息处理者，应当在中华人民共和国境内设立专门机构或者指定代表，负责处理个人信息保护相关事务，并将有关机构的名称或者代表的姓名、联系方式等报送履行个人信息保护职责的部门。\n第五十四条　个人信息处理者应当定期对其处理个人信息遵守法律、行政法规的情况进行合规审计。\n",
+      "after": "\n第五十六条　个人信息保护影响评估应当包括下列内容：\n（一）个人信息的处理目的、处理方式等是否合法、正当、必要；\n（二）对个人权益的影响及安全风险；\n（三）所采取的保护措施是否合法、有效并与风险程度相适应。\n个人信息保护影响评估报告和处理情况记录应当至少保存三年。\n第五十七条　发生或者可能发生个人信息泄露、篡改、丢失的，个人信息处理者应当立即采取补救措施，并通知履行个人信息保护职责的部门和个人。通"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npcda28e080-001#Art. 55",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国个人信息保护法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "Art. 56",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第五章 个人信息处理者的义务, 第三节 国家机关处理个人信息的特别规定",
+     "Verbatim Snippet": "个人信息处理者应当事前进行个人信息保护影响评估",
+     "Mapping Rationale": "Mandatory DPIA (PIPIA) requirement applying horizontally to all personal information processors when triggering conditions are met, satisfying the DPIA prong of 7.4 at score 1.",
+     "Source URL": "https://www.cac.gov.cn/2021-08/20/c_1631050028355286.htm",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.56 not cited by baseline (matched on the English name); English title (machine-rendered, not official): Personal Information Protection Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/中华人民共和国个人信息保护法-ec116706.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "条 个人信息处理者应当定期对其处理个人信息遵守法律、行政法规的情况进行合规审计。\n第五十五条 有下列情形之一的，个人信息处理者应当事前进行个人信息保护影响评估，并对处理情况进行记录：\n（一）处理敏感个人信息；\n（二）利用个人信息进行自动化决策；\n（三）委托处理个人信息、向其他个人信息处理者提供个人信息、公开个人信息；\n（四）向境外提供个人信息；\n（五）其他对个人权益有重大影响的个人信息处理活动。\n",
+      "after": "\n第五十七条 发生或者可能发生个人信息泄露、篡改、丢失的，个人信息处理者应当立即采取补救措施，并通知履行个人信息保护职责的部门和个人。通知应当包括下列事项：\n（一）发生或者可能发生个人信息泄露、篡改、丢失的信息种类、原因和可能造成的危害；\n（二）个人信息处理者采取的补救措施和个人可以采取的减轻危害的措施；\n（三）个人信息处理者的联系方式。\n个人信息处理者采取措施能够有效避免信息泄露、篡改、丢失造成"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacd5388753-001#Art. 56",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "汽车数据安全管理若干规定（试行）",
+   "law_number": "第7号",
+   "source_url": "https://www.cac.gov.cn/2021-08/20/c_1631049984897667.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "汽车数据安全管理若干规定（试行）",
+     "Law Number / Ref": "第7号",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "Art. 11",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "重要数据应当依法在境内存储",
+     "Mapping Rationale": "Mandates domestic storage of automotive 'important data' (a specific sector/data set), transfer abroad still possible subject to assessment -> category (2) sectoral storage rule = 0.5.",
+     "Source URL": "https://www.cac.gov.cn/2021-08/20/c_1631049984897667.htm",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Interim Provisions on Several Issues Concerning the Security Management of Automotive Data",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/汽车数据安全管理若干规定-试行-cf960ab4.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "删除。\n汽车数据处理者具有增强行车安全的目的和充分的必要性，方可收集指纹、声纹、人脸、心律等生物识别特征信息。\n第十条 汽车数据处理者开展重要数据处理活动，应当按照规定开展风险评估，并向省、自治区、直辖市网信部门和有关部门报送风险评估报告。\n风险评估报告应当包括处理的重要数据的种类、数量、范围、保存地点与期限、使用方式，开展数据处理活动情况以及是否向第三方提供，面临的数据安全风险及其应对措施等。\n",
+      "after": "\n第十二条 汽车数据处理者向境外提供重要数据，不得超出出境安全评估时明确的目的、范围、方式和数据种类、规模等。\n国家网信部门会同国务院有关部门以抽查等方式核验前款规定事项，汽车数据处理者应当予以配合，并以可读等便利方式予以展示。\n第十三条 汽车数据处理者开展重要数据处理活动，应当在每年十二月十五日前向省、自治区、直辖市网信部门和有关部门报送以下年度汽车数据安全管理情况：\n（一）汽车数据安全管理负责"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cac66e483bb-001#Art. 11",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "地图管理条例",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "地图管理条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "Art. 34",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第五章 互联网地图服务, p.1",
+     "Verbatim Snippet": "互联网地图服务单位应当将存放地图数据的服务器设在中华人民共和国境内",
+     "Mapping Rationale": "Sector-specific (mapping data) local storage requirement for servers storing map data; storage locus not full processing mandate -> 0.5 under 6.2 sectoral branch.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Regulations on the Administration of Maps",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/地图管理条例_20151126.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "规定执行。\n第五章　互联网地图服务\n第三十二条　国家鼓励和支持互联网地图服务单位开展地理信息开发利用和增值服务。\n县级以上人民政府应当加强对互联网地图服务行业的政策扶持和监督管理。\n第三十三条　互联网地图服务单位向公众提供地理位置定位、地理信息上传标注和地图数据库开发等服务的，应当依法取得相应的测绘资质证书。\n互联网地图服务单位从事互联网地图出版活动的，应当经国务院出版行政主管部门依法审核批准。\n",
+      "after": "\n第三十五条　互联网地图服务单位收集、使用用户个人信息的，应当明示收集、使用信息的目的、方式和范围，并经用户同意。\n互联网地图服务单位需要收集、使用用户个人信息的，应当公开收集、使用规则，不得泄露、篡改、出售或者非法向他人提供用户的个人信息。\n互联网地图服务单位应当采取技术措施和其他必要措施，防止用户的个人信息泄露、丢失。\n第三十六条　互联网地图服务单位用于提供服务的地图数据库及其他数据库不得存储"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc5737ded9-001#Art. 34",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "​中华人民共和国网络安全法",
+   "law_number": "",
+   "source_url": "https://www.cac.gov.cn/2025-12/29/c_1768735112911946.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "​中华人民共和国网络安全法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.2",
+     "Article / Section": "Art. 41",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 网络运行安全, 第二节 关键信息基础设施的运行安全",
+     "Verbatim Snippet": "华人民共和国境内运营中收集和产生的个人信息和重要数据应当在境内存储",
+     "Mapping Rationale": "Local storage mandate for personal info and important data collected by CII operators; sectoral (CII) scope -> 0.5 under category (2).",
+     "Source URL": "https://www.cac.gov.cn/2025-12/29/c_1768735112911946.htm",
+     "Confidence": 0.75,
+     "Notes": "provision-level NEW: law known, s.41 not cited by baseline (matched on the English name); Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Cybersecurity Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/中华人民共和国网络安全法-b1ad0517.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "华人民共和国境内运营中收集和产生的个人信息和重要数据应当在境内存储。因业务需要，确需向境外提供的，应当按照国家网信部门会同国务院有关部门制定的办法进行安全评估；法律、行政法规另有规定的，依照其规定。\n第四十条 关键信息基础设施的运营者应当自行或者委托网络安全服务机构对其网络的安全性和可能存在的风险每年至少进行一次检测评估，并将检测评估情况和改进措施报送相关负责关键信息基础设施安全保护工作的部门。\n",
+      "after": "\n第四十二条 网络运营者应当对其收集的用户信息严格保密，并建立健全用户信息保护制度。\n网络运营者处理个人信息，应当遵守本法和《中华人民共和国民法典》、《中华人民共和国个人信息保护法》等法律、行政法规的规定。\n第四十三条 网络运营者收集、使用个人信息，应当遵循合法、正当、必要的原则，公开收集、使用规则，明示收集、使用信息的目的、方式和范围，并经被收集者同意。\n网络运营者不得收集与其提供的服务无关的个"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacedb0e7e1-001#Art. 41",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "网络出版服务管理规定",
+   "law_number": "",
+   "source_url": "https://www.cac.gov.cn/2016-02/15/c_1118048596.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "网络出版服务管理规定",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.3",
+     "Article / Section": "Art. 9",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第二章 网络出版服务许可",
+     "Verbatim Snippet": "相关服务器和存储设备必须存放在中华人民共和国境内",
+     "Mapping Rationale": "Requires online publishing service providers to use servers/storage equipment physically located within China as a licensing precondition to operate; sectoral infrastructure mandate.",
+     "Source URL": "https://www.cac.gov.cn/2016-02/15/c_1118048596.htm",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Management Regulations for Network Publishing Services",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/网络出版服务管理规定-37c2b74b.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "二章 网络出版服务许可\n第七条 从事网络出版服务，必须依法经过出版行政主管部门批准，取得《网络出版服务许可证》。\n第八条 图书、音像、电子、报纸、期刊出版单位从事网络出版服务，应当具备以下条件：\n（一）有确定的从事网络出版业务的网站域名、智能终端应用程序等出版平台；\n（二）有确定的网络出版服务范围；\n（三）有从事网络出版服务所需的必要的技术设备，相关服务器和存储设备必须存放在中华人民共和国境内。\n",
+      "after": "\n第十条 中外合资经营、中外合作经营和外资经营的单位不得从事网络出版服务。\n网络出版服务单位与境内中外合资经营、中外合作经营、外资经营企业或境外组织及个人进行网络出版服务业务的项目合作，应当事前报国家新闻出版广电总局审批。\n第十一条 申请从事网络出版服务，应当向所在地省、自治区、直辖市出版行政主管部门提出申请，经审核同意后，报国家新闻出版广电总局审批。国家新闻出版广电总局应当自受理申请之日起60日"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cac4d315f79-001#Art. 9",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "互联网域名管理办法",
+   "law_number": "第43号",
+   "source_url": "https://www.cac.gov.cn/2017-09/28/c_1121737753.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "互联网域名管理办法",
+     "Law Number / Ref": "第43号",
+     "Last Amended": "",
+     "Indicator ID": "6.3",
+     "Article / Section": "Art. 12",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第二章 域名管理",
+     "Verbatim Snippet": "在境内设置域名注册服务系统、注册数据库和相应的域名解析系统",
+     "Mapping Rationale": "Mandates establishment of domain registration service system, registration database and resolution system within China as precondition to operate as domain registration service provider - an infrastructure establishment mandate.",
+     "Source URL": "https://www.cac.gov.cn/2017-09/28/c_1121737753.htm",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Measures for the Administration of Internet Domain Names",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/互联网域名管理办法-3bfa4e01.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "运行管理相适应的场地、资金、专业人员以及符合电信管理机构要求的信息管理系统；\n（四）具有健全的网络与信息安全保障措施，包括管理人员、网络与信息安全管理制度、应急处置预案和相关技术、管理措施等；\n（五）具有进行真实身份信息核验和用户个人信息保护的能力、提供长期服务的能力及健全的服务退出机制；\n（六）具有健全的域名注册服务管理制度和对域名注册服务机构的监督机制；\n（七）法律、行政法规规定的其他条件。\n",
+      "after": "\n第十三条 申请设立域名根服务器及域名根服务器运行机构、域名注册管理机构的，应当向工业和信息化部提交申请材料。申请设立域名注册服务机构的，应当向住所地省、自治区、直辖市通信管理局提交申请材料。\n申请材料应当包括：\n（一）申请单位的基本情况及其法定代表人签署的依法诚信经营承诺书；\n（二）对域名服务实施有效管理的证明材料，包括相关系统及场所、服务能力的证明材料、管理制度、与其他机构签订的协议等；\n（三"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacc63896f6-001#Art. 12",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "网络数据安全管理条例",
+   "law_number": "第790号",
+   "source_url": "https://www.cac.gov.cn/2024-09/30/c_1729384452307680.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "网络数据安全管理条例",
+     "Law Number / Ref": "第790号",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 35",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第五章 网络数据跨境安全管理",
+     "Verbatim Snippet": "符合下列条件之一的，网络数据处理者可以向境外提供个人信息： （一）通过国家网信部门组织的数据出境安全评估；",
+     "Mapping Rationale": "Horizontal conditional-flow regime covering personal information generally (security assessment/certification/SCC/consent-type conditions); scores 1 per methodology regardless of sector since it covers personal data.",
+     "Source URL": "https://www.cac.gov.cn/2024-09/30/c_1729384452307680.htm",
+     "Confidence": 0.95,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Regulations on the Security Management of Network Data",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/网络数据安全管理条例-825b26ae.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "说明关键业务和供应链网络数据安全等情况。\n重要数据的处理者存在可能危害国家安全的重要数据处理活动的，省级以上有关主管部门应当责令其采取整改或者停止处理重要数据等措施。重要数据的处理者应当按照有关要求立即采取措施。\n第五章 网络数据跨境安全管理\n第三十四条 国家网信部门统筹协调有关部门建立国家数据出境安全管理专项工作机制，研究制定国家网络数据出境安全管理相关政策，协调处理网络数据出境安全重大事项。\n",
+      "after": "\n第三十六条 中华人民共和国缔结或者参加的国际条约、协定对向中华人民共和国境外提供个人信息的条件等有规定的，可以按照其规定执行。\n第三十七条 网络数据处理者在中华人民共和国境内运营中收集和产生的重要数据确需向境外提供的，应当通过国家网信部门组织的数据出境安全评估。网络数据处理者按照国家有关规定识别、申报重要数据，但未被相关地区、部门告知或者公开发布为重要数据的，不需要将其作为重要数据申报数据出境安"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-caca342eea8-001#Art. 35",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "网络数据安全管理条例",
+     "Law Number / Ref": "第790号",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "Art. 30",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第四章 重要数据安全",
+     "Verbatim Snippet": "重要数据的处理者应当明确网络数据安全负责人和网络数据安全管理机构",
+     "Mapping Rationale": "Mandatory appointment of a data-security officer and management body is a DPO-type requirement, but limited to processors of 'important data' (sectoral/data-category scope), so scores 0.5.",
+     "Source URL": "https://www.cac.gov.cn/2024-09/30/c_1729384452307680.htm",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Regulations on the Security Management of Network Data",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/网络数据安全管理条例-825b26ae.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "的保护。各地区、各部门应当按照数据分类分级保护制度，确定本地区、本部门以及相关行业、领域的重要数据具体目录，对列入目录的网络数据进行重点保护。\n网络数据处理者应当按照国家有关规定识别、申报重要数据。对确认为重要数据的，相关地区、部门应当及时向网络数据处理者告知或者公开发布。网络数据处理者应当履行网络数据安全保护责任。\n国家鼓励网络数据处理者使用数据标签标识等技术和产品，提高重要数据安全管理水平。\n",
+      "after": "\n第三十一条 重要数据的处理者提供、委托处理、共同处理重要数据前，应当进行风险评估，但是属于履行法定职责或者法定义务的除外。\n风险评估应当重点评估下列内容：\n（一）提供、委托处理、共同处理网络数据，以及网络数据接收方处理网络数据的目的、方式、范围等是否合法、正当、必要；\n（二）提供、委托处理、共同处理的网络数据遭到篡改、破坏、泄露或者非法获取、非法利用的风险，以及对国家安全、公共利益或者个人、组织"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-caca342eea8-001#Art. 30",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "促进和规范数据跨境流动规定",
+   "law_number": "第16号",
+   "source_url": "https://www.cac.gov.cn/2024-03/22/c_1712776611775634.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "促进和规范数据跨境流动规定",
+     "Law Number / Ref": "第16号",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 10",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "数据处理者向境外提供个人信息的，应当按照法律、行政法规的规定履行告知、取得个人单独同意、进行个人信息保护影响评估等义务",
+     "Mapping Rationale": "Cross-border transfer of personal information is conditioned on notice, separate consent, and PIPIA — a conditional flow regime covering personal data generally, scoring 1 per Guide p.54.",
+     "Source URL": "https://www.cac.gov.cn/2024-03/22/c_1712776611775634.htm",
+     "Confidence": 0.92,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Regulations on Promoting and Standardizing Cross-border Data Flow",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/促进和规范数据跨境流动规定-45c93df7.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "者通过个人信息保护认证。\n属于本规定第三条、第四条、第五条、第六条规定情形的，从其规定。\n第九条 通过数据出境安全评估的结果有效期为3年，自评估结果出具之日起计算。有效期届满，需要继续开展数据出境活动且未发生需要重新申报数据出境安全评估情形的，数据处理者可以在有效期届满前60个工作日内通过所在地省级网信部门向国家网信部门提出延长评估结果有效期申请。经国家网信部门批准，可以延长评估结果有效期3年。\n",
+      "after": "\n第十一条 数据处理者向境外提供数据的，应当遵守法律、法规的规定，履行数据安全保护义务，采取技术措施和其他必要措施，保障数据出境安全。发生或者可能发生数据安全事件的，应当采取补救措施，及时向省级以上网信部门和其他有关主管部门报告。\n第十二条 各地网信部门应当加强对数据处理者数据出境活动的指导监督，健全完善数据出境安全评估制度，优化评估流程；强化事前事中事后全链条全领域监管，发现数据出境活动存在较大"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cace0b6b5af-001#Art. 10",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "数据出境安全评估办法",
+   "law_number": "第11号",
+   "source_url": "https://www.cac.gov.cn/2022-07/07/c_1658811536396503.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "数据出境安全评估办法",
+     "Law Number / Ref": "第11号",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 5",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "应当通过所在地省级网信部门向国家网信部门申报数据出境安全评估",
+     "Mapping Rationale": "Cross-border transfer permitted only upon government approval via security assessment; covers personal data (and important data), so scores 1 per personal-data branch regardless of sector-specificity.",
+     "Source URL": "https://www.cac.gov.cn/2022-07/07/c_1658811536396503.htm",
+     "Confidence": 0.92,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Measures for the Security Assessment of Data Outbound",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/数据出境安全评估办法-1e4eecc2.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "理者向境外提供数据，有下列情形之一的，应当通过所在地省级网信部门向国家网信部门申报数据出境安全评估：\n（一）数据处理者向境外提供重要数据；\n（二）关键信息基础设施运营者和处理100万人以上个人信息的数据处理者向境外提供个人信息；\n（三）自上年1月1日起累计向境外提供10万人个人信息或者1万人敏感个人信息的数据处理者向境外提供个人信息；\n（四）国家网信部门规定的其他需要申报数据出境安全评估的情形。\n",
+      "after": "\n第六条 申报数据出境安全评估，应当提交以下材料：\n（一）申报书；\n（二）数据出境风险自评估报告；\n（三）数据处理者与境外接收方拟订立的法律文件；\n（四）安全评估工作需要的其他材料。\n第七条 省级网信部门应当自收到申报材料之日起5个工作日内完成完备性查验。申报材料齐全的，将申报材料报送国家网信部门；申报材料不齐全的，应当退回数据处理者并一次性告知需要补充的材料。\n国家网信部门应当自收到申报材料之日"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cac78c90f56-001#Art. 5",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "个人信息出境认证办法",
+   "law_number": "第20号",
+   "source_url": "https://www.cac.gov.cn/2025-10/17/c_1762449728720008.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "个人信息出境认证办法",
+     "Law Number / Ref": "第20号",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 3",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "由依法取得个人信息保护认证资质的专业认证机构，证明个人信息处理者向中华人民共和国境外提供个人信息等个人信息处理活动符合相关法律、行政法规、部门规章、标准、技术规范的合格评定活动",
+     "Mapping Rationale": "Cross-border transfer of personal data permitted only if processor obtains personal information protection certification confirming compliance — a conditional flow regime covering personal data generally, scored 1 per Guide p.54",
+     "Source URL": "https://www.cac.gov.cn/2025-10/17/c_1762449728720008.htm",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Certification Method for Personal Information Outbound Transfer",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/个人信息出境认证办法-1afead16.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "公室主任 庄荣文\n国家市场监督管理总局局长 罗 文\n2025年10月14日\n个人信息出境认证办法\n第一条 为了保护个人信息权益，规范个人信息出境认证活动，促进个人信息高效安全跨境流动，根据《中华人民共和国个人信息保护法》、《网络数据安全管理条例》、《中华人民共和国认证认可条例》等法律法规，制定本办法。\n第二条 个人信息处理者通过个人信息保护认证的方式向中华人民共和国境外提供个人信息，适用本办法。\n",
+      "after": "\n第四条 国家网信部门会同国家数据管理部门和其他有关部门制定个人信息出境认证相关标准、技术规范。国家市场监督管理部门会同国家网信部门制定个人信息保护认证规则、统一认证证书及标志。\n第五条 个人信息处理者通过个人信息出境认证的方式向境外提供个人信息的，应当同时符合下列情形：\n（一）非关键信息基础设施运营者；\n（二）自当年1月1日起累计向境外提供10万人以上、不满100万人个人信息（不含敏感个人信息）"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cac2c20ac25-001#Art. 3",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "个人信息出境认证办法 (网信办 + 市场监管总局, in force 2026-01-01)",
+   "law_number": "第20号",
+   "source_url": "https://www.gov.cn/zhengce/zhengceku/202510/content_7044914.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "个人信息出境认证办法 (网信办 + 市场监管总局, in force 2026-01-01)",
+     "Law Number / Ref": "第20号",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 7",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "个人信息处理者通过认证方式向境外提供个人信息的，应当向专业认证机构申请个人信息出境认证。",
+     "Mapping Rationale": "Cross-border transfer of personal information is permitted only upon certification by a professional certification body, a condition on personal data transfer.",
+     "Source URL": "https://www.gov.cn/zhengce/zhengceku/202510/content_7044914.htm",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Measures for the Certification of Personal Information Outbound Transfer (Cyberspace Administration of China + State Administration for Market Regulation, in force 2026-01-01)",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/govcn/raw/个人信息出境认证办法-网信办-市场监管总局-in-force-2026-01-01-d5892526.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "息出境可能对国家安全、公共利益、个人信息权益带来的风险；\n（三）境外接收方承诺承担的义务，以及履行义务的管理和技术措施、能力等能否保障出境个人信息的安全；\n（四）个人信息出境后遭到篡改、破坏、泄露、丢失、非法利用等的风险，个人信息权益维护的渠道是否通畅等；\n（五）境外接收方所在国家或者地区的个人信息保护政策和法规对出境个人信息安全和个人信息权益的影响；\n（六）其他可能影响个人信息出境安全的事项。\n",
+      "after": "\n第八条 专业认证机构应当按照认证基本规范、个人信息保护认证规则开展个人信息出境认证活动。符合认证要求的，专业认证机构应当及时出具认证证书。\n认证证书的有效期为3年。证书到期需继续使用的，个人信息处理者应当在有效期届满前6个月提出认证申请。\n第九条 专业认证机构应当在出具认证证书或者认证证书状态发生变化后5个工作日内，向全国认证认可信息公共服务平台报送个人信息出境认证证书相关信息，包括认证证书编号"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-gov892de088-001#Art. 7",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "个人信息出境认证办法 (网信办 + 市场监管总局, in force 2026-01-01)",
+     "Law Number / Ref": "第20号",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "Art. 6",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "进行个人信息保护影响评估等义务",
+     "Mapping Rationale": "Mandatory Personal Information Protection Impact Assessment (PIIA) is required before cross-border transfer certification, applying horizontally to any processor seeking this transfer route — DPIA-equivalent mandate scores 1.",
+     "Source URL": "https://www.gov.cn/zhengce/zhengceku/202510/content_7044914.htm",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Measures for the Certification of Personal Information Outbound Transfer (Cyberspace Administration of China + State Administration for Market Regulation, in force 2026-01-01)",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/govcn/raw/个人信息出境认证办法-网信办-市场监管总局-in-force-2026-01-01-d5892526.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "的，应当同时符合下列情形：\n（一）非关键信息基础设施运营者；\n（二）自当年1月1日起累计向境外提供10万人以上、不满100万人个人信息（不含敏感个人信息）或者不满1万人敏感个人信息。\n前款所称向境外提供的个人信息，不包括重要数据。\n法律、行政法规或者国家网信部门另有规定的，从其规定。\n个人信息处理者不得采取数量拆分等手段，将依法应当通过出境安全评估的个人信息通过个人信息出境认证的方式向境外提供。\n",
+      "after": "\n第七条 个人信息处理者通过认证方式向境外提供个人信息的，应当向专业认证机构申请个人信息出境认证。\n中华人民共和国境外的个人信息处理者申请个人信息出境认证的，应当由其在境内设立的专门机构或者指定代表协助进行申请。\n第八条 专业认证机构应当按照认证基本规范、个人信息保护认证规则开展个人信息出境认证活动。符合认证要求的，专业认证机构应当及时出具认证证书。\n认证证书的有效期为3年。证书到期需继续使用的，"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-gov892de088-001#Art. 6",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "个人信息出境标准合同办法",
+   "law_number": "第13号",
+   "source_url": "https://www.cac.gov.cn/2023-02/24/c_1678884830036813.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "个人信息出境标准合同办法",
+     "Law Number / Ref": "第13号",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 6",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "标准合同生效后方可开展个人信息出境活动。",
+     "Mapping Rationale": "Personal data cross-border transfer permitted only upon effective standard contract plus filing - conditional flow regime on personal data, horizontal.",
+     "Source URL": "https://www.cac.gov.cn/2023-02/24/c_1678884830036813.htm",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Measures for the Standard Contract for Cross-Border Transfer of Personal Information",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/个人信息出境标准合同办法-cf55aebc.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "息的规模、范围、种类、敏感程度，个人信息出境可能对个人信息权益带来的风险；\n（三）境外接收方承诺承担的义务，以及履行义务的管理和技术措施、能力等能否保障出境个人信息的安全；\n（四）个人信息出境后遭到篡改、破坏、泄露、丢失、非法利用等的风险，个人信息权益维护的渠道是否通畅等；\n（五）境外接收方所在国家或者地区的个人信息保护政策和法规对标准合同履行的影响；\n（六）其他可能影响个人信息出境安全的事项。\n",
+      "after": "\n第七条 个人信息处理者应当在标准合同生效之日起10个工作日内向所在地省级网信部门备案。备案应当提交以下材料：\n（一）标准合同；\n（二）个人信息保护影响评估报告。\n个人信息处理者应当对所备案材料的真实性负责。\n第八条 在标准合同有效期内出现下列情形之一的，个人信息处理者应当重新开展个人信息保护影响评估，补充或者重新订立标准合同，并履行相应备案手续：\n（一）向境外提供个人信息的目的、范围、种类、敏感"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacb01edb6a-001#Art. 6",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "个人信息出境标准合同办法",
+     "Law Number / Ref": "第13号",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 4",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "个人信息处理者通过订立标准合同的方式向境外提供个人信息的，应当同时符合下列情形",
+     "Mapping Rationale": "Cross-border transfer of personal data permitted only if specific quantitative/sensitivity conditions are met via standard contract - a conditional flow regime covering personal data generally, scoring 1 per 6.4 tree.",
+     "Source URL": "https://www.cac.gov.cn/2023-02/24/c_1678884830036813.htm",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Measures for the Standard Contract for Cross-Border Transfer of Personal Information",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/个人信息出境标准合同办法-cf55aebc.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "法\n第一条 为了保护个人信息权益，规范个人信息出境活动，根据《中华人民共和国个人信息保护法》等法律法规，制定本办法。\n第二条 个人信息处理者通过与境外接收方订立个人信息出境标准合同（以下简称标准合同）的方式向中华人民共和国境外提供个人信息，适用本办法。\n第三条 通过订立标准合同的方式开展个人信息出境活动，应当坚持自主缔约与备案管理相结合、保护权益与防范风险相结合，保障个人信息跨境安全、自由流动。\n",
+      "after": "\n第五条 个人信息处理者向境外提供个人信息前，应当开展个人信息保护影响评估，重点评估以下内容：\n（一）个人信息处理者和境外接收方处理个人信息的目的、范围、方式等的合法性、正当性、必要性；\n（二）出境个人信息的规模、范围、种类、敏感程度，个人信息出境可能对个人信息权益带来的风险；\n（三）境外接收方承诺承担的义务，以及履行义务的管理和技术措施、能力等能否保障出境个人信息的安全；\n（四）个人信息出境后遭"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacb01edb6a-001#Art. 4",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "网络数据安全管理条例",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "网络数据安全管理条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "6.4",
+     "Article / Section": "Art. 38",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第五章 网络数据跨境安全管理, p.1",
+     "Verbatim Snippet": "通过数据出境安全评估后，网络数据处理者向境外提供个人信息和重要数据的，不得超出评估时明确的数据出境目的、方式、范围和种类、规模等",
+     "Mapping Rationale": "Cross-border transfer of personal information (and important data) is conditioned on passing a government security assessment and staying within its approved scope — conditional flow regime covering personal data horizontally, scoring 1.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; Framework-level only for this economy: the operative detail sits in a tier its official portal does not publish, so check the result outside the tool.; English title (machine-rendered, not official): Regulations on the Security Management of Network Data",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/网络数据安全管理条例_20240924.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "条　中华人民共和国缔结或者参加的国际条约、协定对向中华人民共和国境外提供个人信息的条件等有规定的，可以按照其规定执行。\n第三十七条　网络数据处理者在中华人民共和国境内运营中收集和产生的重要数据确需向境外提供的，应当通过国家网信部门组织的数据出境安全评估。网络数据处理者按照国家有关规定识别、申报重要数据，但未被相关地区、部门告知或者公开发布为重要数据的，不需要将其作为重要数据申报数据出境安全评估。\n",
+      "after": "\n第三十九条　国家采取措施，防范、处置网络数据跨境安全风险和威胁。任何个人、组织不得提供专门用于破坏、避开技术措施的程序、工具等；明知他人从事破坏、避开技术措施等活动的，不得为其提供技术支持或者帮助。\n第六章　网络平台服务提供者义务\n第四十条　网络平台服务提供者应当通过平台规则或者合同等明确接入其平台的第三方产品和服务提供者的网络数据安全保护义务，督促第三方产品和服务提供者加强网络数据安全管理。\n"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc6cd0feb8-001#Art. 38",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "网络数据安全管理条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 12",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "第二章 一般规定, p.1",
+     "Verbatim Snippet": "处理情况记录，应当至少保存3年",
+     "Mapping Rationale": "Explicit minimum retention period of at least 3 years for processing records, applying horizontally to any network data processor handling personal information/important data.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.9,
+     "Notes": "matches baseline r2-cn-058; English title (machine-rendered, not official): Regulations on the Security Management of Network Data",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/网络数据安全管理条例_20240924.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "规定向有关主管部门报告。\n网络数据安全事件对个人、组织合法权益造成危害的，网络数据处理者应当及时将安全事件和风险情况、危害后果、已经采取的补救措施等，以电话、短信、即时通信工具、电子邮件或者公告等方式通知利害关系人；法律、行政法规规定可以不通知的，从其规定。网络数据处理者在处置网络数据安全事件过程中发现涉嫌违法犯罪线索的，应当按照规定向公安机关、国家安全机关报案，并配合开展侦查、调查和处置工作。\n",
+      "after": "\n第十三条　网络数据处理者开展网络数据处理活动，影响或者可能影响国家安全的，应当按照国家有关规定进行国家安全审查。\n第十四条　网络数据处理者因合并、分立、解散、破产等原因需要转移网络数据的，网络数据接收方应当继续履行网络数据安全保护义务。\n第十五条　国家机关委托他人建设、运行、维护电子政务系统，存储、加工政务数据，应当按照国家有关规定经过严格的批准程序，明确受托方的网络数据处理权限、保护责任等，监"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc6cd0feb8-001#Art. 12",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国网络安全法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国网络安全法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.2",
+     "Article / Section": "Art. 2",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "第一章 总 则, 第二节 关键信息基础设施的运行安全, p.1",
+     "Verbatim Snippet": "在中华人民共和国境内建设、运营、维护和使用网络，以及网络安全的监督管理，适用本法",
+     "Mapping Rationale": "Cybersecurity Law applies horizontally to all network construction/operation/maintenance/use in China - a dedicated horizontal cybersecurity framework exists, so lack-of-framework indicator scores 0.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.9,
+     "Notes": "controlling horizontal framework evidence; English title (machine-rendered, not official): Cybersecurity Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国网络安全法_20251028.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "法〉的决定》修正）\n目　　录\n第一章　总　　则\n第二章　网络安全支持与促进\n第三章　网络运行安全\n第一节　一般规定\n第二节　关键信息基础设施的运行安全\n第四章　网络信息安全\n第五章　监测预警与应急处置\n第六章　法律责任\n第七章　附　　则\n第一章　总　　则\n第一条　为了保障网络安全，维护网络空间主权和国家安全、社会公共利益，保护公民、法人和其他组织的合法权益，促进经济社会信息化健康发展，制定本法。\n",
+      "after": "\n第三条　网络安全工作坚持中国共产党的领导，贯彻总体国家安全观，统筹发展和安全，推进网络强国建设。\n第四条　国家坚持网络安全与信息化发展并重，遵循积极利用、科学发展、依法管理、确保安全的方针，推进网络基础设施建设和互联互通，鼓励网络技术创新和应用，支持培养网络安全人才，建立健全网络安全保障体系，提高网络安全保护能力。\n第五条　国家制定并不断完善网络安全战略，明确保障网络安全的基本要求和主要目标，提"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc0779bd03-001#Art. 2",
+     "_score_hint": "0"
+    }
+   ]
+  },
+  {
+   "law_name": "关键信息基础设施安全保护条例",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "关键信息基础设施安全保护条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.2",
+     "Article / Section": "Art. 6",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第一章 总则, p.1",
+     "Verbatim Snippet": "运营者依照本条例和有关法律、行政法规的规定以及国家标准的强制性要求，在网络安全等级保护的基础上，采取技术保护措施和其他必要措施，应对网络安全事件，防范网络攻击和违法犯罪活动，保障关键信息基础设施安全稳定运行，维护数据的完整性、保密性和可用性",
+     "Mapping Rationale": "This regulation is a dedicated cybersecurity framework but limited to critical information infrastructure operators (a specific sector/category), not horizontal; China also has the horizontal Cybersecurity Law, but this provision alone is sectoral evidence.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.55,
+     "Notes": "sectoral framework recorded, not controlling; English title (machine-rendered, not official): Regulations on the Protection of the Security of Critical Information Infrastructure",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/关键信息基础设施安全保护条例_20210730.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "简称运营者）主体责任，充分发挥政府及社会各方面的作用，共同保护关键信息基础设施安全。\n第五条　国家对关键信息基础设施实行重点保护，采取措施，监测、防御、处置来源于中华人民共和国境内外的网络安全风险和威胁，保护关键信息基础设施免受攻击、侵入、干扰和破坏，依法惩治危害关键信息基础设施安全的违法犯罪活动。\n任何个人和组织不得实施非法侵入、干扰、破坏关键信息基础设施的活动，不得危害关键信息基础设施安全。\n",
+      "after": "\n第七条　对在关键信息基础设施安全保护工作中取得显著成绩或者作出突出贡献的单位和个人，按照国家有关规定给予表彰。\n第二章　关键信息基础设施认定\n第八条　本条例第二条涉及的重要行业和领域的主管部门、监督管理部门是负责关键信息基础设施安全保护工作的部门（以下简称保护工作部门）。\n第九条　保护工作部门结合本行业、本领域实际，制定关键信息基础设施认定规则，并报国务院公安部门备案。\n制定认定规则应当主要考虑"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc86b6fede-001#Art. 6",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国计算机信息系统安全保护条例",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国计算机信息系统安全保护条例",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.2",
+     "Article / Section": "Art. 4",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第一章 总则, p.1",
+     "Verbatim Snippet": "计算机信息系统的安全保护工作，重点维护国家事务、经济建设、国防建设、尖端科学技术等重要领域的计算机信息系统的安全",
+     "Mapping Rationale": "This 1994 regulation is a general computer-system security rule focused on key sectors, not a horizontal dedicated cybersecurity law; economy-level answer depends on whether a later horizontal cybersecurity law (e.g., 2017 Cybersecurity Law) exists, but this provision alone evidences a sectoral/non-",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.4,
+     "Notes": "sectoral framework recorded, not controlling; English title (machine-rendered, not official): Regulations of the People's Republic of China on the Security Protection of Computer Information Systems",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国计算机信息系统安全保护条例_20110108.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "义现代化建设的顺利进行，制定本条例。\n第二条　本条例所称的计算机信息系统，是指由计算机及其相关的和配套的设备、设施(含网络)构成的，按照一定的应用目标和规则对信息进行采集、加工、存储、传输、检索等处理的人机系统。\n第三条　计算机信息系统的安全保护，应当保障计算机及其相关的和配套的设备、设施(含网络)的安全，运行环境的安全，保障信息的安全，保障计算机功能的正常发挥，以维护计算机信息系统的安全运行。\n",
+      "after": "\n第五条　中华人民共和国境内的计算机信息系统的安全保护，适用本条例。\n未联网的微型计算机的安全保护办法，另行制定。\n第六条　公安部主管全国计算机信息系统安全保护工作。\n国家安全部、国家保密局和国务院其他有关部门，在国务院规定的职责范围内做好计算机信息系统安全保护的有关工作。\n第七条　任何组织或者个人，不得利用计算机信息系统从事危害国家利益、集体利益和公民合法利益的活动，不得危害计算机信息系统的安全"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc656dee46-001#Art. 4",
+     "_score_hint": "0.5"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国电子商务法",
+   "law_number": "",
+   "source_url": "https://www.cac.gov.cn/2018-09/01/c_1123362506.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国电子商务法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 31",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "第二章 电子商务经营者, 第二节 电子商务平台经营者",
+     "Verbatim Snippet": "商品和服务信息、交易信息保存时间自交易完成之日起不少于三年",
+     "Mapping Rationale": "Explicit minimum retention period of 3 years ('不少于三年' = not less than 3 years) for transaction/product data by e-commerce platform operators.",
+     "Source URL": "https://www.cac.gov.cn/2018-09/01/c_1123362506.htm",
+     "Confidence": 0.95,
+     "Notes": "matches baseline r2-cn-062; English title (machine-rendered, not official): E-commerce Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/中华人民共和国电子商务法-22d19a17.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "内的商品或者服务信息存在违反本法第十二条、第十三条规定情形的，应当依法采取必要的处置措施，并向有关主管部门报告。\n第三十条 电子商务平台经营者应当采取技术措施和其他必要措施保证其网络安全、稳定运行，防范网络违法犯罪活动，有效应对网络安全事件，保障电子商务交易安全。\n电子商务平台经营者应当制定网络安全事件应急预案，发生网络安全事件时，应当立即启动应急预案，采取相应的补救措施，并向有关主管部门报告。\n",
+      "after": "\n第三十二条 电子商务平台经营者应当遵循公开、公平、公正的原则，制定平台服务协议和交易规则，明确进入和退出平台、商品和服务质量保障、消费者权益保护、个人信息保护等方面的权利和义务。\n第三十三条 电子商务平台经营者应当在其首页显著位置持续公示平台服务协议和交易规则信息或者上述信息的链接标识，并保证经营者和消费者能够便利、完整地阅览和下载。\n第三十四条 电子商务平台经营者修改平台服务协议和交易规则，应"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cacbfb7a9f9-001#Art. 31",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国电子签名法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国电子签名法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 24",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 电子签名与认证, p.1",
+     "Verbatim Snippet": "电子认证服务提供者应当妥善保存与认证相关的信息，信息保存期限至少为电子签名认证证书失效后五年",
+     "Mapping Rationale": "Explicit minimum retention period ('至少'/at least 5 years) specified for certification-related information, satisfying 7.3's minimum-duration requirement.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.95,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Law of the People's Republic of China on Electronic Signatures",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国电子签名法_20190423.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "暂停或者终止电子认证服务的，应当在暂停或者终止服务六十日前向国务院信息产业主管部门报告，并与其他电子认证服务提供者就业务承接进行协商，作出妥善安排。\n电子认证服务提供者未能就业务承接事项与其他电子认证服务提供者达成协议的，应当申请国务院信息产业主管部门安排其他电子认证服务提供者承接其业务。\n电子认证服务提供者被依法吊销电子认证许可证书的，其业务承接事项的处理按照国务院信息产业主管部门的规定执行。\n",
+      "after": "\n第二十五条　国务院信息产业主管部门依照本法制定电子认证服务业的具体管理办法，对电子认证服务提供者依法实施监督管理。\n第二十六条　经国务院信息产业主管部门根据有关协议或者对等原则核准后，中华人民共和国境外的电子认证服务提供者在境外签发的电子签名认证证书与依照本法设立的电子认证服务提供者签发的电子签名认证证书具有同等的法律效力。\n第四章　法律责任\n第二十七条　电子签名人知悉电子签名制作数据已经失密或"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc912baf97-001#Art. 24",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "通信短信息服务管理规定",
+   "law_number": "",
+   "source_url": "https://www.gov.cn/gongbao/2026/issue_12766/202605/content_7070600.html",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "通信短信息服务管理规定",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 13",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第二章 服务规范, 第一节 一般规定",
+     "Verbatim Snippet": "通信短信息服务提供者应当准确记录并留存通信短信息发送和接收时间、发送端和接收端码号等信息不少于6个月",
+     "Mapping Rationale": "Explicit minimum retention period ('不少于6个月' = not less than 6 months) for telecom/SMS metadata; qualifies as a floor retention rule under 7.3.",
+     "Source URL": "https://www.gov.cn/gongbao/2026/issue_12766/202605/content_7070600.html",
+     "Confidence": 0.93,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Regulations on the Management of Short Message Service in Telecommunication",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/miit/mirror_permitted/raw/通信短信息服务管理规定-e0f5db56.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "户提供真实身份信息，并进行查验。用户不提供真实身份信息的，通信短信息服务提供者不得为其提供相关服务。\n第十一条 提供通信短信息服务需要向用户收费的，通信短信息服务提供者应当保证计费符合相关法律法规和电信标准，并事先明确告知用户服务内容、资费标准和收费方式等信息。\n第十二条 通信短信息服务提供者传输通信短信息的，应当完整、真实、准确传输发送端码号；不得传输虚假、冒用或者缺少发送端码号的通信短信息。\n",
+      "after": "\n第十四条 通信短信息服务提供者应当建立健全用户信息保护制度，采取技术措施和其他必要措施，确保用户信息安全。\n第十五条 通信短信息服务提供者应当建立和执行网络与信息安全管理制度，加强对传输的通信短信息的管理，发现法律、行政法规禁止发送或者传输的通信短信息的，应当立即停止传输，采取相关处置措施，防止信息扩散，保存有关记录，向有关主管部门报告并配合调查。\n第十六条 通信短信息服务提供者应当建立反电信网"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-miitmfa1075e2-001#Art. 13",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "通信短信息服务管理规定",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 12",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第二章 服务规范, 第一节 一般规定",
+     "Verbatim Snippet": "应当准确记录并留存通信短信息发送和接收时间、发送端和接收端码号等信息不少于6个月",
+     "Mapping Rationale": "Explicit minimum retention period of 6 months ('不少于6个月') for SMS transmission records, sectoral (telecom SMS service).",
+     "Source URL": "https://www.gov.cn/gongbao/2026/issue_12766/202605/content_7070600.html",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Regulations on the Management of Short Message Service in Telecommunication",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/miit/mirror_permitted/raw/通信短信息服务管理规定-e0f5db56.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "合同或者入网协议等方式告知用户。\n第十条 通信短信息服务提供者在与用户签订服务合同或者入网协议，或者确认提供通信短信息服务时，应当要求用户提供真实身份信息，并进行查验。用户不提供真实身份信息的，通信短信息服务提供者不得为其提供相关服务。\n第十一条 提供通信短信息服务需要向用户收费的，通信短信息服务提供者应当保证计费符合相关法律法规和电信标准，并事先明确告知用户服务内容、资费标准和收费方式等信息。\n",
+      "after": "\n第十三条 通信短信息服务提供者应当准确记录并留存通信短信息发送和接收时间、发送端和接收端码号等信息不少于6个月。\n第十四条 通信短信息服务提供者应当建立健全用户信息保护制度，采取技术措施和其他必要措施，确保用户信息安全。\n第十五条 通信短信息服务提供者应当建立和执行网络与信息安全管理制度，加强对传输的通信短信息的管理，发现法律、行政法规禁止发送或者传输的通信短信息的，应当立即停止传输，采取相关处"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-miitmfa1075e2-001#Art. 12",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "​直播电商监督管理办法",
+   "law_number": "第117号",
+   "source_url": "https://www.cac.gov.cn/2026-01/07/c_1769516655383334.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "​直播电商监督管理办法",
+     "Law Number / Ref": "第117号",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 16",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第二章 直播电商平台经营者",
+     "Verbatim Snippet": "上述交易信息的保存时间自交易完成之日起不少于三年",
+     "Mapping Rationale": "Explicit minimum retention period of at least 3 years ('不少于三年') for transaction data in the live-streaming e-commerce sector; sectoral, not government-data.",
+     "Source URL": "https://www.cac.gov.cn/2026-01/07/c_1769516655383334.htm",
+     "Confidence": 0.92,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Supervision and Administration Measures for Live-Streaming E-commerce",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/直播电商监督管理办法-ffaf809c.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "新注册账号等方式逃避惩戒；列入黑名单的期限届满的，应当将其移出并同步解除相应的处置措施。\n鼓励直播电商平台经营者之间共享黑名单相关信息，对相关主体采取信用管理措施。\n第十五条 直播电商平台经营者应当为直播间运营者依法履行信息公示义务提供必要的技术支持。直播间运营者公示的信息发生变更的，应当在三个工作日内将变更情况报送直播电商平台经营者，直播电商平台经营者应当在七个工作日内进行核验，完成更新公示。\n",
+      "after": "\n第十七条 直播电商平台经营者应当采取有效措施，防范和处置直播间运营者、直播营销人员利用人工智能等技术手段，编造、传播虚假或者引人误解的商业信息，假冒他人进行商业宣传，欺骗、误导消费者和其他经营者。\n第十八条 直播电商平台经营者应当建立健全消费者权益保护制度，明确消费争议解决机制。发生消费争议的，直播电商平台经营者应当根据消费者的要求提供直播间运营者、直播营销人员相关信息以及相关交易记录等必要信息"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cac9c2e8c04-001#Art. 16",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国证券法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国证券法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 139",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第八章 证券公司, 第三节 禁止的交易行为, p.1",
+     "Verbatim Snippet": "上述信息的保存期限不得少于二十年",
+     "Mapping Rationale": "Explicit minimum retention period (not less than 20 years) for securities company records; sectoral scope (securities industry).",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Law of the People's Republic of China on Securities",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国证券法_20191228.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "理、业务经营有关的各项信息，任何人不得隐匿、伪造、篡改或者毁损。上述信息的保存期限不得少于二十年。\n第一百三十八条　证券公司应当按照规定向国务院证券监督管理机构报送业务、财务等经营管理信息和资料。国务院证券监督管理机构有权要求证券公司及其主要股东、实际控制人在指定的期限内提供有关信息、资料。\n证券公司及其主要股东、实际控制人向国务院证券监督管理机构报送或者提供的信息、资料，必须真实、准确、完整。\n",
+      "after": "\n第一百四十条　证券公司的治理结构、合规管理、风险控制指标不符合规定的，国务院证券监督管理机构应当责令其限期改正；逾期未改正，或者其行为严重危及该证券公司的稳健运行、损害客户合法权益的，国务院证券监督管理机构可以区别情形，对其采取下列措施：\n（一）限制业务活动，责令暂停部分业务，停止核准新业务；\n（二）限制分配红利，限制向董事、监事、高级管理人员支付报酬、提供福利；\n（三）限制转让财产或者在财产上"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npcd272f71e-001#Art. 139",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "互联网上网服务营业场所管理条例",
+   "law_number": "第363号",
+   "source_url": "https://www.cac.gov.cn/2016-07/06/c_1119159909.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "互联网上网服务营业场所管理条例",
+     "Law Number / Ref": "第363号",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 23",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 经营",
+     "Verbatim Snippet": "登记内容和记录备份保存时间不得少于60日",
+     "Mapping Rationale": "Internet cafe operators must retain ID verification records/logs for at least 60 days - explicit minimum retention period, sectoral (internet access service venues).",
+     "Source URL": "https://www.cac.gov.cn/2016-07/06/c_1119159909.htm",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Regulations on the Administration of Internet Cafés and Internet Service Business Premises",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/互联网上网服务营业场所管理条例-df444b91.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "或者有其他违法行为的，应当立即予以制止并向文化行政部门、公安机关举报。\n第二十条 互联网上网服务营业场所经营单位应当在营业场所的显著位置悬挂《网络文化经营许可证》和营业执照。\n第二十一条 互联网上网服务营业场所经营单位不得接纳未成年人进入营业场所。\n互联网上网服务营业场所经营单位应当在营业场所入口处的显著位置悬挂未成年人禁入标志。\n第二十二条 互联网上网服务营业场所每日营业时间限于8时至24时。\n",
+      "after": "\n第二十四条 互联网上网服务营业场所经营单位应当依法履行信息网络安全、治安和消防安全职责，并遵守下列规定：\n(一)禁止明火照明和吸烟并悬挂禁止吸烟标志；\n(二)禁止带入和存放易燃、易爆物品；\n(三)不得安装固定的封闭门窗栅栏；\n(四)营业期间禁止封堵或者锁闭门窗、安全疏散通道和安全出口；\n(五)不得擅自停止实施安全技术措施。\n第四章 罚则\n第二十五条 文化行政部门、公安机关、工商行政管理部门或者其"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cac5142b20b-001#Art. 23",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国反洗钱法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国反洗钱法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 35",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 反洗钱义务, p.1",
+     "Verbatim Snippet": "客户身份资料在业务关系结束后、客户交易信息在交易结束后，应当至少保存十年",
+     "Mapping Rationale": "AML law sets minimum retention: financial institutions must keep customer ID and transaction records for at least 10 years after relationship/transaction ends.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Anti-Money Laundering Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国反洗钱法_20241108.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "。\n国务院反洗钱行政主管部门应当协调推动相关部门为金融机构开展客户尽职调查提供必要的便利。\n第三十四条　金融机构应当按照规定建立客户身份资料和交易记录保存制度。\n在业务关系存续期间，客户身份信息发生变更的，应当及时更新。\n客户身份资料在业务关系结束后、客户交易信息在交易结束后，应当至少保存十年。\n金融机构解散、被撤销或者被宣告破产时，应当将客户身份资料和客户交易信息移交国务院有关部门指定的机构。\n",
+      "after": "\n第三十六条　金融机构应当在反洗钱行政主管部门的指导下，关注、评估运用新技术、新产品、新业务等带来的洗钱风险，根据情形采取相应措施，降低洗钱风险。\n第三十七条　在境内外设有分支机构或者控股其他金融机构的金融机构，以及金融控股公司，应当在总部或者集团层面统筹安排反洗钱工作。为履行反洗钱义务在公司内部、集团成员之间共享必要的反洗钱信息的，应当明确信息共享机制和程序。共享反洗钱信息，应当符合有关信息保护"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc84c7bc25-001#Art. 35",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国税收征收管理法实施细则",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国税收征收管理法实施细则",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 30",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第四章 纳税申报, p.1",
+     "Verbatim Snippet": "账簿、记账凭证、报表、完税凭证、发票、出口凭证以及其他有关涉税资料应当保存10年",
+     "Mapping Rationale": "Specifies explicit minimum retention period of 10 years for tax-related books/records/invoices, applying to all taxpayers -> satisfies 7.3 minimum-period rule.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Detailed Rules for the Implementation of the Law of the People's Republic of China on Tax Collection and Administration",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国税收征收管理法实施细则_20160206.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "税人应当按照税务机关的要求安装、使用税控装置，并按照税务机关的规定报送有关数据和资料。\n税控装置推广应用的管理办法由国家税务总局另行制定，报国务院批准后实施。\n第二十九条　账簿、记账凭证、报表、完税凭证、发票、出口凭证以及其他有关涉税资料应当合法、真实、完整。\n账簿、记账凭证、报表、完税凭证、发票、出口凭证以及其他有关涉税资料应当保存10年；但是，法律、行政法规另有规定的除外。\n第四章　纳税申报\n",
+      "after": "\n第三十一条　纳税人采取邮寄方式办理纳税申报的，应当使用统一的纳税申报专用信封，并以邮政部门收据作为申报凭据。邮寄申报以寄出的邮戳日期为实际申报日期。\n纳税人采取电子方式办理纳税申报的，应当按照税务机关规定的期限和要求保存有关资料，并定期书面报送主管税务机关。\n第三十二条　纳税人在纳税期内没有应纳税款的，也应当按照规定办理纳税申报。\n纳税人享受减税、免税待遇的，在减税、免税期间应当按照规定办理纳税"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc74331113-001#Art. 30",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "互联网信息服务管理办法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "互联网信息服务管理办法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.3",
+     "Article / Section": "Art. 14",
+     "Discovery Tag": "NEW",
+     "Location Reference": "p.1",
+     "Verbatim Snippet": "互联网信息服务提供者和互联网接入服务提供者的记录备份应当保存60日",
+     "Mapping Rationale": "Explicit minimum retention period (60 days) for records/backups by internet information/access service providers - meets 'at least X days' floor rule.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Regulation on Management of Internet Information Services",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/互联网信息服务管理办法_20241206.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "者备案的项目提供服务，不得超出经许可或者备案的项目提供服务。\n非经营性互联网信息服务提供者不得从事有偿服务。\n互联网信息服务提供者变更服务项目、网站网址等事项的，应当提前30日向原审核、发证或者备案机关办理变更手续。\n第十二条　互联网信息服务提供者应当在其网站主页的显著位置标明其经营许可证编号或者备案编号。\n第十三条　互联网信息服务提供者应当向上网用户提供良好的服务，并保证所提供的信息内容合法。\n",
+      "after": "\n第十五条　互联网信息服务提供者不得制作、复制、发布、传播含有下列内容的信息：\n（一）反对宪法所确定的基本原则的；\n（二）危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的；\n（三）损害国家荣誉和利益的；\n（四）煽动民族仇恨、民族歧视，破坏民族团结的；\n（五）破坏国家宗教政策，宣扬邪教和封建迷信的；\n（六）散布谣言，扰乱社会秩序，破坏社会稳定的；\n（七）散布淫秽、色情、赌博、暴力、凶杀、恐怖"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npcc7c1f16c-001#Art. 14",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "个人信息保护合规审计管理办法",
+   "law_number": "第18号",
+   "source_url": "https://www.cac.gov.cn/2025-02/14/c_1741233507681519.htm",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "个人信息保护合规审计管理办法",
+     "Law Number / Ref": "第18号",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "Art. 12",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "处理100万人以上个人信息的个人信息处理者应当指定个人信息保护负责人，负责个人信息处理者的个人信息保护合规审计工作。",
+     "Mapping Rationale": "Mandatory designation of a personal information protection officer (DPO-equivalent) applies horizontally to all sectors above data-volume threshold, satisfying 7.4 branch for score 1.",
+     "Source URL": "https://www.cac.gov.cn/2025-02/14/c_1741233507681519.htm",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Measures for the Management of Compliance Audit of Personal Information Protection",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/个人信息保护合规审计管理办法-ba877f2e.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "信息处理者按照保护部门要求开展个人信息保护合规审计的，在完成合规审计后，应当将专业机构出具的个人信息保护合规审计报告报送保护部门。\n个人信息保护合规审计报告应当由专业机构主要负责人、合规审计负责人签字并加盖专业机构公章。\n第十一条 个人信息处理者按照保护部门要求开展个人信息保护合规审计的，应当按照保护部门要求对合规审计中发现的问题进行整改。在整改完成后15个工作日内，向保护部门报送整改情况报告。\n",
+      "after": "\n第十三条 专业机构在从事个人信息保护合规审计活动时，应当遵守法律法规，诚信正直，公正客观地作出合规审计职业判断，对在履行个人信息保护合规审计职责中获得的个人信息、商业秘密、保密商务信息等应当依法予以保密，不得泄露或者非法向他人提供，在合规审计工作结束后及时删除相关信息。\n第十四条 专业机构不得转委托其他机构开展个人信息保护合规审计。\n第十五条 同一专业机构及其关联机构、同一合规审计负责人不得连续"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cac6ed8bc3b-001#Art. 12",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "个人信息保护合规审计管理办法",
+     "Law Number / Ref": "第18号",
+     "Last Amended": "",
+     "Indicator ID": "7.4",
+     "Article / Section": "Art. 10",
+     "Discovery Tag": "NEW",
+     "Location Reference": "",
+     "Verbatim Snippet": "处理100万人以上个人信息的个人信息处理者应当指定个人信息保护负责人，负责个人信息处理者的个人信息保护合规审计工作。",
+     "Mapping Rationale": "Mandatory designation of a personal-information-protection officer (functionally a DPO) applies horizontally to all processors meeting the data-volume threshold, not limited to one sector — scores 1 per DPO branch.",
+     "Source URL": "https://www.cac.gov.cn/2025-02/14/c_1741233507681519.htm",
+     "Confidence": 0.75,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Measures for the Management of Compliance Audit of Personal Information Protection",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "auto/cac/raw/个人信息保护合规审计管理办法-ba877f2e.html",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "认证。专业机构的认证按照《中华人民共和国认证认可条例》的有关规定执行。\n第八条 个人信息处理者按照保护部门要求开展个人信息保护合规审计的，应当为专业机构正常开展个人信息保护合规审计工作提供必要支持，并承担审计费用。\n第九条 个人信息处理者按照保护部门要求开展个人信息保护合规审计的，应当按照保护部门要求选定专业机构，在限定时间内完成个人信息保护合规审计；情况复杂的，报保护部门批准后，可以适当延长。\n",
+      "after": "\n第十一条 个人信息处理者按照保护部门要求开展个人信息保护合规审计的，应当按照保护部门要求对合规审计中发现的问题进行整改。在整改完成后15个工作日内，向保护部门报送整改情况报告。\n第十二条 处理100万人以上个人信息的个人信息处理者应当指定个人信息保护负责人，负责个人信息处理者的个人信息保护合规审计工作。\n提供重要互联网平台服务、用户数量巨大、业务类型复杂的个人信息处理者，应当成立主要由外部成员组"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-cac6ed8bc3b-001#Art. 10",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国反间谍法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国反间谍法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 26",
+     "Discovery Tag": "KNOWN",
+     "Location Reference": "第三章 调查处置, p.1",
+     "Verbatim Snippet": "经设区的市级以上国家安全机关负责人批准，可以查阅、调取有关的文件、数据、资料、物品，有关个人和组织应当予以配合",
+     "Mapping Rationale": "Government (state security organ) can access data/documents from individuals/organizations based on internal administrative approval, not an independent judicial order — meets 7.5 disqualifier-free trigger.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "matches baseline r2-cn-066; English title (machine-rendered, not official): Counter-Espionage Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国反间谍法_20230426.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "依法执行反间谍工作任务时，经设区的市级以上国家安全机关负责人批准，出示工作证件，可以查验有关个人和组织的电子设备、设施及有关程序、工具。查验中发现存在危害国家安全情形的，国家安全机关应当责令其采取措施立即整改。拒绝整改或者整改后仍存在危害国家安全隐患的，可以予以查封、扣押。\n对依照前款规定查封、扣押的电子设备、设施及有关程序、工具，在危害国家安全的情形消除后，国家安全机关应当及时解除查封、扣押。\n",
+      "after": "\n第二十七条　需要传唤违反本法的人员接受调查的，经国家安全机关办案部门负责人批准，使用传唤证传唤。对现场发现的违反本法的人员，国家安全机关工作人员依照规定出示工作证件，可以口头传唤，但应当在询问笔录中注明。传唤的原因和依据应当告知被传唤人。对无正当理由拒不接受传唤或者逃避传唤的人，可以强制传唤。\n国家安全机关应当在被传唤人所在市、县内的指定地点或者其住所进行询问。\n国家安全机关对被传唤人应当及时询"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npce241cfb3-001#Art. 26",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国反间谍法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 29",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 调查处置, p.1",
+     "Verbatim Snippet": "经设区的市级以上国家安全机关负责人批准，可以查询涉嫌间谍行为人员的相关财产信息",
+     "Mapping Rationale": "Government agency (not court/independent tribunal) can access personal property/financial data via internal approval only — no judicial authorization required.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.29 not cited by baseline (matched on the English name); English title (machine-rendered, not official): Counter-Espionage Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国反间谍法_20230426.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "的时间不得超过二十四小时。国家安全机关应当为被传唤人提供必要的饮食和休息时间。严禁连续传唤。\n除无法通知或者可能妨碍调查的情形以外，国家安全机关应当及时将传唤的原因通知被传唤人家属。在上述情形消失后，应当立即通知被传唤人家属。\n第二十八条　国家安全机关调查间谍行为，经设区的市级以上国家安全机关负责人批准，可以依法对涉嫌间谍行为的人身、物品、场所进行检查。\n检查女性身体的，应当由女性工作人员进行。\n",
+      "after": "\n第三十条　国家安全机关调查间谍行为，经设区的市级以上国家安全机关负责人批准，可以对涉嫌用于间谍行为的场所、设施或者财物依法查封、扣押、冻结；不得查封、扣押、冻结与被调查的间谍行为无关的场所、设施或者财物。\n第三十一条　国家安全机关工作人员在反间谍工作中采取查阅、调取、传唤、检查、查询、查封、扣押、冻结等措施，应当由二人以上进行，依照有关规定出示工作证件及相关法律文书，并由相关人员在有关笔录等书面"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npce241cfb3-001#Art. 29",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国反间谍法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 37",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 调查处置, p.1",
+     "Verbatim Snippet": "国家安全机关因反间谍工作需要，根据国家有关规定，经过严格的批准手续，可以采取技术侦察措施和身份保护措施",
+     "Mapping Rationale": "State security organs can conduct technical surveillance via internal administrative approval, not independent judicial authorization, satisfying 7.5's non-judicial-access trigger.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "provision-level NEW: law known, s.37 not cited by baseline (matched on the English name); English title (machine-rendered, not official): Counter-Espionage Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国反间谍法_20230426.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "责令电信业务经营者、互联网服务提供者及时采取修复漏洞、加固网络防护、停止传输、消除程序和内容、暂停相关服务、下架相关应用、关闭相关网站等措施，保存相关记录。情况紧急，不立即采取措施将对国家安全造成严重危害的，由国家安全机关责令有关单位修复漏洞、停止相关传输、暂停相关服务，并通报有关部门。\n经采取相关措施，上述信息内容或者风险已经消除的，国家安全机关和有关部门应当及时作出恢复相关传输和服务的决定。\n",
+      "after": "\n第三十八条　对违反本法规定，涉嫌犯罪，需要对有关事项是否属于国家秘密或者情报进行鉴定以及需要对危害后果进行评估的，由国家保密部门或者省、自治区、直辖市保密部门按照程序在一定期限内进行鉴定和组织评估。\n第三十九条　国家安全机关经调查，发现间谍行为涉嫌犯罪的，应当依照《中华人民共和国刑事诉讼法》的规定立案侦查。\n第四章　保障与监督\n第四十条　国家安全机关工作人员依法履行职责，受法律保护。\n第四十一条"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npce241cfb3-001#Art. 37",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国香港特别行政区维护国家安全法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国香港特别行政区维护国家安全法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 43",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第四章 案件管辖、法律适用和程序, 第六节 效力范围, p.1",
+     "Verbatim Snippet": "经行政长官批准，对有合理理由怀疑涉及实施危害国家安全犯罪的人员进行截取通讯和秘密监察",
+     "Mapping Rationale": "Interception/covert surveillance authorized by Chief Executive (executive, non-judicial) rather than court order; other data-access powers (search, info demands to service providers) also lack judicial warrant requirement.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.9,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Law of the People's Republic of China on Safeguarding National Security in the Hong Kong Special Administrative Region",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国香港特别行政区维护国家安全法_20200630.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "为涉及国家秘密、公共秩序等情形不宜公开审理的，禁止新闻界和公众旁听全部或者一部分审理程序，但判决结果应当一律公开宣布。\n第四十二条　香港特别行政区执法、司法机关在适用香港特别行政区现行法律有关羁押、审理期限等方面的规定时，应当确保危害国家安全犯罪案件公正、及时办理，有效防范、制止和惩治危害国家安全犯罪。\n对犯罪嫌疑人、被告人，除非法官有充足理由相信其不会继续实施危害国家安全行为的，不得准予保释。\n",
+      "after": "\n第四十四条　香港特别行政区行政长官应当从裁判官、区域法院法官、高等法院原讼法庭法官、上诉法庭法官以及终审法院法官中指定若干名法官，也可从暂委或者特委法官中指定若干名法官，负责处理危害国家安全犯罪案件。行政长官在指定法官前可征询香港特别行政区维护国家安全委员会和终审法院首席法官的意见。上述指定法官任期一年。\n凡有危害国家安全言行的，不得被指定为审理危害国家安全犯罪案件的法官。在获任指定法官期间，如"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc97b1ec16-001#Art. 43",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国数据安全法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国数据安全法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 35",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第四章 数据安全保护义务, p.1",
+     "Verbatim Snippet": "公安机关、国家安全机关因依法维护国家安全或者侦查犯罪的需要调取数据，应当按照国家有关规定，经过严格的批准手续，依法进行，有关组织、个人应当予以配合",
+     "Mapping Rationale": "Government (public security/state security organs) can obtain data via internal administrative 'strict approval procedures' rather than an independent judicial warrant/court order — fires the 7.5 disqualifier-free branch for non-judicial authorization.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Law of the People's Republic of China on Data Security",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国数据安全法_20210610.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "据，应当采取合法、正当的方式，不得窃取或者以其他非法方式获取数据。\n法律、行政法规对收集、使用数据的目的、范围有规定的，应当在法律、行政法规规定的目的和范围内收集、使用数据。\n第三十三条　从事数据交易中介服务的机构提供服务，应当要求数据提供方说明数据来源，审核交易双方的身份，并留存审核、交易记录。\n第三十四条　法律、行政法规规定提供数据处理相关服务应当取得行政许可的，服务提供者应当依法取得许可。\n",
+      "after": "\n第三十六条　中华人民共和国主管机关根据有关法律和中华人民共和国缔结或者参加的国际条约、协定，或者按照平等互惠原则，处理外国司法或者执法机构关于提供数据的请求。非经中华人民共和国主管机关批准，境内的组织、个人不得向外国司法或者执法机构提供存储于中华人民共和国境内的数据。\n第五章　政务数据安全与开放\n第三十七条　国家大力推进电子政务建设，提高政务数据的科学性、准确性、时效性，提升运用数据服务经济社会"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc2a40ac5b-001#Art. 35",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国国家情报法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国国家情报法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 14",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第二章 国家情报工作机构职权, p.1",
+     "Verbatim Snippet": "国家情报工作机构依法开展情报工作，可以要求有关机关、组织和公民提供必要的支持、协助和配合。",
+     "Mapping Rationale": "Compels organizations/citizens to provide support/cooperation to intelligence agencies without any court order or independent judicial authorization requirement.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): National Intelligence Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国国家情报法_20180427.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "\n第十一条　国家情报工作机构应当依法搜集和处理境外机构、组织、个人实施或者指使、资助他人实施的，或者境内外机构、组织、个人相勾结实施的危害中华人民共和国国家安全和利益行为的相关情报，为防范、制止和惩治上述行为提供情报依据或者参考。\n第十二条　国家情报工作机构可以按照国家有关规定，与有关个人和组织建立合作关系，委托开展相关工作。\n第十三条　国家情报工作机构可以按照国家有关规定，开展对外交流与合作。\n",
+      "after": "\n第十五条　国家情报工作机构根据工作需要，按照国家有关规定，经过严格的批准手续，可以采取技术侦察措施和身份保护措施。\n第十六条　国家情报工作机构工作人员依法执行任务时，按照国家有关规定，经过批准，出示相应证件，可以进入限制进入的有关区域、场所，可以向有关机关、组织和个人了解、询问有关情况，可以查阅或者调取有关的档案、资料、物品。\n第十七条　国家情报工作机构工作人员因执行紧急任务需要，经出示相应证件"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npcaaca67c6-001#Art. 14",
+     "_score_hint": "1"
+    },
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国国家情报法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 15",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第二章 国家情报工作机构职权, p.1",
+     "Verbatim Snippet": "国家情报工作机构根据工作需要，按照国家有关规定，经过严格的批准手续，可以采取技术侦察措施和身份保护措施",
+     "Mapping Rationale": "Technical reconnaissance (surveillance) measures authorized via internal state-prescribed approval, not by an independent court/judicial warrant - triggers 7.5 score 1.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): National Intelligence Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国国家情报法_20180427.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "内外机构、组织、个人相勾结实施的危害中华人民共和国国家安全和利益行为的相关情报，为防范、制止和惩治上述行为提供情报依据或者参考。\n第十二条　国家情报工作机构可以按照国家有关规定，与有关个人和组织建立合作关系，委托开展相关工作。\n第十三条　国家情报工作机构可以按照国家有关规定，开展对外交流与合作。\n第十四条　国家情报工作机构依法开展情报工作，可以要求有关机关、组织和公民提供必要的支持、协助和配合。\n",
+      "after": "\n第十六条　国家情报工作机构工作人员依法执行任务时，按照国家有关规定，经过批准，出示相应证件，可以进入限制进入的有关区域、场所，可以向有关机关、组织和个人了解、询问有关情况，可以查阅或者调取有关的档案、资料、物品。\n第十七条　国家情报工作机构工作人员因执行紧急任务需要，经出示相应证件，可以享受通行便利。\n国家情报工作机构工作人员根据工作需要，按照国家有关规定，可以优先使用或者依法征用有关机关、组织"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npcaaca67c6-001#Art. 15",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国反恐怖主义法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国反恐怖主义法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 51",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第五章 调 查, p.1",
+     "Verbatim Snippet": "公安机关调查恐怖活动嫌疑，有权向有关单位和个人收集、调取相关信息和材料。有关单位和个人应当如实提供。",
+     "Mapping Rationale": "Police can compel collection of personal data/information from units and individuals during terrorism investigations with no court order or independent judicial authorization required — internal police-chief approval (in adjacent Art.52) is not judicial.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Anti-Terrorism Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国反恐怖主义法_20180427.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "。\n第五章　调　　查\n第四十九条　公安机关接到恐怖活动嫌疑的报告或者发现恐怖活动嫌疑，需要调查核实的，应当迅速进行调查。\n第五十条　公安机关调查恐怖活动嫌疑，可以依照有关法律规定对嫌疑人员进行盘问、检查、传唤，可以提取或者采集肖像、指纹、虹膜图像等人体生物识别信息和血液、尿液、脱落细胞等生物样本，并留存其签名。\n公安机关调查恐怖活动嫌疑，可以通知了解有关情况的人员到公安机关或者其他地点接受询问。\n",
+      "after": "\n第五十二条　公安机关调查恐怖活动嫌疑，经县级以上公安机关负责人批准，可以查询嫌疑人员的存款、汇款、债券、股票、基金份额等财产，可以采取查封、扣押、冻结措施。查封、扣押、冻结的期限不得超过二个月，情况复杂的，可以经上一级公安机关负责人批准延长一个月。\n第五十三条　公安机关调查恐怖活动嫌疑，经县级以上公安机关负责人批准，可以根据其危险程度，责令恐怖活动嫌疑人员遵守下列一项或者多项约束措施：\n（一）未"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc0bbe0681-001#Art. 51",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国刑事诉讼法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国刑事诉讼法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 151",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第二章 侦 查, 第八节 技术侦查措施, p.1",
+     "Verbatim Snippet": "经过严格的批准手续，可以采取技术侦查措施",
+     "Mapping Rationale": "Technical investigative measures (surveillance/interception of personal data) authorized via internal procuratorial/police approval procedure, not an independent judicial warrant — Guide p.62 non-judicial authorization triggers score 1.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Criminal Procedure Law of the People's Republic of China",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国刑事诉讼法_20181026.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "犯罪、黑社会性质的组织犯罪、重大毒品犯罪或者其他严重危害社会的犯罪案件，根据侦查犯罪的需要，经过严格的批准手续，可以采取技术侦查措施。\n人民检察院在立案后，对于利用职权实施的严重侵犯公民人身权利的重大犯罪案件，根据侦查犯罪的需要，经过严格的批准手续，可以采取技术侦查措施，按照规定交有关机关执行。\n追捕被通缉或者批准、决定逮捕的在逃的犯罪嫌疑人、被告人，经过批准，可以采取追捕所必需的技术侦查措施。\n",
+      "after": "\n第一百五十二条　采取技术侦查措施，必须严格按照批准的措施种类、适用对象和期限执行。\n侦查人员对采取技术侦查措施过程中知悉的国家秘密、商业秘密和个人隐私，应当保密；对采取技术侦查措施获取的与案件无关的材料，必须及时销毁。\n采取技术侦查措施获取的材料，只能用于对犯罪的侦查、起诉和审判，不得用于其他用途。\n公安机关依法采取技术侦查措施，有关单位和个人应当配合，并对有关情况予以保密。\n第一百五十三条　为"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc4cd4d4c3-001#Art. 151",
+     "_score_hint": "1"
+    }
+   ]
+  },
+  {
+   "law_name": "中华人民共和国反有组织犯罪法",
+   "law_number": "",
+   "source_url": "https://flk.npc.gov.cn/",
+   "provisions": [
+    {
+     "Economy": "China",
+     "Law Name": "中华人民共和国反有组织犯罪法",
+     "Law Number / Ref": "",
+     "Last Amended": "",
+     "Indicator ID": "7.5",
+     "Article / Section": "Art. 27",
+     "Discovery Tag": "NEW",
+     "Location Reference": "第三章 案件办理, p.1",
+     "Verbatim Snippet": "经县级以上公安机关负责人批准，可以查询嫌疑人员的存款、汇款、债券、股票、基金份额等财产信息",
+     "Mapping Rationale": "Police can access personal financial/property data via internal administrative approval (police chief), not a court order or independent judicial authorization — triggers 7.5 score 1.",
+     "Source URL": "https://flk.npc.gov.cn/",
+     "Confidence": 0.85,
+     "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Law of the People's Republic of China on Counter Organized Crime",
+     "Language of Source": "Chinese",
+     "source_pdf_path": "manual/npc-database/unpacked/中华人民共和国反有组织犯罪法_20211224.docx",
+     "ocr_quality_cer": null,
+     "processing_time": 0.0,
+     "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+     "raw_context": {
+      "before": "机关接到对有组织犯罪的报案、控告、举报后，应当及时开展统计、分析、研判工作，组织核查或者移送有关主管机关依法处理。\n第二十五条　有关国家机关在履行职责时发现有组织犯罪线索，或者接到对有组织犯罪的举报的，应当及时移送公安机关等主管机关依法处理。\n第二十六条　公安机关核查有组织犯罪线索，可以按照国家有关规定采取调查措施。公安机关向有关单位和个人收集、调取相关信息和材料的，有关单位和个人应当如实提供。\n",
+      "after": "\n第二十八条　公安机关核查有组织犯罪线索，发现犯罪事实或者犯罪嫌疑人的，应当依照《中华人民共和国刑事诉讼法》的规定立案侦查。\n第二十九条　公安机关办理有组织犯罪案件，可以依照《中华人民共和国出境入境管理法》的规定，决定对犯罪嫌疑人采取限制出境措施，通知移民管理机构执行。\n第三十条　对有组织犯罪案件的犯罪嫌疑人、被告人，根据办理案件和维护监管秩序的需要，可以采取异地羁押、分别羁押或者单独羁押等措施。"
+     },
+     "_record_type": "scored",
+     "_provision_id": "cn-npc78e46d5b-001#Art. 27",
+     "_score_hint": "1"
+    }
+   ]
+  }
+ ]
+}

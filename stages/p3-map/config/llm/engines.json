@@ -1,0 +1,53 @@
+{
+  "_": "The two AI engines this stage declares for C4b and C5b. One file, read by config/llm/engines.py, so the interface can offer a choice of engine without a code change (submission checklist item 9) and the run manifest can record which one produced a row. Selecting an engine sets a default per role; an explicitly set model variable still wins, which is how the A/B harnesses pin two models of one provider.",
+  "version": "1.0.0",
+  "updated": "2026-09-27",
+  "default": "A",
+  "_default": "The engine used when RDTII_ENGINE is unset is NOT this one: with no RDTII_ENGINE the stage keeps its pre-engine behaviour and reads LLM_PROVIDER and the four model variables directly. `default` is what an interface should preselect.",
+  "roles": ["mapper", "verifier", "escalation", "triage"],
+  "_roles": "triage is always local (kickoff decision #3: a local model never maps, verifies or breaks a tie, and the cheap screen is local-first), so both engines name the same triage model and the factory forces its provider.",
+  "engines": {
+    "A": {
+      "id": "A",
+      "label": "Claude (hosted)",
+      "provider": "anthropic",
+      "open_weights": false,
+      "roles": {
+        "mapper": "claude-sonnet-5",
+        "verifier": "claude-haiku-4-5",
+        "escalation": "claude-opus-4-8",
+        "triage": "qwen2.5:14b"
+      },
+      "workers": 12,
+      "key_env": "ANTHROPIC_API_KEY",
+      "endpoint_env": null,
+      "batch_lane": true,
+      "_pin": "Bare aliases: no dated checkpoint string exists for these models, so the run date in the manifest is the version evidence. Recorded per run in out/run_manifest.json.",
+      "notes": "Prompt caching on the instrument prefix (1h TTL) and the Message Batches lane at 50% are Anthropic-only; decision M3."
+    },
+    "B": {
+      "id": "B",
+      "label": "Qwen2.5 14B Instruct, open weights, local",
+      "provider": "ollama",
+      "open_weights": true,
+      "roles": {
+        "mapper": "qwen2.5:14b",
+        "verifier": "qwen2.5:14b",
+        "escalation": "qwen2.5:14b",
+        "triage": "qwen2.5:14b"
+      },
+      "workers": 1,
+      "key_env": null,
+      "endpoint_env": "OLLAMA_HOST",
+      "batch_lane": false,
+      "digest": "sha256:7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+      "_digest": "Read from the local Ollama server on 2026-09-27 (ollama 0.34.4). The tag qwen2.5:14b can be repointed upstream; the digest cannot, so this is what a reviewer should verify with `ollama list --digests`.",
+      "quantization": "Q4_K_M",
+      "parameter_size": "14.8B",
+      "context_length": 32768,
+      "_context": "The model's own limit. What the client actually requests is OLLAMA_NUM_CTX (16384): Ollama defaults to 2048 and truncates from the FRONT, which silently drops the indicator definition.",
+      "workers_note": "One worker: a single 14B model on one GPU has no concurrency to gain, and the dense embedding leg competes for the same device.",
+      "notes": "Reproduced Round 1's Sonnet verdict on the canonical trap case through the real S4 path on 2026-09-26 (6.1 false, 6.4 applies, score 1, Horizontal, every quote grounded) in 27 s at $0."
+    }
+  }
+}

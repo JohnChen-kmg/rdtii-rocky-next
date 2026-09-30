@@ -1,0 +1,29 @@
+{
+  "economy": "MY",
+  "resolvable_gold_rows": 16,
+  "row_recall": 0.875,
+  "cited_but_unparsed_sources": 0,
+  "cited_but_unparsed_examples": [],
+  "gold_rows_with_parsed_sources": 16,
+  "row_recall_on_parsed_sources": 0.875,
+  "known_tag_accuracy_on_hits": 0.7857,
+  "misses": [
+    {
+      "gold": "r1-my-039",
+      "ind": "6.2",
+      "law": [
+        "Personal Data Protection Act (Act 709) 2010"
+      ]
+    },
+    {
+      "gold": "r1-my-041",
+      "ind": "6.2",
+      "law": [
+        "Personal Data Protection Act (Act 709) 2010"
+      ]
+    }
+  ],
+  "csv_rows": 53,
+  "note": "allowlist OFF; label-noise gold rows excluded (decision #9/#11)",
+  "law_match": "config/lawnames.py: the CITED law's tokens must be covered by the candidate name (not the other way round), and an original-script title matches by containment, because an English name here is a translation"
+}

@@ -1,0 +1,9 @@
+# Instrument validation run — 2026-09-13 14:08
+# Command: python code/tools/validate.py  (runs: RDTII_GUIDE_TEXT=<workspace>/sources/text/guide.txt RDTII_FINALE_REPO=<finale repo> python -X utf8 code/scripts/validate_instrument.py)
+# Python: Python 3.12.10 · openpyxl 3.1.5 · PyYAML 6.0.3
+# Tree: instrument workspace, instrument/ folder; compared with the finale repo at 92a5e9d (branch finale)
+
+INFO  - vendored copy p3-map/contracts/instrument/ is NOT re-vendored yet (77 files differ, e.g. ['VALIDATION_2026-09-13.txt', 'indicator_order.yaml', 'signatures/1.4.yaml'])
+PASS — 61/62 indicators in scope (6.5 excluded); tiers {'A': 9, 'B': 14, 'C': 38}; category names + score sets machine-match the methodology sheet for all 61; 400 exemplars round-trip; gold 1054 rows round-trip 1:1 (flags {'advisory': 5, 'candidate': 7, 'host_marked': 34, 'suspect': 2}); Guide sentences checked 61; policies complete.
+
+exit code: 0

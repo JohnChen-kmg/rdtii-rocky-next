@@ -1,0 +1,32 @@
+{
+  "economy": "LA",
+  "csv_rows": 25,
+  "cells": {
+    "6.1|KNOWN": 1,
+    "6.2|KNOWN": 1,
+    "6.3|NEW": 2,
+    "6.4|KNOWN": 1,
+    "6.4|NEW": 1,
+    "7.1|": 1,
+    "7.2|NEW": 3,
+    "7.3|NEW": 10,
+    "7.4|": 1,
+    "7.5|NEW": 4
+  },
+  "blank_discovery_tag": {
+    "count": 2,
+    "indicators": [
+      "7.1",
+      "7.4"
+    ]
+  },
+  "dropped_before_curation": {
+    "government_data_only": 1,
+    "ungrounded_quote": 1
+  },
+  "multi_act_citation_caveat": {
+    "count": 0,
+    "by_confidence": {},
+    "why": "the source file is a gazette issue holding several acts and upstream records one title per file, not per act; the article, quote and URL are verified, the Law Name may name a different act in the same issue. first_act = probably correct (unverified ordering inference); later_act = most likely wrong; act_unknown = uncheckable"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "economy": "TL",
+  "scores": {
+    "6.1": {
+      "score": 0.5,
+      "basis": "max over 1 verified fires",
+      "evidence_rows": 1,
+      "pending": 0
+    },
+    "6.2": {
+      "score": 1.0,
+      "basis": "escalation clause: 3 distinct verified half-point measures",
+      "evidence_rows": 3,
+      "pending": 0
+    },
+    "6.3": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "6.4": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "7.1": {
+      "score": "pending",
+      "basis": "economy-level call named no controlling law, so the cell is left unscored rather than inferred from absent evidence: ",
+      "evidence_rows": 0,
+      "rejected_rows": 4
+    },
+    "7.2": {
+      "score": 0.5,
+      "basis": "Evidence shows only fragmented, non-comprehensive measures: an institutional cybersecurity unit within one ministry (organizational/administrative mandate, not a legal framework) and sectoral banking rules imposing operational risk-management/business continuity duties. No horizontal cybersecurity law is evidenced. This indicates partial/sectoral coverage rather than a full absence or a comprehensive framework, so a middle score of 0.5 fits best given the rejected candidates still reveal sector-specific rules exist.",
+      "controlling_law": "Decreto-Lei n.º 75/2023 (orgânica do Ministério dos Transportes e Comunicações) and Conselho Contabilístico de Timor-Leste banking regulation Art. 104",
+      "evidence_rows": 0,
+      "rejected_rows": 6
+    },
+    "7.3": {
+      "score": 1.0,
+      "basis": "max over 46 verified fires",
+      "evidence_rows": 46,
+      "pending": 0
+    },
+    "7.4": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "7.5": {
+      "score": 1.0,
+      "basis": "max over 28 verified fires",
+      "evidence_rows": 28,
+      "pending": 0
+    }
+  },
+  "economy_level_model": "claude-sonnet-5",
+  "cost_usd": 0.0219
+}
