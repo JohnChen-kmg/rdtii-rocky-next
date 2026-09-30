@@ -1,0 +1,3 @@
+# Raw corpus bodies and their sidecars must stay byte-exact (manifest sha256
+# integrity + snippet char offsets). Never EOL-normalize anything under demo_data/.
+demo_data/** -text
