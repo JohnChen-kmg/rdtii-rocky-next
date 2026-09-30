@@ -1,0 +1,48 @@
+
+--- module as configured, dense only
+  candidate pairs per economy : 7,864        (fixed caps: 13,627)
+  gold recall gate            : 37/37 = 1.000   (gate requires >= 0.95)
+  economy-score cells changed : 0 of 22
+  filed rows retained         : 120/135 = 89%
+  NEW rows retained           : 91/105 = 87%
+  verified fires retained     : 1,881/2,328 = 81%
+  cells by binding term       : {'theta': 8, 'max': 16, 'min': 3}
+
+--- module as configured, with the BM25 top-up (6.4, 7.3)
+  candidate pairs per economy : 8,133        (fixed caps: 13,627)
+  gold recall gate            : 37/37 = 1.000   (gate requires >= 0.95)
+  economy-score cells changed : 0 of 22
+  filed rows retained         : 120/135 = 89%
+  NEW rows retained           : 91/105 = 87%
+  verified fires retained     : 1,897/2,328 = 81%
+  cells by binding term       : {'theta': 8, 'max': 16, 'min': 3}
+
+per-cell report, with the sparse top-up:
+  cell          cands  direct   gray      bound  theta
+  SG:6.1          972      22    950      theta   0.56
+  MY:6.1         1830      93   1737        max   0.56
+  AU:6.1         1959      12   1947        max   0.56
+  SG:6.2         1200      43   1157        max   0.59
+  MY:6.2          633      28    605      theta   0.59
+  AU:6.2         1200      80   1120        max   0.59
+  SG:6.3          283       6    277      theta   0.58
+  MY:6.3          150       0    150        min   0.58
+  AU:6.3          629       7    622      theta   0.58
+  SG:6.4          422      29    393      theta   0.61
+  MY:6.4          398      94    304      theta   0.61
+  AU:6.4          283      12    271      theta   0.61
+  SG:7.1          400      63    337        max   0.55
+  MY:7.1          400      91    309        max   0.55
+  AU:7.1          400       1    399        max   0.55
+  SG:7.2          600      52    548        max   0.53
+  MY:7.2          600      24    576        max   0.53
+  AU:7.2          600      27    573        max   0.53
+  SG:7.3         1900      92   1808        max   0.53
+  MY:7.3         1910      72   1838        max   0.53
+  AU:7.3         1923     120   1803        max   0.53
+  SG:7.4          108      31     77      theta   0.62
+  MY:7.4          100      51     49        min   0.62
+  AU:7.4          100       4     96        min   0.62
+  SG:7.5         1800     451   1349        max   0.58
+  MY:7.5         1800     442   1358        max   0.58
+  AU:7.5         1800    1701     99        max   0.58

@@ -1,0 +1,98 @@
+# Citation audit, 2026-09-13, corrected run
+# Command (from this workspace): python code/tools/audit_citations.py --out evidence/citation_audit_2026-09-13.txt
+# Replaces the overnight run of drafting/2026-09-13/tools/citation_audit.py. That run's country-name check never
+# matched (backspace characters in its pattern), so it listed 19 lines. The 11 added lines each name a country example
+# taken from a workbook row cited in the same line; every such row was looked up in the gold set and matches the line.
+# A listed line is a prompt to look, not a verdict.
+
+audited 423 lines; 30 to review
+
+[2.1 coding_rules] Guide p.19: 25% word overlap; proper nouns not on page: []
+   An enabling clause that lets the government adopt bans scores 0 until an implementing exclusion is found; record and score the implementing instrument (Guide p.19; Methodology sheet 2.1).
+
+[3.5 disambiguation] Guide pp.87-88: 67% word overlap; proper nouns not on page: ['Singapore']
+   TRAP: corporate-law registered office rules are not 12.8 local presence requirements; the workbook records the same Singapore Companies Act provision as 3.5 = 1 and 12.8 = 0 (Guide pp.87-88; workbook round1 Singapore row 14; workbook round1 Singapore row 92).
+
+[5.5 coding_rules] Guide p.44: 22% word overlap; proper nouns not on page: []
+   Holding a licence is not scored by itself; the eligibility criteria and licence conditions decide, so capture the clauses that set them (Guide p.44).
+
+[5.5 disambiguation] Guide p.11: 35% word overlap; proper nouns not on page: ['Russia', 'Singapore']
+   TRAP: host coders split on bare local-registration licence conditions, scoring Singapore's facilities-based licence 1 but Russia's communications licence 0; record such a condition under 3.5 and flag any 5.5 score of 1 that rests on it alone (Guide p.11; workb
+
+[5.5 disambiguation] Guide p.44: 38% word overlap; proper nouns not on page: ['India']
+   TRAP: host coders scored India's unified licence 0 despite an entry fee plus a licence fee of 8% of adjusted gross revenue, while the Guide treats revenue sharing on top of fees as a barrier; flag for review (workbook round2 India row 54; Guide p.44).
+
+[5.5 disambiguation] Guide p.81: 22% word overlap; proper nouns not on page: []
+   Licences to deal in encryption tools or services are not telecom operator licences, even when the same licensing law lists both (Guide p.81; workbook round2 Russian Federation row 77).
+
+[6.4 disambiguation] Guide p.54: 29% word overlap; proper nouns not on page: []
+   TRAP (mirror of the 6.1 trap): 'prohibited unless conditions are met' — the default-prohibition + exception drafting pattern (e.g. Singapore PDPA s.26: transfer only per prescribed requirements ensuring comparable protection) — is 6.4, NOT a 6.1 ban. Classify 
+
+[7.1 coding_rules] Guide p.58: 29% word overlap; proper nouns not on page: []
+   Sectoral data-protection instruments are part of the economy-level answer: they decide 0.5 when no comprehensive law exists, and they do not lift a 0 when one does. (Guide p.58; Assignment 1 answer key p.2) 
+
+[7.2 disambiguation] Guide p.62: 29% word overlap; proper nouns not on page: []
+   The same act's powers to access data without court orders evidence 7.5 separately. (Guide p.62)
+
+[7.3 disambiguation] Internal Guide p.13: 26% word overlap; proper nouns not on page: []
+   TRAP (multiply attested): 'do not keep longer than necessary' / 'as long as necessary' retention-limitation principles in data protection laws are MAXIMUM-period rules — NOT scored under RDTII 2.1 (score 0). Only 'retain for AT LEAST N' (a floor) scores 1. Loo
+
+[7.4 coding_rules] Guide p.61: 25% word overlap; proper nouns not on page: []
+   The duty must be MANDATORY. Advisory/recommended DPIAs (e.g. Singapore's advised DPIA for children's products) do not create a DPIA mandate — Singapore scores on its mandatory DPO duty. (Guide p.61)
+
+[8.1 coding_rules] Guide p.11: 14% word overlap; proper nouns not on page: []
+   One law that protects intermediaries against both copyright claims and other unlawful content is evidence for 8.1 and 8.2; record it under both (Guide pp.65-66; Guide p.11).
+
+[8.1 disambiguation] Guide p.65: 22% word overlap; proper nouns not on page: []
+   TRAP inverted polarity: score 1 means the economy LACKS a copyright safe harbour; finding a shield lowers the score (Guide p.65; Methodology sheet 8.1).
+
+[8.1 disambiguation] Guide p.65: 57% word overlap; proper nouns not on page: ['Lao']
+   TRAP: do not score 8.1 as 1 only because a general intermediary safe harbour omits the word copyright; the workbook scores one Lao law 1 for 8.1 and 0 for 8.2, against the Guide (Guide p.65, footnote 40; workbook round2 Lao PDR rows 50, 51).
+
+[8.1 disambiguation] Internal Guide p.13: 15% word overlap; proper nouns not on page: []
+   TRAP: a copyright clause that only obliges intermediaries to prevent infringement or block infringing works gives no shield, so it is not a safe harbour; the duty itself is 8.4 material (Guide p.64; Internal Guide p.13; workbook round2 Mongolia row 44).
+
+[8.1 disambiguation] Guide p.65: 17% word overlap; proper nouns not on page: ['Russia']
+   An IP-only safe harbour leaves 8.2 open: Russia's Civil Code shield gives 8.1 a 0 while 8.2 scores 1 (Guide p.65; workbook round2 Russian Federation rows 60, 61).
+
+[8.2 coding_rules] Internal Guide p.10: 17% word overlap; proper nouns not on page: []
+   When no provision limits intermediaries' liability for such content, cite the general laws searched and score 1 (Methodology sheet 8.2; Internal Guide p.10; workbook round2 Russian Federation row 61).
+
+[8.2 disambiguation] Guide p.65: 14% word overlap; proper nouns not on page: ['Lao']
+   An immunity covering all unlawful content, such as Lao PDR's e-transactions law, answers 8.1 as well (Guide p.65, footnote 40; workbook round2 Lao PDR rows 50, 51).
+
+[8.3 coding_rules] Guide p.67: 25% word overlap; proper nouns not on page: []
+   Prepaid or postpaid SIM registration stays at 0.5 even with ID-database cross-checks or biometrics (Guide p.67; workbook round1 Australia row 49; workbook round2 Indonesia row 100).
+
+[8.3 disambiguation] Guide p.66: 40% word overlap; proper nouns not on page: ['India']
+   TRAP: a first-originator identification duty is 8.3, not 8.4; the workbook also codes India's rule as 8.4 (Guide p.66; workbook round2 India rows 108, 113).
+
+[9.1 disambiguation] Guide p.74: 40% word overlap; proper nouns not on page: ['India']
+   TRAP: a government ban on named applications may be an import ban on online services, 10.1; the workbooks code India's 2020 ban of 267 apps as 10.1 but a later app-blocking wave as 9.1 (Guide p.74; workbook round2 India rows 119 and 125).
+
+[9.4 disambiguation] Guide p.72: 27% word overlap; proper nouns not on page: []
+   TRAP: data-centre licensing or registration is not 6.3 but may be 9.4, whereas a licence condition to keep servers in-country is also recorded under 6.3 and makes the licence strict (Internal Guide p.13; Guide p.72; workbook round2 China rows 49 and 88).
+
+[12.3 coding_rules] Guide p.85: 25% word overlap; proper nouns not on page: []
+   Any licence scores 1: unlike 5.5 and 9.4, the criteria do not ask for strict, discriminatory or entry-blocking conditions (Methodology sheet 12.3; Guide p.85; Guide p.44; Guide p.72).
+
+[12.3 disambiguation] Internal Guide p.12: 18% word overlap; proper nouns not on page: []
+   TRAP: licences for ISPs, ICPs, social media, news, VPN or cloud services are 9.4, and 9.4 excludes e-commerce platform licences, which belong to Pillar 12 (Internal Guide p.12; Guide p.71; Indicator Reference note, 9.4).
+
+[12.8 disambiguation] Guide p.88: 50% word overlap; proper nouns not on page: ['Russia']
+   TRAP: Russia's 236-FZ duty to open a branch, representative office or legal entity was coded 3.5 = 1 and 12.8 = 0, while the Guide's 12.8 Türkiye example asks only for an appointed representative (workbook round2 Russian Federation rows 23 and 108; Guide p.88)
+
+[12.8 disambiguation] Guide p.61: 46% word overlap; proper nouns not on page: ['China']
+   TRAP: a Data Protection Officer or person-in-charge duty is 7.4, while an offshore processor's local representative is 12.8; China's PIPL Article 52 was coded 7.4 and Article 53 was coded 12.8 (Guide p.61; Guide p.88; workbook round2 China rows 63 and 122).
+
+[12.8 disambiguation] Guide p.88: 38% word overlap; proper nouns not on page: ['China']
+   TRAP: a Data Protection Officer or person-in-charge duty is 7.4, while an offshore processor's local representative is 12.8; China's PIPL Article 52 was coded 7.4 and Article 53 was coded 12.8 (Guide p.61; Guide p.88; workbook round2 China rows 63 and 122).
+
+[12.9 disambiguation] Guide p.71: 75% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: consumer-protection rules on advertising, such as bans on misleading ads, score 0 under 9.3; Thailand's Consumer Protection Act was coded 0 under both 9.3 and 12.9 (Guide p.71; Internal Guide p.14; workbook round2 Thailand rows 82 and 131).
+
+[12.9 disambiguation] Internal Guide p.14: 75% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: consumer-protection rules on advertising, such as bans on misleading ads, score 0 under 9.3; Thailand's Consumer Protection Act was coded 0 under both 9.3 and 12.9 (Guide p.71; Internal Guide p.14; workbook round2 Thailand rows 82 and 131).
+
+[12.9 disambiguation] Guide p.57: 27% word overlap; proper nouns not on page: []
+   TRAP: personal data duties such as consent and breach notification belong to pillar 7 (7.1 data protection framework), not to online consumer protection; one such row was filed under 12.9 (Guide p.57; workbook round2 Indonesia row 185).
