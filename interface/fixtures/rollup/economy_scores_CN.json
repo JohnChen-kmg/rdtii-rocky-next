@@ -1,0 +1,61 @@
+{
+  "economy": "CN",
+  "scores": {
+    "6.1": {
+      "score": 1.0,
+      "basis": "escalation clause: 10 distinct verified half-point measures",
+      "evidence_rows": 12,
+      "pending": 0
+    },
+    "6.2": {
+      "score": 1.0,
+      "basis": "escalation clause: 7 distinct verified half-point measures",
+      "evidence_rows": 8,
+      "pending": 0
+    },
+    "6.3": {
+      "score": 1.0,
+      "basis": "max over 2 verified fires",
+      "evidence_rows": 2,
+      "pending": 0
+    },
+    "6.4": {
+      "score": 1.0,
+      "basis": "max over 72 verified fires",
+      "evidence_rows": 72,
+      "pending": 0
+    },
+    "7.1": {
+      "score": 0.0,
+      "basis": "The evidence shows China has enacted a dedicated, national-level statute—the Personal Information Protection Law—whose Article 1 establishes its purpose of protecting personal information rights and regulating processing activities, and Article 2 affirms that personal information of natural persons is protected by law and broadly defines the scope of application. This indicates the existence of a comprehensive, horizontally applicable legal framework for personal data protection, rather than an absence of one or a merely sectoral patchwork. Therefore, under the inverted polarity question, the correct score is 0 (comprehensive framework exists).",
+      "controlling_law": "中华人民共和国个人信息保护法 (Personal Information Protection Law of the PRC), Arts. 1-2",
+      "evidence_rows": 3
+    },
+    "7.2": {
+      "score": 0.0,
+      "basis": "The evidence shows a comprehensive horizontal statute, the Cybersecurity Law, with multiple substantive articles (Arts. 1,2,4,5,6,9,11,23,53) establishing scope, principles, obligations, and enforcement, supplemented by sectoral regulations on critical information infrastructure and computer information systems. This constitutes a dedicated, comprehensive legal framework, so the inverted claim that CN lacks such a framework is false.",
+      "controlling_law": "中华人民共和国网络安全法 (Cybersecurity Law of the PRC)",
+      "evidence_rows": 17
+    },
+    "7.3": {
+      "score": 1.0,
+      "basis": "max over 110 verified fires",
+      "evidence_rows": 110,
+      "pending": 0
+    },
+    "7.4": {
+      "score": 1.0,
+      "basis": "max over 19 verified fires",
+      "evidence_rows": 19,
+      "pending": 0
+    },
+    "7.5": {
+      "score": 1.0,
+      "basis": "max over 108 verified fires",
+      "evidence_rows": 108,
+      "pending": 0
+    }
+  },
+  "economy_level_model": "claude-sonnet-5",
+  "cost_usd": 0.0149
+}

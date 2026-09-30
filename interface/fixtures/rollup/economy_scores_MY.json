@@ -1,0 +1,63 @@
+{
+  "economy": "MY",
+  "scores": {
+    "6.1": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "6.2": {
+      "score": 1.0,
+      "basis": "escalation clause: 12 distinct verified half-point measures",
+      "evidence_rows": 28,
+      "pending": 0
+    },
+    "6.3": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "6.4": {
+      "score": 1.0,
+      "basis": "max over 48 verified fires",
+      "evidence_rows": 48,
+      "pending": 0
+    },
+    "7.1": {
+      "score": 0.0,
+      "basis": "Malaysia has a dedicated horizontal statute, the Personal Data Protection Act 2010, establishing a general framework for personal data protection (s.2(2) defines its scope), indicating a comprehensive rather than absent framework.",
+      "controlling_law": "Personal Data Protection Act 2010",
+      "evidence_rows": 1,
+      "rejected_rows": 0
+    },
+    "7.2": {
+      "score": 0.0,
+      "basis": "Malaysia has a dedicated Cyber Security Act 2024, a standalone horizontal statute establishing a cybersecurity legal framework (s.4), supplemented by related provisions (licensing, critical infrastructure codes, reporting duties) throughout the Act. Since a comprehensive dedicated framework exists, the inverted indicator (lack of framework) scores 0, not 1 or 0.5.",
+      "controlling_law": "Cyber Security Act 2024 s.4",
+      "evidence_rows": 1,
+      "rejected_rows": 3
+    },
+    "7.3": {
+      "score": 1.0,
+      "basis": "max over 65 verified fires",
+      "evidence_rows": 65,
+      "pending": 0
+    },
+    "7.4": {
+      "score": 1.0,
+      "basis": "max over 27 verified fires",
+      "evidence_rows": 27,
+      "pending": 0
+    },
+    "7.5": {
+      "score": 1.0,
+      "basis": "max over 105 verified fires",
+      "evidence_rows": 105,
+      "pending": 0
+    }
+  },
+  "economy_level_model": "claude-sonnet-5",
+  "cost_usd": 0.0127
+}

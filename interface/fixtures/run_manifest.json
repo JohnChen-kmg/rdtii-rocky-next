@@ -1,0 +1,1617 @@
+{
+  "run_id": "run_2026-09-27",
+  "created": "2026-09-27T04:33:19",
+  "git": {
+    "commit": "64790d7fa628fd0afbf5d96f610f01edcd7d2eea",
+    "branch": "w2-mapping-finale",
+    "dirty": false
+  },
+  "contract_version": "0.3.0",
+  "engine": {
+    "provider": "anthropic",
+    "roles": {
+      "mapper": {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5"
+      },
+      "verifier": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5"
+      },
+      "escalation": {
+        "provider": "anthropic",
+        "model": "claude-opus-4-8"
+      },
+      "triage": {
+        "provider": "ollama",
+        "model": "qwen2.5:14b"
+      }
+    },
+    "open_weights": false,
+    "ollama_host": null
+  },
+  "instrument": {
+    "dir": "C:\\Users\\woshi\\Desktop\\rdtii-finale-0-instrument\\instrument\\output",
+    "vintage": "decimal",
+    "version": "2.1.0",
+    "blocks": 61,
+    "indicators": [
+      "6.1",
+      "6.2",
+      "6.3",
+      "6.4",
+      "7.1",
+      "7.2",
+      "7.3",
+      "7.4",
+      "7.5"
+    ]
+  },
+  "settings": {
+    "out_dir": "C:\\Users\\woshi\\Desktop\\rdtii-finale-p3-runs\\run_2026-09-27\\out",
+    "index_dir": "C:\\Users\\woshi\\Desktop\\rdtii-finale-p3-runs\\run_2026-09-27\\index",
+    "handoff2_dir": "C:\\Users\\woshi\\Desktop\\rdtii-finale-handoff2",
+    "economies": "all in corpus",
+    "select_mode": "scores",
+    "selection_config": "config/selection.json",
+    "newknown_sim": 0.85,
+    "ollama_num_ctx": 16384,
+    "ingest_gate": true
+  },
+  "entries": [
+    {
+      "stage": "ingest",
+      "at": "2026-09-27T04:33:19",
+      "records": 766526,
+      "source_text_chunks": 579,
+      "documents": 8180,
+      "by_economy": {
+        "AU": 302243,
+        "CN": 50026,
+        "LA": 41534,
+        "MY": 72505,
+        "SG": 110661,
+        "TL": 189557
+      },
+      "gates": {
+        "byte_exact_share": 1.0,
+        "grounding_failed": 0,
+        "schema_sample_failures": 0,
+        "schema_sampled": 11977,
+        "failures": [],
+        "passed": true,
+        "enforced": true
+      },
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "select",
+      "at": "2026-09-27T04:34:46",
+      "mode": "scores",
+      "economies": [
+        "AU",
+        "CN",
+        "LA",
+        "MY",
+        "SG",
+        "TL"
+      ],
+      "direct": 4231,
+      "gray": 37999,
+      "gold_recall": 0.871,
+      "gold_rows": 62,
+      "selection_config": "config/selection.json",
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "select",
+      "at": "2026-09-27T04:39:30",
+      "mode": "scores",
+      "economies": [
+        "AU",
+        "CN",
+        "LA",
+        "MY",
+        "SG",
+        "TL"
+      ],
+      "direct": 4231,
+      "gray": 37999,
+      "gold_recall": 0.9362,
+      "gold_rows": 47,
+      "selection_config": "config/selection.json",
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "select",
+      "at": "2026-09-27T04:40:52",
+      "mode": "scores",
+      "economies": [
+        "AU",
+        "CN",
+        "LA",
+        "MY",
+        "SG",
+        "TL"
+      ],
+      "direct": 4231,
+      "gray": 37999,
+      "gold_recall": 0.9434,
+      "gold_rows": 53,
+      "selection_config": "config/selection.json",
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "select",
+      "at": "2026-09-27T04:42:06",
+      "mode": "scores",
+      "economies": [
+        "AU",
+        "CN",
+        "LA",
+        "MY",
+        "SG",
+        "TL"
+      ],
+      "direct": 4231,
+      "gray": 40146,
+      "gold_recall": 1.0,
+      "gold_rows": 53,
+      "selection_config": "config/selection.json",
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "select",
+      "at": "2026-09-27T04:49:05",
+      "mode": "scores",
+      "economies": [
+        "AU",
+        "CN",
+        "LA",
+        "MY",
+        "SG",
+        "TL"
+      ],
+      "direct": 4231,
+      "gray": 40146,
+      "gold_recall": 0.9365,
+      "gold_rows": 63,
+      "selection_config": "config/selection.json",
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "select",
+      "at": "2026-09-27T05:00:01",
+      "mode": "scores",
+      "economies": [
+        "AU",
+        "CN",
+        "LA",
+        "MY",
+        "SG",
+        "TL"
+      ],
+      "direct": 4231,
+      "gray": 41572,
+      "gold_recall": 0.9365,
+      "gold_rows": 63,
+      "selection_config": "config/selection.json",
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "select",
+      "at": "2026-09-27T05:02:18",
+      "mode": "scores",
+      "economies": [
+        "AU",
+        "CN",
+        "LA",
+        "MY",
+        "SG",
+        "TL"
+      ],
+      "direct": 4231,
+      "gray": 41582,
+      "gold_recall": 0.9365,
+      "gold_rows": 63,
+      "selection_config": "config/selection.json",
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "select",
+      "at": "2026-09-27T09:59:05",
+      "mode": "scores",
+      "economies": [
+        "AU",
+        "CN",
+        "LA",
+        "MY",
+        "SG",
+        "TL"
+      ],
+      "direct": 4231,
+      "gray": 42263,
+      "gold_recall": 0.9683,
+      "gold_rows": 63,
+      "selection_config": "config/selection.json",
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "triage_haiku",
+      "at": "2026-09-27T17:41:24",
+      "model": "claude-haiku-4-5",
+      "judged": 150,
+      "kept": 102,
+      "errors": 0,
+      "resumed_past": 0,
+      "cost_usd": 0.2868,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "triage_haiku",
+      "at": "2026-09-27T17:41:49",
+      "model": "claude-haiku-4-5",
+      "judged": 150,
+      "kept": 36,
+      "errors": 0,
+      "resumed_past": 150,
+      "cost_usd": 0.4359,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "triage_haiku",
+      "at": "2026-09-27T17:42:11",
+      "model": "claude-haiku-4-5",
+      "judged": 150,
+      "kept": 34,
+      "errors": 0,
+      "resumed_past": 300,
+      "cost_usd": 0.2469,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "triage_haiku",
+      "at": "2026-09-27T18:43:41",
+      "model": "claude-haiku-4-5",
+      "judged": 20725,
+      "kept": 6009,
+      "errors": 0,
+      "resumed_past": 450,
+      "cost_usd": 40.4381,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "verify",
+      "at": "2026-09-27T22:38:24",
+      "economy": "CN",
+      "verifier": "claude-haiku-4-5",
+      "escalation": "claude-opus-4-8",
+      "fires_verified": 516,
+      "resumed_past": 0,
+      "agree": 235,
+      "tiebreaks": 281,
+      "overturned": 162,
+      "errors": 0,
+      "cost_usd": 7.3928,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-27T22:38:31",
+      "economy": "CN",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 0,
+      "cost_usd": 0.015,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "verify",
+      "at": "2026-09-27T22:41:36",
+      "economy": "LA",
+      "verifier": "claude-haiku-4-5",
+      "escalation": "claude-opus-4-8",
+      "fires_verified": 188,
+      "resumed_past": 0,
+      "agree": 43,
+      "tiebreaks": 145,
+      "overturned": 68,
+      "errors": 0,
+      "cost_usd": 4.0329,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-27T22:41:43",
+      "economy": "LA",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 1,
+      "cost_usd": 0.0158,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "verify",
+      "at": "2026-09-27T22:43:35",
+      "economy": "TL",
+      "verifier": "claude-haiku-4-5",
+      "escalation": "claude-opus-4-8",
+      "fires_verified": 128,
+      "resumed_past": 0,
+      "agree": 38,
+      "tiebreaks": 90,
+      "overturned": 52,
+      "errors": 0,
+      "cost_usd": 1.8764,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-27T22:43:35",
+      "economy": "TL",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 2,
+      "cost_usd": 0.0,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "verify",
+      "at": "2026-09-27T22:46:51",
+      "economy": "CN",
+      "verifier": "claude-haiku-4-5",
+      "escalation": "claude-opus-4-8",
+      "fires_verified": 0,
+      "resumed_past": 516,
+      "agree": 0,
+      "tiebreaks": 0,
+      "overturned": 0,
+      "errors": 0,
+      "cost_usd": 0.0,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-27T22:46:58",
+      "economy": "CN",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 0,
+      "cost_usd": 0.0137,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "verify",
+      "at": "2026-09-27T22:47:23",
+      "economy": "LA",
+      "verifier": "claude-haiku-4-5",
+      "escalation": "claude-opus-4-8",
+      "fires_verified": 0,
+      "resumed_past": 188,
+      "agree": 0,
+      "tiebreaks": 0,
+      "overturned": 0,
+      "errors": 0,
+      "cost_usd": 0.0,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-27T22:47:30",
+      "economy": "LA",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 2,
+      "cost_usd": 0.016,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "verify",
+      "at": "2026-09-27T22:47:52",
+      "economy": "TL",
+      "verifier": "claude-haiku-4-5",
+      "escalation": "claude-opus-4-8",
+      "fires_verified": 0,
+      "resumed_past": 128,
+      "agree": 0,
+      "tiebreaks": 0,
+      "overturned": 0,
+      "errors": 0,
+      "cost_usd": 0.0,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-27T22:47:52",
+      "economy": "TL",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 2,
+      "cost_usd": 0.0,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-28T06:20:16",
+      "economy": "LA",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 1,
+      "cost_usd": 0.0159,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-28T06:20:17",
+      "economy": "TL",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 2,
+      "cost_usd": 0.0,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-28T06:20:25",
+      "economy": "CN",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 0,
+      "cost_usd": 0.0149,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-29T06:38:57",
+      "economy": "LA",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 2,
+      "cost_usd": 0.0,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-29T06:38:58",
+      "economy": "TL",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 2,
+      "cost_usd": 0.0,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-29T06:39:39",
+      "economy": "LA",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 0,
+      "cost_usd": 0.0444,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-29T06:39:47",
+      "economy": "TL",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 0,
+      "cost_usd": 0.0182,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "triage_haiku",
+      "at": "2026-09-29T07:15:19",
+      "model": "claude-haiku-4-5",
+      "judged": 21088,
+      "kept": 4980,
+      "errors": 0,
+      "resumed_past": 21175,
+      "cost_usd": 31.9426,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "verify",
+      "at": "2026-09-29T07:43:43",
+      "economy": "AU",
+      "verifier": "claude-haiku-4-5",
+      "escalation": "claude-opus-4-8",
+      "fires_verified": 545,
+      "resumed_past": 0,
+      "agree": 224,
+      "tiebreaks": 321,
+      "overturned": 153,
+      "errors": 0,
+      "cost_usd": 7.084,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-29T07:43:48",
+      "economy": "AU",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 0,
+      "cost_usd": 0.0155,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "verify",
+      "at": "2026-09-29T07:50:05",
+      "economy": "MY",
+      "verifier": "claude-haiku-4-5",
+      "escalation": "claude-opus-4-8",
+      "fires_verified": 430,
+      "resumed_past": 0,
+      "agree": 148,
+      "tiebreaks": 282,
+      "overturned": 154,
+      "errors": 0,
+      "cost_usd": 5.8312,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-29T07:50:10",
+      "economy": "MY",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 0,
+      "cost_usd": 0.0127,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "verify",
+      "at": "2026-09-29T07:55:11",
+      "economy": "SG",
+      "verifier": "claude-haiku-4-5",
+      "escalation": "claude-opus-4-8",
+      "fires_verified": 344,
+      "resumed_past": 0,
+      "agree": 113,
+      "tiebreaks": 231,
+      "overturned": 170,
+      "errors": 0,
+      "cost_usd": 4.8176,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "rollup",
+      "at": "2026-09-29T07:55:18",
+      "economy": "SG",
+      "model": "claude-sonnet-5",
+      "economy_level_cells": 2,
+      "pending": 0,
+      "cost_usd": 0.0228,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss",
+      "at": "2026-09-29T09:05:25",
+      "economy": "LA",
+      "model": "claude-haiku-4-5",
+      "glossed": 3,
+      "not_literal": 0,
+      "errors": 0,
+      "cost_usd": 0.0038,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss",
+      "at": "2026-09-29T09:06:31",
+      "economy": "CN",
+      "model": "claude-haiku-4-5",
+      "glossed": 354,
+      "not_literal": 1,
+      "errors": 0,
+      "cost_usd": 0.4678,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss",
+      "at": "2026-09-29T09:06:52",
+      "economy": "LA",
+      "model": "claude-haiku-4-5",
+      "glossed": 117,
+      "not_literal": 16,
+      "errors": 0,
+      "cost_usd": 0.1608,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss",
+      "at": "2026-09-29T09:07:05",
+      "economy": "TL",
+      "model": "claude-haiku-4-5",
+      "glossed": 76,
+      "not_literal": 0,
+      "errors": 0,
+      "cost_usd": 0.0977,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss",
+      "at": "2026-09-29T17:46:05",
+      "economy": "CN",
+      "model": "claude-haiku-4-5",
+      "glossed": 162,
+      "not_literal": 0,
+      "errors": 0,
+      "cost_usd": 0.2182,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss",
+      "at": "2026-09-29T17:46:16",
+      "economy": "LA",
+      "model": "claude-haiku-4-5",
+      "glossed": 68,
+      "not_literal": 8,
+      "errors": 0,
+      "cost_usd": 0.0938,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss",
+      "at": "2026-09-29T17:46:24",
+      "economy": "TL",
+      "model": "claude-haiku-4-5",
+      "glossed": 52,
+      "not_literal": 0,
+      "errors": 0,
+      "cost_usd": 0.069,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss_sections",
+      "at": "2026-09-29T17:47:13",
+      "economy": "LA",
+      "model": "claude-haiku-4-5",
+      "glossed": 2,
+      "not_literal": 2,
+      "errors": 0,
+      "cost_usd": 0.0089,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss_sections",
+      "at": "2026-09-29T17:52:31",
+      "economy": "CN",
+      "model": "claude-haiku-4-5",
+      "glossed": 485,
+      "not_literal": 45,
+      "errors": 0,
+      "cost_usd": 1.9578,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss_sections",
+      "at": "2026-09-29T17:54:22",
+      "economy": "LA",
+      "model": "claude-haiku-4-5",
+      "glossed": 183,
+      "not_literal": 174,
+      "errors": 0,
+      "cost_usd": 0.7192,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss_sections",
+      "at": "2026-09-29T17:55:14",
+      "economy": "TL",
+      "model": "claude-haiku-4-5",
+      "glossed": 173,
+      "not_literal": 75,
+      "errors": 0,
+      "cost_usd": 0.4006,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss_sections",
+      "at": "2026-09-29T17:57:07",
+      "economy": "CN",
+      "model": "claude-haiku-4-5",
+      "glossed": 107,
+      "not_literal": 13,
+      "errors": 0,
+      "cost_usd": 0.4192,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    },
+    {
+      "stage": "gloss_sections",
+      "at": "2026-09-29T17:57:26",
+      "economy": "LA",
+      "model": "claude-haiku-4-5",
+      "glossed": 20,
+      "not_literal": 20,
+      "errors": 0,
+      "cost_usd": 0.0836,
+      "engine": {
+        "mapper": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5"
+        },
+        "verifier": {
+          "provider": "anthropic",
+          "model": "claude-haiku-4-5"
+        },
+        "escalation": {
+          "provider": "anthropic",
+          "model": "claude-opus-4-8"
+        },
+        "triage": {
+          "provider": "ollama",
+          "model": "qwen2.5:14b"
+        }
+      }
+    }
+  ]
+}

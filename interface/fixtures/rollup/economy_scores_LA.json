@@ -1,0 +1,63 @@
+{
+  "economy": "LA",
+  "scores": {
+    "6.1": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "6.2": {
+      "score": 1.0,
+      "basis": "max over 2 verified fires",
+      "evidence_rows": 2,
+      "pending": 0
+    },
+    "6.3": {
+      "score": 1.0,
+      "basis": "max over 2 verified fires",
+      "evidence_rows": 2,
+      "pending": 0
+    },
+    "6.4": {
+      "score": 1.0,
+      "basis": "max over 3 verified fires",
+      "evidence_rows": 3,
+      "pending": 0
+    },
+    "7.1": {
+      "score": 0.0,
+      "basis": "Rejected rows confirm Laos has a dedicated Law on Electronic Data Protection with scope/purpose provisions (Art.1), definitions (Art.2-3), collection/consent rules (Art.12-13), and data manager obligations (Art.30), indicating a comprehensive horizontal data-protection framework exists. No evidence row was upheld citing the scope provision verbatim, so this cell cannot be scored with confidence, but the material points toward existence of a comprehensive law (score would be 0), not its absence. Since no upheld evidence row exists, leaving unscored is appropriate but if forced, the named instrument is the controlling law.",
+      "controlling_law": "ກົດໝາຍ ວ່າດ້ວຍການປົກປ້ອງຂໍ້ມູນເອເລັກໂຕຣນິກ (Law on Electronic Data Protection)",
+      "evidence_rows": 0,
+      "rejected_rows": 13
+    },
+    "7.2": {
+      "score": 0.0,
+      "basis": "Lao PDR has a dedicated horizontal Law on Cybersecurity (ກົດໝາຍວ່າດ້ວຍ ຄວາມປອດໄພໄຊເບີ) spanning numerous articles (Art.1-88) covering definitions, scope, obligations, registration, incident response, penalties, complemented by the Law on Anti- and Counter Computer Crime. Together these constitute a comprehensive dedicated cybersecurity legal framework, so LA does not lack one.",
+      "controlling_law": "ກົດໝາຍວ່າດ້ວຍ ຄວາມປອດໄພໄຊເບີ (Law on Cybersecurity)",
+      "evidence_rows": 36,
+      "rejected_rows": 42
+    },
+    "7.3": {
+      "score": 1.0,
+      "basis": "max over 71 verified fires",
+      "evidence_rows": 71,
+      "pending": 0
+    },
+    "7.4": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "7.5": {
+      "score": 1.0,
+      "basis": "max over 6 verified fires",
+      "evidence_rows": 6,
+      "pending": 0
+    }
+  },
+  "economy_level_model": "claude-sonnet-5",
+  "cost_usd": 0.0444
+}

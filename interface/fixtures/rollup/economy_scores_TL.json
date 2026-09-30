@@ -1,0 +1,63 @@
+{
+  "economy": "TL",
+  "scores": {
+    "6.1": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "6.2": {
+      "score": 1.0,
+      "basis": "escalation clause: 2 distinct verified half-point measures",
+      "evidence_rows": 2,
+      "pending": 0
+    },
+    "6.3": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "6.4": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "7.1": {
+      "score": 0.5,
+      "basis": "Only sectoral, single-provision data-protection rules were found (property registration disclosure right; tourism authority statute provision), with no comprehensive horizontal data-protection act evidenced. This indicates a partial/sectoral framework rather than a full absence or a comprehensive law, warranting a 0.5 score under the inverted polarity question.",
+      "controlling_law": "Código do Registo Predial (Art. 128(1)); Estatutos da Autoridade de Turismo de Timor-Leste (Art. 12(1))",
+      "evidence_rows": 0,
+      "rejected_rows": 3
+    },
+    "7.2": {
+      "score": 0.5,
+      "basis": "Evidence shows only institutional/administrative provisions creating a cybersecurity unit within one ministry and sectoral banking operational risk requirements, not a comprehensive dedicated cybersecurity law. This indicates partial/sectoral coverage rather than complete absence or a comprehensive framework, warranting a 0.5 score.",
+      "controlling_law": "Primeira alteração ao Decreto-Lei n.º 75/2023, de 15 de setembro (orgânica do Ministério dos Transportes e Comunicações); Conselho Contabilístico de Timor-Leste (banking regulation Art. 104)",
+      "evidence_rows": 0,
+      "rejected_rows": 6
+    },
+    "7.3": {
+      "score": 1.0,
+      "basis": "max over 46 verified fires",
+      "evidence_rows": 46,
+      "pending": 0
+    },
+    "7.4": {
+      "score": 0.0,
+      "basis": "no VERIFIED qualifying measure",
+      "evidence_rows": 0,
+      "pending": 0
+    },
+    "7.5": {
+      "score": 1.0,
+      "basis": "max over 28 verified fires",
+      "evidence_rows": 28,
+      "pending": 0
+    }
+  },
+  "economy_level_model": "claude-sonnet-5",
+  "cost_usd": 0.0182
+}
