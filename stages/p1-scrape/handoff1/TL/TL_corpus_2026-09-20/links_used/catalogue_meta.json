@@ -1,0 +1,30 @@
+{
+ "generated_at": "2026-09-20T14:59:28Z",
+ "economy": "TL",
+ "list_kind": "corpus",
+ "corpus": "TL_corpus_2026-09-20",
+ "counts": {
+  "all": 1921
+ },
+ "document_kinds": {
+  "principal_act": 592,
+  "subsidiary_legislation": 139,
+  "amending_act": 78,
+  "agency_or_other": 1112
+ },
+ "runs": [
+  "TL_ws_2026-09-20"
+ ],
+ "state_run": "TL_ws_2026-09-20",
+ "cfg_sha256": "08170af4ef548c41bece7a3b8898e4bf8947cb0afbccabb545c4f7a16c67ddb6",
+ "rule_id": null,
+ "settings": {
+  "categories": "all",
+  "document_form": "pdf",
+  "root": "https://www.mj.gov.tl"
+ },
+ "synthetic_rows": 0,
+ "notes": [
+  "a corpus list: the link rows of the documents in this corpus, from every run merged; a row marked contract_meta.synthetic stands in for a document whose run had no link row for it"
+ ]
+}

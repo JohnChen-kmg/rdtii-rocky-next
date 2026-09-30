@@ -1,0 +1,7 @@
+{"ts": "2026-09-20T05:59:14Z", "method": "GET", "url": "https://www.mj.gov.tl/robots.txt", "status": 200, "bytes": 2189, "waited_s": 0.0}
+{"ts": "2026-09-20T05:59:29Z", "method": "GET", "url": "https://www.mj.gov.tl/jornal/?q=node/12", "status": 200, "bytes": 111178, "waited_s": 13.479}
+{"ts": "2026-09-20T05:59:42Z", "method": "GET", "url": "https://www.mj.gov.tl/jornal/?q=node/13", "status": 200, "bytes": 326519, "waited_s": 11.051}
+{"ts": "2026-09-20T05:59:57Z", "method": "GET", "url": "https://www.mj.gov.tl/jornal/?q=node/18", "status": 200, "bytes": 108871, "waited_s": 13.455}
+{"ts": "2026-09-20T06:00:14Z", "method": "GET", "url": "https://www.mj.gov.tl/jornal/?q=node/10", "status": 200, "bytes": 704832, "waited_s": 14.955}
+{"ts": "2026-09-20T06:00:31Z", "method": "GET", "url": "https://www.mj.gov.tl/jornal/?q=node/19", "status": 200, "bytes": 180776, "waited_s": 14.142}
+{"ts": "2026-09-20T06:00:45Z", "method": "GET", "url": "https://www.mj.gov.tl/jornal/?q=node/20", "status": 200, "bytes": 340313, "waited_s": 12.611}

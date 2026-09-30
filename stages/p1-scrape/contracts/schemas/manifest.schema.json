@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rdtii-rocky/contracts/schemas/manifest.schema.json",
+  "title": "RDTII Hand-off #1 Manifest Row",
+  "description": "One row per retrieved document. Authored verbatim from INTERFACE_CONTRACT.md §2.2 (24 fields, 15 required). This JSON Schema — not the PLAN.md prose restatement — is the single source of truth for the field set. Validates both manifest.csv rows (after type coercion) and manifest.jsonl rows (which additionally carry a nested `http` object).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "doc_id",
+    "economy",
+    "source_url",
+    "access_date",
+    "source_type",
+    "pdf_is_scanned",
+    "local_path",
+    "law_name_guess",
+    "retrieval_method",
+    "http_status",
+    "http_headers_path",
+    "content_type",
+    "content_sha256",
+    "byte_size"
+  ],
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "SemVer seam/schema version; MAJOR-gated by P2/P3."
+    },
+    "instrument_version": {
+      "type": ["string", "null"],
+      "description": "RDTII methodology tag (informational, never gated)."
+    },
+    "doc_id": {
+      "type": "string",
+      "pattern": "^[a-z]{2}-[a-z0-9]+-\\d{3}$",
+      "description": "Stable join key <cc>-<lawslug>-<seq>, e.g. sg-pdpa2012-001. Widened from the three Round 1 economies so Timor-Leste and Lao PDR validate (CONTRACT.md 0.3.0)."
+    },
+    "economy": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "Two-letter code, equal to the economy's registry code. Widened from the enum [SG, AU, MY], which rejected every Timorese and Lao row (CONTRACT.md 0.3.0)."
+    },
+    "source_url": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "Exact URL the bytes came from; must resolve at judging time."
+    },
+    "access_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+      "description": "ISO-8601 UTC retrieval time, trailing Z required."
+    },
+    "source_type": {
+      "enum": ["html", "pdf_native", "pdf_scanned"]
+    },
+    "pdf_is_scanned": {
+      "type": ["boolean", "null"],
+      "description": "Required present in every row; null ONLY when source_type=html (enforced below)."
+    },
+    "local_path": {
+      "type": "string",
+      "pattern": "^(?![A-Za-z]:)(?![\\\\/]).+",
+      "description": "Path under handoff1/, RELATIVE (no absolute/drive-letter paths — portability contract rule)."
+    },
+    "law_name_guess": {
+      "type": "string",
+      "minLength": 1
+    },
+    "law_number_guess": {
+      "type": ["string", "null"]
+    },
+    "pillar_hint": {
+      "enum": ["P6", "P7", "both", null]
+    },
+    "indicator_hints": {
+      "type": ["string", "null"],
+      "description": "Comma-list of in-scope indicator IDs, e.g. 'P7-I2'."
+    },
+    "retrieval_method": {
+      "enum": ["playwright", "requests", "api"]
+    },
+    "http_status": {
+      "type": "integer"
+    },
+    "http_headers_path": {
+      "type": "string",
+      "pattern": "^(?![A-Za-z]:)(?![\\\\/]).+",
+      "description": "Relative path to the .headers.json sidecar."
+    },
+    "content_type": {
+      "type": "string"
+    },
+    "content_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "byte_size": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "page_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "anchor_hint": {
+      "type": ["string", "null"],
+      "description": "Whole portal-specific deep-link suffix incl. leading ?/#."
+    },
+    "anchor_kind": {
+      "enum": ["query", "fragment", "none", null]
+    },
+    "seed_query": {
+      "type": ["string", "null"]
+    },
+    "crawl_notes": {
+      "type": ["string", "null"]
+    },
+    "publication_date": {
+      "type": ["string", "null"],
+      "description": "Date the law was published/gazetted, as shown on the portal (raw portal format)."
+    },
+    "assent_date": {
+      "type": ["string", "null"],
+      "description": "Royal assent / making date (MY 'Royal Assent Date', AU register makingDate)."
+    },
+    "commencement_date": {
+      "type": ["string", "null"],
+      "description": "Commencement date or remark, as shown on the portal (may be a multi-jurisdiction remark)."
+    },
+    "in_force_status": {
+      "type": ["string", "null"],
+      "description": "Portal status, e.g. 'In force' / 'Current' / 'Repealed'."
+    },
+    "http": {
+      "type": "object",
+      "description": "manifest.jsonl only: nested {status, redirect_chain[], headers{}} too bulky for CSV.",
+      "properties": {
+        "status": {"type": "integer"},
+        "redirect_chain": {"type": "array", "items": {"type": "string"}},
+        "headers": {"type": "object"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"source_type": {"const": "html"}},
+        "required": ["source_type"]
+      },
+      "then": {
+        "properties": {"pdf_is_scanned": {"type": "null"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"source_type": {"enum": ["pdf_native", "pdf_scanned"]}},
+        "required": ["source_type"]
+      },
+      "then": {
+        "properties": {"pdf_is_scanned": {"type": "boolean"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"anchor_hint": {"type": "string"}},
+        "required": ["anchor_hint"]
+      },
+      "then": {
+        "properties": {"anchor_kind": {"enum": ["query", "fragment"]}}
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+ "generated_at": "2026-09-21T07:03:27Z",
+ "economy": "LA",
+ "list_kind": "corpus",
+ "corpus": "LA_corpus_2026-09-21",
+ "counts": {
+  "all": 1762
+ },
+ "document_kinds": {
+  "principal_act": 316,
+  "subsidiary_legislation": 1239,
+  "amending_act": 26,
+  "other": 180,
+  "repealing_act": 1
+ },
+ "runs": [
+  "LA_ws_2026-09-21_to_2026-09-21_2",
+  "LA_ws_2026-09-21"
+ ],
+ "state_run": "LA_ws_2026-09-21_to_2026-09-21_2",
+ "cfg_sha256": "d1d3973cbfb01eb0835bb999b96454943706b00067eaffb0e98fc8fae24c2c6a",
+ "rule_id": null,
+ "settings": {
+  "legal_types": "all",
+  "superseded": true,
+  "english_pdfs": true,
+  "root": "https://laoofficialgazette.gov.la"
+ },
+ "synthetic_rows": 0,
+ "notes": [
+  "a corpus list: the link rows of the documents in this corpus, from every run merged; a row marked contract_meta.synthetic stands in for a document whose run had no link row for it"
+ ]
+}

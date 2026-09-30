@@ -1,0 +1,15 @@
+# RDTII Project 1 — Web Scraping / Retrieval
+# PINNED versions only (no "latest") — reproducibility is a hard constraint.
+# CPU-only; no LLM/OCR packages here (those belong to Projects 2 & 3).
+
+playwright==1.49.1              # default crawl engine (Chromium); JS render + anti-bot
+pypdfium2==5.11.0              # §2.3 scanned-vs-native classifier (BSD/Apache-2.0; replaced AGPL PyMuPDF, 2026-07-12)
+requests==2.32.3               # requests fast-path for direct-PDF endpoints
+httpx==0.28.1                 # optional alternate engine (CRAWL_ENGINE fallback)
+jsonschema==4.23.0            # manifest.schema.json validation (Draft 2020-12)
+pyyaml==6.0.2                # read contracts/instrument/sources_<cc>.yaml
+tenacity==9.0.0             # retry/backoff ladder
+python-dateutil==2.9.0.post0   # robust ISO-8601 UTC timestamps
+cryptography==44.0.0           # Laws of Malaysia encrypts its act listings (AES-256-GCM, key published by the page itself); without it the MY catalogue step cannot read them
+
+# After `pip install -r requirements.txt`, run: python -m playwright install chromium

@@ -1,0 +1,119 @@
+# sources_my.yaml — Malaysia source registry, RDTII Pillars 6 & 7. GENERAL PART: where to look and how.
+#
+# SCOPE — so the line above is not misread. Pillars 6 and 7 are what the TASK is for, not what the crawl takes. The
+# crawl takes every principal law the portal lists (decision 11). In links/laws.csv: 1,291 laws listed, 1,246 in
+# scope, 111 marked relevant, 11 seeds. The 45 not crawled are acts the portal offers no document for. The title
+# rule further down does not limit what is fetched: it MARKS the relevant titles, and that marking only steers the
+# costly per-act work — reading timelines, taking subsidiary legislation, and the crawl order.
+#
+# Restructured 2026-09-14 (decision 11). This file holds the destinations, the crawl settings, the title rule and
+# the search terms. The laws named on purpose, with their links, are in links/seed_laws.yaml. Every document
+# the crawl fetches can be listed first in links/documents.jsonl (and documents.csv); the crawl follows that list
+# only with frontier: links_file (the setting below is discover). scraper.catalogue writes it from the
+# portal before the crawl. At hand-back this file and links/seed_laws.yaml are joined into one
+# sources_my.yaml, so the repo, the engine and the dashboard read the same shape as today (countries/README.md).
+#
+# STRATEGY: Laws of Malaysia (lom.agc.gov.my) lists every federal act with its current consolidation, and every
+# amending act from A1392 on. Agency sites hold the codes, guidelines, standards and some regulations. A narrow
+# whitelist of secondary copies is used only when an act has no official online copy (flagged).
+economy: MY
+# Laws of Malaysia: destinations and settings (countries/my-malaysia/scraper/, NOTES.md).
+lom:
+  root: "https://lom.agc.gov.my"     # document paths in listing replies are under this root
+  listings:
+    updated: {page: "principal.php?type=updated", endpoint: "json-updated-2024.php"}       # every principal act
+    amendment: {page: "principal.php?type=amendment", endpoint: "json-amendment-2024.php"} # A-numbered amending acts
+  # robots.txt answered HTTP 500 on 2026-09-13 and 2026-09-14. RFC 9309 reads that as full disallow. Decision 9
+  # (confirmed by the developer 2026-09-14): crawl lom while it answers 5xx, until the Malaysian laws are all
+  # retrieved. Without "allow" nothing is sent to lom past robots.txt.
+  robots_5xx: allow
+  # Decision 14: English first when AGC publishes an English text (printed or online); Malay only when it does not.
+  document_languages: [eng, msa]
+  # Detail-page timelines, read for: seed = seed acts; rule = seed acts and every act the title rule selects that
+  # is not repealed or superseded; all = every act in scope; none. An amending act's own timeline is read when its
+  # principal's is and the amendment is dated after the principal's as-at date (or is a seed); the commencement
+  # order it lists under the P.U. (B) number the amendment's remark cites is then fetched.
+  # Convention since 2026-09-15 (decision 17): a country's full build reads every act's timeline, so no act goes
+  # without its dates and amendment check. About 1,600 more paced requests than "rule" for Malaysia (1.8 hours).
+  timeline: all
+  # Subsidiary legislation listed on read timelines (decision 12, proposed): core = acts in the title rule's core
+  # groups (data protection, cyber security, communications, electronic transactions, criminal procedure and
+  # security); seed | rule | none are the alternatives. Series P.U. (A) only; P.U. (B) notices are not fetched
+  # (counted only on non-core acts), nor are other acts' instruments, except commencement orders. 0 = no cap per act.
+  subsidiary_acts: core
+  subsidiary_series: ["P.U. (A)"]
+  subsidiary_max_per_act: 0
+  listing_page_size: 500
+  # discover = read the portal during the crawl; links_file = crawl the rows of links/documents.jsonl built
+  # earlier by scraper.catalogue (set LOM_LINKS_FILE to its path).
+  frontier: discover
+# Update checks (countries/my-malaysia/updates/, NOTES.md 2.6): what changed since the last run under outputs/MY.
+# The act listings above are re-read whole and compared with the last run's laws.csv. The P.U. (A) and P.U. (B)
+# listings below give every instrument with its publication date, parent act and file, newest first, and are read
+# only as far back as the check's date. This block is outside the link-file fingerprint (cfg_sha256), so changing
+# it does not invalidate a link list.
+updates:
+  subsidiary_listings:
+    pua: {page: "subsid.php?type=pua", endpoint: "json-subsid-2024.php", form: {type: pua}}
+    pub: {page: "subsid.php?type=pub", endpoint: "json-subsid-2024.php", form: {type: pub}}
+  subsidiary_kinds: [pua, pub]
+  subsidiary_page_size: 500            # records per POST, newest first (as the act listings; the date sort is not unique, so a big page avoids straddling)
+  subsidiary_lookback_days: 120        # read back this far before the check's date: an instrument can be uploaded months after its publication date
+  subsidiary_max_pages: 30             # a check further back than 15,000 instruments says so and stops
+  verify_stored: 0                     # conditional HEADs for the N newest stored lom files (--verify-stored); 0 = none
+portals:
+  primary_statutes: null               # not read by the scraper; Laws of Malaysia (lom: above) is the statutes portal (POLICY.md 2)
+  agency_portals:                      # official, scattered
+    - {name: "Jabatan Perlindungan Data Peribadi (PDP)", root: "https://www.pdp.gov.my"}       # PDPA + codes -> P6/P7-I1/I4
+    - {name: "MCMC — Communications & Multimedia Commission", root: "https://www.mcmc.gov.my"} # comms -> P7-I2/I5
+    - {name: "Bank Negara Malaysia (BNM)", root: "https://www.bnm.gov.my"}                      # financial-sector DP
+    - {name: "SSM — Companies Commission", root: "https://www.ssm.com.my"}
+    - {name: "Royal Malaysia Police — CCID", root: "https://ccid.rmp.gov.my"}                   # Computer Crimes -> P7-I2
+    - {name: "LHDN — Inland Revenue", root: "https://www.hasil.gov.my"}                         # tax retention -> P7-I3
+  gazette:                             # not read by the scraper; Laws of Malaysia PDFs are mostly native; the federal gazette host does not resolve
+    - {name: "Laws of Malaysia (AGC)", root: "https://lom.agc.gov.my", expect_scanned: true}
+    - {name: "Federal Gazette (AGC)", root: "https://federalgazette.agc.gov.my", expect_scanned: true}
+  reputable_fallback:                  # MALAYSIA LAST RESORT ONLY — flag in Notes; NEVER used for SG/AU
+    - "cyrilla.org"                    # NGO legal database (used by ESCAP's own baseline for MY)
+    - "commonlii.org"                  # Commonwealth Legal Information Institute
+    - "*.um.edu.my"                    # University of Malaya hosted statute copies
+# Title rule (decision 11): which listing titles decide where the costly per-act work goes (timelines, subsidiary
+# legislation), the crawl order, and which acts are in scope relevant. Two different counts, both correct, so say
+# which: the rule marks **111 laws** (links/laws.csv, in_relevant), which carry **185 documents** (links/
+# documents.csv, scopes containing "relevant"; counts.relevant in catalogue_meta.json). The earlier figures of
+# 184 and 189 in this comment were document counts from the builds of 2026-09-14 08:56 and 07:04 UTC. Either way
+# it is above the engine's default cap of 60. Derived from the finale instrument's pillar 6 and 7 definitions
+# (rdtii-finale-0-instrument/instrument/output/indicators.yaml 1253-1722, INSTRUMENT_NOTES.md 67-81,
+# notes/trap_sources_pillars_6_7.md), never from the gold set (POLICY.md section 4): research rule v2, verified
+# 2026-09-14, plus the verifier's additions (POSTAL in the communications group, a group for 6.3 and 6.4
+# carriers). It never sets indicator hints (POLICY.md section 1). Patterns are Python regular expressions matched
+# on the upper-cased English title (the Malay title when there is none).
+title_rule:
+  id: my-lom-title-relevance-v3
+  groups:
+    - {id: G1_data_protection_privacy, tier: core, indicators: ["6.1", "6.2", "6.4", "7.1", "7.4", "7.5"], patterns: ['\bDATA\b', '\bPRIVACY\b', '\bPERSONAL INFORMATION\b']}
+    - {id: G2_cybersecurity_computer_misuse, tier: core, indicators: ["7.2", "7.5"], patterns: ['\bCYBER', '\bCOMPUTER', '\bINFORMATION INFRASTRUCTURE\b', '\bCRITICAL INFRASTRUCTURE\b', '\bINFORMATION SECURITY\b', '\bTECHNOLOGY RISK\b']}
+    - {id: G3_communications_interception, tier: core, indicators: ["6.3", "7.3", "7.5"], patterns: ['\bTELECOMMUNICATIONS?\b', '\bCOMMUNICATIONS\b', '\bMULTIMEDIA\b', '\bINTERCEPTION\b', '\bSURVEILLANCE\b', '\bPOSTAL\b']}
+    - {id: G4_electronic_transactions_online_services, tier: core, indicators: ["6.2", "6.3", "7.3", "7.5"], patterns: ['\bELECTRONIC\b', '\bDIGITAL\b', '\bONLINE\b', '\bINTERNET\b', '\bE-COMMERCE\b', '\bPLATFORMS?\b', '\bSOCIAL MEDIA\b']}
+    - {id: G5_criminal_procedure_security_intelligence, tier: core, indicators: ["7.5"], patterns: ['\bCRIMINAL PROCEDURE\b', '\bSECURITY OFFENCES\b', '\b(NATIONAL|PUBLIC|INTERNAL) SECURITY\b', '\bTERRORISM\b', '\bINTELLIGENCE\b', '\bLAWFUL ACCESS\b', '\bCRIMINAL MATTERS\b']}
+    - {id: S1_financial_sector, tier: sectoral, indicators: ["6.1", "6.2", "6.3", "6.4", "7.2", "7.3", "7.4"], patterns: ['\bBANKING\b', "\\bBANKERS'?\\b", '\bCENTRAL BANK\b', '\bFINANCIAL SERVICES\b', '\bFINANCIAL INSTITUTIONS\b', '\bCREDIT REPORTING\b', '\bCREDIT INFORMATION\b', '\bCONSUMER CREDIT\b', '\bMONEY SERVICES\b', '\bMONEY-?CHANGING\b', '\bPAYMENT SYSTEMS?\b', '\bINSURANCE\b', '\bTAKAFUL\b', '\bSECURITIES\b', '\bCAPITAL MARKETS?\b', '\bFUTURES INDUSTRY\b', '\bMONEY LAUNDERING\b', '\bFINANCIAL CRIME\b']}
+    - {id: S2_tax_records, tier: sectoral, indicators: ["6.2", "7.3"], patterns: ['\bTAX\b', '\bTAXATION\b', '\bCUSTOMS\b', '\bEXCISE\b', '\bINLAND REVENUE\b', '\bLEVY\b', '\bSTAMP ACT\b']}
+    - {id: S3_corporate_records, tier: sectoral, indicators: ["6.2", "7.3"], patterns: ['\bCOMPANIES\b', '\bLIMITED LIABILITY PARTNERSHIPS?\b', '\bREGISTRATION OF BUSINESSES\b']}
+    - {id: S4_health_records, tier: sectoral, indicators: ["6.1", "6.2", "7.4"], patterns: ['\bHEALTHCARE\b', '\bTELEMEDICINE\b', '\bMENTAL HEALTH\b', '\bPATHOLOGY\b', '\bHOSPITALS?\b', '\bMEDICAL\b', '\bHEALTH RECORDS?\b']}
+    - {id: S5_employment_records, tier: sectoral, indicators: ["7.3"], patterns: ['\bEMPLOYMENT\b', "\\bEMPLOYEES'?\\b"]}
+    - {id: S6_platform_mapping_survey_carriers, tier: sectoral, indicators: ["6.3", "6.4"], patterns: ['\bPUBLIC TRANSPORT\b', '\bCOMMERCIAL VEHICLES\b', '\bSURVEYORS?\b', '\bMAPPING\b', '\bPRINTING PRESSES\b', '\bPUBLICATIONS\b', '\bSTATISTICS\b']}
+  exclusions:
+    - {id: X1_annual_finance_act, pattern: '^FINANCE (\(NO\. ?\d+\) |\([A-Z ]+\) )?ACT\b'}
+    - {id: X2_amending_repeal_validation_dissolution, pattern: '\((AMENDMENT|REPEAL|VALIDATION|DISSOLUTION|DISSOLUTION AND TRANSFER|SUCCESSOR COMPANY)\)'}
+    - {id: X3_practitioner_registration, pattern: '\(REGISTRATION\)'}
+    - {id: X4_government_borrowing_and_securities, pattern: '^(LOANS?\b|LOAN GUARANTEE|GOVERNMENT\b)'}
+seed_queries:
+  P6-I1: ['transfer of personal data to a place outside Malaysia', 'data localisation', 'prohibition on transfer']
+  P6-I2: ['retain a copy in Malaysia', 'kept in Malaysia', 'local storage of records']
+  P6-I3: ['data centre in Malaysia', 'server located in Malaysia', 'infrastructure requirement']
+  P6-I4: ['transfer ... unless', 'consent to transfer', 'adequate level of protection', 'prescribed conditions']
+  P7-I1: ['protection of personal data', 'processing of personal data', 'data protection principles']
+  P7-I2: ['cyber security', 'national critical information infrastructure', 'computer crime']
+  P7-I3: ['retain for a period of not less than', 'keep records for', 'minimum retention']
+  P7-I4: ['data protection officer', 'data protection impact assessment']
+  P7-I5: ['interception of communications', 'access to computerised data', 'lawful access', 'security offences']

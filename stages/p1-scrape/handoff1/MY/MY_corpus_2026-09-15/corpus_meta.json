@@ -1,0 +1,167 @@
+{
+ "corpus": "MY_corpus_2026-09-15",
+ "economy": "MY",
+ "generated_at": "2026-09-15T11:58:23Z",
+ "runs": [
+  "MY_ws_2026-09-15_to_2026-09-15",
+  "MY_ws_2026-09-14_to_2026-09-15",
+  "MY_ws_2026-09-14",
+  "MY_ws_2026-09-13"
+ ],
+ "per_run": {
+  "MY_ws_2026-09-15_to_2026-09-15": {
+   "documents": 75,
+   "included": 75,
+   "superseded": 0,
+   "excluded": 0,
+   "renamed": 7
+  },
+  "MY_ws_2026-09-14_to_2026-09-15": {
+   "documents": 6,
+   "included": 6,
+   "superseded": 0,
+   "excluded": 0,
+   "renamed": 2
+  },
+  "MY_ws_2026-09-14": {
+   "documents": 1311,
+   "included": 1310,
+   "superseded": 1,
+   "excluded": 0,
+   "renamed": 0
+  },
+  "MY_ws_2026-09-13": {
+   "documents": 17,
+   "included": 0,
+   "superseded": 17,
+   "excluded": 0,
+   "renamed": 0
+  }
+ },
+ "documents": 1391,
+ "superseded": 18,
+ "excluded": 0,
+ "excluded_flags": [],
+ "flagged": 178,
+ "duplicates_logged": 5,
+ "renamed": [
+  {
+   "doc_id": "my-puca2026-002",
+   "doc_id_in_run": "my-puca2026-001",
+   "run": "MY_ws_2026-09-14_to_2026-09-15",
+   "law_number": "P.U. (B) 200/2026",
+   "law_name": "P.U. (B) 200/2026 commencing Act A1780",
+   "collided_with": {
+    "doc_id": "my-puca2026-001",
+    "run": "MY_ws_2026-09-14",
+    "law_number": "P.U. (B) 76/2026"
+   }
+  },
+  {
+   "doc_id": "my-rta2026-002",
+   "doc_id_in_run": "my-rta2026-001",
+   "run": "MY_ws_2026-09-14_to_2026-09-15",
+   "law_number": "Act A1794",
+   "law_name": "ROAD TRANSPORT (AMENDMENT) ACT 2026",
+   "collided_with": {
+    "doc_id": "my-rta2026-001",
+    "run": "MY_ws_2026-09-14",
+    "law_number": "Act A1789"
+   }
+  },
+  {
+   "doc_id": "my-aa2013-002",
+   "doc_id_in_run": "my-aa2013-001",
+   "run": "MY_ws_2026-09-15_to_2026-09-15",
+   "law_number": null,
+   "law_name": "Amendment of Act 125 (04 Jan 2013)",
+   "collided_with": {
+    "doc_id": "my-aa2013-001",
+    "run": "MY_ws_2026-09-14",
+    "law_number": "Act A1452"
+   }
+  },
+  {
+   "doc_id": "my-aa2011-002",
+   "doc_id_in_run": "my-aa2011-001",
+   "run": "MY_ws_2026-09-15_to_2026-09-15",
+   "law_number": null,
+   "law_name": "Amendment of Act 273 (07 Apr 2011)",
+   "collided_with": {
+    "doc_id": "my-aa2011-001",
+    "run": "MY_ws_2026-09-14",
+    "law_number": "Act A1395"
+   }
+  },
+  {
+   "doc_id": "my-aa1976-002",
+   "doc_id_in_run": "my-aa1976-001",
+   "run": "MY_ws_2026-09-15_to_2026-09-15",
+   "law_number": null,
+   "law_name": "Amendment of Act 287 (27 Feb 1976)",
+   "collided_with": {
+    "doc_id": "my-aa1976-001",
+    "run": "MY_ws_2026-09-14",
+    "law_number": "Act 168"
+   }
+  },
+  {
+   "doc_id": "my-aa2018-003",
+   "doc_id_in_run": "my-aa2018-001",
+   "run": "MY_ws_2026-09-15_to_2026-09-15",
+   "law_number": null,
+   "law_name": "Amendment of Act 313 (01 Jan 2018)",
+   "collided_with": {
+    "doc_id": "my-aa2018-001",
+    "run": "MY_ws_2026-09-14",
+    "law_number": "Act A1569"
+   }
+  },
+  {
+   "doc_id": "my-puca2024-002",
+   "doc_id_in_run": "my-puca2024-001",
+   "run": "MY_ws_2026-09-15_to_2026-09-15",
+   "law_number": "P.U. (B) 247/2024",
+   "law_name": "P.U. (B) 247/2024 commencing Act A1714",
+   "collided_with": {
+    "doc_id": "my-puca2024-001",
+    "run": "MY_ws_2026-09-14",
+    "law_number": "P.U. (B) 522/2024"
+   }
+  },
+  {
+   "doc_id": "my-puca2026-003",
+   "doc_id_in_run": "my-puca2026-001",
+   "run": "MY_ws_2026-09-15_to_2026-09-15",
+   "law_number": "P.U. (B) 90/2026",
+   "law_name": "P.U. (B) 90/2026 commencing Act A1789",
+   "collided_with": {
+    "doc_id": "my-puca2026-001",
+    "run": "MY_ws_2026-09-14",
+    "law_number": "P.U. (B) 76/2026"
+   }
+  },
+  {
+   "doc_id": "my-puca2025-002",
+   "doc_id_in_run": "my-puca2025-001",
+   "run": "MY_ws_2026-09-15_to_2026-09-15",
+   "law_number": "P.U. (B) 279/2025",
+   "law_name": "P.U. (B) 279/2025 commencing Act A1723",
+   "collided_with": {
+    "doc_id": "my-puca2025-001",
+    "run": "MY_ws_2026-09-14",
+    "law_number": "P.U. (B) 329/2025"
+   }
+  }
+ ],
+ "synthetic_link_rows": 5,
+ "hardlink": false,
+ "validation": {
+  "ok": true,
+  "rows": 1391,
+  "errors": [],
+  "warnings": []
+ },
+ "state_run": "MY_ws_2026-09-15_to_2026-09-15",
+ "excluded_rows": []
+}

@@ -1,0 +1,11 @@
+{"event": "robots", "host": "https://www.gov.cn", "status": 200, "verdict": "permits (rules read)"}
+{"event": "get", "url": "https://www.gov.cn/zhengce/zhengceku/202404/content_6944441.htm", "status": 200, "bytes": 29811}
+{"event": "get", "url": "https://www.gov.cn/zhengce/zhengceku/202404/P020240410661560824373.pdf", "status": 200, "bytes": 156642}
+{"event": "get", "url": "https://www.gov.cn/zhengce/zhengceku/2022-12/14/content_5731918.htm", "status": 200, "bytes": 79992}
+{"event": "get", "url": "https://www.gov.cn/gongbao/2023/202308/content_6898890.html", "status": 404, "bytes": 15556}
+{"event": "get", "url": "https://www.gov.cn/gongbao/2024/202410/content_6978634.html", "status": 404, "bytes": 15556}
+{"event": "get", "url": "https://www.gov.cn/gongbao/2026/202605/content_7070600.html", "status": 404, "bytes": 15556}
+{"event": "robots", "host": "https://www.cac.gov.cn", "status": 200, "verdict": "permits (rules read)"}
+{"event": "get", "url": "https://www.cac.gov.cn/2017-11/30/c_1122037113.htm", "status": 200, "bytes": 14801}
+{"event": "robots", "host": "https://www.gov.cn", "status": 200, "verdict": "permits (rules read)"}
+{"event": "get", "url": "https://www.gov.cn/gongbao/2023/issue_10646/202308/content_6898890.html", "status": 200, "bytes": 28571}

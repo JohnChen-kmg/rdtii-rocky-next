@@ -1,0 +1,34 @@
+{
+ "corpus": "AU_corpus_2026-09-15",
+ "economy": "AU",
+ "generated_at": "2026-09-15T17:01:53Z",
+ "runs": [
+  "AU_ws_2026-09-15"
+ ],
+ "per_run": {
+  "AU_ws_2026-09-15": {
+   "documents": 1277,
+   "included": 1277,
+   "superseded": 0,
+   "excluded": 0,
+   "renamed": 0
+  }
+ },
+ "documents": 1277,
+ "superseded": 0,
+ "excluded": 0,
+ "excluded_flags": [],
+ "flagged": 89,
+ "duplicates_logged": 0,
+ "renamed": [],
+ "synthetic_link_rows": 0,
+ "hardlink": true,
+ "validation": {
+  "ok": true,
+  "rows": 1277,
+  "errors": [],
+  "warnings": []
+ },
+ "state_run": "AU_ws_2026-09-15",
+ "excluded_rows": []
+}

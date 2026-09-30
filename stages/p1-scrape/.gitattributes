@@ -1,0 +1,22 @@
+# PDFs are byte-exact binaries — never apply CRLF conversion (a pure-ASCII PDF
+# fixture would otherwise be corrupted on checkout: xref offsets are byte-exact).
+*.pdf binary
+
+# Keep shell-agnostic text normalized
+*.py text
+*.md text
+*.yaml text
+*.yml text
+*.json text
+
+# Versioned evidence must stay byte-exact — no line-ending conversion, or a
+# normalized checkout no longer hash-matches the corpus it describes, and the
+# checker's byte-for-byte rebuild of a law table stops reproducing.
+*.jsonl -text
+handoff1/**/manifest.csv -text
+handoff1/**/law_table.csv -text
+handoff1/**/laws.csv -text
+handoff1/**/documents.csv -text
+handoff1/**/cost_report.json -text
+handoff1/**/index.csv -text
+handoff1/**/provenance.tsv -text

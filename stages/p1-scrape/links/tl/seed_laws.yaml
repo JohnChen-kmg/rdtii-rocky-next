@@ -1,0 +1,48 @@
+# seed_laws for Timor-Leste — the laws named on purpose, with their provenance. HAND-EDITED.
+#
+# Chosen 2026-09-20 from the portal's own category pages, read during the exploration
+# (countries/_finale-survey/explore-2026-09-20/tl-timor-leste.md). Every entry below was seen in a listing row,
+# with the number, title and date the portal states; nothing here is desk research.
+#
+# `portal_key` is how a seed is matched to a listing row: "<category>:<number>", the category being the key in
+# scraper/parse.py CATEGORIES. The gazette has no per-law address, so a seed names the act, not a URL: the adapter
+# resolves it to the issue that carries it.
+#
+# **Timor-Leste has no comprehensive data-protection statute.** Searching all 4,846 listed acts for "dados
+# pessoais" and "proteção/protecção de dados" returned nothing. That absence is a finding for the instrument, and
+# it is why the seeds below are telecommunications, electronic commerce and civil identification rather than a
+# privacy act (`../NOTES.md` 6).
+# Keep the flow style `- {...}`: the dashboard's parser declines block-style entries.
+seed_laws:
+  - {law_name: "Regime Jurídico Geral do Comércio Eletrónico e de Assinaturas Eletrónicas", law_number: "12/2024",
+     portal_key: "decretos_leis:12/2024", indicators: [P6-I2, P6-I3, P7-I3],
+     provenance: "Jornal da República, Decretos-Leis do Governo, listed 13/2/2024; the country's electronic
+       transactions regime"}
+  - {law_name: "Sobre a Regulamentação do Sector das Telecomunicações", law_number: "15/2012",
+     portal_key: "decretos_leis:15/2012", indicators: [P6-I3, P7-I3, P7-I5],
+     provenance: "Jornal da República, Decretos-Leis do Governo, listed 28/03/2012; the sector regulation, altered
+       by Decreto-Lei 31/2024"}
+  - {law_name: "Primeira alteração ao Decreto-Lei n.º 15/2012, sobre a Regulamentação do Sector das Telecomunicações",
+     law_number: "31/2024", portal_key: "decretos_leis:31/2024", indicators: [P6-I3, P7-I3, P7-I5],
+     provenance: "Jornal da República, listed 6/9/2024; the amendment to the telecommunications regime"}
+  - {law_name: "Que estabelece as bases das telecomunicações", law_number: "11/2003",
+     portal_key: "decretos_leis:11/2003", indicators: [P6-I3, P7-I3],
+     provenance: "Jornal da República, listed 29/07/2003; the founding telecommunications law"}
+  - {law_name: "Cria a Agência de Tecnologias de Informação e Comunicação I.P. — TIC TIMOR", law_number: "29/2017",
+     portal_key: "decretos_leis:29/2017", indicators: [P6-I3, P7-I2],
+     provenance: "Jornal da República, listed 02/08/2017; the state ICT agency, the nearest thing to a
+       cybersecurity institution"}
+  - {law_name: "Regime Jurídico da Identificação Civil", law_number: "2/2004",
+     portal_key: "decretos_leis:2/2004", indicators: [P7-I1],
+     provenance: "Jornal da República, listed 04/02/2004; the civil identification register is the country's
+       principal personal-data regime in the absence of a data-protection act"}
+  - {law_name: "Regulamenta a prestação de serviços de telecomunicações na rede móvel", law_number: "9/2008",
+     portal_key: "decretos_governo:9/2008", indicators: [P6-I3, P7-I3],
+     provenance: "Jornal da República, Decretos do Governo, listed 16/04/2008; mobile network services"}
+  - {law_name: "Lei de Proteção ao Consumidor", law_number: "8/2016", portal_key: "leis:8/2016",
+     indicators: [P6-I4],
+     provenance: "Jornal da República, Leis do Parlamento Nacional, listed 08/07/2016; consumer protection, which
+       carries the online-selling duties in the absence of a distance-selling regime"}
+  - {law_name: "Lei da Concorrência", law_number: "1/2026", portal_key: "leis:1/2026", indicators: [],
+     provenance: "Jornal da República, listed 25/3/2026. No indicator tag: it is named on purpose as the newest
+       principal law on the portal, and is the fixture this country's tests are built on"}

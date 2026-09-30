@@ -1,0 +1,14 @@
+{"event": "robots", "host": "https://www.nppa.gov.cn", "status": 200, "verdict": "none published"}
+{"event": "get", "url": "https://www.nppa.gov.cn/xxgk/fdzdgknr/zcfg_210/bmgz_213/202112/t20211209_442163.html", "status": 200, "bytes": 50480}
+{"event": "robots", "host": "https://www.nrta.gov.cn", "status": 200, "verdict": "none published"}
+{"event": "get", "url": "https://www.nrta.gov.cn/art/2015/5/21/art_3812_49.html", "status": 200, "bytes": 35315}
+{"event": "get", "url": "https://www.nrta.gov.cn/module/download/downfile.jsp?filename=5e83ea0b3c2d4a8282ffb99346336c9a.docx&classid=0&showname=互联网视听节目服务管理规定.docx", "status": 0, "bytes": 0}
+{"event": "get", "url": "https://www.nrta.gov.cn/module/download/downfile.jsp?filename=9752d6d068e7410caa0e0fe10f78733d.pdf&classid=0&showname=互联网视听节目服务管理规定.pdf", "status": 0, "bytes": 0}
+{"event": "robots", "host": "https://zwgk.mct.gov.cn", "status": 404, "verdict": "none published"}
+{"event": "get", "url": "https://zwgk.mct.gov.cn/zfxxgkml/zcfg/bmgz/202012/t20201204_905340.html", "status": 200, "bytes": 32244}
+{"event": "get", "url": "https://zwgk.mct.gov.cn/zfxxgkml/zcfg/bmgz/202012/P020220218671687070357.docx", "status": 200, "bytes": 17855}
+{"event": "get", "url": "https://zwgk.mct.gov.cn/zfxxgkml/zcfg/bmgz/202012/P020220218671687239517.pdf", "status": 200, "bytes": 154406}
+{"event": "robots", "host": "https://www.most.gov.cn", "status": 404, "verdict": "none published"}
+{"event": "get", "url": "https://www.most.gov.cn/xxgk/xinxifenlei/fdzdgknr/fgzc/bmgz/202306/t20230601_186416.html", "status": 200, "bytes": 46151}
+{"event": "robots", "host": "http://www.sasac.gov.cn", "status": 200, "verdict": "permits (rules read)"}
+{"event": "get", "url": "http://www.sasac.gov.cn/n2588045/n27271785/n27271792/index.html", "status": 200, "bytes": 58818}

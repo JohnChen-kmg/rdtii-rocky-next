@@ -1,0 +1,217 @@
+{
+ "generated_at": "2026-09-20T06:00:49Z",
+ "economy": "TL",
+ "pillars": [
+  6,
+  7
+ ],
+ "counts": {
+  "all": 1953,
+  "seed": 9,
+  "relevant": 198
+ },
+ "document_kinds": {
+  "principal_act": 597,
+  "subsidiary_legislation": 140,
+  "amending_act": 78,
+  "agency_or_other": 1138
+ },
+ "settings": {
+  "categories": "all",
+  "document_form": "pdf",
+  "root": "https://www.mj.gov.tl"
+ },
+ "cfg_sha256": "08170af4ef548c41bece7a3b8898e4bf8947cb0afbccabb545c4f7a16c67ddb6",
+ "seed_keys": [
+  [
+   "Regime Jurídico Geral do Comércio Eletrónico e de Assinaturas Eletrónicas",
+   "12/2024",
+   "decretos_leis:12/2024"
+  ],
+  [
+   "Sobre a Regulamentação do Sector das Telecomunicações",
+   "15/2012",
+   "decretos_leis:15/2012"
+  ],
+  [
+   "Primeira alteração ao Decreto-Lei n.º 15/2012, sobre a Regulamentação do Sector das Telecomunicações",
+   "31/2024",
+   "decretos_leis:31/2024"
+  ],
+  [
+   "Que estabelece as bases das telecomunicações",
+   "11/2003",
+   "decretos_leis:11/2003"
+  ],
+  [
+   "Cria a Agência de Tecnologias de Informação e Comunicação I.P. — TIC TIMOR",
+   "29/2017",
+   "decretos_leis:29/2017"
+  ],
+  [
+   "Regime Jurídico da Identificação Civil",
+   "2/2004",
+   "decretos_leis:2/2004"
+  ],
+  [
+   "Regulamenta a prestação de serviços de telecomunicações na rede móvel",
+   "9/2008",
+   "decretos_governo:9/2008"
+  ],
+  [
+   "Lei de Proteção ao Consumidor",
+   "8/2016",
+   "leis:8/2016"
+  ],
+  [
+   "Lei da Concorrência",
+   "1/2026",
+   "leis:1/2026"
+  ]
+ ],
+ "requests": 7,
+ "robots_record": {
+  "url": "https://www.mj.gov.tl/robots.txt",
+  "status": 200,
+  "read_at": "2026-09-20T05:59:14Z",
+  "group": "*",
+  "crawl_delay": 10.0,
+  "rules": [
+   [
+    true,
+    "/misc/*.css$"
+   ],
+   [
+    true,
+    "/misc/*.css?"
+   ],
+   [
+    true,
+    "/misc/*.js$"
+   ],
+   [
+    true,
+    "/misc/*.js?"
+   ],
+   [
+    true,
+    "/misc/*.gif"
+   ],
+   [
+    true,
+    "/misc/*.jpg"
+   ],
+   [
+    true,
+    "/misc/*.jpeg"
+   ],
+   [
+    true,
+    "/misc/*.png"
+   ],
+   [
+    true,
+    "/modules/*.css$"
+   ],
+   [
+    true,
+    "/modules/*.css?"
+   ],
+   [
+    true,
+    "/modules/*.js$"
+   ],
+   [
+    true,
+    "/modules/*.js?"
+   ],
+   [
+    true,
+    "/modules/*.gif"
+   ],
+   [
+    true,
+    "/modules/*.jpg"
+   ],
+   [
+    true,
+    "/modules/*.jpeg"
+   ],
+   [
+    true,
+    "/modules/*.png"
+   ],
+   [
+    true,
+    "/profiles/*.css$"
+   ],
+   [
+    true,
+    "/profiles/*.css?"
+   ],
+   [
+    true,
+    "/profiles/*.js$"
+   ],
+   [
+    true,
+    "/profiles/*.js?"
+   ]
+  ],
+  "delay_used_s": 10.0
+ },
+ "jornal_error": null,
+ "listing_counts": {
+  "leis": {
+   "records": 285,
+   "with_document": 282,
+   "documents": 232
+  },
+  "decretos_leis": {
+   "records": 939,
+   "with_document": 928,
+   "documents": 479
+  },
+  "decretos_governo": {
+   "records": 253,
+   "with_document": 249,
+   "documents": 195
+  },
+  "decretos_presidente": {
+   "records": 1786,
+   "with_document": 1770,
+   "documents": 843
+  },
+  "resolucoes_parlamento": {
+   "records": 594,
+   "with_document": 592,
+   "documents": 376
+  },
+  "resolucoes_governo": {
+   "records": 931,
+   "with_document": 918,
+   "documents": 524
+  }
+ },
+ "acts_listed": 4788,
+ "documents_distinct": 1953,
+ "notes": [
+  "leis: 3 of 285 rows carry no document link; they are listed with no_document_on_portal",
+  "decretos_leis: 11 of 939 rows carry no document link; they are listed with no_document_on_portal",
+  "decretos_governo: 4 of 253 rows carry no document link; they are listed with no_document_on_portal",
+  "decretos_presidente: 16 of 1786 rows carry no document link; they are listed with no_document_on_portal",
+  "resolucoes_parlamento: 2 of 594 rows carry no document link; they are listed with no_document_on_portal",
+  "resolucoes_governo: 13 of 931 rows carry no document link; they are listed with no_document_on_portal"
+ ],
+ "scraper_sha256": {
+  "__init__.py": "c9f1a0a95ee916fd9d17dab0e6ab6a7f69beb17ac3d0366cf5cbed2df8686099",
+  "adapter.py": "b911b4e26f712695dd8e5386d52b0af67a6d0b7ad21fc4e7740433a295c2dfd0",
+  "catalogue.py": "55997105b8a33915e85e5ec670bfde7ac5703585275a01d91d8cf1cccaf638e7",
+  "checker.py": "0093e330fd2d75aefbbafb407b4570b068c1b79b83fe61bf4e1693601e717f95",
+  "parse.py": "592d2846f29dc0b0c60e81a1e61bdb082dc5704f1c988f40822039991343fd9f"
+ },
+ "registry_sha256": {
+  "registry": "b960c84c68bedd66662187ddb09b0d22fde7fc49e76dc12e97d700cab114eb65",
+  "seeds": "c2e7ab74d546805c0d78b4b6d3a029ca5e48d2c5ba1745208953b240115f481f"
+ }
+}

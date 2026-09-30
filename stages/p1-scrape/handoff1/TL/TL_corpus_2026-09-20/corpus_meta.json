@@ -1,0 +1,34 @@
+{
+ "corpus": "TL_corpus_2026-09-20",
+ "economy": "TL",
+ "generated_at": "2026-09-20T14:59:28Z",
+ "runs": [
+  "TL_ws_2026-09-20"
+ ],
+ "per_run": {
+  "TL_ws_2026-09-20": {
+   "documents": 1935,
+   "included": 1921,
+   "superseded": 14,
+   "excluded": 0,
+   "renamed": 0
+  }
+ },
+ "documents": 1921,
+ "superseded": 14,
+ "excluded": 0,
+ "excluded_flags": [],
+ "flagged": 146,
+ "duplicates_logged": 15,
+ "renamed": [],
+ "synthetic_link_rows": 0,
+ "hardlink": false,
+ "validation": {
+  "ok": true,
+  "rows": 1921,
+  "errors": [],
+  "warnings": []
+ },
+ "state_run": "TL_ws_2026-09-20",
+ "excluded_rows": []
+}

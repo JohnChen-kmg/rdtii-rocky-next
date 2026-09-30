@@ -1,0 +1,90 @@
+# sources_la.yaml — Lao PDR source registry, RDTII Pillars 6 & 7 (9 in-scope indicators)
+#
+# SCOPE — so the line above is not misread. Pillars 6 and 7 are what the TASK is for, not what the crawl takes. The
+# crawl takes every principal law the portal lists (decision 11). In links/laws.csv: 1,773 listed, all 1,773 in
+# scope, 322 marked relevant, 12 seeds. The title rule further down does not limit what is fetched: it MARKS the
+# relevant titles, and that marking only steers the costly per-act work — reading timelines, taking subsidiary
+# legislation, and the crawl order.
+# Built 2026-09-20 from the exploration of 2026-09-20 (countries/_finale-survey/explore-2026-09-20/la-lao-pdr.md)
+# and the three paced probes of the same day that settled legaltype 6 against 16, the `old=1` listing and the
+# size of the whole body (`NOTES.md` 1.2, 8).
+# STRATEGY: one official source, the Lao Official Gazette (laoofficialgazette.gov.la), which the 2013 Law on
+# Making Legislation makes the place every law must be published. It lists by kind of instrument, ten rows a
+# page, and each row already carries the title, the responsible ministry, both dates, the STATUS and the file —
+# so no detail page is read. Every document is a scan; OCR belongs to stage 2, not here.
+# In-scope indicators: P6-I1..P6-I4, P7-I1..P7-I5.
+economy: LA
+portals:
+  primary_statutes:
+    name: "Lao Official Gazette (ຈົດໝາຍເຫດທາງລັດຖະການ)"
+    root: "https://laoofficialgazette.gov.la"
+    crawl_style: requests            # server-rendered Yii/PHP tables; PDFs over plain HTTP. No browser needed
+  gazette: self                      # the gazette IS the primary source: there is no consolidated database
+  regulators:
+    - {name: "Ministry of Technology and Communications", root: "https://www.mtc.gov.la"}   # P6-I3, P7-I2/I3
+    - {name: "Bank of the Lao PDR", root: "https://www.bol.gov.la"}                         # P6-I2, P7-I4
+# The catalogue step and the crawl (scraper/, 2026-09-20; CONVENTIONS.md section 2). Every key can be overridden
+# by GAZETTE_<KEY> in the environment. Changing a key other than frontier/links_file changes the list
+# fingerprint, and the crawl refuses a stale list.
+gazette:
+  root: "https://laoofficialgazette.gov.la"
+  legal_types: all                   # all, or a comma list of the numbers in scraper/parse.py LEGAL_TYPES.
+                                     # `all` leaves out legaltype 16, which is contained in legaltype 6
+                                     # (settled by reading both in full on 2026-09-20: NOTES.md 1.2)
+  superseded: true                   # read `old=1` as well as `old=0`: the superseded texts AND the amending
+                                     # laws, which appear in no other listing (CONVENTIONS.md section 1)
+  english_pdfs: true                 # take the gazette's own English translation where it offers one, recorded
+                                     # with language `eng` and never as the authoritative text (NOTES.md 1.3)
+  max_pages: 120                     # pages of one listing at most: a guard against a broken pager. The longest
+                                     # listing is Agreement at 657 laws = 66 pages; 60 silently cut it to 600
+                                     # on 2026-09-20, so the guard now refuses to finish short instead
+  frontier: discover                 # discover | links_file (the crawl sets GAZETTE_FRONTIER=links_file)
+# The seed laws are in links/seed_laws.yaml. At hand-back that file is appended to this one
+# (countries/README.md).
+#
+# The title rule, on FOLDED Lao: `fold()` in scraper/parse.py settles the two spellings of the /am/ vowel
+# (ຳ against ◌ໍ + າ, both present in one listing) and the ໝ / ໜ / ຫຼ ligatures before matching. Write patterns
+# in the folded form. **No `\b` anywhere**: word boundaries need ASCII word characters and never fire inside Lao
+# script, and Lao writes no spaces between words, so every pattern is a plain substring. Lao has no case, so the
+# matcher's `.upper()` leaves it untouched.
+#
+# Written from the vocabulary of titles actually read on 2026-09-20, not from desk research; NOTES.md 5 records
+# that nobody on this project reads Lao and that a Lao reader should check it. The rule only orders the crawl
+# and picks the `relevant` scope — the crawl runs at scope `all` — so a gap in it loses no document.
+title_rule:
+  id: la-gazette-title-relevance-v1
+  groups:
+    - {id: G1_khomun_privacy, tier: core, indicators: ["6.1", "6.2", "6.4", "7.1", "7.4", "7.5"],
+       patterns: ['ຂໍ້ມູນ', 'ຂ່າວສານ', 'ຄວາມລັບ', 'ສ່ວນບຸກຄົນ', 'ການປົກປ້ອງຂໍ້ມູນ']}
+    - {id: G2_cyber_security, tier: core, indicators: ["7.2", "7.5"],
+       patterns: ['ໄຊເບີ', 'ຄອມພິວເຕີ', 'ຄວາມປອດໄພໄຊເບີ', 'ອາຊະຍາກຳທາງລະບົບ']}
+    - {id: G3_telecom_spectrum, tier: core, indicators: ["6.3", "7.3", "7.5"],
+       patterns: ['ໂທລະຄົມ', 'ສື່ສານ', 'ຄື້ນຄວາມຖີ່', 'ວິທະຍຸ', 'ໂທລະພາບ', 'ໄປສະນີ', 'ສື່ມວນຊົນ']}
+    - {id: G4_electronic_digital, tier: core, indicators: ["6.2", "6.3", "7.3", "7.5"],
+       patterns: ['ເອເລັກ', 'ດິຈິຕອນ', 'ດີຈີຕອລ', 'ອິນເຕີເນັດ', 'ທຸລະກຳທາງເອເລັກ', 'ລາຍເຊັນ',
+                  'ເຕັກໂນໂລຊີ']}
+    - {id: G5_crime_and_state_security, tier: core, indicators: ["7.5"],
+       patterns: ['ດຳເນີນຄະດີອາຍາ', 'ຄວາມໝັ້ນຄົງ', 'ຟອກເງິນ', 'ກໍ່ການຮ້າຍ', 'ກໍ່ການຣ້າຍ', 'ສືບສວນ']}
+    - {id: S1_financial, tier: sectoral, indicators: ["6.1", "6.2", "6.3", "6.4", "7.2", "7.3", "7.4"],
+       patterns: ['ທະນາຄານ', 'ສະຖາບັນການເງິນ', 'ການຊຳລະ', 'ປະກັນໄພ', 'ຫຼັກຊັບ', 'ເງິນຕາ']}
+    - {id: S2_registers_identity, tier: sectoral, indicators: ["6.2", "7.1", "7.3"],
+       patterns: ['ທະບຽນ', 'ສະຖິຕິ', 'ສຳມະໂນ', 'ບັດປະຈຳຕົວ', 'ສັນຊາດ']}
+    - {id: S3_health_labour, tier: sectoral, indicators: ["6.1", "6.2", "7.3", "7.4"],
+       patterns: ['ສາທາລະນະສຸກ', 'ການປິ່ນປົວ', 'ແຮງງານ']}
+    - {id: S4_consumer_competition, tier: sectoral, indicators: ["6.4", "7.3"],
+       patterns: ['ຜູ້ບໍລິໂພກ', 'ແຂ່ງຂັນ', 'ຊັບສິນທາງປັນຍາ', 'ລິຂະສິດ']}
+  exclusions:
+    # The gazette lists instruments, not ceremonial acts, so there is far less to exclude here than in
+    # Timor-Leste. These two are the recurring budget and plan instruments, which carry no regulatory duty.
+    - {id: X1_budget, pattern: 'ງົບປະມານແຫ່ງລັດ'}
+    - {id: X2_state_plan, pattern: 'ແຜນພັດທະນາເສດຖະກິດ-ສັງຄົມ'}
+seed_queries:                        # vocabulary-seeded, per indicator (recall-first), Lao
+  P6-I1: ['ການສົ່ງຂໍ້ມູນອອກນອກປະເທດ', 'ທີ່ຕັ້ງຂອງຂໍ້ມູນ']
+  P6-I2: ['ການເກັບຮັກສາຂໍ້ມູນຢູ່ພາຍໃນປະເທດ', 'ສຳເນົາຢູ່ ສປປ ລາວ']
+  P6-I3: ['ສູນຂໍ້ມູນ', 'ເຊີບເວີ', 'ພື້ນຖານໂຄງລ່າງດ້ານການສື່ສານ']
+  P6-I4: ['ການສົ່ງຂໍ້ມູນສ່ວນບຸກຄົນ', 'ການຍິນຍອມ', 'ລະດັບການປົກປ້ອງທີ່ເໝາະສົມ']
+  P7-I1: ['ການປົກປ້ອງຂໍ້ມູນສ່ວນບຸກຄົນ', 'ການນຳໃຊ້ຂໍ້ມູນສ່ວນບຸກຄົນ']
+  P7-I2: ['ຄວາມປອດໄພໄຊເບີ', 'ອາຊະຍາກຳທາງລະບົບຄອມພິວເຕີ', 'ພື້ນຖານໂຄງລ່າງສຳຄັນ']
+  P7-I3: ['ການເກັບຮັກສາຂໍ້ມູນການຈາລະຈອນ', 'ກຳນົດເວລາເກັບຮັກສາ']
+  P7-I4: ['ຜູ້ຮັບຜິດຊອບການປົກປ້ອງຂໍ້ມູນ', 'ການປະເມີນຜົນກະທົບ']
+  P7-I5: ['ການດັກຟັງການສື່ສານ', 'ການເຂົ້າເຖິງຂໍ້ມູນຕາມກົດໝາຍ', 'ການເກັບກຳຫຼັກຖານ']

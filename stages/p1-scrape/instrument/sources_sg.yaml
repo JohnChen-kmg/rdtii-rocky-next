@@ -1,0 +1,50 @@
+# sources_sg.yaml — Singapore source registry, RDTII Pillars 6 & 7 (9 in-scope indicators)
+#
+# SCOPE — so the line above is not misread. Pillars 6 and 7 are what the TASK is for, not what the crawl takes. The
+# crawl takes every principal law the portal lists (decision 11). In links/laws.csv: 877 listed, 846 in scope, 9
+# marked relevant, 8 seeds. The title rule further down does not limit what is fetched: it MARKS the relevant
+# titles, and that marking only steers the costly per-act work — reading timelines, taking subsidiary legislation,
+# and the crawl order.
+# Seeded from Knowledge Portal "Sample governemnt portals_Pillar 6_7.csv" + Round 1 baseline DB.
+# STRATEGY: Singapore is fully covered by ONE official portal (sso.agc.gov.sg) + regulators. Crawl official only.
+# In-scope indicators: P6-I1..P6-I4, P7-I1..P7-I5   (6.5 is OUT of scope).
+# NOTE: verify each URL resolves live as you build (the crawler HEAD-checks anyway).
+economy: SG
+portals:
+  primary_statutes:
+    name: "Singapore Statutes Online (SSO)"
+    root: "https://sso.agc.gov.sg"
+    crawl_style: playwright            # JS-rendered statute browser; provision anchors like ?ProvIds=pr26-
+  gazette: null                        # SSO is consolidated + native text; no separate scanned gazette needed
+  regulators:
+    - {name: "PDPC — Personal Data Protection Commission", root: "https://www.pdpc.gov.sg"}   # DP guidance/DPIA -> P7-I4
+    - {name: "CSA — Cyber Security Agency", root: "https://www.csa.gov.sg"}                    # cybersecurity -> P7-I2
+    - {name: "IMDA — Infocomm Media Development Authority", root: "https://www.imda.gov.sg"}   # telecom -> P7-I3/I5
+# The catalogue step and the crawl (scraper/, 2026-09-15; CONVENTIONS.md section 2). Every key can be overridden
+# by SSO_<KEY> in the environment. Changing a key other than frontier/links_file changes the link-list fingerprint.
+sso:
+  root: "https://sso.agc.gov.sg"
+  detail_pages: all                    # whose detail page the catalogue reads: all (decision 17) | seed | none
+  subsidiary_acts: seed                # whose SL tab is read and fetched: seed (decision 12) | none
+  # subsidiary_max_per_act: 100        # the code's default: SL fetched per act at most (the Income Tax Act lists 774;
+  #                                    # every total is recorded); 0 = all. Left unset so the list of 2026-09-15
+  #                                    # (built before the key existed) keeps matching the registry's fingerprint
+  acts_supp_years: 2                   # years of the Acts Supplement read, this year backwards
+  listing_page_size: 500               # used only with listing_paging: orders (one 500-row page, ASC and DESC). The code
+                                       # reads 100 rows a page by Next Page links (listing_paging: next, the default):
+                                       # the portal refused 500-row pages from 2026-09-16. Not changed here, so the
+                                       # registry fingerprint of the list of 2026-09-15 still matches
+  read_repealed: true                  # the Repealed and Uncommenced listings, for status and the repealed texts
+  frontier: discover                   # discover | links_file (the crawl sets SSO_FRONTIER=links_file, SSO_LINKS_FILE=...)
+# The seed laws are in links/seed_laws.yaml. At hand-back that file is appended to this one
+# (countries/README.md).
+seed_queries:                          # vocabulary-seeded, per indicator (recall-first)
+  P6-I1: ['transfer personal data outside Singapore', 'data localisation', 'prohibition on transfer of data']
+  P6-I2: ['copy of records kept in Singapore', 'retain a copy in Singapore', 'local storage of data']
+  P6-I3: ['local server', 'data centre requirement', 'computing infrastructure located in Singapore']
+  P6-I4: ['transfer of personal data ... unless', 'comparable standard of protection', 'consent to transfer', 'prescribed conditions transfer']
+  P7-I1: ['protection of personal data', 'consent to collect use or disclose', 'data protection obligations']
+  P7-I2: ['cybersecurity', 'critical information infrastructure', 'computer misuse']
+  P7-I3: ['retain for a period of not less than', 'shall keep records for', 'minimum retention period']
+  P7-I4: ['data protection officer', 'data protection impact assessment', 'appoint a DPO']
+  P7-I5: ['lawful interception', 'production order', 'access to computer data by an authority', 'surveillance without warrant']

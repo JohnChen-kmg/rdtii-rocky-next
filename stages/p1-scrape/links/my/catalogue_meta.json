@@ -1,0 +1,216 @@
+{
+ "generated_at": "2026-09-15T07:21:14Z",
+ "economy": "MY",
+ "pillars": [
+  6,
+  7
+ ],
+ "counts": {
+  "all": 1414,
+  "seed": 28,
+  "relevant": 185
+ },
+ "document_kinds": {
+  "principal_act": 823,
+  "amending_act": 491,
+  "commencement_instrument": 47,
+  "agency_or_other": 9,
+  "subsidiary_legislation": 44
+ },
+ "rule_id": "my-lom-title-relevance-v3",
+ "settings": {
+  "timeline": "all",
+  "subsidiary_acts": "core",
+  "subsidiary_series": [
+   "P.U. (A)"
+  ],
+  "subsidiary_max_per_act": 0,
+  "document_languages": [
+   "eng",
+   "msa"
+  ],
+  "root": "https://lom.agc.gov.my",
+  "robots_5xx": "allow"
+ },
+ "cfg_sha256": "cbb0bd1ef0a7741a337d444ab1ff704b0f40743a3b24cf9e092f7c3a6eed66cc",
+ "seed_keys": [
+  [
+   "Personal Data Protection Act 2010",
+   "Act 709",
+   "https://www.pdp.gov.my/ppdpv1/en/akta/"
+  ],
+  [
+   "Personal Data Protection (Amendment) Act 2024",
+   "Act A1727",
+   "https://www.pdp.gov.my/ppdpv1/akta/akta-pdppindaan-2024/"
+  ],
+  [
+   "Cyber Security Act 2024",
+   "Act 854",
+   "https://lom.agc.gov.my"
+  ],
+  [
+   "Computer Crimes Act 1997",
+   "Act 563",
+   "https://ccid.rmp.gov.my/Laws/Computer_Crime_Act_1997.pdf"
+  ],
+  [
+   "Criminal Procedure Code",
+   "Act 593",
+   "https://lom.agc.gov.my"
+  ],
+  [
+   "Security Offences (Special Measures) Act 2012",
+   "Act 747",
+   "https://lom.agc.gov.my"
+  ],
+  [
+   "Personal Data Protection Code of Practice for Banking and Financial Sector 2017",
+   "",
+   "https://www.pdp.gov.my/ppdpv1/en/akta/personal-data-protection-code-of-practice-for-banking-sector-and-financial-institutions/"
+  ],
+  [
+   "Personal Data Protection Code of Practice for the Communications Sector 2017",
+   "",
+   "https://www.pdp.gov.my/ppdpv1/en/akta/personal-data-protection-code-of-practice-for-the-communications-sector/"
+  ],
+  [
+   "Income Tax Act 1967",
+   "Act 53",
+   "https://lom.agc.gov.my"
+  ],
+  [
+   "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)",
+   "GP 3/2025",
+   "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf"
+  ],
+  [
+   "Personal Data Protection Guideline on the Appointment of Data Protection Officer (2025)",
+   "",
+   "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf"
+  ],
+  [
+   "Personal Data Protection Guideline on Data Breach Notification (2025)",
+   "",
+   "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DBN_ENG.pdf"
+  ],
+  [
+   "Cyber Security (Licensing of Cyber Security Service Provider) Regulations 2024",
+   "P.U. (A) 221/2024",
+   "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(LICENSING%20OF%20CYBER%20SECURITY%20SERVICE%20PROVIDER).pdf"
+  ],
+  [
+   "Cyber Security (Notification of Cyber Security Incident) Regulations 2024",
+   "P.U. (A) 220/2024",
+   "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(NOTIFICATION%20OF%20CYBER%20SECURITY%20INCIDENT).pdf"
+  ],
+  [
+   "Cyber Security (Period for Cyber Security Risk Assessment and Audit) Regulations 2024",
+   "P.U. (A) 219/2024",
+   "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(PERIOD%20FOR%20CYBER%20SECURITY%20RISK%20ASSESSMENT%20AND%20AUDIT).pdf"
+  ],
+  [
+   "Cyber Security (Compounding of Offences) Regulations 2024",
+   "P.U. (A) 222/2024",
+   "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(COMPOUNDING%20OF%20OFFENCES).pdf"
+  ],
+  [
+   "Personal Data Protection Standard 2015",
+   "JPDP.100-1/1/10",
+   "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2024/07/LatestStandard.pdf"
+  ],
+  [
+   "Personal Data Protection Regulations 2013",
+   "P.U.(A) 335/2013",
+   "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2024/07/Peraturan-peraturan-Perlindungan-Data-Peribadi.pdf"
+  ],
+  [
+   "Guidelines on Technology Risk Management (SC-GL/2-2023)",
+   "SC-GL/2-2023",
+   "https://www.sc.com.my/api/documentms/download.ashx?id=1d694317-0cc0-4e67-bbd7-c9549441c5a1"
+  ],
+  [
+   "Cyber Security (Exemption) Order 2025",
+   "P.U. (A) 47/2025",
+   "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(EXEMPTION)%20ORDER%202025.pdf"
+  ],
+  [
+   "Risk Management in Technology (RMiT) Policy Document (2025)",
+   "",
+   "https://www.bnm.gov.my/documents/20124/938039/pd-rmit-nov25.pdf"
+  ]
+ ],
+ "requests": 1970,
+ "robots_record": {
+  "url": "https://lom.agc.gov.my/robots.txt",
+  "status": 500,
+  "checked_at": "2026-09-15T05:07:32Z",
+  "robots_5xx": "allow",
+  "robots_5xx_source": "registry lom.robots_5xx",
+  "applied": "allow"
+ },
+ "lom_error": null,
+ "listing_counts": {
+  "updated": {
+   "records": 886,
+   "total": 886,
+   "unique": 886
+  },
+  "amendment": {
+   "records": 409,
+   "total": 409,
+   "unique": 405
+  }
+ },
+ "listing_floor": "2011-06-02",
+ "timelines_read": 886,
+ "amendment_timelines_read": 96,
+ "notes": [
+  "robots.txt HTTP 500, crawled under the registry's lom.robots_5xx=allow (decision 9)",
+  "Act A1796: timeline unreadable (HTTP 200)",
+  "Act A1759: timeline unreadable (HTTP 200)",
+  "Act A1539: timeline unreadable (HTTP 200)",
+  "Act A1730: timeline unreadable (HTTP 200)",
+  "Act A1756: timeline unreadable (HTTP 200)",
+  "Act A1586: timeline unreadable (HTTP 200)",
+  "Act A1795: timeline unreadable (HTTP 200)",
+  "Act A1758: timeline unreadable (HTTP 200)",
+  "Act A1786: timeline unreadable (HTTP 200)",
+  "Act A1452: timeline unreadable (HTTP 200)",
+  "Act A1785: timeline unreadable (HTTP 200)",
+  "Act A1757: timeline unreadable (HTTP 200)",
+  "Act A1449: timeline unreadable (HTTP 200)",
+  "Act A1564: timeline unreadable (HTTP 200)",
+  "Act A1634: timeline unreadable (HTTP 200)",
+  "Act A1515: timeline unreadable (HTTP 200)",
+  "Act A1794: timeline unreadable (HTTP 200)",
+  "Act A1787: timeline unreadable (HTTP 200)",
+  "Act A1522: timeline unreadable (HTTP 200)",
+  "Act A1444: timeline unreadable (HTTP 200)",
+  "Act A1455: timeline unreadable (HTTP 200)",
+  "Act A1456: timeline unreadable (HTTP 200)",
+  "Act A1509: timeline unreadable (HTTP 200)",
+  "Act A1790: timeline unreadable (HTTP 200)",
+  "Act A1791: timeline unreadable (HTTP 200)",
+  "Act A1769: timeline unreadable (HTTP 200)",
+  "Act A1582: timeline unreadable (HTTP 200)",
+  "Act A1485: timeline unreadable (HTTP 200)",
+  "Act A1526: timeline unreadable (HTTP 200)",
+  "WJW240906 Act 714 (Repealed by Act 811).pdf: listed for Act 811 and Act 714; stored once, under Act 714",
+  "4735 distinct subsidiary instrument(s) listed on 270 read timeline(s) not fetched under lom.subsidiary_acts=core (decision 12): Act 19 447, Act 828 431, Act 235 409, Act 333 342, Act 53 172, Act 634 157, Act 376 122, Act 306 110, Act 504 104, Act 723 103, Act 103 78, Act 301 74"
+ ],
+ "scraper_sha256": {
+  "__init__.py": "60b6bf9d338bcd90ca641def0e8beba359aed7fd81fb475d69c59884a2400976",
+  "adapter.py": "1aa70a6104b393f9e75c65fdad508c9ff6f8272ae234c8aec9ea42acf85fcb29",
+  "catalogue.py": "e89acf5baa895f2b47d6eec6db1e71c74e9824200a3b3cd75dd5039b77456e90",
+  "client.py": "6c1bab48af406462fe9bf7292c0f86128627285026085d03f9affefcbd82d85e",
+  "parse.py": "82e745ac02e5a249561a00417347d7992b00da603d8d907b18852c0e43c56376",
+  "records.py": "5a45332e1dfba9f5fc62ceab94d877a6a48d85053690ef59106a64b6b8d1b8fc",
+  "relevance.py": "7e7cc19b66f713970bcdafe551617fca8cb42a5c14a0d8ed92318c52f143e092",
+  "robots.py": "568699489017a168beadfd38e07c60c1786615b3bdc459b23ea6640b0cf7edf7"
+ },
+ "registry_sha256": {
+  "registry": "e3ace968439feba3a485677ecc25eb1358b79c62be6f0ff2a3cf2fe059a2dc7a",
+  "seeds": "8f592b0939119943226452b53ae68c5502a7b06e8e322b773eceeb0982b7ea7e"
+ }
+}

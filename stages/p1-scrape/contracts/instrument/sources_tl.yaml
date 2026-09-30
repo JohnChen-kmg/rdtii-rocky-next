@@ -1,0 +1,76 @@
+# sources_tl.yaml — Timor-Leste source registry, RDTII Pillars 6 & 7 (9 in-scope indicators)
+#
+# SCOPE — so the line above is not misread. Pillars 6 and 7 are what the TASK is for, not what the crawl takes. The
+# crawl takes every principal law the portal lists (decision 11). In links/laws.csv: 4,788 listed, 4,739 in scope,
+# 863 marked relevant, 31 seeds. The title rule further down does not limit what is fetched: it MARKS the relevant
+# titles, and that marking only steers the costly per-act work — reading timelines, taking subsidiary legislation,
+# and the crawl order.
+# Built 2026-09-20 from the exploration of 2026-09-20 (countries/_finale-survey/explore-2026-09-20/).
+# STRATEGY: one official source, the Jornal da República (www.mj.gov.tl/jornal), which IS the law: Timor-Leste
+# publishes as-made acts in a gazette and keeps no consolidated database. Six category pages carry the whole
+# statute book, so the link list costs six requests. The documents are native-text Portuguese PDFs.
+# In-scope indicators: P6-I1..P6-I4, P7-I1..P7-I5.
+economy: TL
+portals:
+  primary_statutes:
+    name: "Jornal da República (Ministério da Justiça)"
+    root: "https://www.mj.gov.tl"
+    crawl_style: requests              # server-rendered Drupal tables; PDFs over plain HTTP. No browser needed
+  gazette: self                        # the gazette IS the primary source here; there is no consolidated text
+  regulators:
+    - {name: "ANC — Autoridade Nacional de Comunicações", root: "https://www.anc.tl"}   # telecom -> P7-I3/I5
+    - {name: "Governo de Timor-Leste", root: "https://timor-leste.gov.tl"}              # announces issues
+# The catalogue step and the crawl (scraper/, 2026-09-20; CONVENTIONS.md section 2). Every key can be overridden
+# by JORNAL_<KEY> in the environment. Changing a key other than frontier/links_file changes the list fingerprint.
+jornal:
+  root: "https://www.mj.gov.tl"
+  categories: all                      # all six, or a comma list: leis, decretos_leis, decretos_governo,
+                                       # decretos_presidente, resolucoes_parlamento, resolucoes_governo
+  document_form: pdf                   # the portal offers nothing else
+  frontier: discover                   # discover | links_file (the crawl sets JORNAL_FRONTIER=links_file)
+# The seed laws are in links/seed_laws.yaml. At hand-back that file is appended to this one
+# (countries/README.md).
+#
+# The title rule, on ACCENT-FOLDED, UPPER-CASED Portuguese: `fold()` in scraper/parse.py strips the accents before
+# matching, so one pattern covers both orthographies — `Proteção` (1990 agreement) and `PROTECÇÃO` (before it),
+# `eletrónico` and `electrónico`. Write patterns without accents.
+title_rule:
+  id: tl-jornal-title-relevance-v1
+  groups:
+    - {id: G1_dados_privacidade, tier: core, indicators: ["6.1", "6.2", "6.4", "7.1", "7.4", "7.5"],
+       patterns: ['\bDADOS\b', '\bPRIVACIDADE\b', '\bINFORMACAO PESSOAL\b', '\bPROTEC(C)?AO DE DADOS\b']}
+    - {id: G2_ciberseguranca_informatica, tier: core, indicators: ["7.2", "7.5"],
+       patterns: ['\bCIBER', '\bINFORMATIC', '\bSEGURANCA DA INFORMACAO\b', '\bINFRAESTRUTURAS? CRITICAS?\b']}
+    - {id: G3_comunicacoes_intercecao, tier: core, indicators: ["6.3", "7.3", "7.5"],
+       patterns: ['\bTELECOMUNICAC', '\bCOMUNICACOES\b', '\bINTERCE(P)?CAO\b', '\bVIGILANCIA\b', '\bESPE(C)?TRO\b',
+                  '\bPOSTAIS?\b', '\bRADIODIFUSAO\b']}
+    - {id: G4_eletronico_digital, tier: core, indicators: ["6.2", "6.3", "7.3", "7.5"],
+       patterns: ['\bELE(C)?TRONIC', '\bDIGITAL\b', '\bINTERNET\b', '\bEM LINHA\b', '\bCOMERCIO ELE(C)?TRONICO\b',
+                  '\bASSINATURAS? ELE(C)?TRONICAS?\b', '\bPLATAFORMAS?\b']}
+    - {id: G5_seguranca_processo_penal, tier: core, indicators: ["7.5"],
+       patterns: ['\bPROCESSO PENAL\b', '\bSEGURANCA NACIONAL\b', '\bSERVICOS? DE INTELIGENCIA\b',
+                  '\bTERRORISMO\b', '\bBRANQUEAMENTO\b']}
+    - {id: S1_financeiro, tier: sectoral, indicators: ["6.1", "6.2", "6.3", "6.4", "7.2", "7.3", "7.4"],
+       patterns: ['\bBANCARIO\b', '\bBANCO CENTRAL\b', '\bINSTITUICOES? FINANCEIRAS?\b', '\bPAGAMENTOS?\b',
+                  '\bSEGUROS?\b', '\bVALORES MOBILIARIOS\b']}
+    - {id: S2_registos_identificacao, tier: sectoral, indicators: ["6.2", "7.1", "7.3"],
+       patterns: ['\bIDENTIFICACAO CIVIL\b', '\bREGISTO CIVIL\b', '\bARQUIVO\b', '\bESTATISTICA\b',
+                  '\bRECENSEAMENTO\b']}
+    - {id: S3_saude_trabalho, tier: sectoral, indicators: ["6.1", "6.2", "7.3", "7.4"],
+       patterns: ['\bSAUDE\b', '\bREGISTOS? MEDICOS?\b', '\bTRABALHO\b']}
+    - {id: S4_consumidor_concorrencia, tier: sectoral, indicators: ["6.4", "7.3"],
+       patterns: ['\bCONSUMIDOR', '\bCONCORRENCIA\b', '\bPROPRIEDADE INTELECTUAL\b', '\bDIREITO DE AUTOR\b']}
+  exclusions:
+    # honours, appointments and ceremonial acts fill the presidential-decree page and are never regulatory
+    - {id: X1_condecoracoes_nomeacoes, pattern: '^(CONCESSAO DE (HONRAS|CONDECORACAO)|CONDECORA|NOMEACAO|EXONERACAO|DEMISSAO|LUTO NACIONAL|INDULTO)'}
+    - {id: X2_orcamento, pattern: '^(ORCAMENTO GERAL DO ESTADO|APROVA O ORCAMENTO)'}
+seed_queries:                          # vocabulary-seeded, per indicator (recall-first), Portuguese
+  P6-I1: ['transferencia de dados para o estrangeiro', 'localizacao de dados']
+  P6-I2: ['conservacao de registos em territorio nacional', 'copia em Timor-Leste']
+  P6-I3: ['centro de dados', 'servidor localizado', 'infraestrutura de comunicacoes']
+  P6-I4: ['transferencia de dados pessoais', 'consentimento para transferencia', 'nivel adequado de protecao']
+  P7-I1: ['protecao de dados pessoais', 'tratamento de dados pessoais']
+  P7-I2: ['ciberseguranca', 'crime informatico', 'infraestruturas criticas']
+  P7-I3: ['conservacao de dados de trafego', 'prazo de conservacao', 'registos por um periodo']
+  P7-I4: ['encarregado de protecao de dados', 'avaliacao de impacto']
+  P7-I5: ['intercecao de comunicacoes', 'acesso legal a dados', 'meios de obtencao de prova']

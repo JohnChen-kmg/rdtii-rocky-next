@@ -1,0 +1,32 @@
+{
+ "generated_at": "2026-09-16T14:21:06Z",
+ "economy": "SG",
+ "list_kind": "corpus",
+ "corpus": "SG_corpus_2026-09-16",
+ "counts": {
+  "all": 738
+ },
+ "document_kinds": {
+  "principal_act": 524,
+  "subsidiary_legislation": 180,
+  "agency_or_other": 12,
+  "amending_act": 22
+ },
+ "runs": [
+  "SG_ws_2026-09-15"
+ ],
+ "state_run": "SG_ws_2026-09-15",
+ "cfg_sha256": "e44e4da7c2a98f64d43d33784c33345f6b9e4fb8301bd76efd2cf1a96bd3ee8f",
+ "rule_id": null,
+ "settings": {
+  "detail_pages": "all",
+  "subsidiary_acts": "seed",
+  "acts_supp_years": 2,
+  "listing_page_size": 500,
+  "read_repealed": true
+ },
+ "synthetic_rows": 7,
+ "notes": [
+  "a corpus list: the link rows of the documents in this corpus, from every run merged; a row marked contract_meta.synthetic stands in for a document whose run had no link row for it"
+ ]
+}

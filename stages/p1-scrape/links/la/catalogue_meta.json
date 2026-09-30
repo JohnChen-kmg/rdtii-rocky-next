@@ -1,0 +1,256 @@
+{
+ "generated_at": "2026-09-21T06:28:23Z",
+ "economy": "LA",
+ "pillars": [
+  6,
+  7
+ ],
+ "counts": {
+  "all": 1824,
+  "seed": 14,
+  "relevant": 334
+ },
+ "document_kinds": {
+  "principal_act": 351,
+  "subsidiary_legislation": 1261,
+  "amending_act": 26,
+  "other": 185,
+  "repealing_act": 1
+ },
+ "languages": {
+  "lao": 1769,
+  "eng": 55
+ },
+ "rule_id": "la-gazette-title-relevance-v1",
+ "settings": {
+  "legal_types": "all",
+  "superseded": true,
+  "english_pdfs": true,
+  "max_pages": 120,
+  "root": "https://laoofficialgazette.gov.la"
+ },
+ "cfg_sha256": "d1d3973cbfb01eb0835bb999b96454943706b00067eaffb0e98fc8fae24c2c6a",
+ "seed_keys": [
+  [
+   "ກົດໝາຍ ວ່າດ້ວຍການປົກປ້ອງຂໍ້ມູນເອເລັກໂຕຣນິກ",
+   "1216"
+  ],
+  [
+   "ກົດໝາຍວ່າດ້ວຍ ຄວາມປອດໄພໄຊເບີ",
+   "2537"
+  ],
+  [
+   "ກົດໝາຍ ວ່າດ້ວຍ ການຕ້ານ ແລະ ສະກັດກັ້ນອາຊະຍາກຳທາງລະບົບຄອມພິວເຕີ",
+   "861"
+  ],
+  [
+   "ກົດໝາຍວ່າດ້ວຍ ທຸລະກຳທາງເອເລັກໂຕຣນິກ (ສະບັບປັບປຸງ)",
+   "2023"
+  ],
+  [
+   "ກົດໝາຍ ວ່າດ້ວຍລາຍເຊັນເອເລັກໂຕຣນິກ",
+   "1495"
+  ],
+  [
+   "ກົດໝາຍ ວ່າດ້ວຍການໂທລະຄົມມະນາຄົມ (ສະບັບປັບປຸງ)",
+   "1852"
+  ],
+  [
+   "ກົດໝາຍວ່າດ້ວຍ ເຕັກໂນໂລຊີການສື່ສານ ຂໍ້ມູນ ຂ່າວສານ",
+   "1136"
+  ],
+  [
+   "ກົດໝາຍ ວ່າດ້ວຍຄື້ນຄວາມຖີ່ວິທະຍຸສື່ສານ",
+   "1217"
+  ],
+  [
+   "ກົດໝາຍວ່າດ້ວຍ ລະບົບການຊຳລະ (ສະບັບປັບປຸງ)",
+   "2202"
+  ],
+  [
+   "ກົດໝາຍວ່າດ້ວຍ ສະຖິຕິ (ສະບັບປັບປຸງ)",
+   "1188"
+  ],
+  [
+   "ກົດໝາຍ ວ່າດ້ວຍແຂ່ງຂັນທາງທຸລະກິດ",
+   "880"
+  ],
+  [
+   "ກົດໝາຍວ່າດ້ວຍ ອາກອນລາຍໄດ້ (ສະບັບປັບປຸງ)",
+   "2597"
+  ]
+ ],
+ "requests": 193,
+ "robots_record": {
+  "url": "https://laoofficialgazette.gov.la/robots.txt",
+  "status": 200,
+  "read_at": "2026-09-21T05:59:57Z",
+  "bytes": 135872,
+  "note": "no robots.txt: the server answers 200 with its own page for any unknown path, so nothing is stated and nothing is disallowed. The delay is our own choice",
+  "delay_used_s": 6.0
+ },
+ "gazette_error": null,
+ "listing_counts": {
+  "13": {
+   "kind": "Constitution",
+   "records": 4,
+   "pages_read": 2,
+   "total_old0": 1,
+   "listed_old0": 1,
+   "records_old0": 1,
+   "total_old1": 3,
+   "listed_old1": 3,
+   "records_old1": 3
+  },
+  "1": {
+   "kind": "Civil Code",
+   "records": 1,
+   "pages_read": 2,
+   "total_old0": 1,
+   "listed_old0": 1,
+   "records_old0": 1,
+   "total_old1": 0,
+   "listed_old1": 0,
+   "records_old1": 0
+  },
+  "10": {
+   "kind": "Penal Code",
+   "records": 1,
+   "pages_read": 2,
+   "total_old0": 1,
+   "listed_old0": 1,
+   "records_old0": 1,
+   "total_old1": 0,
+   "listed_old1": 0,
+   "records_old1": 0
+  },
+  "6": {
+   "kind": "Law",
+   "records": 314,
+   "pages_read": 33,
+   "total_old0": 182,
+   "listed_old0": 182,
+   "records_old0": 180,
+   "total_old1": 134,
+   "listed_old1": 134,
+   "records_old1": 134
+  },
+  "9": {
+   "kind": "Presidential Ordinance",
+   "records": 19,
+   "pages_read": 3,
+   "total_old0": 17,
+   "listed_old0": 17,
+   "records_old0": 17,
+   "total_old1": 2,
+   "listed_old1": 2,
+   "records_old1": 2
+  },
+  "4": {
+   "kind": "Presidential Decree",
+   "records": 0,
+   "pages_read": 2,
+   "total_old0": 0,
+   "listed_old0": 0,
+   "records_old0": 0,
+   "total_old1": 0,
+   "listed_old1": 0,
+   "records_old1": 0
+  },
+  "3": {
+   "kind": "Decree",
+   "records": 258,
+   "pages_read": 27,
+   "total_old0": 224,
+   "listed_old0": 224,
+   "records_old0": 224,
+   "total_old1": 34,
+   "listed_old1": 34,
+   "records_old1": 34
+  },
+  "8": {
+   "kind": "Order",
+   "records": 230,
+   "pages_read": 24,
+   "total_old0": 227,
+   "listed_old0": 227,
+   "records_old0": 227,
+   "total_old1": 3,
+   "listed_old1": 3,
+   "records_old1": 3
+  },
+  "2": {
+   "kind": "Agreement",
+   "records": 763,
+   "pages_read": 77,
+   "total_old0": 657,
+   "listed_old0": 657,
+   "records_old0": 657,
+   "total_old1": 106,
+   "listed_old1": 106,
+   "records_old1": 106
+  },
+  "5": {
+   "kind": "Instruction",
+   "records": 174,
+   "pages_read": 18,
+   "total_old0": 164,
+   "listed_old0": 164,
+   "records_old0": 164,
+   "total_old1": 10,
+   "listed_old1": 10,
+   "records_old1": 10
+  },
+  "12": {
+   "kind": "Resolution",
+   "records": 9,
+   "pages_read": 2,
+   "total_old0": 8,
+   "listed_old0": 8,
+   "records_old0": 8,
+   "total_old1": 1,
+   "listed_old1": 1,
+   "records_old1": 1
+  }
+ },
+ "laws_listed": 1773,
+ "statuses": {
+  "in_force": 1480,
+  "repealed": 293
+ },
+ "listings": {
+  "legaltype=13&old=0": 1,
+  "legaltype=13&old=1": 3,
+  "legaltype=1&old=0": 1,
+  "legaltype=10&old=0": 1,
+  "legaltype=6&old=0": 180,
+  "legaltype=6&old=1": 134,
+  "legaltype=9&old=0": 17,
+  "legaltype=9&old=1": 2,
+  "legaltype=3&old=0": 224,
+  "legaltype=3&old=1": 34,
+  "legaltype=8&old=0": 227,
+  "legaltype=8&old=1": 3,
+  "legaltype=2&old=0": 657,
+  "legaltype=2&old=1": 106,
+  "legaltype=5&old=0": 164,
+  "legaltype=5&old=1": 10,
+  "legaltype=12&old=0": 8,
+  "legaltype=12&old=1": 1
+ },
+ "translations": 55,
+ "notes": [
+  "Law (legaltype=6, old=0): 2 of 182 law(s) were already listed under another kind and are kept once, under the first"
+ ],
+ "scraper_sha256": {
+  "__init__.py": "311b5a248c54a6037b3fef6a54ab5a780c4522a91920795d20c34a3dac7337ae",
+  "adapter.py": "24f920abe8380b81580bac1db578a70121e96b83705070b5366a4c022228d121",
+  "catalogue.py": "0d07a83b3285630881aac27e7b3b697bd1b136b93b6a5d6c9ff1aac390b87ddf",
+  "checker.py": "2d3b8e52cb08a03c5bb4fe959557177e0b5bdba4972fcd97ddc104bee42971f3",
+  "parse.py": "85603f9af34bf0df0d8dd65bc2112adf2b781cd8f5906e05fbc04eb3984b226d"
+ },
+ "registry_sha256": {
+  "registry": "34217bd71b53c4b825c6a1cc41c59e69b84b653ea4d521915d3350df7277aa7c",
+  "seeds": "f1490cf5b4334abb0a899e358d53a65fe23340c765a522efafb799741e8310bd"
+ }
+}

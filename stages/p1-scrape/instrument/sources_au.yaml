@@ -1,0 +1,45 @@
+# sources_au.yaml — Australia source registry, RDTII Pillars 6 & 7 (9 in-scope indicators)
+#
+# SCOPE — so the line above is not misread. Pillars 6 and 7 are what the TASK is for, not what the crawl takes. The
+# crawl takes every principal law the portal lists (decision 11). In links/laws.csv: 4,776 listed, 1,275 in scope,
+# 20 marked relevant, 18 seeds. The 3,501 not crawled are amending and consequential acts, which the Federal
+# Register compiles into the principal act, so they are listed and recorded rather than missed. The title rule
+# further down does not limit what is fetched: it MARKS the relevant titles, and that marking only steers the
+# costly per-act work — reading timelines, taking subsidiary legislation, and the crawl order.
+# Seeded from Knowledge Portal "Sample governemnt portals_Pillar 6_7.csv" + Round 1 baseline DB.
+# STRATEGY: Australia is fully covered by ONE official portal (legislation.gov.au) + regulators. Crawl official only.
+# legislation.gov.au is HTML-heavy with deep section anchors (#sec.N) — the higher-value HTML differentiator.
+economy: AU
+portals:
+  primary_statutes:
+    name: "Federal Register of Legislation"
+    root: "https://www.legislation.gov.au"
+    crawl_style: playwright            # HTML series pages; capture deep section anchors (#sec.N)
+  gazette: null
+  regulators:
+    - {name: "OAIC — Office of the Australian Information Commissioner", root: "https://www.oaic.gov.au"}  # DP/PIA -> P7-I4
+    - {name: "ACSC — cyber.gov.au", root: "https://www.cyber.gov.au"}                                      # cyber -> P7-I2
+    - {name: "Department of Home Affairs", root: "https://www.homeaffairs.gov.au"}                         # cyber strategy -> P7-I2
+# The catalogue step and the crawl (scraper/, 2026-09-15; CONVENTIONS.md section 2). Every key can be overridden
+# by REGISTER_<KEY> in the environment. Changing a key other than frontier/links_file changes the list fingerprint.
+register:
+  api: "https://api.prod.legislation.gov.au/v1"
+  detail_pages: all                    # whose latest version the API is asked for: all (decision 17) | seed | none
+  version_batch: 18                    # title ids per versions request (an OR-chain of 18 answers 400)
+  title_page_size: 100                 # the API's maximum $top
+  max_titles: 6000                     # a stop on the title harvest
+  collection: Act                      # the register collection harvested (in force)
+  document_form: epub                  # epub (every volume of every compilation; decision 18, proposed) | pdf (single-volume acts only)
+  frontier: discover                   # discover | links_file (the crawl sets REGISTER_FRONTIER=links_file, REGISTER_LINKS_FILE=...)
+# The seed laws are in links/seed_laws.yaml. At hand-back that file is appended to this one
+# (countries/README.md).
+seed_queries:
+  P6-I1: ['must not disclose overseas', 'store health information in Australia', 'data localisation']
+  P6-I2: ['retain a copy in Australia', 'kept in Australia', 'local storage']
+  P6-I3: ['infrastructure located in Australia', 'server located in Australia']
+  P6-I4: ['APP 8 cross-border disclosure', 'reasonable steps overseas recipient', 'disclosure to overseas recipient']
+  P7-I1: ['Australian Privacy Principles', 'handling of personal information']
+  P7-I2: ['critical infrastructure asset', 'cyber security obligation', 'systems of national significance']
+  P7-I3: ['retain for the period', 'data retention', 'keep the information for a period']
+  P7-I4: ['privacy impact assessment', 'privacy officer']
+  P7-I5: ['interception warrant', 'access to stored communications', 'international production order', 'assistance and access']

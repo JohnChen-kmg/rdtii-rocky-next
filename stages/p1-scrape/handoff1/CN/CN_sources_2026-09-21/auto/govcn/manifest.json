@@ -1,0 +1,147 @@
+{
+ "folder": "govcn",
+ "documents": [
+  {
+   "n": 1,
+   "title": "个人信息出境认证办法 (网信办 + 市场监管总局, in force 2026-01-01)",
+   "reference": "The third cross-border route, alongside the assessment and the standard contract. Without it, indicator 6.4 is described with two of its three mechanisms",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "第20号",
+   "in_force_from": "2026年1月1日",
+   "chars": 6113,
+   "has_articles": true,
+   "attachments": "",
+   "flag": "",
+   "url": "https://www.gov.cn/zhengce/zhengceku/202510/content_7044914.htm",
+   "file": "个人信息出境认证办法-网信办-市场监管总局-in-force-2026-01-01-d5892526",
+   "fetched": "2026-09-22T00:56:46Z",
+   "via": "CN_layer2_links.md"
+  },
+  {
+   "n": 2,
+   "title": "电信和互联网用户个人信息保护规定",
+   "reference": "工信部令第24号",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "2013年第24号",
+   "in_force_from": "2013年9月1日",
+   "chars": 3300,
+   "has_articles": true,
+   "attachments": "",
+   "flag": "",
+   "url": "https://www.gov.cn/gongbao/content/2013/content_2473881.htm",
+   "file": "电信和互联网用户个人信息保护规定-8c075a78",
+   "fetched": "2026-09-22T00:56:56Z",
+   "via": "CN_layer2_links.md"
+  },
+  {
+   "n": 3,
+   "title": "国办发〔2025〕34号 本国产品标准通知",
+   "reference": "国务院办公厅",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "〔2025〕34号",
+   "in_force_from": "2026年1月1日",
+   "chars": 4300,
+   "has_articles": true,
+   "attachments": "",
+   "flag": "",
+   "url": "https://www.gov.cn/zhengce/content/202509/content_7042999.htm",
+   "file": "国办发-2025-34号-本国产品标准通知-9670b1b2",
+   "fetched": "2026-09-22T00:57:07Z",
+   "via": "CN_layer2_links.md"
+  },
+  {
+   "n": 4,
+   "title": "跨境电商零售进口税收政策通知",
+   "reference": "财政部+海关总署+税务总局 财关税〔2018〕49号",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "〔2018〕49号",
+   "in_force_from": "",
+   "chars": 1989,
+   "has_articles": false,
+   "attachments": "",
+   "flag": "",
+   "url": "https://www.gov.cn/zhengce/zhengceku/2018-12/31/content_5440499.htm",
+   "file": "跨境电商零售进口税收政策通知-26f74dae",
+   "fetched": "2026-09-22T00:57:18Z",
+   "via": "CN_layer2_links.md"
+  },
+  {
+   "n": 5,
+   "title": "跨境电商零售进出口监管公告 (1210 / 9610)",
+   "reference": "海关总署公告 2018年第194号",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "2018年第194号",
+   "in_force_from": "",
+   "chars": 11771,
+   "has_articles": false,
+   "attachments": "",
+   "flag": "",
+   "url": "https://www.gov.cn/zhengce/zhengceku/2018-12/31/content_5447414.htm",
+   "file": "跨境电商零售进出口监管公告-1210-9610-6af9fb8b",
+   "fetched": "2026-09-22T00:57:29Z",
+   "via": "CN_layer2_links.md"
+  },
+  {
+   "n": 6,
+   "title": "互联网安全保护技术措施规定",
+   "reference": "公安部令第82号",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "2006年第30号",
+   "in_force_from": "2006年3月1日",
+   "chars": 2685,
+   "has_articles": true,
+   "attachments": "",
+   "flag": "",
+   "url": "https://www.gov.cn/gongbao/content/2006/content_421771.htm",
+   "file": "互联网安全保护技术措施规定-372751c4",
+   "fetched": "2026-09-22T00:57:40Z",
+   "via": "CN_layer2_links.md"
+  }
+ ],
+ "refused": [],
+ "failed": [],
+ "robots": [
+  {
+   "host": "https://www.cnca.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://www.mof.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://gss.mof.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://www.nppa.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://www.nrta.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://zwgk.mct.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://www.most.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "http://www.sasac.gov.cn",
+   "verdict": "permits (rules read)"
+  },
+  {
+   "host": "https://www.gov.cn",
+   "verdict": "permits (rules read)"
+  }
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "corpus": "LA_corpus_2026-09-21",
+ "economy": "LA",
+ "generated_at": "2026-09-21T07:03:27Z",
+ "runs": [
+  "LA_ws_2026-09-21_to_2026-09-21_2",
+  "LA_ws_2026-09-21"
+ ],
+ "per_run": {
+  "LA_ws_2026-09-21_to_2026-09-21_2": {
+   "documents": 4,
+   "included": 4,
+   "superseded": 0,
+   "excluded": 0,
+   "renamed": 0
+  },
+  "LA_ws_2026-09-21": {
+   "documents": 1811,
+   "included": 1758,
+   "superseded": 53,
+   "excluded": 0,
+   "renamed": 0
+  }
+ },
+ "documents": 1762,
+ "superseded": 53,
+ "excluded": 0,
+ "excluded_flags": [],
+ "flagged": 1695,
+ "duplicates_logged": 0,
+ "renamed": [],
+ "synthetic_link_rows": 0,
+ "hardlink": false,
+ "validation": {
+  "ok": true,
+  "rows": 1762,
+  "errors": [],
+  "warnings": []
+ },
+ "state_run": "LA_ws_2026-09-21_to_2026-09-21_2",
+ "excluded_rows": []
+}

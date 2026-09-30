@@ -1,0 +1,126 @@
+{
+ "folder": "sectoral",
+ "documents": [
+  {
+   "n": 1,
+   "title": "网络出版服务管理规定",
+   "reference": "新闻出版广电总局+工信部 令第5号",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "第5号",
+   "in_force_from": "2016年3月10日",
+   "chars": 9062,
+   "has_articles": true,
+   "attachments": "",
+   "flag": "",
+   "url": "https://www.nppa.gov.cn/xxgk/fdzdgknr/zcfg_210/bmgz_213/202112/t20211209_442163.html",
+   "file": "网络出版服务管理规定-d8bd2414",
+   "fetched": "2026-09-22T00:52:53Z",
+   "via": "CN_layer2_links.md"
+  },
+  {
+   "n": 2,
+   "title": "互联网视听节目服务管理规定",
+   "reference": "广电总局+信产部 令第56号, amended 2015",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "第56号",
+   "in_force_from": "2008年1月31日",
+   "chars": 6242,
+   "has_articles": true,
+   "attachments": "",
+   "flag": "",
+   "url": "https://www.nrta.gov.cn/art/2015/5/21/art_3812_49.html",
+   "file": "互联网视听节目服务管理规定-42693184",
+   "fetched": "2026-09-22T00:53:06Z",
+   "via": "CN_layer2_links.md"
+  },
+  {
+   "n": 3,
+   "title": "互联网文化管理暂行规定",
+   "reference": "文化部令第51号, amended by 令57 (2017)",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "第57号",
+   "in_force_from": "2011年4月1日",
+   "chars": 5671,
+   "has_articles": true,
+   "attachments": "P020220218671687070357.docx | P020220218671687239517.pdf",
+   "flag": "",
+   "url": "https://zwgk.mct.gov.cn/zfxxgkml/zcfg/bmgz/202012/t20201204_905340.html",
+   "file": "互联网文化管理暂行规定-9b3f668f",
+   "fetched": "2026-09-22T00:53:37Z",
+   "via": "CN_layer2_links.md"
+  },
+  {
+   "n": 4,
+   "title": "人类遗传资源管理条例实施细则",
+   "reference": "科技部令第21号",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "第21号",
+   "in_force_from": "2023年7月1日",
+   "chars": 10658,
+   "has_articles": true,
+   "attachments": "",
+   "flag": "",
+   "url": "https://www.most.gov.cn/xxgk/xinxifenlei/fdzdgknr/fgzc/bmgz/202306/t20230601_186416.html",
+   "file": "人类遗传资源管理条例实施细则-d2562573",
+   "fetched": "2026-09-22T00:54:14Z",
+   "via": "CN_layer2_links.md"
+  },
+  {
+   "n": 5,
+   "title": "中央企业名录",
+   "reference": "国资委, rolling",
+   "section": "verified link",
+   "listed_date": "",
+   "doc_number": "",
+   "in_force_from": "",
+   "chars": 1849,
+   "has_articles": false,
+   "attachments": "",
+   "flag": "",
+   "url": "http://www.sasac.gov.cn/n2588045/n27271785/n27271792/index.html",
+   "file": "中央企业名录-329a2e2f",
+   "fetched": "2026-09-22T00:56:34Z",
+   "via": "CN_layer2_links.md"
+  }
+ ],
+ "refused": [],
+ "failed": [],
+ "robots": [
+  {
+   "host": "https://www.cnca.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://www.mof.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://gss.mof.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://www.nppa.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://www.nrta.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://zwgk.mct.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "https://www.most.gov.cn",
+   "verdict": "none published"
+  },
+  {
+   "host": "http://www.sasac.gov.cn",
+   "verdict": "permits (rules read)"
+  }
+ ]
+}

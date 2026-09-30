@@ -1,0 +1,69 @@
+{
+ "generated_at": "2026-09-15T11:58:23Z",
+ "economy": "MY",
+ "list_kind": "corpus",
+ "corpus": "MY_corpus_2026-09-15",
+ "counts": {
+  "all": 1391
+ },
+ "document_kinds": {
+  "commencement_instrument": 47,
+  "amending_act": 469,
+  "principal_act": 822,
+  "agency_or_other": 14,
+  "subsidiary_legislation": 39
+ },
+ "runs": [
+  "MY_ws_2026-09-15_to_2026-09-15",
+  "MY_ws_2026-09-14_to_2026-09-15",
+  "MY_ws_2026-09-14",
+  "MY_ws_2026-09-13"
+ ],
+ "state_run": "MY_ws_2026-09-15_to_2026-09-15",
+ "cfg_sha256": "cbb0bd1ef0a7741a337d444ab1ff704b0f40743a3b24cf9e092f7c3a6eed66cc",
+ "rule_id": "my-lom-title-relevance-v3",
+ "settings": {
+  "timeline": "all",
+  "subsidiary_acts": "core",
+  "subsidiary_series": [
+   "P.U. (A)"
+  ],
+  "subsidiary_max_per_act": 0,
+  "document_languages": [
+   "eng",
+   "msa"
+  ],
+  "root": "https://lom.agc.gov.my",
+  "robots_5xx": "allow",
+  "updates": {
+   "subsidiary_listings": {
+    "pua": {
+     "page": "subsid.php?type=pua",
+     "endpoint": "json-subsid-2024.php",
+     "form": {
+      "type": "pua"
+     }
+    },
+    "pub": {
+     "page": "subsid.php?type=pub",
+     "endpoint": "json-subsid-2024.php",
+     "form": {
+      "type": "pub"
+     }
+    }
+   },
+   "subsidiary_kinds": [
+    "pua",
+    "pub"
+   ],
+   "subsidiary_page_size": 500,
+   "subsidiary_lookback_days": 120,
+   "subsidiary_max_pages": 30,
+   "verify_stored": 0
+  }
+ },
+ "synthetic_rows": 5,
+ "notes": [
+  "a corpus list: the link rows of the documents in this corpus, from every run merged; a row marked contract_meta.synthetic stands in for a document whose run had no link row for it"
+ ]
+}

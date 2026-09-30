@@ -1,0 +1,67 @@
+# seed_laws for Lao PDR — the laws named on purpose, with their provenance. HAND-EDITED.
+#
+# Chosen 2026-09-20 from the gazette's own `legaltype=6` listing, read in full during the probe that settled
+# legaltype 6 against 16 (`../NOTES.md` 8). **Every entry below was seen in a listing row**, with the title, the
+# dates and the portal id the gazette states; nothing here is desk research and nothing comes from a host
+# baseline (`POLICY.md` section 4).
+#
+# `portal_key` is the gazette's own record id — the `id=` of the law's page, `/index.php?r=site/display&id=<n>`.
+# It is the only stable key the portal offers: there is no act number anywhere in the listing, and the file
+# addresses are inconsistent enough that one can never be constructed.
+#
+# **Laos does have a data-protection statute**, unlike Timor-Leste: the Law on Electronic Data Protection
+# (id 1216, 2017). It sits beside a Cyber Security Law (2025), an Anti-Cybercrime Law (2015), an Electronic
+# Transactions Law (revised 2022) and an Electronic Signature Law (2018) — an unusually complete pillar 7 set
+# for an economy this size (`../NOTES.md` 6).
+#
+# The English gloss on each title is ours, for a reader of this file. The Lao title is what the portal states
+# and what the scraper matches on.
+# Keep the flow style `- {...}`: the dashboard's parser declines block-style entries.
+seed_laws:
+  - {law_name: "ກົດໝາຍ ວ່າດ້ວຍການປົກປ້ອງຂໍ້ມູນເອເລັກໂຕຣນິກ", law_number: null, portal_key: "1216",
+     indicators: [P6-I1, P6-I4, P7-I1, P7-I4],
+     provenance: "Lao Official Gazette, legaltype=6, listed with instrument date 12/05/2017 and gazetted
+       05/10/2017. Law on Electronic Data Protection: the country's personal-data statute"}
+  - {law_name: "ກົດໝາຍວ່າດ້ວຍ ຄວາມປອດໄພໄຊເບີ", law_number: null, portal_key: "2537",
+     indicators: [P7-I2, P7-I5],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 25/06/2025, gazetted 20/03/2026. Law on
+       Cyber Security, the newest pillar 7 law on the portal and the document the OCR pilot of 2026-09-20 read"}
+  - {law_name: "ກົດໝາຍ ວ່າດ້ວຍ ການຕ້ານ ແລະ ສະກັດກັ້ນອາຊະຍາກຳທາງລະບົບຄອມພິວເຕີ", law_number: null,
+     portal_key: "861", indicators: [P7-I2, P7-I5],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 15/07/2015, gazetted 17/11/2015. Law on
+       Anti-Cybercrime"}
+  - {law_name: "ກົດໝາຍວ່າດ້ວຍ ທຸລະກຳທາງເອເລັກໂຕຣນິກ (ສະບັບປັບປຸງ)", law_number: null, portal_key: "2023",
+     indicators: [P6-I2, P6-I3, P7-I3],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 29/12/2022, gazetted 23/03/2023. Law on
+       Electronic Transactions, revised version"}
+  - {law_name: "ກົດໝາຍ ວ່າດ້ວຍລາຍເຊັນເອເລັກໂຕຣນິກ", law_number: null, portal_key: "1495",
+     indicators: [P6-I2, P7-I3],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 12/12/2018, gazetted 02/05/2019. Law on
+       Electronic Signature"}
+  - {law_name: "ກົດໝາຍ ວ່າດ້ວຍການໂທລະຄົມມະນາຄົມ (ສະບັບປັບປຸງ)", law_number: null, portal_key: "1852",
+     indicators: [P6-I3, P7-I3, P7-I5],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 16/11/2021, gazetted 23/03/2022. Law on
+       Telecommunications, revised version"}
+  - {law_name: "ກົດໝາຍວ່າດ້ວຍ ເຕັກໂນໂລຊີການສື່ສານ ຂໍ້ມູນ ຂ່າວສານ", law_number: null, portal_key: "1136",
+     indicators: [P6-I3, P7-I2],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 07/11/2016, gazetted 21/02/2017. Law on
+       Information and Communication Technology"}
+  - {law_name: "ກົດໝາຍ ວ່າດ້ວຍຄື້ນຄວາມຖີ່ວິທະຍຸສື່ສານ", law_number: null, portal_key: "1217",
+     indicators: [P6-I3],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 05/05/2017, gazetted 05/10/2017. Law on
+       Radio Communication Frequencies"}
+  - {law_name: "ກົດໝາຍວ່າດ້ວຍ ລະບົບການຊຳລະ (ສະບັບປັບປຸງ)", law_number: null, portal_key: "2202",
+     indicators: [P6-I2, P6-I3],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 20/11/2023, gazetted 13/02/2024. Law on the
+       Payment System, revised version; one of the 21 laws the gazette also publishes in English"}
+  - {law_name: "ກົດໝາຍວ່າດ້ວຍ ສະຖິຕິ (ສະບັບປັບປຸງ)", law_number: null, portal_key: "1188",
+     indicators: [P7-I1],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 24/05/2017, gazetted 21/07/2017. Statistics
+       Law, revised version: the duty of confidence over personal records collected by the state"}
+  - {law_name: "ກົດໝາຍ ວ່າດ້ວຍແຂ່ງຂັນທາງທຸລະກິດ", law_number: null, portal_key: "880", indicators: [P6-I4],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 28/08/2015, gazetted 24/11/2015. Law on
+       Business Competition; published in English as well as Lao"}
+  - {law_name: "ກົດໝາຍວ່າດ້ວຍ ອາກອນລາຍໄດ້ (ສະບັບປັບປຸງ)", law_number: null, portal_key: "2597", indicators: [],
+     provenance: "Lao Official Gazette, legaltype=6, instrument date 25/06/2025, gazetted 19/06/2026. No
+       indicator tag: it is named on purpose as the newest law on the portal and is the fixture this country's
+       tests are built on (its listing row and its detail page are both saved in tests/fixtures/)"}

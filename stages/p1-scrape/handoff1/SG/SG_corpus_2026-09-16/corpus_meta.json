@@ -1,0 +1,34 @@
+{
+ "corpus": "SG_corpus_2026-09-16",
+ "economy": "SG",
+ "generated_at": "2026-09-16T14:21:06Z",
+ "runs": [
+  "SG_ws_2026-09-15"
+ ],
+ "per_run": {
+  "SG_ws_2026-09-15": {
+   "documents": 739,
+   "included": 738,
+   "superseded": 1,
+   "excluded": 0,
+   "renamed": 0
+  }
+ },
+ "documents": 738,
+ "superseded": 1,
+ "excluded": 0,
+ "excluded_flags": [],
+ "flagged": 6,
+ "duplicates_logged": 0,
+ "renamed": [],
+ "synthetic_link_rows": 7,
+ "hardlink": true,
+ "validation": {
+  "ok": true,
+  "rows": 738,
+  "errors": [],
+  "warnings": []
+ },
+ "state_run": "SG_ws_2026-09-15",
+ "excluded_rows": []
+}

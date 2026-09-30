@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Malaysia Federal Legislation" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.css" integrity="sha256-/V5EbSe/d54234ga0XMmhcO000+f732yzwgT/synrHk=" crossorigin="anonymous"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap4.min.css" integrity="sha256-mjn/pyP7AZ9Q20McJHvyXlTySpFtBeamy6lWMTwEwys=" crossorigin="anonymous">
+
+
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Montserrat:400,700|Crete+Round:400i" rel="stylesheet" type="text/css" crossorigin="anonymous" />
+	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="style.css?v=1.3" />
+	<link rel="stylesheet" href="css/swiper.css" type="text/css" />
+
+	<link rel="stylesheet" href="child/agc.css" type="text/css" />
+	<link rel="stylesheet" href="css/dark.css" type="text/css" />
+	<link rel="stylesheet" href="css/font-icons.css" type="text/css" />
+	<link rel="stylesheet" href="css/animate.css" type="text/css" />
+	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+
+	<link rel="stylesheet" href="child/fonts.css" type="text/css" />
+
+	<link rel="stylesheet" href="css/components/bs-datatable.css" type="text/css" />
+	<link rel="stylesheet" href="css/responsive.css?v=1.1" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+	<link rel="stylesheet" href="css/colors.php?color=DE6262" type="text/css" />
+
+	<title>Malaysia Federal Legislation</title>
+    <style>
+        /* CSS Fix for Dropdown Menu */
+        .dataTables_filter .dropdown-menu {
+            z-index: 1050; /* Ensure dropdown is on top of other elements */
+        }
+		.dropdown-menu.keep-open {
+			display: block;
+			visibility: hidden;
+			opacity: 0;
+			transition: visibility 0.15s, opacity 0.15s linear;
+		}
+		.show > .dropdown-menu.keep-open {
+			visibility: visible;
+			opacity: 1;
+		}
+		.dropdown-menu .form-check {
+            display: flex;
+            align-items: center;
+			padding-left: 1.5rem;
+			padding-right: 1.5rem;
+		}
+        /* New rule to fix checkbox overlapping issue */
+        .dropdown-menu .form-check-input {
+            position: static !important; /* Override absolute position from theme/bootstrap */
+            margin-top: 0;
+            margin-left: 0;
+        }
+        .form-check-label {
+            white-space: nowrap; /* Prevent label text from wrapping */
+            padding-left: 5px;
+            text-transform: none !important; /* Override uppercase from theme */
+        }
+        /* Custom styling for the enhanced search box */
+        .dataTables_filter .input-group {
+            width: auto;
+            display: inline-flex;
+        }
+        /* Disable horizontal scroll on the table container */
+        .table-responsive {
+            overflow-x: visible !important;
+        }
+        /* Styling untuk Print Dropdown buatan sendiri */
+        .custom-print-dropdown .dropdown-menu {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-color: #ddd;
+        }
+        .custom-print-dropdown .dropdown-item {
+            padding: 8px 15px;
+            color: #333;
+            transition: background-color 0.2s ease;
+        }
+        .custom-print-dropdown .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+        .custom-print-dropdown .dropdown-item i {
+            margin-right: 10px;
+            width: 15px;
+            text-align: center;
+        }
+        .dataTables_wrapper .dt-controls-column {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+	</style>
+
+</head>
+
+<body class="stretched" data-loader="1" data-animation-in="fadeIn" data-speed-in="1500" data-animation-out="fadeOut" data-speed-out="800">
+
+	<div id="wrapper" class="clearfix">
+
+		
+
+
+
+
+
+
+<head>
+    <link rel="stylesheet" href="css/colors.php?color=7d041a" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous">
+</head>
+
+<!-- Header
+============================================= -->
+<header id="header" class="transparent-header">
+
+    <div id="header-wrap">
+
+        <div class="container clearfix">
+
+            <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+            <!-- Logo
+            ============================================= -->
+            <div id="logo">
+                            <a href="index.php" class="standard-logo"><img src="images/logo-mfl.png" alt="Malaysia Federal Legislation"></a>
+                <a href="index.php" class="retina-logo"><img src="images/logo-mfl@2x.png" alt="Malaysia Federal Legislation"></a>
+                                    </div><!-- #logo end -->
+
+            <!-- Primary Navigation
+            ============================================= -->
+            <nav id="primary-menu" class="style-3">
+
+                <ul>
+                                    <li><a href="index.php"><div style="text-align:center">Home</div></a></li>
+                                
+                                    <li><a href="federal-constitution.php"><div style="text-align:center">Federal<br>Constitution</div></a></li>
+                                                                    <li><a href="#"><div style="text-align:center">Act</div></a>
+                                                        <ul>
+                                                    <li><a href="#"><div>Principal</div></a>
+                                <ul>
+                                    <!-- <li><a href="principal.php?type=original"><div>Original</div></a></li> -->
+                                    <li><a href="principal.php?type=updated"><div>Updated</div></a></li>
+                                    <li><a href="principal.php?type=repealed"><div>Repealed</div></a></li>
+                                    <li><a href="principal.php?type=translated"><div>Translated</div></a></li>
+                                    <!-- <li><a href="principal.php?type=reprint"><div>Reprint</div></a></li> -->
+                                    <li><a href="principal.php?type=revised"><div>Revised</div></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="principal.php?type=amendment"><div>Amendment</div></a></li>
+                                                                        </ul>
+                    </li>
+                                                <li><a href="ordinance.php"><div style="text-align:center">Ordinance</div></a></li>
+                                                            
+                                                <li><a href="#"><div style="text-align:center">Subsidiary<br>Legislation</div></a>
+                                                                <ul>
+                            <li><a href="subsid.php?type=pua"><div>P.U.(A)</div></a></li>
+                            <li><a href="subsid.php?type=pub"><div>P.U.(B)</div></a></li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <a href="search-legislation.php">
+                            <div style="text-align:center">
+                                                                    Search
+                                                                                                <i class="fas fa-search"></i>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="?type=updated&language=BM">
+                            <div style="text-align:center">
+                                <!-- <img src="images/icons/flags/MY.png" alt="bahasa kebangsaan">  -->
+                                <strong title="Bahasa Kebangsaan">BM</strong>
+                                
+                                                                </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="?type=updated&language=BI">
+                            <div style="text-align:center">
+                                <!-- <img src="images/icons/flags/GB.png" alt="English">  -->
+                                <strong title="English">ENG</strong>
+
+                                
+                                                                            <i class="icon-line-check" title="English"></i>
+                                                                </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="videoLOM.mp4" target="_blank">
+                            <div style="text-align:center">
+                                                                            <i class="fas fa-question-circle" title="Guide"></i>
+                                                            </div>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </nav><!-- #primary-menu end -->
+
+        </div>
+
+    </div>
+
+</header><!-- #header end -->		<section id="page-title" class="bgcolor page-title-dark">
+
+			<div class="container clearfix">
+
+					<h1>Principal Act</h1>				<span>
+
+				Updated				</span>
+
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+													<a href="index.php">Home</a>
+																	</li>
+					<li class="breadcrumb-item">
+					
+					<a href="#">Principal Act</a>					</li>
+				</ol>
+			</div>
+
+		</section>				<section id="content">
+					<div class="content-wrap">
+						<div class="container clearfix">
+
+																							<div class="col_full">
+											* The online versions of the updated reprints of the Laws of Malaysia are as marked with an asterisk. These online versions are not the reprinted version made pursuant to Section 14 of the Revision of Laws Act 1968 [Act 1]
+											<br><br>
+											Both printed and online versions reprint of the Laws of Malaysia Series were updated up to the date mentioned on the front page of each Laws.
+										</div>
+							
+
+							<div class="table-responsive">
+								<table id="data-updated" class="table table-striped table-bordered" cellspacing="0" width="100%">
+									<thead class="dark bgcolor page-title-dark">
+										<tr>
+																				
+											<th>Act No.</th>
+											<th>Title</th>
+											<th>Download</th>
+										</tr>
+																			</thead>
+									<tfoot class="dark bgcolor page-title-dark">
+										<tr>
+																				
+											<th>Act No.</th>
+											<th>Title</th>
+											<th>Download</th>
+										</tr>
+																			</tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+				</section>		
+
+		<!-- Footer
+		============================================= -->
+		<footer id="footer" style="background-color: #F5F5F5; border-top: 2px solid rgba(0,0,0,0.06);">
+
+			<!-- Copyrights
+			============================================= -->
+			<div id="copyrights" class="nobg">
+
+				<div class="container clearfix">
+
+											Copyrights &copy; 2026 All Rights Reserved by Attorney General's Chambers of Malaysia<br>
+						<div class="copyright-links"><a href="tnc.php">Terms & Condition (T&C)</a> | <a href="faq.php">FAQS</a> | <a href="contact.php">Contact Us</a></div>
+														</div>
+
+			</div><!-- #copyrights end -->
+
+		</footer><!-- #footer end -->        </div><div id="gotoTop" class="icon-angle-up"></div>
+
+	<script src="js/jquery.js"></script>
+	<script src="js/plugins.js"></script>
+
+
+
+
+	<script src="js/components/bs-datatable.js"></script>
+	<!-- <script src="js/components/any-number.js"></script> ## Dinyahaktifkan untuk elak ralat CSP ## -->
+	<!-- <script src="js/components/date-eu.js"></script> ## Dinyahaktifkan untuk elak ralat CSP ## -->
+	<script src="js/plugins/pagination/selectAGC.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js" integrity="sha256-p4CAZ0vtCH7uouzJXpuPx7UAq1Sl1Q7xyYeLgde7Cz8=" crossorigin="anonymous"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js" integrity="sha256-8qpfNjLKRiQaMsj2vqPFBZ/jbtoTLNWUmB0ohw32BEE=" crossorigin="anonymous"></script>
+	<script src="js/functions.js"></script>
+	<script src="js/responseCrypto.js"></script>
+
+	<script>
+		const SEARCH_RESPONSE_KEY = 'ecdf7a016e103d01314ce0e3be4ac00bd6b1b931a276cb1a000abdad1b89bfff';			  
+		function formatDate(input) {
+            if (!input || !input.match(/\d+/g)) return "";
+			var datePart = input.match(/\d+/g);
+            var year, month, day;
+
+			if(input.includes('-')) {
+				year = datePart[0];
+				month = datePart[1];
+				day = datePart[2];
+			} else {
+				day = datePart[0];
+				month = datePart[1];
+				year = datePart[2];
+			}
+			return day+'/'+month+'/'+year;
+		}
+
+        // ##### BAHAGIAN KOD PENGGANTI PLUGIN START #####
+        // Fungsi untuk menggantikan plugin date-eu.js
+        jQuery.fn.dataTable.ext.type.order['date-eu-pre'] = function ( d ) {
+            if (typeof d !== 'string' || d.trim() === '') { return 0; }
+            var parts = d.split('/');
+            if (parts.length !== 3) { return 0; }
+            var day = parts[0].padStart(2, '0');
+            var month = parts[1].padStart(2, '0');
+            var year = parts[2];
+            return parseInt(year + month + day, 10) || 0;
+        };
+        
+        // Fungsi untuk menggantikan plugin any-number.js
+        jQuery.fn.dataTable.ext.type.order['any-number-pre'] = function ( d ) {
+            if (typeof d !== 'string') { return 0; }
+            // Ekstrak nombor pertama yang dijumpai dalam string
+            var a = d.replace(/<.*?>/g, "").match(/(\d+)/);
+            return a ? parseInt(a[0], 10) : 0;
+        };
+        // ##### BAHAGIAN KOD PENGGANTI PLUGIN END #####
+	</script>
+	
+
+				<script>
+				$(document).ready(function() {
+					var dataTable = $('#data-updated').DataTable( {
+					
+						"sPaginationType": "listbox",
+						"processing": true,
+						"serverSide": true,
+						"searchDelay": 1000,
+						columnDefs: [
+							{ type: 'any-number', targets: 0 }
+						],
+
+						"columnDefs": [
+							{ "targets": [0, 2], "className": "text-center" },
+							{ "targets": 1, "className": "text-left" }
+						],
+						dom: "<'row'<'col-sm-2'><'col-sm-7'i><'col-sm-3'>>" +
+							"<'row'<'col-sm-2'l><'col-sm-7'p><'col-sm-3 dt-controls-column'f>>" +
+							"<'row'<'col-sm-12'tr>>" +
+							"<'row'<'col-sm-2'l><'col-sm-7'p><'col-sm-3 dt-controls-column'f>>" +
+							"<'row'<'col-sm-2'><'col-sm-7'i><'col-sm-3'>>",
+						buttons: [
+							{ // Index 0
+                                extend: 'print',
+                                title: function() {
+                                    var h1_text = $('#page-title h1').text().trim();
+                                    var span_text = $('#page-title span').text().trim();
+                                    return span_text ? h1_text + ' - ' + span_text : h1_text;
+                                },
+                                exportOptions: {
+                                    stripHtml: false,
+                                    decodeEntities: true,
+                                    modifier: { page: 'current' }
+                                }
+                            },
+                            { // Index 1
+                                extend: 'print',
+                                title: function() {
+                                    var h1_text = $('#page-title h1').text().trim();
+                                    var span_text = $('#page-title span').text().trim();
+                                    return span_text ? h1_text + ' - ' + span_text : h1_text;
+                                },
+                                action: function (e, dt, node, config) {
+                                    var originalLength = dt.page.len();
+                                    dt.page.len(-1);
+                                    dt.one('draw.dt', function() {
+                                        $.fn.dataTable.ext.buttons.print.action.call(this, e, dt, node, config);
+                                        setTimeout(function(){
+                                            dt.page.len(originalLength).draw();
+                                        }, 500);
+                                    });
+                                    dt.draw();
+                                },
+                                exportOptions: {
+                                    stripHtml: false,
+                                    decodeEntities: true
+                                }
+                            }
+						],
+						"order": [[ 0, "desc" ]],
+													"language": { "sSearch": "Search:", "sProcessing": "Processing..." },
+												/*"ajax": {
+							"url": "json-updated-2024.php",
+							"type": "POST",
+							"dataSrc": "records",
+                            "data": function(d) {
+                                d.searchValue = d.search.value;
+                                d.searchColumns = [];
+                                $('.dataTables_filter:first .search-column-checkbox:checked').each(function() {
+                                    d.searchColumns.push($(this).val());
+                                });
+                                d.language = 'BI';
+                            }
+						},*/
+						"ajax": async function(data, callback, settings) {
+
+							try {
+
+								data.searchValue = data.search.value;
+
+								data.searchColumns = [];
+
+								$('.dataTables_filter:first .search-column-checkbox:checked')
+									.each(function() {
+										data.searchColumns.push($(this).val());
+									});
+
+								data.language = 'BI';
+
+
+								// Send AJAX request
+								const response = await $.ajax({
+									url: "json-updated-2024.php",
+									type: "POST",
+									data: data,
+									dataType: "json"
+								});
+
+
+								// 3. Decrypt
+								const decrypted = await decryptApiResponse(
+									response,
+									SEARCH_RESPONSE_KEY
+								);
+
+
+								// 4. See the decrypted response
+								//console.log("Decrypted response:", decrypted);
+
+
+								// 5. See only the records
+								//console.log("Records:", decrypted.records);
+
+								// Give data to DataTables
+								callback({
+									draw: parseInt(decrypted.draw, 10),
+									recordsTotal: parseInt(decrypted.recordsTotal, 10),
+									recordsFiltered: parseInt(decrypted.recordsFiltered, 10),
+									data: decrypted.records
+								});
+
+
+							} catch (error) {
+
+								console.error(
+									"DataTables AJAX/decryption error:",
+									error
+								);
+
+								callback({
+									draw: data.draw || 0,
+									recordsTotal: 0,
+									recordsFiltered: 0,
+									records: []
+								});
+							}
+						},
+						"columns": [
+							{ "mData": "lgt_act_no" },				
+							{ "mData": "title_link" },
+							{ "mData": "doc2download_link" },
+						],
+                        "initComplete": function(settings, json) {
+                            var tableId = 'data-updated';
+                            var wrapper = $('#' + tableId + '_wrapper');
+                            var api = this.api();
+
+                            var print_dropdown_html = `
+                                <div class="btn-group custom-print-dropdown">
+                                  <div class="dropdown">
+                                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Print">
+                                      <i class="fa fa-print"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                      <a class="dropdown-item" href="#" id="${tableId}_printCurrentPageBtn"><i class="fa fa-file-text-o"></i> Print Current Page</a>
+                                      <a class="dropdown-item" href="#" id="${tableId}_printAllPdfBtn"><i class="fa fa-files-o"></i> Print All Pages</a>
+                                    </div>
+                                  </div>
+                                </div>`;
+
+                            var search_html = `
+								<div class="dropdown-menu dropdown-menu-right keep-open p-2" style="min-width: 280px;">
+									<h6 class="dropdown-header">Search In Columns</h6>
+									<div class="form-check">
+										<input class="form-check-input search-column-checkbox" type="checkbox" value="lgt_act_no" id="check_act_no_upd" checked>
+										<label class="form-check-label" for="check_act_no_upd">Act No.</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input search-column-checkbox" type="checkbox" value="title" id="check_title_upd" checked>
+										<label class="form-check-label" for="check_title_upd">Title</label>
+									</div>
+								</div>`;
+
+                            wrapper.find('.dataTables_filter').each(function() {
+                                var $filter = $(this);
+                                $filter.find('input').addClass('form-control-sm').wrap('<div class="input-group"></div>');
+                                var $inputGroup = $filter.find('.input-group');
+                                
+                                $inputGroup.after(print_dropdown_html);
+                                
+                                var filter_button_html = `<div class="input-group-append"><div class="dropdown"><button type="button" class="btn btn-link" title="Filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-filter" aria-hidden="true"></i></button>${search_html}</div></div>`;
+                                $inputGroup.append(filter_button_html);
+                            });
+
+                            $('#' + tableId + '_printCurrentPageBtn').on('click', function(e) { e.preventDefault(); api.button(0).trigger(); });
+                            $('#' + tableId + '_printAllPagesBtn').on('click', function(e) { e.preventDefault(); api.button(1).trigger(); });
+
+                            $('#' + tableId + '_printAllPdfBtn').on('click', function(e) {
+                                e.preventDefault();
+                                var searchValue = api.search();
+                                var url = 'generate-principal-pdf.php?type=updated&lang=BI&search=' + encodeURIComponent(searchValue);
+                                window.open(url, '_blank');
+                            });
+
+                            wrapper.find('.search-column-checkbox').on('change', function() {
+                                api.draw();
+                            });
+                             
+                            wrapper.find('.dropdown-menu.keep-open').on('click', function(e) {
+                                e.stopPropagation();
+                            });
+                        }
+
+					});
+				});
+
+				$('body').on('click', '.event_kira_download_updated', function() {
+
+					$this = $(this);
+					$pageID = $this.attr('data-page-id-kira');
+					$projectID = $this.attr('data-project-id-kira');
+					$sm_function = $this.attr('data-sm-function-kira');
+					$logType = $this.attr('data-log-type-kira');
+
+					var hitTimeline ={'pageID':$pageID,'projectID':$projectID,
+						'sm_function':$sm_function,'logType':$logType};
+
+					$.ajax({
+						type: "POST",
+						url: "tambahHit.php",
+						data: hitTimeline,
+						success : function(response) { }
+					});
+				});
+			</script>
+	
+	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.js" integrity="sha256-i6SxyZN+XdCkpnDNsJ+ebaftjsitvu3FEbGpKWHkxzE=" crossorigin="anonymous"></script>
+
+</body>
+</html>
+

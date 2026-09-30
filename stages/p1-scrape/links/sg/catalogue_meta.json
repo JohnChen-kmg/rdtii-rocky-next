@@ -1,0 +1,234 @@
+{
+ "generated_at": "2026-09-15T12:58:17Z",
+ "economy": "SG",
+ "pillars": [
+  6,
+  7
+ ],
+ "counts": {
+  "all": 1041,
+  "seed": 203,
+  "relevant": 204
+ },
+ "document_kinds": {
+  "principal_act": 823,
+  "subsidiary_legislation": 188,
+  "amending_act": 25,
+  "agency_or_other": 5
+ },
+ "settings": {
+  "detail_pages": "all",
+  "subsidiary_acts": "seed",
+  "acts_supp_years": 2,
+  "listing_page_size": 500,
+  "read_repealed": true
+ },
+ "cfg_sha256": "e44e4da7c2a98f64d43d33784c33345f6b9e4fb8301bd76efd2cf1a96bd3ee8f",
+ "seed_keys": [
+  [
+   "Personal Data Protection Act 2012",
+   "Act 26 of 2012",
+   "https://sso.agc.gov.sg/Act/PDPA2012"
+  ],
+  [
+   "Personal Data Protection (Amendment) Act 2020",
+   "Act 40 of 2020",
+   "https://sso.agc.gov.sg/Acts-Supp/40-2020/"
+  ],
+  [
+   "Cybersecurity Act 2018",
+   "Act 9 of 2018",
+   "https://sso.agc.gov.sg/Act/CA2018"
+  ],
+  [
+   "Criminal Procedure Code 2010",
+   "Act 15 of 2010",
+   "https://sso.agc.gov.sg/Act/CPC2010"
+  ],
+  [
+   "Banking Act 1970",
+   "",
+   "https://sso.agc.gov.sg/Act/BA1970"
+  ],
+  [
+   "Companies Act 1967",
+   "",
+   "https://sso.agc.gov.sg/Act/CoA1967"
+  ],
+  [
+   "Employment Act 1968",
+   "",
+   "https://sso.agc.gov.sg/Act/EmA1968"
+  ],
+  [
+   "Income Tax Act 1947",
+   "",
+   "https://sso.agc.gov.sg/Act/ITA1947"
+  ],
+  [
+   "Telecommunications Act 1999",
+   "",
+   "https://sso.agc.gov.sg/Act/TA1999"
+  ],
+  [
+   "Guide to Data Protection Impact Assessments (PDPC)",
+   "",
+   "https://www.pdpc.gov.sg/-/media/Files/PDPC/PDF-Files/Other-Guides/DPIA/Guide-to-Data-Protection-Impact-Assessments-14-Sep-2021.pdf"
+  ],
+  [
+   "Cybersecurity (Amendment) Act 2024",
+   "Act 19 of 2024",
+   "https://sso.agc.gov.sg/Acts-Supp/19-2024/Published/20240704"
+  ],
+  [
+   "Cybersecurity (Amendment) Act 2024 (Commencement) Notification 2025",
+   "S 677/2025",
+   "https://sso.agc.gov.sg/SL-Supp/S677-2025/Published/20251015"
+  ],
+  [
+   "Personal Data Protection (Statutory Bodies) (Amendment) Notification 2025",
+   "S 217/2025",
+   "https://sso.agc.gov.sg/SL-Supp/S217-2025/Published/20250328"
+  ],
+  [
+   "Personal Data Protection Regulations 2021",
+   "S 63/2021",
+   "https://sso.agc.gov.sg/SL/PDPA2012-S63-2021"
+  ],
+  [
+   "Advisory Guidelines on the PDPA for Children's Personal Data (PDPC, 2024)",
+   "",
+   "https://www.pdpc.gov.sg/-/media/files/pdpc/pdf-files/advisory-guidelines/advisory-guidelines-on-the-pdpa-for-children%27s-personal-data-in-the-digital-environment_mar24.pdf"
+  ],
+  [
+   "MAS Notice FSM-N16 Cyber Hygiene",
+   "FSM-N16",
+   "https://www.mas.gov.sg/-/media/mas-media-library/regulation/notices/trpd/notice-fsm-n16/mas-notice-fsm-n16.pdf?sc_lang=en"
+  ],
+  [
+   "Personal Data Protection (Notification of Data Breaches) Regulations 2021",
+   "S 64/2021",
+   "https://sso.agc.gov.sg/SL/PDPA2012-S64-2021"
+  ],
+  [
+   "Cybersecurity (Critical Information Infrastructure) Regulations 2018",
+   "S 519/2018",
+   "https://sso.agc.gov.sg/SL/CA2018-S519-2018"
+  ],
+  [
+   "Cybersecurity (Critical Information Infrastructure) (Amendment) Regulations 2025",
+   "S 678/2025",
+   "https://sso.agc.gov.sg/SL-Supp/S678-2025/Published/20251015"
+  ],
+  [
+   "Cybersecurity Code of Practice for Critical Information Infrastructure (Second Edition)",
+   "CCoP 2.0 Rev 1",
+   "https://isomer-user-content.by.gov.sg/36/2df750a7-a3bc-4d77-a492-d64f0ff4db5a/CCoP---Second-Edition_Revision-One.pdf"
+  ],
+  [
+   "MAS Technology Risk Management Guidelines (2021)",
+   "",
+   "https://www.mas.gov.sg/-/media/MAS/Regulations-and-Financial-Stability/Regulatory-and-Supervisory-Framework/Risk-Management/TRM-Guidelines-18-January-2021.pdf"
+  ]
+ ],
+ "requests": 540,
+ "robots_record": {
+  "url": "https://sso.agc.gov.sg/robots.txt",
+  "status": 200,
+  "read_at": "2026-09-15T11:49:59Z",
+  "group": "*",
+  "crawl_delay": 6.0,
+  "rules": [
+   [
+    false,
+    "/search"
+   ]
+  ],
+  "delay_used_s": 6.0
+ },
+ "sso_error": null,
+ "listing_counts": {
+  "current": {
+   "records": 525,
+   "total": 525
+  },
+  "repealed": {
+   "records": 298,
+   "total": 298
+  },
+  "uncommenced": {
+   "records": 10,
+   "total": 10
+  },
+  "acts_supp": {
+   "records": 44,
+   "years": 2
+  }
+ },
+ "detail_pages_read": 475,
+ "sl_tabs_read": 8,
+ "notes": [
+  "ITA1947: 774 SL listed, 100 read (one page)",
+  "BSGO1950: detail page not read (SSO answered HTTP 202 for /Act/BSGO1950)",
+  "BSMA2004: detail page not read (SSO answered HTTP 202 for /Act/BSMA2004)",
+  "BCAA1999: detail page not read (SSO answered HTTP 202 for /Act/BCAA1999)",
+  "BCISPA2004: detail page not read (SSO answered HTTP 202 for /Act/BCISPA2004)",
+  "BCA1989: detail page not read (SSO answered HTTP 202 for /Act/BCA1989)",
+  "BSIA2015: detail page not read (SSO answered HTTP 202 for /Act/BSIA2015)",
+  "BNRA2014: detail page not read (SSO answered HTTP 202 for /Act/BNRA2014)",
+  "BTA2004: detail page not read (SSO answered HTTP 202 for /Act/BTA2004)",
+  "CPA2018: detail page not read (SSO answered HTTP 202 for /Act/CPA2018)",
+  "CLLTCA2019: detail page not read (SSO answered HTTP 202 for /Act/CLLTCA2019)",
+  "CAMC1999A2007: detail page not read (SSO answered HTTP 202 for /Act/CAMC1999A2007)",
+  "CAA1988: detail page not read (SSO answered HTTP 202 for /Act/CAA1988)",
+  "CGSA1972: detail page not read (SSO answered HTTP 202 for /Act/CGSA1972)",
+  "CCA2006: detail page not read (SSO answered HTTP 202 for /Act/CCA2006)",
+  "CA1973: detail page not read (SSO answered HTTP 202 for /Act/CA1973)",
+  "CPFA1953: detail page not read (SSO answered HTTP 202 for /Act/CPFA1953)",
+  "CSGBA1981: detail page not read (SSO answered HTTP 202 for /Act/CSGBA1981)",
+  "CA1994: detail page not read (SSO answered HTTP 202 for /Act/CA1994)",
+  "CWPA2000: detail page not read (SSO answered HTTP 202 for /Act/CWPA2000)",
+  "CDCSA2001: detail page not read (SSO answered HTTP 202 for /Act/CDCSA2001)",
+  "CYPA1993: detail page not read (SSO answered HTTP 202 for /Act/CYPA1993)",
+  "CFA1971: detail page not read (SSO answered HTTP 202 for /Act/CFA1971)",
+  "CCAA2016: detail page not read (SSO answered HTTP 202 for /Act/CCAA2016)",
+  "CBSVO1915: detail page not read (SSO answered HTTP 202 for /Act/CBSVO1915)",
+  "CAASA2009: detail page not read (SSO answered HTTP 202 for /Act/CAASA2009)",
+  "CDA1986: detail page not read (SSO answered HTTP 202 for /Act/CDA1986)",
+  "CDSA1997: detail page not read (SSO answered HTTP 202 for /Act/CDSA1997)",
+  "CLA1909: detail page not read (SSO answered HTTP 202 for /Act/CLA1909)",
+  "CLGA1970: detail page not read (SSO answered HTTP 202 for /Act/CLGA1970)",
+  "CSCA2001: detail page not read (SSO answered HTTP 202 for /Act/CSCA2001)",
+  "CTA1992: detail page not read (SSO answered HTTP 202 for /Act/CTA1992)",
+  "CSTA2018: detail page not read (SSO answered HTTP 202 for /Act/CSTA2018)",
+  "CDAA2025: detail page not read (SSO answered HTTP 202 for /Act/CDAA2025)",
+  "CCEFA2005: detail page not read (SSO answered HTTP 202 for /Act/CCEFA2005)",
+  "CDRA2015: detail page not read (SSO answered HTTP 202 for /Act/CDRA2015)",
+  "CMCA1997: detail page not read (SSO answered HTTP 202 for /Act/CMCA1997)",
+  "CA2004: detail page not read (SSO answered HTTP 202 for /Act/CA2004)",
+  "CEA2000: detail page not read (SSO answered HTTP 202 for /Act/CEA2000)",
+  "CMA1993: detail page not read (SSO answered HTTP 202 for /Act/CMA1993)",
+  "CONS1963: detail page not read (SSO answered HTTP 202 for /Act/CONS1963)",
+  "CPFTA2003: detail page not read (SSO answered HTTP 202 for /Act/CPFTA2003)",
+  "MRHA2025: detail page holds no timeline",
+  "URAA1989: detail page not read (SSO answered HTTP 202 for /Act/URAA1989)",
+  "UNPA2011: detail page not read (SSO answered HTTP 202 for /Act/UNPA2011)",
+  "UNA2001: detail page not read (SSO answered HTTP 202 for /Act/UNA2001)",
+  "UCTA1977: detail page not read (SSO answered HTTP 202 for /Act/UCTA1977)",
+  "UPA1967: detail page not read (SSO answered HTTP 202 for /Act/UPA1967)",
+  "TA1967: detail page not read (SSO answered HTTP 202 for /Act/TA1967)",
+  "TCA2005: detail page not read (SSO answered HTTP 202 for /Act/TCA2005)",
+  "TPCSO1899: detail page not read (SSO answered HTTP 202 for /Act/TPCSO1899)",
+  "TAA1975: detail page not read (SSO answered HTTP 202 for /Act/TAA1975)"
+ ],
+ "scraper_sha256": {
+  "__init__.py": "be988e2e73076cfd6a6a0d5f2d03d4f6465568e12755b96ce48d95d5cd0498f4",
+  "adapter.py": "f188f4f576778b2d06722e8b0b401004b6fac87be60f7b29c736a11138598bae",
+  "catalogue.py": "e55d4ffc610f568e6b2cd6a20947025daf3574bb64febbfd331d69b84e371a60",
+  "parse.py": "d0e83427af01d0b78645c852491c6b8d9bc49c257e8c2596078ac758771e6275"
+ },
+ "registry_sha256": {
+  "registry": "d5dad5647ea139977ff03d5c83ecfea9f2ca8ca5a6eeb3d742d269ba23601684",
+  "seeds": "8da2299c19d2bf36ac3d8bfd89370c99f053a4b4fe3468a87bd2b9bc7878b05a"
+ }
+}

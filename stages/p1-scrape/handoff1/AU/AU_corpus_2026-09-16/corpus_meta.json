@@ -1,0 +1,42 @@
+{
+ "corpus": "AU_corpus_2026-09-16",
+ "economy": "AU",
+ "generated_at": "2026-09-16T17:13:17Z",
+ "runs": [
+  "AU_ws_2026-09-15_to_2026-09-16",
+  "AU_ws_2026-09-15"
+ ],
+ "per_run": {
+  "AU_ws_2026-09-15_to_2026-09-16": {
+   "documents": 1,
+   "included": 1,
+   "superseded": 0,
+   "excluded": 0,
+   "renamed": 0
+  },
+  "AU_ws_2026-09-15": {
+   "documents": 1277,
+   "included": 1276,
+   "superseded": 1,
+   "excluded": 0,
+   "renamed": 0
+  }
+ },
+ "documents": 1277,
+ "superseded": 1,
+ "excluded": 0,
+ "excluded_flags": [],
+ "flagged": 89,
+ "duplicates_logged": 0,
+ "renamed": [],
+ "synthetic_link_rows": 0,
+ "hardlink": true,
+ "validation": {
+  "ok": true,
+  "rows": 1277,
+  "errors": [],
+  "warnings": []
+ },
+ "state_run": "AU_ws_2026-09-15_to_2026-09-16",
+ "excluded_rows": []
+}

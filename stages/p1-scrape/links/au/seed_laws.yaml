@@ -1,0 +1,56 @@
+# seed_laws for Australia — the laws named on purpose, with their links. HAND-EDITED.
+#
+# Moved here from sources.yaml on 2026-09-14, as text: entries, order and comments unchanged. At hand-back
+# this file is appended to sources.yaml, and the joined file is copied over both
+# instrument/sources_au.yaml and contracts/instrument/sources_au.yaml (countries/README.md).
+# Keep the flow style `- {...}`: the dashboard's parser declines block-style entries.
+seed_laws:
+  - {law_name: "Commonwealth of Australia Constitution Act", law_number: "", indicators: [],
+     url: "https://www.legislation.gov.au/C2004Q00685",
+     provenance: "the developer, 2026-09-19: an Act in force, inside the scope we state (every principal act), so it is named on purpose. No indicator tag, because it carries no claim for any indicator. The register keeps it in the Q series, outside the Act collection the harvest reads, so only a seed reaches it"}
+  - {law_name: "Privacy Act 1988", law_number: "No. 119, 1988",
+     url: "https://www.legislation.gov.au/C2004A03712", indicators: [P6-I3, P6-I4, P7-I1, P7-I2]}
+  - {law_name: "Security of Critical Infrastructure Act 2018", law_number: "",
+     url: "https://www.legislation.gov.au/C2018A00029", indicators: [P7-I2],
+     form: html}   # P2's HTML lane parses AU compilations reliably; its PDF splitter yielded 1 provision from the 267pp PDF
+  - {law_name: "Criminal Code Act 1995", law_number: "",
+     url: "https://www.legislation.gov.au/C2004A04868", indicators: [P7-I2]}
+  - {law_name: "Australian Security Intelligence Organisation Act 1979", law_number: "",
+     url: "https://www.legislation.gov.au/C2004A02123", indicators: [P7-I5]}
+  - {law_name: "Telecommunications (Interception and Access) Act 1979", law_number: "No. 114, 1979",
+     url: "https://www.legislation.gov.au/C2004A02124", indicators: [P7-I3, P7-I5]}
+  - {law_name: "Data Availability and Transparency Act 2022", law_number: "",
+     url: "https://www.legislation.gov.au/C2022A00011", indicators: [P7-I5]}
+  - {law_name: "Surveillance Legislation Amendment (Identify and Disrupt) Act 2021", law_number: "",
+     url: "https://www.legislation.gov.au/Details/C2021A00098", indicators: [P7-I5]}
+  - {law_name: "Telecommunications and Other Legislation Amendment (Assistance and Access) Act 2018", law_number: "No. 148, 2018",
+     url: "https://www.legislation.gov.au/C2018A00148", indicators: [P7-I5],
+     form: html}   # C2021C00496 was a withdrawn compilation id (register 404s it); C2018A00148 is the act
+  - {law_name: "Telecommunications Legislation Amendment (International Production Orders) Act 2021", law_number: "",
+     url: "https://www.legislation.gov.au/Details/C2021A00078", indicators: [P7-I5]}
+  - {law_name: "My Health Records Act 2012", law_number: "No. 63, 2012",
+     url: "https://www.legislation.gov.au/C2012A00063", indicators: [P6-I1, P6-I2]}   # health-data localisation
+  - {law_name: "Privacy Impact Assessment guidance (OAIC)", law_number: "",
+     url: "https://www.oaic.gov.au/privacy/guidance-and-advice", indicators: [P7-I4], note: "official guidance"}
+  # --- Delta crawl 2026-07-14 (P3 request): legislative instruments (F-series) ---
+  - {law_name: "Cyber Security (Ransomware Payment Reporting) Rules 2025", law_number: "F2025L00278",
+     url: "https://www.legislation.gov.au/F2025L00278", indicators: [P7-I2], form: html}
+  - {law_name: "Telecommunications Regulations 2021", law_number: "F2021L00289",
+     url: "https://www.legislation.gov.au/F2021L00289", indicators: [P7-I5], form: html}
+  # --- Discovery sweep 2026-07-15: SOCI subsidiary rules + registered APP codes + prudential standards ---
+  - {law_name: "Security of Critical Infrastructure (Telecommunications Security and Risk Management Program) Rules 2025", law_number: "F2025L00325",
+     url: "https://www.legislation.gov.au/F2025L00325", indicators: [P7-I2], form: html}
+  - {law_name: "Security of Critical Infrastructure (Critical infrastructure risk management program) Rules 2023", law_number: "F2023L00112",
+     url: "https://www.legislation.gov.au/F2023L00112", indicators: [P7-I2], form: html}
+  - {law_name: "Cyber Security (Security Standards for Smart Devices) Rules 2025", law_number: "F2025L00276",
+     url: "https://www.legislation.gov.au/F2025L00276", indicators: [P7-I2], form: html}
+  - {law_name: "Prudential Standard CPS 234 Information Security", law_number: "F2018L01745",
+     url: "https://www.legislation.gov.au/F2018L01745", indicators: [P7-I2], form: html}
+  - {law_name: "Privacy (Australian Government Agencies - Governance) APP Code 2017", law_number: "F2017L01396",
+     url: "https://www.legislation.gov.au/F2017L01396", indicators: [P7-I4], form: html}
+  - {law_name: "Prudential Standard CPS 230 Operational Risk Management", law_number: "",
+     url: "https://www.apra.gov.au/system/files/2023-07/Prudential%20Standard%20CPS%20230%20Operational%20Risk%20Management%20-%20clean.pdf",
+     indicators: [P7-I2], note: "APRA prudential standard, commenced 1 Jul 2025"}
+  - {law_name: "Privacy (Credit Reporting) Code 2024", law_number: "",
+     url: "https://www.oaic.gov.au/__data/assets/pdf_file/0029/242588/Privacy-Credit-Reporting-Code-2024.pdf",
+     indicators: [P7-I1, P7-I3], note: "OAIC registered APP code, in force 1 Oct 2024"}
