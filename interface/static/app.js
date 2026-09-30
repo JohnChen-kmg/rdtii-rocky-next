@@ -1,0 +1,1320 @@
+/* RDTII Rocky interface. Vanilla JS, no build step. Talks to the JSON API in rdtii_ui/. */
+'use strict';
+
+const TOKEN = document.querySelector('meta[name=rdtii-token]').content;
+const $ = (sel, el = document) => el.querySelector(sel);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+async function api(path, opts = {}) {
+  const r = await fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', 'X-RDTII-Token': TOKEN, ...(opts.headers || {}) } });
+  let j = null;
+  try { j = await r.json(); } catch (e) { j = { error: r.statusText }; }
+  if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+  return j;
+}
+
+const S = { health: null, runs: [], run: null, rows: [], notes: {}, filters: { economy: '', indicator: '', tag: '', q: '' }, sel: null, picker: null };
+
+/* ---------- sticky header height, so the sidebar pins just below it ---------- */
+function fixTop() {
+  const t = $('#topfix');
+  if (t) document.documentElement.style.setProperty('--top-h', `${t.offsetHeight}px`);
+}
+window.addEventListener('resize', fixTop);
+window.addEventListener('load', fixTop);
+
+/* ---------- tabs ---------- */
+function showTab(name) {
+  const b = document.querySelector(`#tabs button[data-tab="${name}"]`);
+  if (b) b.click();
+}
+$('#tabs').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-tab]');
+  if (!b) return;
+  try { localStorage.setItem('rdtii.tab', b.dataset.tab); } catch (err) { /* private window */ }
+  document.querySelectorAll('#tabs button').forEach((x) => x.classList.toggle('active', x === b));
+  document.querySelectorAll('.tab').forEach((t) => { t.hidden = t.id !== `tab-${b.dataset.tab}`; });
+  if (b.dataset.tab === 'other') loadOther();
+  if (b.dataset.tab === 'scrape' && !SC.loaded) loadScrape();
+  if (b.dataset.tab === 'cn' && !CN.loaded) loadChina();
+  if (b.dataset.tab === 'extract' && !EX.loaded) loadExtract();
+});
+
+/* ---------- header, engine banner, key fold ---------- */
+async function loadHealth() {
+  try { S.health = await api('/api/health'); } catch (e) { S.health = { error: e.message }; }
+  renderTop();
+}
+
+function renderTop() {
+  const h = S.health || {};
+  const eng = h.engine || { engines: [] };
+  $('#engine').innerHTML = `<span class="muted small">Engine Selection:</span>` + eng.engines.map((e) =>
+    `<label class="radio ${e.id === eng.selected ? 'on' : ''}" title="${esc(e.provider)} · mapper ${esc(e.roles?.mapper || '')}">
+       <input type="radio" name="engine" value="${esc(e.id)}" ${e.id === eng.selected ? 'checked' : ''}> ${esc(e.id)} · ${esc(e.label)}</label>`).join('')
+    + (eng.engines.length ? '' : `<span class="muted small">no engines declared (stages/p3-map missing?)</span>`);
+  $('#engine').querySelectorAll('input[name=engine]').forEach((inp) => inp.addEventListener('change', async () => {
+    try { await api('/api/engine', { method: 'POST', body: JSON.stringify({ id: inp.value }) }); } catch (e) { alert(e.message); }
+    loadHealth();
+  }));
+  renderJobStrip();
+  const p = h.probes || {};
+  const dot = (ok) => `<span class="dot ${ok === true ? 'ok' : ok === false ? 'bad' : ''}"></span>`;
+  const st = h.stages || {};
+  $('#health').innerHTML = [
+    ['Ollama', p.ollama?.ok, p.ollama?.ok ? `${p.ollama.host}, ${p.ollama.models.length} models` : (p.ollama?.error || 'not answering')],
+    ['Tesseract', p.tesseract?.ok, p.tesseract?.path || p.tesseract?.hint],
+    ['Chromium', p.chromium?.ok, p.chromium?.path || p.chromium?.hint],
+    ['Key', p.key?.held, p.key?.held ? 'held in memory for this process' : 'no API key held (engine A needs one)'],
+    ['Stages', st.p1?.present && st.p2?.present && st.p3?.present, Object.entries(st).map(([k, v]) => `${k}: ${v.present ? 'present' : 'missing'}`).join(', ')],
+  ].map(([name, ok, tip]) => `<span class="item" title="${esc(tip)}">${dot(ok)}${name}</span>`).join('');
+  const held = p.key?.held;
+  const sel = eng.engines.find((e) => e.id === eng.selected);
+  const keyEng = eng.engines.find((e) => e.key_env) || sel;   // the engine that needs a key, whichever is selected
+  const needsKey = !!(sel && sel.key_env);
+  $('#keyfold').classList.remove('folded');   // the key row always stays in view
+  const label = `<span class="keylabel">${esc(keyEng ? keyEng.label : 'The hosted engine')} needs an API key:</span>`;
+  const aside = needsKey ? '' : ` <span class="small muted">(not needed for ${esc(sel ? sel.id : '')})</span>`;
+  $('#key').innerHTML = held
+    ? `${label} <span class="small muted">key held in memory for this process</span> <button class="btn small" id="key-clear">Forget</button>${aside}`
+    : `${label} <input type="password" id="key-input" placeholder="${esc(keyEng && keyEng.key_env ? keyEng.key_env : 'API key')} (memory only, never written)" autocomplete="off"> <button class="btn" id="key-set">Hold</button>${aside}`;
+  $('#key-set')?.addEventListener('click', async () => {
+    try { await api('/api/key', { method: 'POST', body: JSON.stringify({ key: $('#key-input').value }) }); $('#key-input').value = ''; } catch (e) { alert(e.message); }
+    loadHealth();
+  });
+  $('#key-clear')?.addEventListener('click', async () => { await api('/api/key', { method: 'DELETE' }); loadHealth(); });
+}
+
+/* ---------- Mapping · Set up ---------- */
+async function loadPicker() {
+  try { S.picker = await api('/api/map/indicators'); } catch (e) { $('#map-setup').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  const pk = S.picker;
+  const tc = pk.tier_counts || {};
+  const flag = (i) => i.tier === 'B' ? `<span class="chip tier tier-b" title="${esc((pk.tiers || {}).B || '')}">not reviewed</span>`
+    : i.tier === 'C' ? `<span class="chip tier tier-c" title="${esc((pk.tiers || {}).C || '')}">host criteria only</span>` : '';
+  const practiceChip = (i) => i.practice_based ? `<span class="chip warn" title="${esc(i.practice_based)}">practice-based</span>` : '';
+  $('#map-setup').innerHTML = `
+    <div class="setup-row"><div class="setup-label">Indicators</div>
+      <div class="stack-col">
+      <details class="src-card picker"><summary><span class="sum">${pk.automated.length} automated indicators pre-selected</span> <span class="muted">of ${pk.in_scope} in scope; open to change the selection</span></summary>
+        <div class="pillars">${pk.pillars.map((p) => `
+          <div class="pillar"><h4>${esc(p.label)}</h4>
+            ${p.indicators.map((i) => `<label class="${i.automated ? '' : 'other'}">
+              <input type="checkbox" value="${esc(i.id)}" ${i.automated ? 'checked' : ''}> <span class="id">${esc(i.id)}</span> ${esc(i.name)} ${flag(i)}${practiceChip(i)}</label>`).join('')}
+          </div>`).join('')}
+        </div>
+        <div class="foot">${esc(pk.source)}</div>
+      </details>
+      <details class="src-card picker tags-card" ${MP.tagsOpen ? 'open' : ''}><summary><span class="sum">How the indicators are computed, and what the tags mean</span> <span class="muted">open for the table</span></summary>
+        <div class="tag-table plain">
+      <p class="lead">Every indicator is computed the same way: one query from its name, definition and keywords; the same prompt, verification and NEW or KNOWN comparison for all ${pk.in_scope}. What differs is the rulebook the model is given.</p>
+      <div class="table-wrap"><table class="rows tags"><thead><tr><th>Tag in the list</th><th>Indicators</th><th>What it means</th></tr></thead><tbody>
+        <tr><td><span class="chip tier tier-a">reviewed</span><div class="small muted">no tag shown: the pre-selected</div></td><td class="num">${tc.A ?? 9}</td><td>Pillars 6 and 7. The rulebook was checked line by line against the host’s methodology and carries traps learnt from real mistakes.</td></tr>
+        <tr><td><span class="chip tier tier-b">not reviewed</span></td><td class="num">${tc.B ?? '?'}</td><td>As detailed as a reviewed rulebook, but unchecked. An error in it repeats in every row mapped under the indicator, so its rows deserve a reviewer’s eye.</td></tr>
+        <tr><td><span class="chip tier tier-c">host criteria only</span></td><td class="num">${tc.C ?? '?'}</td><td>Only the host’s methodology criteria; no traps or rules of our own. The model settles edge cases itself, so more rows need review; a row should name this in Notes and clear a higher confidence before NEW.</td></tr>
+        <tr><td><span class="chip warn">practice-based</span></td><td class="num">3</td><td>3.4, 5.3 and 9.1 score facts from outside legislation, such as a blocked investment or company ownership. The legal dataset shows the framework, not the practice.</td></tr>
+      </tbody></table></div>
+      <p class="small muted">Any rulebook can be raised to the reviewed level later, by review alone; the pipeline does not change.</p>
+        </div>
+      </details>
+      </div>
+    </div>
+    <details class="notes-box" ${MP.notesOpen ? 'open' : ''}><summary>Note:</summary>
+      <p>* <b>Input</b> is an Extraction output: the laws, their provisions and the reading status of each document.</p>
+      <p>* <b>Economies</b> are those present in the input; the run maps only the ones ticked.</p>
+      <p>* <b>Indicators</b>: the nine of pillars 6 and 7 are pre-selected; any other in-scope indicator can be ticked, and the host’s live task may fall in any pillar. A row mapped under a host-criteria-only rulebook should name that in Notes and clear a higher confidence before it is tagged NEW; the stage does not enforce this, so it is the reviewer’s rule.</p>
+      <p>* <b>Practice-based</b> indicators (3.4, 5.3, 9.1) score facts from outside legislation, such as a blocked investment or company ownership; the legal dataset alone cannot settle them.</p>
+    </details>`;
+  const nb = $('#map-setup details.notes-box'); if (nb) nb.addEventListener('toggle', () => { MP.notesOpen = nb.open; });
+  const tg = $('#map-setup details.tags-card'); if (tg) tg.addEventListener('toggle', () => { MP.tagsOpen = tg.open; });
+  $('#map-setup').querySelectorAll('.pillar input').forEach((inp) => inp.addEventListener('change', () => { MP.checks = null; renderMapRun(); }));
+}
+
+
+/* ---------- Mapping · Output ---------- */
+async function loadRuns() {
+  const j = await api('/api/map/runs');
+  S.runs = j.runs;
+  if (!S.run || !S.runs.find((r) => r.id === S.run)) S.run = S.runs[0]?.id || null;
+  renderRunRow();
+  if (S.run) await loadRows(); else $('#map-table').innerHTML = '<tr><td class="muted">No finished mapping run found. OUT_DIR points nowhere with rows.</td></tr>';
+}
+
+function renderRunRow() {
+  const cur = S.runs.find((r) => r.id === S.run);
+  $('#map-run-row').innerHTML = `<div class="setup-row"><div class="setup-label">Run</div>
+    <div>
+      <div class="row"><select id="run-select" class="wide-select">${S.runs.map((r) => `<option value="${esc(r.id)}" ${r.id === S.run ? 'selected' : ''}>${esc(r.name)}: ${r.rows} rows, ${r.economies.join(', ')}</option>`).join('')}</select>
+        ${cur ? `<button class="btn small" data-open="${esc(cur.arm_paths[0])}">Open folder</button>
+        ${cur.id.startsWith('outputs/map/') ? `<button class="btn small" data-clear="${esc(cur.arm_paths[0].replace(/[\\/]out[^\\/]*$/, ''))}" data-what="this run folder and its rows">Clear run</button>` : ''}` : ''}
+      </div>
+      ${cur ? `<div class="row chips"><span class="chip ${cur.kind === 'frozen' ? 'warn' : ''}">${esc(cur.kind === 'fixture' ? 'fixture slice of run_2026-09-27' : cur.kind === 'frozen' ? 'filed rows, read-only' : 'run output')}</span>
+        ${cur.engine ? `<span class="chip">engine: ${esc(cur.engine)}</span>` : ''}
+        ${cur.arms.length > 1 ? `<span class="chip">${cur.arms.length} arms: ${esc(cur.arms.join(', '))}</span>` : ''}
+        ${cur.cost_usd != null ? `<span class="chip">recorded cost $${cur.cost_usd}</span>` : ''}
+        ${cur.git ? `<span class="chip" title="git commit of the stage that produced it">${esc(cur.git.slice(0, 10))}</span>` : ''}</div>` : ''}
+    </div></div>`;
+  bindClear('#map-run-row', () => { S.run = null; loadRuns(); });
+  bindOpen('#map-run-row');
+  $('#run-select').addEventListener('change', (e) => { S.run = e.target.value; S.sel = null; $('#map-detail').innerHTML = ''; loadRows(); renderRunRow(); });
+}
+
+async function loadRows() {
+  const f = S.filters;
+  const qs = new URLSearchParams({ run: S.run, economy: f.economy, indicator: f.indicator, tag: f.tag, q: f.q });
+  let j;
+  try { j = await api(`/api/map/rows?${qs}`); } catch (e) { $('#map-table').innerHTML = `<tr><td class="note">${esc(e.message)}</td></tr>`; return; }
+  S.rows = j.rows; S.notes = j.corpus_notes || {};
+  renderFilters(j);
+  renderNotes();
+  renderTable(j);
+  loadExportSummary();
+}
+
+function renderFilters(j) {
+  const f = S.filters;
+  $('#map-filters').innerHTML = `<div class="setup-row"><div class="setup-label">Filter</div><div class="row">
+    <label>Economy <select id="f-econ"><option value="">all</option>${j.economies.map(([c, n]) => `<option value="${c}" ${f.economy === c ? 'selected' : ''}>${esc(n)} (${c})</option>`).join('')}</select></label>
+    <label>Indicator <select id="f-ind"><option value="">all</option>${j.indicators.map((i) => `<option ${f.indicator === i ? 'selected' : ''}>${esc(i)}</option>`).join('')}</select></label>
+    <label>Tag <select id="f-tag"><option value="">all</option><option value="NEW" ${f.tag === 'NEW' ? 'selected' : ''}>NEW</option><option value="KNOWN" ${f.tag === 'KNOWN' ? 'selected' : ''}>KNOWN</option><option value="none" ${f.tag === 'none' ? 'selected' : ''}>no provision (blank)</option></select></label>
+    <input type="search" id="f-q" placeholder="search law, quote, English…" value="${esc(f.q)}">
+    <span class="muted">${j.shown} of ${j.total} rows</span></div></div>`;
+  $('#f-econ').onchange = (e) => { f.economy = e.target.value; loadRows(); };
+  $('#f-ind').onchange = (e) => { f.indicator = e.target.value; loadRows(); };
+  $('#f-tag').onchange = (e) => { f.tag = e.target.value; loadRows(); };
+  let t; $('#f-q').oninput = (e) => { clearTimeout(t); t = setTimeout(() => { f.q = e.target.value; loadRows(); }, 250); };
+}
+
+function renderNotes() {
+  const notes = Object.values(S.notes).filter((n) => n.rate > 0.5 && (!S.filters.economy || S.notes[S.filters.economy] === n));
+  $('#map-notes').innerHTML = notes.map((n) => `<div class="note">For ${esc(n.economy)}, ${Math.round(n.rate * 100)}% of the provision-text glosses are flagged “not literal”: the source OCR for this corpus is rough. Read that flag as a property of the corpus, not as a warning about any one row.</div>`).join('');
+}
+
+const tagChip = (t) => t === 'NEW' ? '<span class="chip new">NEW</span>' : t === 'KNOWN' ? '<span class="chip known">KNOWN</span>' : '<span class="chip none" title="Deliberately blank: neither a discovery nor a baseline reproduction">no provision</span>';
+const verChip = (v) => !v ? '' : v === 'agree' ? '<span class="chip ok">agreed</span>' : v === 'error' ? '<span class="chip bad">error</span>' : `<span class="chip warn">${esc(v)}</span>`;
+const scoreText = (r) => r._score == null ? '' : `${r._score}${r._score_inverted ? ' <span class="muted small" title="7.1 and 7.2 are inverted: 0 means the economy has a framework">(inv.)</span>' : ''}`;
+
+function renderTable(j) {
+  const rows = S.rows;
+  if (!rows.length) { $('#map-table').innerHTML = '<tr><td class="muted">No rows match.</td></tr>'; return; }
+  const showArm = rows.some((r) => r._arm);
+  $('#map-table').innerHTML = `<thead><tr>
+      <th>Economy</th><th>Law</th><th>Article</th><th>Indicator</th><th>Tag</th><th>Conf.</th><th>Verified</th><th>Score</th><th>Review</th><th>Quote → English</th>${showArm ? '<th>Arm</th>' : ''}
+    </tr></thead><tbody>${rows.map((r) => `<tr class="r ${S.sel === r._i ? 'sel' : ''}" data-i="${r._i}">
+      <td>${esc(r.Economy)}</td>
+      <td>${esc(r['Law Name'])}</td>
+      <td>${esc(r['Article / Section'])}</td>
+      <td class="num">${esc(r['Indicator ID'])}</td>
+      <td>${tagChip(r['Discovery Tag'])}</td>
+      <td class="num">${esc(r.Confidence)}</td>
+      <td>${verChip(r._verification)}</td>
+      <td class="num">${scoreText(r)}</td>
+      <td>${decisionChip(r._decision)}</td>
+      <td class="snip">${r._kind === 'no_provision' ? '<span class="muted">No provision found</span>' : esc(short(r['Verbatim Snippet'], 90))}${r._gloss ? `<br><span title="machine translation, ${esc(r._gloss.model)}">→ ${esc(short(r._gloss.english, 110))}</span>` : (r['Language of Source'] !== 'English' && r._kind !== 'no_provision' ? '<br><span class="muted small">no English gloss for this row</span>' : '')}</td>
+      ${showArm ? `<td class="small muted">${esc(r._arm)}</td>` : ''}
+    </tr>`).join('')}</tbody>`;
+  $('#map-table').querySelectorAll('tr.r').forEach((tr) => tr.addEventListener('click', () => openRow(+tr.dataset.i)));
+}
+
+const short = (s, n) => { s = String(s ?? ''); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
+
+async function openRow(i) {
+  S.sel = i;
+  $('#map-table').querySelectorAll('tr.r').forEach((tr) => tr.classList.toggle('sel', +tr.dataset.i === i));
+  let d;
+  try { d = await api(`/api/map/row?${new URLSearchParams({ run: S.run, i })}`); } catch (e) { $('#map-detail').innerHTML = `<div class="note">${esc(e.message)}</div>`; return; }
+  renderDetail(d);
+  $('#map-detail').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderDetail(d) {
+  const g = d._gloss, sg = d._section_gloss, v = d._verify, sd = d._score_detail;
+  const isEnglish = d['Language of Source'] === 'English';
+  const noProv = d._kind === 'no_provision';
+  const literalWarn = (x) => x && x.is_literal === false ? `<div class="note">The glosser marked this “not literal”: the source text is garbled (OCR) and the English is an approximation.</div>` : '';
+  const url = d['Source URL'] || '';
+  const isUrl = /^https?:\/\//i.test(url);
+  $('#map-detail').innerHTML = `<div class="detail">
+    <h3>${esc(d._econ_name)} · ${esc(d['Law Name'])} · ${esc(d['Article / Section'])} · indicator <span class="num">${esc(d['Indicator ID'])}</span></h3>
+    <div>${tagChip(d['Discovery Tag'])} ${verChip(d._verification)} <span class="chip">${esc(d['Language of Source'])}</span> ${d._arm ? `<span class="chip">${esc(d._arm)}</span>` : ''} ${d._read_only ? '<span class="chip warn">frozen, read-only</span>' : ''}</div>
+    ${noProv ? `<div class="note info">No provision found for this indicator. The Discovery Tag is blank on purpose: the row is neither a discovery nor a baseline reproduction. The law and link, when given, are the governing instrument cited for reference, not evidence.</div>` : `
+    <div class="pair">
+      <div class="col"><h4>Verbatim snippet · the evidence (${esc(d['Language of Source'])})</h4><div class="quote">${esc(d['Verbatim Snippet'])}</div></div>
+      <div class="col"><h4>English · ${isEnglish ? 'the source is English' : g ? `machine translation, ${esc(g.model)}, for review only` : 'no gloss in this run'}</h4>
+        ${isEnglish ? '<div class="muted small">No translation needed.</div>' : g ? `<div class="quote">${esc(g.english)}</div>${literalWarn(g)}${g.ambiguous ? '<div class="muted small">Joined by law, article and indicator; more than one gloss matched, the first is shown.</div>' : ''}` : '<div class="muted small">The glosser did not cover this row.</div>'}
+      </div>
+    </div>
+    ${sg && !isEnglish ? `<details><summary>Provision text and its English (${esc(sg.model)})</summary><div class="pair">
+        <div class="col"><h4>Provision text · original</h4><div class="quote small">${esc(short(sg.original, 3000))}</div></div>
+        <div class="col"><h4>Provision text · machine English</h4><div class="quote small">${esc(short(sg.english, 3000))}</div>${literalWarn(sg)}</div></div></details>` : ''}
+    ${d._raw_context ? `<details><summary>Where the quote sits in the source text</summary><div class="quote small" style="margin-top:6px">${esc(short(d._raw_context.before, 700))}<mark>${esc(d._raw_context.span || d['Verbatim Snippet'])}</mark>${esc(short(d._raw_context.after, 700))}</div></details>` : ''}`}
+    <dl class="facts">
+      <dt>Score for ${esc(d['Indicator ID'])}</dt><dd>${d._score == null ? '<span class="muted">not in this run’s rollup</span>' : `<b>${d._score}</b>${d._score_inverted ? ' — inverted indicator: 0 means the economy <i>has</i> a framework' : ''}${sd?.basis ? `<div class="small muted">${esc(sd.basis)}</div>` : ''}${sd?.controlling_law ? `<div class="small">Controlling law: ${esc(sd.controlling_law)}</div>` : ''}`}</dd>
+      <dt>Verification</dt><dd>${noProv && !v ? '<span class="muted">none: a no-provision row has no fire to verify</span>' : v ? `${verChip(v.verifier_verdict)} final applies: <b>${v.final_applies}</b>, score hint ${esc(v.final_score_hint)}${v.verifier?.reason ? `<div class="small"><b>Verifier:</b> ${esc(v.verifier.reason)}</div>` : ''}${v.mapper?.rationale ? `<div class="small muted"><b>Mapper:</b> ${esc(v.mapper.rationale)}</div>` : ''}` : '<span class="muted">reasoning trail not in this run</span>'}</dd>
+      <dt>Confidence</dt><dd>${esc(d.Confidence) || '<span class="muted">—</span>'}</dd>
+      <dt>Mapping rationale</dt><dd>${esc(d['Mapping Rationale'])}</dd>
+      <dt>Location</dt><dd>${esc(d['Location Reference']) || '<span class="muted">—</span>'}</dd>
+      <dt>Source</dt><dd>${isUrl ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a>` : esc(url)}</dd>
+      <dt>Law number · amended</dt><dd>${esc(d['Law Number / Ref']) || '—'} · ${esc(d['Last Amended']) || '—'}</dd>
+      <dt>Notes</dt><dd class="small">${esc(d.Notes)}</dd>
+    </dl>
+    ${reviewControls(d)}
+    <div class="foot">${esc(d._file)}${d._pid ? ` · ${esc(d._pid)}` : ''}</div>
+  </div>`;
+  bindReview(d);
+}
+
+/* ---------- Other ---------- */
+async function loadOther() {
+  try {
+    const j = await api('/api/docs');
+    const byFolder = {};
+    j.docs.forEach((d) => { (byFolder[d.folder] ||= []).push(d); });
+    $('#docs').innerHTML = Object.entries(byFolder).map(([f, ds]) => `<h4 class="small muted">${esc(f)}</h4><ul class="docs">${ds.map((d) => `<li><a href="#" data-doc="${esc(d.path)}">${esc(d.title)}</a></li>`).join('')}</ul>`).join('') + '<pre class="doc" id="doc-view" hidden></pre>';
+    $('#docs').querySelectorAll('a[data-doc]').forEach((a) => a.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const t = await api(`/api/doc?path=${encodeURIComponent(a.dataset.doc)}`);
+      const pre = $('#doc-view'); pre.hidden = false; pre.textContent = t.text; pre.scrollIntoView({ behavior: 'smooth' });
+    }));
+  } catch (e) { $('#docs').innerHTML = `<p class="note">${esc(e.message)}</p>`; }
+  $('#selftest-btn')?.addEventListener('click', runSelftest);
+  const st = S.health?.settings || [];
+  $('#settings').innerHTML = `<table class="settings-table"><tr><th>Setting</th><th>Value</th><th></th></tr>${st.map((s) => `<tr><td>${esc(s.name)}</td><td class="v">${esc(s.value)}</td><td class="small muted">${s.source === 'env' ? 'from environment' : 'default'}${s.value ? (s.exists ? ' · exists' : ' · <span style="color:var(--bad)">missing</span>') : ''}</td></tr>`).join('')}</table>`;
+}
+
+/* ---------- shared ---------- */
+const fmtBytes = (n) => n == null ? '' : n < 1024 ? `${n} B` : n < 1048576 ? `${(n / 1024).toFixed(0)} KB` : n < 1073741824 ? `${(n / 1048576).toFixed(1)} MB` : `${(n / 1073741824).toFixed(2)} GB`;
+const kv = (obj) => Object.entries(obj || {}).map(([k, v]) => `${esc(k)} ${v}`).join(', ');
+const kvb = (obj) => Object.entries(obj || {}).map(([k, v]) => `${esc(String(k).replace(/_/g, ' '))} <b>${v}</b>`).join(' · ');
+const stamp = () => { const d = new Date(), p = (n) => String(n).padStart(2, '0'); return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}`; };
+
+/* ---------- Scraping ---------- */
+const SC = { loaded: false, econs: [], scopes: [], chosen: new Set(), scope: '', forms: '', sources: {} };  // forms: always the stage default
+
+async function loadScrape() {
+  SC.loaded = true;
+  try {
+    const j = await api('/api/scrape/economies');
+    SC.econs = j.economies; SC.scopes = j.scopes; SC.scope = SC.scope || j.default_scope; SC.seedNote = j.seed_note;
+    if (!SC.scopes.find((x) => x.id === SC.scope)) SC.scope = j.default_scope;
+  } catch (e) { $('#scrape-setup').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  renderScrapeSetup();
+  renderScrapeSources();
+  loadScrapeOutputs();
+  loadInbox();
+}
+
+function delayFor(codes) {
+  return Math.max(3000, ...codes.map((c) => (SC.econs.find((e) => e.code === c) || {}).delay_ms || 3000));
+}
+
+function renderScrapeSetup() {
+  const codes = [...SC.chosen];
+  const engineCodes = codes.filter((c) => c !== 'CN');
+  const scopeHelp = SC.scopes.map((s) => `<b>${esc(s.label)}</b>: ${esc(s.text)}`).join('. ') + '.';
+  $('#scrape-setup').innerHTML = `
+    <div class="setup-row"><div class="setup-label">Economies</div>
+      <div class="econ-grid">${SC.econs.filter((e) => e.crawlable || e.tools).map((e) => `<label class="radio big ${SC.chosen.has(e.code) ? 'on' : ''}" title="${esc(e.note)}">
+        <input type="checkbox" value="${e.code}" ${SC.chosen.has(e.code) ? 'checked' : ''}> <span class="name">${esc(e.name)}</span>
+        <span class="sub">${e.crawlable ? (e.links ? `${e.links.all} listed, ${e.links.relevant ?? '?'} in Sample` : 'no link list') : 'CAC, gov.cn by the China tools'}</span></label>`).join('')}
+      </div>
+    </div>
+    <div class="setup-row"><div class="setup-label">Scope</div>
+      <div class="row">${SC.scopes.map((s) => `<label class="radio big ${SC.scope === s.id ? 'on' : ''}"><input type="radio" name="sc-scope" value="${s.id}" ${SC.scope === s.id ? 'checked' : ''}> ${esc(s.label)}</label>`).join('')}
+      </div>
+    </div>
+    <details class="notes-box" ${SC.notesOpen ? 'open' : ''}><summary>Note:</summary>
+      <p>* ${scopeHelp}</p>
+      <p>* The file format is conditional on the portal: some publish only PDF, some only web pages, some both. The crawler takes what the portal offers, and the Extraction stage reads each kind, web page, native PDF or scanned PDF through OCR.</p>
+      ${SC.econs.some((e) => e.tools) ? `<p>* <b>China</b> is not crawled by the engine: its national database forbids automated tools. With China ticked, the China tools read the publishers you tick on its card; the rest is collected by hand as <a href="#" id="sc-goto-cn">Scraping › China</a> explains. Scope does not apply to China.</p>` : ''}
+    </details>
+    ${SC.chosen.has('CN') ? cnCaution(true) : ''}`;
+  const nb = $('#scrape-setup details.notes-box'); if (nb) nb.addEventListener('toggle', () => { SC.notesOpen = nb.open; });
+  const go = $('#sc-goto-cn'); if (go) go.onclick = (e) => { e.preventDefault(); $('#tabs button[data-tab=cn]').click(); };
+  $('#scrape-setup').querySelectorAll('a.goto-cn').forEach((a) => { a.onclick = (e) => { e.preventDefault(); showTab('cn'); }; });
+  $('#scrape-setup').querySelectorAll('input[type=checkbox]').forEach((inp) => inp.addEventListener('change', () => {
+    if (inp.checked) SC.chosen.add(inp.value); else SC.chosen.delete(inp.value);
+    renderScrapeSetup(); renderScrapeSources();
+  }));
+  $('#scrape-setup').querySelectorAll('input[name=sc-scope]').forEach((inp) => inp.addEventListener('change', () => { SC.scope = inp.value; renderScrapeSetup(); }));
+  SC.checks = null; renderScrapeRun();
+  const parts = [];
+  if (engineCodes.length) parts.push(`cwd stages/p1-scrape  REQUEST_DELAY_MS=${delayFor(engineCodes)}${SC.scope === 'relevant' ? ' MAX_CANDIDATES_PER_ECONOMY=100000' : ''}  python scrape.py --economy ${engineCodes.join(',')} --pillars 6,7 --scope ${SC.scope}${SC.forms ? ` --forms ${SC.forms}` : ''} --out outputs/scrape/${engineCodes.join('-')}_${stamp()}`);
+  if (codes.includes('CN')) {
+    const req = scrapeRequest();
+    const tool = req.cn_mode === 'update'
+      ? `python update.py --base CN_sources_2026-09-21${SC.dryRun ? '' : ' --fetch'}`
+      : (req.cn_sources.length ? req.cn_sources.map((src) => `python collect.py ${src}${SC.dryRun ? ' --list-only' : ''}`).join('   then   ') : '(tick a publisher on the China card)');
+    parts.push(`cwd stages/p1-scrape/src/p1_scrape/adapters/cn_npc  HANDOFF1_DIR=outputs/scrape/CN_${stamp()}/data  ${tool}`);
+  }
+  $('#scrape-cmd').textContent = parts.join('   then   ') || 'pick at least one economy';
+}
+
+function sourcesBlock(code, d, crawl) {
+  if (d.error) return `<div class="note">${esc(code)}: ${esc(d.error)}</div>`;
+  const kindLabel = { principal_act: 'principal acts', subsidiary_legislation: 'subsidiary legislation', amending_act: 'amending acts', agency_or_other: 'agency or other' };
+  const kindLine = d.document_kinds ? Object.entries(d.document_kinds).map(([k, v]) => `${esc(kindLabel[k] || k.replace(/_/g, ' '))} <b>${v}</b>`).join(' · ') : '';
+  const china = !!d.tools_note;
+  const countBullets = !china && d.counts ? `<dl class="portal-facts">
+      <dt>All</dt><dd><b>${d.counts.all}</b> documents listed on the portal</dd>
+      <dt>Sample</dt><dd><b>${d.counts.relevant ?? '?'}</b> documents whose titles match the pillar 6 and 7 vocabulary or are named in the registry</dd>
+      ${kindLine ? `<dt>By kind</dt><dd>${kindLine}</dd>` : ''}
+      ${d.catalogued_at ? `<dt>List built</dt><dd>${esc(String(d.catalogued_at).slice(0, 10))}</dd>` : ''}
+    </dl>` : '';
+  const crawled = d.portals.filter((p) => p.crawled);
+  const portals = china ? cnSourceCards(d) : `<div class="portal-grid">${crawled.map((p, i) => `<div class="portal-card"><a class="name" href="${esc(p.root)}" target="_blank" rel="noopener">${esc(p.name)}</a><span class="sub">${esc(p.kind.replace(/_/g, ' '))}</span>${i === 0 ? countBullets : ''}<label class="pick single"><input type="checkbox" class="econ-pick" value="${esc(code)}" checked> collect it in the next run</label></div>`).join('') || '<span class="muted">no portal list in the registry</span>'}</div>`;
+  const h = d.holdings;
+  const factsList = (facts) => `<dl class="portal-facts">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v).replace(/^(\d+)/, '<b>$1</b>')}</dd>`).join('')}</dl>`;
+  const watch = d.watchlist.map((w) => `<tr><td><a href="${esc(w.url)}" target="_blank" rel="noopener">${esc(w.name)}</a></td><td class="small">${esc(w.kind)}</td><td class="small">${esc(String(w.why_not_automatic || '').replace(/\*\*/g, ''))}</td><td class="small">${esc(w.what_to_look_for)}</td><td class="small">${esc(w.indicators)}</td><td class="small">${esc(w.last_checked)}</td></tr>`).join('');
+  return `<details class="src-card" open>
+    <summary><span class="econ-name">${esc(d.name)}</span> <span class="chip ${crawl ? 'ok' : 'warn'}">${crawl ? (china ? 'China tools' : 'crawled') : 'checked by hand'}</span></summary>
+    ${crawl ? `<div class="setup-row"><div class="setup-label">${china ? 'Sources, by layer' : 'Sources the crawler reads'}</div>
+      <div>${portals}
+      ${!china && d.counts ? `<details class="doclist" id="doclist-${esc(code)}" data-code="${esc(code)}" data-src="documents"><summary>Documents on the link list <span class="muted">(${d.counts.all}; All or Sample, with a filter)</span></summary><div class="doclist-body"></div></details>` : ''}
+      ${china ? `<div class="callout gap"><b class="gap-title">Card colours</b><ul class="legend"><li><b>White:</b> the China tools can read the source, and they have run.</li><li><b>Yellow:</b> collected by hand; no tool may read it.</li><li><b>Grey:</b> the tools can read it and once did, but it was never taken into Extraction, so it is not in the corpus.</li></ul><span class="small">The two layers and what to check by hand: <a href="#" class="goto-cn">Scraping › China</a>.</span></div>` : ''}
+      ${!d.counts && !china ? '<p class="muted small">No link list for this economy.</p>' : ''}
+      </div></div>
+    ${h ? `<div class="setup-row"><div class="setup-label">${esc(h.label)}${h.sub ? `<br><span class="sublabel">${esc(h.sub)}</span>` : ''}</div>
+      <div>${factsList(h.facts)}
+      <details class="doclist" id="holdings-${esc(code)}" data-code="${esc(code)}" data-src="holdings"><summary>Documents ${esc(h.doclist_label || 'held')} <span class="muted">(${h.rows}; ${esc(h.scope_hint || 'with a filter')})</span></summary><div class="doclist-body"></div></details>
+      </div></div>` : `<div class="setup-row"><div class="setup-label">What we hold today<br><span class="sublabel">(9.30 Finale Submission)</span></div><div><p class="muted">No shipped corpus for this economy in this clone.</p></div></div>`}` : ''}
+    <details class="hand"><summary class="setup-label">Sources to check by hand <span class="muted">(${d.watchlist.length})</span> <span class="hint">recommended, not yet incorporated</span></summary>
+      <p class="src-counts">${esc(d.manual_note)}</p>
+      ${d.watchlist.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Source</th><th>Kind</th><th>Why not automatic</th><th>What to look for</th><th>Indicators</th><th>Last checked</th></tr></thead><tbody>${watch}</tbody></table></div>` : '<p class="muted small">No watchlist shipped for this economy.</p>'}
+    </details>
+    <div class="foot">${esc([d.sources_file, d.links_file, h && h.id, d.watchlist_file].filter(Boolean).join('  ·  '))}</div>
+  </details>`;
+}
+
+async function renderScrapeSources() {
+  const codes = [...SC.chosen];
+  const parts = [];
+  for (const code of codes) {
+    if (!SC.sources[code]) {
+      try { SC.sources[code] = await api(`/api/scrape/sources?economy=${code}`); } catch (e) { SC.sources[code] = { error: e.message }; }
+    }
+    parts.push(sourcesBlock(code, SC.sources[code], true));
+  }
+  $('#scrape-sources').innerHTML = parts.join('');
+  bindDocLists();
+  document.querySelectorAll('#scrape-sources a.goto-cn').forEach((a) => { a.onclick = (e) => { e.preventDefault(); showTab('cn'); }; });
+  document.querySelectorAll('#scrape-sources input.cn-src').forEach((inp) => inp.addEventListener('change', () => {
+    if (inp.checked) SC.cnSources.add(inp.value); else SC.cnSources.delete(inp.value);
+    SC.checks = null;
+    renderScrapeSetup();
+  }));
+  document.querySelectorAll('#scrape-sources input.econ-pick').forEach((inp) => inp.addEventListener('change', () => {
+    if (!inp.checked) { SC.chosen.delete(inp.value); renderScrapeSetup(); renderScrapeSources(); }
+  }));
+}
+
+async function loadScrapeOutputs() {
+  let j;
+  try { j = await api('/api/scrape/outputs'); } catch (e) { $('#scrape-output').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  SC.folders = j.folders; renderScrapeRun();
+  const present = (f) => !f.raw_checked ? '' : f.raw_present === f.raw_checked ? '<span class="chip ok">yes</span>' : f.raw_present ? `<span class="chip warn">${f.raw_present} of ${f.raw_checked} checked</span>` : '<span class="chip">manifest only</span>';
+  const clearable = (f) => f.kind === 'interface run' || f.kind === 'China tools run';
+  $('#scrape-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Folder</th><th>Kind</th><th>Documents</th><th>By economy</th><th>By type</th><th>Bytes present</th><th>Fetched last pass</th><th></th></tr></thead><tbody>
+    ${j.folders.map((f) => `<tr><td title="${esc(f.path)}">${esc(f.id)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.rows}</td><td class="small">${kv(f.by_economy)}${f.cn_sources && Object.keys(f.cn_sources).length ? ` (${kv(f.cn_sources)})` : ''}</td><td class="small">${kv(f.by_source_type)}</td><td class="small">${present(f)}</td><td class="num">${f.kind === 'hand-collected' ? `<span class="small muted">${f.batches && f.batches.length ? `${f.batches.length} batch${f.batches.length === 1 ? '' : 'es'}` : 'by hand'}</span>` : `${f.fetched_last_pass ?? ''}${f.crawl_state ? ` <span class="chip">${esc(f.crawl_state.state)}</span>` : ''}`}</td><td class="small"><button class="btn small" data-open="${esc(f.path)}">Open folder</button> ${clearable(f) ? `${f.kind === 'interface run' ? `<button class="btn small" data-clear="${esc(f.path)}/raw" data-what="the downloaded documents (raw/)">Clear raw</button> ` : ''}<button class="btn small" data-clear="${esc(f.path)}" data-what="the whole run folder">Clear folder</button>` : ''}</td></tr>`).join('')}
+    </tbody></table></div><p class="muted small">A shipped manifest describes every document without containing one; the bytes come back by running the crawler. The fetched count is the crawler's own figure from cost_report.json and must read 0 on a second pass over the same folder. A China tools run counts the documents its raw folders hold. A hand-collected row is an inbox folder; it goes to Extraction like a crawl folder.</p>`
+    : '<p class="muted">No crawl folders yet.</p>';
+  bindClear('#scrape-output', loadScrapeOutputs);
+  bindOpen('#scrape-output');
+}
+
+/* ---------- Extraction ---------- */
+const EX = { loaded: false, inputs: [], languages: [], defaultLang: {}, chosen: null, typed: '', desc: null, language: '', pack: 'fast', workers: 16, checks: null, checking: false, notesOpen: false, runNotesOpen: false, htmlHosts: [] };
+
+async function loadExtract() {
+  EX.loaded = true;
+  try {
+    const j = await api('/api/extract/inputs');
+    EX.inputs = j.inputs; EX.languages = j.languages; EX.defaultLang = j.default_language; EX.economies = j.economies; EX.htmlHosts = j.html_hosts || []; EX.stagePresent = j.stage_present; EX.python = j.python;
+    if (!EX.chosen && EX.inputs.length) EX.chosen = EX.inputs[0].id;
+  } catch (e) { $('#extract-setup').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  EX.desc = EX.inputs.find((i) => i.id === EX.chosen) || null;
+  renderExtractSetup();
+  renderExtractDescribe();
+  loadExtractOutputs();
+}
+
+function inputLabel(i) {
+  if (i.origin === 'inbox batch') return `${i.id}: ${i.rows} file${i.rows === 1 ? '' : 's'} (one batch of ${i.economy})`;
+  if (i.origin === 'inbox') return `${i.id}: ${i.rows} file${i.rows === 1 ? '' : 's'} (every batch of ${i.economy})`;
+  const what = i.kind === 'crawled' ? `${i.rows} documents` : `${i.rows} files, no manifest`;
+  const bytes = i.kind !== 'crawled' ? '' : i.raw_checked === 0 ? '' : i.raw_present === 0 ? ', bytes not shipped' : i.raw_present < i.raw_checked ? `, ${i.raw_present} of ${i.raw_checked} present` : '';
+  return `${i.id}: ${what}${bytes} (${i.origin})`;
+}
+
+function renderExtractSetup() {
+  const d = EX.desc;
+  const inboxSetting = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_INBOX_DIR');
+  const inbox = inboxSetting ? inboxSetting.value : 'inbox';
+  $('#extract-setup').innerHTML = `
+    <div class="setup-row"><div class="setup-label">Input</div>
+      <div class="row"><select id="ex-input" class="wide-select">${EX.inputs.map((i) => `<option value="${esc(i.id)}" ${EX.chosen === i.id ? 'selected' : ''}>${esc(inputLabel(i))}</option>`).join('')}<option value="__typed" ${EX.chosen === '__typed' ? 'selected' : ''}>another folder on this machine</option></select>
+        ${EX.chosen === '__typed' ? `<input type="text" id="ex-typed" size="48" placeholder="a folder holding PDF, HTML or Word files" value="${esc(EX.typed)}"> <button class="btn" id="ex-describe">Look</button>` : ''}
+      </div>
+    </div>
+    <details class="notes-box" ${EX.notesOpen ? 'open' : ''}><summary>Note:</summary>
+      <p>* <b>Input</b> is a crawl folder from Scraping, with its manifest, or a folder of documents collected by hand.</p>
+      <p>* <b>Hand-collected files</b> go in the inbox, one subfolder per economy: <code>${esc(inbox)}/CN</code> for China, <code>${esc(inbox)}/LA</code> for Lao PDR. The folder names the economy, the language follows, and the folder is listed here at once; "inbox, every economy" extracts them all in one run. The interface writes the manifest and the law table for them under the runs root and never writes into the inbox.</p>
+      <p>* <b>Language</b> is not chosen. The crawler records each document’s language; a document without one takes its economy’s language from the stage’s table (English, Chinese, Lao, Portuguese, Malay). Check reads the text of hand-collected files it can read and warns when a file does not fit its folder.</p>
+      <p>* Each document is read by the lane its kind needs: A web page, B native PDF, C scanned PDF through OCR, D Word.${EX.htmlHosts && EX.htmlHosts.length ? ` Web pages parse for ${EX.htmlHosts.length} registered hosts only.` : ''}</p>
+    </details>`;
+  const nb = $('#extract-setup details.notes-box'); if (nb) nb.addEventListener('toggle', () => { EX.notesOpen = nb.open; });
+  $('#ex-input').onchange = (e) => { EX.chosen = e.target.value; EX.checks = null; EX.outName = ''; EX.economy = ''; EX.desc = EX.inputs.find((i) => i.id === EX.chosen) || null; renderExtractSetup(); renderExtractDescribe(); };
+  const look = $('#ex-describe');
+  if (look) look.addEventListener('click', async () => {
+    EX.typed = $('#ex-typed').value.trim();
+    try { EX.desc = await api(`/api/extract/describe?path=${encodeURIComponent(EX.typed)}`); }
+    catch (e) { EX.desc = { error: e.message }; }
+    EX.checks = null; EX.outName = ''; EX.economy = '';
+    renderExtractSetup(); renderExtractDescribe();
+  });
+  renderExtractCmd();
+}
+
+function renderExtractCmd() {
+  const d = EX.desc;
+  const el = $('#extract-cmd');
+  if (!el) return;
+  if (!d || d.error) { el.textContent = ''; return; }
+  const out = `outputs/extract/${EX.outName || d.out_name || d.name}`;
+  const types = d.by_source_type || {};
+  const scanned = types.pdf_scanned || (d.kind === 'hand_collected' ? types.pdf : 0);
+  const dl = EX.defaultLang || {};
+  const plan = d.kind !== 'hand_collected' ? (d.language_plan || [])
+    : d.per_subfolder ? Object.keys(d.by_economy || {}).sort().map((c) => [c, dl[c] || 'eng'])
+    : [[d.economy || EX.economy || '', dl[d.economy || EX.economy] || 'eng']];
+  const langs = [...new Set(plan.map((p) => p[1]))];
+  const passes = langs.length <= 1 ? [['', langs[0] || 'eng']] : plan;
+  const rootSetting2 = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_RUNS_ROOT');
+  const pathSep = rootSetting2 && rootSetting2.value.includes('/') ? ':' : ';';
+  const one = (econ, lang) => {
+    const sel = `${econ ? `--economy ${econ} ` : ''}--default-language ${lang}`;
+    const ocr = scanned ? `python -m rdtii_p2.cli ocr --manifest <in>/manifest.csv --raw <in> --out ${out} ${sel} --workers ${EX.workers} --pack ${EX.pack}   then   ` : '';
+    return `${ocr}python -m rdtii_p2.cli run --manifest <in>/manifest.csv --raw <in> --out ${out} ${sel} --skip-tags`;
+  };
+  el.textContent = `cwd stages/p2-extract  PYTHONPATH=src${pathSep}.  ` + passes.map(([e, l]) => one(e, l)).join('   then   ');
+}
+
+function renderExtractDescribe() {
+  const d = EX.desc;
+  const det = d && d.detected;
+  if (d && !d.error && d.kind === 'hand_collected') {
+    if (d.economy) EX.economy = d.economy;
+    else if (d.per_subfolder) EX.economy = '';
+    else if (!EX.economy && det && det.suggested_economy) EX.economy = det.suggested_economy;
+  }
+  renderExtractRun();
+  const host = $('#extract-describe');
+  if (!d) { host.innerHTML = ''; return; }
+  if (d.error) { host.innerHTML = `<div class="note">${esc(d.error)}</div>`; return; }
+  let present = '';
+  if (d.kind === 'crawled' && d.raw_checked) {
+    present = d.raw_present === d.raw_checked ? '<span class="chip ok">documents present</span>'
+      : d.raw_present ? `<span class="chip warn">${d.raw_present} of ${d.raw_checked} documents present</span>`
+      : '<span class="chip warn">manifest only, documents not in the folder</span>';
+  } else if (d.kind !== 'crawled') {
+    present = `<span class="chip ok">${d.rows} files, ${fmtBytes(d.size_bytes)}</span>`;
+    if (det && det.mismatch) present += ` <span class="chip warn">${det.mismatch} file(s) do not fit the folder</span>`;
+  }
+  let facts;
+  if (d.kind === 'crawled') {
+    facts = `<dt>Path</dt><dd><code>${esc(d.path)}</code></dd>
+       <dt>Documents</dt><dd><b>${d.rows}</b></dd>
+       <dt>By economy</dt><dd>${kvb(d.by_economy) || 'none'}</dd>
+       <dt>By type</dt><dd>${kvb(d.by_source_type) || 'none'}</dd>
+       <dt>Languages</dt><dd>${esc(d.language_line || '')}</dd>`;
+  } else {
+    const econLine = d.per_subfolder
+      ? `from the folder names: ${Object.entries(d.by_economy || {}).map(([c, n]) => `<b>${esc(econName(c))}</b> ${n}`).join(' · ')}`
+      : d.economy ? `<b>${esc(econName(d.economy))}</b> (${esc(d.economy)}), from the folder name`
+      : det && det.suggested_economy ? `not named by the folder; the text points to <b>${esc(econName(det.suggested_economy))}</b>, confirm it in Run`
+      : 'not named by the folder; choose it in Run';
+    const langLine = d.per_subfolder
+      ? Object.keys(d.by_economy || {}).map((c) => `${esc(c)} ${esc(langName((EX.defaultLang || {})[c] || 'eng'))}`).join(' · ')
+      : (d.economy || EX.economy) ? `${esc(langName((EX.defaultLang || {})[d.economy || EX.economy] || 'eng'))}, from the economy table` : 'follows the economy';
+    facts = `<dt>Path</dt><dd><code>${esc(d.path)}</code></dd>
+       <dt>Files</dt><dd>${kvb(d.by_source_type)}</dd>
+       <dt>Economy</dt><dd>${econLine}</dd>
+       ${d.batch ? `<dt>Batch</dt><dd>${esc(d.batch)}</dd>` : ''}
+       <dt>Language</dt><dd>${langLine}</dd>
+       ${det ? `<dt>Text check</dt><dd>${esc(det.line)}${det.mismatch ? `<br><span class="hint">Does not fit the folder: ${esc(det.mismatch_files.join(', '))}</span>` : ''}</dd>` : ''}`;
+  }
+  const perFile = det && det.files && det.files.length ? `<details class="doclist"><summary>Detection per file <span class="muted">(${det.files.length})</span></summary><div class="table-wrap short"><table class="rows"><thead><tr><th>File</th><th>Language</th><th>Economy</th><th>Basis</th></tr></thead><tbody>
+      ${det.files.map((f) => `<tr><td class="small">${esc(f.file)}</td><td>${f.language ? esc(langName(f.language)) : '<span class="muted">not read</span>'}</td><td>${f.economy ? esc(econName(f.economy)) : ''}</td><td class="small muted">${esc(f.basis)}</td></tr>`).join('')}</tbody></table></div></details>` : '';
+  host.innerHTML = `<details class="src-card" open>
+    <summary><span class="econ-name">${esc(d.name)}</span> <span class="chip">${d.kind === 'crawled' ? 'crawl folder with manifest' : 'hand-collected documents'}</span> ${present}</summary>
+    <dl class="portal-facts">${facts}</dl>
+    ${perFile}
+    <div id="ex-manifest-preview"></div>
+  </details>`;
+}
+
+async function loadExtractOutputs() {
+  let j;
+  try { j = await api('/api/extract/outputs'); } catch (e) { $('#extract-output').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  $('#extract-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Folder</th><th>Kind</th><th>Documents</th><th>By status</th><th>By lane</th><th>Provisions</th><th>Laws</th><th>OCR cache</th><th>Frozen text</th><th></th></tr></thead><tbody>
+    ${j.folders.map((f) => `<tr><td title="${esc(f.path)}">${esc(f.id)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.documents}</td><td class="small">${kv(f.by_status)}</td><td class="small">${kv(f.by_lane)}</td><td class="num">${f.provisions}</td><td class="num">${f.laws}</td><td class="num">${fmtBytes(f.cache_bytes.ocr)}</td><td class="num">${fmtBytes(f.cache_bytes.source_text)}</td><td class="small"><button class="btn small" data-open="${esc(f.path)}">Open folder</button> ${f.kind === 'interface run' ? `<button class="btn small" data-clear-ocr="${esc(f.path)}">Clear OCR cache</button> <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole extraction folder">Clear folder</button>` : ''}</td></tr>`).join('')}
+    </tbody></table></div><p class="muted small">Lanes: A web page, B native PDF, C scanned PDF read by OCR, D Word. The OCR cache and the frozen text are what a re-run reuses; clearing both forces a fresh OCR.</p>`
+    : '<p class="muted">No extraction output yet. HANDOFF2_DIR points at a folder that appears after the first run.</p>';
+  bindClear('#extract-output', loadExtractOutputs);
+  bindOpen('#extract-output');
+}
+
+function bindClear(rootSel, reload) {
+  document.querySelectorAll(`${rootSel} [data-clear]`).forEach((b) => b.addEventListener('click', async () => { if (await clearPath(b.dataset.clear, b.dataset.what)) reload(); }));
+  document.querySelectorAll(`${rootSel} [data-clear-ocr]`).forEach((b) => b.addEventListener('click', async () => {
+    const base = b.dataset.clearOcr;
+    const a = await clearPath(`${base}/ocr`, 'the OCR page cache (ocr/)');
+    const c = await clearPath(`${base}/source_text`, 'the frozen text (source_text/), so scanned documents go through OCR again');
+    if (a || c) reload();
+  }));
+}
+
+function econName(code) {
+  const hit = (EX.economies || []).find((e) => e.code === code);
+  return hit ? hit.name : code;
+}
+
+function langName(code) {
+  const hit = (EX.languages || []).find((l) => l.id === code);
+  return hit ? hit.label : code;
+}
+
+const IB = { data: null, economy: '', files: [], log: [], busy: false, notesOpen: false };
+
+async function loadInbox() {
+  const host = $('#inbox-body');
+  if (!host) return;
+  const block = $('#inbox-block');
+  if (block && !block.dataset.bound) {
+    block.dataset.bound = '1';
+    block.open = false;   // always starts folded
+  }
+  try { IB.data = await api('/api/inbox'); } catch (e) { host.innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  if (!IB.economy && SC.chosen && SC.chosen.size === 1) IB.economy = [...SC.chosen][0];
+  if (IB.economy && !IB.data.economies.find((e) => e.code === IB.economy)) IB.economy = '';
+  await loadInboxFiles();
+  renderInbox();
+}
+
+async function loadInboxFiles() {
+  if (!IB.economy) { IB.files = []; return; }
+  try { IB.files = (await api(`/api/inbox/files?${new URLSearchParams({ economy: IB.economy })}`)).files; } catch (e) { IB.files = []; }
+}
+
+function renderInbox() {
+  const d = IB.data;
+  const host = $('#inbox-body');
+  if (!host || !d) return;
+  const cur = d.economies.find((e) => e.code === IB.economy);
+  const target = cur ? `${d.root}/${cur.code}` : '';
+  const batchLine = !cur ? '' : cur.batches && cur.batches.length
+    ? `${cur.batches.length} batch${cur.batches.length === 1 ? '' : 'es'}: ${cur.batches.map((b) => `${b.name} (${b.files})`).join(', ')}${cur.loose ? `; ${cur.loose} file${cur.loose === 1 ? '' : 's'} outside a batch` : ''}`
+    : cur.files ? 'no batches: the files were copied in by hand' : '';
+  host.innerHTML = `
+    <div class="callout cn-caution"><b>Why this block.</b>
+      <ul>
+        <li>Some sources cannot be crawled: a robots.txt ban, a host that refuses an automated client, a portal with no machine-readable list.</li>
+        <li>Files you fetch by hand go here, one folder per economy.</li>
+        <li>They sit beside the crawler’s results in Output and pass down to Extraction and Mapping through the same pipeline.</li>
+      </ul></div>
+    <div class="setup-row"><div class="setup-label">Economy</div>
+      <div class="econ-grid">${d.economies.map((e) => `<label class="radio big ${IB.economy === e.code ? 'on' : ''}"><input type="radio" name="ib-econ" value="${e.code}" ${IB.economy === e.code ? 'checked' : ''}> <span class="name">${esc(e.name)}</span><span class="sub">${e.files ? `${e.files} file${e.files === 1 ? '' : 's'}` : 'empty'}</span></label>`).join('')}</div>
+    </div>
+    <div class="setup-row"><div class="setup-label">Files</div>
+      <div>
+        <label class="dropzone ${cur ? '' : 'off'}" id="ib-drop"><input type="file" id="ib-files" multiple accept=".pdf,.html,.htm,.docx,.doc" ${cur ? '' : 'disabled'}>
+          ${cur ? `Drop PDF, HTML or Word files here, or click to choose. Each drop is one batch, saved under <code>${esc(target)}/&lt;date_time&gt;</code>.` : 'Choose the economy first.'}</label>
+        ${IB.log.length ? `<ul class="ib-log">${IB.log.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+      </div>
+    </div>
+    ${cur ? `<div class="setup-row"><div class="setup-label">In the folder</div>
+      <div><div class="row"><span><b>${cur.files}</b> file${cur.files === 1 ? '' : 's'} in <code>${esc(target)}</code></span> <button class="btn small" data-open="${esc(cur.path)}">Open folder</button> ${cur.files ? `<a href="#" id="ib-goto">Extract them: 2 Extraction → Input → ${esc(target)}</a>` : ''}</div>
+        ${batchLine ? `<p class="small muted" style="margin:6px 0 0">${esc(batchLine)}</p>` : ''}
+        ${IB.files.length ? `<details class="doclist"><summary>Files <span class="muted">(${IB.files.length})</span></summary><div class="table-wrap short"><table class="rows"><thead><tr><th>File</th><th>Batch</th><th>Kind</th><th>Size</th><th>Added</th></tr></thead><tbody>
+          ${IB.files.map((f) => `<tr><td>${esc(f.name.split('/').pop())}</td><td class="small">${esc(f.batch || '')}</td><td class="small">${esc(f.kind)}</td><td class="num">${fmtBytes(f.size)}</td><td class="small">${esc(f.added)}</td></tr>`).join('')}</tbody></table></div></details>` : ''}
+      </div></div>` : ''}
+    <details class="notes-box" ${IB.notesOpen ? 'open' : ''}><summary>Note:</summary>
+      <p>* One economy at a time. The folder names the economy and the language follows from the economy table. Each drop is a batch, a dated subfolder; 2 Extraction → Input lists the economy (every batch) and each batch on its own.</p>
+      <p>* PDF (native or scanned), HTML and Word. A file already in the batch is kept once; a different file with the same name is saved under a numbered name. Nothing else is written to the folder.</p>
+      <p>* Source addresses are not recorded here; the manifest leaves them blank for hand-collected files.</p>
+    </details>`;
+  const nb = host.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { IB.notesOpen = nb.open; });
+  host.querySelectorAll('input[name=ib-econ]').forEach((inp) => inp.addEventListener('change', async () => { IB.economy = inp.value; IB.log = []; await loadInboxFiles(); renderInbox(); }));
+  const drop = $('#ib-drop');
+  const input = $('#ib-files');
+  if (drop && cur) {
+    drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+    drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); if (e.dataTransfer && e.dataTransfer.files.length) uploadFiles(e.dataTransfer.files); });
+    input.addEventListener('change', () => { if (input.files.length) uploadFiles(input.files); });
+  }
+  const go = $('#ib-goto');
+  if (go) go.onclick = (e) => { e.preventDefault(); if (typeof EX !== 'undefined') { EX.chosen = cur.id; EX.desc = null; EX.checks = null; EX.economy = ''; EX.loaded = false; } showTab('extract'); };
+  bindOpen('#inbox-body');
+}
+
+async function uploadFiles(fileList) {
+  if (!IB.economy || IB.busy) return;
+  const files = [...fileList];
+  const batch = batchStamp();
+  IB.busy = true;
+  IB.log = [`Adding ${files.length} file${files.length === 1 ? '' : 's'} to ${IB.data.root}/${IB.economy}/${batch}…`];
+  renderInbox();
+  const results = [];
+  let done = 0;
+  for (const f of files) {
+    try {
+      const r = await fetch(`/api/inbox/upload?${new URLSearchParams({ economy: IB.economy, name: f.name, batch })}`,
+        { method: 'POST', headers: { 'Content-Type': 'application/octet-stream', 'X-RDTII-Token': TOKEN }, body: f });
+      let j; try { j = await r.json(); } catch (e) { j = { error: r.statusText }; }
+      if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      results.push(`${j.saved}: ${j.status} (${fmtBytes(j.bytes)})`);
+    } catch (e) { results.push(`${f.name}: not added, ${e.message}`); }
+    done += 1;
+    IB.log = [`${done} of ${files.length} handled, batch ${batch}`, ...results];
+    renderInbox();
+  }
+  IB.busy = false;
+  try { IB.data = await api('/api/inbox'); } catch (e) { /* keep the old counts */ }
+  await loadInboxFiles();
+  renderInbox();
+  if (typeof EX !== 'undefined') EX.loaded = false;   // the Extraction tab re-reads its inputs on its next visit
+}
+
+function batchStamp() {
+  const d = new Date(), p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
+}
+
+function cnSourceCards(d) {
+  if (!SC.cnSources) SC.cnSources = new Set(d.portals.filter((p) => p.selectable && p.held).map((p) => p.src));
+  const card = (p) => `<div class="portal-card ${p.mode === 'hand' ? 'hand' : ''} ${p.deferred ? 'off' : ''}">
+      <div class="mode"><span class="chip ${p.mode === 'tools' ? 'ok' : 'warn'}">${p.mode === 'tools' ? 'China tools' : 'by hand'}</span></div>
+      <a class="name" href="${esc(p.root)}" target="_blank" rel="noopener">${esc(p.name)}</a><span class="sub">${esc(p.note || '')}</span>
+      <div class="run">${esc(p.run || '')}</div>
+      <div class="held">${p.held ? `${p.held} held from it` : p.set_aside ? `${p.set_aside} listed, set aside on ${esc(p.set_aside_on || '')}` : 'nothing held yet'}</div>
+      ${p.selectable ? `<label class="pick"><input type="checkbox" class="cn-src" value="${esc(p.src)}" ${SC.cnSources.has(p.src) ? 'checked' : ''}> collect it in the next run</label>` : ''}
+    </div>`;
+  const layer = (n, title) => { const ps = d.portals.filter((p) => p.layer === n); return ps.length ? `<div class="layer-group"><div class="layer-title">${esc(title)}</div><div class="portal-grid">${ps.map(card).join('')}</div></div>` : ''; };
+  return layer(1, 'Layer 1: the national database') + layer(2, 'Layer 2: what the laws delegate to');
+}
+
+
+
+function cnPicked() {
+  const d = SC.sources.CN;
+  if (!d || !d.portals || !SC.cnSources) return [];
+  return d.portals.filter((p) => p.selectable && SC.cnSources.has(p.src));
+}
+
+/* ---------- Extraction · Start ---------- */
+EX.economy = EX.economy || '';
+EX.outName = EX.outName || '';
+
+function extractRequest() {
+  const d = EX.desc;
+  const economy = d && d.kind === 'hand_collected' ? (d.per_subfolder ? '' : (d.economy || EX.economy || '')) : EX.economy;
+  return { input: d ? d.path : '', pack: EX.pack, workers: EX.workers,
+    out_name: EX.outName || (d ? (d.out_name || d.name) : ''), economy };
+}
+
+function renderExtractRun() {
+  const d = EX.desc;
+  const note = $('#extract-run-note');
+  if (!note) return;
+  const ok = !!(d && !d.error);
+  const outName = EX.outName || (ok ? (d.out_name || d.name) : '');
+  const rootSetting = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_RUNS_ROOT');
+  const root = rootSetting ? rootSetting.value : 'outputs';
+  const BS = root.includes('/') ? '/' : String.fromCharCode(92);
+  const hand = ok && d.kind === 'hand_collected';
+  const needEcon = hand && !d.economy && !d.per_subfolder;
+  const det = hand ? d.detected : null;
+  const fails = EX.checks ? EX.checks.filter((c) => c.level === 'fail') : null;
+  const canStart = ok && EX.stagePresent !== false && EX.checks && fails.length === 0;
+  const target = ok ? `${esc(root)}${BS}extract${BS}${esc(outName)}` : '<span class="muted">choose an input first</span>';
+  const econRow = !hand ? '' : d.per_subfolder
+    ? `<div class="stack-row"><span class="setup-label">Economies</span> <span>from the folder names: ${esc(Object.keys(d.by_economy || {}).join(', '))}</span> <button class="btn small" id="ex-preview">Preview the manifest</button></div>`
+    : d.economy
+      ? `<div class="stack-row"><span class="setup-label">Economy</span> <span><b>${esc(econName(d.economy))}</b> (${esc(d.economy)}), from the folder name</span> <button class="btn small" id="ex-preview">Preview the manifest</button></div>`
+      : `<label class="stack-row"><span class="setup-label">Economy</span> <select id="ex-econ"><option value="">choose the economy these documents belong to</option>${(EX.economies || []).map((e) => `<option value="${e.code}" ${EX.economy === e.code ? 'selected' : ''}>${esc(e.name)} (${e.code})</option>`).join('')}</select> ${EX.economy ? '<button class="btn small" id="ex-preview">Preview the manifest</button>' : ''}${det && det.suggested_economy ? `<span class="muted">${EX.economy === det.suggested_economy ? 'suggested by the text' : `the text points to ${esc(econName(det.suggested_economy))}`}</span>` : ''}</label>`;
+  note.innerHTML = `
+    <div class="target"><span class="setup-label">Writes to</span> <code>${target}</code></div>
+    <div class="stack">
+      <label class="stack-row"><span class="setup-label">Output name</span> <input type="text" id="ex-out" size="22" value="${esc(outName)}" ${ok ? '' : 'disabled'}></label>
+      ${econRow}
+      <label class="stack-row"><span class="setup-label">OCR pack</span> <select id="ex-pack"><option value="fast" ${EX.pack === 'fast' ? 'selected' : ''}>Fast: the measured choice</option><option value="best" ${EX.pack === 'best' ? 'selected' : ''}>Best: slower, for hard scans</option></select></label>
+      <label class="stack-row"><span class="setup-label">OCR workers</span> <input type="text" id="ex-workers" size="3" value="${EX.workers}"></label>
+      <details class="notes-box" ${EX.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
+        <p>* <b>Output name</b> names the folder under ${esc(root)}${BS}extract. Running into an existing folder reuses its OCR cache and frozen text; Clear OCR cache below forces a fresh OCR.</p>
+        <p>* <b>OCR pack</b>: Fast is the measured choice from the stage’s own tests; Best trades time for difficult scans. <b>Workers</b> is how many pages are read at once.</p>
+        ${hand ? `<p>* <b>Economy</b> names every document id and fixes the language${needEcon ? '. This folder does not name one, so the text was read to suggest it; you confirm' : ', from the folder name'}. Preview the manifest to see the ids and kinds before the run.</p>` : ''}
+        ${ok && d.recoverable ? `<p>* ${d.recoverable} document(s) missing from this folder are restored from committed copies by hash.</p>` : ''}
+        <p>* Interpreter: <code>${esc(EX.python || 'python')}</code>.</p>
+      </details>
+      <div class="stack-row full"><b>Press Check first; Start unlocks when no check fails.</b></div>
+      <div class="stack-row full"><button class="btn wide" id="ex-check" ${ok && EX.stagePresent !== false ? '' : 'disabled'}>${EX.checking ? 'Checking…' : 'Check'}</button></div>
+      ${EX.checks ? `<div class="stack-row full"><ul class="checks">${EX.checks.map((c) => `<li><span class="chip ${c.level === 'ok' ? 'ok' : c.level === 'warn' ? 'warn' : 'bad'}">${esc(c.level)}</span> ${esc(c.text)}</li>`).join('')}</ul></div>` : ''}
+      <div class="stack-row full"><button class="btn primary wide" id="extract-start" ${canStart ? '' : 'disabled'}>Start</button></div>
+    </div>`;
+  if (EX.stagePresent === false) note.insertAdjacentHTML('afterbegin', '<p class="note">The extraction stage is not in this repository.</p>');
+  const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { EX.runNotesOpen = nb.open; });
+  $('#ex-out').onchange = (e) => { EX.outName = e.target.value.trim(); EX.checks = null; renderExtractRun(); renderExtractCmd(); };
+  $('#ex-pack').onchange = (e) => { EX.pack = e.target.value; EX.checks = null; renderExtractRun(); renderExtractCmd(); };
+  $('#ex-workers').onchange = (e) => { EX.workers = parseInt(e.target.value, 10) || 16; EX.checks = null; renderExtractRun(); renderExtractCmd(); };
+  const econ = $('#ex-econ'); if (econ) econ.onchange = (e) => { EX.economy = e.target.value; EX.checks = null; renderExtractRun(); renderExtractCmd(); renderExtractDescribe(); };
+  const pv = $('#ex-preview'); if (pv) pv.addEventListener('click', previewManifest);
+  $('#ex-check').onclick = async () => {
+    EX.checking = true; renderExtractRun();
+    try { const j = await api('/api/extract/precheck', { method: 'POST', body: JSON.stringify(extractRequest()) }); EX.checks = j.checks; }
+    catch (e) { EX.checks = [{ level: 'fail', text: e.message }]; }
+    EX.checking = false; renderExtractRun();
+  };
+  $('#extract-start').onclick = startExtract;
+}
+
+async function previewManifest() {
+  try {
+    const d = EX.desc;
+    const economy = d.per_subfolder ? '' : (d.economy || EX.economy || '');
+    const r = await api('/api/extract/manifest/preview', { method: 'POST', body: JSON.stringify({ path: d.path, economy }) });
+    const host = $('#ex-manifest-preview') || $('#extract-describe');
+    host.innerHTML = `<details open class="doclist"><summary>Manifest the interface will write <span class="muted">(${r.count} rows)</span></summary><div class="table-wrap short"><table class="rows"><thead><tr><th>doc_id</th><th>economy</th><th>type</th><th>scanned?</th><th>pages</th><th>bytes</th><th>law name guess</th><th>file</th></tr></thead><tbody>
+      ${r.rows.map((x) => `<tr><td class="num">${esc(x.doc_id)}</td><td>${esc(x.economy || '')}</td><td>${esc(x.source_type)}</td><td>${esc(x.pdf_is_scanned)}</td><td class="num">${esc(x.page_count)}</td><td class="num">${esc(x.byte_size)}</td><td>${esc(x.law_name_guess)}</td><td class="small">${esc(x.local_path)}</td></tr>`).join('')}</tbody></table></div></details>`;
+  } catch (e) { alert(e.message); }
+}
+
+async function startExtract() {
+  const btn = $('#extract-start'); if (btn) btn.disabled = true;
+  try {
+    const r = await api('/api/extract/start', { method: 'POST', body: JSON.stringify(extractRequest()) });
+    $('#extract-run-panel').innerHTML = '';
+    watchJob(r.job.id, 'extract-run-panel', () => { loadExtractOutputs(); EX.checks = null; renderExtractRun(); if (typeof loadMapHandoffs === 'function') loadMapHandoffs(); });
+    loadHealth();
+  } catch (e) { alert(e.message); EX.checks = null; renderExtractRun(); }
+}
+
+/* ---------- Mapping · Set up + Start ---------- */
+const MP = { loaded: false, handoffs: [], handoff: null, economies: new Set(), selectMode: 'caps', dense: 'auto', rebuild: false, gloss: true, limit: '', checks: null, stagePresent: true, python: '' };
+
+async function loadMapHandoffs() {
+  MP.loaded = true;
+  try { const j = await api('/api/map/handoffs'); MP.handoffs = j.handoffs; MP.stagePresent = j.stage_present; MP.python = j.python; MP.names = j.economy_names || {}; }
+  catch (e) { $('#map-input').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  if (!MP.handoff || !MP.handoffs.find((h) => h.id === MP.handoff)) { MP.handoff = MP.handoffs[0] ? MP.handoffs[0].id : null; MP.economies = new Set(); }
+  const h = MP.handoffs.find((x) => x.id === MP.handoff);
+  if (h && !MP.economies.size) Object.keys(h.economies).forEach((c) => MP.economies.add(c));
+  MP.checks = null;
+  renderMapInput();
+}
+
+function renderMapInput() {
+  const h = MP.handoffs.find((x) => x.id === MP.handoff);
+  const el = $('#map-input');
+  if (!h) {
+    el.innerHTML = '<p class="lead">No extraction output found yet. Run Extraction first (the demo takes about a minute), or point HANDOFF2_DIR at one.</p>';
+    renderMapRun();
+    return;
+  }
+  const name = (c) => (MP.names && MP.names[c]) || c;
+  el.innerHTML = `
+    <div class="setup-row"><div class="setup-label">Input</div>
+      <div><select id="mp-handoff" class="wide-select">${MP.handoffs.map((x) => `<option value="${esc(x.id)}" ${x.id === MP.handoff ? 'selected' : ''}>${esc(x.id)}: ${x.documents} documents, ${x.provisions} provisions, ${Object.keys(x.economies).join(', ')} (${esc(x.kind)})</option>`).join('')}</select></div>
+    </div>
+    <div class="setup-row"><div class="setup-label">Economies</div>
+      <div class="row">${Object.entries(h.economies).map(([c, k]) => `<label class="radio big ${MP.economies.has(c) ? 'on' : ''}"><input type="checkbox" value="${c}" ${MP.economies.has(c) ? 'checked' : ''}> <span class="name">${esc(name(c))}</span> <span class="sub">${k} law${k === 1 ? '' : 's'}, ${esc(h.languages[c] || '?')}</span></label>`).join('')}</div>
+    </div>`;
+  $('#mp-handoff').onchange = (e) => { MP.handoff = e.target.value; MP.economies = new Set(); const hh = MP.handoffs.find((x) => x.id === MP.handoff); if (hh) Object.keys(hh.economies).forEach((c) => MP.economies.add(c)); MP.checks = null; renderMapInput(); };
+  el.querySelectorAll('input[type=checkbox][value]').forEach((inp) => inp.addEventListener('change', () => { if (inp.checked) MP.economies.add(inp.value); else MP.economies.delete(inp.value); MP.checks = null; renderMapInput(); }));
+  renderMapRun();
+}
+
+function chosenIndicators() {
+  return [...document.querySelectorAll('#map-setup input[type=checkbox]:checked')].map((i) => i.value);
+}
+
+function mapRequest() {
+  return { handoff: MP.handoff, economies: [...MP.economies], indicators: chosenIndicators(), engine: S.health && S.health.engine ? S.health.engine.selected : null,
+    select_mode: MP.selectMode, dense: MP.dense, rebuild_index: MP.rebuild, gloss: MP.gloss, limit: MP.limit ? parseInt(MP.limit, 10) : null };
+}
+
+async function runMapCheck() {
+  MP.checking = true; renderMapRun();
+  try { const j = await api('/api/map/precheck', { method: 'POST', body: JSON.stringify(mapRequest()) }); MP.checks = j.checks; }
+  catch (e) { MP.checks = [{ level: 'fail', check: 'request', text: e.message }]; }
+  MP.checking = false; renderMapRun();
+}
+
+function renderMapChecks() {
+  const chip = { ok: 'chip ok', warn: 'chip warn', fail: 'chip bad' };
+  return MP.checks ? `<ul class="checks">${MP.checks.map((c) => `<li><span class="${chip[c.level] || 'chip'}">${esc(c.level)}</span> ${esc(c.text)}</li>`).join('')}</ul>` : '';
+}
+
+function renderMapRun() {
+  const note = $('#map-run-note');
+  if (!note) return;
+  const h = MP.handoffs.find((x) => x.id === MP.handoff);
+  const eng = S.health && S.health.engine ? S.health.engine : null;
+  const list = eng ? (Array.isArray(eng.engines) ? eng.engines : Array.isArray(eng.list) ? eng.list : []) : [];
+  const sel = eng ? list.find((e) => e.id === eng.selected) : null;
+  const engineText = sel ? `${esc(sel.id)} · ${esc(sel.label)}` : (eng && eng.selected ? esc(eng.selected) : '?');
+  const rootSetting = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_RUNS_ROOT');
+  const root = rootSetting ? rootSetting.value : 'outputs';
+  const BS = root.includes('/') ? '/' : String.fromCharCode(92);
+  const fails = MP.checks ? MP.checks.filter((c) => c.level === 'fail') : null;
+  const canStart = !!(MP.stagePresent && h && MP.checks && fails.length === 0);
+  const idx = h ? h.index : null;
+  const idxState = idx ? [idx.corpus ? 'corpus ready' : 'no corpus', idx.bm25 ? 'keyword index ready' : 'no keyword index', idx.dense ? (idx.dense_is_stub ? 'meaning index stubbed' : 'meaning index ready') : 'no meaning index'].join(', ') : '';
+  note.innerHTML = `
+    <div class="targets">
+      <div class="target"><span class="setup-label">Writes to</span> <code>${esc(root)}${BS}map${BS}${stamp()}_${eng && eng.selected ? esc(eng.selected) : 'A'}${BS}out</code> <span class="muted">(a new folder, created at Start)</span></div>
+      <div class="target"><span class="setup-label">Engine</span> <code>${engineText}</code> <span class="muted">(chosen in the banner above)</span></div>
+      ${idx ? `<div class="target"><span class="setup-label">Index</span> <code>${esc(idx.id)}</code> <span class="muted">${esc(idxState)}</span> ${idx.corpus ? `<button class="btn small" data-clear="${esc(idx.dir)}" data-what="the corpus index">Clear index</button>` : ''}</div>` : ''}
+    </div>
+    <div class="stack">
+      <label class="stack-row"><span class="setup-label">Candidates</span> <select id="mp-mode"><option value="caps" ${MP.selectMode === 'caps' ? 'selected' : ''}>Round 1 caps: works with the keyword index alone</option><option value="scores" ${MP.selectMode === 'scores' ? 'selected' : ''}>Score thresholds: needs the meaning index</option></select></label>
+      <label class="stack-row"><span class="setup-label">Meaning index</span> <select id="mp-dense"><option value="auto" ${MP.dense === 'auto' ? 'selected' : ''}>Auto: reuse one if present, else keyword only</option><option value="real" ${MP.dense === 'real' ? 'selected' : ''}>Build with BGE-M3 (needs torch)</option><option value="stub" ${MP.dense === 'stub' ? 'selected' : ''}>Skip: keyword only</option></select></label>
+      <label class="stack-row"><span class="setup-label">Rebuild index</span> <input type="checkbox" id="mp-rebuild" ${MP.rebuild ? 'checked' : ''}> <span>build the index again for this input</span></label>
+      <label class="stack-row"><span class="setup-label">Glosses</span> <input type="checkbox" id="mp-gloss" ${MP.gloss ? 'checked' : ''}> <span>English translations for the review screen</span></label>
+      <label class="stack-row"><span class="setup-label">Demo cap</span> <input type="text" id="mp-limit" size="5" value="${esc(MP.limit)}" placeholder="none"> <span>at most this many provisions per economy, for a quick run</span></label>
+      <details class="notes-box" ${MP.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
+        <p>* <b>Candidates</b>: Round 1 caps picks provisions by keyword rank and works with the keyword index alone. Score thresholds need the meaning index; the Chinese, Lao and Timor-Leste corpora find no candidates without it.</p>
+        <p>* <b>Meaning index</b> is built once per input with BGE-M3, which needs torch; Auto reuses it when present. <b>Rebuild index</b> deletes it and builds it again.</p>
+        <p>* <b>Glosses</b> are machine English for review only and never enter the export. <b>Demo cap</b> limits the pairs screened and the provisions mapped per economy.</p>
+        <p>* Every run writes a new folder. The engine, the cost and each substage are recorded in its run_manifest.json. Interpreter: <code>${esc(MP.python || 'python')}</code>.</p>
+      </details>
+      <div class="stack-row full"><b>Press Check first; Start unlocks when no check fails.</b></div>
+      <div class="stack-row full"><button class="btn wide" id="mp-check" ${h && MP.stagePresent ? '' : 'disabled'}>${MP.checking ? 'Checking…' : 'Check'}</button></div>
+      ${MP.checks ? `<div class="stack-row full">${renderMapChecks()}</div>` : ''}
+      <div class="stack-row full"><button class="btn primary wide" id="map-start" ${canStart ? '' : 'disabled'}>Start</button></div>
+    </div>`;
+  if (!MP.stagePresent) note.insertAdjacentHTML('afterbegin', '<p class="note">The mapping stage is not in this repository.</p>');
+  const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { MP.runNotesOpen = nb.open; });
+  $('#mp-mode').onchange = (e) => { MP.selectMode = e.target.value; MP.checks = null; renderMapRun(); };
+  $('#mp-dense').onchange = (e) => { MP.dense = e.target.value; MP.checks = null; renderMapRun(); };
+  $('#mp-rebuild').onchange = (e) => { MP.rebuild = e.target.checked; MP.checks = null; renderMapRun(); };
+  $('#mp-gloss').onchange = (e) => { MP.gloss = e.target.checked; };
+  $('#mp-limit').onchange = (e) => { MP.limit = e.target.value.trim(); MP.checks = null; renderMapRun(); };
+  $('#mp-check').onclick = runMapCheck;
+  $('#map-start').onclick = startMap;
+  bindClear('#map-run-note', () => { MP.checks = null; loadMapHandoffs(); });
+}
+
+async function startMap() {
+  $('#map-start').disabled = true;
+  try {
+    const r = await api('/api/map/start', { method: 'POST', body: JSON.stringify(mapRequest()) });
+    $('#map-run-panel').innerHTML = '';
+    const outDir = r.job.out_dir || '';
+    watchJob(r.job.id, 'map-run-panel', async (j) => {
+      await loadRuns();
+      const name = outDir.replace(/\\/g, '/').split('/').pop();
+      const hit = S.runs.find((x) => x.id.endsWith('/' + name));
+      if (hit) { S.run = hit.id; S.sel = null; $('#map-detail').innerHTML = ''; renderRunRow(); loadRows(); }
+      MP.checks = null; loadMapHandoffs();
+    });
+    loadHealth();
+  } catch (e) { alert(e.message); renderMapRun(); }
+}
+
+/* ---------- Review and export ---------- */
+const RV = { reasons: ['wrong indicator', 'quote not in the source', 'citation wrong', 'provision not in force', 'out of scope', 'other'], reviewer: '' };
+
+const decisionChip = (d) => !d ? '' : d.verdict === 'accept' ? '<span class="chip ok">accepted</span>' : d.verdict === 'reject' ? `<span class="chip bad" title="${esc(d.reason)}">rejected</span>` : `<span class="chip warn" title="${esc(Object.keys(d.corrections || {}).join(', '))}">corrected</span>`;
+
+function reviewControls(d) {
+  if (d._read_only) return '<div class="row" style="margin-top:10px"><span class="muted small">The filed submission is frozen: read-only. Review applies to run output.</span></div>';
+  const dec = d._decision;
+  const hist = (d._decision_history || []).length;
+  return `<div class="review" style="margin-top:10px">
+    <div class="row">
+      <span class="muted small">Review as</span> <input type="text" id="rv-name" size="14" value="${esc(RV.reviewer || (S.health && S.health.reviewer) || '')}" placeholder="your name">
+      <button class="btn" id="rv-accept">Accept</button>
+      <button class="btn" id="rv-reject">Reject…</button>
+      <button class="btn" id="rv-correct">Correct…</button>
+      ${dec ? `${decisionChip(dec)} <span class="muted small">by ${esc(dec.reviewer)} at ${esc(dec.decided_at)}${dec.reason ? `: ${esc(dec.reason)}` : ''}${hist > 1 ? `, ${hist} decisions on this row` : ''}</span>` : '<span class="muted small">no decision yet</span>'}
+    </div>
+    <div id="rv-form"></div>
+  </div>`;
+}
+
+function bindReview(d) {
+  const name = () => { const v = ($('#rv-name') || {}).value || ''; RV.reviewer = v.trim(); return RV.reviewer; };
+  const post = async (body) => {
+    try {
+      await api('/api/map/decisions', { method: 'POST', body: JSON.stringify({ run: S.run, i: d._i, reviewer: name(), ...body }) });
+      await loadRows(); openRow(d._i); loadExportSummary();
+    } catch (e) { alert(e.message); }
+  };
+  const acc = $('#rv-accept'); if (acc) acc.onclick = () => post({ verdict: 'accept' });
+  const rej = $('#rv-reject'); if (rej) rej.onclick = () => {
+    $('#rv-form').innerHTML = `<div class="row" style="margin-top:8px"><label>Reason <select id="rv-reason">${RV.reasons.map((r) => `<option>${esc(r)}</option>`).join('')}</select></label> <input type="text" id="rv-reason-text" size="40" placeholder="detail (optional, required for “other”)"> <button class="btn primary" id="rv-reject-go">Reject this row</button> <button class="btn" id="rv-cancel">Cancel</button></div>`;
+    $('#rv-reject-go').onclick = () => { const r = $('#rv-reason').value, t = $('#rv-reason-text').value.trim(); if (r === 'other' && !t) { alert('Say why.'); return; } post({ verdict: 'reject', reason: t ? `${r}: ${t}` : r }); };
+    $('#rv-cancel').onclick = () => { $('#rv-form').innerHTML = ''; };
+  };
+  const cor = $('#rv-correct'); if (cor) cor.onclick = () => {
+    const fields = ['Indicator ID', 'Article / Section', 'Verbatim Snippet', 'Discovery Tag', 'Notes'];
+    $('#rv-form').innerHTML = `<div class="correct" style="margin-top:8px">
+      <p class="small muted">Only these five fields can be corrected; every other column stays as the pipeline wrote it. A snippet must remain a passage of the source text shown above, never the translation.</p>
+      ${fields.map((f) => f === 'Discovery Tag'
+        ? `<label class="cf">${esc(f)} <select data-col="${esc(f)}"><option value="NEW" ${d[f] === 'NEW' ? 'selected' : ''}>NEW</option><option value="KNOWN" ${d[f] === 'KNOWN' ? 'selected' : ''}>KNOWN</option><option value="" ${d[f] === '' ? 'selected' : ''}>blank (no provision)</option></select></label>`
+        : f === 'Verbatim Snippet' || f === 'Notes'
+          ? `<label class="cf">${esc(f)}<textarea data-col="${esc(f)}" rows="3">${esc(d[f])}</textarea></label>`
+          : `<label class="cf">${esc(f)} <input type="text" data-col="${esc(f)}" value="${esc(d[f])}" size="${f === 'Indicator ID' ? 8 : 24}"></label>`).join('')}
+      <div class="row"><button class="btn primary" id="rv-correct-go">Save the correction</button> <button class="btn" id="rv-cancel">Cancel</button></div></div>`;
+    $('#rv-correct-go').onclick = () => {
+      const corrections = {};
+      $('#rv-form').querySelectorAll('[data-col]').forEach((el) => { if (el.value !== d[el.dataset.col]) corrections[el.dataset.col] = el.value; });
+      if (!Object.keys(corrections).length) { alert('Nothing changed.'); return; }
+      post({ verdict: 'correct', corrections });
+    };
+    $('#rv-cancel').onclick = () => { $('#rv-form').innerHTML = ''; };
+  };
+}
+
+async function loadExportSummary() {
+  const el = $('#map-export');
+  if (!el || !S.run) return;
+  let j;
+  try { j = await api(`/api/map/export/summary?${new URLSearchParams({ run: S.run, economy: S.filters.economy })}`); } catch (e) { el.innerHTML = ''; return; }
+  const qs = (fmt) => `/api/map/export?${new URLSearchParams({ run: S.run, economy: S.filters.economy, fmt })}`;
+  el.innerHTML = `<div class="setup-row"><div class="setup-label">Export</div><div>
+    <div class="row"><a class="btn wide" href="${qs('csv')}">Export CSV</a> <a class="btn wide" href="${qs('xlsx')}">Export xlsx</a> <span class="muted">${esc(S.filters.economy || 'all economies')}: <b>${j.rows_out}</b> of ${j.rows_in} rows</span></div>
+    <details class="notes-box" ${RV.exportNotesOpen ? 'open' : ''}><summary>Note:</summary>
+      <p>* ${j.frozen ? 'Filed rows are exported as they are.' : `<b>${j.decisions}</b> decision(s) so far: ${j.accepted} accepted, ${j.rejected} rejected, ${j.corrected} corrected. Rejected rows are removed and corrections applied.`}</p>
+      <p>* The file carries the host’s 14 columns; column O is left to the host’s formula.</p>
+      <p>* review_log.csv is written beside the file in <code>${esc(j.export_dir)}</code>.</p>
+    </details></div></div>`;
+  const nb = el.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { RV.exportNotesOpen = nb.open; });
+}
+
+/* ---------- Scraping · Start ---------- */
+SC.mode = SC.mode || 'fresh'; SC.folder = SC.folder || ''; SC.frontier = SC.frontier || 'links'; SC.dryRun = SC.dryRun || false; SC.checks = null; SC.folders = SC.folders || [];
+
+function scrapeRequest() {
+  const mode = SC.cnMode === 'collect_cac' || SC.cnMode === 'collect_all' ? 'collect' : (SC.cnMode || 'update');
+  return { economies: [...SC.chosen], scope: SC.scope, forms: SC.forms, dry_run: SC.dryRun, mode: SC.mode, frontier: SC.frontier, folder: SC.mode === 'same' ? SC.folder : null,
+    cn_mode: mode, cn_sources: cnPicked().map((p) => p.src) };
+}
+
+function renderScrapeRun() {
+  const note = $('#scrape-run-note');
+  if (!note) return;
+  const runs = SC.folders.filter((f) => f.kind === 'interface run');
+  const fails = SC.checks ? SC.checks.filter((c) => c.level === 'fail') : null;
+  const rootSetting = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_RUNS_ROOT');
+  const root = rootSetting ? rootSetting.value : 'outputs';
+  const BS = root.includes('/') ? '/' : String.fromCharCode(92);  // the machine's own separator; the backslash is kept out of the template literal
+  const codes = [...SC.chosen];
+  const engineCodes = codes.filter((c) => c !== 'CN');
+  const china = codes.includes('CN');
+  const chosenRun = runs.find((f) => f.id === SC.folder);
+  const engineTarget = !engineCodes.length ? '' : SC.mode === 'same'
+    ? (chosenRun ? `${esc(chosenRun.path)} <span class="muted">(${chosenRun.rows} documents already there; only new laws are fetched)</span>` : '<span class="muted">choose a crawl folder</span>')
+    : `${esc(root)}${BS}scrape${BS}${esc(engineCodes.join('-'))}_${stamp()} <span class="muted">(a new folder, created at Start)</span>`;
+  const chinaTarget = china ? `${esc(root)}${BS}scrape${BS}CN_${stamp()} <span class="muted">(China, a new folder for the China tools)</span>` : '';
+  const target = [engineTarget, chinaTarget].filter(Boolean).join('<br>') || '<span class="muted">pick at least one economy</span>';
+  const canStart = SC.stagePresent !== false && SC.checks && fails.length === 0;
+  const mode = SC.cnMode === 'collect_cac' || SC.cnMode === 'collect_all' ? 'collect' : (SC.cnMode || 'update');
+  const picked = cnPicked();
+  const pickedNames = picked.map((p) => p.name.split(' ')[0]).join(', ');
+  note.innerHTML = `
+    <div class="target"><span class="setup-label">Writes to</span> <code>${target}</code></div>
+    <div class="stack">
+      ${engineCodes.length ? `<label class="stack-row"><span class="setup-label">Run</span> <select id="sc-mode"><option value="fresh" ${SC.mode === 'fresh' ? 'selected' : ''}>New crawl</option><option value="same" ${SC.mode === 'same' ? 'selected' : ''}>Update an existing crawl</option></select>
+        ${SC.mode === 'same' ? `<select id="sc-folder">${runs.length ? runs.map((f) => `<option value="${esc(f.id)}" ${SC.folder === f.id ? 'selected' : ''}>${esc(f.id)} (${f.rows} documents)</option>`).join('') : '<option value="">no crawl folder yet</option>'}</select>` : ''}</label>
+      <label class="stack-row"><span class="setup-label">Sources</span> <select id="sc-frontier"><option value="links" ${SC.frontier === 'links' ? 'selected' : ''}>Shipped link list</option><option value="discover" ${SC.frontier === 'discover' ? 'selected' : ''}>Discover on the portal</option></select></label>` : ''}
+      ${china ? `<label class="stack-row"><span class="setup-label">China</span> <select id="sc-cn"><option value="update" ${mode === 'update' ? 'selected' : ''}>Update check: what changed at CAC and gov.cn</option><option value="collect" ${mode === 'collect' ? 'selected' : ''}>Collect the ticked publishers${pickedNames ? `: ${esc(pickedNames)}` : ' (none ticked yet)'}</option></select></label>` : ''}
+      <label class="stack-row"><span class="setup-label">Dry run</span> <input type="checkbox" id="sc-dry" ${SC.dryRun ? 'checked' : ''}> <span>list only, fetch nothing</span></label>
+      <details class="notes-box" ${SC.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
+        <p>* <b>New crawl</b> writes into a new folder. <b>Update an existing crawl</b> reuses a folder and fetches only laws not already retrieved, which is how a second pass over a complete folder fetches zero.</p>
+        <p>* <b>Shipped link list</b>: the document addresses are already known, so fetching starts at once. <b>Discover on the portal</b>: the crawler reads the portal's listings first to find the documents; slow, and silent for up to 20 minutes.</p>
+        ${china ? `<p>* <b>China</b> runs through the China tools, not the crawler, as a job of its own. <b>Update check</b> compares CAC and gov.cn with the shipped collection and fetches what is new. <b>Collect</b> takes the whole index of each publisher ticked on the China card, one pass each: CAC alone takes about 12 minutes, several publishers an hour or more. The documents then appear in 2 Extraction → Input with the economy fixed to China. The national database, MIIT and Customs stay by hand.</p>` : ''}
+        <p>* <b>Dry run</b> lists what would be fetched and fetches nothing; no manifest is written.</p>
+      </details>
+      <div class="stack-row full"><span class="setup-label">Press Check first; Start unlocks when no check fails.</span></div>
+      <div class="stack-row full"><button class="btn wide" id="sc-check">Check</button></div>
+      ${SC.checks ? `<div class="stack-row full"><ul class="checks">${SC.checks.map((c) => `<li><span class="chip ${c.level === 'ok' ? 'ok' : c.level === 'warn' ? 'warn' : 'bad'}">${esc(c.level)}</span> ${esc(c.text)}</li>`).join('')}</ul></div>` : ''}
+      <div class="stack-row full"><button class="btn primary wide" id="scrape-start" ${canStart ? '' : 'disabled'}>Start</button></div>
+    </div>`;
+  const rn = note.querySelector('details.notes-box'); if (rn) rn.addEventListener('toggle', () => { SC.runNotesOpen = rn.open; });
+  const sm = $('#sc-mode'); if (sm) sm.onchange = (e) => { SC.mode = e.target.value; if (SC.mode === 'same' && !SC.folder && runs[0]) SC.folder = runs[0].id; SC.checks = null; renderScrapeRun(); };
+  const fs = $('#sc-folder'); if (fs) fs.onchange = (e) => { SC.folder = e.target.value; SC.checks = null; renderScrapeRun(); };
+  const sf = $('#sc-frontier'); if (sf) sf.onchange = (e) => { SC.frontier = e.target.value; SC.checks = null; renderScrapeRun(); };
+  const cn = $('#sc-cn'); if (cn) cn.onchange = (e) => { SC.cnMode = e.target.value; SC.checks = null; renderScrapeSetup(); };
+  $('#sc-dry').onchange = (e) => { SC.dryRun = e.target.checked; SC.checks = null; renderScrapeSetup(); };
+  $('#sc-check').onclick = async () => {
+    try { const j = await api('/api/scrape/precheck', { method: 'POST', body: JSON.stringify(scrapeRequest()) }); SC.checks = j.checks; }
+    catch (e) { SC.checks = [{ level: 'fail', text: e.message }]; }
+    renderScrapeRun();
+  };
+  $('#scrape-start').onclick = startScrape;
+}
+
+async function startScrape() {
+  $('#scrape-start').disabled = true;
+  try {
+    const r = await api('/api/scrape/start', { method: 'POST', body: JSON.stringify(scrapeRequest()) });
+    $('#scrape-run-panel').innerHTML = '';
+    const ids = (r.jobs || [r.job]).map((j) => j.id);
+    const finish = () => { SC.checks = null; loadScrapeOutputs(); EX.loaded = false; renderScrapeRun(); };
+    const next = (i) => { if (i >= ids.length) { finish(); return; } watchJob(ids[i], 'scrape-run-panel', () => { loadScrapeOutputs(); next(i + 1); }); };
+    next(0);
+    loadHealth();
+  } catch (e) { alert(e.message); SC.checks = null; renderScrapeRun(); }
+}
+
+/* ---------- Scraping › China ---------- */
+const CN = { loaded: false, data: null };
+
+async function loadChina() {
+  CN.loaded = true;
+  try { CN.data = await api('/api/scrape/china'); } catch (e) { $('#cn-body').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  renderChina();
+}
+
+function cnCaution(withLink) {
+  return `<div class="callout cn-caution"><b>A personal note from the developer on China.</b>
+    <ul>
+      <li>Its national database forbids automated tools in its robots.txt, and several ministries refuse an automated client.</li>
+      <li><mark><b>One reason for the caution is my own personal concern:</b> as the developer I carry the risk of crawling where a host says no, so I treat those signals as limits, not obstacles to route around.</mark></li>
+      <li>Collecting the main files by hand is quick: the national database comes as eleven archives, 945 documents, about five minutes.</li>
+      <li>Automation can follow wherever a host lifts its ban or grants access; the China tools already read the publishers that permit us.${withLink ? ' See <a href="#" class="goto-cn">Scraping › China</a>.' : ''}</li>
+    </ul></div>`;
+}
+
+function renderChina() {
+  const d = CN.data;
+  if (!d.present) { $('#cn-body').innerHTML = '<p class="note">The crawler stage’s China material is not in this repository.</p>'; return; }
+  const corpus = d.folders.find((f) => f.name.startsWith('CN_sources')) || {};
+  const src = (name) => (corpus.sources || []).find((x) => x.source === name) || {};
+  const cac = src('cac'), miit = src('miit'), npc = src('npc-database'), govcn = src('govcn'), customs = src('customs');
+  const ws = d.folders.find((f) => f.name.startsWith('CN_ws')) || {};
+  const docLink = (p, label) => `<a href="#" data-doc="${esc(p)}">${esc(label || p.split('/').pop())}</a>`;
+  const inboxLink = '<a href="#" class="cn-inbox"><code>inbox/CN</code></a>';
+
+  $('#cn-body').innerHTML = `
+    <div class="block">
+      <h2>Why China is collected by hand</h2>
+      <ul class="plain-list big">
+        <li><b>Forbids automated tools:</b> the national database, the central bank. <b>By hand.</b></li>
+        <li><b>Refuses our client</b> (403, 412): MIIT, NDRC, Customs. <b>By hand.</b></li>
+        <li><b>Permits us:</b> CAC, gov.cn. <b>Crawled</b>, one request every 6 to 12 seconds.</li>
+      </ul>
+    </div>
+
+    ${cnCaution(false)}
+
+    <div class="block">
+      <h2>Layer 1: the national database</h2>
+      <div class="callout"><b>Quick to get:</b> ${esc(npc.index_rows || 945)} documents in eleven archives, about five minutes by hand.</div>
+      <ul class="plain-list big">
+        <li>Consolidated and current; every file name carries its version date.</li>
+        <li>Alone it answers 18 of 61 indicators and all of pillar 7.</li>
+        <li><b>Check:</b> download a fresh export into ${inboxLink}, run the offline diff, extract and map the changes.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h2>Layer 2: what the laws delegate to</h2>
+      <ul class="plain-list big">
+        <li><b>Why:</b> a law states the rule; the number sits in a catalogue published elsewhere. Five of five test documents confirmed it.</li>
+        <li><b>CAC:</b> the operative rules of pillars 6 and 7. Permits crawling, so its rules index was taken whole.</li>
+        <li><b>MIIT:</b> the telecom catalogue and licensing. <b>Customs:</b> the e-commerce thresholds. Both by hand.</li>
+        <li>Twelve more publishers set aside, not deleted; 31 indicators still served.</li>
+        <li><b>Check:</b> the update tool re-reads CAC and gov.cn (run it from 1 Scraping with China ticked); the worklist tool lists each MIIT and Customs page to open. Save the attachments into ${inboxLink}.</li>
+      </ul>
+      <div class="table-wrap short"><table class="rows"><thead><tr><th>Source</th><th>Mode</th><th>Held</th><th>What</th></tr></thead><tbody>
+        <tr><td>CAC 国家互联网信息办公室</td><td><span class="chip ok">crawled</span></td><td class="num">${cac.provenance_rows || ws.manifest_rows || ''}</td><td>Whole rules index; 42 of its 68 tier-2 rules were missing from the hand list.</td></tr>
+        <tr><td>MIIT 工业和信息化部</td><td><span class="chip warn">by hand</span></td><td class="num">${miit.provenance_rows || ''}</td><td>Service catalogue, licensing, 2024 equity pilot, domain rules.</td></tr>
+        <tr><td>Customs 海关总署</td><td><span class="chip warn">by hand</span></td><td class="num">${customs.provenance_rows || 0}</td><td>E-commerce supervision modes and lists.</td></tr>
+        <tr><td>gov.cn 中国政府网</td><td><span class="chip ok">crawled</span></td><td class="num">${govcn.provenance_rows || 6}</td><td>Permitted copies, including the third cross-border transfer route.</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="block">
+      <h2>Sources to check by hand <span class="muted small">(${d.watchlist_total})</span></h2>
+      ${d.watchlist.map((g) => `<details class="wl"><summary>${esc(g.label)} <span class="muted small">(${g.rows.length})</span></summary>
+        <div class="table-wrap short"><table class="rows"><thead><tr><th>Source</th><th>Why not automatic</th><th>What to look for</th><th>Indicators</th></tr></thead><tbody>
+        ${g.rows.map((w) => `<tr><td><a href="${esc(w.url)}" target="_blank" rel="noopener">${esc(w.name)}</a></td><td class="small">${esc(String(w.why_not_automatic || '').replace(/\\*\\*/g, ''))}</td><td class="small">${esc(w.what_to_look_for)}</td><td class="small">${esc(w.indicators)}</td></tr>`).join('')}
+        </tbody></table></div></details>`).join('')}
+    </div>
+
+    <div class="block">
+      <h2>What ships</h2>
+      <div class="table-wrap short"><table class="rows"><thead><tr><th>Folder</th><th>Holds</th><th>Notes</th></tr></thead><tbody>
+        ${d.folders.map((f) => `<tr><td class="small">${esc(f.name)}</td><td class="small">${f.manifest_rows ? `${f.manifest_rows} manifest rows` : ''}${f.provenance_rows ? `${f.manifest_rows ? ', ' : ''}${f.provenance_rows} provenance rows` : ''}${(f.sources || []).length ? (f.manifest_rows || f.provenance_rows ? '; ' : '') + f.sources.map((x) => `${x.source} ${x.provenance_rows || x.index_rows || 0}`).join(', ') : ''}</td><td class="small">${(f.notes || []).map((n) => docLink(n)).join(' · ')}</td></tr>`).join('')}
+      </tbody></table></div>
+      <p class="small muted">Manifests, provenance sheets and notes ship; the documents’ bytes do not. Click a note to read it here.</p>
+      <pre class="doc" id="cn-doc-view" hidden></pre>
+    </div>`;
+  $('#cn-body').querySelectorAll('a[data-doc]').forEach((a) => a.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try { const t = await api(`/api/doc?path=${encodeURIComponent(a.dataset.doc)}`); const pre = $('#cn-doc-view'); pre.hidden = false; pre.textContent = t.text; pre.scrollIntoView({ behavior: 'smooth' }); }
+    catch (err) { alert(err.message); }
+  }));
+  $('#cn-body').querySelectorAll('a.cn-inbox').forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (typeof IB !== 'undefined') { IB.economy = 'CN'; IB.log = []; }
+    showTab('scrape');
+    const block = $('#inbox-block');
+    if (block) { block.open = true; try { localStorage.setItem('rdtii.inbox.open', '1'); } catch (err) { /* private window */ } }
+    if (typeof loadInboxFiles === 'function' && IB.data) { loadInboxFiles().then(renderInbox); }
+    setTimeout(() => { const b = $('#inbox-block'); if (b) b.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 250);
+  }));
+}
+
+/* ---------- the full link list per economy, loaded on demand ---------- */
+const DL = { cache: {}, scope: {}, q: {} };
+
+async function loadDocList(code, src) {
+  src = src || 'documents';
+  const scope = DL.scope[`${code}:${src}`] || 'all';
+  const key = `${code}:${src}:${scope}`;
+  const host = document.querySelector(`details.doclist[data-code="${code}"][data-src="${src}"] .doclist-body`);
+  if (!host) return;
+  if (!DL.cache[key]) {
+    host.innerHTML = '<p class="muted small">Loading…</p>';
+    try { DL.cache[key] = await api(`/api/scrape/${src}?economy=${code}&scope=${scope}`); }
+    catch (e) { host.innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  }
+  const d = DL.cache[key];
+  const qkey = `${code}:${src}`;
+  const q = (DL.q[qkey] || '').toLowerCase();
+  const rows = q ? d.documents.filter((r) => `${r.law_name} ${r.law_number} ${r.kind} ${r.indicators} ${r.status}`.toLowerCase().includes(q)) : d.documents;
+  const shown = rows.slice(0, 600);
+  const scopes = d.scopes || [{ id: 'all', label: 'All' }, { id: 'relevant', label: 'Sample' }];
+  host.innerHTML = `
+    <div class="row doclist-bar">
+      ${scopes.length > 1 ? scopes.map((sc) => `<label class="radio ${scope === sc.id ? 'on' : ''}"><input type="radio" name="dl-scope-${code}-${src}" value="${sc.id}" ${scope === sc.id ? 'checked' : ''}> ${esc(sc.label)} (${d.counts[sc.id] ?? '?'})</label>`).join('') : ''}
+      <input type="search" class="dl-q" placeholder="filter by law, number, kind, status" value="${esc(DL.q[qkey] || '')}">
+      <span class="muted small">${rows.length} of ${d.total}${shown.length < rows.length ? `, first ${shown.length} shown` : ''}</span>
+    </div>
+    <div class="table-wrap doclist-table"><table class="rows"><thead><tr><th>#</th><th>Law</th><th>Number</th><th>Kind</th><th>Status</th><th>Version</th><th>Indicators</th></tr></thead><tbody>
+      ${shown.map((r) => `<tr><td class="num small">${esc(r.order)}</td><td>${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.law_name)}</a>` : esc(r.law_name)}</td><td class="small">${esc(r.law_number)}</td><td class="small">${esc(String(r.kind || '').replace(/_/g, ' '))}</td><td class="small">${esc(r.status)}</td><td class="small">${esc(r.version)}</td><td class="small">${esc(r.indicators)}</td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="foot">${esc(d.file || '')}</div>`;
+  host.querySelectorAll(`input[name="dl-scope-${code}-${src}"]`).forEach((inp) => inp.addEventListener('change', () => { DL.scope[qkey] = inp.value; loadDocList(code, src); }));
+  let t; host.querySelector('.dl-q').oninput = (e) => { clearTimeout(t); t = setTimeout(() => { DL.q[qkey] = e.target.value; loadDocList(code, src); }, 200); };
+}
+
+function bindDocLists() {
+  document.querySelectorAll('details.doclist[data-code]').forEach((det) => {
+    if (det.dataset.bound) return;
+    det.dataset.bound = '1';
+    det.addEventListener('toggle', () => { if (det.open) loadDocList(det.dataset.code, det.dataset.src || 'documents'); });
+  });
+}
+
+/* ---------- open a folder in the file manager of the machine running the server ---------- */
+async function openFolder(path) {
+  try { await api('/api/open', { method: 'POST', body: JSON.stringify({ path }) }); } catch (e) { alert(e.message); }
+}
+function bindOpen(rootSel) {
+  document.querySelectorAll(`${rootSel} [data-open]`).forEach((b) => b.addEventListener('click', () => openFolder(b.dataset.open)));
+}
+
+/* ---------- the run layer: job strip, job panel, Clear ---------- */
+const JOBS = { active: null, watching: {}, timers: {} };
+
+function fmtWhen(t) { return t ? new Date(t * 1000).toLocaleTimeString() : ''; }
+function fmtDur(a, b) { if (!a) return ''; const s = Math.max(0, Math.round((b || Date.now() / 1000) - a)); return s < 60 ? `${s} s` : `${Math.floor(s / 60)} min ${s % 60} s`; }
+
+function renderJobStrip() {
+  const j = S.health?.job;
+  const el = $('#jobstrip');
+  if (!el) return;
+  if (!j || (!j.active && !(j.queued || []).length)) { el.hidden = true; el.innerHTML = ''; fixTop(); return; }
+  el.hidden = false;
+  const a = j.active;
+  el.innerHTML = a
+    ? `<span class="dot warn"></span><b>Running:</b> ${esc(a.title)} <span class="muted">· ${esc(a.step_label)}${a.progress?.total ? ` · ${a.progress.done}/${a.progress.total} ${esc(a.progress.unit || '')}` : ''}</span> <span class="muted small">${esc(a.last)}</span> <button class="btn small" data-cancel="${a.id}">Stop</button>${(j.queued || []).length ? `<span class="chip">${j.queued.length} queued</span>` : ''}`
+    : `<span class="chip">${j.queued.length} job(s) queued</span>`;
+  el.querySelector('[data-cancel]')?.addEventListener('click', () => cancelJob(a.id));
+  fixTop();
+}
+
+async function cancelJob(id) {
+  try { await api(`/api/jobs/${id}/cancel`, { method: 'POST' }); } catch (e) { alert(e.message); }
+  loadHealth();
+}
+
+/* Poll one job into a container until it ends. onDone(job) fires once. */
+function watchJob(jobId, containerId, onDone) {
+  clearInterval(JOBS.timers[containerId]);
+  let since = 0, all = [];
+  const tick = async () => {
+    let j;
+    try { j = await api(`/api/jobs/${jobId}?since=${since}`); } catch (e) { $(`#${containerId}`).innerHTML = `<div class="note">${esc(e.message)}</div>`; clearInterval(JOBS.timers[containerId]); return; }
+    all = all.concat(j.sentences); since = j.n_sentences;
+    renderJobPanel(containerId, j, all);
+    if (!['queued', 'running'].includes(j.status)) { clearInterval(JOBS.timers[containerId]); loadHealth(); if (onDone) onDone(j); }
+  };
+  tick();
+  JOBS.timers[containerId] = setInterval(tick, 1500);
+}
+
+function renderJobPanel(containerId, j, sentences) {
+  const p = j.progress || {};
+  const pct = p.total ? Math.min(100, Math.round(100 * (p.done || 0) / p.total)) : null;
+  const statusChip = { queued: 'chip', running: 'chip warn', done: 'chip ok', failed: 'chip bad', cancelled: 'chip' }[j.status] || 'chip';
+  const steps = (j.steps || []).map((s, i) => `<li class="${i < j.step_index ? 'past' : i === j.step_index ? 'now' : ''}">${esc(s)}</li>`).join('');
+  $(`#${containerId}`).innerHTML = `<div class="job">
+    <div class="row"><span class="${statusChip}">${esc(j.status)}</span> <b>${esc(j.title)}</b>
+      <span class="muted small">started ${fmtWhen(j.started)}${j.started ? `, ${fmtDur(j.started, j.ended)}` : ''}</span>
+      ${['queued', 'running'].includes(j.status) ? `<button class="btn small" data-cancel="${j.id}">Stop</button>` : ''}
+      ${p.cost_usd != null ? `<span class="chip">$${Number(p.cost_usd).toFixed(2)} so far</span>` : ''}</div>
+    ${pct != null ? `<div class="bar"><div style="width:${pct}%"></div></div><div class="muted small">${p.done} of ${p.total} ${esc(p.unit || '')}${p.failed ? `, ${p.failed} failed` : ''}${p.skipped ? `, ${p.skipped} skipped` : ''}</div>` : ''}
+    <ol class="steps">${steps}</ol>
+    <ul class="said">${sentences.slice(-40).map((s) => `<li><span class="muted small">${fmtWhen(s.t)}</span> ${esc(s.text)}</li>`).join('')}</ul>
+    ${j.env_public && Object.keys(j.env_public).length ? `<details><summary class="small">Settings this run received</summary><div class="foot">${Object.entries(j.env_public).map(([k, v]) => `${esc(k)}=${esc(v)}`).join('  ')}</div></details>` : ''}
+    <details><summary class="small">Raw output (last ${(j.raw_tail || []).length} lines)</summary><pre class="doc small">${esc((j.raw_tail || []).join('\n'))}</pre></details>
+  </div>`;
+  $(`#${containerId}`).querySelector('[data-cancel]')?.addEventListener('click', () => cancelJob(j.id));
+}
+
+/* Clear: preview, confirm in the browser, then confirm on the server with the one-minute token. */
+async function clearPath(path, what) {
+  let pv;
+  try { pv = await api('/api/clear/preview', { method: 'POST', body: JSON.stringify({ path }) }); }
+  catch (e) { alert(`Cannot clear: ${e.message}`); return false; }
+  const ok = confirm(`Remove ${what}?\n\n${pv.path}\n${pv.files} files, ${fmtBytes(pv.bytes)}.\n\nThis cannot be undone.`);
+  if (!ok) return false;
+  try { const r = await api('/api/clear/confirm', { method: 'POST', body: JSON.stringify({ token: pv.token }) }); alert(`Removed ${r.files} files (${fmtBytes(r.bytes)}) from ${r.removed}`); return true; }
+  catch (e) { alert(`Not cleared: ${e.message}`); return false; }
+}
+
+/* On page load, show the newest job of each stage in its Run block (finished jobs render once). */
+async function restoreJobPanels() {
+  let j;
+  try { j = await api('/api/jobs'); } catch (e) { return; }
+  const newest = {};
+  (j.jobs || []).forEach((x) => { if (!newest[x.stage]) newest[x.stage] = x; });
+  const panels = { p1: 'scrape-run-panel', p2: 'extract-run-panel', p3: 'map-run-panel', selftest: 'selftest-panel' };
+  Object.entries(panels).forEach(([stage, id]) => { if (newest[stage] && $(`#${id}`)) watchJob(newest[stage].id, id); });
+}
+
+/* Self-test button on the Appendix tab. */
+async function runSelftest() {
+  try { const r = await api('/api/jobs/selftest', { method: 'POST' }); watchJob(r.job.id, 'selftest-panel'); loadHealth(); }
+  catch (e) { alert(e.message); }
+}
+
+/* ---------- boot ---------- */
+(async function boot() {
+  await loadHealth();
+  let last = 'scrape';
+  try { last = localStorage.getItem('rdtii.tab') || 'scrape'; } catch (err) { /* private window */ }
+  showTab(last);
+  loadPicker();
+  loadMapHandoffs();
+  await loadRuns();
+  restoreJobPanels();
+  setInterval(() => { if (S.health?.job?.active) loadHealth(); }, 4000);
+  setInterval(loadHealth, 20000);
+})();

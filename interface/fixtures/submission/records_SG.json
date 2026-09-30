@@ -1,0 +1,248 @@
+{
+  "contract_version": "0.3.0",
+  "economy": "SG",
+  "economy_name": "Singapore",
+  "laws": [
+    {
+      "law_name": "Companies Act 1967",
+      "law_number": "",
+      "source_url": "https://sso.agc.gov.sg/Act/CoA1967?ViewType=Pdf",
+      "provisions": [
+        {
+          "Economy": "Singapore",
+          "Law Name": "Companies Act 1967",
+          "Law Number / Ref": "",
+          "Last Amended": "1 December 2021",
+          "Indicator ID": "6.2",
+          "Article / Section": "s.199(4)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part 6 — FINANCIAL STATEMENTS AND AUDIT, Division 1 — Financial statements, s.199, p.364",
+          "Verbatim Snippet": "there must be sent to and kept at a place in Singapore and be at all times open to inspection by the directors such statements and returns with respect to the business dealt with in the records so kept",
+          "Mapping Rationale": "Requires copy of accounting statements/returns be kept in Singapore even if records kept abroad; sector-specific (corporate accounting records), so category (2) -> 0.5.",
+          "Source URL": "https://sso.agc.gov.sg/Act/CoA1967?ViewType=Pdf",
+          "Confidence": 0.75,
+          "Notes": "matches baseline r1-sg-034",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/sg/companies_act_1967/20260915T1417Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": " referred to in subsection (1) must be kept at the registered office of the company or at such other place as the directors think fit and must at all times be open to inspection by the directors.\n(4) ",
+            "after": "\n(5) The Court may in any particular case order that the accounting and other records of a company be open to inspection by a public accountant acting for a director, but only upon an undertaking in w"
+          },
+          "_record_type": "scored",
+          "_provision_id": "sg-ca1967-001#s.199(4)",
+          "_score_hint": "0.5"
+        },
+        {
+          "Economy": "Singapore",
+          "Law Name": "Companies Act 1967",
+          "Law Number / Ref": "",
+          "Last Amended": "1 December 2021",
+          "Indicator ID": "7.3",
+          "Article / Section": "s.199(2)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part 6 — FINANCIAL STATEMENTS AND AUDIT, Division 1 — Financial statements, s.199, p.363",
+          "Verbatim Snippet": "The company must retain the records referred to in subsection (1) for a period of not less than 5 years from the end of the financial year in which the transactions or operations to which those records relate are completed.",
+          "Mapping Rationale": "Explicit minimum retention period (not less than 5 years) for corporate accounting records satisfies 7.3 minimum-retention branch.",
+          "Source URL": "https://sso.agc.gov.sg/Act/CoA1967?ViewType=Pdf",
+          "Confidence": 0.95,
+          "Notes": "matches baseline r1-sg-043",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/sg/companies_act_1967/20260915T1417Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "d any documents required to be attached thereto to be prepared from time to time, and must cause those records to be kept in such manner as to enable them to be conveniently and properly audited.\n(2) ",
+            "after": "\n(2A) Every public company and every subsidiary company of a public company must devise and maintain a system of internal accounting controls sufficient to provide a reasonable assurance that —\n(a) as"
+          },
+          "_record_type": "scored",
+          "_provision_id": "sg-ca1967-001#s.199(2)",
+          "_score_hint": "1"
+        }
+      ]
+    },
+    {
+      "law_name": "Personal Data Protection Act 2012",
+      "law_number": "Act 26 of 2012",
+      "source_url": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+      "provisions": [
+        {
+          "Economy": "Singapore",
+          "Law Name": "Personal Data Protection Act 2012",
+          "Law Number / Ref": "Act 26 of 2012",
+          "Last Amended": "1 December 2021",
+          "Indicator ID": "6.4",
+          "Article / Section": "s.26(1)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part 6 — CARE OF PERSONAL DATA, s.26, p.33",
+          "Verbatim Snippet": "An organisation must not transfer any personal data to a country or territory outside Singapore except in accordance with requirements prescribed under this Act to ensure that organisations provide a standard of protection to personal data so transferred that is comparable to the protection under this Act.",
+          "Mapping Rationale": "Default-prohibition-with-exception pattern covering personal data horizontally = conditional flow regime scoring 1 regardless of sector.",
+          "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+          "Confidence": 0.97,
+          "Notes": "matches baseline r1-sg-036",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/sg/personal_data_protection_act_2012/20260915T1409Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "was collected is no longer being served by retention of the personal data; and\n(b) retention is no longer necessary for legal or business purposes.\nTransfer of personal data outside Singapore\n26.—(1) ",
+            "after": "\n(2) The Commission may, on the application of any organisation, by written notice exempt the organisation from any requirement prescribed pursuant to subsection (1) in respect of any transfer of pers"
+          },
+          "_record_type": "scored",
+          "_provision_id": "sg-pdpa2012-001#s.26(1)",
+          "_score_hint": "1"
+        },
+        {
+          "Economy": "Singapore",
+          "Law Name": "Personal Data Protection Act 2012",
+          "Law Number / Ref": "Act 26 of 2012",
+          "Last Amended": "1 December 2021",
+          "Indicator ID": "7.1",
+          "Article / Section": "s.3",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part 1 — PRELIMINARY, p.13",
+          "Verbatim Snippet": "The purpose of this Act is to govern the collection, use and disclosure of personal data by organisations in a manner that recognises both the right of individuals to protect their personal data and the need of organisations to collect, use or disclose personal data for purposes that a reasonable person would consider appropriate in the circumstances.",
+          "Mapping Rationale": "PDPA 2012 is a comprehensive horizontal data-protection law covering organisations generally; economy-level framework exists -> lack-indicator scores 0.",
+          "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+          "Confidence": 0.9,
+          "Notes": "controlling horizontal framework evidence",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/sg/personal_data_protection_act_2012/20260915T1409Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "0]\n(2) The Minister may, by notification in the Gazette, specify any statutory body established under a public Act for a public function to be a public agency for the purposes of this Act.\nPurpose\n3. ",
+            "after": "\nApplication of Act\n4.—(1) Parts 3, 4, 5, 6, 6A and 6B do not impose any obligation on —\n(a) any individual acting in a personal or domestic capacity;\n(b) any employee acting in the course of his or h"
+          },
+          "_record_type": "scored",
+          "_provision_id": "sg-pdpa2012-001#s.3",
+          "_score_hint": "0"
+        },
+        {
+          "Economy": "Singapore",
+          "Law Name": "Personal Data Protection Act 2012",
+          "Law Number / Ref": "Act 26 of 2012",
+          "Last Amended": "1 December 2021",
+          "Indicator ID": "7.4",
+          "Article / Section": "s.11(3)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part 3 — GENERAL RULES WITH RESPECT TO, s.11, p.19",
+          "Verbatim Snippet": "An organisation must designate one or more individuals to be responsible for ensuring that the organisation complies with this Act.",
+          "Mapping Rationale": "Mandatory DPO-equivalent designation requirement applying to all organisations under the horizontal PDPA -> DPO requirement across all sectors.",
+          "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+          "Confidence": 0.9,
+          "Notes": "matches baseline r1-sg-046",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/sg/personal_data_protection_act_2012/20260915T1409Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "an organisation must consider what a reasonable person would consider appropriate in the circumstances.\n(2) An organisation isresponsible for personal data in its possession or under its control.\n(3) ",
+            "after": "\n(4) An individual designated under subsection (3) may delegate to another individual the responsibility conferred by that designation.\n(5) An organisation must make available to the public the busine"
+          },
+          "_record_type": "scored",
+          "_provision_id": "sg-pdpa2012-001#s.11(3)",
+          "_score_hint": "1"
+        },
+        {
+          "Economy": "Singapore",
+          "Law Name": "Personal Data Protection Act 2012",
+          "Law Number / Ref": "Act 26 of 2012",
+          "Last Amended": "",
+          "Indicator ID": "6.1",
+          "Article / Section": "n/a",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "",
+          "Verbatim Snippet": "No provision found",
+          "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+          "Source URL": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+          "Confidence": "",
+          "Notes": "no-provision row: no complete cross-border transfer-prohibition measure found; the Singapore regime is conditional-flow — see the 6.4 rows; reproduces the 2025 baseline's own absence row for this indicator; governing law cited for reference",
+          "Language of Source": "English",
+          "source_pdf_path": null,
+          "ocr_quality_cer": null,
+          "processing_time": null,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": null,
+          "_record_type": "no_provision",
+          "_provision_id": "",
+          "_score_hint": "0"
+        }
+      ]
+    },
+    {
+      "law_name": "Cybersecurity Act 2018",
+      "law_number": "Act 9 of 2018",
+      "source_url": "https://sso.agc.gov.sg/Act/CA2018?ViewType=Pdf",
+      "provisions": [
+        {
+          "Economy": "Singapore",
+          "Law Name": "Cybersecurity Act 2018",
+          "Law Number / Ref": "Act 9 of 2018",
+          "Last Amended": "1 December 2021",
+          "Indicator ID": "7.2",
+          "Article / Section": "s.5(1)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part 2 — ADMINISTRATION, s.5, p.19",
+          "Verbatim Snippet": "to oversee and promote the cybersecurity of computers and computer systems in Singapore",
+          "Mapping Rationale": "Provision-level citation of Cybersecurity Act; economy-level 7.2 answered once citing scope provision, not per-provision duties list. SG has dedicated horizontal cybersecurity act -> economy score 0.",
+          "Source URL": "https://sso.agc.gov.sg/Act/CA2018?ViewType=Pdf",
+          "Confidence": 0.75,
+          "Notes": "controlling horizontal framework evidence",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/sg/cybersecurity_act_2018/20260915T1410Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "nder this subsection, or section 6,\n6A, 7, 9, 9A, 12, 16A, 16C, 16D, 16G, 17, 17B, 17C, 17E,\n18, 18B, 18C, 18E, 18G, 18I, 18J, 18L, 20(5), 35A, 37A or\n37C.\nDuties and functions of Commissioner\n5.—(1) ",
+            "after": "\n(ea) to identify and designate designated providers responsible for third‑party‑owned critical information infrastructure, entities of special cybersecurity interest or major foundational digital inf"
+          },
+          "_record_type": "scored",
+          "_provision_id": "sg-ca2018-001#s.5(1)",
+          "_score_hint": "n/a"
+        }
+      ]
+    },
+    {
+      "law_name": "Criminal Procedure Code 2010 and is generally referred to in this Act",
+      "law_number": "Act 15 of 2010",
+      "source_url": "https://sso.agc.gov.sg/Act/CPC2010?ViewType=Pdf",
+      "provisions": [
+        {
+          "Economy": "Singapore",
+          "Law Name": "Criminal Procedure Code 2010 and is generally referred to in this Act",
+          "Law Number / Ref": "Act 15 of 2010",
+          "Last Amended": "1 December 2021",
+          "Indicator ID": "7.5",
+          "Article / Section": "s.20(1)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part 4 — INFORMATION TO POLICE AND, Division 1 — Duties of police officer on receiving information about offences, s.20, p.41",
+          "Verbatim Snippet": "the police officer or authorised person may — (a) issue a written order to require a person in whose possession or power the document or thing is believed to be — (i) to produce the document or thing at the time and place stated in the order",
+          "Mapping Rationale": "Police/authorised persons can compel production of or access to documents/data (including personal data) without any court order or independent judicial authorization; qualifies as government access without judicial oversight.",
+          "Source URL": "https://sso.agc.gov.sg/Act/CPC2010?ViewType=Pdf",
+          "Confidence": 0.9,
+          "Notes": "matches baseline r1-sg-047",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/sg/criminal_procedure_code_2010/20260915T1411Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "ries in the diary that the officer or prosecutor has referred to; and\n(b) the prosecutor must conceal or obliterate any other entries.\nPower to order production of any document or other thing\n20.—(1) ",
+            "after": "\n(1A) Without limiting subsection (1), where a police officer of or above the rank ofsergeant, or an authorised person, considersthat any data (other than data in the custody of the Postal Authority, "
+          },
+          "_record_type": "scored",
+          "_provision_id": "sg-cpc2010-001#s.20(1)",
+          "_score_hint": "1"
+        }
+      ]
+    }
+  ]
+}

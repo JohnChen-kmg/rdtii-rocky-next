@@ -31,3 +31,7 @@ desktop.ini
 **/ESCAP-RDTII-2.1*
 **/OUTPUT_TEMPLATE*.xlsx
 **/Data_collection_practice_dataset.xlsx
+
+# Documents collected by hand for Extraction stay on the machine; the README that explains the folder is tracked
+inbox/*
+!inbox/README.md

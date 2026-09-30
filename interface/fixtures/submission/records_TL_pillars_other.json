@@ -1,0 +1,276 @@
+{
+  "contract_version": "0.3.0",
+  "economy": "TL",
+  "economy_name": "Timor-Leste",
+  "laws": [
+    {
+      "law_name": "Orgânica do Ministério da Agricultura e Pescas.",
+      "law_number": "14/2015",
+      "source_url": "https://www.mj.gov.tl/jornal/public/docs/2015/serie_1/SERIE_I_NO_23.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Orgânica do Ministério da Agricultura e Pescas.",
+          "Law Number / Ref": "14/2015",
+          "Last Amended": "",
+          "Indicator ID": "12.4.4",
+          "Article / Section": "Art. 7(2)",
+          "Discovery Tag": "NEW",
+          "Location Reference": "CAPÍTULO III, SECÇÃO II, Art. 7, p.23",
+          "Verbatim Snippet": "um requerente pode ser sujeito à obrigação de manter fundos próprios a níveis especificados pelo Banco Central",
+          "Mapping Rationale": "Licensing requirement with restrictive condition (mandatory own-funds/capital level set by regulator) as precondition to obtain authorization to provide payment services or operate a payment system.",
+          "Source URL": "https://www.mj.gov.tl/jornal/public/docs/2015/serie_1/SERIE_I_NO_23.pdf",
+          "Confidence": 0.75,
+          "Notes": "instrument-level NEW: no law match in cell; Not automated. The result for this indicator may come from a source other than the legal dataset. Check it outside the tool. Reason: outside the automated scope.; English title (machine-rendered, not official): Organic Law of the Ministry of Agriculture and Fisheries.; CITATION CAVEAT: the source file is a gazette issue containing 6 separate acts, and the upstream extraction records one title for the whole file rather than one per act. The article, quoted text and URL are verified. Which act this provision belongs to was not recorded, so the Law Name cannot be checked against it at all; confirm against the source before relying on this row",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/org_nica_do_minist_rio_da_agricultura_e_pescas/20260920T0646Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "o Central. Os poderes do Banco Central de conceder uma autorização para este efeito incluem igualmente os poderes de, verificados os respetivos pressupostos, suspender ou revogar essa autorização.\n2. ",
+            "after": "\n3. Em caso de gestão de Instrumentos de Pagamento, o Banco\nCentral pode substituir a concessão de autorização pelo simples registo quando a operação e gestão de uma determinada categoria de Instrumen"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-ondmrdaep-001#Art. 7(2)~3",
+          "_score_hint": "1"
+        }
+      ]
+    },
+    {
+      "law_name": "Regulamento das Franquias Aduaneiras de Timor Leste",
+      "law_number": "5/2006",
+      "source_url": "https://www.mj.gov.tl/jornal/public/docs/2006/serie_1/serie1_no6.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Regulamento das Franquias Aduaneiras de Timor Leste",
+          "Law Number / Ref": "5/2006",
+          "Last Amended": "",
+          "Indicator ID": "12.5",
+          "Article / Section": "Art. 10(1)",
+          "Discovery Tag": "NEW",
+          "Location Reference": "Capítulo III, Art. 10, p.3",
+          "Verbatim Snippet": "mercadorias cujo valor comercial não exceda USD 10 (dez dólares) por remessa",
+          "Mapping Rationale": "De minimis threshold set at USD 10, well below USD 200, so falls in 'below <200 USD' branch scoring 0.5.",
+          "Source URL": "https://www.mj.gov.tl/jornal/public/docs/2006/serie_1/serie1_no6.pdf",
+          "Confidence": 0.9,
+          "Notes": "instrument-level NEW: no law match in cell; Not automated. The result for this indicator may come from a source other than the legal dataset. Check it outside the tool. Reason: outside the automated scope.; English title (machine-rendered, not official): Customs Duty Regulation of Timor-Leste; CITATION CAVEAT: the source file is a gazette issue containing 4 separate acts, and the upstream extraction records one title for the whole file rather than one per act. The article, quoted text and URL are verified. This provision is in act 2 of 4, so the Law Name most likely belongs to a different act in the same issue and must be confirmed against the source before this row is relied on",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/regulamento_das_franquias_aduaneiras_de_timor_leste/20260920T0651Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "s a contar da data do pedido de estabelecimento da sua residência habitual no território aduaneiro de Timor-Leste.\nCapítulo III\nRemessas não comerciais\nArtigo 10.°\nRemessas de valor insignificante\n1. ",
+            "after": "\n2. Entende-se por “mercadorias de valor, insignificante” as mercadorias cujo valor comercial não exceda USD 10 (dez dólares) por remessa.\n3. A Direcção Nacional das Alfândegas tem o poder de não apli"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-rdfadtl-001#a2#Art. 10(1)",
+          "_score_hint": "0.5"
+        }
+      ]
+    },
+    {
+      "law_name": "Aprova, para adesão, o Acordo-Quadro da ASEAN sobre Serviços e respetivos Protocolos e o Acordo da ASEAN sobre Comércio de Serviços",
+      "law_number": "45/2025",
+      "source_url": "https://www.mj.gov.tl/jornal/public/docs/2025/serie_1/SERIE_I_NO_42_A4.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Aprova, para adesão, o Acordo-Quadro da ASEAN sobre Serviços e respetivos Protocolos e o Acordo da ASEAN sobre Comércio de Serviços",
+          "Law Number / Ref": "45/2025",
+          "Last Amended": "",
+          "Indicator ID": "12.8",
+          "Article / Section": "Art. 9",
+          "Discovery Tag": "NEW",
+          "Location Reference": "SECÇÃO II, p.84",
+          "Verbatim Snippet": "Um Estado Membro não deverá exigir que um prestador de serviços de outro Estado Membro estabeleça ou mantenha um escritório de representação ou qualquer forma de pessoa coletiva, ou que tenha residência no seu território, como condição para a prestação transfronteiriça de um serviço.",
+          "Mapping Rationale": "This is a prohibition on imposing local presence/representative office requirements for cross-border service supply — the opposite of a 12.8 restriction; it removes rather than imposes such a requirement, so no restriction is evidenced (score 0).",
+          "Source URL": "https://www.mj.gov.tl/jornal/public/docs/2025/serie_1/SERIE_I_NO_42_A4.pdf",
+          "Confidence": 0.75,
+          "Notes": "instrument-level NEW: no law match in cell; Not automated. The result for this indicator may come from a source other than the legal dataset. Check it outside the tool. Reason: outside the automated scope.; English title (machine-rendered, not official): Approval for Adhesion to the ASEAN Framework Agreement on Services and its Protocols and the ASEAN Agreement on Trade in Services; CITATION CAVEAT: the source file is a gazette issue containing 2 separate acts, and the upstream extraction records one title for the whole file rather than one per act. The article, quoted text and URL are verified. This provision is in the first act of the issue, which is normally the act the file's title names — so the Law Name is probably right, but that ordering is an inference we have not confirmed against the source",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/aprova_para_ades_o_o_acordo_quadro_da_asean_sobre_servi_os_e_respetivos_ebd562b8/20260920T1224Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "sas comuns através das quais um prestador de serviços pode fornecer um serviço; e f. limitações à participação de capital estrangeiro em termos de limite máximo de percentagem de capital estrangeiro.\n",
+            "after": "\nArtigo 10.º\nDireção e Conselho de Administração\n1. Um Estado Membro não deverá exigir que uma pessoa coletiva desse Estado Membro nomeie para cargos de direção pessoas singulares de uma determinada n"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-apaooaqdassoerpeoadascrdso-001#a1#Art. 9",
+          "_score_hint": "0"
+        }
+      ]
+    },
+    {
+      "law_name": "Regime Jurídico Geral do Comércio Eletrónico e de Assinaturas Eletrónicas",
+      "law_number": "12/2024",
+      "source_url": "https://www.mj.gov.tl/jornal/public/docs/2024/serie_1/SERIE_I_NO_7.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Regime Jurídico Geral do Comércio Eletrónico e de Assinaturas Eletrónicas",
+          "Law Number / Ref": "12/2024",
+          "Last Amended": "",
+          "Indicator ID": "12.9",
+          "Article / Section": "Art. 53(2)",
+          "Discovery Tag": "NEW",
+          "Location Reference": "CAPÍTULO V, Secção II, Art. 53, p.36",
+          "Verbatim Snippet": "são fornecidas ao comprador, antes da finalização da compra, as seguintes informações",
+          "Mapping Rationale": "E-commerce law provides consumer protection disclosures for online purchases (pricing, returns, refunds), so a consumer protection framework exists for online transactions.",
+          "Source URL": "https://www.mj.gov.tl/jornal/public/docs/2024/serie_1/SERIE_I_NO_7.pdf",
+          "Confidence": 0.85,
+          "Notes": "instrument-level NEW: no law match in cell; Not automated. The result for this indicator may come from a source other than the legal dataset. Check it outside the tool. Reason: outside the automated scope.; English title (machine-rendered, not official): General Legal Regime for Electronic Commerce and Electronic Signatures; CITATION CAVEAT: the source file is a gazette issue containing 4 separate acts, and the upstream extraction records one title for the whole file rather than one per act. The article, quoted text and URL are verified. This provision is in act 4 of 4, so the Law Name most likely belongs to a different act in the same issue and must be confirmed against the source before this row is relied on",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/regime_jur_dico_geral_do_com_rcio_eletr_nico_e_de_assinaturas_eletr_nicas/20260920T0628Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "guros\n1. O comerciante de comércio eletrónico utiliza tecnologias e protocolos seguros para salvaguardar a transmissão e receção de pagamentos online e de outras informações privadas ou sensíveis.\n2. ",
+            "after": "\n3. É proibido a um comerciante de comércio eletrónico produzir ou publicar avaliações de produtos ou serviços que saiba, ou deva razoavelmente saber, que são falsas ou que não refletem a utilização e"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-rjdgdcrenedaen-001#a4#Art. 53(2)",
+          "_score_hint": "0"
+        }
+      ]
+    },
+    {
+      "law_name": "Aprovisionamento Especial para Projectos Prioritários",
+      "law_number": "29/2009",
+      "source_url": "https://www.mj.gov.tl/jornal/public/docs/2009/serie_1/serie1_no38.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Aprovisionamento Especial para Projectos Prioritários",
+          "Law Number / Ref": "29/2009",
+          "Last Amended": "",
+          "Indicator ID": "2.1",
+          "Article / Section": "Art. 2(1)",
+          "Discovery Tag": "NEW",
+          "Location Reference": "Art. 2, p.1",
+          "Verbatim Snippet": "Adjudicação exclusivamente a empresários nacionais, preferencialmente de carácter local.",
+          "Mapping Rationale": "Exclusive award to national (and preferably local) entrepreneurs excludes foreign firms entirely from this procurement regime, i.e. a full exclusion, not a mere preference.",
+          "Source URL": "https://www.mj.gov.tl/jornal/public/docs/2009/serie_1/serie1_no38.pdf",
+          "Confidence": 0.8,
+          "Notes": "instrument-level NEW: no law match in cell; Not automated. The result for this indicator may come from a source other than the legal dataset. Check it outside the tool. Reason: outside the automated scope.; English title (machine-rendered, not official): Special Provisioning for Priority Projects; CITATION CAVEAT: the source file is a gazette issue containing 2 separate acts, and the upstream extraction records one title for the whole file rather than one per act. The article, quoted text and URL are verified. This provision is in the first act of the issue, which is normally the act the file's title names — so the Law Name is probably right, but that ordering is an inference we have not confirmed against the source",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/aprovisionamento_especial_para_projectos_priorit_rios/20260920T0906Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "dele faz parte integrante.\n2. Por Resolução do Governo pode ser estendido o regime previsto no presente diploma a outros projectos que cumpram os critérios do artigo seguinte.\nArtigo 2.º\nCritérios\n1. ",
+            "after": "\n2. Por empresas de carácter local entende-se, para efeitos do presente diploma, empresas timorenses sedeadas nos subdistritos do local da obra.\n3. O Governo regulamenta por decreto o procedimento esp"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-aepppr-001#a1#Art. 2(1)",
+          "_score_hint": "1"
+        }
+      ]
+    },
+    {
+      "law_name": "Código do Aprovisionamento e dos Contratos Públicos",
+      "law_number": "1/2025",
+      "source_url": "https://www.mj.gov.tl/jornal/public/docs/2025/serie_1/SERIE_I_NO_2.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Código do Aprovisionamento e dos Contratos Públicos",
+          "Law Number / Ref": "1/2025",
+          "Last Amended": "",
+          "Indicator ID": "2.3",
+          "Article / Section": "Art. 88",
+          "Discovery Tag": "NEW",
+          "Location Reference": "TÍTULO II, CAPÍTULO III, Secção X, p.29",
+          "Verbatim Snippet": "prever a aquisição de uma proporção mínima de bens e serviços a nível local ou nacional, assim como o emprego de um mínimo de trabalhadores nacionais",
+          "Mapping Rationale": "Local content/local employment requirement applicable to all bidders in public procurement is a limitation under 2.3, scored 0.5 as it applies equally to all suppliers.",
+          "Source URL": "https://www.mj.gov.tl/jornal/public/docs/2025/serie_1/SERIE_I_NO_2.pdf",
+          "Confidence": 0.8,
+          "Notes": "instrument-level NEW: no law match in cell; Not automated. The result for this indicator may come from a source other than the legal dataset. Check it outside the tool. Reason: outside the automated scope.; English title (machine-rendered, not official): Public Procurement and Contracts Code",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/c_digo_do_aprovisionamento_e_dos_contratos_p_blicos/20260920T0800Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "om um dos requisitos previstos no n.º 4 do artigo anterior, não podendo, nesse caso, a percentagem de majoração exceder os\n5 % da respetiva pontuação global ou no preço apresentado, consoante o caso.\n",
+            "after": "\nArtigo 89.º\nRequisitos da celebração de acordos quadro\n1. As entidades adjudicantes podem celebrar acordos quadro de aprovisionamento nas circunstâncias seguintes:\na) Quando o seu objeto seja o aprov"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-cddaedcpb-001#Art. 88",
+          "_score_hint": "0.5"
+        }
+      ]
+    },
+    {
+      "law_name": "Lei de Regime de Licenciamento, Supervisão e Regulação de Companhias de Seguros e de Intermediários de Seguros",
+      "law_number": "",
+      "source_url": "https://www.mj.gov.tl/jornal/public/docs/2002_2005/leis_parlamento_nacional/6_2005.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Lei de Regime de Licenciamento, Supervisão e Regulação de Companhias de Seguros e de Intermediários de Seguros",
+          "Law Number / Ref": "",
+          "Last Amended": "",
+          "Indicator ID": "3.3",
+          "Article / Section": "Art. 40(2)",
+          "Discovery Tag": "NEW",
+          "Location Reference": "CAPÍTULO VIII, Art. 40, p.35",
+          "Verbatim Snippet": "Os membros do órgão de administração e do órgão de fiscalização das companhias de seguros e das sociedades de intermediação de seguros devem residir em território nacional.",
+          "Mapping Rationale": "Residency requirement for board/management and supervisory body members of insurance companies and intermediaries.",
+          "Source URL": "https://www.mj.gov.tl/jornal/public/docs/2002_2005/leis_parlamento_nacional/6_2005.pdf",
+          "Confidence": 0.95,
+          "Notes": "instrument-level NEW: no law match in cell; Not automated. The result for this indicator may come from a source other than the legal dataset. Check it outside the tool. Reason: outside the automated scope.; English title (machine-rendered, not official): Law on Licensing, Supervision and Regulation of Insurance Companies and Insurance Intermediaries",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/lei_de_regime_de_licenciamento_supervis_o_e_regula_o_de_companhias_de_s_b4811c01/20260920T0636Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": " e das sociedades de intermediação de seguros deve incluir um órgão de administração com, pelo menos, três membros, eleitos por mandatos não superiores a dois anos, renováveis por iguais períodos.\n2. ",
+            "after": "\n3. Os membros do órgão de administração e do órgão de fiscalização devem preencher os seguintes requisitos:\na) Qualificação adequada, comprovada por experiência profissional ou grau académico;\nb) Rec"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-ldrdlsoerodcdsedirds-001#Art. 40(2)",
+          "_score_hint": "1"
+        }
+      ]
+    },
+    {
+      "law_name": "Timor-Leste — no governing instrument identified",
+      "law_number": "",
+      "source_url": "n/a — 2,879 Timor-Leste instruments from www.mj.gov.tl searched, none governing this indicator",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Timor-Leste — no governing instrument identified",
+          "Law Number / Ref": "",
+          "Last Amended": "",
+          "Indicator ID": "1.4",
+          "Article / Section": "n/a",
+          "Discovery Tag": "",
+          "Location Reference": "",
+          "Verbatim Snippet": "No provision found",
+          "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+          "Source URL": "n/a — 2,879 Timor-Leste instruments from www.mj.gov.tl searched, none governing this indicator",
+          "Confidence": "",
+          "Notes": "no-provision row: no qualifying measure found; no 2025 baseline row exists for this economy and indicator; Discovery Tag left blank because the row is neither a discovery nor a baseline reproduction; no governing instrument is named because none was identified: naming the economy's largest statute would assert a legal relationship we did not find; Language of Source is the economy's language of legislation, not a per-document reading: this row cites no document; Not automated. The result for this indicator may come from a source other than the legal dataset. Check it outside the tool. Reason: outside the automated scope.",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": null,
+          "ocr_quality_cer": null,
+          "processing_time": null,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": null,
+          "_record_type": "no_provision",
+          "_provision_id": "",
+          "_score_hint": "0"
+        }
+      ]
+    }
+  ]
+}

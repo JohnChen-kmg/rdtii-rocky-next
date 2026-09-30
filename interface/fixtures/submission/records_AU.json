@@ -1,0 +1,262 @@
+{
+  "contract_version": "0.3.0",
+  "economy": "AU",
+  "economy_name": "Australia",
+  "laws": [
+    {
+      "law_name": "My Health Records Act 2012",
+      "law_number": "No. 63, 2012",
+      "source_url": "https://www.legislation.gov.au/C2012A00063/2026-07-01/2026-07-01/text/original/epub#_Toc234668137",
+      "provisions": [
+        {
+          "Economy": "Australia",
+          "Law Name": "My Health Records Act 2012",
+          "Law Number / Ref": "No. 63, 2012",
+          "Last Amended": "2025",
+          "Indicator ID": "6.1",
+          "Article / Section": "s.77(1)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part 5 — Other offences and civil penalty provisions, s.77",
+          "Verbatim Snippet": "must not: (a) hold the records, or take the records, outside Australia; or (b) process or handle the information relating to the records outside Australia",
+          "Mapping Rationale": "Sectoral (health records) local processing/holding mandate under My Health Records Act -> category (2) => 0.5, per Australia precedent.",
+          "Source URL": "https://www.legislation.gov.au/C2012A00063/2026-07-01/2026-07-01/text/original/epub#_Toc234668137",
+          "Confidence": 0.9,
+          "Notes": "matches baseline r1-au-034",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/au/my_health_records_act_2012/20260915T1235Z__page.html",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "g to be able to comply with the conditions of the healthcare provider organisation’s registration.\nCivil penalty: 1,500 penalty units.\n77 Requirement not to hold or take records outside Australia\n(1) ",
+            "after": "\n(2) Despite subsection (1), the System Operator is authorised, for the purposes of the operation or administration of the My Health Record system:\n(a) to hold and take such records outside Australia,"
+          },
+          "_record_type": "scored",
+          "_provision_id": "au-mhra2012-001#s.77(1)",
+          "_score_hint": "0.5"
+        },
+        {
+          "Economy": "Australia",
+          "Law Name": "My Health Records Act 2012",
+          "Law Number / Ref": "No. 63, 2012",
+          "Last Amended": "2025",
+          "Indicator ID": "6.2",
+          "Article / Section": "s.77(1)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part 5 — Other offences and civil penalty provisions, s.77",
+          "Verbatim Snippet": "must not: (a) hold the records, or take the records, outside Australia",
+          "Mapping Rationale": "Same provision also mandates local storage of health records; dual-recording rule applies, sectoral -> 0.5.",
+          "Source URL": "https://www.legislation.gov.au/C2012A00063/2026-07-01/2026-07-01/text/original/epub#_Toc234668137",
+          "Confidence": 0.85,
+          "Notes": "matches baseline r1-au-035",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/au/my_health_records_act_2012/20260915T1235Z__page.html",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "g to be able to comply with the conditions of the healthcare provider organisation’s registration.\nCivil penalty: 1,500 penalty units.\n77 Requirement not to hold or take records outside Australia\n(1) ",
+            "after": "\n(2) Despite subsection (1), the System Operator is authorised, for the purposes of the operation or administration of the My Health Record system:\n(a) to hold and take such records outside Australia,"
+          },
+          "_record_type": "scored",
+          "_provision_id": "au-mhra2012-001#s.77(1)",
+          "_score_hint": "0.5"
+        }
+      ]
+    },
+    {
+      "law_name": "Privacy Act 1988",
+      "law_number": "No. 119, 1988",
+      "source_url": "https://www.legislation.gov.au/C2004A03712/2026-06-04/2026-06-04/text/original/epub#_Toc232574929",
+      "provisions": [
+        {
+          "Economy": "Australia",
+          "Law Name": "Privacy Act 1988",
+          "Law Number / Ref": "No. 119, 1988",
+          "Last Amended": "2025",
+          "Indicator ID": "6.4",
+          "Article / Section": "s.8 [Part 3 — Dealing with personal informati]",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Schedule 1 — Australian Privacy Principles, Part 3 — Dealing with personal information",
+          "Verbatim Snippet": "the entity must take such steps as are reasonable in the circumstances to ensure that the overseas recipient does not breach the Australian Privacy Principles (other than Australian Privacy Principle 1) in relation to the information",
+          "Mapping Rationale": "APP 8 imposes a horizontal accountability condition on cross-border disclosure of personal data (with exceptions in 8.2) - conditional flow regime covering personal data horizontally scores 1",
+          "Source URL": "https://www.legislation.gov.au/C2004A03712/2026-06-04/2026-06-04/text/original/epub#_Toc232575248",
+          "Confidence": 0.85,
+          "Notes": "matches baseline r1-au-037",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/au/privacy_act_1988/20260915T1233Z__page.html",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "e Gambling Act 2001 ;\n(a) the Do Not Call Register Act 2006 ;\n(b) the Spam Act 2003 ;\n(c) any other Act of the Commonwealth, or a law in force in an external Territory, prescribed by the regulations.\n",
+            "after": "\n8.2 Subclause 8.1 does not apply to the disclosure of personal information about an individual by an APP entity to the overseas recipient if:\n(a) the entity reasonably believes that:\n(i) the recipien"
+          },
+          "_record_type": "scored",
+          "_provision_id": "au-pa1988-001#s.8 [Part 3 — Dealing with personal informati]",
+          "_score_hint": "1"
+        },
+        {
+          "Economy": "Australia",
+          "Law Name": "Privacy Act 1988",
+          "Law Number / Ref": "No. 119, 1988",
+          "Last Amended": "2025",
+          "Indicator ID": "7.1",
+          "Article / Section": "s.2A(1)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part I — Preliminary, s.2A",
+          "Verbatim Snippet": "to promote the protection of the privacy of individuals with respect to their personal information",
+          "Mapping Rationale": "Privacy Act 1988 is Australia's comprehensive horizontal data-protection framework; objects clause confirms broad, cross-sectoral scope, so lack-of-framework indicator scores 0 (framework exists).",
+          "Source URL": "https://www.legislation.gov.au/C2004A03712/2026-06-04/2026-06-04/text/original/epub#_Toc232574834",
+          "Confidence": 0.85,
+          "Notes": "controlling horizontal framework evidence",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/au/privacy_act_1988/20260915T1233Z__page.html",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "alia, as follows:\nPart I — Preliminary\n1 Short title\nThis Act may be cited as the Privacy Act 1988 .\n2 Commencement\nThis Act commences on a day to be fixed by Proclamation.\n2A Objects of this Act\n(1) ",
+            "after": "\n(2) This section does not apply to Schedule 2.\nNote: See also clause 1 of Schedule 2 (objects).\n3 Saving of certain State and Territory laws\n(1) It is the intention of the Parliament that this Act is"
+          },
+          "_record_type": "scored",
+          "_provision_id": "au-pa1988-001#s.2A(1)",
+          "_score_hint": "0"
+        }
+      ]
+    },
+    {
+      "law_name": "Cyber Security Act 2024",
+      "law_number": "No. 98, 2024",
+      "source_url": "https://www.legislation.gov.au/C2024A00098/asmade/2024-11-29/text/original/pdf",
+      "provisions": [
+        {
+          "Economy": "Australia",
+          "Law Name": "Cyber Security Act 2024",
+          "Law Number / Ref": "No. 98, 2024",
+          "Last Amended": "",
+          "Indicator ID": "7.2",
+          "Article / Section": "s.6(2)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Division 5 — Other matters 90, s.6, p.9",
+          "Verbatim Snippet": "improve the cyber security of products that:",
+          "Mapping Rationale": "This is a provision-level citation of the Cyber Security Act 2024; economy-level 7.2 score already determined by the Act's existence/scope, not by individual provisions like s.6(2) which is a commencement/table note plus objects clause.",
+          "Source URL": "https://www.legislation.gov.au/C2024A00098/asmade/2024-11-29/text/original/pdf",
+          "Confidence": 0.75,
+          "Notes": "controlling horizontal framework evidence",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/au/cyber_security_act_2024/20260915T1237Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "yal\nAssent.\n30 November\nPreliminary Part 1\nNote: This table relates only to the provisions of this Act as originally enacted. It will not be amended to deal with any later amendments of this Act.\n(2) ",
+            "after": "\nby requiring manufacturers and suppliers of those products to comply with security standards specified in the rules; and\n(b) encourage the provision of information relating to the provision of paymen"
+          },
+          "_record_type": "scored",
+          "_provision_id": "au-csa2024-001#s.6(2)",
+          "_score_hint": "n/a"
+        }
+      ]
+    },
+    {
+      "law_name": "Telecommunications (Interception and Access) Act 1979",
+      "law_number": "No. 114, 1979",
+      "source_url": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239333387",
+      "provisions": [
+        {
+          "Economy": "Australia",
+          "Law Name": "Telecommunications (Interception and Access) Act 1979",
+          "Law Number / Ref": "No. 114, 1979",
+          "Last Amended": "2026",
+          "Indicator ID": "7.3",
+          "Article / Section": "s.187C(1)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Chapter 5 — Co ‑ operation with agencies, Part 5 ‑ 1A — Data retention, Division 1 — Obligation to keep information and documents, s.187C",
+          "Verbatim Snippet": "ending 2 years after it came into existence",
+          "Mapping Rationale": "Telecom data retention law sets an explicit minimum retention period of 2 years for metadata, sectoral to telecom providers.",
+          "Source URL": "https://www.legislation.gov.au/C2004A02124/2026-08-27/2026-08-27/text/original/epub#_Toc239333387",
+          "Confidence": 0.92,
+          "Notes": "matches baseline r1-au-041",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/au/telecommunications_interception_and_access_act_1979/20260915T1234Z__page.html",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": " under section 187A by:\n(a) encrypting the information; and\n(b) protecting the information from unauthorised interference or unauthorised access.\n187C Period for keeping information and documents\n(1) ",
+            "after": "\n(2) However, the regulations may prescribe that, in relation to a specified matter of a kind described in paragraph (a) or (b) in column 2 of item 1 of the table in subsection 187AA(1), the period un"
+          },
+          "_record_type": "scored",
+          "_provision_id": "au-ta1979-001#s.187C(1)",
+          "_score_hint": "1"
+        }
+      ]
+    },
+    {
+      "law_name": "Privacy (Credit Reporting) Code 2024",
+      "law_number": "",
+      "source_url": "https://www.oaic.gov.au/__data/assets/pdf_file/0029/242588/Privacy-Credit-Reporting-Code-2024.pdf",
+      "provisions": [
+        {
+          "Economy": "Australia",
+          "Law Name": "Privacy (Credit Reporting) Code 2024",
+          "Law Number / Ref": "",
+          "Last Amended": "",
+          "Indicator ID": "6.3",
+          "Article / Section": "n/a",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "",
+          "Verbatim Snippet": "No provision found",
+          "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+          "Source URL": "https://www.oaic.gov.au/__data/assets/pdf_file/0029/242588/Privacy-Credit-Reporting-Code-2024.pdf",
+          "Confidence": "",
+          "Notes": "no-provision row: no local data-processing or infrastructure-localization requirement found in the corpus; reproduces the 2025 baseline's own absence row for this indicator; governing law cited for reference",
+          "Language of Source": "English",
+          "source_pdf_path": null,
+          "ocr_quality_cer": null,
+          "processing_time": null,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": null,
+          "_record_type": "no_provision",
+          "_provision_id": "",
+          "_score_hint": "0"
+        }
+      ]
+    },
+    {
+      "law_name": "Australian Security Intelligence Organisation Act 1979",
+      "law_number": "No. 113, 1979",
+      "source_url": "https://www.legislation.gov.au/C2004A02123/2026-08-27/2026-08-27/text/original/epub#_Toc239520889",
+      "provisions": [
+        {
+          "Economy": "Australia",
+          "Law Name": "Australian Security Intelligence Organisation Act 1979",
+          "Law Number / Ref": "No. 113, 1979",
+          "Last Amended": "2026",
+          "Indicator ID": "7.5",
+          "Article / Section": "s.25A(4)",
+          "Discovery Tag": "KNOWN",
+          "Location Reference": "Part III — Functions and powers of Organisation, Division 2 — Special powers, Subdivision C — Computer access warrants, s.25A",
+          "Verbatim Snippet": "The things that may be specified are any of the following that the Attorney ‑ General considers appropriate in the circumstances",
+          "Mapping Rationale": "Warrant authorized by Attorney-General (executive), not a court/independent judicial body, enabling access to data on target computers.",
+          "Source URL": "https://www.legislation.gov.au/C2004A02123/2026-08-27/2026-08-27/text/original/epub#_Toc239520889",
+          "Confidence": 0.85,
+          "Notes": "matches baseline r1-au-045",
+          "Language of Source": "English",
+          "source_pdf_path": "raw/au/australian_security_intelligence_organisation_act_1979/20260915T1233Z__page.html",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "he target computer is or includes a computer associated with, used by or likely to be used by, a person—specify the person (whether by name or otherwise).\nThings that may be authorised in warrant\n(4) ",
+            "after": "\n(b) copying any data to which access has been obtained, that appears to be relevant to the collection of intelligence by the Organisation in accordance with this Act;\n(ba) intercepting a communicatio"
+          },
+          "_record_type": "scored",
+          "_provision_id": "au-asioa1979-001#s.25A(4)",
+          "_score_hint": "1"
+        }
+      ]
+    }
+  ]
+}

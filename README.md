@@ -57,9 +57,9 @@ Open `.env` and set your two declared engines and your OCR engine. See **Your Tw
 
 ### 4. Start the interface
 
-    [the single command that starts your interface]
+    python interface/app.py
 
-Then open [http://localhost:PORT]. **Everything else happens in the interface** — starting a run, reviewing,
+Then open http://127.0.0.1:8765/. The interface is standard-library Python: nothing to install for it. **Everything else happens in the interface** — starting a run, reviewing,
 correcting, switching engines, exporting. A reviewer should not need the command line again after this step.
 
 ### 5. Verify
@@ -76,12 +76,12 @@ not build it. Describe how to reach each of the following, with the screen name 
 
 | What a reviewer needs to do | Where it is |
 | :---- | :---- |
-| Start a run and watch progress in plain words | [screen / control] |
-| Open the audit view: a result beside the source text it came from | [screen / control] |
-| Follow a row to its official source at the cited article | [screen / control] |
-| Accept, reject or correct a row | [screen / control] |
-| Switch the AI engine | [screen / control] |
-| Export to the RDTII schema | [screen / control] |
+| Start a run and watch progress in plain words | **Scraping**, **Extraction** or **Mapping** tab → block **2 Run** → **Check**, then **Start**. Progress is a list of sentences with a Stop button; the raw output is one click away |
+| Open the audit view: a result beside the source text it came from | **Mapping** tab → block **3 Output** → click a row. The verbatim snippet sits beside its machine English, labelled; the provision text and the surrounding source text open below |
+| Follow a row to its official source at the cited article | Row detail → **Source** link (opens the portal) with **Location** and **Article / Section** beside it |
+| Accept, reject or correct a row | Row detail → **Accept** / **Reject…** (with a reason) / **Correct…** (five fields). Decisions append to `outputs/reviews/<run>/decisions.jsonl`; the filed submission is read-only |
+| Switch the AI engine | **Mapping** tab → **Engine Selection** banner at the top → **A** or **B**. Read from `stages/p3-map/config/llm/engines.json`; the choice is recorded in every run's `run_manifest.json` |
+| Export to the RDTII schema | **Mapping** tab → block **3 Output** → **Export CSV** / **Export xlsx**. Fourteen columns in the host's order, rejected rows removed, corrections applied, column O untouched |
 
 **Walkthrough recording:** [link or filename]. Three to four minutes, submitted with your Word document.
 
@@ -104,15 +104,15 @@ Both engines are declared in Section 5 of your Word submission on 30 September a
 The switch must be made **inside the interface**, with no file edited and no command typed. A steward watches
 this happen on 15 October; a switch that needs code or configuration scores zero on C5b.
 
-In the interface: [screen name] → [control name] → select the engine.
-The underlying abstraction lives in `[src/llm/client.py]`; adding a provider means [one line on how].
+In the interface: **Mapping → Engine Selection → A or B**, the banner at the top of the Mapping tab. No file is edited and no command typed; the API key row sits beneath it in the same banner (needed for engine A only), and the pre-flight confirms the key (A) or the local model and its digest (B) before Start unlocks.
+The underlying abstraction lives in `stages/p3-map/config/llm/base.py` (`LLMClient`, one method, `complete(prompt, schema)`) with the provider switch in `config/llm/factory.py`; adding a provider means one client class implementing `complete`, one branch in `get_llm`, a price card in `base.PRICES`, and an entry in `config/llm/engines.json`, which the interface reads to offer it. An unrecognised provider is refused rather than silently downgraded.
 
 ### Re-running without fetching
 
 A second pass must read documents already downloaded and fetch nothing new — its document list must be empty.
 
-In the interface: [screen name] → [control name].
-Where downloaded documents are cached: `[path]`.
+In the interface: **1 Scraping → 1.2 Run → Run: Update an existing crawl → Check → Start**. The Output block's **Fetched last pass** then reads 0, taken from the crawler's own cost_report.json.
+Where downloaded documents are cached: `outputs/scrape/<run>/raw/` (the **Clear raw** button on the Scraping tab removes them; **Clear OCR cache** on the Extraction tab removes `ocr/` and `source_text/`).
 
 ---
 
@@ -142,7 +142,7 @@ pass depends on those being separable.]
 | Document Processor | `[ ]` | Download, OCR, structural parsing |
 | Retrieval | `[ ]` | Chunking, embedding, search, reranking |
 | Mapper | `[ ]` | Maps a provision to an RDTII indicator |
-| Interface | `[ ]` | Run control, audit view, review, export |
+| Interface | `interface/app.py`, `interface/rdtii_ui/` | Run control, audit view, review, export; standard library only |
 | Output Writer | `[ ]` | Writes the RDTII schema |
 
 ---

@@ -1,0 +1,140 @@
+{
+  "contract_version": "0.3.0",
+  "economy": "TL",
+  "economy_name": "Timor-Leste",
+  "laws": [
+    {
+      "law_name": "Operações Petrolíferas Offshore em Timor-Leste",
+      "law_number": "32/2016",
+      "source_url": "http://www.mj.gov.tl/jornal/public/docs/2016/serie_1/SERIE_I_NO_32.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Operações Petrolíferas Offshore em Timor-Leste",
+          "Law Number / Ref": "32/2016",
+          "Last Amended": "",
+          "Indicator ID": "6.2",
+          "Article / Section": "Art. 167(4)",
+          "Discovery Tag": "NEW",
+          "Location Reference": "CAPÍTULO XXI, SECÇÃO V, Art. 167, p.69",
+          "Verbatim Snippet": "A pessoa autorizada deve conservar os registos nos respetivos escritórios em Timor-Leste",
+          "Mapping Rationale": "Sector-specific (petroleum operations) local storage-location requirement for records; single sectoral measure -> 0.5 under 6.2 scoring tree.",
+          "Source URL": "http://www.mj.gov.tl/jornal/public/docs/2016/serie_1/SERIE_I_NO_32.pdf",
+          "Confidence": 0.75,
+          "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Offshore Petroleum Operations in Timor-Leste; CITATION CAVEAT: the source file is a gazette issue containing 4 separate acts, and the upstream extraction records one title for the whole file rather than one per act. The article, quoted text and URL are verified. This provision is in the first act of the issue, which is normally the act the file's title names — so the Law Name is probably right, but that ordering is an inference we have not confirmed against the source",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/opera_es_petrol_feras_offshore_em_timor_leste/20260920T0646Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "líferas, a pessoa autorizada pode conservar cópias de todos os dados do projeto entregues ao Ministério nos termos deste artigo, para utilização nas operações petrolíferas ou em conexão com estas.\n4. ",
+            "after": "\n5. Salvo se diversamente estipulado neste Decreto-Lei, a pessoa autorizada deve conservar os registos durante o período em que prestar informação necessária sobre as operações petrolíferas.\n6. Median"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-oepfoetl-001#a1#Art. 167(4)",
+          "_score_hint": "0.5"
+        }
+      ]
+    },
+    {
+      "law_name": "Regulamenta a prestação de serviços de telecomunicações na rede móvel",
+      "law_number": "9/2008",
+      "source_url": "https://www.mj.gov.tl/jornal/public/docs/2008/serie_1/serie1_no14.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Regulamenta a prestação de serviços de telecomunicações na rede móvel",
+          "Law Number / Ref": "9/2008",
+          "Last Amended": "",
+          "Indicator ID": "7.3",
+          "Article / Section": "Art. 8(1)",
+          "Discovery Tag": "NEW",
+          "Location Reference": "Capítulo III, Art. 8, p.6",
+          "Verbatim Snippet": "os dados de tráfego devem ser conservados pelo operador, por um período mínimo de um ano, contado a partir data em que foram originados",
+          "Mapping Rationale": "Explicit minimum retention period (one year) for traffic data by telecom operators satisfies 7.3's minimum-duration test; sectoral (telecom) scope.",
+          "Source URL": "https://www.mj.gov.tl/jornal/public/docs/2008/serie_1/serie1_no14.pdf",
+          "Confidence": 0.95,
+          "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Regulation of Telecommunications Services in the Mobile Network; CITATION CAVEAT: the source file is a gazette issue containing 4 separate acts, and the upstream extraction records one title for the whole file rather than one per act. The article, quoted text and URL are verified. Which act this provision belongs to was not recorded, so the Law Name cannot be checked against it at all; confirm against the source before relying on this row",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/regulamenta_a_presta_o_de_servi_os_de_telecomunica_es_na_rede_m_vel/20260920T0628Z__native.pdf",
+          "ocr_quality_cer": null,
+          "processing_time": 0.0,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "teriores os dados de tráfego devem ser conservados pelo operador, por um período mínimo de um ano, contado a partir data em que foram originados.\nArtigo 8º.\nColaboração com autoridades judiciárias\n1. ",
+            "after": "\n2. A prestação das informações referidas no artigo anterior deve ser atendida pelo operador, no prazo fixado pelo juiz, sob pena de responsabilidade nos termos legais, desde que o pedido se mostre in"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-rpodsodtenrmv-001#Art. 8(1)",
+          "_score_hint": "1"
+        }
+      ]
+    },
+    {
+      "law_name": "Que Aprova o Código de Processo Penal",
+      "law_number": "",
+      "source_url": "https://www.mj.gov.tl/jornal/public/docs/2002_2005/decreto_lei_governo/13_2005.pdf",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Que Aprova o Código de Processo Penal",
+          "Law Number / Ref": "",
+          "Last Amended": "",
+          "Indicator ID": "7.5",
+          "Article / Section": "Art. 56(1)",
+          "Discovery Tag": "NEW",
+          "Location Reference": "TÍTULO HI, CAPÍTULO V, SECÇÃO VI ., Art. 56, p.17",
+          "Verbatim Snippet": "A polícia pode efectuar buscas, revistas ou apreensões, sem mandado Judicial",
+          "Mapping Rationale": "Police may search/seize without judicial warrant in flagrante delicto or urgent suspicion cases; only ex-post reporting to Ministério Público (prosecutor, not an independent judicial body) is required — no prior court authorization.",
+          "Source URL": "https://www.mj.gov.tl/jornal/public/docs/2002_2005/decreto_lei_governo/13_2005.pdf",
+          "Confidence": 0.8,
+          "Notes": "instrument-level NEW: no law match in cell; English title (machine-rendered, not official): Approval of the Criminal Procedure Code",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": "raw/tl/que_aprova_o_c_digo_de_processo_penal/20260920T0652Z__scanned.pdf",
+          "ocr_quality_cer": 0.0272,
+          "processing_time": 0.0,
+          "model_version": "OCR: tesseract-5.4.0.20240606-por; mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": {
+            "before": "número anterior são imediatamente documentadas nos autos ou fornecidas ao Ministério Público se ainda não tiver sido instaurado processo crime.\n\nArtigo 56.º\nBuscas, revistas e apreensões urgentes\n\n1. ",
+            "after": "\n\n2. Dos actos referidos no número anterior é lavrado auto da ocorrência, que deverá ser incorporado no respectivo processo criminal ou remetido ao Ministério Público se não for iniciado imediatamente"
+          },
+          "_record_type": "scored",
+          "_provision_id": "tl-qaocddpp-001#Art. 56(1)",
+          "_score_hint": "1"
+        }
+      ]
+    },
+    {
+      "law_name": "Timor-Leste — no governing instrument identified",
+      "law_number": "",
+      "source_url": "n/a — 2,879 Timor-Leste instruments from www.mj.gov.tl searched, none governing this indicator",
+      "provisions": [
+        {
+          "Economy": "Timor-Leste",
+          "Law Name": "Timor-Leste — no governing instrument identified",
+          "Law Number / Ref": "",
+          "Last Amended": "",
+          "Indicator ID": "6.1",
+          "Article / Section": "n/a",
+          "Discovery Tag": "",
+          "Location Reference": "",
+          "Verbatim Snippet": "No provision found",
+          "Mapping Rationale": "No qualifying measure identified in the corpus for this indicator",
+          "Source URL": "n/a — 2,879 Timor-Leste instruments from www.mj.gov.tl searched, none governing this indicator",
+          "Confidence": "",
+          "Notes": "no-provision row: no complete cross-border transfer-prohibition measure found; no 2025 baseline row exists for this economy and indicator; Discovery Tag left blank because the row is neither a discovery nor a baseline reproduction; no governing instrument is named because none was identified: naming the economy's largest statute would assert a legal relationship we did not find; Language of Source is the economy's language of legislation, not a per-document reading: this row cites no document",
+          "Language of Source": "Portuguese",
+          "source_pdf_path": null,
+          "ocr_quality_cer": null,
+          "processing_time": null,
+          "model_version": "mapping: claude-sonnet-5; verification: claude-haiku-4-5 (+claude-opus-4-8 tiebreak)",
+          "raw_context": null,
+          "_record_type": "no_provision",
+          "_provision_id": "",
+          "_score_hint": "0"
+        }
+      ]
+    }
+  ]
+}

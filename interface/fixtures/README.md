@@ -28,3 +28,13 @@ ones**, so that when mapping closes the interface changes a path and nothing els
 
 `C:\Users\woshi\Desktop\rdtii-finale-p3-runs\run_2026-09-27\out\` and `...\out_tl52\`.
 318 rows, 263 scored. Point the interface's data setting there when mapping settles.
+
+## Extended 2026-09-29 for the interface
+
+- `submission/records_<E>.json` added, sliced from the real run to the rows the CSVs hold. The JSON carries
+  `_provision_id`, which is the join key to the gloss files, and `raw_context`, the text around the quote.
+- `audit/gloss_<E>.jsonl` and `gloss_sections_<E>.jsonl` were extended with the real run's lines for the rows
+  the CSVs hold, so every non-English fixture row that was glossed in the run finds its English here. The
+  original 12 lines per file were kept. Timor-Leste's lines come from both arms.
+- `verify/verified_<E>.jsonl` added for all six economies, sliced to the fixture rows: the mapper, the verifier
+  and the escalation reviewer, each with their own reason. No-provision rows have none, by construction.
