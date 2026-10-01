@@ -35,6 +35,16 @@ class PickerTiers(unittest.TestCase):
         self.assertEqual(sorted(pk["tier_text"]), ["A", "B", "C"])
         self.assertIn("Pillars 6-7", pk["tier_text"]["A"])
         self.assertEqual(sorted(pk["practice_based"]), ["3.4", "5.3", "9.1"])
+        self.assertEqual(pk["selection"]["thetas"]["6.1"], 0.56)
+        self.assertEqual(len(pk["selection"]["measured"]), 9)
+        self.assertEqual(len(pk["selection"]["thetas"]), 61)          # the other 52 take their class default
+        self.assertEqual(pk["selection"]["thetas"]["3.4"], 0.6)       # subject_specific
+        self.assertEqual(pk["selection"]["caps"]["per_indicator"]["6.1"], 500)
+        self.assertEqual(pk["selection"]["caps"]["per_indicator"]["7.1"], 150)
+        self.assertEqual(len(pk["selection"]["caps"]["per_indicator"]), 9)
+        self.assertEqual(pk["selection"]["caps"]["gray_mult"], 3)
+        self.assertEqual(pk["selection"]["direct_band"], 0.65)
+        self.assertEqual(pk["selection"]["language_offset"]["por"], -0.03)
 
 
 class DemoHandoff(unittest.TestCase):
@@ -92,6 +102,57 @@ class DemoHandoff(unittest.TestCase):
             dense = next(c for c in checks if c["check"] == "dense")
             self.assertEqual(dense["level"], "fail")
             self.assertTrue(any(c["check"] == "baseline" and c["level"] == "warn" for c in checks))
+
+
+class IndexFollowsTheOutput(unittest.TestCase):
+    """The index is reused while it is as new as the extraction output, and rebuilt once the output is newer."""
+
+    def _index_with_age(self, app, seconds_before_output: int) -> Path:
+        h = mapping.describe_handoff(app.settings, DEMO, "test")
+        idx = Path(h["index"]["dir"]); idx.mkdir(parents=True, exist_ok=True)
+        for name in ("prefilter_corpus.jsonl", "bm25_top.npz", "dense_top.npz"):
+            (idx / name).write_bytes(b"x")                      # dense under 4096 bytes reads as the stub
+        import os
+        t = (DEMO / "provisions.jsonl").stat().st_mtime - seconds_before_output
+        for f in idx.iterdir():
+            os.utime(f, (t, t))
+        return idx
+
+    def test_current_index_is_reused(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = _app(str(Path(d) / "outputs"))
+            self._index_with_age(app, -3600)                    # an hour newer than the output
+            h = mapping.describe_handoff(app.settings, DEMO, "test")
+            self.assertFalse(h["index"]["stale"])
+            job = mapping.plan_map(app, {"handoff": str(DEMO), "economies": ["SG"], "indicators": ["6.1"],
+                                         "engine": "B", "select_mode": "caps", "dense": "stub"})
+            labels = [st.label for st in job.steps]
+            self.assertFalse(any("corpus index" in x or "keyword index" in x for x in labels), labels)
+            checks = mapping.precheck(app, {"handoff": str(DEMO), "economies": ["SG"], "indicators": ["6.1"],
+                                            "engine": "B", "select_mode": "caps", "dense": "stub"})
+            self.assertIn("as new as the extraction output", next(c for c in checks if c["check"] == "index")["text"])
+
+    def test_older_index_is_rebuilt_without_a_tick(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = _app(str(Path(d) / "outputs"))
+            self._index_with_age(app, 3600)                     # an hour older than the output
+            h = mapping.describe_handoff(app.settings, DEMO, "test")
+            self.assertTrue(h["index"]["stale"])
+            job = mapping.plan_map(app, {"handoff": str(DEMO), "economies": ["SG"], "indicators": ["6.1"],
+                                         "engine": "B", "select_mode": "caps", "dense": "stub"})
+            labels = [st.label for st in job.steps]
+            self.assertIn("corpus index", labels[1]); self.assertIn("keyword index", labels[2])
+            checks = mapping.precheck(app, {"handoff": str(DEMO), "economies": ["SG"], "indicators": ["6.1"],
+                                            "engine": "B", "select_mode": "caps", "dense": "stub"})
+            self.assertIn("newer than its index", next(c for c in checks if c["check"] == "index")["text"])
+
+    def test_build_rebuilds_a_current_index_from_scratch(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = _app(str(Path(d) / "outputs"))
+            self._index_with_age(app, -3600)
+            n = mapping._norm_request(app, {"handoff": str(DEMO), "economies": ["SG"], "engine": "B",
+                                                "select_mode": "caps", "dense": "real"})
+            self.assertTrue(n["rebuild"]); self.assertEqual(n["dense"], "real")
 
 
 class Parser(unittest.TestCase):

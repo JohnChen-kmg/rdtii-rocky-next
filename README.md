@@ -111,7 +111,7 @@ The underlying abstraction lives in `stages/p3-map/config/llm/base.py` (`LLMClie
 
 A second pass must read documents already downloaded and fetch nothing new — its document list must be empty.
 
-In the interface: **1 Scraping → 1.2 Run → Run: Update an existing crawl → Check → Start**. The Output block's **Fetched last pass** then reads 0, taken from the crawler's own cost_report.json.
+In the interface: **Stage 1 Scraping → 1.2 Run → Run: Update an existing crawl → Check → Start**. The Output block's **Fetched last pass** then reads 0, taken from the crawler's own cost_report.json.
 Where downloaded documents are cached: `outputs/scrape/<run>/raw/` (the **Clear raw** button on the Scraping tab removes them; **Clear OCR cache** on the Extraction tab removes `ocr/` and `source_text/`).
 
 ---

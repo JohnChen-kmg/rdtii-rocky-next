@@ -297,12 +297,26 @@ def row_detail(run: dict, i: int, s: Settings) -> dict:
 
 # ---- the indicator picker -------------------------------------------------------------------------
 
+def round1_caps(s: Settings) -> dict:
+    """Round 1's fixed caps per indicator, read from the stage's select.py as text (never imported)."""
+    def load(path: Path) -> dict:
+        text = path.read_text(encoding="utf-8", errors="replace") if path.is_file() else ""
+        m = re.search(r"^CAPS = \{(.*?)^\}", text, re.M | re.S)
+        per = {k: int(v) for k, v in re.findall(r'"([\d.]+)":\s*(\d+)', m.group(1))} if m else {}
+        g = re.search(r"^GRAY_MULT = (\d+)", text, re.M)
+        return {"per_indicator": per, "gray_mult": int(g.group(1)) if g else None}
+    return readers.cached(s.stage_dirs["p3"] / "src" / "p3map" / "select.py", load)
+
+
 def indicator_picker(s: Settings) -> dict:
     order = readers.parse_indicator_order(s.instrument_dir / "indicator_order.yaml")
     items = [it for it in order.get("indicators", []) if it.get("status") == "in_scope"]
     automated = readers.automated_ids(order)
     tiers = readers.codebook_tiers(s.instrument_dir / "indicators.yaml")
     practice = readers.practice_based(s.instrument_dir / "indicator_order.yaml")
+    sel = readers.cached(s.stage_dirs["p3"] / "config" / "selection.json", readers.read_json) or {}
+    sel_blocks = {k: v for k, v in (sel.get("indicators") or {}).items() if not k.startswith("_")}
+    sel_classes = {k: v for k, v in (sel.get("class_defaults") or {}).items() if not k.startswith("_")}
     pillars: dict[int, dict] = {}
     for it in items:
         p = pillars.setdefault(int(it.get("pillar") or 0), {"pillar": int(it.get("pillar") or 0),
@@ -322,6 +336,18 @@ def indicator_picker(s: Settings) -> dict:
         "tier_counts": {t: sum(1 for it in items if tiers.get(it["id"]) == t) for t in ("A", "B", "C")},
         "tier_ids": {t: [it["id"] for it in items if tiers.get(it["id"]) == t] for t in ("A", "B", "C")},
         "tier_text": readers.codebook_tier_notes(s.instrument_dir / "indicators.yaml"),
+        "selection": {
+            "version": sel.get("version"), "updated": sel.get("updated"),
+            # every indicator's threshold: measured where selection.json carries one, else its class default
+            "thetas": {k: (v.get("theta") if v.get("theta") is not None else (sel_classes.get(v.get("class") or "") or {}).get("theta"))
+                       for k, v in sel_blocks.items()},
+            "measured": sorted((k for k, v in sel_blocks.items() if v.get("theta") is not None), key=indicator_sort_key),
+            "classes": {k: v.get("class") for k, v in sel_blocks.items()},
+            "class_defaults": {k: v.get("theta") for k, v in sel_classes.items()},
+            "caps": round1_caps(s),
+            "direct_band": (sel.get("score") or {}).get("direct_band"),
+            "language_offset": {k: v for k, v in (sel.get("language_offset") or {}).items() if not k.startswith("_")},
+        },
         "practice_based": {it["id"]: practice[it["id"]] for it in items if it["id"] in practice},
         "pillars": [pillars[k] for k in sorted(pillars)],
     }
@@ -397,6 +423,14 @@ def describe_handoff(s: Settings, path: Path, kind: str) -> dict:
         econs[code] = econs.get(code, 0) + 1
     idx = index_dir_for(s, path)
     dense = idx / "dense_top.npz"
+    # the index follows the extraction output: older than any of the three output files means stale.
+    # The oldest index file counts, so a rebuild that stopped half way reads as old too.
+    src_files = [path / f for f in ("provisions.jsonl", "laws.jsonl", "doc_status.jsonl") if (path / f).is_file()]
+    idx_files = [f for f in (idx / "prefilter_corpus.jsonl", idx / "bm25_top.npz", dense) if f.is_file()]
+    source_mtime = max((f.stat().st_mtime for f in src_files), default=None)
+    index_mtime = min((f.stat().st_mtime for f in idx_files), default=None)
+    stale = bool(idx_files and source_mtime is not None and source_mtime > index_mtime + 1)
+    when = lambda t: _time.strftime("%d %b %H:%M", _time.localtime(t)) if t else None  # noqa: E731
     return {
         "id": rel_or_abs(path, REPO), "path": str(path), "name": path.name, "kind": kind,
         "complete": all((path / f).is_file() for f in ("provisions.jsonl", "laws.jsonl", "doc_status.jsonl")),
@@ -405,7 +439,8 @@ def describe_handoff(s: Settings, path: Path, kind: str) -> dict:
         "languages": {c: _LANG.get(c) for c in econs},
         "index": {"dir": str(idx), "id": rel_or_abs(idx, REPO),
                   "corpus": (idx / "prefilter_corpus.jsonl").is_file(), "bm25": (idx / "bm25_top.npz").is_file(),
-                  "dense": dense.is_file(), "dense_is_stub": dense.is_file() and dense.stat().st_size < 4096},
+                  "dense": dense.is_file(), "dense_is_stub": dense.is_file() and dense.stat().st_size < 4096,
+                  "stale": stale, "built": when(index_mtime), "source_written": when(source_mtime)},
     }
 
 
@@ -452,22 +487,25 @@ def _norm_request(app: App, req: dict) -> dict:
     in_scope = [it["id"] for it in order.get("indicators", []) if it.get("status") == "in_scope"]
     indicators = [str(i) for i in (req.get("indicators") or readers.automated_ids(order))]
     engine = str(req.get("engine") or app.engines.selected or "")
-    select_mode = str(req.get("select_mode") or "caps")
+    select_mode = str(req.get("select_mode") or "scores")   # the stage's own default (config/settings.py)
     if select_mode not in ("caps", "scores"):
         raise ApiError(400, "select_mode must be caps or scores")
     dense = str(req.get("dense") or "auto")
     if dense not in ("auto", "real", "stub"):
         raise ApiError(400, "dense must be auto, real or stub")
-    rebuild = bool(req.get("rebuild_index"))
+    have = h["index"]
+    # the index is rebuilt when it is older than the extraction output, or when Build is chosen (from scratch);
+    # rebuild_index is still accepted from older clients
+    rebuild = bool(req.get("rebuild_index")) or dense == "real" or bool(have.get("stale"))
     limit = req.get("limit")
     try:
         limit = int(limit) if limit not in (None, "", 0, "0") else None
     except (TypeError, ValueError):
         raise ApiError(400, "limit must be a whole number") from None
     idx = Path(h["index"]["dir"])
-    have_dense_real = h["index"]["dense"] and not h["index"]["dense_is_stub"]
-    if dense == "auto":
-        dense = "real" if (have_dense_real and not rebuild) or select_mode == "scores" else "stub"
+    have_dense_real = have["dense"] and not have["dense_is_stub"]
+    if dense == "auto":   # keep the meaning index if there was one; build it when the threshold rule needs it
+        dense = "real" if have_dense_real or select_mode == "scores" else "stub"
     return {"handoff": h, "economies": economies, "present": present, "indicators": indicators, "in_scope": in_scope,
             "engine": engine, "select_mode": select_mode, "dense": dense, "rebuild": rebuild,
             "gloss": bool(req.get("gloss", True)), "limit": limit, "index_dir": idx,
@@ -544,10 +582,14 @@ def precheck(app: App, req: dict) -> list[dict]:
 
     idx = n["index_dir"]
     have = h["index"]
-    if n["rebuild"] or not have["corpus"] or not have["bm25"]:
-        add("ok", "index", f"The corpus index will be built at {rel_or_abs(idx, REPO)}: read every provision, then the keyword index.")
+    if have.get("stale") and have["corpus"]:
+        add("ok", "index", f"The extraction output ({have.get('source_written')}) is newer than its index ({have.get('built')}); "
+                           f"the index at {rel_or_abs(idx, REPO)} will be rebuilt: read every provision, then the keyword index.")
+    elif n["rebuild"] or not have["corpus"] or not have["bm25"]:
+        add("ok", "index", f"The corpus index will be built at {rel_or_abs(idx, REPO)}: read every provision, then the keyword index"
+                           + (" (Build: from scratch)." if n["dense"] == "real" and have["corpus"] else "."))
     else:
-        add("ok", "index", f"Reusing the index at {rel_or_abs(idx, REPO)}.")
+        add("ok", "index", f"Reusing the index at {rel_or_abs(idx, REPO)}; it is as new as the extraction output.")
     if n["dense"] == "stub":
         non_english = [e for e in n["economies"] if _LANG.get(e, "eng") != "eng"]
         if n["select_mode"] == "scores":
@@ -569,8 +611,19 @@ def precheck(app: App, req: dict) -> list[dict]:
             add("ok" if t["device"] == "cuda" else "warn", "dense",
                 f"Meaning index will be built on {t['device']}" + ("" if t["device"] == "cuda" else ", which is slow for large corpora")
                 + ("; the BGE-M3 model is cached." if cached else "; the BGE-M3 model, about 2 GB, will be downloaded first."))
-    add("ok", "selection", "Candidate rule: " + ("Round 1 fixed caps, fused over both legs." if n["select_mode"] == "caps"
-                                                   else "measured score thresholds per indicator and language."))
+    caps = round1_caps(s)
+    if n["select_mode"] == "caps":
+        no_cap = [i for i in n["indicators"] if i not in caps["per_indicator"]]
+        if no_cap:
+            add("fail", "selection", "Round 1 caps exist for the nine indicators of pillars 6 and 7 only; the stage stops on "
+                                     f"{', '.join(no_cap[:8])}{' and more' if len(no_cap) > 8 else ''}. Choose Score threshold for them.")
+        else:
+            add("ok", "selection", "Selection: Round 1 fixed caps per indicator and economy, grey band "
+                                   f"{caps['gray_mult']}x the cap, fused over both legs.")
+    else:
+        add("ok", "selection", "Selection: score thresholds per indicator and language, from the stage's selection.json "
+                               "(measured for pillars 6 and 7, class defaults for the rest); changing them from the page "
+                               "is reserved for a later round.")
 
     eid = n["engine"]
     try:
@@ -603,7 +656,7 @@ def precheck(app: App, req: dict) -> list[dict]:
     else:
         add("warn", "baseline", "No baseline database set (BASELINE_PATH, BASELINE_R2_PATH): every row will be tagged NEW.")
     if n["limit"]:
-        add("warn", "cap", f"Demo cap: at most {n['limit']} borderline pairs screened and {n['limit']} provisions mapped per economy. This proves the chain, not the coverage.")
+        add("warn", "cap", f"Quick run: at most {n['limit']} borderline pairs screened and {n['limit']} provisions mapped per economy. This proves the chain, not the coverage.")
     add("ok", "output", "A fresh run folder under outputs/map/, never reused, so a new indicator scope cannot skip provisions.")
     return checks
 
@@ -704,7 +757,7 @@ P3_RULES: list[tuple[re.Pattern, object]] = [
     (re.compile(r"^\[select\] direct=(\d+) gray=(\d+)"), lambda m, j: (f"{m[1]} strong and {m[2]} borderline candidate pairs chosen.", None)),
     (re.compile(r"^\[select\] WARNING (.*)"), lambda m, j: (f"Selection warning: {m[1][:140]}", None)),
     (re.compile(r"^\[haiku-triage\] resuming past (\d+); (\d+) pairs to judge"), lambda m, j: (f"Screening {m[2]} borderline pairs with the quick reader.", {"done": 0, "total": int(m[2]), "unit": "pairs"})),
-    (re.compile(r"^\[haiku-triage\] --limit (\d+): judging ([\d,]+) pairs only"), lambda m, j: (f"Demo cap: screening only {m[2]} pairs.", None)),
+    (re.compile(r"^\[haiku-triage\] --limit (\d+): judging ([\d,]+) pairs only"), lambda m, j: (f"Quick run: screening only {m[2]} pairs.", None)),
     (re.compile(r"^\[haiku-triage\] (\d+)/(\d+) \(([\d.]+)/s, keep (\d+)%, err (\d+), ETA (\d+) min, \$([\d.]+)\)"), _triage_tick),
     (re.compile(r"^\[haiku-triage\] done: (\d+) judged, kept (\d+)"), lambda m, j: (f"Screening done: {m[2]} of {m[1]} kept.", None)),
     (re.compile(r"^\[baseline\] absent, skipped"), lambda m, j: ("No baseline database found: every row will be tagged NEW.", None)),

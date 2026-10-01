@@ -19,7 +19,7 @@ button, input, select, textarea { font: inherit; }
 .dot.ok { background: #7ee787; } .dot.bad { background: #ff8a80; } .dot.warn { background: #ffd166; }
 .health span.item { margin-right: 10px; color: #fff; font-size: 16px; white-space: nowrap; }
 .shell { display: flex; align-items: flex-start; min-height: calc(100vh - var(--top-h, 92px)); }
-.side { flex: 0 0 220px; position: sticky; top: var(--top-h, 92px); height: calc(100vh - var(--top-h, 92px)); display: flex; flex-direction: column; gap: 6px; padding: 22px 14px; background: var(--un-blue-deep); }
+.side { flex: 0 0 250px; position: sticky; top: var(--top-h, 92px); height: calc(100vh - var(--top-h, 92px)); display: flex; flex-direction: column; gap: 6px; padding: 22px 14px; background: var(--un-blue-deep); }
 .side button { text-align: left; border: none; background: transparent; color: rgba(255,255,255,.92); padding: 15px 16px; border-radius: 8px; cursor: pointer; font-size: 25px; width: 100%; }
 .side button:hover { background: rgba(255,255,255,.12); }
 .side button.active { background: #fff; color: var(--un-blue-deep); font-weight: 700; }
@@ -72,7 +72,14 @@ select, input[type=text], input[type=search] { padding: 6px 8px; border: 1px sol
 .note.info { border-color: var(--accent); background: #eff6ff; }
 table.rows { width: 100%; border-collapse: collapse; font-size: 16px; margin-top: 10px; }
 table.rows th, table.rows td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
-table.rows th { position: sticky; top: 0; background: var(--panel); color: var(--muted); font-weight: 600; font-size: 15px; }
+table.rows th { position: sticky; top: 0; background: var(--panel); color: var(--ink); font-weight: 800; font-size: 16px; }
+table.rows th.sortable { cursor: pointer; user-select: none; white-space: nowrap; } table.rows th.sortable:hover { color: var(--un-blue); }
+table.rows th .arrow { font-size: 12px; opacity: .35; margin-left: 2px; } table.rows th.on { color: var(--un-blue-deep); } table.rows th.on .arrow { opacity: 1; color: var(--un-blue); }
+/* the Record of the run shown in Output: open, light blue, blue outline */
+.record { background: #eaf4fc; border: 2px solid var(--un-blue); border-radius: 10px; padding: 10px 16px 9px; margin: 10px 0 4px; max-width: 1000px; }
+.record .record-title { display: block; font-size: 19px; color: var(--un-blue-deep); margin-bottom: 4px; }
+.record ul.note-list { margin: 0; padding-left: 22px; font-size: 16px; color: #3b4652; } .record li { margin: 4px 0; } .record b { color: var(--ink); }
+.record ul.note-list ul { margin: 3px 0 2px; padding-left: 20px; } .record ul.note-list ul li { margin: 2px 0; }
 table.rows tr.r { cursor: pointer; } table.rows tr.r:hover { background: #f0f4ff; } table.rows tr.r.sel { background: #e8efff; }
 td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 td.snip { max-width: 420px; color: var(--muted); }
@@ -311,3 +318,137 @@ table.rows.tiers ul.tb { margin: 0; padding-left: 20px; } table.rows.tiers ul.tb
 .job .btn[data-cancel]:hover, .job .btn[data-dismiss]:hover { background: #e3f1fb; }
 .job .btn[data-cancel] { border-color: #b42318; color: #b42318; }
 .job .btn[data-cancel]:hover { background: #fdecea; }
+
+/* the sidebar: 'Stage 1' over the name, and the active page's outline beneath it */
+.side button .stage { display: block; font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .8; line-height: 1.1; }
+.side button .label { display: block; font-size: 24px; font-weight: 600; line-height: 1.2; }
+.side button.active .stage { opacity: .9; }
+.side .outline { display: flex; flex-direction: column; gap: 0; margin: 0 0 0 22px; padding: 6px 4px; background: rgba(255,255,255,.16); border-radius: 10px; }
+.side .outline:empty { display: none; }
+.side .outline button.jump { width: 100%; text-align: left; font-size: 16px; font-weight: 600; padding: 6px 10px; line-height: 1.3; border-radius: 6px; background: transparent; color: #fff; }
+.side .outline button.jump:hover { background: rgba(255,255,255,.28); }
+.side .outline button.jump .num { display: inline-block; min-width: 40px; font-size: 16px; font-weight: 800; opacity: .9; margin-right: 6px; }
+
+.notes-box .tag-table.plain { padding: 0 0 6px; } .notes-box .tag-table .lead { font-size: 16px; color: #3b4652; } .notes-box .tag-table .table-wrap { background: #fff; }
+
+.thetas { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: 16px; }
+.thetas .theta { background: #eef0f3; border-radius: 6px; padding: 2px 8px; } .thetas .theta b { color: var(--un-blue-deep); margin-right: 4px; }
+.thetas .theta.cls { font-style: italic; color: var(--muted); } .thetas .theta.cls b { color: var(--un-blue-light); }
+.thetas .theta.bad { background: #fee2e2; color: #991b1b; } .thetas .theta.bad b { color: #991b1b; }
+
+/* the Run block's Note as bullets */
+.notes-box ul.note-list { margin: 6px 0 4px; padding-left: 22px; font-size: 16px; color: #3b4652; }
+.notes-box ul.note-list li { margin: 5px 0; }
+.notes-box ul.note-list ul { margin: 4px 0 2px; padding-left: 20px; }
+.notes-box ul.note-list mark { background: #fef3c7; color: #92400e; padding: 0 5px; border-radius: 4px; font-weight: 600; }
+
+/* a sub-block inside a block: a light-blue head bar over the same rows */
+.subblock { border: 2px solid var(--un-blue); border-radius: 10px; margin: 6px 0 14px; overflow: hidden; background: #fff; max-width: 1000px; }
+.subblock-head { background: #eaf4fc; border-bottom: 2px solid var(--un-blue); padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.subblock-head b { font-size: 19px; color: var(--un-blue-deep); }
+.subblock-head span { color: #3b4652; font-size: 16px; }
+.subblock > .stack { padding: 8px 14px 10px; margin: 0; }
+.idxline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 16px; }
+.idxline code { font-size: 15px; background: #eef0f3; padding: 4px 8px; border-radius: 6px; }
+
+/* the Guide: a centred workflow map, four nodes joined by arrows; the details fold away under it */
+.guide { max-width: 1240px; margin: 0 auto; }
+.guide .block.node { margin-bottom: 0; }
+.guide .block.node > p { margin: 0 20px 10px; font-size: 18px; line-height: 1.5; }
+.guide .block.node > p:last-child { margin-bottom: 4px; }
+.guide .block > h2 .go { float: right; margin-top: 2px; background: #fff; color: var(--un-blue); border-color: #fff; font-size: 15px; padding: 5px 12px; }
+.guide .block > h2 .go:hover { background: #eaf4fc; }
+.guide .arrow-row { height: 38px; margin: 14px 0; }
+.guide .map-arrow { position: relative; width: 5px; height: 100%; margin: 0 auto; background: var(--un-blue); border-radius: 3px; font-size: 0; }
+.guide .map-arrow::after { content: ""; position: absolute; left: 50%; bottom: 3px; width: 18px; height: 18px; border-right: 5px solid var(--un-blue); border-bottom: 5px solid var(--un-blue); transform: translateX(-50%) rotate(45deg); transform-origin: center; }
+.guide .chain { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 2px 20px 12px; }
+.guide .chain span { background: #eaf4fc; border: 2px solid var(--un-blue); color: var(--un-blue-deep); border-radius: 999px; padding: 4px 14px; font-size: 16px; font-weight: 700; }
+.guide .chain span + span { position: relative; margin-left: 22px; }
+.guide .chain span + span::before { content: "\2192"; position: absolute; left: -22px; top: 50%; transform: translateY(-50%); color: var(--un-blue); font-weight: 400; font-size: 22px; }
+.guide details.block { margin-top: 18px; }
+.guide details.block > ol, .guide details.block > ul { margin: 0 20px 6px; padding-left: 26px; font-size: 18px; line-height: 1.5; }
+.guide details.block li { margin: 8px 0; }
+.guide details.block ol li::marker { font-weight: 800; color: var(--un-blue-deep); }
+.guide b { color: var(--ink); }
+.guide ul.example li .btn { margin-left: 8px; vertical-align: middle; }
+.guide .how { display: block; margin-top: 3px; color: var(--un-blue-deep); font-size: 16px; }
+/* the Guide's in-arrow-out rows: what goes in, the tool above the arrow, what comes out */
+.guide .io { display: flex; align-items: center; gap: 10px 16px; margin: 6px 20px 8px; }
+.guide .io-box { flex: 1 1 0; min-width: 0; background: #eaf4fc; border: 2px solid var(--un-blue); border-radius: 10px; padding: 8px 18px; font-size: 18px; font-weight: 700; color: var(--un-blue-deep); text-align: center; }
+.guide .io-arrow { flex: 0 0 auto; } .guide .io-arrow b { color: var(--un-blue); }
+.guide .io-box small { display: block; font-weight: 500; font-size: 15px; color: #3b4652; line-height: 1.35; margin-top: 2px; }
+.guide .io-arrow { display: flex; flex-direction: column; align-items: center; color: var(--un-blue); }
+.guide .io-arrow i { font-style: normal; font-size: 15px; font-weight: 700; color: var(--un-blue-deep); white-space: nowrap; margin-bottom: -2px; }
+.guide .io-arrow b { display: block; position: relative; width: 84px; height: 3px; margin: 10px 0 4px; background: var(--un-blue); border-radius: 2px; font-size: 0; }
+.guide .io-arrow b::after { content: ""; position: absolute; right: 1px; top: 50%; width: 12px; height: 12px; border-top: 3px solid var(--un-blue); border-right: 3px solid var(--un-blue); transform: translateY(-50%) rotate(45deg); }
+.guide .note-line { margin: 0 20px 10px; font-size: 16px; color: var(--muted); }
+.guide .footnotes { margin: 14px 24px 0; font-size: 15px; color: var(--muted); line-height: 1.45; }
+.guide .footnotes p { margin: 3px 0; }
+.guide sup.fn, .guide .footnotes sup { font-size: 12px; font-weight: 800; color: var(--un-blue); margin-left: 2px; vertical-align: super; line-height: 0; }
+/* the Guide's two columns: the workflow on the left, the example beside each node on the right */
+.guide .guide-head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 18px; margin: 0 0 8px; }
+.guide .col-title { font-size: 30px; font-weight: 800; letter-spacing: .01em; color: var(--un-blue-deep); padding-left: 4px; line-height: 1.2; }
+.guide .guide-row { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 18px; align-items: stretch; }
+.guide .guide-row .block.node { margin: 0; }
+.guide .arrow-row { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 18px; }
+.guide .map-arrow.faint { opacity: .4; }
+.guide .example-card { border: 2px dashed #9fc0dd; border-radius: 12px; background: #fff; padding: 10px 16px 12px; font-size: 16px; color: #3b4652; }
+.guide .mini-io { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 2px 0 8px; font-weight: 700; color: var(--un-blue-deep); }
+.guide .mini-io span { background: #eaf4fc; border: 2px solid #9fc0dd; border-radius: 999px; padding: 3px 12px; font-size: 15px; }
+.guide .mini-io b { display: block; position: relative; width: 44px; height: 2px; background: var(--un-blue); font-size: 0; }
+.guide .mini-io b::after { content: ""; position: absolute; right: 1px; top: 50%; width: 9px; height: 9px; border-top: 2px solid var(--un-blue); border-right: 2px solid var(--un-blue); transform: translateY(-50%) rotate(45deg); }
+.guide pre.tree { background: #f4f7fa; border-radius: 8px; padding: 8px 12px; font-size: 14px; line-height: 1.45; margin: 4px 0 0; white-space: pre; overflow-x: auto; color: var(--ink); }
+.guide .example-card ul.steps { margin: 2px 0 0; padding-left: 18px; font-size: 15px; line-height: 1.45; }
+.guide .example-card ul.steps li { margin: 4px 0; } .guide .example-card ul.steps b { color: var(--un-blue-deep); margin-right: 4px; }
+.guide .row-line { background: #f4f7fa; border-radius: 8px; padding: 8px 12px; font-size: 15px; margin: 2px 0 10px; }
+.guide .footnotes { margin-top: 12px; }
+@media (max-width: 1150px) { .guide .guide-head, .guide .guide-row, .guide .arrow-row { grid-template-columns: 1fr; } .guide .guide-head .col-title:last-child, .guide .arrow-row .faint { display: none; } }
+/* a folded sub-block inside an Overview node */
+.guide details.subfold { margin: 4px 20px 12px; border: 2px solid var(--un-blue); border-radius: 10px; background: #fff; overflow: hidden; }
+.guide details.subfold > summary { list-style: none; cursor: pointer; background: #eaf4fc; padding: 8px 16px; font-size: 18px; font-weight: 800; color: var(--un-blue-deep); }
+.guide details.subfold > summary::-webkit-details-marker { display: none; }
+.guide details.subfold[open] > summary { border-bottom: 2px solid var(--un-blue); }
+.guide details.subfold > summary .fold { float: right; font-size: 16px; font-weight: 700; color: var(--un-blue); }
+.guide details.subfold > summary .fold::before { content: "\25B8  open"; }
+.guide details.subfold[open] > summary .fold::before { content: "\25BE  fold"; }
+.guide details.subfold > ol { margin: 6px 16px 8px; padding-left: 24px; font-size: 17px; line-height: 1.5; }
+.guide details.subfold li { margin: 7px 0; }
+/* conversation-style illustrations: what we send, what comes back */
+.guide .chat { display: flex; flex-direction: column; gap: 6px; margin: 8px 0 4px; }
+.guide .msg { max-width: 94%; padding: 7px 12px; border-radius: 12px; font-size: 15px; line-height: 1.4; color: var(--ink); }
+.guide .msg .who { display: block; font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--un-blue-deep); margin-bottom: 2px; }
+.guide .msg.sys { align-self: center; background: #f1f3f5; color: var(--muted); border-radius: 8px; font-size: 14px; text-align: center; }
+.guide .msg.user { align-self: flex-start; background: #eaf4fc; border: 1px solid #9fc0dd; border-bottom-left-radius: 4px; }
+.guide .msg.model { align-self: flex-end; background: #fff7e6; border: 1px solid #f0c674; border-bottom-right-radius: 4px; }
+.guide .msg.model .who { color: #92400e; }
+.guide details.subfold li .chat { margin-left: 2px; }
+/* the instrument node and the grey open block */
+.guide .block.instrument > h2 .step { color: #6b7a89; font-size: 24px; }
+.guide .block.node > p.after-io { margin-top: 2px; }
+.guide .map-arrow.labelled { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.guide .map-arrow.labelled i { font-style: normal; font-size: 15px; font-weight: 700; color: var(--un-blue-deep); -webkit-text-stroke: 0; }
+.guide .block.grey { border-color: #8a97a5; margin-top: 18px; }
+.guide .block.grey > h2 { background: #6b7a89; border-color: #6b7a89; }
+.guide .block.grey > ul { margin: 0 20px 6px; padding-left: 26px; font-size: 18px; line-height: 1.5; }
+.guide .block.grey li { margin: 8px 0; }
+.guide .guide-head.below { margin-top: 26px; }
+.guide .example-card p.summary { margin: 2px 0 8px; font-size: 16px; line-height: 1.45; color: var(--ink); }
+.guide .example-card details.subfold { margin: 4px 0 0; border-color: #9fc0dd; }
+.guide .example-card details.subfold > summary { font-size: 15px; padding: 6px 12px; }
+.guide .example-card details.subfold[open] > summary { border-bottom-color: #9fc0dd; }
+.guide .example-card details.subfold > ul.steps { margin: 6px 12px 8px; }
+.guide .block.instrument { margin-bottom: 0; }
+.guide .example-inside { margin: 4px 20px 6px; padding: 10px 16px 12px; border: 2px dashed #9fc0dd; border-radius: 12px; background: #fff; }
+.guide .example-label { font-size: 15px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--un-blue-deep); margin-bottom: 6px; }
+.guide .mini-io.left { justify-content: flex-start; }
+/* the instrument block in grey, like Before you start */
+.guide .guide-head.below .col-title { color: #4b5563; }
+.guide .block.grey .io-box { background: #f1f3f5; border-color: #8a97a5; color: #3b4652; }
+.guide .block.grey .io-box small { color: #4b5563; }
+.guide .block.grey .io-arrow i { color: #4b5563; }
+.guide .block.grey .io-arrow b { background: #6b7a89; } .guide .block.grey .io-arrow b::after { border-color: #6b7a89; }
+.guide .block.grey .example-inside { border-color: #b4bec8; }
+.guide .block.grey .example-label { color: #4b5563; }
+.guide .block.grey .mini-io span { background: #f1f3f5; border-color: #b4bec8; color: #3b4652; }
+.guide .block.grey .mini-io b { background: #6b7a89; } .guide .block.grey .mini-io b::after { border-color: #6b7a89; }
+.guide .block.grey > p { color: var(--ink); }

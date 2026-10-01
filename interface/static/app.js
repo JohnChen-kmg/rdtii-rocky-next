@@ -13,7 +13,7 @@ async function api(path, opts = {}) {
   return j;
 }
 
-const S = { health: null, runs: [], run: null, rows: [], notes: {}, filters: { economy: '', indicator: '', tag: '', q: '' }, sel: null, picker: null };
+const S = { health: null, runs: [], run: null, rows: [], notes: {}, filters: { economy: '', indicator: '', tag: '', q: '' }, sort: { col: '', dir: 1 }, sel: null, picker: null };
 
 /* ---------- sticky header height, so the sidebar pins just below it ---------- */
 function fixTop() {
@@ -31,14 +31,64 @@ function showTab(name) {
 $('#tabs').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-tab]');
   if (!b) return;
-  try { localStorage.setItem('rdtii.tab', b.dataset.tab); } catch (err) { /* private window */ }
   document.querySelectorAll('#tabs button').forEach((x) => x.classList.toggle('active', x === b));
   document.querySelectorAll('.tab').forEach((t) => { t.hidden = t.id !== `tab-${b.dataset.tab}`; });
+  renderOutline(b.dataset.tab);
   if (b.dataset.tab === 'other') loadOther();
   if (b.dataset.tab === 'scrape' && !SC.loaded) loadScrape();
   if (b.dataset.tab === 'cn' && !CN.loaded) loadChina();
   if (b.dataset.tab === 'extract' && !EX.loaded) loadExtract();
 });
+
+/* ---------- the Overview: its buttons open a page, a block, or the example row ---------- */
+function jumpToBlock(tab, title) {
+  showTab(tab);
+  setTimeout(() => {
+    const bl = [...document.querySelectorAll(`#tab-${tab} .block h2`)].find((h) => h.textContent.includes(title));
+    if (!bl) return;
+    const top = bl.getBoundingClientRect().top + window.scrollY - (($('#topfix') || {}).offsetHeight || 92) - 10;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }, 60);
+}
+function bindOverview() {
+  document.querySelectorAll('#tab-overview [data-go]').forEach((b) => b.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (b.dataset.block) jumpToBlock(b.dataset.go, b.dataset.block); else { showTab(b.dataset.go); window.scrollTo({ top: 0 }); }
+  }));
+  document.querySelectorAll('#tab-overview [data-example-row]').forEach((b) => b.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    S.filters = { economy: b.dataset.exampleRow, indicator: b.dataset.indicator, tag: '', q: '' };
+    S.sort = { col: '', dir: 1 };
+    if (S.run) await loadRows();
+    jumpToBlock('map', 'Output');
+  }));
+}
+
+/* ---------- the sidebar outline: the active page's blocks, click to jump ---------- */
+function renderOutline(tab) {
+  document.querySelectorAll('#tabs .outline').forEach((o) => { o.innerHTML = ''; });
+  if (tab === 'overview') return;             // the Overview has no outline in the sidebar
+  const page = tab === 'cn' ? 'scrape' : tab;   // the China page has no outline of its own; Scraping's stays open above it
+  const host = document.querySelector(`#tabs .outline[data-for="${page}"]`);
+  const section = $(`#tab-${page}`);
+  if (!host || !section) return;
+  const blocks = [...section.querySelectorAll(':scope > .block, :scope > details.block, :scope > #cn-body > .block, :scope > .guide-row > .block')];
+  host.innerHTML = blocks.map((bl, i) => {
+    const h = bl.querySelector('h2'); if (!h) return '';
+    const step = h.querySelector('.step'); const title = [...h.childNodes].filter((n) => n.nodeType === 3 || (n.nodeType === 1 && n.tagName !== 'BUTTON' && !n.classList.contains('step') && !n.classList.contains('fold') && !n.classList.contains('muted'))).map((n) => n.textContent).join('').trim();
+    return `<button class="jump" data-block="${i}">${step ? `<span class="num">${esc(step.textContent)}</span>` : ''}${esc(title)}</button>`;
+  }).join('');
+  host.querySelectorAll('button.jump').forEach((btn) => btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const bl = blocks[Number(btn.dataset.block)]; if (!bl) return;
+    const go = () => {
+      if (bl.tagName === 'DETAILS') bl.open = true;
+      const top = bl.getBoundingClientRect().top + window.scrollY - (($('#topfix') || {}).offsetHeight || 92) - 10;
+      window.scrollTo({ top, behavior: 'smooth' });
+    };
+    if (section.hidden) { showTab(page); setTimeout(go, 30); } else go();   // from the China page: open Scraping first
+  }));
+}
 
 /* ---------- header, engine banner, key fold ---------- */
 async function loadHealth() {
@@ -96,7 +146,7 @@ async function loadPicker() {
   $('#map-setup').innerHTML = `
     <div class="setup-row"><div class="setup-label">Indicators</div>
       <div class="stack-col">
-      <details class="src-card picker"><summary><span class="sum">${pk.automated.length} automated indicators pre-selected</span> <span class="muted">of ${pk.in_scope} in scope; open to change the selection</span></summary>
+      <details class="src-card picker"><summary><span class="sum">Indicator selection</span> <span class="muted">${pk.automated.length} of ${pk.in_scope} pre-selected; open to change</span></summary>
         <div class="pillars">${pk.pillars.map((p) => `
           <div class="pillar"><h4>${esc(p.label)}</h4>
             ${p.indicators.map((i) => `<label class="${i.automated ? '' : 'other'}">
@@ -105,7 +155,14 @@ async function loadPicker() {
         </div>
         <div class="foot">${esc(pk.source)}</div>
       </details>
-      <details class="src-card picker tags-card" ${MP.tagsOpen ? 'open' : ''}><summary><span class="sum">How the indicators are computed, and what the tags mean</span> <span class="muted">open for the table</span></summary>
+      </div>
+    </div>
+    <details class="notes-box" ${MP.notesOpen ? 'open' : ''}><summary>Note:</summary>
+      <p>* <b>Input</b> is an Extraction output: the laws, their provisions and the reading status of each document.</p>
+      <p>* <b>Economies</b> are those present in the input; the run maps only the ones ticked.</p>
+      <p>* <b>Indicators</b>: the nine of pillars 6 and 7 are pre-selected; any other in-scope indicator can be ticked, and the host’s live task may fall in any pillar. A row mapped under a host-criteria-only rulebook should name that in Notes and clear a higher confidence before it is tagged NEW; the stage does not enforce this, so it is the reviewer’s rule.</p>
+      <p>* <b>Practice-based</b> indicators (3.4, 5.3, 9.1) score facts from outside legislation, such as a blocked investment or company ownership; the legal dataset alone cannot settle them.</p>
+      <p>* <b>How the indicators are computed, and what the tags mean:</b></p>
         <div class="tag-table plain">
       <p class="lead">Every indicator is computed the same way: one query from its name, definition and keywords; the same prompt, verification and NEW or KNOWN comparison for all ${pk.in_scope}. What differs is the rulebook the model is given.</p>
       <div class="table-wrap"><table class="rows tags"><thead><tr><th>Tag in the list</th><th>Indicators</th><th>What it means</th></tr></thead><tbody>
@@ -116,18 +173,10 @@ async function loadPicker() {
       </tbody></table></div>
       <p class="small muted">Any rulebook can be raised to the reviewed level later, by review alone; the pipeline does not change.</p>
         </div>
-      </details>
-      </div>
-    </div>
-    <details class="notes-box" ${MP.notesOpen ? 'open' : ''}><summary>Note:</summary>
-      <p>* <b>Input</b> is an Extraction output: the laws, their provisions and the reading status of each document.</p>
-      <p>* <b>Economies</b> are those present in the input; the run maps only the ones ticked.</p>
-      <p>* <b>Indicators</b>: the nine of pillars 6 and 7 are pre-selected; any other in-scope indicator can be ticked, and the host’s live task may fall in any pillar. A row mapped under a host-criteria-only rulebook should name that in Notes and clear a higher confidence before it is tagged NEW; the stage does not enforce this, so it is the reviewer’s rule.</p>
-      <p>* <b>Practice-based</b> indicators (3.4, 5.3, 9.1) score facts from outside legislation, such as a blocked investment or company ownership; the legal dataset alone cannot settle them.</p>
     </details>`;
   const nb = $('#map-setup details.notes-box'); if (nb) nb.addEventListener('toggle', () => { MP.notesOpen = nb.open; });
-  const tg = $('#map-setup details.tags-card'); if (tg) tg.addEventListener('toggle', () => { MP.tagsOpen = tg.open; });
   $('#map-setup').querySelectorAll('.pillar input').forEach((inp) => inp.addEventListener('change', () => { MP.checks = null; renderMapRun(); }));
+  if ($('#mp-mode')) renderMapRun();   // the Thresholds line needs the picker
 }
 
 
@@ -148,11 +197,15 @@ function renderRunRow() {
         ${cur ? `<button class="btn small" data-open="${esc(cur.arm_paths[0])}">Open folder</button>
         ${cur.id.startsWith('outputs/map/') ? `<button class="btn small" data-clear="${esc(cur.arm_paths[0].replace(/[\\/]out[^\\/]*$/, ''))}" data-what="this run folder and its rows">Clear run</button>` : ''}` : ''}
       </div>
-      ${cur ? `<div class="row chips"><span class="chip ${cur.kind === 'frozen' ? 'warn' : ''}">${esc(cur.kind === 'fixture' ? 'fixture slice of run_2026-09-27' : cur.kind === 'frozen' ? 'filed rows, read-only' : 'run output')}</span>
-        ${cur.engine ? `<span class="chip">engine: ${esc(cur.engine)}</span>` : ''}
-        ${cur.arms.length > 1 ? `<span class="chip">${cur.arms.length} arms: ${esc(cur.arms.join(', '))}</span>` : ''}
-        ${cur.cost_usd != null ? `<span class="chip">recorded cost $${cur.cost_usd}</span>` : ''}
-        ${cur.git ? `<span class="chip" title="git commit of the stage that produced it">${esc(cur.git.slice(0, 10))}</span>` : ''}</div>` : ''}
+      ${cur && cur.kind === 'frozen' ? '<div class="muted small">Filed rows, read-only: review decisions are refused here.</div>' : ''}
+      ${cur ? `<div class="record"><b class="record-title">Record</b><ul class="note-list">
+        <li><b>What this is</b>: ${esc(cur.kind === 'fixture' ? 'a fixture slice of run_2026-09-27, shipped with the interface so the review screen works on a clean clone' : cur.kind === 'frozen' ? 'the filed rows of the submission, read-only' : 'the output of a run from this interface')}.</li>
+        ${cur.engine ? `<li><b>Engine</b>: ${esc(cur.engine)}.</li>` : ''}
+        ${cur.cost_usd != null ? `<li><b>Recorded cost</b>: $${esc(String(cur.cost_usd))}, from the run manifest.</li>` : ''}
+        ${cur.arms.length > 1 ? `<li><b>Arms</b>: ${cur.arms.length}, ${esc(cur.arms.join(', '))}; the rows of both are listed.</li>` : ''}
+        ${cur.git ? `<li><b>Stage commit</b>: <code>${esc(cur.git.slice(0, 10))}</code>, the mapping stage that produced it.</li>` : ''}
+        <span id="record-corpus"></span>
+      </ul></div>` : ''}
     </div></div>`;
   bindClear('#map-run-row', () => { S.run = null; loadRuns(); });
   bindOpen('#map-run-row');
@@ -186,20 +239,53 @@ function renderFilters(j) {
 }
 
 function renderNotes() {
-  const notes = Object.values(S.notes).filter((n) => n.rate > 0.5 && (!S.filters.economy || S.notes[S.filters.economy] === n));
-  $('#map-notes').innerHTML = notes.map((n) => `<div class="note">For ${esc(n.economy)}, ${Math.round(n.rate * 100)}% of the provision-text glosses are flagged “not literal”: the source OCR for this corpus is rough. Read that flag as a property of the corpus, not as a warning about any one row.</div>`).join('');
+  // the machine translations, one bullet per economy: how many provision texts the glosser flagged "not literal"
+  const host = $('#record-corpus'); if (!host) return;
+  const notes = Object.values(S.notes).sort((a, b) => a.economy.localeCompare(b.economy));
+  const eng = [...new Set(S.rows.filter((r) => r['Language of Source'] === 'English').map((r) => r.Economy))].sort();
+  if (!notes.length && !eng.length) { host.innerHTML = ''; return; }
+  const line = (n) => `<li>${esc(n.economy)}: ${n.not_literal} of ${n.total} provision texts flagged “not literal”${n.rate > 0.5 ? ', the corpus OCR is rough' : ''}</li>`;
+  host.innerHTML = `<li><b>Translations</b>: machine English, for review only. A “not literal” flag is a property of the corpus, not of any one row.
+    <ul>${notes.map(line).join('')}${eng.length ? `<li>${eng.map(esc).join(', ')}: English, no translation needed</li>` : ''}</ul></li>`;
 }
 
 const tagChip = (t) => t === 'NEW' ? '<span class="chip new">NEW</span>' : t === 'KNOWN' ? '<span class="chip known">KNOWN</span>' : '<span class="chip none" title="Deliberately blank: neither a discovery nor a baseline reproduction">no provision</span>';
 const verChip = (v) => !v ? '' : v === 'agree' ? '<span class="chip ok">agreed</span>' : v === 'error' ? '<span class="chip bad">error</span>' : `<span class="chip warn">${esc(v)}</span>`;
 const scoreText = (r) => r._score == null ? '' : `${r._score}${r._score_inverted ? ' <span class="muted small" title="7.1 and 7.2 are inverted: 0 means the economy has a framework">(inv.)</span>' : ''}`;
 
+/* the sort keys of the results table, one per column; blanks sort last either way */
+const SORT_KEYS = {
+  economy: (r) => r.Economy, law: (r) => r['Law Name'], article: (r) => r['Article / Section'],
+  indicator: (r) => String(r['Indicator ID'] || '').split('.').map((x) => Number(x) || 0),
+  tag: (r) => r['Discovery Tag'] || '', conf: (r) => numOrNull(r.Confidence), verified: (r) => r._verification || '',
+  score: (r) => numOrNull(r._score), review: (r) => decisionText(r._decision),
+  quote: (r) => r._kind === 'no_provision' ? '' : (r['Verbatim Snippet'] || ''), arm: (r) => r._arm || '',
+};
+const numOrNull = (v) => { const n = Number(v); return v === '' || v == null || Number.isNaN(n) ? null : n; };
+const decisionText = (d) => !d ? '' : typeof d === 'string' ? d : (d.verdict || d.decision || '');
+const blankKey = (v) => v == null || v === '' || (Array.isArray(v) && !v.length);
+function compareKeys(a, b) {
+  if (Array.isArray(a)) { for (let i = 0; i < Math.max(a.length, b.length); i++) { const d = (a[i] || 0) - (b[i] || 0); if (d) return d; } return 0; }
+  if (typeof a === 'number' && typeof b === 'number') return a - b;
+  return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: 'base' });
+}
+function sortedRows() {
+  const { col, dir } = S.sort; const key = SORT_KEYS[col];
+  if (!key) return S.rows;
+  return S.rows.map((r, i) => [r, i]).sort((x, y) => {
+    const a = key(x[0]), b = key(y[0]);
+    if (blankKey(a) || blankKey(b)) return blankKey(a) && blankKey(b) ? x[1] - y[1] : blankKey(a) ? 1 : -1;   // blanks last, whichever way
+    const c = compareKeys(a, b); return c ? (c > 0 ? 1 : -1) * dir : x[1] - y[1];
+  }).map((p) => p[0]);
+}
+const th = (col, label) => `<th class="sortable ${S.sort.col === col ? 'on' : ''}" data-col="${col}" title="sort by ${esc(label)}; click again to reverse">${label} <span class="arrow">${S.sort.col === col ? (S.sort.dir > 0 ? '\u25b2' : '\u25bc') : '\u25b4'}</span></th>`;
+
 function renderTable(j) {
-  const rows = S.rows;
+  const rows = sortedRows();
   if (!rows.length) { $('#map-table').innerHTML = '<tr><td class="muted">No rows match.</td></tr>'; return; }
   const showArm = rows.some((r) => r._arm);
   $('#map-table').innerHTML = `<thead><tr>
-      <th>Economy</th><th>Law</th><th>Article</th><th>Indicator</th><th>Tag</th><th>Conf.</th><th>Verified</th><th>Score</th><th>Review</th><th>Quote → English</th>${showArm ? '<th>Arm</th>' : ''}
+      ${th('economy', 'Economy')}${th('law', 'Law')}${th('article', 'Article')}${th('indicator', 'Indicator')}${th('tag', 'Tag')}${th('conf', 'Conf.')}${th('verified', 'Verified')}${th('score', 'Score')}${th('review', 'Review')}${th('quote', 'Quote \u2192 English')}${showArm ? th('arm', 'Arm') : ''}
     </tr></thead><tbody>${rows.map((r) => `<tr class="r ${S.sel === r._i ? 'sel' : ''}" data-i="${r._i}">
       <td>${esc(r.Economy)}</td>
       <td>${esc(r['Law Name'])}</td>
@@ -214,6 +300,12 @@ function renderTable(j) {
       ${showArm ? `<td class="small muted">${esc(r._arm)}</td>` : ''}
     </tr>`).join('')}</tbody>`;
   $('#map-table').querySelectorAll('tr.r').forEach((tr) => tr.addEventListener('click', () => openRow(+tr.dataset.i)));
+  $('#map-table').querySelectorAll('th.sortable').forEach((h) => h.addEventListener('click', () => {
+    const col = h.dataset.col;
+    if (S.sort.col === col) { if (S.sort.dir > 0) S.sort.dir = -1; else S.sort = { col: '', dir: 1 }; }   // asc, desc, then back to the file order
+    else S.sort = { col, dir: 1 };
+    renderTable(j);
+  }));
 }
 
 const short = (s, n) => { s = String(s ?? ''); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
@@ -800,7 +892,7 @@ async function startExtract() {
 }
 
 /* ---------- Mapping · Set up + Start ---------- */
-const MP = { loaded: false, handoffs: [], handoff: null, economies: new Set(), selectMode: 'caps', dense: 'auto', rebuild: false, gloss: true, limit: '', checks: null, stagePresent: true, python: '' };
+const MP = { loaded: false, handoffs: [], handoff: null, economies: new Set(), selectMode: 'scores', dense: 'auto', gloss: true, limit: '', checks: null, stagePresent: true, python: '' };
 
 async function loadMapHandoffs() {
   MP.loaded = true;
@@ -834,13 +926,34 @@ function renderMapInput() {
   renderMapRun();
 }
 
+/* the numbers the Selection rule uses, for the ticked indicators: thresholds in scores mode, Round 1 caps in caps mode */
+function selectionLine() {
+  const sel = (S.picker || {}).selection;
+  if (!sel) return '<span class="muted">loading the values…</span>';
+  const ids = chosenIndicators();
+  if (!ids.length) return '<span class="muted">tick an indicator</span>';
+  if (MP.selectMode === 'caps') {
+    const caps = (sel.caps || {}).per_indicator || {};
+    const parts = ids.map((id) => caps[id] != null ? `<span class="theta"><b>${esc(id)}</b> ${caps[id]}</span>` : `<span class="theta bad"><b>${esc(id)}</b> no cap</span>`);
+    const missing = ids.filter((id) => caps[id] == null).length;
+    return parts.join(' ') + `<span class="muted small">counts of provisions, not scores; grey band ${esc(String((sel.caps || {}).gray_mult || 3))}\u00d7 the cap; no caps outside pillars 6 and 7` + (missing ? `, so ${missing} ticked indicator(s) cannot run this way` : '') + '</span>';
+  }
+  const measured = new Set(sel.measured || Object.keys(sel.thetas || {}));
+  const parts = ids.map((id) => sel.thetas[id] != null
+    ? `<span class="theta ${measured.has(id) ? '' : 'cls'}" title="${measured.has(id) ? 'measured' : 'class default: ' + esc((sel.classes || {})[id] || '')}"><b>${esc(id)}</b> ${Number(sel.thetas[id]).toFixed(2)}</span>`
+    : `<span class="theta bad"><b>${esc(id)}</b> none</span>`);
+  const unmeasured = ids.filter((id) => !measured.has(id)).length;
+  const offs = Object.entries(sel.language_offset || {}).filter(([k, v]) => k !== '_default' && Number(v) !== 0).map(([k, v]) => `${k} ${v}`).join(', ');
+  return parts.join(' ') + `<span class="muted small">${offs ? `language offset ${esc(offs)}` : ''}${unmeasured ? `${offs ? '; ' : ''}italic values are class defaults, not measured` : ''}</span>`;
+}
+
 function chosenIndicators() {
   return [...document.querySelectorAll('#map-setup input[type=checkbox]:checked')].map((i) => i.value);
 }
 
 function mapRequest() {
   return { handoff: MP.handoff, economies: [...MP.economies], indicators: chosenIndicators(), engine: S.health && S.health.engine ? S.health.engine.selected : null,
-    select_mode: MP.selectMode, dense: MP.dense, rebuild_index: MP.rebuild, gloss: MP.gloss, limit: MP.limit ? parseInt(MP.limit, 10) : null };
+    select_mode: MP.selectMode, dense: MP.dense, gloss: MP.gloss, limit: MP.limit ? parseInt(MP.limit, 10) : null };
 }
 
 async function runMapCheck() {
@@ -870,23 +983,59 @@ function renderMapRun() {
   const canStart = !!(MP.stagePresent && h && MP.checks && fails.length === 0);
   const idx = h ? h.index : null;
   const idxState = idx ? [idx.corpus ? 'corpus ready' : 'no corpus', idx.bm25 ? 'keyword index ready' : 'no keyword index', idx.dense ? (idx.dense_is_stub ? 'meaning index stubbed' : 'meaning index ready') : 'no meaning index'].join(', ') : '';
+  // what the next run does with the index: Build rebuilds from scratch; Auto and Skip rebuild only when it is older than the output
+  const idxPlan = !idx || !idx.corpus ? '' : MP.dense === 'real' ? '<span class="chip">Build: rebuilt from scratch</span>'
+    : idx.stale ? `<span class="chip warn">older than the output (${esc(idx.built || '')} against ${esc(idx.source_written || '')}), will be rebuilt</span>` : '<span class="chip ok">as new as the output</span>';
   note.innerHTML = `
     <div class="targets">
       <div class="target"><span class="setup-label">Writes to</span> <code>${esc(root)}${BS}map${BS}${stamp()}_${eng && eng.selected ? esc(eng.selected) : 'A'}${BS}out</code> <span class="muted">(a new folder, created at Start)</span></div>
       <div class="target"><span class="setup-label">Engine</span> <code>${engineText}</code> <span class="muted">(chosen in the banner above)</span></div>
-      ${idx ? `<div class="target"><span class="setup-label">Index</span> <code>${esc(idx.id)}</code> <span class="muted">${esc(idxState)}</span> ${idx.corpus ? `<button class="btn small" data-clear="${esc(idx.dir)}" data-what="the corpus index">Clear index</button>` : ''}</div>` : ''}
+    </div>
+    <div class="subblock">
+      <div class="subblock-head"><b>Candidate selection</b><span>step 1 of the mapping: which provisions go forward, scored by meaning with BGE-M3</span></div>
+      <div class="stack">
+      ${idx ? `<div class="stack-row"><span class="setup-label">Index</span> <div class="idxline"><code>${esc(idx.id)}</code> <span class="muted">${esc(idxState)}</span> ${idxPlan} ${idx.corpus ? `<button class="btn small" data-clear="${esc(idx.dir)}" data-what="the corpus index">Clear index</button>` : ''}</div></div>` : ''}
+      <label class="stack-row"><span class="setup-label">Selection</span> <select id="mp-mode"><option value="scores" ${MP.selectMode === 'scores' ? 'selected' : ''}>Score threshold</option><option value="caps" ${MP.selectMode === 'caps' ? 'selected' : ''}>Caps</option></select></label>
+      <div class="stack-row"><span class="setup-label">${MP.selectMode === 'caps' ? 'Caps' : 'Thresholds'}</span> <div class="thetas">${selectionLine()} ${MP.selectMode === 'caps' ? '<span class="chip">Round 1 numbers, fixed</span>' : '<span class="chip warn">can be changed by hand later</span>'}</div></div>
+      <label class="stack-row"><span class="setup-label">Meaning index</span> <select id="mp-dense"><option value="auto" ${MP.dense === 'auto' ? 'selected' : ''}>Auto</option><option value="real" ${MP.dense === 'real' ? 'selected' : ''}>Build</option><option value="stub" ${MP.dense === 'stub' ? 'selected' : ''}>Skip</option></select> <span class="muted">matches provisions to indicators by meaning, in any language; the thresholds are read on its score</span></label>
+      </div>
     </div>
     <div class="stack">
-      <label class="stack-row"><span class="setup-label">Candidates</span> <select id="mp-mode"><option value="caps" ${MP.selectMode === 'caps' ? 'selected' : ''}>Round 1 caps: works with the keyword index alone</option><option value="scores" ${MP.selectMode === 'scores' ? 'selected' : ''}>Score thresholds: needs the meaning index</option></select></label>
-      <label class="stack-row"><span class="setup-label">Meaning index</span> <select id="mp-dense"><option value="auto" ${MP.dense === 'auto' ? 'selected' : ''}>Auto: reuse one if present, else keyword only</option><option value="real" ${MP.dense === 'real' ? 'selected' : ''}>Build with BGE-M3 (needs torch)</option><option value="stub" ${MP.dense === 'stub' ? 'selected' : ''}>Skip: keyword only</option></select></label>
-      <label class="stack-row"><span class="setup-label">Rebuild index</span> <input type="checkbox" id="mp-rebuild" ${MP.rebuild ? 'checked' : ''}> <span>build the index again for this input</span></label>
-      <label class="stack-row"><span class="setup-label">Glosses</span> <input type="checkbox" id="mp-gloss" ${MP.gloss ? 'checked' : ''}> <span>English translations for the review screen</span></label>
-      <label class="stack-row"><span class="setup-label">Demo cap</span> <input type="text" id="mp-limit" size="5" value="${esc(MP.limit)}" placeholder="none"> <span>at most this many provisions per economy, for a quick run</span></label>
+      <label class="stack-row"><span class="setup-label">Translation</span> <input type="checkbox" id="mp-gloss" ${MP.gloss ? 'checked' : ''}> <span>for review</span></label>
+      <label class="stack-row"><span class="setup-label">Quick run</span> <input type="text" id="mp-limit" size="5" value="${esc(MP.limit)}" placeholder="all"> <span>map at most this many provisions per economy; blank for everything</span></label>
       <details class="notes-box" ${MP.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
-        <p>* <b>Candidates</b>: Round 1 caps picks provisions by keyword rank and works with the keyword index alone. Score thresholds need the meaning index; the Chinese, Lao and Timor-Leste corpora find no candidates without it.</p>
-        <p>* <b>Meaning index</b> is built once per input with BGE-M3, which needs torch; Auto reuses it when present. <b>Rebuild index</b> deletes it and builds it again.</p>
-        <p>* <b>Glosses</b> are machine English for review only and never enter the export. <b>Demo cap</b> limits the pairs screened and the provisions mapped per economy.</p>
-        <p>* Every run writes a new folder. The engine, the cost and each substage are recorded in its run_manifest.json. Interpreter: <code>${esc(MP.python || 'python')}</code>.</p>
+        <ul class="note-list">
+          <li><b>Selection</b>: the first step of a run, which provisions go forward for each indicator.
+            <ul>
+              <li><b>Score threshold</b>, the stage’s default: keep every provision whose meaning score clears the indicator’s threshold. Needs the meaning index.</li>
+              <li><b>Caps</b>: rank the provisions by score and keep the top N per indicator and economy, N being Round 1’s numbers. Works with the keyword index alone.</li>
+              <li><b>Why two units</b>: a threshold is a score, a cosine between 0 and 1 that each provision must clear, so how many pass follows the corpus. A cap is a count, so how many pass is fixed whatever the scores. Round 1 fixed the count; the finale measured the score instead, so the two rules cannot share one setting.</li>
+              <li>Triage, the quick reader’s screen of the borderline pairs, is the next step and not a choice here.</li>
+            </ul>
+          </li>
+          <li><b>Thresholds</b>: from the stage’s selection.json, shown for the ticked indicators.
+            <ul>
+              <li>Measured for the nine indicators of pillars 6 and 7. The other 52 take the default of their class from the codebook, 0.55 to 0.60, shown in italics.</li>
+              <li>A small offset per language; at 0.65 or above a candidate skips triage.</li>
+              <li><mark>Can be changed by hand later</mark>: the stage reads an edited copy of selection.json through SELECTION_CONFIG. A control on this page is reserved for a later round.</li>
+            </ul>
+          </li>
+          <li><b>Caps</b>: a cap on the number of provisions, ranked by score. Round 1’s numbers, 150 to 600 per indicator and economy; the grey band takes three times the cap.
+            <ul>
+              <li><mark>No cap exists outside pillars 6 and 7</mark>: Round 1 never ran those indicators. They run on Score threshold, and Check refuses caps for them.</li>
+            </ul>
+          </li>
+          <li><b>Meaning index</b>: BGE-M3 scores every provision against every indicator by meaning, in any language. The thresholds are read on this score, and the keyword index alone reads almost nothing in Chinese or Lao. Built once per extraction output and reused until that output changes.
+            <ul>
+              <li><b>Auto</b>: reuse the index when it is as new as the extraction output; build it when it is missing, stubbed or older. The Index line above says which.</li>
+              <li><b>Build</b>: build everything from scratch now, the manual rebuild for the rare case the dates cannot see. Needs torch and a one-time 2 GB model download.</li>
+              <li><b>Skip</b>: keyword only. Fine for English economies on Caps.</li>
+            </ul>
+          </li>
+          <li><b>Translation</b>: machine English of the quotes for the review screen only; never in the export.</li>
+          <li><b>Quick run</b>: one number applied twice, triage judges only the first N borderline pairs and the careful reading maps only the first N provisions per economy. For a proof of the chain in minutes, not for coverage. Blank runs everything.</li>
+          <li>Every run writes a new folder; the engine, the cost and each substage are recorded in its run_manifest.json. Interpreter: <code>${esc(MP.python || 'python')}</code>.</li>
+        </ul>
       </details>
       <div class="stack-row full"><b>Press Check first; Start unlocks when no check fails.</b></div>
       <div class="stack-row full"><button class="btn wide" id="mp-check" ${h && MP.stagePresent ? '' : 'disabled'}>${MP.checking ? 'Checking…' : 'Check'}</button></div>
@@ -897,7 +1046,6 @@ function renderMapRun() {
   const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { MP.runNotesOpen = nb.open; });
   $('#mp-mode').onchange = (e) => { MP.selectMode = e.target.value; MP.checks = null; renderMapRun(); };
   $('#mp-dense').onchange = (e) => { MP.dense = e.target.value; MP.checks = null; renderMapRun(); };
-  $('#mp-rebuild').onchange = (e) => { MP.rebuild = e.target.checked; MP.checks = null; renderMapRun(); };
   $('#mp-gloss').onchange = (e) => { MP.gloss = e.target.checked; };
   $('#mp-limit').onchange = (e) => { MP.limit = e.target.value.trim(); MP.checks = null; renderMapRun(); };
   $('#mp-check').onclick = runMapCheck;
@@ -1153,6 +1301,7 @@ function renderChina() {
       <p class="small muted">Manifests, provenance sheets and notes ship; the documents’ bytes do not. Click a note to read it here.</p>
       <pre class="doc" id="cn-doc-view" hidden></pre>
     </div>`;
+  renderOutline('cn');
   $('#cn-body').querySelectorAll('a[data-doc]').forEach((a) => a.addEventListener('click', async (e) => {
     e.preventDefault();
     try { const t = await api(`/api/doc?path=${encodeURIComponent(a.dataset.doc)}`); const pre = $('#cn-doc-view'); pre.hidden = false; pre.textContent = t.text; pre.scrollIntoView({ behavior: 'smooth' }); }
@@ -1321,9 +1470,8 @@ async function runSelftest() {
 /* ---------- boot ---------- */
 (async function boot() {
   await loadHealth();
-  let last = 'scrape';
-  try { last = localStorage.getItem('rdtii.tab') || 'scrape'; } catch (err) { /* private window */ }
-  showTab(last);
+  showTab('overview');   // every visit lands on the Overview
+  bindOverview();
   loadPicker();
   loadMapHandoffs();
   await loadRuns();
