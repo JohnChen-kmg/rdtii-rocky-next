@@ -1267,7 +1267,7 @@ function renderJobPanel(containerId, j, sentences) {
   $(`#${containerId}`).innerHTML = `<div class="job">
     <div class="row"><span class="${statusChip}">${esc(j.status)}</span> <b>${esc(j.title)}</b>
       <span class="muted small">started ${fmtWhen(j.started)}${j.started ? `, ${fmtDur(j.started, j.ended)}` : ''}</span>
-      ${['queued', 'running'].includes(j.status) ? `<button class="btn small" data-cancel="${j.id}">Stop</button>` : ''}
+      ${['queued', 'running'].includes(j.status) ? `<button class="btn small" data-cancel="${j.id}">Stop</button>` : `<button class="btn small" data-dismiss="${j.id}" title="Hide this finished run; its folder stays in Output">Dismiss</button>`}
       ${p.cost_usd != null ? `<span class="chip">$${Number(p.cost_usd).toFixed(2)} so far</span>` : ''}</div>
     ${pct != null ? `<div class="bar"><div style="width:${pct}%"></div></div><div class="muted small">${p.done} of ${p.total} ${esc(p.unit || '')}${p.failed ? `, ${p.failed} failed` : ''}${p.skipped ? `, ${p.skipped} skipped` : ''}</div>` : ''}
     <ol class="steps">${steps}</ol>
@@ -1276,6 +1276,18 @@ function renderJobPanel(containerId, j, sentences) {
     <details><summary class="small">Raw output (last ${(j.raw_tail || []).length} lines)</summary><pre class="doc small">${esc((j.raw_tail || []).join('\n'))}</pre></details>
   </div>`;
   $(`#${containerId}`).querySelector('[data-cancel]')?.addEventListener('click', () => cancelJob(j.id));
+  $(`#${containerId}`).querySelector('[data-dismiss]')?.addEventListener('click', () => dismissJob(j.id, containerId));
+}
+
+/* A finished run's panel can be hidden; the server still remembers the job, the page just stops showing it. */
+function dismissedJobs() {
+  try { return new Set(JSON.parse(localStorage.getItem('rdtii.dismissed') || '[]')); } catch (e) { return new Set(); }
+}
+function dismissJob(jobId, containerId) {
+  const d = dismissedJobs(); d.add(jobId);
+  try { localStorage.setItem('rdtii.dismissed', JSON.stringify([...d].slice(-200))); } catch (e) { /* private window */ }
+  clearInterval(JOBS.timers[containerId]);
+  const el = $(`#${containerId}`); if (el) el.innerHTML = '';
 }
 
 /* Clear: preview, confirm in the browser, then confirm on the server with the one-minute token. */
@@ -1294,7 +1306,8 @@ async function restoreJobPanels() {
   let j;
   try { j = await api('/api/jobs'); } catch (e) { return; }
   const newest = {};
-  (j.jobs || []).forEach((x) => { if (!newest[x.stage]) newest[x.stage] = x; });
+  const hidden = dismissedJobs();
+  (j.jobs || []).forEach((x) => { if (!newest[x.stage] && !hidden.has(x.id)) newest[x.stage] = x; });
   const panels = { p1: 'scrape-run-panel', p2: 'extract-run-panel', p3: 'map-run-panel', selftest: 'selftest-panel' };
   Object.entries(panels).forEach(([stage, id]) => { if (newest[stage] && $(`#${id}`)) watchJob(newest[stage].id, id); });
 }
