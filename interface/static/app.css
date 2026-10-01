@@ -305,3 +305,9 @@ table.rows.tiers ul.tb { margin: 0; padding-left: 20px; } table.rows.tiers ul.tb
 
 .stack-col { display: flex; flex-direction: column; gap: 10px; }
 .tag-table.plain { border: none; background: transparent; padding: 8px 0 0; margin: 0; }
+
+/* the run panel's Stop and Dismiss: heavy blue outline, bold blue text */
+.job .btn[data-cancel], .job .btn[data-dismiss] { border: 2px solid var(--un-blue); color: var(--un-blue-deep); font-weight: 700; font-size: 15px; padding: 5px 14px; background: #fff; }
+.job .btn[data-cancel]:hover, .job .btn[data-dismiss]:hover { background: #e3f1fb; }
+.job .btn[data-cancel] { border-color: #b42318; color: #b42318; }
+.job .btn[data-cancel]:hover { background: #fdecea; }

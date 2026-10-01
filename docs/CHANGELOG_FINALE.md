@@ -10,7 +10,7 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 ---
 
 ## 2026-09-30
-- Interface: a finished run's panel has a Dismiss button; the page remembers dismissed runs across refreshes, the server keeps the job and its folder stays in Output.
+- Interface: a finished run's panel has a Dismiss button (heavy blue outline, bold text; Stop in red); the page remembers dismissed runs across refreshes, the server keeps the job and its folder stays in Output.
 - Interface: the separate Indicator tiers block is gone. Set up carries a folded card under the indicator picker instead, opening to a tag table, one row per tag bubble with its meaning: every indicator is computed the same way, what differs is the rulebook the model is given (reviewed for the nine of pillars 6 and 7, not reviewed for 14, host criteria only for 38), review removes systematic errors, and any rulebook can be raised later. The picker flags only the not-reviewed and host-criteria-only indicators. Mapping's Run is 3.2 and Output 3.3 again.
 - Interface: the Scraping tab opens with no economy selected, and the Hand-collected block always starts folded.
 - Interface: the Scraping Output table lists the hand-collected inbox folders beside the crawl folders (kind hand-collected, with their batches), and the Hand-collected block opens with a highlighted line on why it exists and where its files go.
