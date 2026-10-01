@@ -1,12 +1,11 @@
-# [Tool Name] — AI Tool for Digital Trade Regulatory Analysis
+# RDTII Rocky — AI Tool for Digital Trade Regulatory Analysis
 
 UN Global Hackathon on AI for Digital Trade Regulatory Analysis
-Team: [Team Name] | Round: **Final**
-Last updated: [YYYY-MM-DD]
+Team: **Rocky has a home run** | Round: **Final**
+Last updated: 2026-10-01
 
-> **Final round requirement.** Every section below is mandatory, as flagged in the Round 1 version of this
-> template. This README is part of your 30 September submission and is read during the desk review — it is
-> where a reviewer looks first, and it is the front door to criterion **C4a, Technical Handover (8 points)**.
+> **Final round requirement.** Every section below is mandatory. This README is part of the submission
+> and is read during the desk review — it is the front door to criterion **C4a, Technical Handover**.
 
 ---
 
@@ -15,256 +14,259 @@ Last updated: [YYYY-MM-DD]
 This tool automates two tasks required by the ESCAP Regional Digital Trade Integration Index (RDTII 2.1):
 
 **Task 1 — Automated Evidence Discovery**
-Given an economy and a pillar, the tool crawls official government legal portals, retrieves the relevant
-legislation (including scanned and image-based PDFs), and extracts clean, structured text — with no manual steps.
+Given an economy and a pillar, the tool crawls official government legal portals politely (robots.txt
+obeyed, one request at a time), retrieves the relevant legislation — including scanned and image-based
+PDFs — and extracts clean, article-level text. Where a portal forbids automated collection (China's
+national database does, in writing), documents are collected by hand through the interface's inbox,
+with a per-file provenance sheet, and flow through the identical extraction path.
 
 **Task 2 — Intelligent Mapping and Categorisation**
-The extracted text is mapped to RDTII indicator IDs. Each provision is recorded with an article-level citation,
-a verbatim snippet, and a Discovery Tag marking whether it was found independently (NEW) or matched a known
-example (KNOWN).
+Extracted provisions are mapped to RDTII indicator IDs against a machine codebook built from the RDTII
+2.1 methodology: one block per indicator with the legal question, a scoring tree, coding rules and the
+host's trap wording. Each filed row carries an article-level citation, a verbatim snippet that is a
+character-exact substring of the stored source, a rationale, a confidence, a NEW/KNOWN Discovery Tag
+and the Language of Source.
 
 **Mandatory pillars:** 6 (Cross-border data policies) and 7 (Domestic data protection and privacy).
-**Also in scope:** all twelve RDTII 2.1 pillars. The sealed live test on 15 October may fall in any of them.
-**Economies covered:** [list them]
-**Ready for the live test:** the nine economies whose 2025 RDTII database you hold — Thailand, Viet Nam,
-Indonesia, China, India, Kazakhstan, Lao PDR, Mongolia, the Russian Federation. State honestly which of these
-your tool has actually been run against.
+**Also in scope:** all twelve RDTII 2.1 pillars — demonstrated end to end on Timor-Leste, which was
+mapped against all 61 in-scope indicators.
+**Economies run end to end this round:** Australia, Malaysia, Singapore (English), China (Chinese),
+Lao PDR (Lao), Timor-Leste (Portuguese).
+**Live-test readiness, stated honestly:** of the nine 2025-database economies, the tool has actually
+been run against **China** and **Lao PDR**. The other seven need a source registry and, for new
+portals, an adapter; economy and indicator scope are run settings, not code.
 
 ---
 
 ## Quick Start
 
-⚠ **A competent programmer must reach a working system from this section alone, on a clean machine, in under
-30 minutes — with no help from your team.** That threshold is criterion C4a and it will be tested literally.
+⚠ **A competent programmer must reach a working system from this section alone, on a clean machine, in
+under 30 minutes.** No Docker is required or provided: one venv and a standard-library interface keep
+the path short.
 
 ### 1. Clone the repository
 
-    git clone https://github.com/[your-org]/[repo-name].git
-    cd [repo-name]
+```
+git clone https://github.com/JohnChen-kmg/rdtii-rocky-finale-9.30
+cd rdtii-rocky-finale-9.30
+git checkout final-submission
+```
 
 ### 2. Set up the environment
 
-    # Python 3.10+ required
-    python -m venv venv
-    source venv/bin/activate        # Windows: venv\Scripts\activate
-    pip install -r requirements.txt
+```
+# Python 3.10+ required
+python -m venv .venv
+.venv\Scripts\pip install -r requirements-demo.txt
+.venv\Scripts\pip install -e stages/p2-extract
+```
+
+Only for live crawling: `python -m playwright install chromium`.
+Only for scanned PDFs: install Tesseract 5 (`winget install UB-Mannheim.TesseractOCR`); the language
+packs (English, Lao, Chinese, Portuguese, Malay) ship in `stages/p2-extract/fixtures/`.
+
+For the open-weights engine (Engine B, $0): install [Ollama](https://ollama.com), then
+`ollama pull qwen2.5:14b` and verify the digest with `ollama list --digests`
+(`sha256:7cdf5a0187d5…`).
+
+Optional dense-retrieval leg: `pip install torch --index-url https://download.pytorch.org/whl/cpu`
+then `pip install sentence-transformers` (first index build downloads the BGE-M3 model, ~2 GB). The
+BM25-only leg runs end to end without it.
 
 ### 3. Configure
 
-    cp .env.example .env
-
-Open `.env` and set your two declared engines and your OCR engine. See **Your Two Declared Engines** below.
+Nothing is required for a first run. Every data location is an environment variable with a clean-clone
+default; the full table is in `interface/README.md` and `interface/DATA_PATHS.md`. The Engine A key is
+entered in the interface and held in memory only — it is never written to disk.
 
 ### 4. Start the interface
 
-    python interface/app.py
+```
+.venv\Scripts\python interface/app.py
+```
 
-Then open http://127.0.0.1:8765/. The interface is standard-library Python: nothing to install for it. **Everything else happens in the interface** — starting a run, reviewing,
-correcting, switching engines, exporting. A reviewer should not need the command line again after this step.
+Open **http://127.0.0.1:8765/**. The header shows health dots for Ollama, Tesseract, Chromium, key
+held and stages present.
 
 ### 5. Verify
 
-Run [economy] on pillar [n] from the interface. Expected: [n] provisions in roughly [n] minutes, exported to
-`outputs/`. If you see [known first-run symptom], [fix].
+Five minutes: Overview tab → follow the worked example (Singapore PDPA s.26(1)) from its crawl folder
+to its filed row. Mapping tab → Output → open a row: original text beside labelled machine English.
+Reject the row, Export CSV and xlsx, confirm the rejected row is gone and indicator IDs are text.
+Appendix tab → run the self-test.
 
 ---
 
 ## Your Interface
 
-Criteria **C3a (10)** and **C3b (5)** are marked on your interface during the desk review, by someone who did
-not build it. Describe how to reach each of the following, with the screen name and the control:
-
-| What a reviewer needs to do | Where it is |
-| :---- | :---- |
-| Start a run and watch progress in plain words | **Scraping**, **Extraction** or **Mapping** tab → block **2 Run** → **Check**, then **Start**. Progress is a list of sentences with a Stop button; the raw output is one click away |
-| Open the audit view: a result beside the source text it came from | **Mapping** tab → block **3 Output** → click a row. The verbatim snippet sits beside its machine English, labelled; the provision text and the surrounding source text open below |
-| Follow a row to its official source at the cited article | Row detail → **Source** link (opens the portal) with **Location** and **Article / Section** beside it |
-| Accept, reject or correct a row | Row detail → **Accept** / **Reject…** (with a reason) / **Correct…** (five fields). Decisions append to `outputs/reviews/<run>/decisions.jsonl`; the filed submission is read-only |
-| Switch the AI engine | **Mapping** tab → **Engine Selection** banner at the top → **A** or **B**. Read from `stages/p3-map/config/llm/engines.json`; the choice is recorded in every run's `run_manifest.json` |
-| Export to the RDTII schema | **Mapping** tab → block **3 Output** → **Export CSV** / **Export xlsx**. Fourteen columns in the host's order, rejected rows removed, corrections applied, column O untouched |
-
-**Walkthrough recording:** [link or filename]. Three to four minutes, submitted with your Word document.
-
----
+One page served by standard-library Python (no web framework): an **Overview** (workflow map with a
+worked example running down the right), **Scraping**, **Extraction** and **Mapping** tabs — each with
+Set up, Run (Check then Start, progress in plain words, Stop) and Output — and an **Appendix**
+(shipped docs, settings in effect, a self-test). A hand-collected inbox sits between Scraping's Run
+and Output. Review is Accept / Reject / Correct per row, appended to a decisions log; the filed
+submission is read-only. Crawl folders, the OCR cache, the index and run folders are clearable from
+the page, only under the runs root, with a preview and a confirm. 93 interface tests:
+`python -m unittest discover -s interface/tests -t interface`.
 
 ## Your Two Declared Engines
 
-Required by criterion **C4b (No Vendor Lock-in, 7 points)** and tested again live as **C5b (4 points)**.
-Both engines are declared in Section 5 of your Word submission on 30 September and **cannot change afterwards**.
+Declared in `stages/p3-map/config/llm/engines.json`; the interface reads that file, so the declared
+and offered engines cannot drift apart. Both engines run the **same conversation**: a cached codebook
+prefix plus one provision turn, the same schema-forced reply, the same grounding checks — they differ
+in weights, not protocol.
 
-| | Engine A — commercial hosted | Engine B — open weights |
-| :---- | :---- | :---- |
-| Provider and model | [ ] | [ ] |
-| Version / checkpoint | [ ] | [ ] |
-| Local or hosted API | [ ] | [ ] |
-| Config value | `LLM_PROVIDER=[ ]` `LLM_MODEL=[ ]` | `LLM_PROVIDER=[ ]` `LLM_MODEL=[ ]` |
+| | Engine A | Engine B |
+| :-- | :-- | :-- |
+| Models | Claude Sonnet 5 (mapper) · Haiku 4.5 (blind verifier) · Opus 4.8 (tie-break) | Qwen2.5-14B-Instruct (Apache-2.0), all roles |
+| Where it runs | Hosted Anthropic API; Message Batches lane at 50% pricing | Local via Ollama, digest-pinned; no key; nothing leaves the machine |
+| Triage | always local qwen2.5:14b — a local model never maps, verifies or breaks a tie | same |
+| Measured cost | whole finale run **$275.24** (`submission/reports/cost_ledger.json`) | **$0**; ≈ 27 s per provision, one worker |
 
 ### Switching between them
 
-The switch must be made **inside the interface**, with no file edited and no command typed. A steward watches
-this happen on 15 October; a switch that needs code or configuration scores zero on C5b.
-
-In the interface: **Mapping → Engine Selection → A or B**, the banner at the top of the Mapping tab. No file is edited and no command typed; the API key row sits beneath it in the same banner (needed for engine A only), and the pre-flight confirms the key (A) or the local model and its digest (B) before Start unlocks.
-The underlying abstraction lives in `stages/p3-map/config/llm/base.py` (`LLMClient`, one method, `complete(prompt, schema)`) with the provider switch in `config/llm/factory.py`; adding a provider means one client class implementing `complete`, one branch in `get_llm`, a price card in `base.PRICES`, and an entry in `config/llm/engines.json`, which the interface reads to offer it. An unrecognised provider is refused rather than silently downgraded.
+Mapping tab → **Engine Selection** banner → Engine A or Engine B. One control, no file edit, no typed
+command. The browser can only name an allowlisted choice that the server validates; the choice is
+recorded in the run's `run_manifest.json`.
 
 ### Re-running without fetching
 
-A second pass must read documents already downloaded and fetch nothing new — its document list must be empty.
-
-In the interface: **Stage 1 Scraping → 1.2 Run → Run: Update an existing crawl → Check → Start**. The Output block's **Fetched last pass** then reads 0, taken from the crawler's own cost_report.json.
-Where downloaded documents are cached: `outputs/scrape/<run>/raw/` (the **Clear raw** button on the Scraping tab removes them; **Clear OCR cache** on the Extraction tab removes `ocr/` and `source_text/`).
-
----
+Only Stage 1 touches the network. A second pass reads the frozen bytes of documents already
+downloaded; its fetched-documents list is empty by construction. Downloaded documents live under the
+crawl folder's `raw/`, the OCR cache under the run — both visible and clearable in the interface.
 
 ## Crawling Politely
 
-Built in and **on by default** — a ministry running this tool should not have to configure it to avoid being
-blocked, and on 15 October five tools will be reading the same government sites in the same hour.
-
-| Setting | Value | Where it is set |
-| :---- | :---- | :---- |
-| Max requests per second per host | 1 | `[file:line]` |
-| Parallel requests per host | 1 | `[file:line]` |
-| robots.txt respected | yes | `[file:line]` |
-
----
+robots.txt is read first and obeyed; a refusal is never retried with a different client, and the
+user-agent is never changed to evade a block. At least 3 seconds between requests to a host, plus the
+host's own Crawl-delay when longer; one request at a time; back-off on 429 and 503. China's national
+database forbids automated collection, so it is hand-collected with per-file provenance; CAC, which
+permits crawling, was crawled.
 
 ## Architecture Overview
 
-[Keep your Round 1 diagram, updated. Make the boundary between fetching and reading explicit — the second
-pass depends on those being separable.]
+```
+official portals / hand inbox
+  → P1 collect   (robots-polite crawler; China via its own tools)  → manifest + frozen bytes
+  → P2 extract   (per-script OCR → segment → byte-anchored provisions, contract 0.3.0)
+  → P3 map       (select 0.1% of pairs → local triage → mapper ⇄ blind verify → rollup → NEW/KNOWN)
+  → evidence     (14-column rows, labelled glosses, audit views, per-run cost ledger)
+  → Interface    (review, export, engine switch; subprocess orchestration, never imports stage code)
+```
 
 ### Key modules
 
-| Module | File | Description |
-| :---- | :---- | :---- |
-| Portal Crawler | `[ ]` | Navigates portals, retrieves source URLs |
-| Document Processor | `[ ]` | Download, OCR, structural parsing |
-| Retrieval | `[ ]` | Chunking, embedding, search, reranking |
-| Mapper | `[ ]` | Maps a provision to an RDTII indicator |
-| Interface | `interface/app.py`, `interface/rdtii_ui/` | Run control, audit view, review, export; standard library only |
-| Output Writer | `[ ]` | Writes the RDTII schema |
+| Path | What it does |
+| :-- | :-- |
+| `stages/p0-instrument/output/` | the machine codebook: 61 decimal-ID indicator blocks, scoring trees, traps, and a 1,054-row gold set that scores results and never tunes parameters |
+| `stages/p1-scrape/src/` + `countries/` | crawler engine, six economy adapters, per-economy source registries |
+| `stages/p2-extract/src/rdtii_p2/` | per-script OCR, segmentation, grounding ("no quote, no record") |
+| `stages/p3-map/src/p3map/` | retrieval, the selection function, triage, mapping, blind verification, rollup, NEW/KNOWN, export |
+| `stages/p3-map/config/llm/engines.json` | the two declared engines, checkpoint- and digest-pinned |
+| `interface/app.py` | the whole interface, standard library only |
 
----
+### The cost design worth reading first
+
+Mapping cost is decided before any model call, by selection. We analysed our own Round 1 artifacts per
+indicator and replaced hand-set caps with a per-indicator threshold function with small per-language
+offsets. The finale run passed **46,494 candidate pairs of 46.8 million possible (0.10%)**, and the
+gray band went through a local triage before anything paid ran. Measured on Round 1's own data,
+doubling every ceiling gained **zero** additional gold rows for 61% more volume. The complete
+six-economy, 61-indicator run cost **$275.24** on Engine A and **$0** on Engine B.
 
 ## Swapping the OCR Engine
 
-| Engine | Config value | Notes |
-| :---- | :---- | :---- |
-| [ ] | `[ ]` | [ ] |
-
-Note which of these are proprietary services. Your Section 3 declaration says the core pipeline can run with
-no proprietary API — that has to hold for OCR and translation as well as for the language model.
-
----
+`OCR_ENGINE` selects `tesseract` (default, measured per script) | `paddleocr` | `azure_docint`
+(optional and proprietary — never required). The OCR language comes from the crawler's own language
+field, never guessed from characters. The comparison that fixed these choices, per script, with the
+losing engines named — including the vision models that wrote Lao in Thai and Khmer script — is
+`docs/stages/p2-extract/TOOLS_BY_ECONOMY.md`.
 
 ## Supported Economies and Portals
 
-| Economy | Official portal | Language | Run end to end? | Notes |
-| :---- | :---- | :---- | :---- | :---- |
-| [ ] | [ ] | [ ] | [ ] | [ ] |
+| Economy | Official source | How |
+| :-- | :-- | :-- |
+| Australia | Federal Register of Legislation | crawled |
+| Singapore | Singapore Statutes Online | crawled |
+| Malaysia | Laws of Malaysia (the e-Federal Gazette) + named regulators | crawled |
+| Timor-Leste | Jornal da República | crawled |
+| Lao PDR | Lao Official Gazette | crawled; 96% scans → Lao OCR |
+| China | national database (hand; its robots.txt forbids crawling) + CAC (crawled, permitted) + ministry sites (hand, prepared worklist) | mixed, provenance per file |
 
----
+Adding an economy is a `sources.yaml` registry plus, for a new portal, an adapter; pipeline code does
+not change. The per-economy record, including what each portal does not publish, is under
+`docs/stages/p1-scrape/`.
 
 ## Output Format
 
-Columns are in this exact order — the same schema as Round 1, plus Language of Source. Do not rename or
-reorder; the secretariat validates programmatically.
-
-| # | Column | Required | Description |
-| :---- | :---- | :---- | :---- |
-| 1 | economy | Required | Official UN country name |
-| 2 | law_name | Required | Full official statute name and year |
-| 3 | law_number_ref | Optional | Official act or law number (e.g. Act 709, B.E. 2562) |
-| 4 | last_amended | Optional | Year of most recent amendment |
-| 5 | indicator_id | Required | **RDTII 2.1 code as text: `6.1`, `7.3`, `12.9`. Not "P6-I1".** |
-| 6 | article | Required | Exact article and paragraph (e.g. Art. 26(2), s. 16(1)) |
-| 7 | discovery_tag | Required | NEW = independent find; KNOWN = in the baseline you hold |
-| 8 | location_reference | Optional | PDF page number, or HTML anchor / section path |
-| 9 | verbatim_snippet | Required | Exact quoted text — no paraphrasing |
-| 10 | mapping_rationale | Optional | Max 300 characters: why this provision maps to this indicator |
-| 11 | source_url | Required | Direct URL on the official government portal |
-| 12 | confidence | Optional | Model certainty (0.00–1.00) |
-| 13 | notes | Optional | OCR issues, bilingual sources, cross-references |
-| 14 | language_of_source | Required | Original language of the document — drives C1c |
-
-> **Write indicator IDs as text.** Entered as a number, `12.10` collapses to `12.1` and `4.01` to `4.1` —
-> and those are different indicators.
-
----
+Per economy: `records_<ECON>.csv` — the host's 14 columns in the host's order, UTF-8 with BOM,
+indicator IDs as decimal **text** (`6.1`, `12.4.1`, never `P6-I1`); `records_<ECON>.json` (the same
+rows, grouped per law); a review workbook `RDTII_P3_results_<ECON>.xlsx`; audit HTML with the original
+beside labelled machine English; and `run_manifest.json` (engine, git commit, settings, per-stage
+cost). The filed evidence is in `submission/`: 101 rows filed of 318 produced. A machine translation
+is never evidence — the exporter does not open gloss files, and a test pins exactly that.
 
 ## Measured Cost
 
-**Measured costs from real runs — not estimates. Show your working.** Cost is also recorded per run and per
-engine during the live hour, so make sure your logging produces it without manual arithmetic.
+From `submission/reports/cost_ledger.json`, every figure re-derivable from the run's own reports:
 
-| Component | Engine used | Measured cost |
-| :---- | :---- | :---- |
-| OCR | [ ] | $[ ] |
-| Embedding | [ ] | $[ ] |
-| Mapping — Engine A | [ ] | $[ ] |
-| Mapping — Engine B | [ ] | $[ ] |
-| Crawling | [ ] | $[ ] |
-| **Total, Engine A** | | **$[ ] per document** |
-| **Total, Engine B** | | **$[ ] per document** |
+| Stage | USD |
+| :-- | --: |
+| S4 mapping (Sonnet, batch lane at 50%) | 126.69 |
+| S3b triage (Haiku) | 100.89 |
+| S5 blind verification (Haiku + Opus tie-break) | 41.33 |
+| Glosses (quotes + provision text) | 5.98 |
+| S6 economy rollup | 0.35 |
+| **Whole finale run — six economies, 61 indicators, Engine A** | **275.24** |
 
-**Measured on:** [date] **Benchmark document:** [law, economy, pages]
-**Wall-clock:** [ ] seconds per document
-
-The secretariat verifies cost claims against your code. Unexplained discrepancies are flagged.
-
----
+196 batch results that failed to parse were retried live with the identical conversation, $3.27,
+recovering 187 of 196. Retrieval, selection, local triage, NEW/KNOWN and export are $0. Engine B: $0.
 
 ## Known Limitations
 
-Be honest. A tool that flags text it could not read is better built than one that presents everything with
-equal confidence, and saying plainly what does not work is marked up, not down.
-
-- **[Limitation]:** [what it means in practice, and which economies or documents it affects]
-- **Confidence calibration:** [are your scores calibrated probabilities, or relative? Below what score should
-  a human check?]
-
----
+- **Lao OCR.** ~94% character agreement and 0.856 article-number sequence agreement: roughly one Lao
+  article number in seven was repaired from its position. Every repair is visible per row
+  (`citation_confidence`, `article_number_as_read`); 17 of the 101 filed rows carry the caveat. We do
+  **not** claim the under-5% CER for Lao — no hand-keyed Lao reference page exists.
+- **China.** The national database carries statutes and administrative regulations; the operative tier
+  below them lives on ministry sites by law. MIIT and Customs refuse an honest client and stay manual.
+  Only 6 of 1,090 hand-collected files have full retrieval timestamps; the provenance gaps are
+  recorded rather than invented.
+- **Indicators outside pillars 6 and 7** run through the same pipeline, but their codebook blocks are
+  host-criteria-only, and rows whose answers live outside legal databases (facts, technical standards,
+  WTO postures) carry a manual-check notice instead of a pretended answer.
+- **Glosses** are machine-made and labelled; Lao glosses are flagged "not literal" at 96%, a property
+  of an OCR corpus rather than a per-row signal.
+- The 30-minute deploy has been rehearsed on the development machine only; a second-machine rehearsal
+  is scheduled before 15 October.
 
 ## Running the Test Suite
 
-    pytest tests/
-
-| Test file | What it tests |
-| :---- | :---- |
-| `[ ]` | [ ] |
-
----
+```
+python -m unittest discover -s interface/tests -t interface     # 93 tests, stdlib only
+cd stages/p2-extract && pytest -q                                # extraction suite
+cd stages/p1-scrape  && pytest -q                                # crawler engine + adapters
+cd stages/p3-map     && pytest -q                                # mapping, incl. the gloss-isolation test
+```
 
 ## Reproducing Your Submitted Evidence
 
-    [command]
-
-Lets a reviewer regenerate the rows in your submitted workbook and compare them against what you filed.
-
----
+The filed rows are `submission/records_<ECON>.csv`, 101 filed of 318 produced; the selection rule is
+stated in the submission document. Full corpora (19 GB) are deliberately not shipped: rebuild any
+economy from the Scraping tab, run Extraction, then Mapping with either engine. Every stage writes its
+own report, and `submission/reports/` holds the cost ledger and the per-economy scores behind the
+filed rows. The development history — five workshop folders and the original repository, with every
+decision and measurement dated — is preserved offline and can be shown on request.
 
 ## Team
 
-| Role | Name | Responsibility |
-| :---- | :---- | :---- |
-| Technical Lead | [ ] | AI architecture, OCR, pipeline |
-| Substantive Lead | [ ] | Legal and policy analysis, output QA |
-
----
+**Rocky has a home run** — John (Jiaxiang) Chen, jiaxiangchen.kmg@gmail.com. Solo.
 
 ## Licence
 
-Released under the **Apache License 2.0**, as required. See [LICENSE](LICENSE) for the full text.
-
----
-
-
-The release tag you record is the version that runs on 15 October. Settings may change on the day; code may not.
-
----
+Apache License 2.0 — see `LICENSE`. Third-party components and their licences are listed in Section 3
+of the submission document; no AGPL component is used anywhere in the pipeline.
 
 ## Acknowledgements
 
-Built for the UN Global Hackathon on AI for Digital Trade Regulatory Analysis, organised by ESCAP and KMITL.
-
+UN ESCAP and KMITL for the RDTII 2.1 framework, templates and baselines. The open-source components
+named in Section 3 — in particular Tesseract, PDFium, Ollama, Qwen2.5, BGE-M3 and bm25s.
