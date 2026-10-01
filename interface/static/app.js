@@ -96,13 +96,23 @@ async function loadHealth() {
   renderTop();
 }
 
+/* the models an engine puts in each role, in plain words */
+const MODEL_NAMES = { 'claude-sonnet-5': 'Claude Sonnet 5', 'claude-haiku-4-5': 'Claude Haiku 4.5', 'claude-opus-4-8': 'Claude Opus 4.8', 'qwen2.5:14b': 'Qwen 2.5 14B, local' };
+function roleLine(e) {
+  const r = e.roles || {}; const nm = (m) => MODEL_NAMES[m] || m || '?';
+  const same = r.mapper && r.mapper === r.verifier && r.mapper === r.escalation && r.mapper === r.triage;
+  if (same) return `${nm(r.mapper)} in every role: reading, re-check, tie-break and triage.`;
+  return `reads with ${nm(r.mapper)}, re-checks with ${nm(r.verifier)}, breaks ties with ${nm(r.escalation)}; triage ${nm(r.triage)}.`;
+}
+
 function renderTop() {
   const h = S.health || {};
   const eng = h.engine || { engines: [] };
   $('#engine').innerHTML = `<span class="muted small">Engine Selection:</span>` + eng.engines.map((e) =>
     `<label class="radio ${e.id === eng.selected ? 'on' : ''}" title="${esc(e.provider)} · mapper ${esc(e.roles?.mapper || '')}">
        <input type="radio" name="engine" value="${esc(e.id)}" ${e.id === eng.selected ? 'checked' : ''}> ${esc(e.id)} · ${esc(e.label)}</label>`).join('')
-    + (eng.engines.length ? '' : `<span class="muted small">no engines declared (stages/p3-map missing?)</span>`);
+    + (eng.engines.length ? '' : `<span class="muted small">no engines declared (stages/p3-map missing?)</span>`)
+    + (eng.engines.length ? `<div class="roles">${eng.engines.map((e) => `<div class="${e.id === eng.selected ? 'on' : ''}"><b>${esc(e.id)}</b> ${esc(roleLine(e))}</div>`).join('')}</div>` : '');
   $('#engine').querySelectorAll('input[name=engine]').forEach((inp) => inp.addEventListener('change', async () => {
     try { await api('/api/engine', { method: 'POST', body: JSON.stringify({ id: inp.value }) }); } catch (e) { alert(e.message); }
     loadHealth();
@@ -165,11 +175,11 @@ async function loadPicker() {
       <p>* <b>How the indicators are computed, and what the tags mean:</b></p>
         <div class="tag-table plain">
       <p class="lead">Every indicator is computed the same way: one query from its name, definition and keywords; the same prompt, verification and NEW or KNOWN comparison for all ${pk.in_scope}. What differs is the rulebook the model is given.</p>
-      <div class="table-wrap"><table class="rows tags"><thead><tr><th>Tag in the list</th><th>Indicators</th><th>What it means</th></tr></thead><tbody>
-        <tr><td><span class="chip tier tier-a">reviewed</span><div class="small muted">no tag shown: the pre-selected</div></td><td class="num">${tc.A ?? 9}</td><td>Pillars 6 and 7. The rulebook was checked line by line against the host’s methodology and carries traps learnt from real mistakes.</td></tr>
-        <tr><td><span class="chip tier tier-b">not reviewed</span></td><td class="num">${tc.B ?? '?'}</td><td>As detailed as a reviewed rulebook, but unchecked. An error in it repeats in every row mapped under the indicator, so its rows deserve a reviewer’s eye.</td></tr>
-        <tr><td><span class="chip tier tier-c">host criteria only</span></td><td class="num">${tc.C ?? '?'}</td><td>Only the host’s methodology criteria; no traps or rules of our own. The model settles edge cases itself, so more rows need review; a row should name this in Notes and clear a higher confidence before NEW.</td></tr>
-        <tr><td><span class="chip warn">practice-based</span></td><td class="num">3</td><td>3.4, 5.3 and 9.1 score facts from outside legislation, such as a blocked investment or company ownership. The legal dataset shows the framework, not the practice.</td></tr>
+      <div class="table-wrap"><table class="rows tags"><thead><tr><th>Tag in the list</th><th>Indicators</th><th>What the rulebook carries</th></tr></thead><tbody>
+        <tr><td><span class="chip tier tier-a">reviewed</span><div class="small muted">no tag shown: the pre-selected</div></td><td class="num">${tc.A ?? 9}</td><td><div class="parts"><span>Definition</span><span>Scoring tree</span><span>Coding rules</span><span>Disambiguation</span><span>Exceptions</span><span>Guide examples</span><span class="plus">Traps from real mistakes</span><span class="plus">Reviewed line by line</span></div><div class="small muted">Pillars 6 and 7, checked against the host’s methodology.</div></td></tr>
+        <tr><td><span class="chip tier tier-b">not reviewed</span></td><td class="num">${tc.B ?? '?'}</td><td><div class="parts"><span>Definition</span><span>Scoring tree</span><span>Coding rules</span><span>Disambiguation</span><span>Exceptions</span><span>Guide examples</span></div><div class="small muted">Drafted from the guides, unchecked. An error repeats in every row mapped under the indicator, so its rows deserve a reviewer’s eye.</div></td></tr>
+        <tr><td><span class="chip tier tier-c">host criteria only</span></td><td class="num">${tc.C ?? '?'}</td><td><div class="parts"><span>Definition</span><span>Scoring tree</span><span class="thin">Host criteria, copied by script</span></div><div class="small muted">No traps, no examples, no rules of our own. The model settles edge cases itself, so more rows need review; a row should name this in Notes and clear a higher confidence before NEW.</div></td></tr>
+        <tr><td><span class="chip warn">practice-based</span></td><td class="num">3</td><td><div class="parts"><span class="ext">Facts outside legislation</span></div><div class="small muted">3.4, 5.3 and 9.1 score a blocked investment or company ownership and the like. The legal dataset shows the framework, not the practice.</div></td></tr>
       </tbody></table></div>
       <p class="small muted">Any rulebook can be raised to the reviewed level later, by review alone; the pipeline does not change.</p>
         </div>
@@ -1081,11 +1091,11 @@ function reviewControls(d) {
   const hist = (d._decision_history || []).length;
   return `<div class="review" style="margin-top:10px">
     <div class="row">
-      <span class="muted small">Review as</span> <input type="text" id="rv-name" size="14" value="${esc(RV.reviewer || (S.health && S.health.reviewer) || '')}" placeholder="your name">
+      <span class="rv-label">Review as</span> <input type="text" id="rv-name" size="14" value="${esc(RV.reviewer || (S.health && S.health.reviewer) || '')}" placeholder="your name">
       <button class="btn" id="rv-accept">Accept</button>
       <button class="btn" id="rv-reject">Reject…</button>
       <button class="btn" id="rv-correct">Correct…</button>
-      ${dec ? `${decisionChip(dec)} <span class="muted small">by ${esc(dec.reviewer)} at ${esc(dec.decided_at)}${dec.reason ? `: ${esc(dec.reason)}` : ''}${hist > 1 ? `, ${hist} decisions on this row` : ''}</span>` : '<span class="muted small">no decision yet</span>'}
+      ${dec ? `${decisionChip(dec)} <span class="muted small">by ${esc(dec.reviewer)} at ${esc(dec.decided_at)}${dec.reason ? `: ${esc(dec.reason)}` : ''}${hist > 1 ? `, ${hist} decisions on this row` : ''}</span> <button class="btn" id="rv-clear" title="withdraw this decision; the log keeps it">Clear decision</button>` : '<span class="chip warn rv-none">no decision yet</span>'}
     </div>
     <div id="rv-form"></div>
   </div>`;
@@ -1100,6 +1110,7 @@ function bindReview(d) {
     } catch (e) { alert(e.message); }
   };
   const acc = $('#rv-accept'); if (acc) acc.onclick = () => post({ verdict: 'accept' });
+  const clr = $('#rv-clear'); if (clr) clr.onclick = () => post({ verdict: 'clear' });
   const rej = $('#rv-reject'); if (rej) rej.onclick = () => {
     $('#rv-form').innerHTML = `<div class="row" style="margin-top:8px"><label>Reason <select id="rv-reason">${RV.reasons.map((r) => `<option>${esc(r)}</option>`).join('')}</select></label> <input type="text" id="rv-reason-text" size="40" placeholder="detail (optional, required for “other”)"> <button class="btn primary" id="rv-reject-go">Reject this row</button> <button class="btn" id="rv-cancel">Cancel</button></div>`;
     $('#rv-reject-go').onclick = () => { const r = $('#rv-reason').value, t = $('#rv-reason-text').value.trim(); if (r === 'other' && !t) { alert('Say why.'); return; } post({ verdict: 'reject', reason: t ? `${r}: ${t}` : r }); };

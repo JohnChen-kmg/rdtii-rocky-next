@@ -30,6 +30,18 @@ class Decisions(unittest.TestCase):
                 return mapping.row_detail(self.run, r["_i"], self.s)
         raise AssertionError("no such row")
 
+    def test_clear_withdraws_the_decision_but_keeps_the_log(self):
+        row = self._row("CN")
+        review.record_decision(self.s, self.run, row, {"verdict": "accept", "reviewer": "Judge 3"}, self.in_scope)
+        latest, lines = review.load_decisions(self.s, self.run["id"])
+        self.assertEqual(latest[review.row_key(row)]["verdict"], "accept")
+        review.record_decision(self.s, self.run, row, {"verdict": "clear", "reviewer": "Judge 3"}, self.in_scope)
+        latest, lines = review.load_decisions(self.s, self.run["id"])
+        self.assertNotIn(review.row_key(row), latest)          # no decision in force
+        self.assertEqual([d["verdict"] for d in lines], ["accept", "clear"])   # both lines kept
+        out, rejected, corrected = review.apply_decisions([row], latest)
+        self.assertEqual((len(out), rejected, corrected), (1, 0, 0))
+
     def test_reject_needs_a_reason_and_latest_wins(self):
         row = self._row("CN")
         with self.assertRaises(ApiError):

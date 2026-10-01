@@ -26,7 +26,7 @@ from .readers import HOST_COLUMNS
 from .server import ApiError, App, FileResponse, rel_or_abs
 from .settings import REPO, Settings
 
-VERDICTS = ("accept", "reject", "correct")
+VERDICTS = ("accept", "reject", "correct", "clear")   # clear withdraws the current decision; the log keeps every line
 REJECT_REASONS = ("wrong indicator", "quote not in the source", "citation wrong", "provision not in force",
                   "out of scope", "other")
 CORRECTABLE = ("Indicator ID", "Article / Section", "Verbatim Snippet", "Discovery Tag", "Notes")
@@ -55,6 +55,8 @@ def load_decisions(s: Settings, run_id: str) -> tuple[dict, list]:
     latest: dict = {}
     for d in lines:
         latest[d["key"]] = d
+    # a row whose latest line is 'clear' has no decision in force; the line itself stays in the log
+    latest = {k: d for k, d in latest.items() if d.get("verdict") != "clear"}
     return latest, lines
 
 

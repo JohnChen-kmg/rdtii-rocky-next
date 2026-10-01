@@ -103,9 +103,9 @@ One page served by standard-library Python (no web framework): an **Overview** (
 worked example running down the right), **Scraping**, **Extraction** and **Mapping** tabs — each with
 Set up, Run (Check then Start, progress in plain words, Stop) and Output — and an **Appendix**
 (shipped docs, settings in effect, a self-test). A hand-collected inbox sits between Scraping's Run
-and Output. Review is Accept / Reject / Correct per row, appended to a decisions log; the filed
+and Output. Review is Accept / Reject / Correct per row, with Clear to withdraw a decision, all appended to a decisions log; the filed
 submission is read-only. Crawl folders, the OCR cache, the index and run folders are clearable from
-the page, only under the runs root, with a preview and a confirm. 93 interface tests:
+the page, only under the runs root, with a preview and a confirm. 94 interface tests:
 `python -m unittest discover -s interface/tests -t interface`.
 
 ## Your Two Declared Engines

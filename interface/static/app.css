@@ -125,7 +125,19 @@ ul.said { list-style: none; margin: 8px 0; padding: 0; max-height: 34vh; overflo
 ul.checks { list-style: none; padding: 0; margin: 8px 0; font-size: 16px; } ul.checks li { padding: 3px 0; }
 #map-input label.radio:not(.big) { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--chip); cursor: pointer; }
 #map-input label.radio.on { border-color: var(--accent); background: #e8efff; }
-.review { border-top: 1px dashed var(--line); padding-top: 8px; }
+.review { background: #f4f9fd; border: 2px solid #9fc0dd; border-radius: 12px; padding: 16px 20px; font-size: 18px; }
+.review .row { align-items: center; gap: 12px; }
+.review .rv-label { font-size: 20px; font-weight: 800; color: var(--un-blue-deep); }
+.review #rv-name { font-size: 18px; padding: 8px 12px; border: 2px solid #c5d8e8; border-radius: 8px; font-weight: 600; }
+.review #rv-accept, .review #rv-reject, .review #rv-correct, .review #rv-clear { font-size: 18px; font-weight: 700; padding: 9px 20px; border: 2px solid; background: #fff; border-radius: 8px; }
+.review #rv-accept { border-color: #9fcfb3; color: #1f6b3f; } .review #rv-accept:hover { background: #e7f6ec; }
+.review #rv-reject { border-color: #e6a8a2; color: #a33a2d; } .review #rv-reject:hover { background: #fbeeec; }
+.review #rv-correct { border-color: #e7c98a; color: #8a5a12; } .review #rv-correct:hover { background: #fdf4e1; }
+.review #rv-clear { border-color: #c5d8e8; color: var(--un-blue-deep); } .review #rv-clear:hover { background: #eaf4fc; }
+.review .chip { font-size: 17px; font-weight: 700; padding: 6px 16px; }
+.review .chip.rv-none { border: 2px solid #ead9a8; }
+.review .muted.small { font-size: 16px; }
+.review #rv-form label, .review #rv-form input, .review #rv-form select, .review #rv-form textarea, .review #rv-form p { font-size: 17px; }
 .correct label.cf { display: block; margin: 6px 0; font-size: 15px; color: var(--muted); }
 .correct label.cf input, .correct label.cf select { margin-left: 6px; }
 .correct label.cf textarea { display: block; width: 100%; max-width: 900px; font: inherit; font-size: 16px; padding: 6px; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); }
@@ -452,3 +464,63 @@ table.rows.tiers ul.tb { margin: 0; padding-left: 20px; } table.rows.tiers ul.tb
 .guide .block.grey .mini-io span { background: #f1f3f5; border-color: #b4bec8; color: #3b4652; }
 .guide .block.grey .mini-io b { background: #6b7a89; } .guide .block.grey .mini-io b::after { border-color: #6b7a89; }
 .guide .block.grey > p { color: var(--ink); }
+/* the tag table: what each rulebook carries, as chips; fewer chips, thinner rulebook */
+.tag-table .parts { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 6px; }
+.tag-table .parts span { background: #eaf4fc; border: 1px solid #9fc0dd; color: var(--un-blue-deep); border-radius: 999px; padding: 3px 11px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+.tag-table .parts span.plus { background: #dcfce7; border-color: #9fcfb3; color: #166534; }
+.tag-table .parts span.thin { background: #f3f4f6; border-color: #cfd5db; color: #4b5563; }
+.tag-table .parts span.ext { background: #fef3c7; border-color: #e7c98a; color: #92400e; }
+.tag-table table.tags td .small.muted { font-size: 15px; }
+/* the Overview's per-indicator distribution table */
+.guide .dist { margin: 10px 0 4px; overflow-x: auto; }
+.guide .dist-title { font-size: 16px; font-weight: 800; color: var(--un-blue-deep); margin-bottom: 4px; }
+.guide table.dist { border-collapse: collapse; width: 100%; font-size: 15px; background: #fff; border: 1px solid #c5d8e8; border-radius: 8px; }
+.guide table.dist th, .guide table.dist td { padding: 4px 8px; border-bottom: 1px solid #e3ebf2; text-align: left; vertical-align: middle; white-space: nowrap; }
+.guide table.dist th { font-weight: 800; color: var(--ink); background: #f4f9fd; white-space: nowrap; }
+.guide table.dist td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.guide table.dist td.bar { width: 18%; min-width: 70px; } .guide table.dist td.bar i { display: block; height: 10px; background: var(--un-blue); border-radius: 5px; min-width: 2px; }
+.guide .dist .small.muted { margin-top: 6px; font-size: 14px; }
+/* the Overview's score distributions, one small chart per indicator */
+.guide .scoregrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 10px 14px; margin-top: 8px; }
+.guide .scorecard { background: #fff; border: 1px solid #c5d8e8; border-radius: 8px; padding: 6px 8px 4px; }
+.guide .scorecard-title { font-size: 14px; color: #3b4652; margin-bottom: 2px; } .guide .scorecard-title b { color: var(--un-blue-deep); font-size: 15px; margin-right: 4px; }
+.guide svg.scoredist { width: 100%; height: auto; display: block; }
+.guide svg.scoredist .bin { fill: #cfe3f3; } .guide svg.scoredist .bin.mapped { fill: #f0b429; }
+.guide svg.scoredist .theta { stroke: #b42318; stroke-width: 1.5; stroke-dasharray: 3 2; }
+.guide svg.scoredist .theta-label { font-size: 9px; fill: #b42318; font-weight: 700; }
+.guide svg.scoredist .axis { font-size: 8px; fill: #6b7280; }
+/* one colour per indicator type on the score charts, as on the blocks */
+.guide .scorecard { --cls: var(--un-blue); --cls-fill: #cfe3f3; border-color: var(--cls); border-width: 2px; }
+.guide .scorecard.cls-proh { --cls: #0072bc; --cls-fill: #cfe3f3; }
+.guide .scorecard.cls-subj { --cls: #2e7d32; --cls-fill: #d3ecd6; }
+.guide .scorecard.cls-horiz { --cls: #5b3fa6; --cls-fill: #e1dbf4; }
+.guide .scorecard.cls-recur { --cls: #0b7a75; --cls-fill: #cfe9e7; }
+.guide .scorecard-title { background: var(--cls); color: #fff; margin: -6px -8px 6px; padding: 5px 10px; border-radius: 6px 6px 0 0; font-weight: 600; }
+.guide .scorecard-title b { color: #fff; }
+.guide .scorecard svg.scoredist .bin { fill: var(--cls-fill); } .guide .scorecard svg.scoredist .bin.mapped { fill: #f0b429; }
+.guide .scorelegend { display: flex; flex-wrap: wrap; gap: 6px 10px; margin: 8px 0 2px; font-size: 13px; }
+.guide .scorelegend span { border-radius: 999px; padding: 2px 10px; color: #fff; font-weight: 700; }
+.guide .scorelegend .cls-proh { background: #0072bc; } .guide .scorelegend .cls-subj { background: #2e7d32; }
+.guide .scorelegend .cls-horiz { background: #5b3fa6; } .guide .scorelegend .cls-recur { background: #0b7a75; }
+.guide .scorelegend .mapped { background: #f0b429; color: #4a3200; } .guide .scorelegend .theta { background: #fff; color: #b42318; border: 1.5px dashed #b42318; }
+/* the cost report block */
+.guide .block.cost { margin-bottom: 0; }
+.guide .block.cost > p { margin: 0 20px 10px; font-size: 17px; line-height: 1.5; }
+.guide .block.cost > p code { background: #f1f3f5; padding: 2px 6px; border-radius: 5px; font-size: 15px; }
+.guide .cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 0 20px; }
+.guide .block.cost .dist-title { color: #3b4652; }
+.guide .block.cost > .dist-title { margin: 12px 20px 2px; }
+.guide .block.cost > ul { margin: 0 20px 6px; padding-left: 24px; font-size: 17px; line-height: 1.5; }
+.guide .block.cost li { margin: 6px 0; }
+.guide .block.cost table.dist { border-color: #b4bec8; } .guide .block.cost table.dist th { background: #f1f3f5; }
+.guide .block.cost .dist-title + table.dist { margin-top: 4px; }
+.guide .block.cost .small.muted { margin-top: 6px; font-size: 14px; }
+@media (max-width: 1150px) { .guide .cost-grid { grid-template-columns: 1fr; } }
+.guide .cost-table { margin: 0 20px; overflow-x: auto; }
+.guide .cost-table table.dist tr.total td { border-top: 2px solid #8a97a5; background: #f8f9fb; }
+.guide .cost-table td.muted { color: var(--muted); font-size: 14px; }
+/* the roles line under the engine radios */
+.engine-banner .roles { flex-basis: 100%; display: flex; flex-direction: column; gap: 2px; margin-top: 4px; font-size: 16px; color: #3b4652; }
+.engine-banner .roles div.on { color: var(--un-blue-deep); font-weight: 600; } .engine-banner .roles b { margin-right: 6px; color: var(--un-blue-deep); }
+.engine-banner > .group { flex-wrap: wrap; }
+.guide details.subfold > p.models { margin: 8px 16px 2px; font-size: 16px; line-height: 1.5; color: #3b4652; }
