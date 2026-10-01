@@ -170,8 +170,9 @@ Mapping cost is decided before any model call, by selection. We analysed our own
 indicator and replaced hand-set caps with a per-indicator threshold function with small per-language
 offsets. The finale run passed **46,494 candidate pairs of 46.8 million possible (0.10%)**, and the
 gray band went through a local triage before anything paid ran. Measured on Round 1's own data,
-doubling every ceiling gained **zero** additional gold rows for 61% more volume. The complete
-six-economy, 61-indicator run cost **$275.24** on Engine A and **$0** on Engine B.
+doubling every ceiling gained **zero** additional gold rows for 61% more volume. The finale run,
+six economies on pillars 6 and 7 and one of them on all 61 indicators, cost **$275.24** on Engine A and
+**$0** on Engine B; one economy on the two mandatory pillars is about $33.
 
 ## Swapping the OCR Engine
 
@@ -207,19 +208,52 @@ is never evidence — the exporter does not open gloss files, and a test pins ex
 
 ## Measured Cost
 
-From `submission/reports/cost_ledger.json`, every figure re-derivable from the run's own reports:
+Engine A, from `submission/reports/cost_ledger.json`; every figure is re-derivable from the run's own reports
+(`map_report_<E>.json`, `verify_report_<E>.json`, `run_manifest.json`). Engine B (qwen2.5:14b, local) is **$0** at
+every size below.
 
-| Stage | USD |
+### One economy, pillars 6 and 7
+
+Singapore, the nine mandatory indicators: **$32.96**. Mapping $15.48, triage $12.53, blind verification $4.93,
+rollup $0.02, no translation needed. The same scope cost between **$22** (Lao PDR, Timor-Leste) and **$52** (China,
+which also pays $3.06 of translation) across the six economies; the median is $32. One economy on two indicators,
+the shape of the 15 October draw, is about **$7**.
+
+### What the finale run cost
+
+| Scope | USD |
 | :-- | --: |
-| S4 mapping (Sonnet, batch lane at 50%) | 126.69 |
-| S3b triage (Haiku) | 100.89 |
-| S5 blind verification (Haiku + Opus tie-break) | 41.33 |
-| Glosses (quotes + provision text) | 5.98 |
-| S6 economy rollup | 0.35 |
-| **Whole finale run — six economies, 61 indicators, Engine A** | **275.24** |
+| Six economies on pillars 6 and 7: AU 46.38, CN 52.08, MY 30.65, SG 32.96, LA 22.00, TL 21.93 | 206.00 |
+| Timor-Leste on the other 52 indicators, the whole instrument for one economy | 69.04 |
+| Rollup re-runs during the build, not attributed to an economy | 0.20 |
+| **Whole finale run, Engine A** | **275.24** |
 
-196 batch results that failed to parse were retried live with the identical conversation, $3.27,
-recovering 187 of 196. Retrieval, selection, local triage, NEW/KNOWN and export are $0. Engine B: $0.
+By stage: mapping $126.69 (Sonnet, batch lane at 50%), triage $100.89 (Haiku), blind verification $41.33 (Haiku,
+Opus tie-break), translations $5.98, economy rollup $0.35. Mapping, verification and translation are per-economy
+reports; triage is attributed to economies pro rata by their gray-band pairs. 196 batch results that failed to parse
+were retried live with the identical conversation, $3.27, recovering 187 of 196. Retrieval, selection, local triage,
+NEW/KNOWN and export are $0.
+
+### Estimate: six economies, all 61 indicators
+
+Timor-Leste is the one economy run against the whole instrument: $21.93 for pillars 6 and 7 and $69.04 for the
+other 52 indicators, so the full instrument cost **4.1 times** the two mandatory pillars. Applied to each economy's
+measured two-pillar cost, six economies on all 61 indicators come to **about $850** on Engine A (AU 192, CN 216,
+MY 127, SG 137, LA 91, TL 91). If cost scaled with the indicator count instead (61/9 = 6.8 times) the ceiling would
+be about $1,400; the lower figure is the measured one, because the 52 other indicators are mostly subject-specific
+and admit fewer candidates. Engine B: $0.
+
+### A third way to cut cost: a cheaper model in a role
+
+Besides selection (fewer pairs) and Engine B (free), a cheaper model can take a role. We tested it under
+pre-registered gates (`stages/p3-map/docs/ab/`): local Qwen as triage dropped 16% of the pairs Haiku keeps (A/B-1);
+Haiku as mapper grounded 43% of quotes against Sonnet's 91% (A/B-2); DeepSeek as triage dropped 34% and 29% in
+its two sizes against a 5% gate, and as mapper grounded 48% to 72% of quotes against a 98% gate (A/B-3, A/B-4,
+$0.38 of spend in all). The failures are in grounding and output format, not price, so a swap is not a config
+change: the prompts, the quote-grounding check and the structured-output enforcement have to be re-coded for the
+model (DeepSeek, for one, enforces JSON by `response_format` rather than a tool call). The provider layer accepts
+any OpenAI-compatible endpoint, so GPT, Kimi or a newer DeepSeek can be tried the same way, with the same gates,
+once their prompts are adapted.
 
 ## Known Limitations
 
@@ -233,7 +267,10 @@ recovering 187 of 196. Retrieval, selection, local triage, NEW/KNOWN and export 
   recorded rather than invented.
 - **Indicators outside pillars 6 and 7** run through the same pipeline, but their codebook blocks are
   host-criteria-only, and rows whose answers live outside legal databases (facts, technical standards,
-  WTO postures) carry a manual-check notice instead of a pretended answer.
+  WTO postures) carry a manual-check notice instead of a pretended answer. This is easily improved: the
+  pipeline computes every indicator the same way, and the only thing that differs is the rulebook it is
+  given. Writing those 52 blocks to the reviewed depth of pillars 6 and 7 (definition, scoring tree, coding
+  rules, traps, worked examples) is an edit to `stages/p0-instrument/output/indicators.yaml`, no code.
 - **Glosses** are machine-made and labelled; Lao glosses are flagged "not literal" at 96%, a property
   of an OCR corpus rather than a per-row signal.
 - The 30-minute deploy has been rehearsed on the development machine only; a second-machine rehearsal

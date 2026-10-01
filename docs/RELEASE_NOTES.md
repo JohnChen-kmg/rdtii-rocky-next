@@ -22,9 +22,11 @@ Digital Trade Regulatory Analysis. Team: Rocky has a home run.
   review with original-beside-English, append-only decisions, 14-column CSV/xlsx export, clearable
   caches, and an Appendix self-test.
 - **The filed evidence**: 101 workbook rows (of 318 produced) across six economies in four
-  languages, with the per-run cost ledger — the complete finale run cost **$275.24** on Engine A and
-  **$0** on Engine B — and the packaging report that verified IDs-as-text and untouched template
-  formulas.
+  languages, with the per-run cost ledger — the finale run (six economies on pillars 6 and 7,
+  $206.00, plus Timor-Leste across the other 52 indicators, $69.04) cost **$275.24** on Engine A
+  and **$0** on Engine B; extending all six economies to all 61 indicators projects to about $850
+  from the measured Timor-Leste ratio — and the packaging report that verified IDs-as-text and
+  untouched template formulas.
 - **The working record** under `docs/`: per-stage results written the day each stage closed, the OCR
   and translation tool comparisons with the losing options named, the problems register, and one
   superseded analysis kept with its error explained.
