@@ -1,0 +1,33 @@
+{
+  "final_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/outputaktap/1700388_BI/588%20REPRINT%202002.pdf",
+  "status": 200,
+  "retrieval_method": "requests",
+  "content_type": "application/pdf",
+  "redirect_chain": [],
+  "request_headers": {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RDTII-Rocky-Crawler/0.1 (+polite public-law retrieval; contact: jiaxiangchen.kmg@gmail.com)",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Accept-Language": "en"
+  },
+  "response_headers": {
+    "Date": "Tue, 14 Jul 2026 20:22:54 GMT",
+    "Content-Type": "application/pdf",
+    "Content-Length": "12105239",
+    "Last-Modified": "Wed, 03 Sep 2025 01:53:54 GMT",
+    "Connection": "keep-alive",
+    "ETag": "\"68b79fb2-b8b617\"",
+    "Access-Control-Allow-Origin": "*",
+    "X-XSS-Protection": "1; mode=block",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "microphone=() camera=()",
+    "Accept-Ranges": "bytes",
+    "Set-Cookie": "TSd5fbf474027=08ba2f2e2aab2000ad5f099ee6634113dbae50535330987fb514c107020142af026571cd25c95566087b5d291411300048872f703eb2eb61506cbd16976c6b353c7b06f30b9846bcc0158f0a187fa9f8e16ffb8e3ba82f632dbf17180b6e2a88; Path=/"
+  },
+  "fetched_at": "2026-07-14T20:19:35Z",
+  "error": null
+}

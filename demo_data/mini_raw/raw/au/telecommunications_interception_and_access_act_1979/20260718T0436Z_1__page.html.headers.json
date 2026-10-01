@@ -1,0 +1,31 @@
+{
+  "final_url": "https://www.legislation.gov.au/C2004A02124/2026-06-04/2026-06-04/text/original/epub",
+  "status": 200,
+  "retrieval_method": "requests",
+  "content_type": "text/html",
+  "redirect_chain": [],
+  "request_headers": {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RDTII-Rocky-Crawler/0.1 (+polite public-law retrieval; contact: jiaxiangchen.kmg@gmail.com)",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Accept-Language": "en"
+  },
+  "response_headers": {
+    "Content-Type": "application/epub+zip",
+    "Content-Length": "358188",
+    "Connection": "keep-alive",
+    "Date": "Sat, 18 Jul 2026 04:36:54 GMT",
+    "x-amz-cf-pop": "SYD62-P3, PHL51-P3",
+    "Via": "1.1 721ef19e45939954cd82c5c6b7f5854e.cloudfront.net (CloudFront), 1.1 ba216b84715065cc64a6c8c9b5abf790.cloudfront.net (CloudFront)",
+    "Server": "Microsoft-IIS/10.0, Microsoft-IIS/10.0",
+    "Content-Security-Policy": "default-src 'self'; connect-src 'self' blob: https://api.prod.legislation.gov.au/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; frame-src 'self' blob:; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; script-src 'self' 'unsafe-inline' https://*.googletagmanager.com; style-src 'self' 'unsafe-inline';",
+    "content-disposition": "attachment; filename=C2026C00209.epub; filename*=UTF-8''C2026C00209.epub",
+    "x-frl-version": "2026.07.05-release.1+8e129750b1c91e94b9adaab7d475fb578bca2482",
+    "X-Cache": "Miss from cloudfront",
+    "X-Amz-Cf-Id": "6MXTG6SjnM2SQGsRgS9qLWwx4X3_IxDOPhSpm7uIdgIwfxoExc6Nag==",
+    "Age": "800"
+  },
+  "fetched_at": "2026-07-18T04:36:56Z",
+  "error": null
+}

@@ -1,0 +1,25 @@
+{
+  "final_url": "https://www.legislation.gov.au/C2018A00029/latest/text",
+  "status": 200,
+  "retrieval_method": "playwright",
+  "content_type": "text/html; charset=utf-8",
+  "redirect_chain": [],
+  "request_headers": {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RDTII-Rocky-Crawler/0.1 (+polite public-law retrieval; contact: jiaxiangchen.kmg@gmail.com)"
+  },
+  "response_headers": {
+    "content-encoding": "br",
+    "content-security-policy": "default-src 'self'; connect-src 'self' blob: https://api.prod.legislation.gov.au/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; frame-src 'self' blob:; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; script-src 'self' 'unsafe-inline' https://*.googletagmanager.com; style-src 'self' 'unsafe-inline';",
+    "content-type": "text/html; charset=utf-8",
+    "date": "Wed, 15 Jul 2026 00:28:20 GMT",
+    "etag": "W/\"33f16-2pN6rorn4bO6PXA2jBo2NNld6lw\"",
+    "server": "Microsoft-IIS/10.0",
+    "vary": "Accept-Encoding",
+    "via": "1.1 d76ff2d5b3f2ef07f68225d94e053abe.cloudfront.net (CloudFront)",
+    "x-amz-cf-id": "WygCSjCJ1lfE2RXSDixy5mncQCLFWAEDQSYxRuB42zcervGGQ2pTGw==",
+    "x-amz-cf-pop": "IAD12-P5",
+    "x-cache": "Miss from cloudfront"
+  },
+  "fetched_at": "2026-07-15T00:28:25Z",
+  "error": null
+}

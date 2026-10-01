@@ -2,6 +2,9 @@
 out/
 outputs/
 raw/
+# ... except the five demo documents the clean-clone walk-through runs Extraction on (6 MB)
+!demo_data/mini_raw/raw/
+!demo_data/mini_raw/raw/**
 logs/
 *.log
 handoff2/

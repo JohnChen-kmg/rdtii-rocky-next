@@ -1,0 +1,41 @@
+{
+  "final_url": "https://sso.agc.gov.sg/Act/PDPA2012?ViewType=Pdf",
+  "status": 200,
+  "retrieval_method": "requests",
+  "content_type": "application/pdf",
+  "redirect_chain": [],
+  "request_headers": {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RDTII-Rocky-Crawler/0.1 (+polite public-law retrieval; contact: jiaxiangchen.kmg@gmail.com)",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Accept-Language": "en"
+  },
+  "response_headers": {
+    "Content-Type": "application/pdf",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "Date": "Tue, 14 Jul 2026 19:13:41 GMT",
+    "Content-Encoding": "gzip",
+    "Cache-Control": "public",
+    "Expires": "Wed, 15 Jul 2026 16:00:00 GMT",
+    "Last-Modified": "Tue, 14 Jul 2026 10:18:24 GMT",
+    "Content-Disposition": "attachment; filename=\"Personal Data Protection Act 2012.pdf\"",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    "Content-Security-Policy": "default-src 'self' https://*.wogaa.sg https://*.demdex.net/ https://cm.everesttech.net/ https://wogadobeanalytics.sc.omtrdc.net/ https://www.google-analytics.com/ https://www.googletagmanager.com/; script-src 'self' https://*.awswaf.com 'unsafe-eval' 'nonce-2x7ipJhqhHxGT5RM8M4b4VghdWqqCfdhdFkKL+FNDHk=' https://*.wogaa.sg https://www.adobetag.com/ https://assets.adobedtm.com/ https://www.google-analytics.com/ https://www.googletagmanager.com/ https://cdn.jsdelivr.net/; style-src 'self' https://*.awswaf.com 'unsafe-inline' https://assets.wogaa.sg/fonts/ https://cdn.jsdelivr.net/; frame-src https://www.youtube.com/ https://wogaa.demdex.net/; img-src 'self' * data: https://wogadobeanalytics.sc.omtrdc.net/ https://cm.everesttech.net/ https://dpm.demdex.net/; connect-src 'self' https://*.awswaf.com https://www.google-analytics.com/ https://www.googletagmanager.com/ https://*.wogaa.sg https://dpm.demdex.net/; font-src 'self' data: https://assets.wogaa.sg/fonts/; object-src 'none'; script-src-elem 'self' https://*.awswaf.com https://assets.wogaa.sg https://cdn.jsdelivr.net https://www.google-analytics.com/ https://www.googletagmanager.com/;",
+    "Set-Cookie": "ASP.NET_SessionId=ccdcvqj0qddxhpk0rykiydix; path=/;SameSite=Strict; secure; HttpOnly; SameSite=Lax",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-XSS-Protection": "1; mode=block",
+    "Referrer-Policy": "no-referrer",
+    "X-Permitted-Cross-Domain-Policies": "none",
+    "Vary": "Accept-Encoding",
+    "X-Cache": "Miss from cloudfront",
+    "Via": "1.1 d94998d26d2db59fa413e8225b5c045e.cloudfront.net (CloudFront)",
+    "X-Amz-Cf-Pop": "IAD61-P9",
+    "Alt-Svc": "h3=\":443\"; ma=86400",
+    "X-Amz-Cf-Id": "CJm6gyN4Zv8BnmoZATCE8W6riAn5--kn3qQ_5ifIHaCt_5wyODlSaw=="
+  },
+  "fetched_at": "2026-07-14T19:13:41Z",
+  "error": null
+}

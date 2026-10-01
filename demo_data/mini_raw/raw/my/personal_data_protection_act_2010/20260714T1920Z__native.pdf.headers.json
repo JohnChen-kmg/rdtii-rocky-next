@@ -1,0 +1,33 @@
+{
+  "final_url": "https://lom.agc.gov.my/ilims/upload/portal/akta/LOM/EN/Act%20709%2014%206%202016.pdf",
+  "status": 200,
+  "retrieval_method": "requests",
+  "content_type": "application/pdf",
+  "redirect_chain": [],
+  "request_headers": {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RDTII-Rocky-Crawler/0.1 (+polite public-law retrieval; contact: jiaxiangchen.kmg@gmail.com)",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Accept-Language": "en"
+  },
+  "response_headers": {
+    "Date": "Tue, 14 Jul 2026 19:24:39 GMT",
+    "Content-Type": "application/pdf",
+    "Content-Length": "656188",
+    "Last-Modified": "Mon, 06 Nov 2023 10:03:16 GMT",
+    "Connection": "keep-alive",
+    "ETag": "\"6548b9e4-a033c\"",
+    "Access-Control-Allow-Origin": "*",
+    "X-XSS-Protection": "1; mode=block",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "microphone=() camera=()",
+    "Accept-Ranges": "bytes",
+    "Set-Cookie": "TSd5fbf474027=08ba2f2e2aab200078a8be2f89d083cc8e455a1d9866d8cbf17de31d18566785da435535b2279c47088ee7f28c11300062884308ab07051f357f882790b6c44eb58cc49857dbcc015f3015c8dcab5e87cc573b3b68200751f864038ab0236194; Path=/"
+  },
+  "fetched_at": "2026-07-14T19:20:41Z",
+  "error": null
+}
