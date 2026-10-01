@@ -17,7 +17,7 @@ Digital Trade Regulatory Analysis. Team: Rocky has a home run.
   pinned model IDs, and Qwen2.5-14B-Instruct (Apache-2.0) local via Ollama, digest-pinned, covering
   all four roles at $0. Both run the identical conversation; the switch is one control in the
   interface and is recorded in each run's manifest.
-- **A from-scratch interface** (standard-library Python, 93 tests): Overview with a worked example,
+- **A from-scratch interface** (standard-library Python, 94 tests): Overview with a worked example,
   three stage tabs with Check-then-Start runs and plain-words progress, a hand-collected inbox,
   review with original-beside-English, append-only decisions, 14-column CSV/xlsx export, clearable
   caches, and an Appendix self-test.
@@ -53,6 +53,6 @@ carry a manual-check notice; the 30-minute deploy was rehearsed on one machine s
 
 ```
 git checkout final-submission
-python -m unittest discover -s interface/tests -t interface   # 93 tests
+python -m unittest discover -s interface/tests -t interface   # 94 tests
 python interface/app.py                                        # http://127.0.0.1:8765/
 ```

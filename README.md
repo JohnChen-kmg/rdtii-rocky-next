@@ -279,7 +279,7 @@ once their prompts are adapted.
 ## Running the Test Suite
 
 ```
-python -m unittest discover -s interface/tests -t interface     # 93 tests, stdlib only
+python -m unittest discover -s interface/tests -t interface     # 94 tests, stdlib only
 cd stages/p2-extract && pytest -q                                # extraction suite
 cd stages/p1-scrape  && pytest -q                                # crawler engine + adapters
 cd stages/p3-map     && pytest -q                                # mapping, incl. the gloss-isolation test
