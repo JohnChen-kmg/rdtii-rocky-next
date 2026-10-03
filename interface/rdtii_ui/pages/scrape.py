@@ -226,6 +226,7 @@ def portals(s: Settings, code: str) -> tuple[list[dict], Path | None]:
 # ---- what the page shows -----------------------------------------------------------------------------
 
 def list_economies(s: Settings) -> list[dict]:
+    from .. import sources as filed
     names = readers.econ_names(s.stage_dirs["p3"])
     reg = registry(s)
     codes = valid_codes(s)
@@ -250,8 +251,11 @@ def list_economies(s: Settings) -> list[dict]:
         tools = code == "CN" and present and cn_run.present(s)
         if tools:
             note = "CAC and gov.cn through the China tools; the national database, MIIT and Customs by hand"
+        portal = filed.crawl_source(s, code) if crawlable else None
         out.append({
             "code": code, "name": names.get(code, code), "crawlable": crawlable, "tools": tools, "adapter": pkg,
+            # the folder a new crawl is filed under: scrape/<code>/<source>/<time>
+            "source": filed.CHINA_TOOLS if tools else (portal or {}).get("key", ""),
             "note": note, "delay_ms": POLITE_DELAY_MS.get(code, DEFAULT_DELAY_MS),
             "links": meta.get("counts") if meta else None,
             "watchlist_rows": len(read_watchlist(wl)) if wl else 0,
@@ -426,25 +430,30 @@ def describe_crawl_folder(path: Path, sample: int = 200) -> dict:
 
 
 def list_crawl_folders(s: Settings) -> list[dict]:
+    from .. import sources
     out = []
     seen = set()
 
-    def add(p: Path, kind: str):
+    def add(p: Path, kind: str, where: dict | None = None):
         rp = p.resolve()
         if rp in seen or not p.is_dir():
             return
         seen.add(rp)
+        where = where or {}
+        src = sources.find(s, where["economy"], where["source"]) if where.get("source") else None
+        filed = {"economy": where.get("economy", ""), "source": where.get("source", ""),
+                 "source_name": (src or {}).get("name", "")}
         if not (p / "manifest.csv").is_file() and cn_run.is_run(p):
-            out.append(cn_run.describe_run(p))
+            out.append({**cn_run.describe_run(p), **filed})
             return
         d = describe_crawl_folder(p)
-        d["kind"] = kind
+        # a manifest the interface wrote for hand-collected files is not a crawl: it is never offered for a second pass
+        d["kind"] = "hand-collected manifest" if kind == "interface run" and p.name.startswith("hand_") else kind
+        d.update(filed)
         out.append(d)
 
-    scrape_root = s.runs_root / "scrape"
-    if scrape_root.is_dir():
-        for p in sorted(scrape_root.iterdir(), reverse=True):
-            add(p, "interface run")
+    for p, where in sources.scrape_runs(s):
+        add(p, "interface run", where)
     add(s.handoff1_dir, "HANDOFF1_DIR")
     out.extend(hand_collected_folders(s))
     shipped = p1_dir(s) / "handoff1"
@@ -458,23 +467,37 @@ def list_crawl_folders(s: Settings) -> list[dict]:
 
 
 def hand_collected_folders(s: Settings) -> list[dict]:
-    """The inbox folders that hold files, one row per economy, beside the crawl folders: they too feed Extraction."""
+    """The inbox folders that hold files, beside the crawl folders: they too feed Extraction. One row per
+    designated source of an economy, and one for files of the older layout filed under no source."""
+    from .. import sources
     out = []
     if not s.inbox_dir.is_dir():
         return out
+
+    def row(p: Path, name: str, files: list[Path], code: str, src: dict | None) -> dict:
+        batches = sorted({part for f in files for part in f.relative_to(p).parts[:-1] if sources.BATCH_RX.fullmatch(part)})
+        return {"path": str(p), "id": rel_or_abs(p, REPO), "name": name, "manifest": False, "rows": len(files),
+                "by_economy": {code: len(files)},
+                "by_source_type": dict(Counter(cn_run.SUFFIX[f.suffix.lower()] for f in files)),
+                "raw_checked": len(files), "raw_present": len(files), "law_table": False,
+                "fetched_last_pass": None, "crawl_state": None, "kind": "hand-collected",
+                "batches": batches, "economy": code, "source": (src or {}).get("key", ""),
+                "source_name": (src or {}).get("name", "")}
+
     for p in sorted(s.inbox_dir.iterdir()):
         if not (p.is_dir() and re.fullmatch(r"[A-Za-z]{2}", p.name)):
             continue
-        files = [f for f in p.rglob("*") if f.is_file() and f.suffix.lower() in cn_run.SUFFIX]
-        if not files:
-            continue
-        batches = sorted({f.relative_to(p).parts[0] for f in files if len(f.relative_to(p).parts) > 1})
-        out.append({"path": str(p), "id": rel_or_abs(p, REPO), "name": p.name, "manifest": False, "rows": len(files),
-                    "by_economy": {p.name.upper(): len(files)},
-                    "by_source_type": dict(Counter(cn_run.SUFFIX[f.suffix.lower()] for f in files)),
-                    "raw_checked": len(files), "raw_present": len(files), "law_table": False,
-                    "fetched_last_pass": None, "crawl_state": None, "kind": "hand-collected",
-                    "batches": batches})
+        code = p.name.upper()
+        docs = lambda d: [f for f in d.rglob("*") if f.is_file() and f.suffix.lower() in cn_run.SUFFIX]  # noqa: E731
+        filed: set[Path] = set()
+        for src in sources.designated(s, code):
+            files = docs(p / src["key"]) if (p / src["key"]).is_dir() else []
+            filed.update(files)
+            if files:
+                out.append(row(p / src["key"], src["key"], files, code, src))
+        rest = [f for f in docs(p) if f not in filed]
+        if rest:
+            out.append(row(p, p.name, rest, code, None))
     return out
 
 
@@ -512,8 +535,11 @@ def register_run(app: App) -> None:
         tools = {e["code"] for e in list_economies(app.settings) if e.get("tools")}
         engine = [c for c in n["economies"] if c not in tools]
         jobs = []
-        if engine:
-            jobs.append(plan_scrape(app, {**req, "economies": engine}))
+        if engine and n["mode"] == "same":
+            jobs.append(plan_scrape(app, {**req, "economies": engine}))     # a second pass stays in the folder it is given
+        else:
+            for code in engine:                # a new crawl is filed by economy and source: one run, one folder each
+                jobs.append(plan_scrape(app, {**req, "economies": [code]}))
         if "CN" in n["economies"]:
             jobs.append(cn_run.plan_cn(app, req))
         for job in jobs:
@@ -615,7 +641,7 @@ def precheck(app: App, req: dict) -> list[dict]:
     if n["mode"] == "same":
         add("ok", "folder", f"Second pass over {rel_or_abs(n['folder'], REPO)}: laws already retrieved are skipped, so a folder with everything fetched must report 0.")
     else:
-        add("ok", "folder", "A fresh folder under outputs/scrape/, so every selected law is fetched.")
+        add("ok", "folder", "A fresh folder for each economy, filed by economy and source under outputs/scrape/, so every selected law is fetched.")
     if n["scope"] == "relevant":
         add("ok", "scope", "Sample scope: titles matching the pillar 6 and 7 vocabulary plus the seed list; the crawler's 60-candidate cap is lifted so nothing is cut short.")
         add("warn", "seeds", "The seed list must come from the host's portal list only, never from the 2025 database. Check the registry before a live-test crawl.")
@@ -706,7 +732,13 @@ def plan_scrape(app: App, req: dict) -> Job:
     if n["mode"] == "same":
         out_dir = n["folder"]
     else:
-        out_dir = s.runs_root / "scrape" / f"{'-'.join(codes)}_{_time.strftime('%Y%m%d-%H%M%S')}"
+        from .. import sources
+        stamp = _time.strftime("%Y%m%d-%H%M%S")
+        portal = sources.crawl_source(s, codes[0]) if len(codes) == 1 else None
+        if portal:        # filed by economy, then by the portal the crawler reads
+            out_dir = sources.scrape_run_dir(s, codes[0], portal["key"], stamp)
+        else:             # several economies in one run, or no portal named: the older single folder
+            out_dir = s.runs_root / "scrape" / f"{'-'.join(codes)}_{stamp}"
     extra = {"REQUEST_DELAY_MS": str(max(POLITE_DELAY_MS.get(c, DEFAULT_DELAY_MS) for c in codes)), "PYTHONPATH": "src"}
     if n["scope"] == "relevant":
         # the engine caps this scope at 60 candidates by default and warns; the page never lets a crawl be cut short

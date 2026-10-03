@@ -240,6 +240,13 @@ details.src-card dl.portal-facts code { font-size: 15px; background: #eef0f3; pa
 .dropzone input { display: none; }
 .dropzone code { font-size: 15px; background: #fff; padding: 2px 6px; border-radius: 6px; }
 ul.ib-log { margin: 8px 0 0; padding-left: 20px; font-size: 16px; } ul.ib-log li { margin: 2px 0; }
+.src-grid { display: grid; grid-template-columns: repeat(2, minmax(300px, 1fr)); gap: 10px 12px; max-width: 1050px; }
+.src-grid label.radio.big { font-size: 18px; } .src-grid label.radio.big .name { white-space: normal; }
+dl.src-facts { max-width: 1050px; margin: 14px 0 2px; padding: 10px 14px; background: #f3f8fc; border: 1px solid #b9cfe3; border-radius: 10px; }
+table.ib-files td.addr { min-width: 340px; }
+input.ib-url { width: 100%; box-sizing: border-box; font-size: 15px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; }
+input.ib-url.bad { border-color: #b91c1c; background: #fef2f2; }
+p.ib-warn, p.ready-line { margin: 10px 0 4px; font-size: 17px; }
 
 /* a foldable block: the banner is the summary */
 details.block > summary { list-style: none; cursor: pointer; margin: 0; padding: 0; }

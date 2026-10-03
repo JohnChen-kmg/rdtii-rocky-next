@@ -218,7 +218,7 @@ def precheck_cn(app: App, req: dict) -> list[dict]:
     else:
         add("warn", "cn_scope", f"{len(sources)} publishers at one request every 6 to 12 s: expect an hour or more.")
     add("ok", "cn_hand", "the national database, MIIT and Customs stay by hand; the China page lists what to check.")
-    add("ok", "cn_output", f"writes to {rel_or_abs(s.runs_root / 'scrape', REPO)}/CN_<time>, a new folder; the documents then appear in 2 Extraction → Input.")
+    add("ok", "cn_output", f"writes to {rel_or_abs(s.runs_root / 'scrape', REPO)}/CN/china-tools/<time>, a new folder; the documents then appear in 2 Extraction → Input.")
     return out
 
 
@@ -233,7 +233,8 @@ def plan_cn(app: App, req: dict) -> Job:
         raise ApiError(409, "the China tools are not in this repository")
     mode, sources = norm_mode(req)
     dry = bool(req.get("dry_run"))
-    run_dir = s.runs_root / "scrape" / f"CN_{time.strftime('%Y%m%d-%H%M%S')}"
+    from .. import sources as filed        # `sources` below is the list of publishers this run reads
+    run_dir = filed.scrape_run_dir(s, "CN", filed.CHINA_TOOLS, time.strftime("%Y%m%d-%H%M%S"))
     data = run_dir / "data"
     (data / "CN").mkdir(parents=True, exist_ok=True)
     staged = stage_baseline(s, data) if mode == "update" else stage_links(s, data)

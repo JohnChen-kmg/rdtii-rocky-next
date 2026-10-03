@@ -7,6 +7,7 @@ what would go, then a confirmation token that expires in a minute.
 from __future__ import annotations
 
 import os
+import re
 import secrets
 import shutil
 import stat
@@ -92,9 +93,13 @@ def check_clearable(s: Settings, raw_path: str, busy: list[Path]) -> Path:
     parts = rel.parts
     if len(parts) < 2 or parts[0] not in CLEARABLE:
         raise ApiError(403, f"Clear works on one run folder or its cache, under {', '.join(sorted(CLEARABLE))}/<name>")
-    if len(parts) == 3 and parts[2] not in CLEARABLE[parts[0]]:
+    # a run folder is <kind>/<name>, or for crawl results filed by source, scrape/<economy>/<source>/<run>
+    depth = 4 if parts[0] == "scrape" and re.fullmatch(r"[A-Z]{2}", parts[1]) else 2
+    if len(parts) < depth:
+        raise ApiError(403, "Clear works on one run folder, not on a whole economy or source")
+    if len(parts) == depth + 1 and parts[depth] not in CLEARABLE[parts[0]]:
         raise ApiError(403, f"inside a {parts[0]} folder only {', '.join(CLEARABLE[parts[0]]) or 'the whole folder'} may be cleared")
-    if len(parts) > 3:
+    if len(parts) > depth + 1:
         raise ApiError(403, "Clear works on one run folder or one of its named caches, not deeper")
     if _is_reparse_point(target) or any(_is_reparse_point(a) for a in target.parents if root in a.parents or a == root):
         raise ApiError(403, "refusing to follow a link or junction")

@@ -17,7 +17,7 @@ import time
 from collections import Counter
 from pathlib import Path
 
-from .. import detect, readers
+from .. import detect, readers, readiness, sources
 from ..envbuild import ChoiceError, NeedsKey, build_env
 from ..jobs import Job, Step
 from ..server import ApiError, App, rel_or_abs
@@ -110,23 +110,25 @@ def register(app: App) -> None:
     def inputs(app: App, m, q, b):
         names = readers.econ_names(app.settings.stage_dirs["p3"])
         return 200, {"inputs": list_inputs(app.settings), "languages": LANGUAGES,
-                     "default_language": DEFAULT_LANGUAGE, "html_hosts": list(HTML_HOSTS),
+                     "default_language": DEFAULT_LANGUAGE, "html_hosts": list(html_hosts(app.settings)),
                      "economies": [{"code": c, "name": n} for c, n in names.items()],
                      "stage_present": (app.settings.stage_dirs["p2"] / "src" / "rdtii_p2" / "cli.py").is_file(),
                      "python": app.settings.python_for("p2")}
 
     @app.route("GET", r"/api/extract/describe")
     def describe(app: App, m, q, b):
-        return 200, describe_input(resolve_folder(q.get("path", "")), "typed")
+        return 200, describe_input(resolve_folder(q.get("path", "")), "typed", app.settings)
 
     @app.route("POST", r"/api/extract/manifest/preview")
     def manifest_preview(app: App, m, q, b):
         b = b or {}
         folder = resolve_folder(b.get("path", ""))
-        rows = build_manifest_rows(folder, b.get("economy", ""))
-        return 200, {"path": str(folder), "rows": [{k: r[k] for k in ("doc_id", "economy", "source_type", "pdf_is_scanned",
-                                                                     "page_count", "byte_size", "law_name_guess", "local_path")}
-                                                   for r in rows], "count": len(rows)}
+        rows = build_manifest_rows(folder, b.get("economy", ""), s=app.settings)
+        keep = ("doc_id", "economy", "source_type", "pdf_is_scanned", "page_count", "byte_size", "law_name_guess",
+                "local_path", "source_url", "_status", "_method", "_action", "_url_basis", "_source")
+        return 200, {"path": str(folder), "rows": [{k: r.get(k, "") for k in keep} for r in rows], "count": len(rows),
+                     "ready": sum(1 for r in rows if r.get("_status") == "ready"),
+                     "cannot_read": sum(1 for r in rows if r.get("_status") != "ready")}
 
     @app.route("POST", r"/api/extract/precheck")
     def precheck_route(app: App, m, q, b):
@@ -162,12 +164,36 @@ def resolve_folder(raw: str) -> Path:
     return p
 
 
-def describe_input(path: Path, kind: str) -> dict:
+def html_hosts(s: Settings | None = None) -> tuple[str, ...]:
+    """The portals the extraction stage has a web-page parser for, read from the stage's own parse_html.py so
+    the page and the stage cannot disagree; the list above is the fallback when that file cannot be read."""
+    if s is None:
+        return HTML_HOSTS
+    path = s.stage_dirs["p2"] / "src" / "rdtii_p2" / "parse_html.py"
+
+    def load(p: Path):
+        m = re.search(r"^PORTAL_PARSERS[^=]*=\s*\{(.*?)^\}", p.read_text(encoding="utf-8"), re.M | re.S)
+        return tuple(re.findall(r'^\s*"([a-z0-9.-]+\.[a-z]{2,})"\s*:', m.group(1), re.M)) if m else ()
+    try:
+        return readers.cached(path, load) or HTML_HOSTS
+    except OSError:
+        return HTML_HOSTS
+
+
+def cn_out_name(run: Path, src: str) -> str:
+    """The extraction output name for one publisher of a China tools run, in either folder layout."""
+    return f"{run.name}_{src}" if run.name.startswith("CN_") else f"CN_{src}_{run.name}"
+
+
+def describe_input(path: Path, kind: str, s: Settings | None = None) -> dict:
     if (path / "manifest.csv").is_file():
         d = scrape.describe_crawl_folder(path)
         d["kind"] = "crawled"
         d["origin"] = kind
-        d["out_name"] = "demo" if path.resolve() == (REPO / "demo_data" / "mini_raw").resolve() else path.name
+        where = sources.scrape_identity(s, path) if s is not None else {}
+        d["out_name"] = ("demo" if path.resolve() == (REPO / "demo_data" / "mini_raw").resolve()
+                         else f"{where['economy']}_{where['source']}_{where['run']}" if where else path.name)
+        d["economy_folder"], d["source"] = where.get("economy", ""), where.get("source", "")
         econs = [e for e in d["by_economy"] if e]
         d["language_default"] = DEFAULT_LANGUAGE.get(econs[0]) if len(econs) == 1 else None
         loaded = readers.cached(path / "manifest.csv", readers.read_csv)
@@ -180,8 +206,8 @@ def describe_input(path: Path, kind: str) -> dict:
     if (path / "provenance.tsv").is_file():
         run = next((a for a in path.parents if cn_run.is_run(a)), None)
         if run:
-            return describe_hand_folder(path, kind, economy="CN", out_name=f"{run.name}_{path.name}")
-    return describe_hand_folder(path, kind)
+            return describe_hand_folder(path, kind, economy="CN", out_name=cn_out_name(run, path.name), s=s)
+    return describe_hand_folder(path, kind, s=s)
 
 
 def folder_economy(name: str) -> str | None:
@@ -208,14 +234,23 @@ def detect_cached(folder: Path, files: list[Path], declared: str | None, economy
     return hit
 
 
-def describe_hand_folder(path: Path, kind: str, economy: str | None = None, out_name: str | None = None) -> dict:
+def describe_hand_folder(path: Path, kind: str, economy: str | None = None, out_name: str | None = None,
+                         s: Settings | None = None) -> dict:
     files = document_files(path)
     total = sum(p.stat().st_size for p in files)
     fixed = economy
-    economy = economy or folder_economy(path.name)
-    batch = ""
-    if not economy and folder_economy(path.parent.name) and re.fullmatch(r"\d{4}-\d{2}-\d{2}_\d{6}", path.name):
-        economy, batch = folder_economy(path.parent.name), path.name     # inbox/CN/2026-09-30_101522
+    # where the folder sits in the inbox says the economy, the designated source and the batch
+    where = {} if fixed else (sources.inbox_identity(path, s.inbox_dir) if s is not None else {}) or {}
+    if not where and not fixed and path.name.lower() != "inbox":
+        where = sources.inbox_identity(path)             # a folder given by its path alone: read from its names
+        if s is not None and not where.get("legacy"):
+            where = {}                                   # outside the inbox only the older shapes count
+    source_key = where.get("source", "")
+    src = sources.find(s, where["economy"], source_key) if (s is not None and source_key) else None
+    economy = economy or where.get("economy") or folder_economy(path.name)
+    batch = where.get("batch", "")
+    if source_key and out_name is None:
+        out_name = f"{economy}_{source_key}" + (f"_{batch}" if batch else "")
     by_sub = Counter(economy_of_file(path, p) for p in files)
     per_subfolder = economy is None and bool(files) and all(by_sub) and len(by_sub) >= 1 and None not in by_sub
     if per_subfolder:
@@ -226,7 +261,8 @@ def describe_hand_folder(path: Path, kind: str, economy: str | None = None, out_
     else:
         by_economy = {economy: len(files)} if economy and files else {}
         detected = detect_cached(path, files, economy, None) if files else None
-        econ_line = (f"{economy}, fixed by the China tools run" if fixed else f"{economy}, from the folder {path.parent.name if batch else path.name}" if economy
+        econ_line = (f"{economy}, fixed by the China tools run" if fixed else f"{economy}, from the inbox folder of the source {source_key}" if source_key
+                     else f"{economy}, from the folder {path.parent.name if batch else path.name}" if economy
                      else "not named by the folder; " + (f"the text points to {detected['suggested_economy']}" if detected and detected.get("suggested_economy") else "choose it in Run"))
     plan = language_plan(by_economy) if by_economy else []
     return {"path": str(path), "id": rel_or_abs(path, REPO), "name": path.name, "kind": "hand_collected",
@@ -234,12 +270,13 @@ def describe_hand_folder(path: Path, kind: str, economy: str | None = None, out_
             "by_source_type": dict(Counter(DOC_SUFFIXES[p.suffix.lower()] for p in files)),
             "by_economy": by_economy, "economy": economy, "per_subfolder": per_subfolder, "detected": detected,
             "batch": batch, "out_name": out_name or (f"{economy}_{batch}" if batch else path.name),
+            "source": source_key, "source_name": (src or {}).get("name", ""), "source_url": (src or {}).get("url", ""),
             "economy_source": "the China tools run" if fixed else ("the folder name" if economy else None),
             "size_bytes": total, "documents_present": bool(files), "language_default": None,
             "language_plan": plan, "language_line": econ_line,
             "note": ("No manifest: the interface writes one (document ids, hashes, sizes, page counts) and a law table "
                      "under the runs root before extraction runs, and never writes into this folder. HTML parses only "
-                     "from the portals the stage knows: " + ", ".join(HTML_HOSTS))}
+                     "from the portals the stage knows: " + ", ".join(html_hosts(s)))}
 
 
 def ensure_inbox(s: Settings) -> None:
@@ -248,6 +285,8 @@ def ensure_inbox(s: Settings) -> None:
         s.inbox_dir.mkdir(parents=True, exist_ok=True)
         for code in HAND_ECONOMIES:
             (s.inbox_dir / code).mkdir(exist_ok=True)
+            for src in sources.designated(s, code):
+                (s.inbox_dir / code / src["key"]).mkdir(exist_ok=True)
     except OSError:
         pass
 
@@ -273,24 +312,30 @@ def list_inputs(s: Settings) -> list[dict]:
         seen.add(rp)
         if not (p / "manifest.csv").is_file() and cn_run.is_run(p):
             for src in cn_run.source_folders(p):
-                out.append(describe_hand_folder(src, "China tools", economy="CN", out_name=f"{p.name}_{src.name}"))
+                out.append(describe_hand_folder(src, "China tools", economy="CN", out_name=cn_out_name(p, src.name), s=s))
             return
-        out.append(describe_input(p, kind))
+        out.append(describe_input(p, kind, s))
 
     add(s.handoff1_dir, "HANDOFF1_DIR")
     if s.inbox_dir.is_dir():
+        is_batch = lambda d: bool(sources.BATCH_RX.fullmatch(d.name))  # noqa: E731
         filled = [p for p in sorted(s.inbox_dir.iterdir()) if p.is_dir() and folder_economy(p.name) and document_files(p, limit=1)]
         for p in filled:
-            add(p, "inbox")
-            for sub in sorted(p.iterdir(), reverse=True):
-                if sub.is_dir() and re.fullmatch(r"\d{4}-\d{2}-\d{2}_\d{6}", sub.name) and document_files(sub, limit=1):
-                    add(sub, "inbox batch")
+            subs = [d for d in sorted(p.iterdir()) if d.is_dir()]
+            # one designated source (every batch), then each of its batches
+            for src in (d for d in subs if not is_batch(d) and document_files(d, limit=1)):
+                add(src, "hand-collected source")
+                for b in sorted((d for d in src.iterdir() if d.is_dir() and is_batch(d)), reverse=True):
+                    if document_files(b, limit=1):
+                        add(b, "hand-collected batch")
+            add(p, "inbox")                                  # the economy's whole inbox, every source
+            for sub in sorted((d for d in subs if is_batch(d)), reverse=True):
+                if document_files(sub, limit=1):
+                    add(sub, "inbox batch")                  # a batch of the older layout, filed under no source
         if len(filled) > 1:
             add(s.inbox_dir, "inbox, every economy")
-    scrape_root = s.runs_root / "scrape"
-    if scrape_root.is_dir():
-        for p in sorted(scrape_root.iterdir(), reverse=True):
-            add(p, "interface crawl")
+    for p, _where in sources.scrape_runs(s):
+        add(p, "interface crawl")
     shipped = s.stage_dirs["p1"] / "handoff1"
     if shipped.is_dir():
         for cc in sorted(shipped.iterdir()):
@@ -393,13 +438,26 @@ def slug(stem: str) -> str:
 
 
 def provenance_urls(folder: Path) -> dict[str, str]:
-    """file name (or stem) -> source address, from the provenance sheet a China tools run writes beside raw/."""
-    sheet = folder / "provenance.tsv"
-    if not sheet.is_file():
-        return {}
-    with open(sheet, encoding="utf-8-sig", newline="") as f:
-        rows = list(csv.DictReader(f, delimiter="\t"))
-    return {str(r.get("file") or "").strip(): str(r.get("url") or "").strip() for r in rows if r.get("file") and r.get("url")}
+    """relative path, file name (or stem) -> source address, from every provenance sheet at or under the folder:
+    the one a China tools run writes beside raw/, and the one the inbox keeps beside each batch of files."""
+    out: dict[str, str] = {}
+    sheets = [folder / "provenance.tsv"] + sorted(p for p in folder.rglob("provenance.tsv") if p.parent != folder)
+    for sheet in sheets:
+        if not sheet.is_file():
+            continue
+        try:
+            with open(sheet, encoding="utf-8-sig", newline="") as f:
+                rows = list(csv.DictReader(f, delimiter="\t"))
+        except (OSError, csv.Error):
+            continue
+        rel = sheet.parent.relative_to(folder).as_posix()
+        for r in rows:
+            name = str(r.get("file") or r.get("file_saved_as") or "").strip()
+            url = str(r.get("url") or "").strip()
+            if name and url:
+                out[name if rel in ("", ".") else f"{rel}/{name}"] = url
+                out.setdefault(name, url)
+    return out
 
 
 def batch_of_file(folder: Path, p: Path) -> str:
@@ -413,17 +471,38 @@ def batch_of_file(folder: Path, p: Path) -> str:
     return ""
 
 
-def build_manifest_rows(folder: Path, economy: str, source_urls: dict | None = None) -> list[dict]:
-    """One manifest row per file. The economy is the one given, else the folder's own name, else the name of the
-    subfolder each file sits in (the inbox holds one subfolder per economy)."""
-    economy = (economy or "").strip().upper() or folder_economy(folder.name) or ""
+def build_manifest_rows(folder: Path, economy: str, source_urls: dict | None = None, s: Settings | None = None,
+                        only_ready: bool = False) -> list[dict]:
+    """One manifest row per file. The economy is the one given, else the one the folder's place in the inbox
+    names, else the name of the subfolder each file sits in (the inbox holds one subfolder per economy).
+
+    Each row also says, in keys that start with an underscore and never reach the manifest file, whether the
+    stage can read the file (_status, _method, _action) and where its address came from (_url_basis, _source).
+    only_ready=True leaves out the files that cannot be read."""
+    here = (sources.inbox_identity(folder, s.inbox_dir) if s is not None else {}) or {}
+    if not here:
+        named = sources.inbox_identity(folder)
+        here = named if (s is None or named.get("legacy")) else {}
+    economy = (economy or "").strip().upper() or folder_economy(folder.name) or here.get("economy", "") or ""
     if economy and not re.fullmatch(r"[A-Z]{2}", economy):
         raise ApiError(400, "choose the economy these documents belong to (two-letter code)")
     cols = manifest_columns()
     rows = []
     seq: Counter = Counter()
     urls = dict(source_urls or {}) or provenance_urls(folder)
-    fetched_by_tool = (folder / "provenance.tsv").is_file()
+    fetched_by_tool = any(cn_run.is_run(a) for a in folder.parents)
+    hosts = html_hosts(s)
+    src_cache: dict[Path, dict | None] = {}
+
+    def source_for(p: Path, econ: str) -> dict | None:
+        """The designated source a file was filed under, from the inbox folder it sits in."""
+        if s is None:
+            return None
+        if p.parent not in src_cache:
+            ident = sources.inbox_identity(p.parent, s.inbox_dir) or {}
+            src_cache[p.parent] = sources.find(s, econ, ident["source"]) if ident.get("source") else None
+        return src_cache[p.parent]
+
     for p in document_files(folder):
         econ = economy or economy_of_file(folder, p)
         if not econ:
@@ -435,10 +514,19 @@ def build_manifest_rows(folder: Path, economy: str, source_urls: dict | None = N
         doc_id = f"{econ.lower()}-{base}-{seq[(econ, base)]:03d}"
         st = p.stat()
         page_count, scanned = (pdf_probe(p) if kind == "pdf" else (None, None))
+        rel = p.relative_to(folder).as_posix()
+        own = urls.get(rel) or urls.get(p.name) or urls.get(p.stem) or urls.get(p.stem.split("__")[0]) or ""
+        src = source_for(p, econ)
+        # a file with no address of its own is cited to its designated source's page, and says so
+        address = own or (src or {}).get("url", "")
+        basis = "the file's own address" if own else ("the source's page" if address else "")
+        verdict = readiness.judge(p, kind, sources.host_of(address), hosts)
         row = {c: "" for c in cols}
+        row.update({"_status": verdict["status"], "_method": verdict["method"], "_action": verdict["action"],
+                    "_url_basis": basis, "_source": (src or {}).get("key", "")})
         row.update({
             "contract_version": CONTRACT_VERSION, "doc_id": doc_id, "economy": econ,
-            "source_url": urls.get(p.name) or urls.get(p.stem) or urls.get(p.stem.split("__")[0]) or "",
+            "source_url": address,
             "access_date": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(st.st_mtime)),
             "source_type": ("pdf_scanned" if scanned else "pdf_native") if kind == "pdf" else kind,
             "pdf_is_scanned": ("true" if scanned else "false") if kind == "pdf" else "",
@@ -448,16 +536,29 @@ def build_manifest_rows(folder: Path, economy: str, source_urls: dict | None = N
             "content_type": CONTENT_TYPES[ext], "content_sha256": readers.cached(p, sha256_file),
             "byte_size": str(st.st_size), "page_count": str(page_count) if page_count else "",
             "crawl_notes": ("fetched by the China tools; manifest written by the interface" if fetched_by_tool else "collected by hand; manifest written by the interface")
-                           + (f"; batch {batch_of_file(folder, p)}" if batch_of_file(folder, p) else ""),
+                           + (f"; source {src['key']}" if src else "")
+                           + (f"; batch {batch_of_file(folder, p)}" if batch_of_file(folder, p) else "")
+                           + ("; address is the source's page, the document's own was not recorded" if address and not own else ""),
         })
         rows.append(row)
     if not rows:
         raise ApiError(404, f"no PDF, HTML or Word files under {folder}")
+    if only_ready:
+        ready = [r for r in rows if r["_status"] == "ready"]
+        if not ready:
+            raise ApiError(409, f"none of the {len(rows)} file(s) under {folder.name} can be read as they are; "
+                                "the Readiness list in Set up says what to do for each")
+        return ready
     return rows
 
 
-def write_manifest(s: Settings, folder: Path, rows: list[dict]) -> Path:
-    dest = s.runs_root / "scrape" / f"hand_{slug(folder.name)}_{time.strftime('%Y%m%d-%H%M%S')}"
+def write_manifest(s: Settings, folder: Path, rows: list[dict], left_out: list[dict] | None = None) -> Path:
+    where = sources.inbox_identity(folder, s.inbox_dir) or {}
+    stamp = time.strftime("%Y%m%d-%H%M%S")
+    if where.get("source"):          # filed like a crawl: by economy, then source
+        dest = sources.scrape_run_dir(s, where["economy"], where["source"], f"hand_{where.get('batch') or 'all'}_{stamp}")
+    else:
+        dest = s.runs_root / "scrape" / f"hand_{slug(folder.name)}_{stamp}"
     dest.mkdir(parents=True, exist_ok=True)
     cols = manifest_columns()
     with open(dest / "manifest.csv", "w", encoding="utf-8-sig", newline="") as f:
@@ -466,18 +567,27 @@ def write_manifest(s: Settings, folder: Path, rows: list[dict]) -> Path:
         for r in rows:
             w.writerow({c: r.get(c, "") for c in cols})
     with open(dest / "law_table.csv", "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=["law_name", "doc_id", "economy", "language", "batch"])
+        w = csv.DictWriter(f, fieldnames=["law_name", "doc_id", "economy", "language", "batch", "source"])
         w.writeheader()
         for r in rows:
             econ = (r.get("economy") or "").upper()
             w.writerow({"law_name": r.get("law_name_guess", ""), "doc_id": r["doc_id"], "economy": econ,
                         "language": DEFAULT_LANGUAGE.get(econ, "eng"),
-                        "batch": batch_of_file(folder, folder / r["local_path"])})
+                        "batch": batch_of_file(folder, folder / r["local_path"]), "source": r.get("_source", "")})
+    if left_out:
+        with open(dest / "left_out.csv", "w", encoding="utf-8-sig", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=["file", "is", "what_to_do"])
+            w.writeheader()
+            for r in left_out:
+                w.writerow({"file": r.get("local_path", ""), "is": r.get("source_type", ""), "what_to_do": r.get("_action", "")})
     (dest / "MANIFEST_NOTE.md").write_text(
         f"# Written by the interface\n\nManifest and law table for the hand-collected folder `{folder}`. The bytes stay "
-        f"in that folder; `local_path` is relative to it. retrieval_method is `hand_collected`; source URLs are blank "
-        f"unless typed in the page. The language is the economy's, from the stage's economy table, and is also passed "
-        f"to the stage as the default for every document.\n", encoding="utf-8")
+        f"in that folder; `local_path` is relative to it. retrieval_method is `hand_collected`. A source URL is the "
+        f"address noted for the file in the provenance sheet beside it; a file with none is cited to its designated "
+        f"source's page, and its crawl note says so. The language is the economy's, from the stage's economy table, "
+        f"and is also passed to the stage as the default for every document."
+        + (f" {len(left_out)} file(s) the reader cannot take were left out; `left_out.csv` lists each with what to do.\n"
+           if left_out else "\n"), encoding="utf-8")
     return dest / "manifest.csv"
 
 
@@ -546,7 +656,7 @@ def precheck(app: App, req: dict) -> list[dict]:
 
     try:
         folder = resolve_folder(req.get("input", ""))
-        desc = describe_input(folder, "request")
+        desc = describe_input(folder, "request", s)
     except ApiError as e:
         add("fail", "input", getattr(e, "message", None) or str(e))
         return checks
@@ -570,9 +680,10 @@ def precheck(app: App, req: dict) -> list[dict]:
         loaded = readers.cached(folder / "manifest.csv", readers.read_csv)
         rows = loaded[1] if loaded else []
         hosts = sorted({(urlparse(r.get("source_url") or r.get("url") or "").hostname or "") for r in rows if r.get("source_type") == "html"} - {""})
-        odd = [h for h in hosts if not any(h == k or h.endswith("." + k) for k in HTML_HOSTS)]
+        known = html_hosts(s)
+        odd = [h for h in hosts if not readiness.match_host(h, known)]
         if odd:
-            add("warn", "html", f"Web pages from {', '.join(odd)}: the reader has parsers for {len(HTML_HOSTS)} registered hosts only; other pages may read poorly.")
+            add("warn", "html", f"Web pages from {', '.join(odd)}: the reader has parsers for {len(known)} registered hosts only; pages from other hosts are not read.")
     else:
         econ = str(req.get("economy") or desc.get("economy") or "").strip().upper()
         names = readers.econ_names(s.stage_dirs["p3"])
@@ -605,7 +716,37 @@ def precheck(app: App, req: dict) -> list[dict]:
             add("fail", "input", "No PDF, HTML or Word file in this folder.")
         else:
             add("ok", "input", f"{n} hand-collected file(s): " + ", ".join(f"{k} {v}" for k, v in types.items())
-                               + ". The interface writes manifest.csv and law_table.csv for them.")
+                               + ". The interface writes manifest.csv and law_table.csv for them."
+                               + (f" Source: {desc['source_name'] or desc['source']}." if desc.get("source") else ""))
+        hand_rows = []
+        if n and (desc.get("per_subfolder") or (econ and (not names or econ in names))):
+            try:
+                hand_rows = build_manifest_rows(folder, "" if desc.get("per_subfolder") else econ, s=s)
+            except ApiError as e:
+                add("fail", "input", getattr(e, "message", None) or str(e))
+        if hand_rows:
+            cannot = [r for r in hand_rows if r["_status"] != "ready"]
+            ready_n = len(hand_rows) - len(cannot)
+            if desc.get("source"):
+                # a designated source: only what the reader can take goes into the run
+                if not ready_n:
+                    add("fail", "readiness", f"None of the {len(hand_rows)} file(s) can be read as they are. "
+                                             + " ".join(f"{Path(r['local_path']).name}: {r['_action']}" for r in cannot[:3]))
+                elif cannot:
+                    add("warn", "readiness", f"{ready_n} of {len(hand_rows)} file(s) will be read; {len(cannot)} are left out. "
+                                             + " ".join(f"{Path(r['local_path']).name}: {r['_action']}" for r in cannot[:3])
+                                             + (" And more: see Readiness in Set up." if len(cannot) > 3 else ""))
+                else:
+                    add("ok", "readiness", f"All {ready_n} file(s) can be read.")
+                unaddressed = sum(1 for r in hand_rows if r["_status"] == "ready" and r["_url_basis"] != "the file's own address")
+                if unaddressed:
+                    add("warn", "address", f"{unaddressed} file(s) have no address of their own and will be cited to the "
+                                           "source's page. Type each file's address in the Hand-collected block to cite the document itself.")
+            elif cannot:
+                add("warn", "readiness", f"{len(cannot)} of {len(hand_rows)} file(s) will fail in the run: "
+                                         + " ".join(f"{Path(r['local_path']).name}: {r['_action']}" for r in cannot[:3]))
+            # only a PDF that really has no text layer needs OCR
+            types = dict(Counter(r["source_type"] for r in hand_rows if r["_status"] == "ready" or not desc.get("source")))
 
     if kind == "crawled":
         lang_info = desc["languages"]
@@ -624,6 +765,8 @@ def precheck(app: App, req: dict) -> list[dict]:
             add("warn", "language", f"No entry in the language table for {econ}: the documents are read as English.")
 
     scanned = int(types.get("pdf_scanned") or 0) or (int(types.get("pdf") or 0) if kind != "crawled" else 0)
+    if kind != "crawled" and "pdf_scanned" not in types and "pdf" not in types:
+        scanned = 0
     if scanned:
         t = probes.probe_tesseract()
         if t.get("ok"):
@@ -651,7 +794,7 @@ def plan_extract(app: App, req: dict) -> Job:
     if not (p2 / "src" / "rdtii_p2" / "cli.py").is_file():
         raise ApiError(409, "the extraction stage is not in this repository")
     folder = resolve_folder(req.get("input", ""))
-    desc = describe_input(folder, "request")
+    desc = describe_input(folder, "request", s)
     pack = req.get("pack") or "fast"
     if pack not in ("fast", "best"):
         raise ApiError(400, "pack must be fast or best")
@@ -675,13 +818,20 @@ def plan_extract(app: App, req: dict) -> Job:
         n_docs = len(rows)
         plan = language_plan(desc["by_economy"])
     else:
-        rows = build_manifest_rows(folder, str(req.get("economy") or desc.get("economy") or ""), req.get("source_urls") or None)
-        manifest = write_manifest(s, folder, rows)
+        every = build_manifest_rows(folder, str(req.get("economy") or desc.get("economy") or ""),
+                                    req.get("source_urls") or None, s=s)
+        # from a designated source only what the reader can take goes into the run; elsewhere every file, as before
+        left_out = [r for r in every if r["_status"] != "ready"] if desc.get("source") else []
+        rows = [r for r in every if r not in left_out]
+        if not rows:
+            raise ApiError(409, f"none of the {len(every)} file(s) can be read as they are; the Readiness list in Set up says what to do for each")
+        manifest = write_manifest(s, folder, rows, left_out)
         raw_dir = folder
         n_docs = len(rows)
         plan = language_plan(Counter(r["economy"] for r in rows))
         notes.append(f"Wrote a manifest and a law table ({', '.join(LANG_LABEL.get(l, l) for _, l in plan)}) for {n_docs} "
-                     f"hand-collected document(s) under {rel_or_abs(manifest.parent, REPO)}.")
+                     f"hand-collected document(s) under {rel_or_abs(manifest.parent, REPO)}."
+                     + (f" {len(left_out)} file(s) the reader cannot take were left out; left_out.csv lists them." if left_out else ""))
 
     try:
         env, public = build_env("p2", app.engines, app.key, req.get("choices") or {},

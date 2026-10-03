@@ -12,8 +12,8 @@ are in `START_PROMPT_INTERFACE_2026-09-29.md` and `DATA_PATHS.md` beside this fi
 | Tab (Stage 1 to 3 in the sidebar, which also lists the open page's blocks) | Block n.1 Set up | Block Run (1.2, 2.2, 3.2) | Block Output (1.4, 2.3, 3.3) |
 | :-- | :-- | :-- | :-- |
 | **Overview** | a workflow map: Scraping, Extraction, Mapping, Review and export, one line each with a button to the page, and below it the instrument (methodology to a rulebook per indicator) as a reference row; the model-calling steps are drawn as short conversations; the mapping step by step (index, select, triage, read, re-check, tag, score, evidence, review) folded inside the Mapping node, an open grey Before-you-start block under the map; the worked example on Singapore PDPA s.26(1) runs down the right of the map, one card per node, with a button to its row | | |
-| **Scraping** | economies the crawler has adapters for, China through its own tools (CAC and gov.cn; the rest by hand), scope, the sources it will read and the sources to check by hand | fresh folder or second pass, shipped link list or live discovery, dry run, **Check** then **Start** | crawl folders, documents by economy and type, whether the bytes are present, **Fetched last pass**, Clear. Between Run and Output, block 1.3 **Hand-collected**: choose one economy, drop PDF, HTML or Word files, they land in `inbox/<economy>`; Output is 1.4 on this tab |
-| **Extraction** | a crawl folder, or hand-collected documents from `inbox/<economy>` (the folder names the economy, the language follows the economy table; Check reads the text and warns when a file does not fit its folder) | output name, OCR pack and workers, **Check** then **Start**: import check, OCR of scanned pages, read and segment, freeze the text | documents by status and lane, provisions, cache sizes, Open folder, Clear OCR cache |
+| **Scraping** | economies the crawler has adapters for, China through its own tools (CAC and gov.cn; the rest by hand), scope, the sources it will read and the sources to check by hand | fresh folder or second pass, shipped link list or live discovery, dry run, **Check** then **Start** | folders by economy and source (`scrape/<economy>/<source>/<time>`), documents by type, whether the bytes are present, **Fetched last pass**, Clear. Between Run and Output, block 1.3 **Hand-collected**: choose one economy, then one of its designated sources, drop PDF, Word, saved web pages or a .zip; they land in `inbox/<economy>/<source>/<date_time>`, each file says how it will be read or why it cannot be, and takes the address it came from; Output is 1.4 on this tab |
+| **Extraction** | a crawl folder, or hand-collected documents from `inbox/<economy>/<source>` (the folder names the economy and the source, the language follows the economy table; a Readiness list says per file how it is read, and files that cannot be read are left out and listed; Check reads the text and warns when a file does not fit its folder) | output name, OCR pack and workers, **Check** then **Start**: import check, OCR of scanned pages, read and segment, freeze the text | documents by status and lane, provisions, cache sizes, Open folder, Clear OCR cache |
 | **Mapping** | an extraction output, economies, indicators (61, the nine automated ones pre-selected) | the write path, the engine from the banner, the index (rebuilt by itself when older than the output); selection rule with its thresholds or caps, meaning index, translation, quick run; **Check** then **Start**: ingest, prefilter, select, triage, map, verify, roll up, glosses, workbook, audit page | run selector (fixtures, interface runs, filed rows), filters, Export CSV and xlsx, rows with the English gloss beside the original, row detail with Accept / Reject / Correct and Clear decision, Open folder, Clear |
 | **Appendix** | documentation shipped in the repository, the settings in effect, a run-layer self-test | | |
 
@@ -33,7 +33,7 @@ The ones the interface adds:
 | `RDTII_RUNS_ROOT` | `outputs` | where runs are written and the only tree **Clear** may touch |
 | `RDTII_OUT_DIR_EXTRA` | (auto: a sibling `out_*` of `OUT_DIR`) | further arms of the displayed run, comma separated |
 | `RDTII_SUBMISSION_DIR` | `submission` | the filed rows, shown read-only |
-| `RDTII_INBOX_DIR` | `inbox` | documents collected by hand, one subfolder per economy; listed on the Extraction tab |
+| `RDTII_INBOX_DIR` | `inbox` | documents collected by hand, one subfolder per economy and designated source; listed on the Extraction tab |
 | `RDTII_PYTHON_P1`, `_P2`, `_P3` | a stage's own `.venv` when it has one, then the repository's, then the interpreter running the page | a different Python per stage when each has its own environment; a relative value is taken against the repository |
 | `RDTII_PYTHON_AUTO` | `1` | set to `0` to stop a `.venv` being picked up by itself |
 | `RDTII_TESSERACT` | (found on PATH, then in the usual place for the system) | the Tesseract program, when it is somewhere else |
@@ -55,12 +55,20 @@ The ones the interface adds:
   On Windows the Explorer window is brought in front of the browser, and a window already showing the
   folder is reused.
 - Clear works only under the runs root, on one run folder or one named cache, with a preview and a
-  one-minute confirmation token, and never on anything git tracks.
+  one-minute confirmation token, and never on anything git tracks. It never takes a whole economy or a
+  whole source.
+- Results are filed by economy, then source, on both sides: `scrape/<economy>/<source>/<time>` for what
+  the crawler fetched, `inbox/<economy>/<source>/<date_time>` for what a person fetched. The sources come
+  from the stage's own files (the adapter's portal, its watchlist, China's publisher table), never from a
+  list kept in the interface. Folders of the earlier layout are still read.
+- The inbox takes files only for a designated source. Beside the files the interface writes one sheet,
+  `provenance.tsv`, with the address each came from; it changes nothing else there.
 
 ## Tests
 
     python -m unittest discover -s interface/tests -t interface
 
-123 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
-Clear guard, the manifest written for hand-collected documents, the three run plans and their parsers,
+154 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
+Clear guard, the folders by economy and source, the inbox (designated sources, addresses, archives, what
+can be read), the manifest written for hand-collected documents, the three run plans and their parsers,
 review decisions and the export.

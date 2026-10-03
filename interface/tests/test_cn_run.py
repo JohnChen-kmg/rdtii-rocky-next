@@ -91,7 +91,8 @@ class Plan(unittest.TestCase):
             self.assertEqual(data.name, "data")
             self.assertTrue((data / "CN" / cn_run.BASELINE / "auto" / "cac" / "list.csv").is_file())
             self.assertFalse(list((data / "CN").rglob("raw")))       # index files only, never the bytes
-            self.assertTrue(job.out_dir.name.startswith("CN_"))
+            # filed by economy, then source: outputs/scrape/CN/china-tools/<time>
+            self.assertEqual((job.out_dir.parent.parent.name, job.out_dir.parent.name), ("CN", "china-tools"))
             self.assertIn("(dry run)", job.title)
             job2 = cn_run.plan_cn(app, {"cn_mode": "update"})
             self.assertEqual(job2.steps[0].argv[-1], "--fetch")

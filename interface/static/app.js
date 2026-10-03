@@ -441,13 +441,17 @@ function renderScrapeSetup() {
   $('#scrape-setup').querySelectorAll('input[name=sc-scope]').forEach((inp) => inp.addEventListener('change', () => { SC.scope = inp.value; renderScrapeSetup(); }));
   SC.checks = null; renderScrapeRun();
   const parts = [];
-  if (engineCodes.length) parts.push(`cwd stages/p1-scrape  REQUEST_DELAY_MS=${delayFor(engineCodes)}${SC.scope === 'relevant' ? ' MAX_CANDIDATES_PER_ECONOMY=100000' : ''}  python scrape.py --economy ${engineCodes.join(',')} --pillars 6,7 --scope ${SC.scope}${SC.forms ? ` --forms ${SC.forms}` : ''} --out outputs/scrape/${engineCodes.join('-')}_${stamp()}`);
+  const srcOf = (c) => (SC.econs.find((e) => e.code === c) || {}).source || '';
+  const crawlCmd = (list, out) => `cwd stages/p1-scrape  REQUEST_DELAY_MS=${delayFor(list)}${SC.scope === 'relevant' ? ' MAX_CANDIDATES_PER_ECONOMY=100000' : ''}  python scrape.py --economy ${list.join(',')} --pillars 6,7 --scope ${SC.scope}${SC.forms ? ` --forms ${SC.forms}` : ''} --out ${out}`;
+  // a new crawl is one run per economy, filed by economy and source; a second pass stays in the folder it is given
+  if (engineCodes.length && SC.mode === 'same') parts.push(crawlCmd(engineCodes, SC.folder || '<the crawl folder chosen in Run>'));
+  else engineCodes.forEach((c) => parts.push(crawlCmd([c], srcOf(c) ? `outputs/scrape/${c}/${srcOf(c)}/${stamp()}` : `outputs/scrape/${c}_${stamp()}`)));
   if (codes.includes('CN')) {
     const req = scrapeRequest();
     const tool = req.cn_mode === 'update'
       ? `python update.py --base CN_sources_2026-09-21${SC.dryRun ? '' : ' --fetch'}`
       : (req.cn_sources.length ? req.cn_sources.map((src) => `python collect.py ${src}${SC.dryRun ? ' --list-only' : ''}`).join('   then   ') : '(tick a publisher on the China card)');
-    parts.push(`cwd stages/p1-scrape/src/p1_scrape/adapters/cn_npc  HANDOFF1_DIR=outputs/scrape/CN_${stamp()}/data  ${tool}`);
+    parts.push(`cwd stages/p1-scrape/src/p1_scrape/adapters/cn_npc  HANDOFF1_DIR=outputs/scrape/CN/china-tools/${stamp()}/data  ${tool}`);
   }
   $('#scrape-cmd').textContent = parts.join('   then   ') || 'pick at least one economy';
 }
@@ -515,10 +519,20 @@ async function loadScrapeOutputs() {
   try { j = await api('/api/scrape/outputs'); } catch (e) { $('#scrape-output').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
   SC.folders = j.folders; renderScrapeRun();
   const present = (f) => !f.raw_checked ? '' : f.raw_present === f.raw_checked ? '<span class="chip ok">yes</span>' : f.raw_present ? `<span class="chip warn">${f.raw_present} of ${f.raw_checked} checked</span>` : '<span class="chip">manifest only</span>';
-  const clearable = (f) => f.kind === 'interface run' || f.kind === 'China tools run';
-  $('#scrape-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Folder</th><th>Kind</th><th>Documents</th><th>By economy</th><th>By type</th><th>Bytes present</th><th>Fetched last pass</th><th></th></tr></thead><tbody>
-    ${j.folders.map((f) => `<tr><td title="${esc(f.path)}">${esc(f.id)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.rows}</td><td class="small">${kv(f.by_economy)}${f.cn_sources && Object.keys(f.cn_sources).length ? ` (${kv(f.cn_sources)})` : ''}</td><td class="small">${kv(f.by_source_type)}</td><td class="small">${present(f)}</td><td class="num">${f.kind === 'hand-collected' ? `<span class="small muted">${f.batches && f.batches.length ? `${f.batches.length} batch${f.batches.length === 1 ? '' : 'es'}` : 'by hand'}</span>` : `${f.fetched_last_pass ?? ''}${f.crawl_state ? ` <span class="chip">${esc(f.crawl_state.state)}</span>` : ''}`}</td><td class="small"><button class="btn small" data-open="${esc(f.path)}">Open folder</button> ${clearable(f) ? `${f.kind === 'interface run' ? `<button class="btn small" data-clear="${esc(f.path)}/raw" data-what="the downloaded documents (raw/)">Clear raw</button> ` : ''}<button class="btn small" data-clear="${esc(f.path)}" data-what="the whole run folder">Clear folder</button>` : ''}</td></tr>`).join('')}
-    </tbody></table></div><p class="muted small">A shipped manifest describes every document without containing one; the bytes come back by running the crawler. The fetched count is the crawler's own figure from cost_report.json and must read 0 on a second pass over the same folder. A China tools run counts the documents its raw folders hold. A hand-collected row is an inbox folder; it goes to Extraction like a crawl folder.</p>`
+  const tools = (f) => f.cn_sources && Object.keys(f.cn_sources).length ? kv(f.cn_sources) : '';
+  // filed by economy and source: the two columns say where a folder sits; an older folder shows its economies and no source
+  const econ = (f) => f.economy ? `<b>${esc(f.economy)}</b>` : kv(f.by_economy);
+  const source = (f) => f.source ? `<span title="${esc(f.source)}">${esc(f.source_name || f.source)}</span>${tools(f) ? ` <span class="muted">(${tools(f)})</span>` : ''}` : tools(f);
+  const last = (f) => f.kind === 'hand-collected' ? `<span class="small muted">${f.batches && f.batches.length ? `${f.batches.length} batch${f.batches.length === 1 ? '' : 'es'}` : 'by hand'}</span>`
+    : f.kind === 'hand-collected manifest' ? '<span class="small muted">by hand</span>'
+    : `${f.fetched_last_pass ?? ''}${f.crawl_state ? ` <span class="chip">${esc(f.crawl_state.state)}</span>` : ''}`;
+  const buttons = (f) => `<button class="btn small" data-open="${esc(f.path)}">Open folder</button>`
+    + (f.kind === 'interface run' ? ` <button class="btn small" data-clear="${esc(f.path)}/raw" data-what="the downloaded documents (raw/)">Clear raw</button>` : '')
+    + (f.kind === 'interface run' || f.kind === 'China tools run' ? ` <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole run folder">Clear folder</button>` : '')
+    + (f.kind === 'hand-collected manifest' ? ` <button class="btn small" data-clear="${esc(f.path)}" data-what="the manifest written for these hand-collected files; the files stay in the inbox">Clear folder</button>` : '');
+  $('#scrape-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Economy</th><th>Source</th><th>Folder</th><th>Kind</th><th>Documents</th><th>By type</th><th>Bytes present</th><th>Fetched last pass</th><th></th></tr></thead><tbody>
+    ${j.folders.map((f) => `<tr><td class="small">${econ(f)}</td><td class="small">${source(f)}</td><td class="small" title="${esc(f.path)}">${esc(f.id)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.rows}</td><td class="small">${kv(f.by_source_type)}</td><td class="small">${present(f)}</td><td class="num">${last(f)}</td><td class="small">${buttons(f)}</td></tr>`).join('')}
+    </tbody></table></div><p class="muted small">Results are filed by economy, then source: <code>scrape/&lt;economy&gt;/&lt;source&gt;/&lt;time&gt;</code> for a crawl, <code>inbox/&lt;economy&gt;/&lt;source&gt;</code> for files fetched by hand. A shipped manifest describes every document without containing one; the bytes come back by running the crawler. The fetched count is the crawler's own figure from cost_report.json and must read 0 on a second pass over the same folder. A China tools run counts the documents its raw folders hold. A hand-collected row goes to Extraction like a crawl folder.</p>`
     : '<p class="muted">No crawl folders yet.</p>';
   bindClear('#scrape-output', loadScrapeOutputs);
   bindOpen('#scrape-output');
@@ -541,8 +555,11 @@ async function loadExtract() {
 }
 
 function inputLabel(i) {
-  if (i.origin === 'inbox batch') return `${i.id}: ${i.rows} file${i.rows === 1 ? '' : 's'} (one batch of ${i.economy})`;
-  if (i.origin === 'inbox') return `${i.id}: ${i.rows} file${i.rows === 1 ? '' : 's'} (every batch of ${i.economy})`;
+  const n = `${i.rows} file${i.rows === 1 ? '' : 's'}`;
+  if (i.origin === 'hand-collected source') return `${i.id}: ${n} by hand from ${i.source_name || i.source} (every batch)`;
+  if (i.origin === 'hand-collected batch') return `${i.id}: ${n} by hand from ${i.source_name || i.source} (one batch)`;
+  if (i.origin === 'inbox batch') return `${i.id}: ${n} (one batch of ${i.economy}, filed under no source)`;
+  if (i.origin === 'inbox') return `${i.id}: ${n} (every source of ${i.economy})`;
   const what = i.kind === 'crawled' ? `${i.rows} documents` : `${i.rows} files, no manifest`;
   const bytes = i.kind !== 'crawled' ? '' : i.raw_checked === 0 ? '' : i.raw_present === 0 ? ', bytes not shipped' : i.raw_present < i.raw_checked ? `, ${i.raw_present} of ${i.raw_checked} present` : '';
   return `${i.id}: ${what}${bytes} (${i.origin})`;
@@ -560,7 +577,8 @@ function renderExtractSetup() {
     </div>
     <details class="notes-box" ${EX.notesOpen ? 'open' : ''}><summary>Note:</summary>
       <p>* <b>Input</b> is a crawl folder from Scraping, with its manifest, or a folder of documents collected by hand.</p>
-      <p>* <b>Hand-collected files</b> go in the inbox, one subfolder per economy: <code>${esc(inbox)}/CN</code> for China, <code>${esc(inbox)}/LA</code> for Lao PDR. The folder names the economy, the language follows, and the folder is listed here at once; "inbox, every economy" extracts them all in one run. The interface writes the manifest and the law table for them under the runs root and never writes into the inbox.</p>
+      <p>* <b>Hand-collected files</b> go in the inbox, one folder per designated source of an economy: <code>${esc(inbox)}/CN/miit</code>, <code>${esc(inbox)}/SG/pdpc-gov-sg</code>. Drop them at 1 Scraping → Hand-collected. The folder names the economy and the source, and the language follows. The interface writes the manifest and the law table under the runs root and leaves the files as they are.</p>
+      <p>* <b>Readiness</b> says, per file, how it is read or why it cannot be. Files that cannot be read are left out of the run and listed in <code>left_out.csv</code> beside the manifest.</p>
       <p>* <b>Language</b> is not chosen. The crawler records each document’s language; a document without one takes its economy’s language from the stage’s table (English, Chinese, Lao, Portuguese, Malay). Check reads the text of hand-collected files it can read and warns when a file does not fit its folder.</p>
       <p>* Each document is read by the lane its kind needs: A web page, B native PDF, C scanned PDF through OCR, D Word.${EX.htmlHosts && EX.htmlHosts.length ? ` Web pages parse for ${EX.htmlHosts.length} registered hosts only.` : ''}</p>
     </details>`;
@@ -641,6 +659,7 @@ function renderExtractDescribe() {
     facts = `<dt>Path</dt><dd><code>${esc(d.path)}</code></dd>
        <dt>Files</dt><dd>${kvb(d.by_source_type)}</dd>
        <dt>Economy</dt><dd>${econLine}</dd>
+       ${d.source ? `<dt>Source</dt><dd>${d.source_url ? `<a href="${esc(d.source_url)}" target="_blank" rel="noopener">${esc(d.source_name || d.source)}</a>` : esc(d.source_name || d.source)} <span class="muted">(${esc(d.source)})</span></dd>` : ''}
        ${d.batch ? `<dt>Batch</dt><dd>${esc(d.batch)}</dd>` : ''}
        <dt>Language</dt><dd>${langLine}</dd>
        ${det ? `<dt>Text check</dt><dd>${esc(det.line)}${det.mismatch ? `<br><span class="hint">Does not fit the folder: ${esc(det.mismatch_files.join(', '))}</span>` : ''}</dd>` : ''}`;
@@ -653,6 +672,8 @@ function renderExtractDescribe() {
     ${perFile}
     <div id="ex-manifest-preview"></div>
   </details>`;
+  // hand-collected files: say at once how each will be read (a very large folder waits for the button)
+  if (d.kind === 'hand_collected' && d.rows && d.rows <= 500 && (d.per_subfolder || d.economy || EX.economy)) previewManifest(true);
 }
 
 async function loadExtractOutputs() {
@@ -686,7 +707,11 @@ function langName(code) {
   return hit ? hit.label : code;
 }
 
-const IB = { data: null, economy: '', files: [], log: [], busy: false, notesOpen: false };
+const IB = { data: null, economy: '', source: '', files: [], log: [], busy: false, notesOpen: false, filesOpen: null };
+const IB_SHOWN = 300;   // rows drawn in the file list; every file still goes to Extraction
+
+function ibEconomy() { return IB.data ? IB.data.economies.find((e) => e.code === IB.economy) : null; }
+function ibSource() { const e = ibEconomy(); return e ? e.sources.find((x) => x.key === IB.source) : null; }
 
 async function loadInbox() {
   const host = $('#inbox-body');
@@ -698,84 +723,132 @@ async function loadInbox() {
   }
   try { IB.data = await api('/api/inbox'); } catch (e) { host.innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
   if (!IB.economy && SC.chosen && SC.chosen.size === 1) IB.economy = [...SC.chosen][0];
-  if (IB.economy && !IB.data.economies.find((e) => e.code === IB.economy)) IB.economy = '';
+  if (IB.economy && !ibEconomy()) IB.economy = '';
+  if (IB.source && !ibSource()) IB.source = '';
   await loadInboxFiles();
   renderInbox();
 }
 
 async function loadInboxFiles() {
-  if (!IB.economy) { IB.files = []; return; }
-  try { IB.files = (await api(`/api/inbox/files?${new URLSearchParams({ economy: IB.economy })}`)).files; } catch (e) { IB.files = []; }
+  if (!IB.economy || !IB.source) { IB.files = []; return; }
+  try { IB.files = (await api(`/api/inbox/files?${new URLSearchParams({ economy: IB.economy, source: IB.source })}`)).files; } catch (e) { IB.files = []; }
 }
 
 function renderInbox() {
   const d = IB.data;
   const host = $('#inbox-body');
   if (!host || !d) return;
-  const cur = d.economies.find((e) => e.code === IB.economy);
-  const target = cur ? `${d.root}/${cur.code}` : '';
-  const batchLine = !cur ? '' : cur.batches && cur.batches.length
-    ? `${cur.batches.length} batch${cur.batches.length === 1 ? '' : 'es'}: ${cur.batches.map((b) => `${b.name} (${b.files})`).join(', ')}${cur.loose ? `; ${cur.loose} file${cur.loose === 1 ? '' : 's'} outside a batch` : ''}`
-    : cur.files ? 'no batches: the files were copied in by hand' : '';
+  const cur = ibEconomy();
+  const src = ibSource();
+  const target = src ? `${d.root}/${cur.code}/${src.key}` : '';
+  const n = (k) => `${k} file${k === 1 ? '' : 's'}`;
+  const batchLine = !src || !src.files ? '' : src.batches.length
+    ? `${src.batches.length} batch${src.batches.length === 1 ? '' : 'es'}: ${src.batches.map((b) => `${b.name} (${b.files})`).join(', ')}${src.loose ? `; ${n(src.loose)} outside a batch` : ''}`
+    : 'no batches: the files were copied in by hand';
+  const cannot = IB.files.filter((f) => f.status === 'cannot_read');
+  const listed = [...cannot, ...IB.files.filter((f) => f.status !== 'cannot_read')].slice(0, IB_SHOWN);
+  const filesOpen = IB.filesOpen == null ? (cannot.length > 0 || IB.files.length <= 30) : IB.filesOpen;
+  const fileRow = (f) => {
+    const parts = f.name.split('/');
+    const name = parts[parts.length - 1];
+    const direct = parts.length === (f.batch ? 2 : 1);   // an address is kept for a file that sits in the source's folder or one of its batches
+    const reads = f.status === 'cannot_read'
+      ? `<span class="chip bad">cannot be read</span><div class="small">${esc(f.action || '')}</div>`
+      : `<span class="chip ok">ready</span> <span class="small">${esc(f.method || '')}</span>${f.action ? `<div class="small muted">${esc(f.action)}</div>` : ''}`;
+    const basis = f.url ? (f.url_basis || 'noted beside the file') : 'none noted: cited to the source’s page';
+    return `<tr><td>${esc(name)}</td><td>${reads}</td>
+      <td class="addr">${direct ? `<input type="url" class="ib-url" data-file="${esc(name)}" data-batch="${esc(f.batch || '')}" value="${esc(f.url || '')}" placeholder="https://… the document’s own address">` : esc(f.url || '')}<div class="small muted">${esc(basis)}</div></td>
+      <td class="small">${esc(f.batch || '')}</td><td class="num">${fmtBytes(f.size)}</td></tr>`;
+  };
   host.innerHTML = `
     <div class="callout cn-caution"><b>Why this block.</b>
       <ul>
         <li>Some sources cannot be crawled: a robots.txt ban, a host that refuses an automated client, a portal with no machine-readable list.</li>
-        <li>Files you fetch by hand go here, one folder per economy.</li>
+        <li>Each economy has a short list of them. Files you fetch by hand from one go in that source’s own folder; files from anywhere else are not taken.</li>
         <li>They sit beside the crawler’s results in Output and pass down to Extraction and Mapping through the same pipeline.</li>
       </ul></div>
     <div class="setup-row"><div class="setup-label">Economy</div>
-      <div class="econ-grid">${d.economies.map((e) => `<label class="radio big ${IB.economy === e.code ? 'on' : ''}"><input type="radio" name="ib-econ" value="${e.code}" ${IB.economy === e.code ? 'checked' : ''}> <span class="name">${esc(e.name)}</span><span class="sub">${e.files ? `${e.files} file${e.files === 1 ? '' : 's'}` : 'empty'}</span></label>`).join('')}</div>
+      <div class="econ-grid">${d.economies.map((e) => `<label class="radio big ${IB.economy === e.code ? 'on' : ''}"><input type="radio" name="ib-econ" value="${e.code}" ${IB.economy === e.code ? 'checked' : ''}> <span class="name">${esc(e.name)}</span><span class="sub">${e.files ? n(e.files) : 'empty'}</span></label>`).join('')}</div>
     </div>
+    ${cur ? `<div class="setup-row"><div class="setup-label">Source</div>
+      <div>
+        ${cur.sources.length ? `<div class="src-grid">${cur.sources.map((x) => `<label class="radio big ${IB.source === x.key ? 'on' : ''}" title="${esc(x.key)}"><input type="radio" name="ib-src" value="${esc(x.key)}" ${IB.source === x.key ? 'checked' : ''}> <span class="name">${esc(x.name)}</span><span class="sub">${x.files ? n(x.files) : 'empty'}</span></label>`).join('')}</div>`
+          : '<p class="muted">No designated source is listed for this economy.</p>'}
+        ${src ? `<dl class="portal-facts src-facts">
+          ${src.url ? `<dt>Page</dt><dd><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.url)}</a></dd>` : ''}
+          ${src.what ? `<dt>Look for</dt><dd>${esc(src.what)}</dd>` : ''}
+          ${src.why ? `<dt>Why by hand</dt><dd>${esc(String(src.why).replace(/[*]{2}/g, ''))}</dd>` : ''}
+          <dt>Folder</dt><dd><code>${esc(target)}</code></dd>
+        </dl>` : ''}
+        ${cur.unsorted ? `<p class="small muted" style="margin:10px 0 0">${n(cur.unsorted)} from before sources had folders sit directly in <code>${esc(d.root)}/${esc(cur.code)}</code>. They still go to Extraction; move them into a source’s folder to file them.</p>` : ''}
+      </div>
+    </div>` : ''}
     <div class="setup-row"><div class="setup-label">Files</div>
       <div>
-        <label class="dropzone ${cur ? '' : 'off'}" id="ib-drop"><input type="file" id="ib-files" multiple accept=".pdf,.html,.htm,.docx,.doc" ${cur ? '' : 'disabled'}>
-          ${cur ? `Drop PDF, HTML or Word files here, or click to choose. Each drop is one batch, saved under <code>${esc(target)}/&lt;date_time&gt;</code>.` : 'Choose the economy first.'}</label>
+        <label class="dropzone ${src ? '' : 'off'}" id="ib-drop"><input type="file" id="ib-files" multiple accept=".pdf,.html,.htm,.docx,.doc,.zip" ${src ? '' : 'disabled'}>
+          ${src ? `Drop PDF, Word or saved web pages here, or a .zip of them, or click to choose. Each drop is one batch, saved under <code>${esc(target)}/&lt;date_time&gt;</code>.` : cur ? 'Choose the source first.' : 'Choose the economy, then the source.'}</label>
         ${IB.log.length ? `<ul class="ib-log">${IB.log.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
       </div>
     </div>
-    ${cur ? `<div class="setup-row"><div class="setup-label">In the folder</div>
-      <div><div class="row"><span><b>${cur.files}</b> file${cur.files === 1 ? '' : 's'} in <code>${esc(target)}</code></span> <button class="btn small" data-open="${esc(cur.path)}">Open folder</button> ${cur.files ? `<a href="#" id="ib-goto">Extract them: 2 Extraction → Input → ${esc(target)}</a>` : ''}</div>
+    ${src ? `<div class="setup-row"><div class="setup-label">In the folder</div>
+      <div><div class="row"><span><b>${src.files}</b> file${src.files === 1 ? '' : 's'} in <code>${esc(target)}</code></span> <button class="btn small" data-open="${esc(src.path)}">Open folder</button> ${src.files ? '<a href="#" id="ib-goto">Extract them: 2 Extraction → Input</a>' : ''}</div>
         ${batchLine ? `<p class="small muted" style="margin:6px 0 0">${esc(batchLine)}</p>` : ''}
-        ${IB.files.length ? `<details class="doclist"><summary>Files <span class="muted">(${IB.files.length})</span></summary><div class="table-wrap short"><table class="rows"><thead><tr><th>File</th><th>Batch</th><th>Kind</th><th>Size</th><th>Added</th></tr></thead><tbody>
-          ${IB.files.map((f) => `<tr><td>${esc(f.name.split('/').pop())}</td><td class="small">${esc(f.batch || '')}</td><td class="small">${esc(f.kind)}</td><td class="num">${fmtBytes(f.size)}</td><td class="small">${esc(f.added)}</td></tr>`).join('')}</tbody></table></div></details>` : ''}
+        ${cannot.length ? `<p class="ib-warn"><span class="chip bad">${cannot.length} cannot be read</span> Each says what to do. Extraction runs on the rest and leaves these out.</p>` : ''}
+        ${IB.files.length ? `<details class="doclist" id="ib-list" ${filesOpen ? 'open' : ''}><summary>Files <span class="muted">(${IB.files.length}${IB.files.length > IB_SHOWN ? `, the first ${IB_SHOWN} shown` : ''})</span></summary><div class="table-wrap short"><table class="rows ib-files"><thead><tr><th>File</th><th>Reads as</th><th>Address it came from</th><th>Batch</th><th>Size</th></tr></thead><tbody>
+          ${listed.map(fileRow).join('')}</tbody></table></div></details>` : ''}
       </div></div>` : ''}
     <details class="notes-box" ${IB.notesOpen ? 'open' : ''}><summary>Note:</summary>
-      <p>* One economy at a time. The folder names the economy and the language follows from the economy table. Each drop is a batch, a dated subfolder; 2 Extraction → Input lists the economy (every batch) and each batch on its own.</p>
-      <p>* PDF (native or scanned), HTML and Word. A file already in the batch is kept once; a different file with the same name is saved under a numbered name. Nothing else is written to the folder.</p>
-      <p>* Source addresses are not recorded here; the manifest leaves them blank for hand-collected files.</p>
+      <p>* One economy and one source at a time. The folders name both, and the language follows from the economy table. Each drop is a batch, a dated subfolder; 2 Extraction → Input lists the source (every batch) and each batch on its own.</p>
+      <p>* PDF (native or scanned), Word .docx, and web pages saved from a portal the reader knows. A .zip is unpacked on arrival. A file already in the batch is kept once; a different file with the same name is saved under a numbered name.</p>
+      <p>* <b>Reads as</b> is judged from what the file is, not from its name. An old .doc and a page from another site cannot be read; the line says what to do (Save As .docx, or print the page to PDF).</p>
+      <p>* <b>Address</b>: a saved web page brings its own; for anything else, paste the document’s address. A file with none is cited to its source’s page. Addresses are kept in <code>provenance.tsv</code> beside the files.</p>
     </details>`;
   const nb = host.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { IB.notesOpen = nb.open; });
-  host.querySelectorAll('input[name=ib-econ]').forEach((inp) => inp.addEventListener('change', async () => { IB.economy = inp.value; IB.log = []; await loadInboxFiles(); renderInbox(); }));
+  const fl = $('#ib-list'); if (fl) fl.addEventListener('toggle', () => { IB.filesOpen = fl.open; });
+  host.querySelectorAll('input[name=ib-econ]').forEach((inp) => inp.addEventListener('change', () => { IB.economy = inp.value; IB.source = ''; IB.files = []; IB.log = []; IB.filesOpen = null; renderInbox(); }));
+  host.querySelectorAll('input[name=ib-src]').forEach((inp) => inp.addEventListener('change', async () => { IB.source = inp.value; IB.log = []; IB.filesOpen = null; await loadInboxFiles(); renderInbox(); }));
+  host.querySelectorAll('input.ib-url').forEach((inp) => inp.addEventListener('change', () => saveAddress(inp)));
   const drop = $('#ib-drop');
   const input = $('#ib-files');
-  if (drop && cur) {
+  if (drop && src) {
     drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
     drop.addEventListener('dragleave', () => drop.classList.remove('over'));
     drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); if (e.dataTransfer && e.dataTransfer.files.length) uploadFiles(e.dataTransfer.files); });
     input.addEventListener('change', () => { if (input.files.length) uploadFiles(input.files); });
   }
   const go = $('#ib-goto');
-  if (go) go.onclick = (e) => { e.preventDefault(); if (typeof EX !== 'undefined') { EX.chosen = cur.id; EX.desc = null; EX.checks = null; EX.economy = ''; EX.loaded = false; } showTab('extract'); };
+  if (go) go.onclick = (e) => { e.preventDefault(); if (typeof EX !== 'undefined') { EX.chosen = src.id; EX.desc = null; EX.checks = null; EX.economy = ''; EX.loaded = false; } showTab('extract'); };
   bindOpen('#inbox-body');
 }
 
+async function saveAddress(inp) {
+  const note = inp.parentElement.querySelector('.small');
+  try {
+    await api('/api/inbox/address', { method: 'POST', body: JSON.stringify({ economy: IB.economy, source: IB.source, batch: inp.dataset.batch, file: inp.dataset.file, url: inp.value.trim() }) });
+    await loadInboxFiles();   // the address can change how a web page is read
+    renderInbox();
+    if (typeof EX !== 'undefined') EX.loaded = false;
+  } catch (e) { inp.classList.add('bad'); if (note) note.textContent = e.message; }
+}
+
 async function uploadFiles(fileList) {
-  if (!IB.economy || IB.busy) return;
+  if (!IB.economy || !IB.source || IB.busy) return;
   const files = [...fileList];
   const batch = batchStamp();
   IB.busy = true;
-  IB.log = [`Adding ${files.length} file${files.length === 1 ? '' : 's'} to ${IB.data.root}/${IB.economy}/${batch}…`];
+  IB.filesOpen = null;
+  IB.log = [`Adding ${files.length} file${files.length === 1 ? '' : 's'} to ${IB.data.root}/${IB.economy}/${IB.source}/${batch}…`];
   renderInbox();
   const results = [];
   let done = 0;
   for (const f of files) {
     try {
-      const r = await fetch(`/api/inbox/upload?${new URLSearchParams({ economy: IB.economy, name: f.name, batch })}`,
+      const r = await fetch(`/api/inbox/upload?${new URLSearchParams({ economy: IB.economy, source: IB.source, name: f.name, batch })}`,
         { method: 'POST', headers: { 'Content-Type': 'application/octet-stream', 'X-RDTII-Token': TOKEN }, body: f });
       let j; try { j = await r.json(); } catch (e) { j = { error: r.statusText }; }
       if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
-      results.push(`${j.saved}: ${j.status} (${fmtBytes(j.bytes)})`);
+      const reads = !j.reads ? '' : j.reads.status === 'ready' ? `; reads as ${j.reads.method}` : `; cannot be read. ${j.reads.action}`;
+      results.push(`${j.saved}: ${j.status} (${fmtBytes(j.bytes)})${reads}`);
     } catch (e) { results.push(`${f.name}: not added, ${e.message}`); }
     done += 1;
     IB.log = [`${done} of ${files.length} handled, batch ${batch}`, ...results];
@@ -785,6 +858,7 @@ async function uploadFiles(fileList) {
   try { IB.data = await api('/api/inbox'); } catch (e) { /* keep the old counts */ }
   await loadInboxFiles();
   renderInbox();
+  loadScrapeOutputs();
   if (typeof EX !== 'undefined') EX.loaded = false;   // the Extraction tab re-reads its inputs on its next visit
 }
 
@@ -870,7 +944,7 @@ function renderExtractRun() {
   $('#ex-pack').onchange = (e) => { EX.pack = e.target.value; EX.checks = null; renderExtractRun(); renderExtractCmd(); };
   $('#ex-workers').onchange = (e) => { EX.workers = parseInt(e.target.value, 10) || 16; EX.checks = null; renderExtractRun(); renderExtractCmd(); };
   const econ = $('#ex-econ'); if (econ) econ.onchange = (e) => { EX.economy = e.target.value; EX.checks = null; renderExtractRun(); renderExtractCmd(); renderExtractDescribe(); };
-  const pv = $('#ex-preview'); if (pv) pv.addEventListener('click', previewManifest);
+  const pv = $('#ex-preview'); if (pv) pv.addEventListener('click', () => previewManifest(false));
   $('#ex-check').onclick = async () => {
     EX.checking = true; renderExtractRun();
     try { const j = await api('/api/extract/precheck', { method: 'POST', body: JSON.stringify(extractRequest()) }); EX.checks = j.checks; }
@@ -880,15 +954,28 @@ function renderExtractRun() {
   $('#extract-start').onclick = startExtract;
 }
 
-async function previewManifest() {
+/* How each hand-collected file will be read, and the manifest row the interface writes for it. Drawn on its own
+   when the input is chosen (quiet), and on the Preview button. */
+async function previewManifest(quiet) {
+  const d = EX.desc;
+  const seq = (EX.previewSeq = (EX.previewSeq || 0) + 1);
+  const host = $('#ex-manifest-preview') || $('#extract-describe');
   try {
-    const d = EX.desc;
     const economy = d.per_subfolder ? '' : (d.economy || EX.economy || '');
     const r = await api('/api/extract/manifest/preview', { method: 'POST', body: JSON.stringify({ path: d.path, economy }) });
-    const host = $('#ex-manifest-preview') || $('#extract-describe');
-    host.innerHTML = `<details open class="doclist"><summary>Manifest the interface will write <span class="muted">(${r.count} rows)</span></summary><div class="table-wrap short"><table class="rows"><thead><tr><th>doc_id</th><th>economy</th><th>type</th><th>scanned?</th><th>pages</th><th>bytes</th><th>law name guess</th><th>file</th></tr></thead><tbody>
-      ${r.rows.map((x) => `<tr><td class="num">${esc(x.doc_id)}</td><td>${esc(x.economy || '')}</td><td>${esc(x.source_type)}</td><td>${esc(x.pdf_is_scanned)}</td><td class="num">${esc(x.page_count)}</td><td class="num">${esc(x.byte_size)}</td><td>${esc(x.law_name_guess)}</td><td class="small">${esc(x.local_path)}</td></tr>`).join('')}</tbody></table></div></details>`;
-  } catch (e) { alert(e.message); }
+    if (seq !== EX.previewSeq) return;   // a later choice has replaced this one
+    const rows = [...r.rows.filter((x) => x._status !== 'ready'), ...r.rows.filter((x) => x._status === 'ready')];
+    const reads = (x) => x._status === 'ready'
+      ? `<span class="chip ok">ready</span> <span class="small">${esc(x._method)}</span>${x._action ? `<div class="small muted">${esc(x._action)}</div>` : ''}`
+      : `<span class="chip bad">cannot be read</span><div class="small">${esc(x._action)}</div>`;
+    const addr = (x) => x.source_url ? `<a href="${esc(x.source_url)}" target="_blank" rel="noopener">${esc(short(x.source_url, 56))}</a><div class="small muted">${esc(x._url_basis)}</div>` : '<span class="muted">none</span>';
+    host.innerHTML = `<p class="ready-line"><b>Readiness</b> <span class="chip ok">${r.ready} ready</span>${r.cannot_read ? ` <span class="chip bad">${r.cannot_read} cannot be read</span> <span class="small">left out of the run; each says what to do</span>` : ''}</p>
+      <details class="doclist" ${r.cannot_read || !quiet ? 'open' : ''}><summary>Per file: how it is read, and its manifest row <span class="muted">(${r.count})</span></summary><div class="table-wrap short"><table class="rows"><thead><tr><th>File</th><th>Reads as</th><th>Address</th><th>doc_id</th><th>Type</th><th>Pages</th></tr></thead><tbody>
+      ${rows.map((x) => `<tr><td class="small">${esc(x.local_path)}</td><td>${reads(x)}</td><td class="small">${addr(x)}</td><td class="num">${esc(x.doc_id)}</td><td class="small">${esc(String(x.source_type).replace(/_/g, ' '))}</td><td class="num">${esc(x.page_count)}</td></tr>`).join('')}</tbody></table></div></details>`;
+  } catch (e) {
+    if (seq !== EX.previewSeq) return;
+    if (quiet) host.innerHTML = `<p class="small muted">${esc(e.message)}</p>`; else alert(e.message);
+  }
 }
 
 async function startExtract() {
@@ -1175,8 +1262,9 @@ function renderScrapeRun() {
   const chosenRun = runs.find((f) => f.id === SC.folder);
   const engineTarget = !engineCodes.length ? '' : SC.mode === 'same'
     ? (chosenRun ? `${esc(chosenRun.path)} <span class="muted">(${chosenRun.rows} documents already there; only new laws are fetched)</span>` : '<span class="muted">choose a crawl folder</span>')
-    : `${esc(root)}${BS}scrape${BS}${esc(engineCodes.join('-'))}_${stamp()} <span class="muted">(a new folder, created at Start)</span>`;
-  const chinaTarget = china ? `${esc(root)}${BS}scrape${BS}CN_${stamp()} <span class="muted">(China, a new folder for the China tools)</span>` : '';
+    : engineCodes.map((c) => { const k = ((SC.econs || []).find((e) => e.code === c) || {}).source; return k ? `${esc(root)}${BS}scrape${BS}${esc(c)}${BS}${esc(k)}${BS}${stamp()}` : `${esc(root)}${BS}scrape${BS}${esc(c)}_${stamp()}`; }).join('<br>')
+      + ` <span class="muted">(${engineCodes.length === 1 ? 'a new folder' : 'a new folder and a run for each economy'}, filed by economy and source, created at Start)</span>`;
+  const chinaTarget = china ? `${esc(root)}${BS}scrape${BS}CN${BS}china-tools${BS}${stamp()} <span class="muted">(China, a new folder for the China tools)</span>` : '';
   const target = [engineTarget, chinaTarget].filter(Boolean).join('<br>') || '<span class="muted">pick at least one economy</span>';
   const canStart = SC.stagePresent !== false && SC.checks && fails.length === 0;
   const mode = SC.cnMode === 'collect_cac' || SC.cnMode === 'collect_all' ? 'collect' : (SC.cnMode || 'update');
@@ -1191,7 +1279,7 @@ function renderScrapeRun() {
       ${china ? `<label class="stack-row"><span class="setup-label">China</span> <select id="sc-cn"><option value="update" ${mode === 'update' ? 'selected' : ''}>Update check: what changed at CAC and gov.cn</option><option value="collect" ${mode === 'collect' ? 'selected' : ''}>Collect the ticked publishers${pickedNames ? `: ${esc(pickedNames)}` : ' (none ticked yet)'}</option></select></label>` : ''}
       <label class="stack-row"><span class="setup-label">Dry run</span> <input type="checkbox" id="sc-dry" ${SC.dryRun ? 'checked' : ''}> <span>list only, fetch nothing</span></label>
       <details class="notes-box" ${SC.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
-        <p>* <b>New crawl</b> writes into a new folder. <b>Update an existing crawl</b> reuses a folder and fetches only laws not already retrieved, which is how a second pass over a complete folder fetches zero.</p>
+        <p>* <b>New crawl</b> writes into a new folder, filed by economy and source; several economies run one after another, one folder each. <b>Update an existing crawl</b> reuses a folder and fetches only laws not already retrieved, which is how a second pass over a complete folder fetches zero.</p>
         <p>* <b>Shipped link list</b>: the document addresses are already known, so fetching starts at once. <b>Discover on the portal</b>: the crawler reads the portal's listings first to find the documents; slow, and silent for up to 20 minutes.</p>
         ${china ? `<p>* <b>China</b> runs through the China tools, not the crawler, as a job of its own. <b>Update check</b> compares CAC and gov.cn with the shipped collection and fetches what is new. <b>Collect</b> takes the whole index of each publisher ticked on the China card, one pass each: CAC alone takes about 12 minutes, several publishers an hour or more. The documents then appear in 2 Extraction → Input with the economy fixed to China. The national database, MIIT and Customs stay by hand.</p>` : ''}
         <p>* <b>Dry run</b> lists what would be fetched and fetches nothing; no manifest is written.</p>
@@ -1202,8 +1290,8 @@ function renderScrapeRun() {
       <div class="stack-row full"><button class="btn primary wide" id="scrape-start" ${canStart ? '' : 'disabled'}>Start</button></div>
     </div>`;
   const rn = note.querySelector('details.notes-box'); if (rn) rn.addEventListener('toggle', () => { SC.runNotesOpen = rn.open; });
-  const sm = $('#sc-mode'); if (sm) sm.onchange = (e) => { SC.mode = e.target.value; if (SC.mode === 'same' && !SC.folder && runs[0]) SC.folder = runs[0].id; SC.checks = null; renderScrapeRun(); };
-  const fs = $('#sc-folder'); if (fs) fs.onchange = (e) => { SC.folder = e.target.value; SC.checks = null; renderScrapeRun(); };
+  const sm = $('#sc-mode'); if (sm) sm.onchange = (e) => { SC.mode = e.target.value; if (SC.mode === 'same' && !SC.folder && runs[0]) SC.folder = runs[0].id; SC.checks = null; renderScrapeSetup(); };
+  const fs = $('#sc-folder'); if (fs) fs.onchange = (e) => { SC.folder = e.target.value; SC.checks = null; renderScrapeSetup(); };
   const sf = $('#sc-frontier'); if (sf) sf.onchange = (e) => { SC.frontier = e.target.value; SC.checks = null; renderScrapeRun(); };
   const cn = $('#sc-cn'); if (cn) cn.onchange = (e) => { SC.cnMode = e.target.value; SC.checks = null; renderScrapeSetup(); };
   $('#sc-dry').onchange = (e) => { SC.dryRun = e.target.checked; SC.checks = null; renderScrapeSetup(); };
@@ -1255,7 +1343,7 @@ function renderChina() {
   const cac = src('cac'), miit = src('miit'), npc = src('npc-database'), govcn = src('govcn'), customs = src('customs');
   const ws = d.folders.find((f) => f.name.startsWith('CN_ws')) || {};
   const docLink = (p, label) => `<a href="#" data-doc="${esc(p)}">${esc(label || p.split('/').pop())}</a>`;
-  const inboxLink = '<a href="#" class="cn-inbox"><code>inbox/CN</code></a>';
+  const inboxLink = (key) => `<a href="#" class="cn-inbox" data-src="${key}"><code>inbox/CN/${key}</code></a>`;
 
   $('#cn-body').innerHTML = `
     <div class="block">
@@ -1275,7 +1363,7 @@ function renderChina() {
       <ul class="plain-list big">
         <li>Consolidated and current; every file name carries its version date.</li>
         <li>Alone it answers 18 of 61 indicators and all of pillar 7.</li>
-        <li><b>Check:</b> download a fresh export into ${inboxLink}, run the offline diff, extract and map the changes.</li>
+        <li><b>Check:</b> download a fresh export into ${inboxLink('npc-database')}, run the offline diff, extract and map the changes.</li>
       </ul>
     </div>
 
@@ -1286,7 +1374,7 @@ function renderChina() {
         <li><b>CAC:</b> the operative rules of pillars 6 and 7. Permits crawling, so its rules index was taken whole.</li>
         <li><b>MIIT:</b> the telecom catalogue and licensing. <b>Customs:</b> the e-commerce thresholds. Both by hand.</li>
         <li>Twelve more publishers set aside, not deleted; 31 indicators still served.</li>
-        <li><b>Check:</b> the update tool re-reads CAC and gov.cn (run it from 1 Scraping with China ticked); the worklist tool lists each MIIT and Customs page to open. Save the attachments into ${inboxLink}.</li>
+        <li><b>Check:</b> the update tool re-reads CAC and gov.cn (run it from 1 Scraping with China ticked); the worklist tool lists each MIIT and Customs page to open. Save the attachments into ${inboxLink('miit')} or ${inboxLink('customs')}.</li>
       </ul>
       <div class="table-wrap short"><table class="rows"><thead><tr><th>Source</th><th>Mode</th><th>Held</th><th>What</th></tr></thead><tbody>
         <tr><td>CAC 国家互联网信息办公室</td><td><span class="chip ok">crawled</span></td><td class="num">${cac.provenance_rows || ws.manifest_rows || ''}</td><td>Whole rules index; 42 of its 68 tier-2 rules were missing from the hand list.</td></tr>
@@ -1320,7 +1408,7 @@ function renderChina() {
   }));
   $('#cn-body').querySelectorAll('a.cn-inbox').forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault();
-    if (typeof IB !== 'undefined') { IB.economy = 'CN'; IB.log = []; }
+    if (typeof IB !== 'undefined') { IB.economy = 'CN'; IB.source = a.dataset.src || ''; IB.log = []; IB.filesOpen = null; }
     showTab('scrape');
     const block = $('#inbox-block');
     if (block) { block.open = true; try { localStorage.setItem('rdtii.inbox.open', '1'); } catch (err) { /* private window */ } }
