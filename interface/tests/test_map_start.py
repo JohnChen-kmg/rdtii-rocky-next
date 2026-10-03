@@ -47,6 +47,7 @@ class PickerTiers(unittest.TestCase):
         self.assertEqual(pk["selection"]["language_offset"]["por"], -0.03)
 
 
+@unittest.skipUnless((DEMO / "laws.jsonl").is_file(), "needs the demo extraction output (run Extraction on demo_data/mini_raw)")
 class DemoHandoff(unittest.TestCase):
     def test_handoff_is_described_from_laws_and_status(self):
         s = settings_mod.load({"HANDOFF2_DIR": str(DEMO)})
@@ -104,6 +105,7 @@ class DemoHandoff(unittest.TestCase):
             self.assertTrue(any(c["check"] == "baseline" and c["level"] == "warn" for c in checks))
 
 
+@unittest.skipUnless((DEMO / "laws.jsonl").is_file(), "needs the demo extraction output (run Extraction on demo_data/mini_raw)")
 class IndexFollowsTheOutput(unittest.TestCase):
     """The index is reused while it is as new as the extraction output, and rebuilt once the output is newer."""
 

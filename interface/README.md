@@ -80,7 +80,7 @@ The ones the interface adds:
 
     python -m unittest discover -s interface/tests -t interface
 
-181 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
+182 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
 window (which browser, when to stop, one instance, the presence stream on a real server), the
 Clear guard, the folders by economy and source, the inbox (designated sources, addresses, archives, what
 can be read), the manifest written for hand-collected documents, the three run plans and their parsers,

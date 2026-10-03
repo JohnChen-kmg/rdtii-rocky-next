@@ -3,6 +3,7 @@ import csv
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from . import INTERFACE  # noqa: F401
 from rdtii_ui import envbuild, jobs, settings as settings_mod
@@ -77,8 +78,16 @@ class Staging(unittest.TestCase):
             self.assertIn("Run the crawler", str(cm.exception))
 
 
+FOUND = {"ok": True, "path": "/usr/bin/tesseract"}
+MISSING = {"ok": False, "path": None, "hint": "install it"}
+
+
 class Precheck(unittest.TestCase):
-    def test_demo_folder_passes_with_the_two_expected_warnings(self):
+    """What the Check says about a folder. Whether this machine has Tesseract is not what is being tested, so
+    the probe is given its answer."""
+
+    @mock.patch("rdtii_ui.probes.probe_tesseract", return_value=FOUND)
+    def test_demo_folder_passes_with_the_two_expected_warnings(self, _probe):
         with tempfile.TemporaryDirectory() as d:
             s = settings_mod.load({"RDTII_RUNS_ROOT": str(Path(d) / "outputs")})
             app = App(s)
@@ -90,7 +99,17 @@ class Precheck(unittest.TestCase):
             self.assertEqual(levels["output"], "ok")  # a fresh runs root: nothing to reuse
             self.assertNotIn("fail", levels.values())
 
-    def test_hand_collected_folder_needs_an_economy(self):
+    @mock.patch("rdtii_ui.probes.probe_tesseract", return_value=MISSING)
+    def test_scanned_documents_without_tesseract_fail_the_check(self, _probe):
+        with tempfile.TemporaryDirectory() as d:
+            app = App(settings_mod.load({"RDTII_RUNS_ROOT": str(Path(d) / "outputs")}))
+            ocr = next(c for c in extract.precheck(app, {"input": "demo_data/mini_raw"}) if c["check"] == "ocr")
+            self.assertEqual(ocr["level"], "fail")
+            self.assertIn("Tesseract was not found", ocr["text"])
+            self.assertIn("RDTII_TESSERACT", ocr["text"])
+
+    @mock.patch("rdtii_ui.probes.probe_tesseract", return_value=FOUND)
+    def test_hand_collected_folder_needs_an_economy(self, _probe):
         with tempfile.TemporaryDirectory() as d:
             s = settings_mod.load({"RDTII_RUNS_ROOT": str(Path(d) / "outputs")})
             app = App(s)
