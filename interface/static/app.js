@@ -1230,13 +1230,24 @@ async function loadExportSummary() {
   try { j = await api(`/api/map/export/summary?${new URLSearchParams({ run: S.run, economy: S.filters.economy })}`); } catch (e) { el.innerHTML = ''; return; }
   const qs = (fmt) => `/api/map/export?${new URLSearchParams({ run: S.run, economy: S.filters.economy, fmt })}`;
   el.innerHTML = `<div class="setup-row"><div class="setup-label">Export</div><div>
-    <div class="row"><a class="btn wide" href="${qs('csv')}">Export CSV</a> <a class="btn wide" href="${qs('xlsx')}">Export xlsx</a> <span class="muted">${esc(S.filters.economy || 'all economies')}: <b>${j.rows_out}</b> of ${j.rows_in} rows</span></div>
+    <div class="row"><a class="btn wide" href="${qs('csv')}" data-export="csv">Export CSV</a> <a class="btn wide" href="${qs('xlsx')}" data-export="xlsx">Export xlsx</a> <span class="muted">${esc(S.filters.economy || 'all economies')}: <b>${j.rows_out}</b> of ${j.rows_in} rows</span></div>
     <details class="notes-box" ${RV.exportNotesOpen ? 'open' : ''}><summary>Note:</summary>
       <p>* ${j.frozen ? 'Filed rows are exported as they are.' : `<b>${j.decisions}</b> decision(s) so far: ${j.accepted} accepted, ${j.rejected} rejected, ${j.corrected} corrected. Rejected rows are removed and corrections applied.`}</p>
       <p>* The file carries the host’s 14 columns; column O is left to the host’s formula.</p>
       <p>* review_log.csv is written beside the file in <code>${esc(j.export_dir)}</code>.</p>
-    </details></div></div>`;
+    </details>
+    <div id="export-saved"></div></div></div>`;
   const nb = el.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { RV.exportNotesOpen = nb.open; });
+  // in the tool's own window there is no download bar: the server keeps the file and the page says where
+  if (SHELL.kind === 'window') el.querySelectorAll('a[data-export]').forEach((a) => a.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const out = $('#export-saved');
+    try {
+      const r = await api(`${qs(a.dataset.export)}&save=1`);
+      out.innerHTML = `<p class="saved-line"><span class="chip ok">saved</span> <b>${esc(r.filename)}</b>, ${r.rows} rows, in <code>${esc(r.folder_id)}</code> <button class="btn small" data-open="${esc(r.folder)}">Open folder</button></p>`;
+      bindOpen('#export-saved');
+    } catch (err) { out.innerHTML = `<p class="note">${esc(err.message)}</p>`; }
+  }));
 }
 
 /* ---------- Scraping · Start ---------- */
@@ -1481,7 +1492,7 @@ function renderJobStrip() {
   el.hidden = false;
   const a = j.active;
   el.innerHTML = a
-    ? `<span class="dot warn"></span><b>Running:</b> ${esc(a.title)} <span class="muted">· ${esc(a.step_label)}${a.progress?.total ? ` · ${a.progress.done}/${a.progress.total} ${esc(a.progress.unit || '')}` : ''}</span> <span class="muted small">${esc(a.last)}</span> <button class="btn small" data-cancel="${a.id}">Stop</button>${(j.queued || []).length ? `<span class="chip">${j.queued.length} queued</span>` : ''}`
+    ? `<span class="dot warn"></span><b>Running:</b> ${esc(a.title)} <span class="muted">· ${esc(a.step_label)}${a.progress?.total ? ` · ${a.progress.done}/${a.progress.total} ${esc(a.progress.unit || '')}` : ''}</span> <span class="muted small">${esc(a.last)}</span> <button class="btn small" data-cancel="${a.id}">Stop</button>${(j.queued || []).length ? `<span class="chip">${j.queued.length} queued</span>` : ''}${SHELL.kind === 'window' ? '<span class="muted small">Closing the window stops the run.</span>' : ''}`
     : `<span class="chip">${j.queued.length} job(s) queued</span>`;
   el.querySelector('[data-cancel]')?.addEventListener('click', () => cancelJob(a.id));
   fixTop();
@@ -1566,8 +1577,61 @@ async function runSelftest() {
   catch (e) { alert(e.message); }
 }
 
+/* ---------- the shell: a browser tab, or the tool's own window ---------- */
+const SHELL = { kind: (document.querySelector('meta[name=rdtii-shell]') || {}).content === 'window' ? 'window' : 'tab', busy: false, misses: 0, stream: null };
+
+function shellNotice(text) {
+  let el = $('#shell-overlay');
+  if (!text) { if (el) el.remove(); return; }
+  if (!el) { el = document.createElement('div'); el.id = 'shell-overlay'; document.body.appendChild(el); }
+  el.innerHTML = `<div class="box"><h2>The interface has stopped</h2><p>${esc(text)}</p><button class="btn primary" id="shell-reload">Reload</button></div>`;
+  $('#shell-reload').onclick = () => location.reload();
+}
+
+/* One stream per open page. The server counts them to know a window is still there; the page reads from it
+   whether a run is in progress, and learns from its silence that the server has gone. */
+function shellConnect() {
+  if (!window.EventSource) return;
+  const es = new EventSource(`/api/presence?t=${encodeURIComponent(TOKEN)}`);
+  SHELL.stream = es;
+  es.onmessage = (e) => {
+    SHELL.misses = 0;
+    shellNotice('');
+    try { SHELL.busy = !!JSON.parse(e.data).busy; } catch (err) { /* a line that is not ours */ }
+  };
+  es.onerror = async () => {
+    SHELL.misses += 1;
+    if (es.readyState !== EventSource.CLOSED) {      // the browser is retrying by itself
+      if (SHELL.misses >= 3) shellNotice(SHELL.kind === 'window' ? 'Close this window and start RDTII Rocky again.' : 'Start it again (python interface/app.py), then reload this page.');
+      return;
+    }
+    // refused, not unreachable: a server is there but it is a new one, and this page holds the old one's token
+    es.close();
+    let up = false;
+    try { up = (await fetch('/api/ping', { cache: 'no-store' })).ok; } catch (err) { up = false; }
+    shellNotice(up ? 'It was started again since this page was opened. Reload to continue.' : (SHELL.kind === 'window' ? 'Close this window and start RDTII Rocky again.' : 'Start it again (python interface/app.py), then reload this page.'));
+    if (!up) setTimeout(shellConnect, 3000);
+  };
+}
+
+/* Closing the window stops the interface, and a run with it: ask first. A tab can be closed freely, the server stays. */
+window.addEventListener('beforeunload', (e) => {
+  if (SHELL.kind === 'window' && SHELL.busy) { e.preventDefault(); e.returnValue = 'A run is in progress. Closing the window stops it.'; }
+});
+
+/* In the window, a link to a source opens in the person's own browser, not inside the tool. */
+document.addEventListener('click', (e) => {
+  if (SHELL.kind !== 'window' || !e.target.closest) return;
+  const a = e.target.closest('a[href]');
+  if (!a || !/^https?:/i.test(a.getAttribute('href') || '')) return;
+  if (new URL(a.href, location.href).origin === location.origin) return;
+  e.preventDefault();
+  api('/api/open-url', { method: 'POST', body: JSON.stringify({ url: a.href }) }).catch((err) => alert(err.message));
+});
+
 /* ---------- boot ---------- */
 (async function boot() {
+  shellConnect();
   await loadHealth();
   showTab('overview');   // every visit lands on the Overview
   bindOverview();

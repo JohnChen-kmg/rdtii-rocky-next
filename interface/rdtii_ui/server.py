@@ -6,10 +6,11 @@ modules with `app.route(method, pattern)`; each handler returns (status, json-ab
 from __future__ import annotations
 
 import json
-import mimetypes
 import re
 import secrets
+import socket
 import sys
+import threading
 import traceback
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -36,7 +37,25 @@ class FileResponse:
         self.headers = headers or {}
 
 
+class StreamResponse:
+    """A handler may return this to keep the connection open and send chunks as they come (server-sent
+    events). `chunks` yields bytes; it is closed when the page goes away, so a generator's `finally` runs."""
+
+    def __init__(self, chunks, content_type: str = "text/event-stream; charset=utf-8") -> None:
+        self.chunks = chunks
+        self.content_type = content_type
+
+
 MAX_BODY = 260 * 1024 * 1024   # a file dropped on the page; the inbox route has its own, lower cap
+
+# The media type of each static file, by suffix. Not asked of the system: on Windows that answer comes from the
+# registry, where another program may have set .js to text/plain, and the page then refuses its own script.
+MEDIA_TYPES = {
+    ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8",
+    ".json": "application/json; charset=utf-8", ".webmanifest": "application/manifest+json; charset=utf-8",
+    ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon", ".jpg": "image/jpeg",
+    ".txt": "text/plain; charset=utf-8", ".woff2": "font/woff2",
+}
 
 
 class App:
@@ -50,6 +69,10 @@ class App:
         self.routes: list[tuple[str, re.Pattern, object]] = []
         self.jobs = None  # set by jobs.py when the run layer is wired in
         self.debug = False
+        self.shell = "tab"               # "window" when the page runs in the tool's own app window
+        self.port = settings.port        # the port really bound, set by make_server
+        self.presence = None             # set by lifecycle.py: how many pages are open
+        self.stop = threading.Event()    # set to end a server that was started with a window
 
     def route(self, method: str, pattern: str):
         def deco(fn):
@@ -95,8 +118,29 @@ class Handler(BaseHTTPRequestHandler):
         if self.command != "HEAD":
             self.wfile.write(body)
 
+    def _stream(self, status: int, sr: StreamResponse) -> None:
+        """Send chunks until the source ends or the page goes away. One thread per open stream."""
+        self.close_connection = True
+        try:
+            self.send_response(status)
+            self.send_header("Content-Type", sr.content_type)
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Accel-Buffering", "no")
+            self.send_header("Connection", "close")
+            self.end_headers()
+            for chunk in sr.chunks:
+                self.wfile.write(chunk)
+                self.wfile.flush()
+        except OSError:
+            pass                       # the page closed, reloaded, or the machine slept: not an error
+        finally:
+            close = getattr(sr.chunks, "close", None)
+            if close:
+                close()
+
     def _index(self) -> None:
-        page = (STATIC_DIR / "index.html").read_text(encoding="utf-8").replace("__TOKEN__", self.app.token)
+        page = ((STATIC_DIR / "index.html").read_text(encoding="utf-8")
+                .replace("__TOKEN__", self.app.token).replace("__SHELL__", self.app.shell))
         self._send(200, page.encode("utf-8"), "text/html; charset=utf-8")
 
     def _static(self, path: str) -> None:
@@ -104,10 +148,7 @@ class Handler(BaseHTTPRequestHandler):
         target = (STATIC_DIR / rel).resolve()
         if not target.is_file() or STATIC_DIR.resolve() not in target.parents:
             return self._json(404, {"error": "no such file"})
-        ctype = mimetypes.guess_type(target.name)[0] or "application/octet-stream"
-        if ctype.startswith("text/") or ctype in ("application/javascript", "application/json"):
-            ctype += "; charset=utf-8"
-        self._send(200, target.read_bytes(), ctype)
+        self._send(200, target.read_bytes(), MEDIA_TYPES.get(target.suffix.lower(), "application/octet-stream"))
 
     def do_GET(self):  # noqa: N802
         self._dispatch("GET")
@@ -129,14 +170,17 @@ class Handler(BaseHTTPRequestHandler):
         if method == "GET" and path.startswith("/static/"):
             return self._static(path)
         if method == "GET" and path == "/favicon.ico":
-            return self._send(204, b"", "image/x-icon")
+            icon = STATIC_DIR / "favicon.ico"
+            return self._send(200, icon.read_bytes(), "image/x-icon") if icon.is_file() else self._send(204, b"", "image/x-icon")
         query = {k: v[-1] for k, v in parse_qs(parts.query, keep_blank_values=True).items()}
         body = None
         if method in ("POST", "DELETE"):
             if self.headers.get("X-RDTII-Token") != self.app.token:
+                self.close_connection = True      # the body is left unread: the connection must not be reused
                 return self._json(403, {"error": "missing or bad token; reload the page"})
             length = int(self.headers.get("Content-Length") or 0)
             if length > MAX_BODY:
+                self.close_connection = True
                 return self._json(413, {"error": f"body larger than {MAX_BODY // (1024 * 1024)} MB"})
             raw = self.rfile.read(length) if length else b""
             ctype = (self.headers.get("Content-Type") or "application/json").split(";")[0].strip().lower()
@@ -163,14 +207,37 @@ class Handler(BaseHTTPRequestHandler):
                 status, obj = 500, {"error": f"{type(e).__name__}: {e}"}
             if isinstance(obj, FileResponse):
                 return self._file(status, obj)
+            if isinstance(obj, StreamResponse):
+                return self._stream(status, obj)
             return self._json(status, obj)
         self._json(404, {"error": f"no route for {method} {path}"})
 
 
-def make_server(app: App) -> ThreadingHTTPServer:
+class Server(ThreadingHTTPServer):
+    """One server per port. The stock class asks for SO_REUSEADDR, which on Windows lets a second process bind
+    a port that is already served: two interfaces then answer the same address in turn, each refusing the
+    other's token. Windows gets SO_EXCLUSIVEADDRUSE instead; elsewhere SO_REUSEADDR is kept, where it only
+    means a port just released can be taken again at once."""
+    daemon_threads = True
+    allow_reuse_address = sys.platform != "win32"
+
+    def server_bind(self) -> None:
+        if sys.platform == "win32":
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
+
+    def handle_error(self, request, client_address) -> None:
+        # a page that closes or reloads mid-request is routine for a browser, not an error to print
+        if isinstance(sys.exc_info()[1], ConnectionError) and not (Handler.app and Handler.app.debug):
+            return
+        super().handle_error(request, client_address)
+
+
+def make_server(app: App, port: int | None = None) -> ThreadingHTTPServer:
+    """Bind the server. port=0 asks the system for a free one; the port really bound is left in app.port."""
     Handler.app = app
-    server = ThreadingHTTPServer((app.settings.host, app.settings.port), Handler)
-    server.daemon_threads = True
+    server = Server((app.settings.host, app.settings.port if port is None else port), Handler)
+    app.port = server.server_address[1]
     return server
 
 

@@ -259,6 +259,10 @@ def register(app: App) -> None:
         run = _mapping.find_run(app.settings, q.get("run", ""))
         rows, _ = _mapping.build_rows(run, app.settings)
         result = export(app.settings, run, rows, q.get("economy", "").strip(), q.get("fmt", "csv"))
+        if q.get("save"):      # the app window has no download bar: the file stays where it was written, and the page says where
+            folder = Path(result["path"]).parent
+            return 200, {"filename": result["filename"], "folder": str(folder), "folder_id": rel_or_abs(folder, REPO),
+                         "rows": result["rows"], "rejected": result["rejected"], "corrected": result["corrected"]}
         ctype = ("text/csv; charset=utf-8" if result["filename"].endswith(".csv")
                  else "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         return 200, FileResponse(result["path"], result["filename"], ctype,

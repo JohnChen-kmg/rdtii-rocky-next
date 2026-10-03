@@ -2,9 +2,11 @@
 
 An Overview, three stage tabs and an Appendix over the three pipeline stages, standard-library Python, nothing to install for it.
 
-    python interface/app.py
+    python interface/app.py             a browser tab: open the address it prints; Ctrl+C stops it
+    python interface/app.py --window    a window of its own: closing the window stops it
 
-Then open http://127.0.0.1:8765/. Built from scratch on 29–30 September 2026; the plan and the reasons
+The launchers at the top of the repository (`Start-RDTII-Rocky.cmd`, `Start-RDTII-Rocky.command`,
+`start-rdtii-rocky.sh`) run the second line on a double-click. The tab is at http://127.0.0.1:8765/. Built from scratch on 29–30 September 2026; the plan and the reasons
 are in `START_PROMPT_INTERFACE_2026-09-29.md` and `DATA_PATHS.md` beside this file.
 
 ## Layout
@@ -37,7 +39,9 @@ The ones the interface adds:
 | `RDTII_PYTHON_P1`, `_P2`, `_P3` | a stage's own `.venv` when it has one, then the repository's, then the interpreter running the page | a different Python per stage when each has its own environment; a relative value is taken against the repository |
 | `RDTII_PYTHON_AUTO` | `1` | set to `0` to stop a `.venv` being picked up by itself |
 | `RDTII_TESSERACT` | (found on PATH, then in the usual place for the system) | the Tesseract program, when it is somewhere else |
-| `RDTII_HOST`, `RDTII_PORT` | `127.0.0.1`, `8765` | bind address |
+| `RDTII_HOST`, `RDTII_PORT` | `127.0.0.1`, `8765` | bind address; port `0` takes a free one, and a window start does so by itself when the port is taken |
+| `RDTII_BROWSER` | (Edge, Chrome, Brave, Chromium, the first one installed) | the browser for the window: a path or a command |
+| `RDTII_STATE_DIR` | the system's place for a user's data (`%LOCALAPPDATA%\rdtii-rocky`, `~/Library/Application Support/rdtii-rocky`, `~/.local/state/rdtii-rocky`) | what belongs to the machine, not to a project: the window's browser profile, the note of the running instance, `interface.log` |
 | `RDTII_REVIEWER` | the login name | stamped on decisions unless a name is typed on the page |
 
 ## Rules the code keeps
@@ -50,6 +54,14 @@ The ones the interface adds:
 - A machine translation is shown beside the original and labelled, never in its place, and the export
   never opens a gloss file.
 - Review decisions are an append-only log; the filed submission is read-only.
+- **The window** is the machine's own Edge or Chrome in app mode on a profile kept for this tool, signed in
+  to nothing. The interface stops when the window's process has ended and no page is connected; it never
+  cuts a run short while the window exists. Closing the window during a run asks first, then stops the run.
+  A second start for the same repository brings the first window forward. With no such browser the page
+  opens as an ordinary tab. Started with no console, it writes what it would print to `interface.log`.
+- In the window a link to a source opens in the person's own browser, only `http` and `https`, and Export
+  says where the file was saved instead of downloading it.
+- One server per port: a second start on a port in use is refused (Windows used to let both bind it).
 - **Open folder** opens a run folder in the file manager of the machine that runs the server; it is
   limited to the folders the page itself lists (the runs root, the fixtures, the demo data, the hand-offs).
   On Windows the Explorer window is brought in front of the browser, and a window already showing the
@@ -68,7 +80,8 @@ The ones the interface adds:
 
     python -m unittest discover -s interface/tests -t interface
 
-154 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
+181 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
+window (which browser, when to stop, one instance, the presence stream on a real server), the
 Clear guard, the folders by economy and source, the inbox (designated sources, addresses, archives, what
 can be read), the manifest written for hand-collected documents, the three run plans and their parsers,
 review decisions and the export.

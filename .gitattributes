@@ -1,3 +1,11 @@
 # Raw corpus bodies and their sidecars must stay byte-exact (manifest sha256
 # integrity + snippet char offsets). Never EOL-normalize anything under demo_data/.
 demo_data/** -text
+
+# The launchers: each system reads its own line endings, whatever the machine that committed them.
+/Start-RDTII-Rocky.cmd text eol=crlf
+/Start-RDTII-Rocky.command text eol=lf
+/start-rdtii-rocky.sh text eol=lf
+# The interface's icons are bytes.
+/interface/static/*.ico binary
+/interface/static/*.png binary

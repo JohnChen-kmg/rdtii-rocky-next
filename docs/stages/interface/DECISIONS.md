@@ -183,3 +183,51 @@ comparison still work on any run that does exist.
 
 **Consequence if reversed:** Hiding unsupported economies makes the scope look accidental. Enabling
 them without support produces runs that fetch and map nothing, which reads worse than a stated limit.
+
+## 2026-10-03, The window is the machine's own browser in app mode, not a packaged app
+
+**Decision:** `python interface/app.py --window`, and the double-click launchers, start the same server and
+open its pages in Edge or Chrome with `--app=` on a profile kept for this tool. No installer, no bundled
+browser, no new dependency; with no such browser the page opens as an ordinary tab.
+
+**Why:** The developer asked for "a UI instead of an interface in a browser" and chose the no-install route.
+A packaged app would add a build per system, a signing question on macOS and a second code path to keep in
+step with the tab. App mode gives the window, the taskbar icon and the title for the cost of one command
+line. Measured on Windows 11, Edge and Chrome: the process started for the window owns it and exits 0.2 s
+after it closes, which is the stop signal.
+
+**What the spike found that the plan had not:** a new Edge profile signs itself in to the Windows account
+and puts a sync dialog over the window. Of four variants tried on fresh profiles, only
+`--disable-features=msImplicitSignin` left the profile with no account; `--guest` and `--inprivate` still
+signed in and rename the window. The flag is pinned by a test.
+
+**Consequence if reversed:** A packaged app removes the dependence on an installed browser and, on macOS,
+the Terminal window and the browser's Dock icon, at the price above. Not checked on a Mac yet.
+
+## 2026-10-03, Closing the window stops the interface, and a run with it, after a warning
+
+**Decision:** With a window, the server stops when the window's process has ended and no page has been
+connected for five seconds. A run in progress is stopped with it; the page asks before the window closes.
+While the window exists a run is never cut short, whatever the page's connection does.
+
+**Why:** The developer's call. A server left running with no window has nothing to read its output or
+stop its stage, which is the failure the run layer's shutdown was written for. The grace is counted in
+loop ticks, not seconds, so a laptop waking from sleep is not taken for a window closed an hour ago.
+
+**Consequence if reversed:** Keeping a run alive after the window closes needs a way to come back to it:
+a tray icon or a second launch that reattaches. A second launch already brings the first window forward,
+so the reattach half exists; the hidden-run half was not wanted.
+
+## 2026-10-03, Results are filed by economy and source; hand collection is for designated sources only
+
+**Decision:** A crawl writes to `scrape/<economy>/<source>/<time>`, hand-collected files go to
+`inbox/<economy>/<source>/<date_time>`, and the inbox takes a file only for a source the stage's own files
+designate: an economy's watchlist, and China's by-hand publishers.
+
+**Why:** The developer's call, after asking how a hand-collected Chinese file's source could be identified:
+it cannot be, from the file alone. The folder a person chooses is the only reliable statement of source,
+and the source decides both the reading method (which portal parser) and the citation. A box for files
+from anywhere produced files with neither.
+
+**Consequence if reversed:** A free box needs detection of the source from content, which was estimated at
+most of the triage workstream and still ends in "unknown" for a bare PDF.

@@ -81,6 +81,12 @@ entered in the interface and held in memory only — it is never written to disk
 
 ### 4. Start the interface
 
+Double-click **`Start-RDTII-Rocky.cmd`** (Windows) or **`Start-RDTII-Rocky.command`** (macOS); on Linux run
+`./start-rdtii-rocky.sh`. The pages open in a window of their own, in the Edge or Chrome already on the
+machine; nothing is installed. Closing the window stops the tool, and a run with it, after a warning.
+
+Or from a terminal, as a browser tab that Ctrl+C stops:
+
 ```
 .venv\Scripts\python interface/app.py
 ```
@@ -105,7 +111,7 @@ Set up, Run (Check then Start, progress in plain words, Stop) and Output — and
 (shipped docs, settings in effect, a self-test). A hand-collected inbox sits between Scraping's Run
 and Output. Review is Accept / Reject / Correct per row, with Clear to withdraw a decision, all appended to a decisions log; the filed
 submission is read-only. Crawl folders, the OCR cache, the index and run folders are clearable from
-the page, only under the runs root, with a preview and a confirm. 154 interface tests:
+the page, only under the runs root, with a preview and a confirm. 181 interface tests:
 `python -m unittest discover -s interface/tests -t interface`.
 
 ## Your Two Declared Engines
@@ -279,7 +285,7 @@ once their prompts are adapted.
 ## Running the Test Suite
 
 ```
-python -m unittest discover -s interface/tests -t interface     # 154 tests, stdlib only
+python -m unittest discover -s interface/tests -t interface     # 181 tests, stdlib only
 cd stages/p2-extract && pytest -q                                # extraction suite
 cd stages/p1-scrape  && pytest -q                                # crawler engine + adapters
 cd stages/p3-map     && pytest -q                                # mapping, incl. the gloss-isolation test

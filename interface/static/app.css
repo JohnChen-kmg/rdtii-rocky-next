@@ -117,6 +117,10 @@ ul.plain { margin: 4px 0; padding-left: 18px; } ul.plain li { padding: 1px 0; }
 #scrape-setup label.radio.on { border-color: var(--accent); background: #e8efff; }
 .jobstrip { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 6px 18px; background: #fff7ed; border-bottom: 1px solid #fed7aa; font-size: 16px; }
 .jobstrip[hidden] { display: none; }
+#shell-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(15, 35, 55, .55); display: flex; align-items: center; justify-content: center; }
+#shell-overlay .box { background: #fff; border-top: 8px solid var(--un-blue); border-radius: 12px; padding: 26px 34px 28px; max-width: 560px; box-shadow: 0 12px 40px rgba(0, 0, 0, .3); }
+#shell-overlay h2 { margin: 0 0 10px; font-size: 26px; } #shell-overlay p { font-size: 19px; margin: 0 0 18px; }
+p.saved-line { margin: 12px 0 0; font-size: 17px; }
 .job { border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin-top: 10px; background: #fcfcfd; }
 .bar { height: 8px; background: var(--chip); border-radius: 4px; overflow: hidden; margin: 8px 0 2px; } .bar div { height: 100%; background: var(--accent); }
 ol.steps { margin: 8px 0; padding-left: 20px; font-size: 15px; color: var(--muted); } ol.steps li.past { text-decoration: line-through; } ol.steps li.now { color: var(--ink); font-weight: 600; }
