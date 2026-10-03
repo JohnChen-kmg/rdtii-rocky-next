@@ -1,0 +1,29 @@
+# The interface's own tests on the three systems it must run on. Standard library only, so there is
+# nothing to install: check out, pick a Python, run the suite. Tests that need a stage's packages or a
+# local extraction output skip themselves.
+name: interface tests
+
+on:
+  push:
+    branches: ["feature/**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: ${{ matrix.os }} · Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        python: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Settings in effect
+        run: python interface/app.py --print-settings
+      - name: Interface tests
+        run: python -m unittest discover -s interface/tests -t interface -v

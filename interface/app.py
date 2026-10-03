@@ -39,17 +39,38 @@ def build_app(env=None) -> App:
     return app
 
 
+def settings_report(s) -> list[str]:
+    """Every setting in effect, one line each, for --print-settings."""
+    lines = [f"repository = {settings_mod.REPO}"]
+    for row in settings_mod.describe(s):
+        state = "" if row["exists"] or not row["value"] else "  (missing)"
+        lines.append(f"{row['name']} = {row['value'] or '(none)'}  [{row['source']}]{state}")
+    for stage in ("p1", "p2", "p3"):
+        lines.append(f"python for {stage} = {s.python_for(stage)}  [{s.python_source(stage)}]")
+    t = probes.probe_tesseract(s.tesseract or None)
+    lines.append(f"tesseract = {t.get('path') or 'not found: ' + t.get('hint', '')}")
+    lines.append(f"reviewer = {s.reviewer}")
+    return lines
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="app.py", description="RDTII Rocky interface (standard library only)")
     ap.add_argument("--host", help="bind address (default RDTII_HOST or 127.0.0.1)")
     ap.add_argument("--port", type=int, help="port (default RDTII_PORT or 8765)")
     ap.add_argument("--open", action="store_true", help="open the page in the default browser")
     ap.add_argument("--debug", action="store_true", help="log every request and traceback")
+    ap.add_argument("--print-settings", action="store_true",
+                    help="print every setting in effect, with where it came from, and exit")
     args = ap.parse_args(argv)
     if args.host:
         os.environ["RDTII_HOST"] = args.host
     if args.port:
         os.environ["RDTII_PORT"] = str(args.port)
+
+    if args.print_settings:
+        for line in settings_report(settings_mod.load()):
+            print(line)
+        return 0
 
     app = build_app()
     app.debug = args.debug
@@ -72,6 +93,7 @@ def main(argv=None) -> int:
     except KeyboardInterrupt:
         print("\nstopped.")
     finally:
+        app.jobs.shutdown()        # a stage must not outlive the interface that would read and stop it
         server.server_close()
     return 0
 

@@ -34,7 +34,9 @@ The ones the interface adds:
 | `RDTII_OUT_DIR_EXTRA` | (auto: a sibling `out_*` of `OUT_DIR`) | further arms of the displayed run, comma separated |
 | `RDTII_SUBMISSION_DIR` | `submission` | the filed rows, shown read-only |
 | `RDTII_INBOX_DIR` | `inbox` | documents collected by hand, one subfolder per economy; listed on the Extraction tab |
-| `RDTII_PYTHON_P1`, `_P2`, `_P3` | the interpreter running the page | a different Python per stage when each has its own environment |
+| `RDTII_PYTHON_P1`, `_P2`, `_P3` | a stage's own `.venv` when it has one, then the repository's, then the interpreter running the page | a different Python per stage when each has its own environment; a relative value is taken against the repository |
+| `RDTII_PYTHON_AUTO` | `1` | set to `0` to stop a `.venv` being picked up by itself |
+| `RDTII_TESSERACT` | (found on PATH, then in the usual place for the system) | the Tesseract program, when it is somewhere else |
 | `RDTII_HOST`, `RDTII_PORT` | `127.0.0.1`, `8765` | bind address |
 | `RDTII_REVIEWER` | the login name | stamped on decisions unless a name is typed on the page |
 
@@ -59,6 +61,6 @@ The ones the interface adds:
 
     python -m unittest discover -s interface/tests -t interface
 
-52 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
+123 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
 Clear guard, the manifest written for hand-collected documents, the three run plans and their parsers,
 review decisions and the export.

@@ -359,6 +359,8 @@ def indicator_picker(s: Settings) -> dict:
 
 import json as _json  # noqa: E402
 import subprocess as _subprocess  # noqa: E402
+
+from ..proc import run_quiet  # noqa: E402
 import time as _time  # noqa: E402
 
 from .. import probes as _probes  # noqa: E402
@@ -515,16 +517,29 @@ def _norm_request(app: App, req: dict) -> dict:
 def _torch_state(py: str, cwd: Path) -> dict:
     code = "import torch;print('cuda' if torch.cuda.is_available() else 'cpu')"
     try:
-        r = _subprocess.run([py, "-c", code], capture_output=True, text=True, timeout=90, cwd=str(cwd))
+        r = run_quiet([py, "-c", code], capture_output=True, text=True, timeout=90, cwd=str(cwd))
         err = r.stderr.strip().splitlines()[-1] if r.returncode != 0 and r.stderr.strip() else None
         return {"ok": r.returncode == 0, "device": r.stdout.strip() if r.returncode == 0 else None, "error": err}
     except (OSError, _subprocess.TimeoutExpired) as e:
         return {"ok": False, "device": None, "error": str(e)}
 
 
+def _hf_hub_dirs() -> list[Path]:
+    """Where the model cache can be: the three variables the hub library honours, then its default."""
+    import os
+    out = []
+    if os.environ.get("HF_HUB_CACHE"):
+        out.append(Path(os.environ["HF_HUB_CACHE"]))
+    if os.environ.get("HF_HOME"):
+        out.append(Path(os.environ["HF_HOME"]) / "hub")
+    if os.environ.get("XDG_CACHE_HOME"):
+        out.append(Path(os.environ["XDG_CACHE_HOME"]) / "huggingface" / "hub")
+    out.append(Path.home() / ".cache" / "huggingface" / "hub")
+    return out
+
+
 def _bge_cached() -> bool:
-    home = Path.home() / ".cache" / "huggingface" / "hub"
-    return any(home.glob("models--BAAI--bge-m3*"))
+    return any(any(d.glob("models--BAAI--bge-m3*")) for d in _hf_hub_dirs() if d.is_dir())
 
 
 def precheck(app: App, req: dict) -> list[dict]:
@@ -540,7 +555,7 @@ def precheck(app: App, req: dict) -> list[dict]:
         add("fail", "stage", "The mapping stage is not in this repository.")
         return checks
     try:
-        r = _subprocess.run([py, "-c", f"import {P3_MODULE}.cli, numpy, bm25s; print('ok')"], capture_output=True,
+        r = run_quiet([py, "-c", f"import {P3_MODULE}.cli, numpy, bm25s; print('ok')"], capture_output=True,
                             text=True, timeout=90, cwd=str(p3))
         if r.returncode == 0:
             add("ok", "stage", "The mapping stage and its packages import.")

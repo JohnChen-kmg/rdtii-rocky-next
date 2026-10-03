@@ -11,6 +11,8 @@ import re
 import threading
 import time
 from pathlib import Path
+from .paths import child_path
+from .probes import tool_path_dirs
 
 ALLOWLIST = (
     "LLM_PROVIDER", "LLM_MODEL", "VERIFIER_MODEL", "ESCALATION_MODEL", "TRIAGE_MODEL",
@@ -171,6 +173,9 @@ def build_env(stage: str, engines: EngineState, key: KeyHolder, choices: dict | 
     env = _os.environ.copy()
     for name in ALLOWLIST + ("ANTHROPIC_API_KEY",):
         env.pop(name, None)
+    path = child_path(env.get("PATH", ""), tool_path_dirs())
+    if path:
+        env["PATH"] = path          # the stages find Tesseract and the package managers' tools
     env["PYTHONUTF8"] = "1"
     env["PYTHONUNBUFFERED"] = "1"
     env["PYTHONIOENCODING"] = "utf-8"

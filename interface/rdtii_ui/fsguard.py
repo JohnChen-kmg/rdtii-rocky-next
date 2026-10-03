@@ -11,11 +11,13 @@ import secrets
 import shutil
 import stat
 import subprocess
+import sys
 import threading
 import time
 from pathlib import Path
 
 from .server import ApiError
+from .proc import run_quiet
 from .settings import REPO, Settings
 
 # kind -> the sub-folders that may be cleared on their own inside a run folder of that kind
@@ -33,12 +35,31 @@ _lock = threading.Lock()
 _tracked: set[Path] | None = None
 
 
+def git_program() -> str | None:
+    """git, or None when it is absent. On macOS /usr/bin/git is a stub that opens an "install the developer
+    tools" dialog when the tools are missing, so it is only used once xcode-select confirms they are there."""
+    exe = shutil.which("git")
+    if not exe:
+        return None
+    if sys.platform == "darwin" and os.path.realpath(exe) == "/usr/bin/git":
+        try:
+            if run_quiet(["/usr/bin/xcode-select", "-p"], capture_output=True, timeout=5).returncode != 0:
+                return None
+        except (OSError, subprocess.TimeoutExpired):
+            return None
+    return exe
+
+
 def tracked_files() -> set[Path]:
     """Every path git tracks, resolved, read once. Empty when git is unavailable (the runs-root rule still holds)."""
     global _tracked
     if _tracked is None:
+        git = git_program()
+        if git is None:
+            _tracked = set()
+            return _tracked
         try:
-            out = subprocess.run(["git", "ls-files", "-z"], cwd=str(REPO), capture_output=True, timeout=20)
+            out = run_quiet([git, "ls-files", "-z"], cwd=str(REPO), capture_output=True, timeout=20)
             names = out.stdout.decode("utf-8", "replace").split("\0") if out.returncode == 0 else []
             _tracked = {(REPO / n).resolve() for n in names if n}
         except (OSError, subprocess.TimeoutExpired):

@@ -18,6 +18,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
+from .proc import console_python, kill_tree, popen_quiet
 
 HEARTBEAT_AFTER_S = 90
 TICK_S = 5
@@ -114,11 +115,14 @@ class JobManager:
         self._order: list[str] = []
         self._lock = threading.Lock()
         self.active: Job | None = None
+        self._closed = False
         self._worker = threading.Thread(target=self._loop, name="rdtii-jobs", daemon=True)
         self._worker.start()
 
     # -- public ---------------------------------------------------------------------------------------
     def submit(self, job: Job) -> Job:
+        if self._closed:
+            raise RuntimeError("the interface is shutting down; no new run can start")
         with self._lock:
             self._jobs[job.id] = job
             self._order.append(job.id)
@@ -148,6 +152,20 @@ class JobManager:
         if proc and proc.poll() is None:
             _kill_tree(proc)
         return True
+
+    def busy(self) -> list[Job]:
+        """The jobs that are queued or running."""
+        return [j for j in self._jobs.values() if j.status in ("queued", "running")]
+
+    def shutdown(self, wait: float = 8.0) -> None:
+        """The server is going away: take no new job, cancel the queued ones, end the running process tree.
+        Without this a stage outlives the interface, with nothing left to read its output or stop it."""
+        self._closed = True
+        for job in self.busy():
+            self.cancel(job.id)
+        deadline = time.time() + wait
+        while self.active is not None and time.time() < deadline:
+            time.sleep(0.1)
 
     def public_summary(self) -> dict:
         active = self.active.summary() if self.active and self.active.status == "running" else None
@@ -208,11 +226,11 @@ class JobManager:
 
     def _run_step(self, job: Job, step: Step) -> int:
         job.raw.append(f"$ ({step.cwd}) " + " ".join(_q(a) for a in step.argv))
-        creation = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
         try:
-            proc = subprocess.Popen(
-                step.argv, cwd=str(step.cwd), env=step.env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                text=True, encoding="utf-8", errors="replace", bufsize=1, creationflags=creation)
+            proc = popen_quiet(
+                step.argv, new_group=True, cwd=str(step.cwd), env=step.env, stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                text=True, encoding="utf-8", errors="replace", bufsize=1)
         except OSError as exc:
             job.raw.append(f"could not start: {exc}")
             job.say(f"Could not start '{step.label}': {exc}")
@@ -272,14 +290,8 @@ class JobManager:
 
 
 def _kill_tree(proc: subprocess.Popen) -> None:
-    if os.name == "nt":
-        subprocess.run(["taskkill", "/PID", str(proc.pid), "/T", "/F"], capture_output=True)
-    else:
-        proc.terminate()
-        try:
-            proc.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            proc.kill()
+    """End a stage process and everything it started (OCR workers, the crawl's browser), on any system."""
+    kill_tree(proc)
 
 
 def _q(a: str) -> str:
@@ -339,5 +351,5 @@ def register(app) -> None:
 
     @app.route("POST", r"/api/jobs/selftest")
     def selftest(app, m, q, b):
-        job = app.jobs.submit(selftest_job(sys.executable, app.key.redact))
+        job = app.jobs.submit(selftest_job(console_python(), app.key.redact))
         return 200, {"job": job.public()}

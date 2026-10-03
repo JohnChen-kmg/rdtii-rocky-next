@@ -9,6 +9,19 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 
 ---
 
+## 2026-10-03 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
+
+Shared foundation for the three post-finale workstreams (an app window, a working folder, triage of
+hand-collected files). Plan and costs: the session plan of 3 October.
+
+- Interface: every child process goes through one helper (`rdtii_ui/proc.py`). On Windows a child no longer opens a console window when the interface itself has none; Stop ends the whole process tree on every system (taskkill /T on Windows, the process group on macOS and Linux, where a stage used to leave its OCR workers and browser behind); a stage always runs with a console Python, never pythonw. Why: the app window starts without a console, and a Mac must be able to stop a run. Verified: a test starts a child that starts a grandchild and finds neither after Stop; the server ran under pythonw and completed the self-test job; a test fails on any bare subprocess call outside the helper.
+- Interface: stopping the server now stops the run in progress (`JobManager.shutdown`). Before, Ctrl+C left the stage running with nothing to read its output or stop it. Verified by test: the running and the queued job end as cancelled and no new one is accepted.
+- Interface: settings accept `~` and environment variables; a relative `RDTII_PYTHON_P*` is taken against the repository on every system; a stage's own `.venv` (then the repository's) is used when no interpreter is named, switched off with `RDTII_PYTHON_AUTO=0`; the reviewer's name comes from `getpass`, which works without a terminal; a relative baseline path is resolved once to one absolute file, so the Check and the stage mean the same file. Verified by tests on both virtual-environment layouts and with the repository root patched to a temp folder.
+- Interface: Tesseract is found on Homebrew, MacPorts and Linux paths as well as the Windows ones, or named with `RDTII_TESSERACT`; the install hint is the right one for the system; the folders the tools were found in are put on each stage's PATH, since a program started from Finder or Explorer inherits a short one; git's macOS stub is not called unless the developer tools are installed; the model cache is found through `HF_HUB_CACHE`, `HF_HOME` and `XDG_CACHE_HOME`.
+- Interface: `python interface/app.py --print-settings` prints every setting in effect with its source, the interpreter each stage will use and why, Tesseract and the reviewer, then exits.
+- Tests: a golden test pins every default location, source label and id the pages show, so the working-folder work cannot move the default behaviour unnoticed. 123 tests, from 94.
+- Repository: a workflow runs the interface tests on Windows, macOS and Ubuntu with Python 3.10 and 3.12 on pushes to `feature/**`. It is the only practical macOS check from a Windows desk.
+
 ## 2026-10-01
 - Repository: the five demo documents under demo_data/mini_raw/raw (four bodies and five header sidecars, 6 MB) are tracked; the ignore rule `raw/`, written for crawl outputs, had been keeping them out, so a clean clone could list the demo on the Extraction tab but not run it. The scanned fifth body was already committed once at demo_data/my-cma1998-001.pdf.
 - Interface: the models behind each role are named in both places: under the Engine Selection radios on the Mapping tab, one line per engine read from engines.json (A reads with Claude Sonnet 5, re-checks with Claude Haiku 4.5, breaks ties with Claude Opus 4.8, triage Qwen 2.5 14B local; B Qwen 2.5 14B in every role), and in the Overview's step by step and example bubbles.

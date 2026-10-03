@@ -117,9 +117,9 @@ def register(app: App) -> None:
         """Open a folder in the machine's file manager. Only folders the interface itself shows: the runs root,
         the fixtures, the demo data and the configured hand-off locations."""
         import os
-        import subprocess
         import sys
         from pathlib import Path
+        from .proc import popen_quiet
         raw = str((b or {}).get("path", "")).strip()
         if not raw:
             raise ApiError(400, "path is required")
@@ -136,9 +136,9 @@ def register(app: App) -> None:
             if os.name == "nt":
                 _open_in_explorer(p)
             elif sys.platform == "darwin":
-                subprocess.Popen(["open", str(p)])
+                popen_quiet(["open", str(p)])
             else:
-                subprocess.Popen(["xdg-open", str(p)])
+                popen_quiet(["xdg-open", str(p)])
         except OSError as e:
             raise ApiError(500, f"could not open the folder: {e}") from None
         return 200, {"opened": str(p)}

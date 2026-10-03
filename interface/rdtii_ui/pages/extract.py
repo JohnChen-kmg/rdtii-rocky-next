@@ -510,7 +510,7 @@ P2_RULES: list[tuple[re.Pattern, object]] = [
                    "requirements-demo.txt) or point RDTII_PYTHON_P2 at a Python that has them.", None)),
     (re.compile(r"^imports ok$"), lambda m, j: ("The extraction stage and its packages import.", None)),
     (re.compile(r"[Tt]esseract.*not (found|installed)|TesseractNotFoundError"),
-     lambda m, j: ("Tesseract is not installed or not on PATH: winget install UB-Mannheim.TesseractOCR", None)),
+     lambda m, j: ("Tesseract is not installed or not on PATH: " + probes.install_hint("tesseract"), None)),
 ]
 
 
@@ -629,7 +629,8 @@ def precheck(app: App, req: dict) -> list[dict]:
         if t.get("ok"):
             add("ok", "ocr", f"{scanned} scanned PDF(s) go through OCR; Tesseract found" + (f" at {t['path']}" if t.get("path") else "") + ".")
         else:
-            add("fail", "ocr", f"{scanned} scanned PDF(s) need OCR, but Tesseract was not found.")
+            add("fail", "ocr", f"{scanned} scanned PDF(s) need OCR, but Tesseract was not found. "
+                               f"Install it ({probes.install_hint('tesseract')}) or set RDTII_TESSERACT to the program.")
     else:
         add("ok", "ocr", "No scanned PDF: no OCR needed.")
     if req.get("pack", "fast") not in ("fast", "best"):
