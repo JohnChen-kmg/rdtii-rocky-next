@@ -1002,7 +1002,7 @@ P1_RULES: list[tuple[re.Pattern, object]] = [
     (re.compile(r"^\[crawl\] -- (\w\w) (.+?) -> skipped"), lambda m, j: (None, {"+skipped": 1})),
     (re.compile(r"^\[crawl\] throttled \(HTTP (\d+)\) on (.+?); cooldown (\d+)s"), lambda m, j: (f"The portal asked us to slow down (HTTP {m[1]}); waiting {m[3]} s.", None)),
     (re.compile(r"^\[health\] (\w\w): (\d+)/(\d+) attempted, (\d+) stored total"), lambda m, j: (None, {"done": int(m[2]), "total": int(m[3])})),
-    (re.compile(r"^\[health\] THROTTLE SUSPECTED"), lambda m, j: ("The portal appears to have cut us off; this economy stopped early. Run again later and it resumes.", None)),
+    (re.compile(r"^\[health\] THROTTLE SUSPECTED"), lambda m, j: ("The portal has stopped serving documents (answer after answer without one); the crawler stops this economy early so as not to press it.", {"stopped_early": 1})),
     (re.compile(r"^\[crawl\] retry round (\d+)"), lambda m, j: (f"Retry round {m[1]} for throttled documents.", None)),
     (re.compile(r"^\[crawl\] SKIP (\w\w): (\w+): (.*)"), _skip_line),
     (re.compile(r"^\[validate\] ERROR (.*)"), lambda m, j: (f"Manifest check error: {m[1][:120]}", None)),
@@ -1094,7 +1094,14 @@ def _all_skipped_fails(n_economies: int):
             job.progress["_fail"] = "Nothing was crawled: the crawler skipped the economy. The reason is in the sentence above."
             return
         failed = int(job.progress.get("failed") or 0)
-        if failed:      # the run ends as done, so the documents left behind must be said, with the way to get them
+        total, done = int(job.progress.get("total") or 0), int(job.progress.get("done") or 0)
+        if job.progress.get("stopped_early"):
+            # the crawler exits 0 here too, but half a crawl is not a finished one: the run ends red, with the way on
+            left = max(total - done, 0) + failed
+            job.progress["_fail"] = (f"Stopped early: the portal stopped serving documents after {done} of {total}. {left} are not in the folder "
+                                     f"({failed} refused, {max(total - done, 0)} not tried); those fetched are kept. Wait a while, then "
+                                     "Update an existing crawl over this folder fetches only the missing ones.")
+        elif failed:    # the run ends as done, so the documents left behind must be said, with the way to get them
             job.say(f"{failed} document{'s' if failed != 1 else ''} could not be fetched and {'are' if failed != 1 else 'is'} not in the folder. "
                     "Update an existing crawl, over this folder, tries only those again.")
     return hook

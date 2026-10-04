@@ -400,6 +400,19 @@ class Narration(unittest.TestCase):
         scrape._all_skipped_fails(1)(clean, 0)
         self.assertEqual(clean.sentences, [])
 
+    def test_a_run_the_portal_cut_short_ends_red_with_the_way_on(self):
+        # Singapore, 4 October: 87 PDFs, then ten answers in a row with no document, and the crawler stopped the economy
+        job = jobs.Job(stage="p1", title="t", steps=[])
+        job.bump(total=201, done=97, failed=10)
+        text, updates = scrape.parse_p1("[health] THROTTLE SUSPECTED: 10 consecutive non-PDF responses from SG", job)
+        self.assertIn("stops this economy early", text)
+        job.bump(**updates)
+        scrape._all_skipped_fails(1)(job, 0)
+        said = job.progress["_fail"]
+        self.assertIn("after 97 of 201", said)
+        self.assertIn("114 are not in the folder (10 refused, 104 not tried)", said)
+        self.assertIn("Update an existing crawl", said)
+
     def test_the_two_adapters_that_report_their_listing_progress_are_heard(self):
         job = jobs.Job(stage="p1", title="t", steps=[])
         self.assertEqual(scrape.parse_p1("[catalogue] MY: 50 timeline(s) read; 106 request(s) so far", job)[0],
