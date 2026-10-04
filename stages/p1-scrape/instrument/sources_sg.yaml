@@ -48,3 +48,61 @@ seed_queries:                          # vocabulary-seeded, per indicator (recal
   P7-I3: ['retain for a period of not less than', 'shall keep records for', 'minimum retention period']
   P7-I4: ['data protection officer', 'data protection impact assessment', 'appoint a DPO']
   P7-I5: ['lawful interception', 'production order', 'access to computer data by an authority', 'surveillance without warrant']
+
+# ---- seed laws: links/sg/seed_laws.yaml, appended at hand-back (links/sg/README.md) ----
+# seed_laws for Singapore — the laws named on purpose, with their links. HAND-EDITED.
+#
+# Moved here from sources.yaml on 2026-09-14, as text: entries, order and comments unchanged. At hand-back
+# this file is appended to sources.yaml, and the joined file is copied over both
+# instrument/sources_sg.yaml and contracts/instrument/sources_sg.yaml (countries/README.md).
+# Keep the flow style `- {...}`: the dashboard's parser declines block-style entries.
+seed_laws:
+  - {law_name: "Personal Data Protection Act 2012", law_number: "Act 26 of 2012",
+     url: "https://sso.agc.gov.sg/Act/PDPA2012", indicators: [P6-I1, P6-I3, P6-I4, P7-I1, P7-I3, P7-I4, P7-I5]}
+  - {law_name: "Personal Data Protection (Amendment) Act 2020", law_number: "Act 40 of 2020",
+     url: "https://sso.agc.gov.sg/Acts-Supp/40-2020/", indicators: [P6-I1, P6-I3, P6-I4, P7-I1, P7-I3, P7-I5]}
+  - {law_name: "Cybersecurity Act 2018", law_number: "Act 9 of 2018",
+     url: "https://sso.agc.gov.sg/Act/CA2018", indicators: [P7-I2]}   # current consolidation (Acts-Supp/9-2018 was the as-enacted 2018 text, pre-2024 amendments)
+  - {law_name: "Criminal Procedure Code 2010", law_number: "Act 15 of 2010",
+     url: "https://sso.agc.gov.sg/Act/CPC2010", indicators: [P7-I5]}
+  - {law_name: "Banking Act 1970", law_number: "",
+     url: "https://sso.agc.gov.sg/Act/BA1970", indicators: [P7-I1]}           # sectoral DP framework
+  - {law_name: "Companies Act 1967", law_number: "",
+     url: "https://sso.agc.gov.sg/Act/CoA1967", indicators: [P6-I2, P7-I3]}   # accounting-record storage/retention
+  - {law_name: "Employment Act 1968", law_number: "",
+     url: "https://sso.agc.gov.sg/Act/EmA1968", indicators: [P7-I3]}
+  - {law_name: "Income Tax Act 1947", law_number: "",
+     url: "https://sso.agc.gov.sg/Act/ITA1947", indicators: [P7-I3]}
+  - {law_name: "Telecommunications Act 1999", law_number: "",
+     url: "https://sso.agc.gov.sg/Act/TA1999", indicators: [P7-I3, P7-I5]}
+  - {law_name: "Guide to Data Protection Impact Assessments (PDPC)", law_number: "",
+     url: "https://www.pdpc.gov.sg/-/media/Files/PDPC/PDF-Files/Other-Guides/DPIA/Guide-to-Data-Protection-Impact-Assessments-14-Sep-2021.pdf",
+     indicators: [P7-I4], note: "official guidance — below statute in the source hierarchy"}
+  # --- Delta crawl 2026-07-14 (P3 request docs/DELTA_CRAWL_REQUEST_2026-07-14.md): subsidiary legislation + regulator layer ---
+  - {law_name: "Cybersecurity (Amendment) Act 2024", law_number: "Act 19 of 2024",
+     url: "https://sso.agc.gov.sg/Acts-Supp/19-2024/Published/20240704", indicators: [P7-I2]}
+  - {law_name: "Cybersecurity (Amendment) Act 2024 (Commencement) Notification 2025", law_number: "S 677/2025",
+     url: "https://sso.agc.gov.sg/SL-Supp/S677-2025/Published/20251015", indicators: [P7-I2]}
+  - {law_name: "Personal Data Protection (Statutory Bodies) (Amendment) Notification 2025", law_number: "S 217/2025",
+     url: "https://sso.agc.gov.sg/SL-Supp/S217-2025/Published/20250328", indicators: [P7-I1]}
+  - {law_name: "Personal Data Protection Regulations 2021", law_number: "S 63/2021",
+     url: "https://sso.agc.gov.sg/SL/PDPA2012-S63-2021", indicators: [P6-I4, P7-I1]}
+  - {law_name: "Advisory Guidelines on the PDPA for Children's Personal Data (PDPC, 2024)", law_number: "",
+     url: "https://www.pdpc.gov.sg/-/media/files/pdpc/pdf-files/advisory-guidelines/advisory-guidelines-on-the-pdpa-for-children%27s-personal-data-in-the-digital-environment_mar24.pdf",
+     indicators: [P7-I4], note: "official guidance"}
+  - {law_name: "MAS Notice FSM-N16 Cyber Hygiene", law_number: "FSM-N16",
+     url: "https://www.mas.gov.sg/-/media/mas-media-library/regulation/notices/trpd/notice-fsm-n16/mas-notice-fsm-n16.pdf?sc_lang=en",
+     indicators: [P7-I2], note: "sectoral regulator notice (financial sector)"}
+  # --- Discovery sweep 2026-07-15: subsidiary legislation + regulator instruments (verified official URLs) ---
+  - {law_name: "Personal Data Protection (Notification of Data Breaches) Regulations 2021", law_number: "S 64/2021",
+     url: "https://sso.agc.gov.sg/SL/PDPA2012-S64-2021", indicators: [P7-I1]}
+  - {law_name: "Cybersecurity (Critical Information Infrastructure) Regulations 2018", law_number: "S 519/2018",
+     url: "https://sso.agc.gov.sg/SL/CA2018-S519-2018", indicators: [P7-I2]}
+  - {law_name: "Cybersecurity (Critical Information Infrastructure) (Amendment) Regulations 2025", law_number: "S 678/2025",
+     url: "https://sso.agc.gov.sg/SL-Supp/S678-2025/Published/20251015", indicators: [P7-I2]}
+  - {law_name: "Cybersecurity Code of Practice for Critical Information Infrastructure (Second Edition)", law_number: "CCoP 2.0 Rev 1",
+     url: "https://isomer-user-content.by.gov.sg/36/2df750a7-a3bc-4d77-a492-d64f0ff4db5a/CCoP---Second-Edition_Revision-One.pdf",
+     indicators: [P7-I2], note: "binding code under Cybersecurity Act s.11; gov.sg CDN host"}
+  - {law_name: "MAS Technology Risk Management Guidelines (2021)", law_number: "",
+     url: "https://www.mas.gov.sg/-/media/MAS/Regulations-and-Financial-Stability/Regulatory-and-Supervisory-Framework/Risk-Management/TRM-Guidelines-18-January-2021.pdf",
+     indicators: [P7-I2], note: "regulator guidelines (financial sector)"}

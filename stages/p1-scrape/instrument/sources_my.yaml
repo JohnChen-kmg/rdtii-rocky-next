@@ -117,3 +117,87 @@ seed_queries:
   P7-I3: ['retain for a period of not less than', 'keep records for', 'minimum retention']
   P7-I4: ['data protection officer', 'data protection impact assessment']
   P7-I5: ['interception of communications', 'access to computerised data', 'lawful access', 'security offences']
+
+# ---- seed laws: links/my/seed_laws.yaml, appended at hand-back (links/my/README.md) ----
+# seed_laws for Malaysia — the laws named on purpose, with their links. HAND-EDITED.
+#
+# Round 1 header, as written: Seeded from Knowledge Portal "Sample governemnt portals_Pillar 6_7.csv" + Round 1 baseline DB.
+# That names two sources for the whole file, not the source of each seed. From 2026-09-13 every seed carries
+# `provenance` (POLICY.md 4.1), taken from the records that exist:
+#   round1_registry            listed above the 2026-07-14 delta block of the Round 1 registry; where each came
+#                              from was not recorded
+#   p3_request:<doc>#<row>     requested by mapping in stages/p3-map/docs/<doc>.md, row <row>
+#   host_row:<id>              requested as an error-check target naming a host baseline row; disclosed in
+#                              notes/INSTRUMENT_IMPACT_2026-09-13.md D3 (POLICY.md 4.4)
+#   p1_discovery_sweep:<date>  added by P1's regulator sweep (stages/p1-scrape/docs/CORPUS_VERSIONS.md v2.3)
+#
+# Moved here from sources.yaml on 2026-09-14 (decision 11). Keep the flow style `- {...}`: the dashboard's
+# parser declines block-style entries. law_name drives doc_id and resume: do not change it casually.
+# Keep url and fallback_url on lom-listed seeds too: they are the fallback when lom cannot be read.
+# P.U. seeds carry the full N/YYYY number, read from the gazette copy itself (2026-09-14), so the scraper can match
+# them to the portal copy on the parent act's timeline and fetch that copy once, under the seed's name (POLICY.md 2).
+# A link list built before this change (the crawl's list of 2026-09-14 07:04 UTC, outputs/MY/MY_ws_2026-09-14/links_used) lists both
+# copies. The list in links/ was rebuilt at 08:56 UTC and lists each once.
+seed_laws:
+  - {law_name: "Personal Data Protection Act 2010", law_number: "Act 709",
+     url: "https://www.pdp.gov.my/ppdpv1/en/akta/",
+     fallback_url: "https://mohre.um.edu.my/img/files/Personal%20Data%20Protection%20(PDPA)%20Act%202010.pdf",
+     indicators: [P6-I1, P6-I2, P6-I3, P6-I4, P7-I1, P7-I3, P7-I4, P7-I5], provenance: "round1_registry"}
+  - {law_name: "Personal Data Protection (Amendment) Act 2024", law_number: "Act A1727",
+     url: "https://www.pdp.gov.my/ppdpv1/akta/akta-pdppindaan-2024/",
+     indicators: [P6-I1, P6-I4, P7-I1, P7-I3, P7-I4, P7-I5], provenance: "round1_registry"}
+  - {law_name: "Cyber Security Act 2024", law_number: "Act 854",
+     url: "https://lom.agc.gov.my",   # resolves via LOM by number (Act 854); no non-whitelisted fallback
+     indicators: [P7-I2, P7-I5], provenance: "round1_registry"}
+  - {law_name: "Computer Crimes Act 1997", law_number: "Act 563",
+     url: "https://ccid.rmp.gov.my/Laws/Computer_Crime_Act_1997.pdf", indicators: [P7-I2], provenance: "round1_registry"}
+  - {law_name: "Criminal Procedure Code", law_number: "Act 593",
+     url: "https://lom.agc.gov.my",
+     fallback_url: "https://cyrilla.org/api/files/1568727997327dm3cpb84eaw.pdf", indicators: [P7-I5], provenance: "round1_registry"}
+  - {law_name: "Security Offences (Special Measures) Act 2012", law_number: "Act 747",
+     url: "https://lom.agc.gov.my",
+     fallback_url: "https://cyrilla.org/api/files/1568729125117t97ha9lu92p.pdf", indicators: [P7-I5], provenance: "round1_registry"}
+  - {law_name: "Personal Data Protection Code of Practice for Banking and Financial Sector 2017", law_number: "",
+     url: "https://www.pdp.gov.my/ppdpv1/en/akta/personal-data-protection-code-of-practice-for-banking-sector-and-financial-institutions/",
+     indicators: [P6-I1, P6-I2, P6-I4, P7-I1, P7-I3, P7-I5], provenance: "round1_registry"}
+  - {law_name: "Personal Data Protection Code of Practice for the Communications Sector 2017", law_number: "",
+     url: "https://www.pdp.gov.my/ppdpv1/en/akta/personal-data-protection-code-of-practice-for-the-communications-sector/",
+     indicators: [P6-I2, P6-I3, P6-I4, P7-I1, P7-I3, P7-I5], provenance: "round1_registry"}
+  - {law_name: "Income Tax Act 1967", law_number: "Act 53",
+     url: "https://lom.agc.gov.my",   # resolves via LOM by number (Act 53); hasil deep-links are versioned/unstable
+     fallback_url: "https://commonlii.org/my/legis/consol_act/ita19671967174/",
+     indicators: [P6-I2, P7-I3], provenance: "round1_registry"}
+  # --- Delta crawl 2026-07-14 (P3 request): PDPD guidelines + Act 854 subsidiary regulations ---
+  - {law_name: "Personal Data Protection Guideline on Cross-Border Personal Data Transfer (GP 3/2025)", law_number: "GP 3/2025",
+     url: "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN-1.pdf", indicators: [P6-I4], provenance: "p3_request:DELTA_CRAWL_REQUEST_2026-07-14#6"}
+  - {law_name: "Personal Data Protection Guideline on the Appointment of Data Protection Officer (2025)", law_number: "",
+     url: "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf", indicators: [P7-I4], provenance: "p3_request:DELTA_CRAWL_REQUEST_2026-07-14#7"}
+  - {law_name: "Personal Data Protection Guideline on Data Breach Notification (2025)", law_number: "",
+     url: "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DBN_ENG.pdf", indicators: [P7-I1, P7-I4], provenance: "p3_request:DELTA_CRAWL_REQUEST_2026-07-14#8"}
+  - {law_name: "Cyber Security (Licensing of Cyber Security Service Provider) Regulations 2024", law_number: "P.U. (A) 221/2024",
+     url: "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(LICENSING%20OF%20CYBER%20SECURITY%20SERVICE%20PROVIDER).pdf",
+     indicators: [P7-I2], provenance: "p3_request:DELTA_CRAWL_REQUEST_2026-07-14#9-12"}
+  - {law_name: "Cyber Security (Notification of Cyber Security Incident) Regulations 2024", law_number: "P.U. (A) 220/2024",
+     url: "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(NOTIFICATION%20OF%20CYBER%20SECURITY%20INCIDENT).pdf",
+     indicators: [P7-I2], provenance: "p3_request:DELTA_CRAWL_REQUEST_2026-07-14#9-12"}
+  - {law_name: "Cyber Security (Period for Cyber Security Risk Assessment and Audit) Regulations 2024", law_number: "P.U. (A) 219/2024",
+     url: "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(PERIOD%20FOR%20CYBER%20SECURITY%20RISK%20ASSESSMENT%20AND%20AUDIT).pdf",
+     indicators: [P7-I2], provenance: "p3_request:DELTA_CRAWL_REQUEST_2026-07-14#9-12"}
+  - {law_name: "Cyber Security (Compounding of Offences) Regulations 2024", law_number: "P.U. (A) 222/2024",
+     url: "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(COMPOUNDING%20OF%20OFFENCES).pdf",
+     indicators: [P7-I2], provenance: "p3_request:DELTA_CRAWL_REQUEST_2026-07-14#9-12"}
+  - {law_name: "Personal Data Protection Standard 2015", law_number: "JPDP.100-1/1/10",
+     url: "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2024/07/LatestStandard.pdf", indicators: [P7-I1], provenance: "host_row:r1-my-053"}
+  # --- Discovery sweep 2026-07-15: subsidiary legislation + sectoral regulator instruments ---
+  - {law_name: "Personal Data Protection Regulations 2013", law_number: "P.U.(A) 335/2013",
+     url: "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2024/07/Peraturan-peraturan-Perlindungan-Data-Peribadi.pdf",
+     indicators: [P6-I4, P7-I1], provenance: "p1_discovery_sweep:2026-07-15"}
+  - {law_name: "Guidelines on Technology Risk Management (SC-GL/2-2023)", law_number: "SC-GL/2-2023",
+     url: "https://www.sc.com.my/api/documentms/download.ashx?id=1d694317-0cc0-4e67-bbd7-c9549441c5a1",
+     indicators: [P7-I2], form: pdf, note: "Securities Commission; PDF behind download.ashx", provenance: "p1_discovery_sweep:2026-07-15"}
+  - {law_name: "Cyber Security (Exemption) Order 2025", law_number: "P.U. (A) 47/2025",
+     url: "https://www.nacsa.gov.my/doc/CYBER%20SECURITY%20(EXEMPTION)%20ORDER%202025.pdf",
+     indicators: [P7-I2], provenance: "p1_discovery_sweep:2026-07-15"}
+  - {law_name: "Risk Management in Technology (RMiT) Policy Document (2025)", law_number: "",
+     url: "https://www.bnm.gov.my/documents/20124/938039/pd-rmit-nov25.pdf",
+     indicators: [P6-I3, P7-I2], note: "BNM CDN answers 202 to non-browser clients — fetch may fail; attempt is logged", provenance: "p1_discovery_sweep:2026-07-15"}
