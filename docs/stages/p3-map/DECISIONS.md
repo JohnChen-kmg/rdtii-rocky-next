@@ -33,6 +33,16 @@ advisory, host-marked and candidate rows count, with a second figure on unflagge
 runs against a model: left for now. How the query is built from the instrument for the indicators
 that lacked this depth, across the model choices now on the page: to be looked at in detail later.
 
+**Three more decisions of the developer, the same day, on how the updated indicators are asked.**
+(1) Trap questions: each indicator answers only its own. Outside pillars 6 and 7 that is the TRAP
+lines of its block, numbered in the prompt and answered inside its verdict (`own_traps`); the five
+fixed questions are asked only when a pillar 6-7 indicator is in the run. Whether the provision is
+in force is asked in every run: it is a fact about the text, not a trap of an indicator, and a row
+that is not in force is not filed. (2) The economy-level question of the eleven new indicators is
+sent the verified quotes. (3) The search query keeps its exemplars whichever economy is run; the
+instrument's request to leave an economy's own rows out is not applied. The underlying mechanism
+(search, screen, read, re-check, tie-break, roll-up) is unchanged; he asked for it to stay.
+
 **If reversed.** Restore the fixed enum and the table and every indicator outside pillars 6 and 7 with
 another scale validates wrongly or ends "pending"; nothing changes for the nine.
 

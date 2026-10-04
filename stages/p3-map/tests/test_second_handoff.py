@@ -137,12 +137,22 @@ import json
 from src.p3map.mapping.prompt import build_system_prefix
 from src.p3map.mapping.schema import MAPPING_SCHEMA, SCORE_LABELS
 from src.p3map.verify import blind
-head = build_system_prefix().split("\\n")[0]
-hint = MAPPING_SCHEMA["$defs"]["IndicatorVerdict"]["properties"]["score_hint"]
+import re
+prefix = build_system_prefix()
+head = prefix.split("\\n")[0]
+defs = MAPPING_SCHEMA["$defs"]
+verdict = defs.get("ScopedVerdict") or defs["IndicatorVerdict"]
+checks = defs.get("TrapChecks") or defs["ProvisionChecks"]
+hint = verdict["properties"]["score_hint"]
 print(json.dumps({"labels": list(SCORE_LABELS), "enum": hint["enum"], "says": hint["description"],
                   "verify": blind.VERIFY_SCHEMA["properties"]["score_hint"]["enum"],
-                  "verify_prompt": blind.PROMPT.splitlines()[-1], "head": head}))
+                  "verify_prompt": blind.PROMPT.splitlines()[-1], "head": head,
+                  "defs": sorted(defs), "provision_checks": sorted(checks["properties"]),
+                  "checks_required": checks["required"], "verdict_fields": list(verdict["properties"]),
+                  "verdict_required": verdict["required"],
+                  "numbered": re.findall(r"TRAP (\\d+)", prefix), "unnumbered_6_1": "TRAP (the #1 mis-mapping)" in prefix}))
 """
+FIVE = ["conditional_path_exists", "government_data_only", "provision_in_force", "retention_is_minimum", "sectoral_scope"]
 
 
 def test_another_scope_is_offered_its_own_scores_in_reading_and_re_check():
@@ -285,3 +295,79 @@ def test_the_report_says_what_the_flags_did(monkeypatch, tmp_path):
     assert rep["unflagged_gold_rows"] == 1 and rep["row_recall_unflagged"] == 1.0
     assert rep["indicators_with_no_gold_left"] == ["5.4", "5.7"], "no gold is not a recall of zero"
     assert [m["gold"] for m in rep["misses"]] == ["g2"]
+
+
+# ---- each indicator answers its own traps, and no other indicator's ---------------------------------
+
+def test_every_block_has_traps_of_its_own_to_ask():
+    counts = {i: len(INS.traps(i)) for i in INS.blocks}
+    assert sum(counts.values()) == 263 and min(counts.values()) >= 1
+    assert counts["3.1"] == 7 and counts["5.4"] == 6
+
+
+def test_a_run_inside_pillars_6_and_7_is_asked_the_five_it_always_was():
+    got = _in_scope("6.1,6.4", PROBE)
+    assert got["defs"] == ["IndicatorVerdict", "TrapChecks"]
+    assert got["provision_checks"] == got["checks_required"] == FIVE
+    assert "own_traps" not in got["verdict_fields"]
+    assert got["numbered"] == [] and got["unnumbered_6_1"], "the blocks of pillars 6 and 7 are rendered as before"
+
+
+def test_an_indicator_outside_them_is_asked_only_its_own_traps():
+    got = _in_scope("3.1,5.4", PROBE)
+    assert got["defs"] == ["OwnTrap", "ProvisionChecks", "ScopedVerdict"]
+    assert got["provision_checks"] == got["checks_required"] == ["provision_in_force"], \
+        "no pillar 6-7 trap is asked; whether the text is in force is about the provision, and filing depends on it"
+    fields = got["verdict_fields"]
+    assert fields.index("indicator") < fields.index("own_traps") < fields.index("applies"), "traps before the verdict"
+    assert "own_traps" in got["verdict_required"]
+    assert "own_traps_gap" not in fields, "derived, never asked of the model"
+    # the prompt numbers each block's own TRAP lines from 1: seven for 3.1, six for 5.4
+    assert got["numbered"] == [str(n) for n in range(1, 8)] + [str(n) for n in range(1, 7)]
+
+
+def test_a_mixed_run_keeps_the_five_for_its_pillar_6_7_indicator():
+    got = _in_scope("6.1,3.1", PROBE)
+    assert got["provision_checks"] == FIVE
+    assert "own_traps" in got["verdict_fields"]
+    assert got["numbered"] == [str(n) for n in range(1, 8)] and got["unnumbered_6_1"], "3.1 numbered, 6.1 as it was"
+
+
+GAP_PROBE = """
+import json
+from src.p3map.mapping.schema import MappingVerdict
+base = dict(applies=True, coverage="Sectoral", verbatim_quote="q", rationale="r", confidence=0.8)
+v = MappingVerdict.model_validate({"trap_checks": {"provision_in_force": True}, "verdicts": [
+    {"indicator": "3.1", "own_traps": [{"trap": 1, "in_play": False}, {"trap": 2, "in_play": True}], "score_hint": "0.8", **base},
+    {"indicator": "5.4", "score_hint": "0.25", **base}]})
+rows = [x.model_dump() for x in v.verdicts]
+print(json.dumps({"gap_3_1": rows[0]["own_traps_gap"], "gap_5_4": rows[1]["own_traps_gap"], "traps_3_1": rows[0]["own_traps"],
+                  "in_force": v.trap_checks.model_dump()}))
+"""
+
+
+def test_a_trap_left_unanswered_is_recorded_and_costs_nothing():
+    got = _in_scope("3.1,5.4", GAP_PROBE)
+    assert got["traps_3_1"] == [{"trap": 1, "in_play": False}, {"trap": 2, "in_play": True}]
+    assert got["gap_3_1"] == [3, 4, 5, 6, 7]
+    assert got["gap_5_4"] == [1, 2, 3, 4, 5, 6], "no trap answered at all: still a verdict, with the gap on the row"
+    assert got["in_force"] == {"provision_in_force": True}
+
+
+# ---- the economy-level question carries its evidence ------------------------------------------------
+
+def test_a_new_economy_level_indicator_is_given_the_quotes():
+    fires = [{"law_name": "Telecom Act", "article_section": "s.9", "coverage": "Horizontal",
+              "quote": "the  dominant operator shall keep\nseparate accounts"}]
+    fake = Fake({"score": "0.5", "controlling_law": "Telecom Act", "reason": "accounting separation"})
+    rollup._framework_score("TL", "5.4", fires, client=fake)
+    assert '- Telecom Act s.9 [Horizontal] "the dominant operator shall keep separate accounts"' in fake.sent[0][0]
+
+
+@pytest.mark.parametrize("ind", ["7.1", "7.2"])
+def test_7_1_and_7_2_keep_the_evidence_rows_they_were_measured_with(ind):
+    fires = [{"law_name": "Data Act", "article_section": "s.3", "coverage": "Horizontal", "quote": "personal data shall"}]
+    fake = Fake({"score": "0", "controlling_law": "Data Act", "reason": "comprehensive"})
+    rollup._framework_score("SG", ind, fires, client=fake)
+    assert "- Data Act s.3 [Horizontal]\n" in fake.sent[0][0]
+    assert "personal data shall" not in fake.sent[0][0]

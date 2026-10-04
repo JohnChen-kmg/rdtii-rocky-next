@@ -26,6 +26,19 @@ def scope_label(ids) -> str:
     return ("Pillar " if len(pillars) == 1 else "Pillars ") + ", ".join(str(x) for x in pillars)
 
 
+def number_traps(lines) -> list[str]:
+    """A block's disambiguation lines with its TRAP lines numbered (TRAP 1, TRAP 2, ...), so the answer
+    form can ask an indicator for each of its own traps by number (mapping/schema.py, own_traps)."""
+    out, n = [], 0
+    for line in lines or []:
+        text = str(line)
+        if text.lstrip().startswith("TRAP"):
+            n += 1
+            text = text.replace("TRAP", f"TRAP {n}", 1)
+        out.append(text)
+    return out
+
+
 @lru_cache(maxsize=1)
 def build_system_prefix() -> str:
     # Through the loader, so the prefix renders the same whether the vendored instrument keys its
@@ -50,6 +63,10 @@ def build_system_prefix() -> str:
             "id", "name", "question", "definition", "scoring", "scoring_tree",
             "disambiguation", "coding_rules", "exceptions") if k in b}
         keep["id"] = ind  # decimal, whatever the file says
+        if pillar_of(ind) not in (6, 7) and "disambiguation" in keep:
+            # numbered for the indicators that answer their own traps; the nine blocks of pillars 6
+            # and 7 are rendered as they always were
+            keep["disambiguation"] = number_traps(keep["disambiguation"])
         parts.append(f"\n## {ind}\n" + yaml.dump(keep, sort_keys=True,
                                                  allow_unicode=True, width=100))
     parts.append("\n## Cross-cutting scoring policy\n" + yaml.dump(

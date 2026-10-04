@@ -13,6 +13,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, model_validator
 
+from config.indicator_ids import pillar_of
 from config.instrument import load as load_instrument
 from config.settings import INDICATORS
 
@@ -88,6 +89,75 @@ class IndicatorVerdict(BaseModel):
     confidence: float = Field(ge=0.0, le=1.0)
 
 
+# ---- which trap questions a run is asked (4 October 2026) ------------------------------------------
+# The five questions of TrapChecks were written for pillars 6 and 7. A run whose scope lies inside
+# those pillars is asked exactly them, as every measured run was. An indicator outside them is asked
+# its OWN traps and no other indicator's (the developer's decision of 4 October): the TRAP lines of
+# its block's disambiguation list, which the prompt numbers, answered inside that indicator's verdict
+# before `applies`. The five stay for any pillar 6-7 indicator in the same run. One check is about
+# the provision and not about an indicator, and it decides whether a row can be filed at all:
+# `provision_in_force` is asked in every run.
+_PILLARS_6_7 = (6, 7)
+OWN_TRAPS = any(pillar_of(i) not in _PILLARS_6_7 for i in INDICATORS)
+
+
+def _own_trap_count(indicator) -> int:
+    """How many numbered TRAP lines the prompt shows for this indicator: none for pillars 6 and 7,
+    whose traps are the five of TrapChecks, and none for an id the instrument does not carry."""
+    try:
+        if pillar_of(indicator) in _PILLARS_6_7:
+            return 0
+        return len(load_instrument().traps(indicator))
+    except Exception:
+        return 0
+
+
+class ProvisionChecks(BaseModel):
+    """What a run with no pillar 6-7 indicator is asked about the provision itself."""
+    provision_in_force: bool | None = Field(
+        default=None, description=TrapChecks.model_fields["provision_in_force"].description)
+
+
+class OwnTrap(BaseModel):
+    trap: int = Field(ge=1, description="The number of the TRAP line in THIS indicator's block "
+                      "(TRAP 1, TRAP 2, ...).")
+    in_play: bool = Field(description="True if the situation that TRAP line describes is present "
+                          "in this provision.")
+
+
+class ScopedVerdict(BaseModel):
+    """IndicatorVerdict with the indicator's own traps answered first. Same fields, same wording."""
+    indicator: str = Field(description=IndicatorVerdict.model_fields["indicator"].description)
+    own_traps: list[OwnTrap] = Field(
+        default_factory=list,
+        description="This indicator's OWN trap checks, and no other indicator's: one entry for each "
+        "numbered TRAP line in this indicator's block, in order. Run them before deciding `applies`, "
+        "and decide in line with every trap that is in play. Leave the list empty for an indicator "
+        "of pillars 6 and 7, whose traps are in trap_checks.")
+    applies: bool = Field(description=IndicatorVerdict.model_fields["applies"].description)
+    coverage: Literal["Horizontal", "Sectoral", "None"] = Field(
+        description=IndicatorVerdict.model_fields["coverage"].description)
+    score_hint: Literal[SCORE_LABELS] = Field(description=_SCORE_HINT_TEXT)
+    verbatim_quote: str = Field(description=IndicatorVerdict.model_fields["verbatim_quote"].description)
+    rationale: str = Field(description=IndicatorVerdict.model_fields["rationale"].description)
+    confidence: float = Field(ge=0.0, le=1.0)
+    # Derived, never asked of the model: which of the indicator's TRAP lines the answer left out.
+    own_traps_gap: list[int] = Field(
+        default_factory=list,
+        description="Numbers of this indicator's TRAP lines the answer did not cover. Recorded, never fatal.")
+
+    @model_validator(mode="after")
+    def _record_own_traps_gap(self):
+        answered = {t.trap for t in self.own_traps}
+        self.own_traps_gap = [n for n in range(1, _own_trap_count(self.indicator) + 1)
+                              if n not in answered]
+        return self
+
+
+RunTraps = TrapChecks if any(pillar_of(i) in _PILLARS_6_7 for i in INDICATORS) else ProvisionChecks
+RunVerdict = ScopedVerdict if OWN_TRAPS else IndicatorVerdict
+
+
 class MappingVerdict(BaseModel):
     core_legal_question_answer: str = Field(
         default="",
@@ -98,8 +168,8 @@ class MappingVerdict(BaseModel):
         default="",
         description="Conditions, exceptions, provisos in or around the text; "
         "'none visible' if none.")
-    trap_checks: TrapChecks = Field(default_factory=TrapChecks)
-    verdicts: list[IndicatorVerdict] = Field(
+    trap_checks: RunTraps = Field(default_factory=RunTraps)
+    verdicts: list[RunVerdict] = Field(
         description="One verdict per CANDIDATE indicator named in the request — "
         "no more, no fewer.")
     # Derived here, never asked of the model (DERIVED_FIELDS): which narrative fields arrived
@@ -162,8 +232,15 @@ def _schema_requiring_traps() -> dict:
     for prop in (schema.get("properties") or {}).values():
         prop.pop("default", None)
     for name, defn in (schema.get("$defs") or {}).items():
-        if name == "TrapChecks":
-            defn["required"] = sorted(TrapChecks.model_fields)
+        if name == "ScopedVerdict":
+            # the indicator's own traps are asked for, in their place before `applies`; the gap
+            # list is derived by the validator and never asked
+            props = defn.get("properties") or {}
+            props.pop("own_traps_gap", None)
+            (props.get("own_traps") or {}).pop("default", None)
+            defn["required"] = [f for f in ScopedVerdict.model_fields if f != "own_traps_gap"]
+        if name == RunTraps.__name__:
+            defn["required"] = sorted(RunTraps.model_fields)
             for prop in (defn.get("properties") or {}).values():
                 # bool | None renders as anyOf[bool, null]; the model is asked for a plain boolean
                 if "anyOf" in prop:
@@ -176,7 +253,7 @@ def _schema_requiring_traps() -> dict:
 MAPPING_SCHEMA: dict = _schema_requiring_traps()
 
 _TOP = frozenset(MappingVerdict.model_fields)
-_TRAP = frozenset(TrapChecks.model_fields)
+_TRAP = frozenset(RunTraps.model_fields)
 
 
 def coerce_verdict(raw: dict, _depth: int = 0) -> dict:

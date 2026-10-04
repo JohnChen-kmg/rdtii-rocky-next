@@ -86,6 +86,9 @@ def _load(economy: str, extra_dirs=()):      # noqa: ANN001
                     "conf": v["confidence"], "grounded": v["quote_grounded_ws"],
                     "quote": v["verbatim_quote"], "rat": v["rationale"],
                     "traps": row["trap_checks"],
+                    # an indicator outside pillars 6 and 7 answers its own numbered TRAP lines
+                    # (mapping/schema.py); a pillar 6-7 row carries none and renders as before
+                    "own": [t.get("trap") for t in (v.get("own_traps") or []) if t.get("in_play")],
                     "verdict": (vv or {}).get("verifier_verdict", "pending"),
                     "final": (vv or {}).get("final_applies", None),
                     "en": gloss_q.get((row["provision_id"], v["indicator"])),
@@ -111,6 +114,8 @@ def render(economy: str = "SG", extra_dirs=()) -> None:      # noqa: ANN001
                  "tiebreak_overturned": "#c62828", "split_flagged": "#e65100",
                  "error": "#757575", "pending": "#9e9e9e"}.get(f["verdict"], "#9e9e9e")
         traps = ", ".join(k for k, v in f["traps"].items() if v) or "—"
+        if f.get("own"):
+            traps += "; this indicator's TRAP lines in play: " + ", ".join(str(n) for n in f["own"])
         en, en_sec = f.get("en"), f.get("en_sec")
 
         def _mt(g, label):

@@ -133,6 +133,11 @@ class Instrument:
         vals = sorted({v for i in ids for v in self.values(i)}, reverse=True)
         return tuple(f"{v:g}" for v in vals)
 
+    def traps(self, iid) -> list[str]:
+        """The indicator's own traps: the lines of its block's disambiguation list that begin TRAP."""
+        return [str(x) for x in (self.block(iid).get("disambiguation") or [])
+                if str(x).lstrip().startswith("TRAP")]
+
     def framework_name(self, iid) -> str | None:
         """For an economy-level indicator: the phrase that completes "does the economy lack a ___?"."""
         name = self.block(iid).get("framework_name")

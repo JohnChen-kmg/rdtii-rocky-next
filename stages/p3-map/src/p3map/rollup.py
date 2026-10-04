@@ -139,7 +139,7 @@ def run_rollup(economy: str) -> dict:
                 mapmeta[(row["provision_id"], from_artifact(v["indicator"]))] = {
                     "doc_id": row["doc_id"], "law_name": row.get("law_name"),
                     "article_section": row.get("article_section"),
-                    "coverage": v.get("coverage")}
+                    "coverage": v.get("coverage"), "quote": v.get("verbatim_quote")}
 
     fires_by_ind: dict[str, list[dict]] = defaultdict(list)
     # An economy-level cell gets the REJECTED candidates too, with the reviewers' own reasons.
@@ -174,6 +174,7 @@ def run_rollup(economy: str) -> dict:
                 "law_name": mm.get("law_name", ""),
                 "article_section": mm.get("article_section", ""),
                 "coverage": mm.get("coverage", "?"),
+                "quote": mm.get("quote") or "",
             })
 
     ins = load_instrument()
@@ -225,8 +226,13 @@ def _framework_score(economy: str, ind: str, fires: list[dict],
     # fires arriving here are verified-kept only (audit item 3)
     ev_lines = []
     for t in fires[:40]:
-        ev_lines.append(f"- {t['law_name']} {t['article_section']} "
-                        f"[{t.get('coverage','?')}]")
+        line = f"- {t['law_name']} {t['article_section']} [{t.get('coverage','?')}]"
+        # The header promises a quote on every evidence row. 7.1 and 7.2 keep the rows they were
+        # measured with, which carried none; every other economy-level indicator gets the quote,
+        # in the source's own language, since the original is the evidence.
+        if ind not in MEASURED_SCALE and t.get("quote"):
+            line += ' "' + " ".join(str(t["quote"]).split())[:300] + '"'
+        ev_lines.append(line)
     rejected = rejected or []
     rej_block = ""
     if rejected:
