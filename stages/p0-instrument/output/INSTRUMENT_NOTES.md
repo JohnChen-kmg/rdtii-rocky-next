@@ -163,6 +163,19 @@ blocks where an absent framework scores 1 say `polarity: inverted`; `policies.ya
 Each trap is written on both sides: a block that sends a look-alike to a sibling is named back by that
 sibling, because a run may load one indicator without the other.
 
+**Two fields for the roll-up** (2026-10-04, decision D17; neither reaches the mapping prompt).
+- `absence_score` says what a cell scores when the tool searched and found nothing: 0 on 41 blocks,
+  the host's rule for an absence of specific measures (Guide p.12; Internal Guide p.10). It is null,
+  meaning the cell stays unscored, on 20 blocks: the 14 inverted ones, where finding nothing would be
+  the top score and has to be established; 11.2, where a 0 needs positive evidence that
+  self-declaration is allowed; and 1.4, 5.3, 9.1, 11.4 and 12.6, whose answer does not live in the
+  legislation the tool searches. Not found in the corpus is not the same as absent in law.
+- `count_rule` states, as data, the rule of the 15 blocks that score by how many measures an economy
+  has: what is counted, which per-measure scores count, and the thresholds. For 6.1 and 6.2 it is the
+  rule the mapping stage used before: two or more distinct half-point measures score 1. Six rules count
+  something finer or coarser than a law (sectors in 3.1, cap regimes in 5.2, companies in 5.3, products
+  in 10.1 and 10.3, procedures in 10.2); until a verdict records that fact, distinct laws stand in.
+
 **Gold set.** Every coded host row, all pillars, ten economies. Label flags: `suspect` and `advisory`
 (reviewed; pillars 6-7 in Round 1, the other pillars while drafting on 2026-10-04 and not confirmed by a
 person; `basis` on each flag says which), `host_marked` (the host's own data verification said "Not

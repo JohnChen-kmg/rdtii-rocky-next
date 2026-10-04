@@ -17,6 +17,11 @@ Exit code 0 = the instrument is consistent and frozen-ready. Checks, grouped:
                             null_statement and sources (row numbers checked against the host sheets); a
                             question that differs from the definition; polarity and level only in their
                             allowed forms, with framework_name on every economy-level block
+  1e roll-up fields         every block carries absence_score (null or one of its own scoring.values;
+                            null on every inverted block) and absence_basis; count_rule sits on the
+                            blocks that score by counting, is well formed, and for 6.1 and 6.2 states
+                            exactly the rule the mapping stage used to hand-code; all three equal
+                            scripts/data/rollup_fields.yaml
   1c citations              Tier A/B: every definition, coding rule, exception and disambiguation line
                             ends with a host citation; Tier A carries the Round 1 trap wording and the
                             finale template's trap rows 80-84 on the right indicators
@@ -56,6 +61,7 @@ from pathlib import Path
 import openpyxl
 import yaml
 
+from build_rollup_fields import KEYS as ROLLUP_KEYS, wanted as rollup_wanted
 from indicator_ids import BadIndicatorId, normalize, pillar_of
 from rdtii_examples import (DATA, REPO, ROUND1, ROUND1_SHEETS, ROUND2, ROUND2_SHEETS, SCRIPTS,
                             TEMPLATE_FINAL, category_first_line, load_all, load_methodology,
@@ -264,6 +270,60 @@ for iid, b in blocks.items():
         pillar_weight[b["pillar"]] += b["weight"]
 for p, total in pillar_weight.items():
     check(total <= 1.03, f"codebook: pillar {p} block weights sum to {total:.2f}")
+
+
+# 1e roll-up fields (decision D17): what an absence scores, and the count rule as data
+rollup = load_yaml(DATA / "rollup_fields.yaml")
+absence_count = Counter()
+for iid, b in blocks.items():
+    values = [float(v) for v in (b.get("scoring") or {}).get("values", [])]
+    check("absence_score" in b, f"codebook {iid}: missing absence_score (run build_rollup_fields.py)")
+    check({k: b[k] for k in ROLLUP_KEYS if k in b} == rollup_wanted(iid, rollup),
+          f"codebook {iid}: absence_score, absence_basis or count_rule differs from scripts/data/rollup_fields.yaml (run build_rollup_fields.py)")
+    a = b.get("absence_score")
+    check(a is None or (isinstance(a, (int, float)) and float(a) in values),
+          f"codebook {iid}: absence_score {a!r} must be null or one of scoring.values {values}")
+    check(bool(CITE.search(str(b.get("absence_basis") or ""))), f"codebook {iid}: absence_basis missing or without a citation")
+    if b.get("polarity") == "inverted":
+        check(a is None, f"codebook {iid}: an inverted block's absence is its top score, so absence_score must be null")
+    absence_count["unscored" if a is None else "scored"] += 1
+    rule = b.get("count_rule")
+    if rule is None:
+        continue
+    for k in ("unit", "counts", "counted_as", "method", "counted_scores", "otherwise", "needs", "basis"):
+        check(k in rule, f"codebook {iid}: count_rule lacks {k}")
+    check(rule.get("unit") in ("measure", "sector", "company", "product", "procedure"), f"codebook {iid}: count_rule.unit {rule.get('unit')!r} unknown")
+    check(rule.get("counted_as") == "law", f"codebook {iid}: count_rule.counted_as must be 'law'")
+    check(rule.get("otherwise") == "highest_verified_score", f"codebook {iid}: count_rule.otherwise must be highest_verified_score")
+    counted = [float(x) for x in rule.get("counted_scores") or []]
+    check(bool(counted) and all(x in values and x > 0 for x in counted),
+          f"codebook {iid}: count_rule.counted_scores {counted} must be non-zero values of the block's scale")
+    if rule.get("method") == "threshold":
+        steps = rule.get("thresholds") or []
+        check(bool(steps) and "cap" not in rule, f"codebook {iid}: a threshold count_rule needs thresholds and no cap")
+        for t in steps:
+            check(isinstance(t.get("at_least"), int) and t["at_least"] >= 2 and float(t.get("score", -1)) in values
+                  and float(t.get("score", -1)) > max(counted, default=1),
+                  f"codebook {iid}: count_rule threshold {t} must count two or more and give a higher value of the block's scale")
+    elif rule.get("method") == "sum":
+        check(float(rule.get("cap", -1)) in values and "thresholds" not in rule, f"codebook {iid}: a sum count_rule needs a cap on the block's scale and no thresholds")
+    else:
+        errs.append(f"codebook {iid}: count_rule.method {rule.get('method')!r} must be threshold or sum")
+    check(isinstance(rule.get("needs"), list) and all(set(n) == {"fact", "why"} for n in rule.get("needs") or []),
+          f"codebook {iid}: count_rule.needs must be a list of {{fact, why}}")
+    check((rule.get("unit") == "measure") or bool(rule.get("needs")), f"codebook {iid}: a count_rule whose unit is not a measure must say what the roll-up needs")
+    check(bool(CITE.search(str(rule.get("basis") or ""))), f"codebook {iid}: count_rule.basis lacks a citation")
+    cited = {int(pg) for mm in GUIDE_PAGE.finditer(str(rule.get("basis") or "")) for pg in mm.groups() if pg}
+    check(cited <= set((b.get("sources") or {}).get("guide_pages") or []), f"codebook {iid}: count_rule.basis cites Guide pages {sorted(cited)} outside the block's sources.guide_pages")
+# The mapping stage hand-coded this rule for 6.1 and 6.2 until D17; the declaration must reproduce it exactly.
+for iid in ("6.1", "6.2"):
+    r = blocks.get(iid, {}).get("count_rule") or {}
+    check((r.get("method"), r.get("counted_scores"), r.get("thresholds"), r.get("otherwise"), r.get("needs"))
+          == ("threshold", [0.5], [{"at_least": 2, "score": 1}], "highest_verified_score", []),
+          f"codebook {iid}: count_rule must state 'two or more distinct half-point measures score 1' and nothing else")
+info.append(f"roll-up fields: absence_score scored on {absence_count['scored']} blocks and null on {absence_count['unscored']}; "
+            f"count_rule on {sum(1 for b in blocks.values() if 'count_rule' in b)}, of which "
+            f"{sum(1 for b in blocks.values() if (b.get('count_rule') or {}).get('needs'))} need a fact the roll-up does not have")
 
 
 def named_siblings(b: dict) -> set[str]:

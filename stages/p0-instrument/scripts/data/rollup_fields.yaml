@@ -1,0 +1,302 @@
+# The two roll-up fields, per indicator (decision D17, 4 October 2026; mapping requests R5 and R6).
+# build_rollup_fields.py writes them into output/indicators.yaml; validate_instrument.py compares
+# the blocks with this file. Edit here, then run the builder and the validator.
+#
+# absence     -> `absence_score` and `absence_basis` on every block
+# count_rules -> `count_rule` on the blocks that score by how many measures an economy has
+
+absence:
+  # What the fields mean, restated in block_fields of indicators.yaml.
+  meaning: >
+    absence_score is the score of a cell when the tool searched the corpus and found no
+    qualifying provision: one of the block's own scoring.values, or null for "leave the cell
+    unscored". An absence here means "not found in the corpus", not "proven absent in law".
+    absence_basis says why, with the host source.
+
+  # Every block not listed under `unscored` or `scored` takes this value and this sentence.
+  default:
+    score: 0
+    basis: >-
+      No qualifying measure is this block's 0 branch, and the host scores an absence of specific
+      measures 0, citing the general rules searched (Guide p.12; Internal Guide p.10; Methodology
+      sheet {id}).
+
+  # Blocks that take a score with their own sentence.
+  scored:
+    "3.4":
+      score: 0
+      basis: >-
+        No screening mechanism is this block's 0 branch, and a mechanism is shown by legal text,
+        which the corpus holds. Only the top score needs a blocking case from outside the corpus
+        (Guide p.27; Guide p.12; Internal Guide p.8; Methodology sheet 3.4).
+
+  # Blocks left unscored on an absence. Three reasons: the absence is itself the top score
+  # (the 14 inverted blocks); a 0 needs positive evidence (11.2); or the answer does not live
+  # in the legislation the tool searches (1.4, 5.3, 9.1, 11.4, 12.6).
+  unscored:
+    "4.2": >-
+      Inverted: a framework with neither procedures and remedies nor provisional measures is this
+      block's 1 branch. That absence has to be established, not inferred from an empty search, so
+      the cell is left unscored (Guide p.31; Methodology sheet 4.2).
+    "4.5": >-
+      Inverted: no copyright framework, or one with no exceptions, is this block's 1 branch. That
+      absence has to be established, not inferred from an empty search, so the cell is left
+      unscored (Guide p.33; Methodology sheet 4.5).
+    "4.6": >-
+      Inverted: a framework with neither procedures and remedies nor provisional measures is this
+      block's 1 branch. That absence has to be established, not inferred from an empty search, so
+      the cell is left unscored (Guide p.34; Methodology sheet 4.6).
+    "4.1": >-
+      Inverted: no trade secrets framework that gives effective protection is this block's 1
+      branch. That absence has to be established, not inferred from an empty search, so the cell
+      is left unscored (Guide p.38; Methodology sheet 4.1).
+    "5.1": >-
+      Inverted: no passive infrastructure sharing obligation is this block's 1 branch. That
+      absence has to be established, not inferred from an empty search, so the cell is left
+      unscored (Guide p.42; Methodology sheet 5.1).
+    "5.4": >-
+      Inverted: neither functional nor accounting separation mandated is this block's 1 branch.
+      That absence has to be established, not inferred from an empty search, so the cell is left
+      unscored (Guide p.44; Methodology sheet 5.4).
+    "5.7": >-
+      Inverted: no independent telecom authority is this block's 1 branch. That absence has to be
+      established, not inferred from an empty search, so the cell is left unscored (Guide p.46;
+      Methodology sheet 5.7).
+    "7.1": >-
+      Inverted: no data protection framework is this block's 1 branch. The economy-level answer
+      must name a law; an empty search is not evidence that none exists, so the cell is left
+      unscored (Guide p.58; Methodology sheet 7.1; Indicator Reference row 80).
+    "7.2": >-
+      Inverted: no cybersecurity framework is this block's 1 branch. The economy-level answer
+      must name a law; an empty search is not evidence that none exists, so the cell is left
+      unscored (Guide p.59; Methodology sheet 7.2; Indicator Reference row 80).
+    "8.1": >-
+      Inverted: no safe harbour for copyright infringement is this block's 1 branch. That absence
+      has to be established, not inferred from an empty search, so the cell is left unscored
+      (Guide p.65; Methodology sheet 8.1).
+    "8.2": >-
+      Inverted: no safe harbour for other illegal activities is this block's 1 branch. That
+      absence has to be established, not inferred from an empty search, so the cell is left
+      unscored (Guide p.66; Methodology sheet 8.2).
+    "11.1": >-
+      Inverted: standard-setting that is closed to foreigners or not transparent is this block's
+      1 branch. An empty search shows neither openness nor closure, so the cell is left unscored
+      (Guide pp.78-79; Methodology sheet 11.1).
+    "12.5": >-
+      Inverted: no de minimis rule is this block's 1 branch. That absence has to be established
+      by reading the customs, tariff and postal or courier import rules, not inferred from an
+      empty search, so the cell is left unscored (Guide p.86; Methodology sheet 12.5).
+    "12.9": >-
+      Inverted: no consumer protection law that reaches online purchases is this block's 1
+      branch. That absence has to be established, not inferred from an empty search, so the cell
+      is left unscored (Guide p.88; Methodology sheet 12.9).
+    "11.2": >-
+      A 0 needs a provision or official indication that suppliers, including foreign ones, may
+      declare conformity, and the Guide treats an economy with no framework for accepting it as
+      restrictive. An empty search supports neither reading, so the cell is left unscored (Guide
+      p.79; Methodology sheet 11.2).
+    "1.4": >-
+      The measures are duty orders found in WTO notifications and gazette notices of the
+      responsible ministry, outside the legislation the tool searches. An empty search does not
+      show that no measure is in force, so the cell is left unscored (Guide p.17; Methodology
+      sheet 1.4).
+    "5.3": >-
+      The answer is an ownership fact shown by regulator reports, state-enterprise lists and
+      company records, not by legislation. An empty search of legal text says nothing about
+      Government shareholdings, so the cell is left unscored (Internal Guide p.8; Internal Guide
+      p.12; Guide p.43; Methodology sheet 5.3).
+    "9.1": >-
+      A 0 means no case of blocking or filtering, which is a fact about practice. An empty search
+      of legal text does not establish it, so the cell is left unscored (Internal Guide p.8; Guide
+      p.70; Methodology sheet 9.1).
+    "11.4": >-
+      The answer turns on technical parameters set in standards documents, outside the
+      legislation the tool searches. An empty search does not show that the standards follow the
+      international ones, so the cell is left unscored (Guide p.81; Methodology sheet 11.4).
+    "12.6": >-
+      A 0 means no legal mechanism can impose duties on electronic transmissions, which is read
+      from the customs tariff and the economy's trade posture. An empty search does not establish
+      it, so the cell is left unscored (Guide p.86; Methodology sheet 12.6).
+
+count_rules:
+  # How a count rule is applied, restated in block_fields of indicators.yaml.
+  meaning: >
+    For one economy and one indicator, take each law's highest verified score. method threshold:
+    count the laws whose score is one of counted_scores; the highest threshold met gives a score,
+    and the cell takes the higher of that score and the highest single verified score. method
+    sum: add the laws' scores and stop at cap. `otherwise` names what applies when no threshold
+    is met. `unit` is what the host criterion counts; `counted_as` is what stands in for it today
+    (distinct laws); `needs` lists the facts a verdict would have to carry for the unit to be
+    counted exactly.
+
+  rules:
+    "1.4":
+      unit: measure
+      counts: "active anti-dumping, countervailing or safeguard measures on ICT goods or ICT-related goods; one duty order is one measure"
+      counted_as: law
+      method: sum
+      counted_scores: [0.25, 0.5, 0.75, 1]
+      cap: 1
+      otherwise: highest_verified_score
+      needs: []
+      basis: "Each active measure adds 0.25 and four or more give 1; a law's own score already counts the duties it imposes (Guide p.17; Methodology sheet 1.4)."
+    "2.1":
+      unit: measure
+      counts: "measures that each exclude a specific foreign firm, group of firms or the firms of specific economies"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs: []
+      basis: "Two or more exclusions of specific firms or groups, each worth 0.5, raise the indicator to 1 (Guide p.19; Methodology sheet 2.1)."
+    "2.3":
+      unit: measure
+      counts: "limitations that apply to all bidders, domestic or foreign"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs: []
+      basis: "Two or more equal-treatment limitations together score 1 (Guide p.20; Methodology sheet 2.3)."
+    "3.1":
+      unit: sector
+      counts: "sectors relevant to digital trade in which only a minority foreign stake is allowed"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.8]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs:
+        - {fact: sector, why: "the criterion counts sectors, and one law can cap several in separate provisions; without the sector on each verdict the roll-up counts laws"}
+      basis: "One minority-only sector gives 0.8, and a second minority-only sector gives 1 (Guide p.25; Methodology sheet 3.1)."
+    "3.4":
+      unit: measure
+      counts: "investment screening mechanisms"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.25]
+      thresholds:
+        - {at_least: 2, score: 0.5}
+      otherwise: highest_verified_score
+      needs: []
+      basis: "Each mechanism is 0.25 and two or more give 0.5, the ceiling without a blocking case (Guide p.27; Methodology sheet 3.4)."
+    "4.3":
+      unit: measure
+      counts: "restrictions on patent enforcement that are limited to a specific circumstance or sector, or are low-impact"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs: []
+      basis: "More than one limited restriction gives 1 (Guide p.31; Methodology sheet 4.3)."
+    "4.9":
+      unit: measure
+      counts: "disclosure requirements of limited scope that carry no safeguard against unfair commercial use"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs: []
+      basis: "More than one limited-scope disclosure requirement gives 1 (Guide p.37; Methodology sheet 4.9)."
+    "5.2":
+      unit: measure
+      counts: "measures that allow only a minority foreign stake in the telecommunication sector"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.8]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs:
+        - {fact: measure_key, why: "two laws that state one cap regime are one measure (the host kept such rows at 0.8), so counting laws can over-count"}
+      basis: "Minority-only caps in more than one measure raise 0.8 to 1 (Guide p.42; Methodology sheet 5.2)."
+    "5.3":
+      unit: company
+      counts: "telecom companies in which the Government holds between 1% and 50% of the shares"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs:
+        - {fact: company, why: "the criterion counts companies, and the evidence is an ownership fact per company, not a law"}
+      basis: "A holding of 1-50% in more than one telecom company gives 1, and in exactly one gives 0.5 (Guide p.43; Methodology sheet 5.3)."
+    "6.1":
+      unit: measure
+      counts: "bans or local processing requirements limited to a sector, a set of data, non-personal data or one country"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs: []
+      basis: "More than one measure of the 0.5 category escalates to 1 (Guide p.50; Methodology sheet 6.1)."
+    "6.2":
+      unit: measure
+      counts: "local storage requirements limited to non-personal data or specific sets of data"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs: []
+      basis: "Two or more local storage requirements of the 0.5 category escalate to 1 (Guide p.51; Methodology sheet 6.2)."
+    "9.4":
+      unit: measure
+      counts: "licensing schemes for online content providers or applications that carry no strict condition"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs: []
+      basis: "More than one licensing scheme gives 1 even if none is strict (Guide p.72; Methodology sheet 9.4)."
+    "10.1":
+      unit: product
+      counts: "ICT goods or online services under an import ban, across the ban measures in place"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs:
+        - {fact: products, why: "the criterion counts banned products as well as measures; two single-product bans in one law count once without the products on each verdict"}
+      basis: "More than one ban measure, or one measure on several products or services, gives 1; a single ban on one product gives 0.5 (Guide p.74; Methodology sheet 10.1)."
+    "10.2":
+      unit: procedure
+      counts: "cost-adding import procedures on ICT goods: a licence, permit, registration, label or import control"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs:
+        - {fact: procedure, why: "each distinct procedure is one measure and one regulation can carry two; the host scored an import approval plus a surveyor report in one regulation 1"}
+      basis: "At least two cost-adding measures give 1, and one gives 0.5 (Guide p.75; Methodology sheet 10.2)."
+    "10.3":
+      unit: product
+      counts: "local content requirements set at product level"
+      counted_as: law
+      method: threshold
+      counted_scores: [0.5]
+      thresholds:
+        - {at_least: 2, score: 1}
+      otherwise: highest_verified_score
+      needs:
+        - {fact: products, why: "one instrument that sets thresholds for two products counts as two requirements"}
+      basis: "At least two product-level local content requirements give 1, and one gives 0.5 (Guide p.76; Methodology sheet 10.3)."

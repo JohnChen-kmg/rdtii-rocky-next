@@ -105,8 +105,9 @@ which.
 | Validator | PASS, exit 0, Guide sentences checked for all 61 | `python code\tools\validate.py` |
 | Host zero-score rules | all seven encoded: rows 80–84 on the Tier A blocks, row 85 and the wrong-section rule in `policies.yaml`, the government-data exception on the blocks and in `policies.yaml` | validator group 1c; `CHANGELOG.md` |
 | Pillar 6–7 prompt | unchanged by the 4 October round: 31,929 characters, byte-identical | `evidence\prefix_sizes_2026-10-04.md` |
-| Repo copy | the instrument as handed off on 29 September (repo commit `bf2bb3e`); the 4 October round is **not** in the repo (45 files differ) | `python code\tools\validate.py` INFO line |
-| Hand-off rehearsal | the 4 October instrument copied into an export of `rdtii_rocky_next` (commit `2edcf44`): mapping tests 450 passed and interface tests 216 passed, as before the copy; the mapping prompt builds for each of the 61 indicators | `HANDOFF.md`, "Where things stand" |
+| Roll-up fields (D17) | `absence_score` on all 61 blocks (0 on 41, null on 20); `count_rule` on 15, six of which name a fact the roll-up does not have | validator INFO line; `evidence\rollup_fields_2026-10-04.md` |
+| Repo copy | the second hand-off of 4 October (repo commit `bafe873` in `rdtii_rocky_next`): every indicator at full depth and the coverage marks. The roll-up fields of D17 are **not** in the repo yet | `python code\tools\validate.py` INFO line |
+| Hand-off rehearsal | the instrument with the roll-up fields copied into an export of `rdtii_rocky_next` (commit `421e7f5`): mapping tests 478 passed and interface tests 233 OK, as before the copy; the mapping prompt is identical for all 61 indicators together and for each alone | `HANDOFF.md`, "Where things stand" |
 | Mapping stage | reads decimal IDs and all 61 blocks; automates pillars 6 and 7 unless a run sets `INDICATORS_SCOPE` | `stages\p3-map\config\settings.py` in the repo |
 | Coverage marks (D14, D16) | in `indicator_order.yaml`: 9 automated (pillars 6 and 7), 52 manual, each with its reason and the nature of its answer; they agree with the coverage register | validator INFO line; `code\scripts\data\coverage.yaml` |
 | Timor-Leste | the one economy mapped against all 52 other indicators (run of 27 September): 13 produced scored rows, 39 a "no provision found" row | `notes\timor_leste_all_indicator_run.md` |

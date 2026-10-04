@@ -8,6 +8,52 @@ important one. It is what stops a decision being quietly undone in week three.
 
 ---
 
+## 2026-10-04 D17. The count rule and the score of an absence are data on the block
+
+**Decision:** the developer's call of 4 October 2026, brought by the mapping stage as its requests R5
+and R6: the instrument states both rules as data, and the mapping stage does not hand-code them. Their
+values are kept in `code\scripts\data\rollup_fields.yaml`; `build_rollup_fields.py` writes them into
+the blocks and the validator compares the two.
+
+- **`absence_score`, on all 61 blocks,** with `absence_basis`. It is the score of a cell when the tool
+  searched the corpus and found no qualifying provision: one of the block's own values, or null for
+  "leave the cell unscored".
+  - **0 on 41 blocks.** No qualifying measure is their 0 branch, and the host scores an absence of
+    specific measures 0, citing the general rules searched (Guide p.12; Internal Guide p.10).
+  - **Null on the 14 inverted blocks.** Finding nothing would be their top score, so the absence has to
+    be established. This is what the mapping stage already did for 7.1 and 7.2.
+  - **Null on 11.2.** Its 0 needs positive evidence that self-declaration is allowed.
+  - **Null on 1.4, 5.3, 9.1, 11.4 and 12.6.** Their answer does not live in the legislation the tool
+    searches, so an empty search says nothing. These are five of the six indicators whose manual-check
+    reason is "practice or external evidence" (D16).
+  - **3.4 is the sixth, and it scores 0.** Its 0 branch is "no screening mechanism", which legal text
+    shows; only its top score needs a blocking case from outside the corpus.
+- **`count_rule`, on 15 blocks:** 1.4, 2.1, 2.3, 3.1, 3.4, 4.3, 4.9, 5.2, 5.3, 6.1, 6.2, 9.4, 10.1,
+  10.2 and 10.3. It states what is counted, which per-measure scores count, the thresholds, what
+  applies otherwise, and the facts a verdict would need for an exact count.
+  - The request named fourteen. 3.4 was added because its block counts too: one screening mechanism
+    is 0.25 and two or more give 0.5.
+  - For 6.1 and 6.2 the rule is the one the mapping stage hand-coded: two or more distinct half-point
+    measures score 1. The validator pins it.
+  - 1.4 is a sum (each measure adds 0.25, up to 1); the other fourteen are thresholds.
+  - A rule never lowers a cell: the cell takes the higher of the rule's score and the highest single
+    verified score.
+  - Six rules count something other than a law: sectors (3.1), cap regimes (5.2), companies (5.3),
+    products (10.1, 10.3) and procedures (10.2). `needs` names the fact; until a verdict records it,
+    distinct laws stand in.
+- **The host contradictions are not settled here.** Where the criteria count measures and the host rows
+  are scored one by one, the rule follows the block's position: each measure keeps its own score, and
+  the count gives the economy's.
+
+**Why:** two rules that decide a cell's score were prose inside `scoring_tree` and `coding_rules`. The
+roll-up could apply neither, so a cell with several half-point measures came out too low outside 6.1
+and 6.2, and every empty cell came out 0, including cells where an absence would mean the top score.
+
+**Consequence if reversed:** the mapping stage has to carry a table of count rules and absence values
+in its own code, keyed by indicator, and nothing checks that table against the blocks. An inverted
+indicator with an empty search then scores 0, which reads as "the framework exists" when the tool
+found nothing.
+
 ## 2026-10-04 D16. The coverage marks of D13 and D14 are in the instrument, taken from the register
 
 **Decision:** `indicator_order.yaml` carries three marks on every entry, written by

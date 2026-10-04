@@ -5,7 +5,8 @@
 > text IDs throughout. Every indicator has a full-depth codebook block with the same elements.
 > Tiers: A 9 (pillars 6-7, the Round 1 codebook) · B 52 (every other indicator, drafted at the same
 > depth, not yet reviewed by a person) · no Tier C. All 61 blocks sit in `output/indicators.yaml` in
-> host order. Health check:
+> host order. Every block also says what an absence scores (`absence_score`), and the 15 blocks that
+> score by counting measures state that rule as data (`count_rule`). Health check:
 > `RDTII_GUIDE_TEXT=<page-numbered Guide text> python -X utf8 scripts/validate_instrument.py`
 > → `PASS — 61/62 indicators in scope ...`. Inventory and build order: `output/README.md`.
 > The sections below describe the Round 1 build and remain accurate as history.

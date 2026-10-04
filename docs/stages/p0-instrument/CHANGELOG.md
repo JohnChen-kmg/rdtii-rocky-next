@@ -10,6 +10,48 @@ Each entry carries one of two tags:
 
 ---
 
+## 2026-10-04 (night): what an absence scores and the count rule, as data (D17)
+
+Not logged here at the time: **the second hand-off was made on 4 October at 10:37** by the session
+working in `rdtii_rocky_next` (repo commit `bafe873`), following `HANDOFF.md`. It carried the rounds of
+D15 and D16, updated the pinned test and the repo README, and refreshed `docs\stages\p0-instrument\`.
+The mapping stage then began reading scales, `level` and `framework_name` from the blocks (commits
+`bbcd27a` and `421e7f5`).
+
+**instrument · `output/indicators.yaml`: `absence_score` and `absence_basis` on all 61 blocks,
+`count_rule` on 15.**
+- What:
+  - `absence_score` is 0 on 41 blocks and null on 20: the 14 inverted blocks, 11.2, and 1.4, 5.3, 9.1,
+    11.4 and 12.6. `absence_basis` gives the reason and the host source on each.
+  - `count_rule` is on 1.4, 2.1, 2.3, 3.1, 3.4, 4.3, 4.9, 5.2, 5.3, 6.1, 6.2, 9.4, 10.1, 10.2 and 10.3.
+    Six of them name a fact the roll-up does not have (`needs`): 3.1, 5.2, 5.3, 10.1, 10.2, 10.3.
+  - The top-level `block_fields` key describes both fields and how a count rule is applied.
+  - New data file `code/scripts/data/rollup_fields.yaml` holds the values. New builder
+    `code/scripts/build_rollup_fields.py` writes them into the blocks, just above each `sources:`
+    line, and has `--check`. New report `code/scripts/report_rollup_fields.py`.
+  - The validator has a new group, 1e: `absence_score` is null or one of the block's own values and
+    null on every inverted block; `count_rule` is well formed; 6.1 and 6.2 state exactly "two or more
+    distinct half-point measures score 1"; all three keys equal the data file.
+  - `output/README.md`, `output/INSTRUMENT_NOTES.md` section 7 and `instrument/README.md` describe the
+    fields.
+- Why: the mapping stage's requests R5 and R6, decided by the developer on 4 October. Decision D17.
+- Verified:
+  - 292 lines added to `indicators.yaml` and none changed; the builder stops if any other key of any
+    block would parse differently. A second run changes nothing.
+  - The mapping stage's own code, at repo commit `421e7f5`, builds the same prompt, character for
+    character, from the repo's instrument and from this one: for all 61 indicators together and for
+    each of the 61 alone (62 scopes). The pillar 6–7 prompt is 31,929 characters with the same SHA-256.
+  - Rehearsed in an exported copy of `rdtii_rocky_next` at `421e7f5`: mapping tests 478 passed and
+    9 skipped before and after the copy; interface tests 233 ran, OK, before and after. (The working
+    copy itself reports 479 passed and 8 skipped, because one test needs run data an export lacks.)
+  - Validator PASS, exit 0. Three deliberate faults were each caught and then undone: a changed data
+    file with the block not rebuilt, a 6.1 rule rebuilt with a threshold of three, and hand edits
+    giving an inverted block a score and another block a value off its scale.
+  - `evidence/rollup_fields_2026-10-04.md` lists every block's rule and absence value.
+- **Not done: the copy into the repo.** The hand-off was attempted and refused by this session's
+  permission system, which does not let it write into the shared repo. `HANDOFF.md` has the commands
+  and the text for `INTERFACE_CONTRACT.md`. The repo is untouched at `421e7f5`.
+
 ## 2026-10-04 (evening): the hand-off target is `rdtii_rocky_next`, and the hand-off is rehearsed
 
 **workspace · `HANDOFF.md` rewritten for the repo the tool is developed in now.**

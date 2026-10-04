@@ -334,6 +334,36 @@ The nine in-scope indicators, verbatim-correct, populate this file:
 
 Scope reminder encoded at top of file: **Pillars 6 & 7 only; 6.5 OUT; 7.5 IN.**
 
+Two fields added for the finale roll-up (instrument decision D17, 4 October 2026). Neither is
+rendered into the mapping prompt. Their values are kept in
+stages/p0-instrument/scripts/data/rollup_fields.yaml and written by build_rollup_fields.py.
+
+```yaml
+    absence_score: 0            # on every block. The score of a cell when the corpus was
+                                # searched and no qualifying provision was found: one of the
+                                # block's scoring.values, or null = leave the cell unscored.
+    absence_basis: "..."        # why, with the host source
+    count_rule:                 # only on blocks that score by how many measures an economy has
+      unit: measure             # what the host criterion counts: measure | sector | company |
+                                # product | procedure
+      counts: "..."             # the same, in words
+      counted_as: law           # what stands in for the unit today: distinct laws
+      method: threshold         # threshold | sum
+      counted_scores: [0.5]     # a law counts when its highest verified score is one of these
+      thresholds:               # method threshold: the highest threshold met gives a score
+        - {at_least: 2, score: 1}
+      cap: 1                    # method sum only: add the laws' scores and stop here
+      otherwise: highest_verified_score
+      needs: []                 # facts a verdict would have to carry to count the unit exactly:
+                                # a list of {fact, why}
+      basis: "..."              # the host rule, cited
+```
+
+How a rule is applied: for one economy and one indicator, take each law's highest verified
+score. With method threshold, count the laws whose score is one of counted_scores; the cell
+takes the higher of the threshold's score and the highest single verified score. With method
+sum, add the laws' scores and stop at cap. A rule never lowers a cell.
+
 ### 4.2 `policies.yaml` (frozen policies read by Project 3)
 
 ```yaml

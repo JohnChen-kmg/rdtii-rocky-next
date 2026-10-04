@@ -11,7 +11,7 @@ There are four copies of the tool on this machine. Only one is the hand-off targ
 
 | Folder on the Desktop | What it is | Hand off here? |
 | :---- | :---- | :---- |
-| `rdtii_rocky_next` | **The working copy**, where the mapping stage and the interface are developed since 3 October. On 4 October it was on branch `feature/desktop-workspace-triage` at commit `2edcf44`, and another session was committing to it that day | **Yes** |
+| `rdtii_rocky_next` | **The working copy**, where the mapping stage and the interface are developed since 3 October. On the evening of 4 October it was on branch `feature/desktop-workspace-triage` at commit `421e7f5`, tree clean, and other sessions were committing to it that day | **Yes** |
 | `rdtii_rocky_finale_9.30` | The submission repository, public. Its `ASSEMBLY.md` says its release tag is what runs on 15 October | Only if the developer decides the submission itself should change |
 | `rdtii-rocky-finale` | The development history, at tag `finale-submission-2026-09-30`. The first hand-off landed here | No |
 | `rdtii-rocky-finale-w3` | The worktree of the 13 September build, retired | No |
@@ -22,54 +22,93 @@ The contract is `instrument\output\`. The mapping stage reads its own copy at
 ## Where things stand
 
 - **First hand-off: done on 29 September 2026** (commit `bf2bb3e` in `rdtii-rocky-finale`, carried into
-  the submission repository and `rdtii_rocky_next`). All three repos hold that instrument today.
-- **Second hand-off: pending.** It carries the rounds of 4 October: every indicator at pillar 6–7 depth
-  (D15) and the coverage marks (D16). 45 files differ from the repo's copy.
-- **Rehearsed on 4 October** in an exported copy of `rdtii_rocky_next` at commit `2edcf44`, with the new
+  the submission repository and `rdtii_rocky_next`).
+- **Second hand-off: done on 4 October 2026** (commit `bafe873` in `rdtii_rocky_next`), by the session
+  working in that repo, following this file. It carried every indicator at pillar 6–7 depth (D15) and
+  the coverage marks (D16). That session also updated the pinned tier counts in
+  `interface\tests\test_map_start.py`, corrected the repo `README.md`, and refreshed
+  `docs\stages\p0-instrument\`. The mapping stage now reads scales, `level` and `framework_name` from
+  the blocks (commits `bbcd27a`, `421e7f5`).
+- **Third hand-off: pending.** It carries the two roll-up fields of D17: `absence_score` with
+  `absence_basis` on every block, and `count_rule` on 15 blocks. Files that differ from the repo's
+  copy: `indicators.yaml`, `README.md`, `INSTRUMENT_NOTES.md` and `VALIDATION_2026-10-04.txt` in
+  `output\`; `validate_instrument.py`, `build_rollup_fields.py`, `report_rollup_fields.py` and
+  `data\rollup_fields.yaml` in the scripts; and `instrument\README.md`.
+- **This workshop's session cannot make the copy.** Its permission system refuses writes into the
+  shared repo. Run step 3 yourself, or have the session working in the repo run it, as for the second
+  hand-off.
+- **Rehearsed on 4 October** in an exported copy of `rdtii_rocky_next` at commit `421e7f5`, with the new
   files copied in as the steps below describe. The repo itself was not touched.
 
-  | Check | Before | After |
+  | Check | Before the copy | After |
   | :---- | :---- | :---- |
-  | Mapping stage tests (`stages\p3-map`) | 450 passed, 9 skipped | 450 passed, 9 skipped |
-  | Interface tests (`interface\tests`) | 216 passed, 17 skipped | 216 passed, 17 skipped |
-  | Interface indicator picker, read with its own parsers | 61 indicators; tiers A 9, B 14, C 38 | 61 indicators; tiers A 9, B 52, C 0 |
-  | Automated set, as the mapping stage and the interface resolve it | the nine of pillars 6 and 7 | the same nine |
-  | Pillar 6–7 mapping prompt, built by the mapping stage's code | 31,929 characters | identical, byte for byte |
-  | Mapping prompt for one indicator at a time (`INDICATORS_SCOPE`) | not run | builds for each of the 61 |
-  | Mapping prompt for all 61 together | not run | builds: 322,081 characters |
+  | Mapping stage tests (`stages\p3-map`) | 478 passed, 9 skipped | 478 passed, 9 skipped |
+  | Interface tests (`interface\tests`) | 233 ran, OK | 233 ran, OK |
+  | Pillar 6–7 mapping prompt, built by the mapping stage's code | 31,929 characters | identical, same SHA-256 |
+  | Mapping prompt for all 61 together and for each of the 61 alone | built from the repo's instrument | identical, character for character, in all 62 scopes |
 
-  An earlier rehearsal the same day, at commit `5bcbf49`, gave the same result (443 mapping tests then).
+  The working copy reports 479 passed and 8 skipped in the mapping suite: one test needs run data
+  that an export does not have.
 
 ## What the repo's owner has to do with it
 
 These are in the repo, not in the instrument, so they belong to the session working there.
 
-1. **Update one pinned test.** `interface\tests\test_map_start.py` line 29 expects
-   `{"A": 9, "B": 14, "C": 38}`. After the hand-off the counts are `{"A": 9, "B": 52, "C": 0}`. The
-   rehearsal did not catch it because that test is skipped without the demo extraction output; it
-   will fail in the working copy.
-2. **Read `framework_name` in `stages\p3-map\src\p3map\rollup.py`.** Eleven more indicators are now
-   `level: economy` (4.2, 4.5, 4.6, 4.1, 5.1, 5.4, 5.7, 8.1, 8.2, 11.1, 12.9). The roll-up knows the
-   framework's name only for 7.1 and 7.2, so a run that includes any of the eleven leaves that cell
-   "pending". Nothing crashes, and pillar 6–7 runs are not affected.
-3. **Correct two texts.** `README.md` (Known Limitations) says the blocks outside pillars 6 and 7 are
-   "host-criteria-only"; they are now full depth and not yet reviewed. In the interface, the "host
-   criteria only" tag will show a count of 0.
-4. **Refresh `docs\stages\p0-instrument\` if wanted.** It holds copies of this folder's documents as
-   of 29 September. The current ones are `CHANGELOG.md`, `DECISIONS.md`, `HANDOFF.md`,
-   `NOTICE_FOR_OTHER_STAGES.md`, `README.md`, `REPORT_2026-10-04_parity.md` and `evidence\*_2026-10-04.*`.
+1. **Declare the two fields in `INTERFACE_CONTRACT.md` section 4.** The copies under
+   `stages\p2-extract` and `stages\p3-map` are the same file; `stages\p1-scrape` has its own version.
+   Add this after the per-indicator schema in section 4.1:
 
-Section "Update of 4 October 2026" in `NOTICE_FOR_OTHER_STAGES.md` has the full list of contract
-changes.
+   ```
+   Two fields added for the finale roll-up (instrument decision D17, 4 October 2026). Neither is
+   rendered into the mapping prompt. Their values are kept in
+   stages/p0-instrument/scripts/data/rollup_fields.yaml and written by build_rollup_fields.py.
+
+       absence_score: 0            # on every block. The score of a cell when the corpus was
+                                   # searched and no qualifying provision was found: one of the
+                                   # block's scoring.values, or null = leave the cell unscored.
+       absence_basis: "..."        # why, with the host source
+       count_rule:                 # only on blocks that score by how many measures an economy has
+         unit: measure             # what the host criterion counts: measure | sector | company |
+                                   # product | procedure
+         counts: "..."             # the same, in words
+         counted_as: law           # what stands in for the unit today: distinct laws
+         method: threshold         # threshold | sum
+         counted_scores: [0.5]     # a law counts when its highest verified score is one of these
+         thresholds:               # method threshold: the highest threshold met gives a score
+           - {at_least: 2, score: 1}
+         cap: 1                    # method sum only: add the laws' scores and stop here
+         otherwise: highest_verified_score
+         needs: []                 # facts a verdict would have to carry to count the unit exactly:
+                                   # a list of {fact, why}
+         basis: "..."              # the host rule, cited
+
+   How a rule is applied: for one economy and one indicator, take each law's highest verified
+   score. With method threshold, count the laws whose score is one of counted_scores; the cell
+   takes the higher of the threshold's score and the highest single verified score. With method
+   sum, add the laws' scores and stop at cap. A rule never lowers a cell.
+   ```
+
+2. **Read the two fields in the mapping stage.** `rollup.py` `measure_score()` applies `count_rule` in
+   place of `ESCALATION_IDS`; `submission.py` and `measure_score()` write `absence_score` on a
+   no-provision row and an empty cell, with null meaning unscored. For 6.1 and 6.2 the declared rule is
+   the one in the code today, and the validator pins it.
+3. **Take the six `needs` back to mapping.** 3.1 (`sector`), 5.2 (`measure_key`), 5.3 (`company`),
+   10.1 and 10.3 (`products`), 10.2 (`procedure`): until a verdict records the fact, distinct laws
+   stand in for the unit. `evidence\rollup_fields_2026-10-04.md` has the table.
+4. **Refresh `docs\stages\p0-instrument\` if wanted.** The current documents are `CHANGELOG.md`,
+   `DECISIONS.md` (D17), `HANDOFF.md`, `NOTICE_FOR_OTHER_STAGES.md`, `README.md` and
+   `evidence\rollup_fields_2026-10-04.md`.
+
+`NOTICE_FOR_OTHER_STAGES.md` has the full list of contract changes, newest first.
 
 ## Your decisions before it goes
 
-Listed in `REPORT_2026-10-04_parity.md` section 4:
-- whether any of the 52 manual indicators should be promoted to automated
-- the five economy-level calls the drafters were unsure of
-- who reviews the 52 Tier B blocks, which no person has read
-- whether the submission repository should also receive it, given that its tag is what runs on
-  15 October
+- whether the 3.4 count rule stays: the request named fourteen blocks, and 3.4 was added because its
+  block counts mechanisms
+- whether 1.4, 5.3, 9.1, 11.4 and 12.6 should stay unscored on an absence, or score 0 as before
+- still open from `REPORT_2026-10-04_parity.md` section 4: promotion of any of the 52 to automated,
+  the five uncertain economy-level calls, who reviews the 52 Tier B blocks, and whether the submission
+  repository also receives the instrument
 
 ## What goes where
 
@@ -82,10 +121,9 @@ Listed in `REPORT_2026-10-04_parity.md` section 4:
 | `instrument\README.md` | `stages\p0-instrument\README.md` | Copy |
 | Entries tagged **instrument** in `CHANGELOG.md` | `docs\CHANGELOG_FINALE.md` | Paste |
 
-New since the first hand-off, all inside the folders above:
-- `code\scripts\build_notes.py`, `report_flags.py`
-- `code\scripts\data\label_flags.yaml`, `notes_table.yaml`, `coverage.yaml`
-- `instrument\output\VALIDATION_2026-10-04.txt`
+New since the second hand-off, all inside the folders above:
+- `code\scripts\build_rollup_fields.py`, `report_rollup_fields.py`
+- `code\scripts\data\rollup_fields.yaml`
 
 ## What never leaves this folder
 
@@ -147,10 +185,8 @@ Run these in PowerShell. For `robocopy`, exit codes 0 to 7 mean success and 8 or
    python -m pytest interface\tests -q
    ```
 
-   Expect the one failure named in "What the repo's owner has to do with it", item 1, until that test
-   is updated. To confirm the pillar 6–7 prompt is unchanged, render it before and after the copy with
-   `drafting\2026-10-04\snapshots\render_prefix.py` (its docstring gives the command) and compare the
-   two files.
+   Expect the counts in "Where things stand". The mapping test `tests\test_second_handoff.py` pins the
+   pillar 6–7 prompt at 31,929 characters, so a passing suite also shows that prompt is unchanged.
 
 5. **Review and record.**
    - Read `git status` and `git diff --stat` in the repo.

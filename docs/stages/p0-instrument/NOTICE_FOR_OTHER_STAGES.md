@@ -1,8 +1,10 @@
 # Notice from the instrument workstream: contract and workflow changes (13 September 2026, updated 4 October 2026)
 
 You are working on one stage of the RDTII finale tool. The instrument is the codebook every stage keys
-on. It changed on 13 September 2026 and was handed off to the repo on 29 September. **It changed again
-on 4 October; that change is described first, below, and is not in the repo yet.**
+on. It changed on 13 September 2026 and was handed off to the repo on 29 September. It changed again on 4 October
+(every indicator at full depth, coverage marks), and that was handed off the same day (repo commit
+`bafe873`). **The newest change, two fields for the roll-up, is described first, below, and is not in
+the repo yet.**
 
 Read this, check your stage against it, and record the impact in your own workshop. Do not edit
 instrument files or their copies in the repo. If you need an instrument change, send a request
@@ -16,12 +18,73 @@ instead (section 6).
 | Repo, development history | `C:\Users\woshi\Desktop\rdtii-rocky-finale`, at the 30 September tag. Section 1 onward was written when this was the only repo |
 | Retired, do not use | `C:\Users\woshi\Desktop\rdtii-rocky-finale-w3` (worktree, branch `w3-instrument-61`) |
 
+## Update of 4 October 2026, night: what an absence scores, and the count rule (D17)
+
+The mapping stage's requests R5 and R6, decided by the developer on 4 October.
+
+### Status
+
+- **In the instrument workspace only.** The repo holds the instrument of the second hand-off
+  (`bafe873`). The copy is one command (`HANDOFF.md`, step 3); the instrument session cannot write into
+  the repo, so the developer or the session working there makes it.
+- **No prompt changes.** Built with the mapping stage's own code at repo commit `421e7f5`, the prompt
+  is the same, character for character, from the repo's instrument and from the new one: for all 61
+  indicators together and for each alone. The pillar 6–7 prompt is 31,929 characters, same SHA-256.
+- **Rehearsed in an exported copy of the repo:** mapping tests 478 passed and 9 skipped, interface
+  tests 233 ran OK, the same before and after the copy.
+
+### What changes in the contract
+
+Only `indicators.yaml` changes. Three keys are added; every other key of every block is unchanged.
+
+| Key | On | What it holds |
+| :---- | :---- | :---- |
+| `absence_score` | all 61 blocks | The score of a cell when the tool searched the corpus and found no qualifying provision: one of the block's own `scoring.values`, or null for "leave the cell unscored". 0 on 41 blocks; null on 20 |
+| `absence_basis` | all 61 blocks | Why, with the host source |
+| `count_rule` | 15 blocks | The rule of a block that scores by how many measures an economy has: `unit`, `counts`, `counted_as`, `method`, `counted_scores`, `thresholds` or `cap`, `otherwise`, `needs`, `basis` |
+
+- **Null `absence_score`:** the 14 inverted blocks (4.2, 4.5, 4.6, 4.1, 5.1, 5.4, 5.7, 7.1, 7.2, 8.1,
+  8.2, 11.1, 12.5, 12.9), 11.2, and 1.4, 5.3, 9.1, 11.4, 12.6.
+- **`count_rule` blocks:** 1.4, 2.1, 2.3, 3.1, 3.4, 4.3, 4.9, 5.2, 5.3, 6.1, 6.2, 9.4, 10.1, 10.2, 10.3.
+  3.4 was not in the request; its block counts screening mechanisms (two or more give 0.5).
+- **How a rule is applied.** For one economy and one indicator, take each law's highest verified score.
+  `method: threshold`: count the laws whose score is one of `counted_scores`; the cell takes the higher
+  of the threshold's score and the highest single verified score. `method: sum` (1.4 only): add the
+  laws' scores and stop at `cap`. A rule never lowers a cell.
+- **6.1 and 6.2** state exactly the rule in `rollup.py` today: two or more distinct half-point measures
+  score 1. The validator pins it.
+- **Six rules cannot be computed exactly from distinct laws.** Each names the fact a verdict would
+  have to carry, in `needs`: 3.1 `sector`, 5.2 `measure_key`, 5.3 `company`, 10.1 and 10.3 `products`,
+  10.2 `procedure`. Until then distinct laws stand in.
+- The top-level `block_fields` key documents both fields. Their values are kept in
+  `scripts\data\rollup_fields.yaml` and written by `scripts\build_rollup_fields.py`; the validator
+  compares the blocks with that file. `evidence\rollup_fields_2026-10-04.md` in the workspace lists
+  every block.
+
+### What it means for your stage
+
+**Mapping (`stages\p3-map`).**
+- `measure_score()` can apply `count_rule` in place of `ESCALATION_IDS`, and write `absence_score` in
+  place of 0 when nothing is verified. `submission.py` writes it on the no-provision row, with
+  `null_statement` for the wording.
+- A null `absence_score` means the cell and the row stay unscored. For 7.1 and 7.2 that is today's
+  behaviour.
+- An economy-level indicator with no evidence already ends "pending"; its `absence_score` is null on
+  all 13, so the two agree.
+- `INTERFACE_CONTRACT.md` section 4.1 needs the declaration; the text is in `HANDOFF.md`.
+- R5 and R6 are delivered once the copy is made. R2 and R3 are still open.
+
+**Dashboard (`interface\`).**
+- A no-provision row can now have no score. Show it as unscored, not as 0.
+- Blocks are a few lines longer; nothing the picker or the Guide page reads has changed.
+
+**Scraping, extraction.** Nothing new.
+
 ## Update of 4 October 2026: every indicator at pillar 6–7 depth
 
 ### Status
 
-- **In the instrument workspace only.** All three repos hold the instrument as handed off on
-  29 September (commit `bf2bb3e`). The developer decides when the 4 October round is handed off.
+- **Handed off on 4 October** (repo commit `bafe873` in `rdtii_rocky_next`).
 - **It drops in cleanly.** Rehearsed on 4 October in an exported copy of `rdtii_rocky_next` at commit
   `2edcf44`: mapping tests 450 passed and interface tests 216 passed, the same before and after the
   copy. The mapping stage's own code builds its prompt for each of the 61 indicators alone and for all

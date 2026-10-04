@@ -1,11 +1,12 @@
-# Instrument validation run — 2026-10-04 10:33
+# Instrument validation run — 2026-10-04 13:51
 # Command: python code/tools/validate.py  (runs: RDTII_GUIDE_TEXT=<workspace>/sources/text/guide.txt RDTII_FINALE_REPO=<finale repo> python -X utf8 code/scripts/validate_instrument.py)
 # Python: Python 3.12.10 · openpyxl 3.1.5 · PyYAML 6.0.3
-# Tree: instrument workspace, instrument/ folder; compared with rdtii_rocky_next at 2edcf44 (branch feature/desktop-workspace-triage)
+# Tree: instrument workspace, instrument/ folder; compared with rdtii_rocky_next at 421e7f5 (branch feature/desktop-workspace-triage)
 
+INFO  - roll-up fields: absence_score scored on 41 blocks and null on 20; count_rule on 15, of which 6 need a fact the roll-up does not have
 INFO  - sibling references not mirrored by the named block (pillar 6-7 blocks exempt): 0
-INFO  - coverage register compared: classes and nature codes agree for all 61; its Tier column is out of date for 38 indicators (the instrument has no Tier C block now)
-INFO  - vendored copy p3-map/contracts/instrument/ is NOT re-vendored yet (45 files differ, e.g. ['VALIDATION_2026-10-04.txt', 'INSTRUMENT_NOTES.md', 'README.md'])
+INFO  - coverage register compared: classes and nature codes agree for all 61
+INFO  - vendored copy p3-map/contracts/instrument/ is NOT re-vendored yet (4 files differ, e.g. ['INSTRUMENT_NOTES.md', 'README.md', 'VALIDATION_2026-10-04.txt'])
 PASS — 61/62 indicators in scope (6.5 excluded); tiers {'A': 9, 'B': 52}; coverage automated 9 / manual 52; category names + score sets machine-match the methodology sheet for all 61; 401 exemplars round-trip; gold 1054 rows round-trip 1:1 (flags {'advisory': 162, 'candidate': 7, 'host_marked': 34, 'suspect': 53}); Guide sentences checked 61; policies complete.
 
 exit code: 0
