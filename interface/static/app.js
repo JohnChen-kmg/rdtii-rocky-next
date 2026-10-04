@@ -120,9 +120,9 @@ function renderTop() {
   const eng = h.engine || { engines: [] };
   $('#engine').innerHTML = `<span class="muted small">Engine Selection:</span>` + eng.engines.map((e) =>
     `<label class="radio ${e.id === eng.selected ? 'on' : ''}" title="${esc(e.provider)} · mapper ${esc(e.roles?.mapper || '')}">
-       <input type="radio" name="engine" value="${esc(e.id)}" ${e.id === eng.selected ? 'checked' : ''}> ${esc(e.id)} · ${esc(e.label)}</label>`).join('')
+       <input type="radio" name="engine" value="${esc(e.id)}" ${e.id === eng.selected ? 'checked' : ''}> ${esc(e.label)}</label>`).join('')
     + (eng.engines.length ? '' : `<span class="muted small">no engines declared (stages/p3-map missing?)</span>`)
-    + (eng.engines.length ? `<div class="roles">${eng.engines.filter((e) => e.id === eng.selected).map((e) => `<div class="on"><b>${esc(e.id)}</b> ${esc(roleLine(e))}${e.measured ? '' : ' <span class="chip warn">not measured</span>'}</div>`).join('')}<div>Sets every step of a run. Each step can be given another model under Run, below.</div></div>` : '');
+    + (eng.engines.length ? `<div class="roles">${eng.engines.filter((e) => e.id === eng.selected).map((e) => `<div class="on"><b>${esc(e.name || e.label)}</b> ${esc(roleLine(e))}${e.measured ? '' : ' <span class="chip warn">not measured</span>'}</div>`).join('')}<div>Sets every step of a run. Each step can be given another model under Run, below.</div></div>` : '');
   $('#engine').querySelectorAll('input[name=engine]').forEach((inp) => inp.addEventListener('change', async () => {
     try { await api('/api/engine', { method: 'POST', body: JSON.stringify({ id: inp.value }) }); MP.models = null; MP.checks = null; } catch (e) { alert(e.message); }
     await loadHealth(); renderMapRun();

@@ -163,7 +163,7 @@ def run_manifest(path: Path) -> dict:
 def manifest_engine_label(manifest: dict) -> str:
     eng = manifest.get("engine") or {}
     if eng.get("engine_id"):
-        return f"Engine {eng['engine_id']}" + (f" ({eng.get('label')})" if eng.get("label") else "")
+        return str(eng.get("label") or f"Engine {eng['engine_id']}")
     roles = eng.get("roles") or {}
     mapper = roles.get("mapper") or {}
     model = mapper.get("model") if isinstance(mapper, dict) else mapper

@@ -182,8 +182,8 @@ class Plan(unittest.TestCase):
             self.assertEqual(chain.env["ANTHROPIC_API_KEY"], "")
             self.assertIn("_B", chain.env["RUN_ID"])                      # the careful reading's engine names the run
             said = " ".join(x["text"] for x in job.sentences)
-            self.assertIn("quick screen deepseek-flash (engine C)", said)
-            self.assertIn("re-check deepseek-v4-pro (engine C)", said)
+            self.assertIn("quick screen deepseek-flash (DeepSeek)", said)
+            self.assertIn("re-check deepseek-v4-pro (DeepSeek)", said)
             self.assertNotIn(KEY_C, json.dumps(job.public()))
 
     def test_a_step_on_a_provider_without_its_key_is_refused_before_start(self):
@@ -192,7 +192,7 @@ class Plan(unittest.TestCase):
             req = {**self.BASE, "indicators": ["6.1"], "engine": "B", "models": {"verifier": {"engine": "E"}}}
             checks = mapping.precheck(app, req)
             fail = next(c for c in checks if c["check"] == "engine" and c["level"] == "fail")
-            self.assertIn("Engine E (ChatGPT (hosted))", fail["text"])
+            self.assertTrue(fail["text"].startswith("ChatGPT (hosted): needs an API key"), fail["text"])   # by name, no letter
             self.assertIn("re-check (GPT-6 Luna)", fail["text"])
             self.assertIn("quick screen (GPT-6 Luna)", fail["text"])       # the screen follows the re-check unless set
             warn = next(c for c in checks if c["check"] == "measured")

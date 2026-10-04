@@ -230,7 +230,7 @@ def role_choices(roles: dict | None, engines: EngineState, eid: str,
         offered = [m["id"] for m in engines.models_of(rid, ollama_models)]
         model = str(pick.get("model") or (e.get("roles") or {}).get(role) or "")
         if model not in offered:
-            raise ChoiceError(f"{model!r} is not a model of engine {rid}; offered: {', '.join(offered) or 'none'}")
+            raise ChoiceError(f"{model!r} is not a model of {e.get('label') or rid}; offered: {', '.join(offered) or 'none'}")
         used[role] = rid
         if rid != eid:
             out[ROLE_ENGINE[role]] = rid
@@ -290,7 +290,7 @@ def build_env(stage: str, engines: EngineState, key: KeyHolder, choices: dict | 
             key_env = u.get("key_env")
             if key_env:
                 if not key.held(key_env):
-                    raise NeedsKey(f"engine {u.get('id', '')} ({u.get('label', '')}) needs {key_env}; hold a key in the banner under Engine Selection on the Mapping tab first")
+                    raise NeedsKey(f"{u.get('label') or u.get('id', '')} needs {key_env}; hold a key in the banner under Engine Selection on the Mapping tab first")
                 env[key_env] = key.get(key_env)
                 public[key_env] = "(held in memory)"
     for k, v in (extra or {}).items():

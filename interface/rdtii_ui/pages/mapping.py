@@ -570,6 +570,15 @@ def _norm_request(app: App, req: dict) -> dict:
             "run_name": re.sub(r"[^A-Za-z0-9_.-]", "_", str(req.get("run_name") or ""))[:40]}
 
 
+def _engine_name(app: App, eid: str) -> str:
+    """An engine as the page names it: Claude, Qwen, DeepSeek. Its id is a letter, and so are the steps."""
+    try:
+        e = app.engines.get(eid)
+    except ValueError:
+        return str(eid)
+    return str(e.get("name") or e.get("label") or eid)
+
+
 def _typed_numbers(raw, indicators: list[str], bounds: tuple, kind, what: str) -> dict:
     """{indicator: number} as typed on the page, for ticked indicators only, each inside its bounds."""
     if raw in (None, "", {}):
@@ -757,7 +766,7 @@ def precheck(app: App, req: dict) -> list[dict]:
         except ValueError as exc:
             add("fail", "engine", str(exc))
             continue
-        label = f"{eid} ({e.get('label', '')})"
+        label = e.get("label") or eid       # by name: the letters on the page are the steps
         ol = None if e.get("key_env") else _probes.probe_ollama(ttl=5)
         offered = {m["id"]: m for m in app.engines.models_of(eid, ol["models"] if ol and ol["ok"] else None)}
         wanted = list(dict.fromkeys(m for _, m in uses))
@@ -770,24 +779,24 @@ def precheck(app: App, req: dict) -> list[dict]:
         if e.get("key_env"):
             unknown = [m for m in wanted if m not in offered]
             if unknown:
-                add("fail", "engine", f"Engine {label}: {', '.join(unknown)} is not one of its models ({', '.join(offered)}).")
+                add("fail", "engine", f"{label}: {', '.join(unknown)} is not one of its models ({', '.join(offered)}).")
                 continue
             held = app.key.held(e["key_env"])
             add("ok" if held else "fail", "engine",
-                f"Engine {label}: " + ("API key held in memory. " if held else "needs an API key; hold one in the banner under Engine Selection first. ") + serves)
+                f"{label}: " + ("API key held in memory. " if held else "needs an API key; hold one in the banner under Engine Selection first. ") + serves)
         elif not ol["ok"]:
-            add("fail", "engine", f"Engine {label}: Ollama is not answering at {ol['host']} ({ol.get('error', '')}). Start Ollama first.")
+            add("fail", "engine", f"{label}: Ollama is not answering at {ol['host']} ({ol.get('error', '')}). Start Ollama first.")
         else:
             missing = [m for m in wanted if m not in ol["models"]]
             declared = (e.get("roles") or {}).get("mapper", "")
             dg = ol["digests"].get(declared, "") or ""
             want = (e.get("digest") or "").replace("sha256:", "")
             if missing:
-                add("fail", "engine", f"Engine {label}: model {missing[0]} is not pulled on {ol['host']} (present: {', '.join(ol['models'][:8])}). Run: ollama pull {missing[0]}")
+                add("fail", "engine", f"{label}: model {missing[0]} is not pulled on {ol['host']} (present: {', '.join(ol['models'][:8])}). Run: ollama pull {missing[0]}")
             elif declared in wanted and want and dg and not dg.startswith(want[:12]):
-                add("warn", "engine", f"Engine {label}: {declared} is present but its digest {dg[:12]} differs from the declared {want[:12]}.")
+                add("warn", "engine", f"{label}: {declared} is present but its digest {dg[:12]} differs from the declared {want[:12]}.")
             else:
-                add("ok", "engine", f"Engine {label}: Ollama answering, {', '.join(wanted)} present"
+                add("ok", "engine", f"{label}: Ollama answering, {', '.join(wanted)} present"
                                     + (f", digest {dg[:12]} matches the declaration. " if want and declared in wanted else ". ") + serves)
     if unmeasured:
         add("warn", "measured", "Not measured: " + ", ".join(dict.fromkeys(unmeasured)) + ". The prompts, the traps and every reported "
@@ -1033,7 +1042,7 @@ def plan_map(app: App, req: dict) -> Job:
             # the quick screen asks the stage for the re-check's role, so it gets its own process environment
             env_screen, _ = build_env("p3", app.engines, app.key, {"RDTII_ENGINE": eid}, extra=extra,
                                       roles={**roles, "verifier": picks["screen"]}, ollama_models=pulled)
-            public["quick screen"] = f"engine {picks['screen']['engine']}, {picks['screen']['model']}"
+            public["quick screen"] = f"{_engine_name(app, picks['screen']['engine'])}, {picks['screen']['model']}"
     except (ChoiceError, ValueError) as e:
         raise ApiError(400, str(e)) from None
     except NeedsKey as e:
@@ -1075,17 +1084,17 @@ def plan_map(app: App, req: dict) -> Job:
         steps.append(Step(label="load the baseline database (NEW against KNOWN)", cwd=p3, env=env, parse=parse_p3,
                           argv=mod + [f"{P3_MODULE}.discovery.baseline"]))
     for e in n["economies"]:
-        steps.append(Step(label=f"{e}: careful reading of each provision, engine {eid}", cwd=p3, env=env, parse=parse_p3,
+        steps.append(Step(label=f"{e}: careful reading of each provision, {_engine_name(app, eid)}", cwd=p3, env=env, parse=parse_p3,
                           argv=mod + [f"{P3_MODULE}.mapping.runner", e] + ([str(n["limit"])] if n["limit"] else []),
                           poll=_poll_manifest(out_dir)))
         chain = mod + [f"{P3_MODULE}.chain", e] + (["--gloss"] if n["gloss"] else [])
         steps.append(Step(label=f"{e}: blind re-check, NEW against KNOWN, scores, evidence rows, self-evaluation"
                                 + (", English glosses" if n["gloss"] else "") + ", workbook, audit page",
                           cwd=p3, env=env, parse=parse_p3, argv=chain, poll=_poll_manifest(out_dir)))
-    title = f"Map {', '.join(n['economies'])} on {len(n['indicators'])} indicator(s), engine {eid}"
+    title = f"Map {', '.join(n['economies'])} on {len(n['indicators'])} indicator(s), {_engine_name(app, eid)}"
     job = Job(stage="p3", title=title, steps=steps, out_dir=out_dir.parent, env_public=public, redact=app.key.redact)
-    job.say(f"Run folder: {rel_or_abs(out_dir, REPO)}. Engine {eid}: {app.engines.get(eid).get('label', '')}.")
-    job.say("Models: " + "; ".join(f"{step} {picks[stage]['model']}" + ("" if picks[stage]["engine"] == eid else f" (engine {picks[stage]['engine']})")
+    job.say(f"Run folder: {rel_or_abs(out_dir, REPO)}. Engine: {app.engines.get(eid).get('label') or eid}.")
+    job.say("Models: " + "; ".join(f"{step} {picks[stage]['model']}" + ("" if picks[stage]["engine"] == eid else f" ({_engine_name(app, picks[stage]['engine'])})")
                                    for stage, _, step in MODEL_STAGES) + ".")
     if "SELECTION_CONFIG" in extra:
         job.say("Thresholds typed for this run: " + _listed([f"{i} {v:.2f}" for i, v in n["thetas"].items()])
