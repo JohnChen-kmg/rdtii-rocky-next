@@ -11,6 +11,12 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 
 ## 2026-10-04 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
 
+A lighter look for the interface, asked for on 4 October: "the color heaviness, the box, the space between, the
+button, the menu bar", after the manner of Apple's site, with no change of arrangement.
+
+- Interface, styling only, one layer at the end of `static/app.css`: the top bar and the sidebar are light with a hairline, the top one translucent; blocks are white cards on a light page with a hairline and a soft shadow in place of the blue frame and the blue title bar; titles and labels are ink, and UN blue is kept for what can be pressed and for the step numbers and letters; buttons are pills, one filled blue for the main action; tiles and choices are white with a hairline, blue only when chosen; a little more air under blocks and between rows; thinner arrows and frames on the Overview. No element moved and no markup or script changed. On a Mac the text now takes the system font; on Windows it is Calibri as before.
+- Checked in a browser on every tab at the window's own 1500 px, and for fit at 1280, 1440 and 1920: no sideways scroll, nothing spills out of its box that did not before, and the tables run past their frames no further than they did (the Scraping output table by 1 px against 5). The header is lower, 74 px against 98.
+
 Mapping after the second instrument hand-off (commit `bafe873`: all 61 indicators at pillar 6-7 depth).
 The first three of the six things mapping has to absorb, and the evaluator; the developer's go-ahead of
 4 October.
