@@ -1,11 +1,11 @@
 """Tests for the model choice added 2026-10-04: a role's own engine, the declared models and their
-price cards, the OpenAI-compatible client, the Claude client's auto-tool mode, and the caps scale.
+price cards, the OpenAI-compatible client, the Claude client's auto-tool mode, and a cap per indicator.
 
 Run from stages/p3-map:
     python -m pytest tests/test_model_choice.py -q
 
 Nothing here talks to a provider: every HTTP call is replaced. What these tests hold is that the
-default path is untouched (no role engine, the three measured Claude models, scale 1.0) and that
+default path is untouched (no role engine, the three measured Claude models, Round 1's caps) and that
 the new path sends what each provider's reference asks for.
 """
 from __future__ import annotations
@@ -292,13 +292,26 @@ def test_a_model_that_refuses_a_forced_tool_is_asked_on_auto(monkeypatch):
     assert c.complete("p", SCHEMA) == {"keep": True}
 
 
-# ---- the caps scale --------------------------------------------------------------------------
+# ---- a cap per indicator ----------------------------------------------------------------------
 
-def test_the_caps_scale_is_round_one_at_one_and_never_reaches_zero():
+def test_the_caps_are_round_ones_unless_one_is_named():
     from src.p3map import select
-    assert SETTINGS.caps_scale == 1.0, "unset, the caps are Round 1's"
-    for ind, cap in select.CAPS.items():
-        assert select.scaled_cap(ind) == cap
-        assert select.scaled_cap(ind, 0.5) == round(cap * 0.5)
-        assert select.scaled_cap(ind, 2.0) == cap * 2
-        assert select.scaled_cap(ind, 0.0001) == 1
+    assert SETTINGS.caps_override == "", "unset, the caps are Round 1's"
+    assert select.caps_in_effect() == select.CAPS
+    caps = select.caps_in_effect("6.1=400, 7.3 = 900,")
+    assert (caps["6.1"], caps["7.3"], caps["6.2"]) == (400, 900, select.CAPS["6.2"])
+    assert select.CAPS["6.1"] == 500, "the override is laid over a copy; Round 1's table is not written"
+
+
+def test_an_indicator_round_one_never_capped_can_be_given_a_cap():
+    from src.p3map import select
+    assert "3.4" not in select.CAPS
+    assert select.caps_in_effect("3.4=250")["3.4"] == 250
+
+
+@pytest.mark.parametrize("bad", ["6.1", "6.1=", "6.1=many", "6.1=0", "6.1=-5", "6.1=2.5"])
+def test_a_cap_that_is_not_a_whole_number_stops_the_run(bad):
+    from src.p3map import select
+    with pytest.raises(SystemExit) as e:
+        select.caps_in_effect(bad)
+    assert "CAPS_OVERRIDE" in str(e.value)

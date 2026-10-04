@@ -284,14 +284,17 @@ inside the clone; the first is invisible from the page, the second is a second c
 
 ## 2026-10-04, Each step of a mapping run has its own choice, and an unmeasured choice says so
 
-**Decision:** The Run block of the Mapping tab holds one block per step: a slider for the candidate selection,
-and a provider with one of its models for the quick screen, the careful reading, the re-check and the
-tie-break. The banner's engine remains and sets all four at once. Providers and models are read from the
+**Decision:** The Run block of the Mapping tab holds one block per step, lettered A to E: for the candidate
+selection a number box per ticked indicator, holding the recommended threshold or cap and changed for one run
+by typing; and a provider with one of its models for the quick screen, the careful reading, the re-check and
+the tie-break. The banner's engine remains and sets those four at once. Providers and models are read from the
 stage's declaration; whatever the pipeline was not measured on is marked "not measured" on the block and
 warned about in Check. Keys are held per provider, in memory.
 
 **Why:** Asked for by the developer on 4 October: the thresholds were readable on the page but could only be
-moved by editing a file, and a run took one provider for every step. The prompts and the traps were written
+moved by editing a file, and a run took one provider for every step. A slider that moved every indicator
+together was built first and replaced the same day at his word: a number for each indicator, with the
+recommended number as the default. The prompts and the traps were written
 for Claude and every reported figure comes from three Claude models, so offering another model without
 saying so would let an untested row look like a tested one.
 

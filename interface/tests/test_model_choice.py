@@ -1,7 +1,7 @@
-"""A model per step of a mapping run, a key per provider, and the selection slider.
+"""A model per step of a mapping run, a key per provider, and a selection number per indicator.
 
 What must hold: a run that changes nothing receives exactly what it always did; a step given another
-provider needs that provider's own key and nobody else's; and the slider moves a copy of the thresholds,
+provider needs that provider's own key and nobody else's; and a typed threshold goes into a copy of the thresholds,
 never the stage's measured file."""
 import json
 import tempfile
@@ -162,7 +162,7 @@ class Plan(unittest.TestCase):
             app = _app(str(Path(d) / "outputs"))
             job = mapping.plan_map(app, {**self.BASE, "indicators": ["6.1"], "engine": "B"})
             env = job.steps[-1].env
-            for name in ("SELECTION_CONFIG", "CAPS_SCALE", "LLM_MODEL", "VERIFIER_MODEL", "RDTII_ENGINE_VERIFIER"):
+            for name in ("SELECTION_CONFIG", "CAPS_OVERRIDE", "LLM_MODEL", "VERIFIER_MODEL", "RDTII_ENGINE_VERIFIER"):
                 self.assertNotIn(name, env)
             self.assertTrue(all(st.env is env for st in job.steps), "one environment for every step")
             self.assertFalse((Path(d) / "outputs" / "map").exists(), "nothing is written before Start")
@@ -214,45 +214,74 @@ class Plan(unittest.TestCase):
             checks = mapping.precheck(app, {**self.BASE, "indicators": ["6.1"], "models": {"mapper": {"engine": "A", "model": "claude-sonnet-5-5"}}})
             self.assertIn("Claude Sonnet 5.5", next(c for c in checks if c["check"] == "measured")["text"])
 
-    def test_the_slider_moves_a_copy_of_the_thresholds_and_never_the_stages_file(self):
+    def test_a_typed_threshold_goes_into_a_copy_and_never_into_the_stages_file(self):
         stage_file = REPO / "stages" / "p3-map" / "config" / "selection.json"
         before = stage_file.read_bytes()
         with tempfile.TemporaryDirectory() as d:
             app = _app(str(Path(d) / "outputs"))
-            req = {**self.BASE, "engine": "B", "select_mode": "scores", "dense": "real", "theta_shift": -0.03}
+            req = {**self.BASE, "indicators": ["6.1", "3.4", "7.3"], "engine": "B", "select_mode": "scores", "dense": "real",
+                   "thetas": {"6.1": 0.53, "3.4": "0.57", "7.3": 0.53}}          # 7.3 is typed at its recommended number
             job = mapping.plan_map(app, req)
             env = job.steps[-1].env
-            moved = Path(env["SELECTION_CONFIG"])
-            self.assertEqual(moved, Path(d) / "outputs" / "map" / moved.parent.name / "selection.json")
-            cfg, orig = json.loads(moved.read_text(encoding="utf-8")), json.loads(before)
-            self.assertEqual(cfg["indicators"]["6.1"]["theta"], 0.53)                 # measured 0.56
-            self.assertEqual(cfg["indicators"]["3.4"]["theta"], 0.57)                 # its class default, 0.60
+            own = Path(env["SELECTION_CONFIG"])
+            self.assertEqual(own, Path(d) / "outputs" / "map" / own.parent.name / "selection.json")
+            cfg, orig = json.loads(own.read_text(encoding="utf-8")), json.loads(before)
+            self.assertEqual(cfg["indicators"]["6.1"]["theta"], 0.53)                 # recommended 0.56, measured
+            self.assertEqual(cfg["indicators"]["3.4"]["theta"], 0.57)                 # recommended 0.60, its class default
             self.assertNotIn("theta", orig["indicators"]["3.4"])
-            self.assertEqual(cfg["indicators"]["7.3"], orig["indicators"]["7.3"])     # not ticked, not moved
+            self.assertEqual(cfg["indicators"]["7.3"], orig["indicators"]["7.3"])     # the recommended number is not a change
+            self.assertEqual(cfg["indicators"]["6.2"], orig["indicators"]["6.2"])     # not ticked, not touched
             self.assertEqual(cfg["class_defaults"], orig["class_defaults"])
             self.assertEqual(cfg["language_offset"], orig["language_offset"])
-            self.assertIn("shift-0.03", cfg["version"])
-            self.assertIn("moved by -0.03", " ".join(x["text"] for x in job.sentences))
+            self.assertIn("typed2", cfg["version"])
+            self.assertIn("Thresholds typed for this run: 6.1 0.53, 3.4 0.57", " ".join(x["text"] for x in job.sentences))
             warn = next(c for c in mapping.precheck(app, req) if c["check"] == "selection")
             self.assertEqual(warn["level"], "warn")
-            self.assertIn("-0.03", warn["text"])
-            self.assertNotIn("CAPS_SCALE", env)
+            self.assertIn("6.1 0.53 (recommended 0.56)", warn["text"])
+            self.assertIn("3.4 0.57 (recommended 0.60)", warn["text"])
+            self.assertNotIn("7.3", warn["text"])
+            self.assertNotIn("CAPS_OVERRIDE", env)
         self.assertEqual(stage_file.read_bytes(), before)
 
-    def test_the_slider_scales_the_caps_in_caps_mode_only(self):
+    def test_only_recommended_numbers_is_the_plan_it_always_was(self):
         with tempfile.TemporaryDirectory() as d:
             app = _app(str(Path(d) / "outputs"))
-            job = mapping.plan_map(app, {**self.BASE, "indicators": ["6.1"], "engine": "B", "caps_scale": 1.5, "theta_shift": -0.05})
-            env = job.steps[-1].env
-            self.assertEqual(env["CAPS_SCALE"], "1.5")
-            self.assertNotIn("SELECTION_CONFIG", env)                                # the shift belongs to the other rule
-            for bad in ({"theta_shift": 0.2}, {"caps_scale": 5}, {"caps_scale": 0.1}, {"theta_shift": "much"}):
-                with self.assertRaises(ApiError):
-                    mapping.plan_map(app, {**self.BASE, "engine": "B", **bad})
+            job = mapping.plan_map(app, {**self.BASE, "indicators": ["6.1", "7.3"], "engine": "B", "select_mode": "scores", "dense": "real",
+                                         "thetas": {"6.1": 0.56, "7.3": 0.53}, "caps": {}})
+            self.assertNotIn("SELECTION_CONFIG", job.steps[-1].env)
+            self.assertFalse((Path(d) / "outputs" / "map").exists())
+            ok = next(c for c in mapping.precheck(app, {**self.BASE, "indicators": ["6.1"], "engine": "B", "caps": {"6.1": 500}}) if c["check"] == "selection")
+            self.assertEqual(ok["level"], "ok")                                       # Round 1's own cap, typed
 
-    def test_the_page_is_told_how_far_the_slider_goes(self):
+    def test_a_typed_cap_is_passed_per_indicator_and_can_cap_one_round_one_never_did(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = _app(str(Path(d) / "outputs"))
+            req = {**self.BASE, "indicators": ["6.1", "7.1", "3.4"], "engine": "B"}
+            fail = next(c for c in mapping.precheck(app, req) if c["check"] == "selection")
+            self.assertEqual(fail["level"], "fail")                                  # 3.4 has no Round 1 cap
+            self.assertIn("3.4", fail["text"])
+            self.assertIn("Type a cap", fail["text"])
+            req = {**req, "caps": {"6.1": 400, "3.4": 250}, "thetas": {"6.1": 0.5}}
+            warn = next(c for c in mapping.precheck(app, req) if c["check"] == "selection")
+            self.assertEqual(warn["level"], "warn")
+            self.assertIn("6.1 400 (Round 1: 500)", warn["text"])
+            self.assertIn("3.4 250 (Round 1 has none)", warn["text"])
+            env = mapping.plan_map(app, req).steps[-1].env
+            self.assertEqual(env["CAPS_OVERRIDE"], "6.1=400,3.4=250")
+            self.assertNotIn("SELECTION_CONFIG", env)                                # a threshold belongs to the other rule
+
+    def test_a_number_out_of_range_or_for_an_unticked_indicator_is_refused(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = _app(str(Path(d) / "outputs"))
+            base = {**self.BASE, "indicators": ["6.1"], "engine": "B"}
+            for bad in ({"thetas": {"6.1": 1.2}}, {"thetas": {"6.1": 0}}, {"thetas": {"6.1": "low"}}, {"thetas": {"7.3": 0.5}},
+                        {"thetas": [0.5]}, {"caps": {"6.1": 0}}, {"caps": {"6.1": 99999}}, {"caps": {"6.1": 2.5}}, {"caps": {"6.1": True}}):
+                with self.assertRaises(ApiError, msg=str(bad)):
+                    mapping.plan_map(app, {**base, **bad})
+
+    def test_the_page_is_told_the_range_of_a_number(self):
         sel = mapping.indicator_picker(settings_mod.load({}))["selection"]
-        self.assertEqual((sel["theta_shift_max"], sel["caps_scale_range"]), (0.10, [0.5, 3.0]))
+        self.assertEqual((sel["theta_range"], sel["cap_range"]), ([0.05, 0.95], [1, 5000]))
 
 
 if __name__ == "__main__":

@@ -30,7 +30,7 @@ from collections import Counter, defaultdict
 import numpy as np
 
 from config import manifest
-from config.indicator_ids import legacy_of, pillar_of
+from config.indicator_ids import legacy_of, normalize, pillar_of
 from config.instrument import load as load_instrument
 from config.languages import iso
 from config.lawnames import same_law
@@ -244,18 +244,40 @@ def _select_by_score(meta, bm, dn, economies, direct_f, gray_f, cell_pairs, repo
             for e, c in zip(economies, cells)), flush=True)
 
 
-def scaled_cap(ind: str, scale: float | None = None) -> int:
-    """Round 1's cap for an indicator times CAPS_SCALE, never below 1. At 1.0 it is the cap."""
-    scale = SETTINGS.caps_scale if scale is None else scale
-    return max(1, int(round(CAPS[ind] * scale)))
+def caps_in_effect(override: str | None = None) -> dict[str, int]:
+    """Round 1's caps with CAPS_OVERRIDE laid over them: "6.1=400,7.3=900". Empty, they are Round 1's.
+
+    An indicator Round 1 never capped (anything outside pillars 6 and 7) gets a cap only this way.
+    A value that is not a whole number of at least 1 stops the run rather than being guessed at.
+    """
+    caps = dict(CAPS)
+    text = SETTINGS.caps_override if override is None else override
+    for part in (text or "").split(","):
+        if not part.strip():
+            continue
+        ind, sep, value = part.partition("=")
+        try:
+            n = int(value.strip())
+        except ValueError:
+            n = 0
+        if not sep or n < 1:
+            raise SystemExit(f"[select] CAPS_OVERRIDE: {part.strip()!r} is not <indicator>=<whole number of 1 or more>")
+        caps[normalize(ind.strip())] = n
+    return caps
 
 
 def _select_by_caps(meta, bm, dn, economies, direct_f, gray_f, cell_pairs, report) -> None:
     """Round 1 exactly: RRF fusion, hint boosts, fixed per-cell caps."""
     n = len(meta)
-    report["caps_scale"] = SETTINGS.caps_scale
-    if SETTINGS.caps_scale != 1.0:
-        print(f"[select] caps scaled by {SETTINGS.caps_scale:g} (CAPS_SCALE)", flush=True)
+    caps = caps_in_effect()
+    missing = [ind for ind in INDICATORS if ind not in caps]
+    if missing:
+        raise SystemExit(f"[select] no cap for {', '.join(missing)}: Round 1 capped pillars 6 and 7 only. "
+                         f"Name one in CAPS_OVERRIDE or use SELECT_MODE=scores.")
+    report["caps"] = {ind: caps[ind] for ind in INDICATORS}
+    changed = {ind: n for ind, n in report["caps"].items() if CAPS.get(ind) != n}
+    if changed:
+        print("[select] caps set by CAPS_OVERRIDE: " + ", ".join(f"{i}={n}" for i, n in changed.items()), flush=True)
     for ind in INDICATORS:
         rrf = np.zeros(n, dtype=np.float32)
         for leg in (bm, dn):
@@ -272,7 +294,7 @@ def _select_by_caps(meta, bm, dn, economies, direct_f, gray_f, cell_pairs, repor
                 rrf[i] *= NONPERSONAL_DAMP
 
         order = np.argsort(-rrf)
-        cap = scaled_cap(ind)
+        cap = caps[ind]
         taken = Counter()          # per economy, direct band
         gray_taken = Counter()
         floor = SETTINGS.prefilter_floor

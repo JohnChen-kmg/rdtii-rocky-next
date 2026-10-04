@@ -346,7 +346,7 @@ def indicator_picker(s: Settings) -> dict:
             "class_defaults": {k: v.get("theta") for k, v in sel_classes.items()},
             "caps": round1_caps(s),
             "direct_band": (sel.get("score") or {}).get("direct_band"),
-            "theta_shift_max": THETA_SHIFT_MAX, "caps_scale_range": list(CAPS_SCALE_RANGE),
+            "theta_range": list(THETA_RANGE), "cap_range": list(CAP_RANGE),
             "language_offset": {k: v for k, v in (sel.get("language_offset") or {}).items() if not k.startswith("_")},
         },
         "practice_based": {it["id"]: practice[it["id"]] for it in items if it["id"] in practice},
@@ -376,8 +376,8 @@ P3_MODULE = "src.p3map"
 # reading: the stage builds each pair from one role in one process.
 MODEL_STAGES = (("screen", "verifier", "quick screen"), ("mapper", "mapper", "careful reading"),
                 ("verifier", "verifier", "re-check"), ("escalation", "escalation", "tie-break"))
-THETA_SHIFT_MAX = 0.10          # how far the page may move the thresholds of the ticked indicators
-CAPS_SCALE_RANGE = (0.5, 3.0)   # and the Round 1 caps, as a multiple
+THETA_RANGE = (0.05, 0.95)      # a threshold typed on the page for one indicator: a cosine, kept off the ends
+CAP_RANGE = (1, 5000)           # a cap typed on the page for one indicator: a count of provisions
 
 # An empty dense leg keyed like the sparse leg, so candidate selection sees a zero-contribution dense
 # side (the bm25-only path: no torch, no model download). Runs under the stage's Python for numpy.
@@ -511,15 +511,12 @@ def _norm_request(app: App, req: dict) -> dict:
         models[stage] = {"engine": rid, "model": str(pick.get("model") or default)}
     if not isinstance(picks.get("screen"), dict):      # unset, the quick screen follows the re-check, as in the stage
         models["screen"] = dict(models["verifier"])
-    try:
-        shift = round(float(req.get("theta_shift") or 0), 2)
-        scale = round(float(req.get("caps_scale") or 1), 2)
-    except (TypeError, ValueError):
-        raise ApiError(400, "theta_shift and caps_scale must be numbers") from None
-    if abs(shift) > THETA_SHIFT_MAX:
-        raise ApiError(400, f"theta_shift must lie between -{THETA_SHIFT_MAX:.2f} and +{THETA_SHIFT_MAX:.2f}")
-    if not CAPS_SCALE_RANGE[0] <= scale <= CAPS_SCALE_RANGE[1]:
-        raise ApiError(400, f"caps_scale must lie between {CAPS_SCALE_RANGE[0]} and {CAPS_SCALE_RANGE[1]}")
+    # numbers typed for single indicators; one that equals the recommended number is not a change
+    rec = indicator_picker(s)["selection"]
+    thetas = {i: v for i, v in _typed_numbers(req.get("thetas"), indicators, THETA_RANGE, float, "threshold").items()
+              if rec["thetas"].get(i) is None or abs(v - float(rec["thetas"][i])) > 1e-9}
+    caps = {i: v for i, v in _typed_numbers(req.get("caps"), indicators, CAP_RANGE, int, "cap").items()
+            if rec["caps"]["per_indicator"].get(i) != v}
     select_mode = str(req.get("select_mode") or "scores")   # the stage's own default (config/settings.py)
     if select_mode not in ("caps", "scores"):
         raise ApiError(400, "select_mode must be caps or scores")
@@ -540,10 +537,40 @@ def _norm_request(app: App, req: dict) -> dict:
     if dense == "auto":   # keep the meaning index if there was one; build it when the threshold rule needs it
         dense = "real" if have_dense_real or select_mode == "scores" else "stub"
     return {"handoff": h, "economies": economies, "present": present, "indicators": indicators, "in_scope": in_scope,
-            "engine": engine, "models": models, "theta_shift": shift, "caps_scale": scale,
+            "engine": engine, "models": models, "thetas": thetas, "caps": caps,
             "select_mode": select_mode, "dense": dense, "rebuild": rebuild,
             "gloss": bool(req.get("gloss", True)), "limit": limit, "index_dir": idx,
             "run_name": re.sub(r"[^A-Za-z0-9_.-]", "_", str(req.get("run_name") or ""))[:40]}
+
+
+def _typed_numbers(raw, indicators: list[str], bounds: tuple, kind, what: str) -> dict:
+    """{indicator: number} as typed on the page, for ticked indicators only, each inside its bounds."""
+    if raw in (None, "", {}):
+        return {}
+    if not isinstance(raw, dict):
+        raise ApiError(400, f"a {what} is given per indicator")
+    out = {}
+    for iid, value in raw.items():
+        iid = str(iid)
+        if iid not in indicators:
+            raise ApiError(400, f"a {what} was given for {iid}, which is not among the ticked indicators")
+        try:
+            v = float(value) if not isinstance(value, bool) else None
+        except (TypeError, ValueError):
+            v = None
+        if v is None or v != v:
+            raise ApiError(400, f"the {what} for {iid} must be a number")
+        if kind is int and v != int(v):
+            raise ApiError(400, f"the {what} for {iid} must be a whole number")
+        v = int(v) if kind is int else round(v, 4)
+        if not bounds[0] <= v <= bounds[1]:
+            raise ApiError(400, f"the {what} for {iid} must lie between {bounds[0]} and {bounds[1]}")
+        out[iid] = v
+    return out
+
+
+def _listed(parts: list[str], shown: int = 8) -> str:
+    return ", ".join(parts[:shown]) + (f" and {len(parts) - shown} more" if len(parts) > shown else "")
 
 
 def _torch_state(py: str, cwd: Path) -> dict:
@@ -660,22 +687,24 @@ def precheck(app: App, req: dict) -> list[dict]:
                 + ("; the BGE-M3 model is cached." if cached else "; the BGE-M3 model, about 2 GB, will be downloaded first."))
     caps = round1_caps(s)
     if n["select_mode"] == "caps":
-        no_cap = [i for i in n["indicators"] if i not in caps["per_indicator"]]
+        round1 = caps["per_indicator"]
+        no_cap = [i for i in n["indicators"] if i not in round1 and i not in n["caps"]]
         if no_cap:
             add("fail", "selection", "Round 1 caps exist for the nine indicators of pillars 6 and 7 only; the stage stops on "
-                                     f"{', '.join(no_cap[:8])}{' and more' if len(no_cap) > 8 else ''}. Choose Score threshold for them.")
-        elif n["caps_scale"] != 1:
-            add("warn", "selection", f"Selection: Round 1 caps at {n['caps_scale']:.0%} for this run, grey band "
-                                     f"{caps['gray_mult']}x the cap. " + ("More candidates are read, at more cost."
-                                     if n["caps_scale"] > 1 else "Fewer candidates are read; what falls below the cap is not seen."))
+                                     f"{_listed(no_cap)}. Type a cap for them, or choose Score threshold.")
+        elif n["caps"]:
+            typed = [f"{i} {v} (Round 1: {round1[i]})" if i in round1 else f"{i} {v} (Round 1 has none)" for i, v in n["caps"].items()]
+            add("warn", "selection", f"Selection: caps typed for this run: {_listed(typed)}. The grey band takes "
+                                     f"{caps['gray_mult']}x the cap. Every other ticked indicator keeps Round 1's cap.")
         else:
             add("ok", "selection", "Selection: Round 1 fixed caps per indicator and economy, grey band "
                                    f"{caps['gray_mult']}x the cap, fused over both legs.")
-    elif n["theta_shift"]:
-        add("warn", "selection", f"Selection: the threshold of each ticked indicator moved by {n['theta_shift']:+.2f} for this run. "
-                                 + ("Lower: more candidates are read, at more cost. " if n["theta_shift"] < 0
-                                    else "Higher: fewer candidates are read; a provision below the new threshold is not seen. ")
-                                 + "The measured values stay in the stage's selection.json; this run reads a copy in its own folder.")
+    elif n["thetas"]:
+        rec = indicator_picker(s)["selection"]["thetas"]
+        typed = [f"{i} {v:.2f} (recommended {float(rec[i]):.2f})" if rec.get(i) is not None else f"{i} {v:.2f}" for i, v in n["thetas"].items()]
+        add("warn", "selection", f"Selection: thresholds typed for this run: {_listed(typed)}. A lower threshold reads more "
+                                 "candidates, at more cost; a higher one reads fewer. The recommended values stay in the stage's "
+                                 "selection.json; this run reads a copy in its own folder.")
     else:
         add("ok", "selection", "Selection: score thresholds per indicator and language, from the stage's selection.json "
                                "(measured for pillars 6 and 7, class defaults for the rest).")
@@ -863,7 +892,8 @@ P3_RULES: list[tuple[re.Pattern, object]] = [
     (re.compile(r"^\[gloss-sections:(\w\w)\] (\d+) glossed, (\d+) not literal, (\d+) errors,.*?\$([\d.]+)"), _sections_done),
     (re.compile(r"^\[excel\] (\d+) fires -> "), lambda m, j: (f"Review workbook written ({m[1]} matches).", None)),
     (re.compile(r"^\[audit\] (\d+) fires -> "), lambda m, j: (f"Audit page written ({m[1]} matches).", None)),
-    (re.compile(r"^\[select\] caps scaled by ([\d.]+)"), lambda m, j: (f"Round 1 caps at {float(m[1]):.0%} for this run.", None)),
+    (re.compile(r"^\[select\] caps set by CAPS_OVERRIDE: (.+)"), lambda m, j: (f"Selecting with the caps typed for this run: {m[1][:160]}.", None)),
+    (re.compile(r"^\[select\] (CAPS_OVERRIDE: .+|no cap for .+)"), lambda m, j: (f"Selection stopped: {m[1][:200]}", None)),
     (re.compile(r"LLMConfigError|ANTHROPIC_API_KEY is empty"), lambda m, j: ("The chosen engine needs an API key: hold one in the banner under Engine Selection and start again.", None)),
     (re.compile(r"ProviderError: (\S+) at \S+: HTTP (\d+)"), lambda m, j: (f"{m[1]}: the provider refused the request (HTTP {m[2]}). 401 or 403 is the key; 404 is the model name; 400 is the request shape.", None)),
     (re.compile(r"ConnectError|Connection refused|actively refused"), lambda m, j: ("Cannot reach the local model server (Ollama). Start it and run again.", None)),
@@ -907,38 +937,24 @@ def _poll_manifest(out_dir: Path):
     return poll
 
 
-def shifted_selection(s: Settings, indicators: list[str], shift: float) -> dict:
-    """The stage's selection.json with the threshold of each named indicator moved by `shift`: what a run
-    is pointed at through SELECTION_CONFIG. Nothing else in the file changes, and the stage's own copy
-    is never written."""
+def selection_with(s: Settings, thetas: dict) -> dict:
+    """The stage's selection.json with a typed threshold in place of the recommended one for each named
+    indicator: what a run is pointed at through SELECTION_CONFIG. Nothing else in the file changes, and
+    the stage's own copy is never written."""
     cfg = _json.loads((s.stage_dirs["p3"] / "config" / "selection.json").read_text(encoding="utf-8"))
-    classes = cfg.get("class_defaults") or {}
     blocks = cfg.get("indicators") or {}
-
-    def move(value) -> float:
-        return round(min(0.95, max(0.05, float(value) + shift)), 4)
-
-    moved = 0
-    for iid in indicators:
-        block = blocks.get(iid)
-        if not isinstance(block, dict):
-            continue
-        base = block.get("theta")
-        if base is None:      # an indicator on its class default gets a threshold of its own for this run
-            base = (classes.get(block.get("class") or "") or {}).get("theta")
-        if base is None:
-            continue
-        block["theta"] = move(base)
-        moved += 1
+    for iid, value in thetas.items():
+        if isinstance(blocks.get(iid), dict):     # an indicator on its class default gets a threshold of its own
+            blocks[iid]["theta"] = value
     for econ, inds in (cfg.get("economy_overrides") or {}).items():
         if econ.startswith("_") or not isinstance(inds, dict):
             continue
-        for iid in indicators:
+        for iid, value in thetas.items():
             if isinstance(inds.get(iid), dict) and "theta" in inds[iid]:
-                inds[iid]["theta"] = move(inds[iid]["theta"])
-    cfg["version"] = f"{cfg.get('version', '')}+shift{shift:+.2f}"
-    cfg["_shift"] = (f"Written by the interface for one run: the threshold of {moved} indicator(s) moved by {shift:+.2f} "
-                     "from the stage's config/selection.json. Every other value is that file's.")
+                inds[iid]["theta"] = value
+    cfg["version"] = f"{cfg.get('version', '')}+typed{len(thetas)}"
+    cfg["_typed"] = ("Written by the interface for one run: a threshold typed on the page for "
+                     + ", ".join(thetas) + ". Every other value is the stage's config/selection.json.")
     return cfg
 
 
@@ -961,14 +977,13 @@ def plan_map(app: App, req: dict) -> Job:
         extra["BASELINE_PATH"] = s.baseline_path
     if s.baseline_r2_path:
         extra["BASELINE_R2_PATH"] = s.baseline_r2_path
-    if n["select_mode"] == "scores" and n["theta_shift"]:
-        moved = out_dir.parent / "selection.json"      # the run's own copy; the stage's file is not touched
-        moved.parent.mkdir(parents=True, exist_ok=True)
-        moved.write_text(_json.dumps(shifted_selection(s, n["indicators"], n["theta_shift"]), indent=2, ensure_ascii=False),
-                         encoding="utf-8", newline="\n")
-        extra["SELECTION_CONFIG"] = str(moved)
-    if n["select_mode"] == "caps" and n["caps_scale"] != 1:
-        extra["CAPS_SCALE"] = f"{n['caps_scale']:g}"
+    if n["select_mode"] == "scores" and n["thetas"]:
+        own = out_dir.parent / "selection.json"        # the run's own copy; the stage's file is not touched
+        own.parent.mkdir(parents=True, exist_ok=True)
+        own.write_text(_json.dumps(selection_with(s, n["thetas"]), indent=2, ensure_ascii=False), encoding="utf-8", newline="\n")
+        extra["SELECTION_CONFIG"] = str(own)
+    if n["select_mode"] == "caps" and n["caps"]:
+        extra["CAPS_OVERRIDE"] = ",".join(f"{i}={v}" for i, v in n["caps"].items())
     picks = n["models"]
     roles = {r: picks[r] for r in ("mapper", "verifier", "escalation")}
     local = any(not app.engines.get(p["engine"]).get("key_env") for p in picks.values())
@@ -1031,9 +1046,10 @@ def plan_map(app: App, req: dict) -> Job:
     job.say("Models: " + "; ".join(f"{step} {picks[stage]['model']}" + ("" if picks[stage]["engine"] == eid else f" (engine {picks[stage]['engine']})")
                                    for stage, _, step in MODEL_STAGES) + ".")
     if "SELECTION_CONFIG" in extra:
-        job.say(f"Thresholds of the ticked indicators moved by {n['theta_shift']:+.2f}: {rel_or_abs(Path(extra['SELECTION_CONFIG']), REPO)}.")
-    if "CAPS_SCALE" in extra:
-        job.say(f"Round 1 caps at {n['caps_scale']:.0%}.")
+        job.say("Thresholds typed for this run: " + _listed([f"{i} {v:.2f}" for i, v in n["thetas"].items()])
+                + f"; kept in {rel_or_abs(Path(extra['SELECTION_CONFIG']), REPO)}.")
+    if "CAPS_OVERRIDE" in extra:
+        job.say("Caps typed for this run: " + _listed([f"{i} {v}" for i, v in n["caps"].items()]) + ".")
     if not have_baseline:
         job.say("No baseline database is configured (BASELINE_PATH, BASELINE_R2_PATH), so the baseline load is "
                 "skipped and every match will be tagged NEW.")

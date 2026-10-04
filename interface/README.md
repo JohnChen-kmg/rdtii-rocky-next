@@ -16,7 +16,7 @@ are in `START_PROMPT_INTERFACE_2026-09-29.md` and `DATA_PATHS.md` beside this fi
 | **Overview** | a workflow map: Scraping, Extraction, Mapping, Review and export, one line each with a button to the page, and below it the instrument (methodology to a rulebook per indicator) as a reference row; the model-calling steps are drawn as short conversations; the mapping step by step (index, select, triage, read, re-check, tag, score, evidence, review) folded inside the Mapping node, an open grey Before-you-start block under the map; the worked example on Singapore PDPA s.26(1) runs down the right of the map, one card per node, with a button to its row | | |
 | **Scraping** | economies the crawler has adapters for, China through its own tools (CAC and gov.cn; the rest by hand), scope, the sources it will read and the sources to check by hand | a new crawl or a second pass over that economy's own folder, the link list or **Refresh from the portal**, **Quick run** (the first N documents), dry run, **Check** then **Start**; one run and one result panel per economy | folders by economy and source (`scrape/<economy>/<source>/<time>`), documents by type, whether the bytes are present, **Fetched last pass**, Clear. Between Run and Output, block 1.3 **Hand-collected**: choose one economy, then one of its designated sources, drop PDF, Word, saved web pages or a .zip; they land in `inbox/<economy>/<source>/<date_time>`, each file says how it will be read or why it cannot be, and takes the address it came from; Output is 1.4 on this tab |
 | **Extraction** | a crawl folder, or hand-collected documents from `inbox/<economy>/<source>` (the folder names the economy and the source, the language follows the economy table; a Readiness list says per file how it is read, and files that cannot be read are left out and listed; Check reads the text and warns when a file does not fit its folder) | output name, OCR pack and workers, **Check** then **Start**: import check, OCR of scanned pages, read and segment, freeze the text | documents by status and lane, provisions, cache sizes, Open folder, Clear OCR cache |
-| **Mapping** | an extraction output, economies, indicators (61, the nine automated ones pre-selected) | the write path, then one block per step in run order: candidate selection (the index, rebuilt by itself when older than the output; the rule with its thresholds or caps and a slider that moves them for this run; the meaning index), then quick screen, careful reading, re-check and tie-break, each with a provider and one of its models; translation, quick run; **Check** then **Start**: ingest, prefilter, select, triage, map, verify, roll up, glosses, workbook, audit page | run selector (fixtures, interface runs, filed rows), filters, Export CSV and xlsx, rows with the English gloss beside the original, row detail with Accept / Reject / Correct and Clear decision, Open folder, Clear |
+| **Mapping** | an extraction output, economies, indicators (61, the nine automated ones pre-selected) | the write path, then one block per step in run order, lettered A to E: A candidate selection (the index, rebuilt by itself when older than the output; the rule, with a number box per ticked indicator holding the recommended threshold or cap, to be changed for this run by typing; the meaning index), then B quick screen, C careful reading, D re-check and E tie-break, each with a provider and one of its models; translation, quick run; **Check** then **Start**: ingest, prefilter, select, triage, map, verify, roll up, glosses, workbook, audit page | run selector (fixtures, interface runs, filed rows), filters, Export CSV and xlsx, rows with the English gloss beside the original, row detail with Accept / Reject / Correct and Clear decision, Open folder, Clear |
 | **Appendix** | documentation shipped in the repository, the settings in effect, a run-layer self-test | | |
 
 The **header** holds the title and the health dots (Ollama, Tesseract, Chromium, API key held, stages present);
@@ -54,8 +54,9 @@ The ones the interface adds:
   models of each come from the stage's own declaration, so the declared and the offered cannot drift apart.
 - A run that changes no step receives exactly the variables it always did. A step on another provider needs
   that provider's own key, and a key no step uses is passed to no process.
-- The selection slider moves a copy of the stage's `selection.json`, written into the run's folder; the
-  measured file is never written.
+- A threshold typed for an indicator goes into a copy of the stage's `selection.json`, written into the run's
+  folder, and a typed cap into a variable of that run; the stage's own numbers are never written, and a
+  number equal to the recommended one changes nothing.
 - Indicator IDs stay decimal text everywhere; the xlsx export writes inline strings and never column O.
 - A machine translation is shown beside the original and labelled, never in its place, and the export
   never opens a gloss file.
@@ -102,7 +103,7 @@ The ones the interface adds:
 
     python -m unittest discover -s interface/tests -t interface
 
-231 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
+233 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
 window (which browser, when to stop, one instance, the presence stream on a real server), the
 Clear guard, the folders by economy and source, the inbox (designated sources, addresses, archives, what
 can be read), the manifest written for hand-collected documents, the three run plans and their parsers, a model per step

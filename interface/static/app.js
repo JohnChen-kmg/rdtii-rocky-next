@@ -1041,14 +1041,14 @@ async function startExtract() {
 
 /* ---------- Mapping · Set up + Start ---------- */
 const MP = { loaded: false, handoffs: [], handoff: null, economies: new Set(), selectMode: 'scores', dense: 'auto', gloss: true, limit: '', checks: null, stagePresent: true, python: '',
-  thetaShift: 0, capsScale: 1, models: null };
+  thetas: {}, caps: {}, models: null };   // thetas, caps: a number typed for an indicator, kept only while it differs from the recommended one
 
 /* the steps of a run that call a model, in run order; `role` is what the step asks the stage for */
 const MODEL_STEPS = [
-  { key: 'screen', role: 'verifier', n: 2, title: 'Quick screen', sub: 'a fast model drops the borderline pairs that are clearly unrelated' },
-  { key: 'mapper', role: 'mapper', n: 3, title: 'Careful reading', sub: 'each provision is read against the indicator’s rulebook' },
-  { key: 'verifier', role: 'verifier', n: 4, title: 'Re-check', sub: 'a second model re-reads every match without seeing the first answer' },
-  { key: 'escalation', role: 'escalation', n: 5, title: 'Tie-break', sub: 'a third model decides when the reading and the re-check disagree' },
+  { key: 'screen', role: 'verifier', letter: 'B', title: 'Quick screen', sub: 'a fast model drops the borderline pairs that are clearly unrelated' },
+  { key: 'mapper', role: 'mapper', letter: 'C', title: 'Careful reading', sub: 'each provision is read against the indicator’s rulebook' },
+  { key: 'verifier', role: 'verifier', letter: 'D', title: 'Re-check', sub: 'a second model re-reads every match without seeing the first answer' },
+  { key: 'escalation', role: 'escalation', letter: 'E', title: 'Tie-break', sub: 'a third model decides when the reading and the re-check disagree' },
 ];
 
 /* every step on one engine's own models: what the banner's choice means */
@@ -1083,7 +1083,7 @@ function modelBlock(step) {
   if (!(e && e.measured && m && m.measured)) notes.push('<span class="chip warn">not measured</span> the prompts and every reported figure were made on Claude');
   if (e && e.key_env && !held[e.key_env]) notes.push(`<span class="chip bad">no key</span> hold the ${esc(e.name)} key in the banner above`);
   return `<div class="subblock">
-      <div class="subblock-head"><b>${esc(step.title)}</b><span>step ${step.n} of the mapping: ${esc(step.sub)}</span></div>
+      <div class="subblock-head"><b><span class="letter">${step.letter}</span>${esc(step.title)}</b><span>${esc(step.sub)}</span></div>
       <div class="stack">
         <div class="stack-row"><span class="setup-label">Provider</span> <div class="picks">${provs}</div></div>
         <div class="stack-row"><span class="setup-label">Model</span> <div class="picks">${models || '<span class="muted">no model listed</span>'}</div></div>
@@ -1092,10 +1092,24 @@ function modelBlock(step) {
     </div>`;
 }
 
-/* what the slider has done, in words */
-function adjustText() {
-  if (MP.selectMode === 'caps') return MP.capsScale === 1 ? 'Round 1 caps' : `${Math.round(MP.capsScale * 100)}% of Round 1: reads ${MP.capsScale > 1 ? 'more' : 'fewer'}`;
-  return MP.thetaShift === 0 ? 'as measured' : `threshold ${MP.thetaShift > 0 ? '+' : '−'}${Math.abs(MP.thetaShift).toFixed(2)}: reads ${MP.thetaShift < 0 ? 'more' : 'fewer'}`;
+/* how the number boxes stand: all recommended, or how many were typed for this run */
+function numState() {
+  const ids = chosenIndicators();
+  if (MP.selectMode === 'caps') {
+    const caps = (((S.picker || {}).selection || {}).caps || {}).per_indicator || {};
+    const n = ids.filter((id) => MP.caps[id] != null).length;
+    const missing = ids.filter((id) => caps[id] == null && MP.caps[id] == null).length;
+    return (n ? `${n} changed for this run.` : 'Round 1’s caps, the recommended numbers.') + (missing ? ` ${missing} ticked indicator(s) have no Round 1 cap: type one, or use Score threshold.` : '');
+  }
+  const n = ids.filter((id) => MP.thetas[id] != null).length;
+  return n ? `${n} changed for this run.` : 'The recommended numbers.';
+}
+
+/* a number was typed: the last Check no longer describes the run */
+function staleMapChecks() {
+  MP.checks = null;
+  const start = $('#map-start'); if (start) start.disabled = true;
+  const list = $('#map-run-note ul.checks'); if (list) list.closest('.stack-row').remove();
 }
 
 async function loadMapHandoffs() {
@@ -1130,7 +1144,7 @@ function renderMapInput() {
   renderMapRun();
 }
 
-/* the numbers the Selection rule uses, for the ticked indicators: thresholds in scores mode, Round 1 caps in caps mode */
+/* a number box per ticked indicator: its threshold in scores mode, its cap in caps mode; the recommended number is the default */
 function selectionLine() {
   const sel = (S.picker || {}).selection;
   if (!sel) return '<span class="muted">loading the values…</span>';
@@ -1138,14 +1152,22 @@ function selectionLine() {
   if (!ids.length) return '<span class="muted">tick an indicator</span>';
   if (MP.selectMode === 'caps') {
     const caps = (sel.caps || {}).per_indicator || {};
-    const parts = ids.map((id) => caps[id] != null ? `<span class="theta ${MP.capsScale === 1 ? '' : 'moved'}" title="Round 1: ${caps[id]}"><b>${esc(id)}</b> ${Math.max(1, Math.round(caps[id] * MP.capsScale))}</span>` : `<span class="theta bad"><b>${esc(id)}</b> no cap</span>`);
-    const missing = ids.filter((id) => caps[id] == null).length;
-    return parts.join(' ') + `<span class="muted small">counts of provisions, not scores; grey band ${esc(String((sel.caps || {}).gray_mult || 3))}\u00d7 the cap; no caps outside pillars 6 and 7` + (missing ? `, so ${missing} ticked indicator(s) cannot run this way` : '') + '</span>';
+    const range = sel.cap_range || [1, 5000];
+    const parts = ids.map((id) => {
+      const typed = MP.caps[id] != null; const val = typed ? MP.caps[id] : (caps[id] != null ? caps[id] : '');
+      const tip = caps[id] != null ? `recommended: ${caps[id]}, Round 1’s cap` : 'Round 1 has no cap for this indicator: type one, or use Score threshold';
+      return `<label class="theta num ${typed ? 'moved' : ''} ${val === '' ? 'bad' : ''}" title="${esc(tip)}"><b>${esc(id)}</b><input type="number" class="mp-num" data-id="${esc(id)}" min="${range[0]}" max="${range[1]}" step="10" value="${val}" placeholder="none"></label>`;
+    });
+    return parts.join(' ') + `<span class="muted small">counts of provisions, not scores; grey band ${esc(String((sel.caps || {}).gray_mult || 3))}\u00d7 the cap</span>`;
   }
   const measured = new Set(sel.measured || Object.keys(sel.thetas || {}));
-  const parts = ids.map((id) => sel.thetas[id] != null
-    ? `<span class="theta ${measured.has(id) ? '' : 'cls'} ${MP.thetaShift ? 'moved' : ''}" title="${measured.has(id) ? 'measured' : 'class default: ' + esc((sel.classes || {})[id] || '')}${MP.thetaShift ? ' ' + Number(sel.thetas[id]).toFixed(2) : ''}"><b>${esc(id)}</b> ${Math.min(0.95, Math.max(0.05, Number(sel.thetas[id]) + MP.thetaShift)).toFixed(2)}</span>`
-    : `<span class="theta bad"><b>${esc(id)}</b> none</span>`);
+  const range = sel.theta_range || [0.05, 0.95];
+  const parts = ids.map((id) => {
+    if (sel.thetas[id] == null) return `<span class="theta bad"><b>${esc(id)}</b> none</span>`;
+    const typed = MP.thetas[id] != null; const rec = Number(sel.thetas[id]).toFixed(2);
+    const tip = `recommended: ${rec}, ${measured.has(id) ? 'measured' : 'the default of its class, ' + ((sel.classes || {})[id] || '')}`;
+    return `<label class="theta num ${measured.has(id) ? '' : 'cls'} ${typed ? 'moved' : ''}" title="${esc(tip)}"><b>${esc(id)}</b><input type="number" class="mp-num" data-id="${esc(id)}" min="${range[0]}" max="${range[1]}" step="0.01" value="${typed ? Number(MP.thetas[id]).toFixed(2) : rec}"></label>`;
+  });
   const unmeasured = ids.filter((id) => !measured.has(id)).length;
   const offs = Object.entries(sel.language_offset || {}).filter(([k, v]) => k !== '_default' && Number(v) !== 0).map(([k, v]) => `${k} ${v}`).join(', ');
   return parts.join(' ') + `<span class="muted small">${offs ? `language offset ${esc(offs)}` : ''}${unmeasured ? `${offs ? '; ' : ''}italic values are class defaults, not measured` : ''}</span>`;
@@ -1156,9 +1178,11 @@ function chosenIndicators() {
 }
 
 function mapRequest() {
-  return { handoff: MP.handoff, economies: [...MP.economies], indicators: chosenIndicators(),
+  const ids = chosenIndicators();
+  const typed = (store) => { const o = {}; ids.forEach((id) => { if (store[id] != null) o[id] = store[id]; }); return o; };   // ticked indicators only
+  return { handoff: MP.handoff, economies: [...MP.economies], indicators: ids,
     engine: MP.models ? MP.models.mapper.engine : (S.health && S.health.engine ? S.health.engine.selected : null), models: MP.models || undefined,
-    theta_shift: MP.selectMode === 'scores' ? MP.thetaShift : 0, caps_scale: MP.selectMode === 'caps' ? MP.capsScale : 1,
+    thetas: MP.selectMode === 'scores' ? typed(MP.thetas) : {}, caps: MP.selectMode === 'caps' ? typed(MP.caps) : {},
     select_mode: MP.selectMode, dense: MP.dense, gloss: MP.gloss, limit: MP.limit ? parseInt(MP.limit, 10) : null };
 }
 
@@ -1182,14 +1206,7 @@ function renderMapRun() {
   if (!MP.models && eng && eng.selected) MP.models = presetModels(eng.selected);
   const runEngine = MP.models ? MP.models.mapper.engine : (eng && eng.selected) || 'A';   // the careful reading's engine names the run
   const capsMode = MP.selectMode === 'caps';
-  const limits = (S.picker || {}).selection || {};
-  const shiftMax = limits.theta_shift_max || 0.1;
-  const scaleRange = limits.caps_scale_range || [0.5, 3];
-  const moved = capsMode ? MP.capsScale !== 1 : MP.thetaShift !== 0;
-  // to the right always reads more: a larger cap, or a lower threshold
-  const slider = capsMode
-    ? `<input type="range" id="mp-adjust" min="${scaleRange[0]}" max="${scaleRange[1]}" step="0.1" value="${MP.capsScale}">`
-    : `<input type="range" id="mp-adjust" min="${-shiftMax}" max="${shiftMax}" step="0.01" value="${-MP.thetaShift}">`;
+  const typedNow = chosenIndicators().some((id) => (capsMode ? MP.caps : MP.thetas)[id] != null);
   const rootSetting = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_RUNS_ROOT');
   const root = rootSetting ? rootSetting.value : 'outputs';
   const BS = root.includes('/') ? '/' : String.fromCharCode(92);
@@ -1205,12 +1222,12 @@ function renderMapRun() {
       <div class="target"><span class="setup-label">Writes to</span> <code>${esc(root)}${BS}map${BS}${stamp()}_${esc(runEngine)}${BS}out</code> <span class="muted">(a new folder, created at Start)</span></div>
     </div>
     <div class="subblock">
-      <div class="subblock-head"><b>Candidate selection</b><span>step 1 of the mapping: which provisions go forward, scored by meaning with BGE-M3</span></div>
+      <div class="subblock-head"><b><span class="letter">A</span>Candidate selection</b><span>which provisions go forward, scored by meaning with BGE-M3</span></div>
       <div class="stack">
       ${idx ? `<div class="stack-row"><span class="setup-label">Index</span> <div class="idxline"><code>${esc(idx.id)}</code> <span class="muted">${esc(idxState)}</span> ${idxPlan} ${idx.corpus ? `<button class="btn small" data-clear="${esc(idx.dir)}" data-what="the corpus index">Clear index</button>` : ''}</div></div>` : ''}
       <label class="stack-row"><span class="setup-label">Selection</span> <select id="mp-mode"><option value="scores" ${MP.selectMode === 'scores' ? 'selected' : ''}>Score threshold</option><option value="caps" ${MP.selectMode === 'caps' ? 'selected' : ''}>Caps</option></select></label>
-      <div class="stack-row"><span class="setup-label">Adjust</span> <div class="slider"><span class="muted">fewer</span> ${slider} <span class="muted">more</span> <b id="mp-adjust-val" class="${moved ? 'moved' : ''}">${esc(adjustText())}</b> <button class="btn small" id="mp-adjust-reset" ${moved ? '' : 'disabled'}>Reset</button> <span class="muted">every ticked indicator, this run only</span></div></div>
       <div class="stack-row"><span class="setup-label">${capsMode ? 'Caps' : 'Thresholds'}</span> <div class="thetas" id="mp-thetas">${selectionLine()}</div></div>
+      <div class="stack-row"><span class="setup-label"></span> <div class="num-state"><b id="mp-num-state" class="${typedNow ? 'moved' : ''}">${esc(numState())}</b> <button class="btn small" id="mp-num-reset" ${typedNow ? '' : 'disabled'}>Reset to recommended</button> <span class="muted">type in a box to change one indicator, for this run only</span></div></div>
       <label class="stack-row"><span class="setup-label">Meaning index</span> <select id="mp-dense"><option value="auto" ${MP.dense === 'auto' ? 'selected' : ''}>Auto</option><option value="real" ${MP.dense === 'real' ? 'selected' : ''}>Build</option><option value="stub" ${MP.dense === 'stub' ? 'selected' : ''}>Skip</option></select> <span class="muted">matches provisions to indicators by meaning, in any language; the thresholds are read on its score</span></label>
       </div>
     </div>
@@ -1220,24 +1237,24 @@ function renderMapRun() {
       <label class="stack-row"><span class="setup-label">Quick run</span> <input type="text" id="mp-limit" size="5" value="${esc(MP.limit)}" placeholder="all"> <span>map at most this many provisions per economy; blank for everything</span></label>
       <details class="notes-box" ${MP.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
         <ul class="note-list">
-          <li><b>Selection</b>: the first step of a run, which provisions go forward for each indicator.
+          <li><b>A Candidate selection</b>: the first step of a run, which provisions go forward for each indicator.
             <ul>
               <li><b>Score threshold</b>, the stage’s default: keep every provision whose meaning score clears the indicator’s threshold. Needs the meaning index.</li>
               <li><b>Caps</b>: rank the provisions by score and keep the top N per indicator and economy, N being Round 1’s numbers. Works with the keyword index alone.</li>
               <li><b>Why two units</b>: a threshold is a score, a cosine between 0 and 1 that each provision must clear, so how many pass follows the corpus. A cap is a count, so how many pass is fixed whatever the scores. Round 1 fixed the count; the finale measured the score instead, so the two rules cannot share one setting.</li>
-              <li>The quick screen of the borderline pairs is the next step, with a block of its own below.</li>
+              <li>The quick screen of the borderline pairs is the next step, block B.</li>
             </ul>
           </li>
           <li><b>Thresholds</b>: from the stage’s selection.json, shown for the ticked indicators.
             <ul>
               <li>Measured for the nine indicators of pillars 6 and 7. The other 52 take the default of their class from the codebook, 0.55 to 0.60, shown in italics.</li>
               <li>A small offset per language; at 0.65 or above a candidate skips triage.</li>
-              <li><b>Adjust</b>: the slider moves the threshold of every ticked indicator by the same amount, up to 0.10 either way, for this run only. To the right the threshold drops, so more candidates are read and the run costs more. The run reads a copy of selection.json written into its own folder; <mark>the measured file is never changed</mark>.</li>
+              <li><b>Each box holds the recommended number</b>: the measured threshold, or the class default. Type another to change that indicator for this run only. Lower reads more candidates and costs more; higher reads fewer. The run reads a copy of selection.json written into its own folder; <mark>the stage’s file is never changed</mark>. Reset puts the recommended numbers back.</li>
             </ul>
           </li>
-          <li><b>Caps</b>: a cap on the number of provisions, ranked by score. Round 1’s numbers, 150 to 600 per indicator and economy; the grey band takes three times the cap. The slider scales every cap, from half to three times, for this run only.
+          <li><b>Caps</b>: a cap on the number of provisions, ranked by score. Round 1’s numbers, 150 to 600 per indicator and economy; the grey band takes three times the cap. Each box holds Round 1’s cap; type another to change that indicator for this run only.
             <ul>
-              <li><mark>No cap exists outside pillars 6 and 7</mark>: Round 1 never ran those indicators. They run on Score threshold, and Check refuses caps for them.</li>
+              <li><mark>No cap exists outside pillars 6 and 7</mark>: Round 1 never ran those indicators, so their boxes are empty. Type a cap to run one this way, or use Score threshold; Check refuses a ticked indicator with no cap.</li>
             </ul>
           </li>
           <li><b>Meaning index</b>: BGE-M3 scores every provision against every indicator by meaning, in any language. The thresholds are read on this score, and the keyword index alone reads almost nothing in Chinese or Lao. Built once per extraction output and reused until that output changes.
@@ -1247,7 +1264,7 @@ function renderMapRun() {
               <li><b>Skip</b>: keyword only. Fine for English economies on Caps.</li>
             </ul>
           </li>
-          <li><b>Quick screen, Careful reading, Re-check, Tie-break</b>: the four steps that call a model. Each takes a provider and one of its models; the banner’s engine sets all four at once.
+          <li><b>B Quick screen, C Careful reading, D Re-check, E Tie-break</b>: the four steps that call a model. Each takes a provider and one of its models; the banner’s engine sets all four at once.
             <ul>
               <li><mark>Measured: Claude Sonnet 5, Haiku 4.5 and Opus 4.8, and local Qwen 2.5.</mark> The prompts and the traps were written for Claude, and every reported figure comes from those models. Anything else is marked not measured: try it on a Quick run first.</li>
               <li>Prices are US dollars per million tokens, input then output, from each provider’s own page on 4 October 2026; DeepSeek’s is its peak rate. Claude Sonnet 5 shows the stage’s own card, which the reported costs used.</li>
@@ -1267,12 +1284,25 @@ function renderMapRun() {
   if (!MP.stagePresent) note.insertAdjacentHTML('afterbegin', '<p class="note">The mapping stage is not in this repository.</p>');
   const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { MP.runNotesOpen = nb.open; });
   $('#mp-mode').onchange = (e) => { MP.selectMode = e.target.value; MP.checks = null; renderMapRun(); };
-  const adj = $('#mp-adjust');
-  const readAdjust = () => { const v = Number(adj.value); if (MP.selectMode === 'caps') MP.capsScale = Math.round(v * 10) / 10; else MP.thetaShift = (-Math.round(v * 100) / 100) || 0; };
-  // while the slider is dragged only the numbers are redrawn, so the handle stays under the pointer
-  adj.oninput = () => { readAdjust(); $('#mp-adjust-val').textContent = adjustText(); $('#mp-thetas').innerHTML = selectionLine(); };
-  adj.onchange = () => { readAdjust(); MP.checks = null; renderMapRun(); };
-  $('#mp-adjust-reset').onclick = () => { if (MP.selectMode === 'caps') MP.capsScale = 1; else MP.thetaShift = 0; MP.checks = null; renderMapRun(); };
+  note.querySelectorAll('input.mp-num').forEach((inp) => inp.addEventListener('change', () => {
+    const id = inp.dataset.id; const caps = MP.selectMode === 'caps';
+    const sel = (S.picker || {}).selection || {};
+    const rec = caps ? ((sel.caps || {}).per_indicator || {})[id] : (sel.thetas || {})[id];
+    const range = caps ? (sel.cap_range || [1, 5000]) : (sel.theta_range || [0.05, 0.95]);
+    const store = caps ? MP.caps : MP.thetas;
+    let v = inp.value.trim() === '' ? NaN : Number(inp.value);
+    if (!Number.isNaN(v)) v = Math.min(range[1], Math.max(range[0], caps ? Math.round(v) : Math.round(v * 100) / 100));
+    if (Number.isNaN(v) || (rec != null && v === Number(rec))) delete store[id]; else store[id] = v;   // the recommended number is not a change
+    // only this box is redrawn, so the next one keeps the focus when tabbing through them
+    const shown = store[id] != null ? store[id] : rec;
+    inp.value = shown == null ? '' : (caps ? shown : Number(shown).toFixed(2));
+    inp.parentElement.classList.toggle('moved', store[id] != null);
+    inp.parentElement.classList.toggle('bad', shown == null);
+    const any = chosenIndicators().some((x) => store[x] != null);
+    $('#mp-num-state').textContent = numState(); $('#mp-num-state').classList.toggle('moved', any); $('#mp-num-reset').disabled = !any;
+    staleMapChecks();
+  }));
+  $('#mp-num-reset').onclick = () => { if (MP.selectMode === 'caps') MP.caps = {}; else MP.thetas = {}; MP.checks = null; renderMapRun(); };
   note.querySelectorAll('input[name^="mp-eng-"]').forEach((inp) => inp.addEventListener('change', () => {
     const step = MODEL_STEPS.find((x) => x.key === inp.name.slice(7)); const e = engineOf(inp.value);
     MP.models[step.key] = { engine: inp.value, model: (e.roles || {})[step.role] || ((e.models || [])[0] || {}).id || '' };
