@@ -99,6 +99,7 @@ def run_tab(args) -> int:
         return 2
     url = f"http://{app.settings.host}:{app.port}/"
     banner(app, url)
+    probes.warm_browser_probe(app.settings.python_for("p1"))
     if args.open:
         webbrowser.open(url)
     return serve_until_interrupt(app, server)
@@ -156,6 +157,7 @@ def _run_window(args, state: Path) -> int:
         server = make_server(app, 0)     # a window needs no fixed address: take a free port
     url = f"http://{app.settings.host}:{app.port}/"
     banner(app, url)
+    probes.warm_browser_probe(app.settings.python_for("p1"))
     if not browser:
         named = args.browser or os.environ.get("RDTII_BROWSER")
         print("  window     : " + (f"{named} was not found" if named else "no Edge, Chrome, Brave or Chromium found")

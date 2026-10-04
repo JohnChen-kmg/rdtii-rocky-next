@@ -7,9 +7,21 @@ from pathlib import Path
 from unittest import mock
 
 from . import INTERFACE  # noqa: F401
-from rdtii_ui import jobs, settings as settings_mod
+from rdtii_ui import jobs, probes, settings as settings_mod
 from rdtii_ui.pages import scrape
 from rdtii_ui.server import App, ApiError
+
+STARTS = {"ok": True, "text": "The crawler's browser starts (Playwright 1.63.0, Chromium 153).", "hint": ""}
+_browser = mock.patch.object(probes, "probe_browser_launch", return_value=STARTS)
+
+
+def setUpModule():
+    """Whether this machine's crawler can start a browser is not what these tests are about."""
+    _browser.start()
+
+
+def tearDownModule():
+    _browser.stop()
 
 
 def _app(runs_root: str) -> App:
@@ -379,6 +391,66 @@ class Narration(unittest.TestCase):
                          "MY: reading the portal's listings, 106 requests so far.")
         self.assertEqual(scrape.parse_p1("[catalogue] LA: Decree (legaltype=3): 258 law(s) in 27 page(s)", job)[0],
                          "LA: listing read, Decree: 258 laws in 27 pages.")
+
+
+class Browser(unittest.TestCase):
+    """A Chromium folder on disk says nothing once the Playwright package has moved to another build; on
+    4 October every page fetched through the browser failed as HTTP 0 while the check read "installed"."""
+
+    def test_what_the_launch_test_prints_is_read(self):
+        ok = probes.read_launch("\n".join(["noise", "BROWSER ok 1.63.0 153.0.8010.12", ""]), "py")
+        self.assertEqual((ok["ok"], ok["text"]), (True, "The crawler's browser starts (Playwright 1.63.0, Chromium 153.0.8010.12)."))
+        stale = probes.read_launch("BROWSER fail 1.63.0 BrowserType.launch: Executable doesn't exist at C:/x/chromium_headless_shell-1243/chrome.exe", "C:/py/python.exe")
+        self.assertFalse(stale["ok"])
+        self.assertIn("needs a Chromium build that is not installed", stale["text"])
+        self.assertEqual(stale["hint"], '"C:/py/python.exe" -m playwright install chromium')
+        none = probes.read_launch("BROWSER no-package ModuleNotFoundError", "py")
+        self.assertIn("has no Playwright package", none["text"])
+        self.assertFalse(probes.read_launch("", "py")["ok"])
+
+    def test_the_answer_is_kept_until_the_builds_on_disk_change(self):
+        calls = []
+
+        class Done:
+            stdout = "BROWSER ok 1.63.0 153.0"
+
+        def run(argv, **kw):
+            calls.append(argv[0])
+            return Done()
+        _browser.stop()
+        try:
+            builds = mock.patch.object(probes, "_browser_builds", return_value=("chromium-1243",))
+            with builds, mock.patch.dict(probes._launch_cache, {}, clear=True):
+                self.assertTrue(probes.probe_browser_launch("py-a", run=run)["ok"])
+                self.assertTrue(probes.probe_browser_launch("py-a", run=run)["ok"])
+                self.assertEqual(calls, ["py-a"])                               # asked once
+                self.assertTrue(probes.probe_chromium("py-a")["tested"])        # the header's dot shows the tested answer
+                self.assertFalse(probes.probe_chromium("py-b")["tested"])
+                with mock.patch.object(probes, "_browser_builds", return_value=("chromium-1243", "chromium-1300")):
+                    probes.probe_browser_launch("py-a", run=run)
+                self.assertEqual(calls, ["py-a", "py-a"])                       # a new build on disk: asked again
+            with mock.patch.object(probes, "_browser_builds", return_value=()):
+                self.assertFalse(probes.probe_chromium("py-a")["ok"])           # no build at all
+        finally:
+            _browser.start()
+
+    def test_a_crawl_without_its_browser_fails_check_and_a_dry_run_is_warned(self):
+        broken = {"ok": False, "text": "The crawler's browser cannot start: Playwright 1.63.0 needs a Chromium build that is not installed.",
+                  "hint": '"python" -m playwright install chromium'}
+        with tempfile.TemporaryDirectory() as d:
+            app = _app(str(Path(d) / "outputs"))
+            with mock.patch.object(probes, "probe_browser_launch", return_value=broken):
+                checks = scrape.precheck(app, {"economies": ["AU"], "scope": "relevant"})
+                fail = next(c for c in checks if c["check"] == "browser")
+                self.assertEqual(fail["level"], "fail")
+                self.assertIn("would fail as HTTP 0", fail["text"])
+                self.assertIn("-m playwright install chromium", fail["text"])
+                dry = next(c for c in scrape.precheck(app, {"economies": ["AU"], "scope": "relevant", "dry_run": True}) if c["check"] == "browser")
+                self.assertEqual(dry["level"], "warn")
+        job = jobs.Job(stage="p1", title="t", steps=[])
+        said = scrape.parse_p1("[crawl] XX AU Cyber Security Rules 2025 -> https://www.legislation.gov.au/F2025L00278/latest/text (HTTP 0)", job)[0]
+        self.assertIn("no answer: the portal did not reply or the browser could not open the page", said)
+        self.assertEqual(scrape.parse_p1("[crawl] XX SG Some Act -> https://x/y (HTTP 404)", job)[0], "Could not fetch Some Act (HTTP 404).")
 
 
 class Depth(unittest.TestCase):

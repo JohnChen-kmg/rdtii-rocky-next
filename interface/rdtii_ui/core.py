@@ -24,7 +24,7 @@ def register(app: App) -> None:
                 "ollama": {"ok": ollama["ok"], "host": ollama["host"], "models": ollama["models"][:40],
                            "error": ollama.get("error")},
                 "tesseract": probes.probe_tesseract(),
-                "chromium": probes.probe_chromium(),
+                "chromium": probes.probe_chromium(s.python_for("p1")),
                 "key": app.key.public(),
             },
             "engine": app.engines.public(),

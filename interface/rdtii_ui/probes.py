@@ -106,7 +106,7 @@ def tool_path_dirs(platform: str | None = None) -> list[str]:
     return dirs
 
 
-def probe_chromium() -> dict:
+def _browser_roots() -> list[Path]:
     roots = []
     if os.environ.get("PLAYWRIGHT_BROWSERS_PATH"):
         roots.append(Path(os.environ["PLAYWRIGHT_BROWSERS_PATH"]))
@@ -114,12 +114,90 @@ def probe_chromium() -> dict:
         roots.append(Path(os.environ["LOCALAPPDATA"]) / "ms-playwright")
     roots.append(Path.home() / ".cache" / "ms-playwright")            # Linux
     roots.append(Path.home() / "Library" / "Caches" / "ms-playwright")  # macOS
-    for root in roots:
-        if root.is_dir():
-            hits = sorted(p.name for p in root.glob("chromium-*") if p.is_dir())
-            if hits:
-                return {"ok": True, "path": str(root / hits[-1])}
-    return {"ok": False, "path": None, "hint": install_hint("chromium")}
+    return roots
+
+
+def _browser_builds() -> tuple:
+    """The browser builds on disk, as names: what a launch test's answer depends on."""
+    return tuple(sorted(str(d) for root in _browser_roots() if root.is_dir() for d in root.iterdir()
+                        if d.is_dir() and d.name.startswith("chromium")))
+
+
+# Run by the crawler's own Python: start its browser and stop it again.
+_LAUNCH_CODE = (
+    "import sys\n"
+    "from importlib import metadata\n"
+    "try:\n"
+    "    from playwright.sync_api import sync_playwright\n"
+    "except Exception as e:\n"
+    "    print('BROWSER no-package ' + type(e).__name__); sys.exit(0)\n"
+    "v = metadata.version('playwright')\n"
+    "try:\n"
+    "    pw = sync_playwright().start()\n"
+    "    b = pw.chromium.launch(headless=True)\n"
+    "    print('BROWSER ok ' + v + ' ' + b.version)\n"
+    "    b.close(); pw.stop()\n"
+    "except Exception as e:\n"
+    "    print('BROWSER fail ' + v + ' ' + str(e).splitlines()[0][:300])\n")
+_launch_lock = threading.Lock()
+_launch_cache: dict = {}
+
+
+def read_launch(output: str, python: str) -> dict:
+    """What the launch test printed, as {"ok", "text", "hint"}."""
+    line = next((ln for ln in (output or "").splitlines() if ln.startswith("BROWSER ")), "")
+    parts = line.split(" ", 3)
+    how = f'"{python}" -m playwright install chromium'
+    if len(parts) >= 2 and parts[1] == "ok":
+        return {"ok": True, "text": f"The crawler's browser starts (Playwright {parts[2]}, Chromium {parts[3] if len(parts) > 3 else ''}).".replace(" )", ")"),
+                "hint": ""}
+    if len(parts) >= 2 and parts[1] == "no-package":
+        return {"ok": False, "text": "The crawler's Python has no Playwright package, so no page can be fetched through a browser.",
+                "hint": f'"{python}" -m pip install playwright, then {how}'}
+    if len(parts) >= 3 and parts[1] == "fail":
+        why = parts[3] if len(parts) > 3 else ""
+        if "Executable doesn't exist" in why:
+            why = f"Playwright {parts[2]} needs a Chromium build that is not installed (the package was updated after the browser was)"
+        return {"ok": False, "text": f"The crawler's browser cannot start: {why}.".replace("..", "."), "hint": how}
+    return {"ok": False, "text": "The crawler's browser could not be tested.", "hint": how}
+
+
+def probe_browser_launch(python: str, run=None) -> dict:
+    """Whether the crawler's own Python can start its browser: the only test that tells. A Chromium folder on
+    disk says nothing once the Playwright package has moved on to another build; every page fetched through
+    the browser then fails as "HTTP 0". The answer is kept until the builds on disk change."""
+    from .proc import run_quiet
+    key = (python, _browser_builds())
+    with _launch_lock:
+        if _launch_cache.get("key") == key:
+            return _launch_cache["value"]
+    try:
+        r = (run or run_quiet)([python, "-c", _LAUNCH_CODE], capture_output=True, text=True, encoding="utf-8",
+                                errors="replace", timeout=90, env={**os.environ, "PYTHONUTF8": "1"})
+        out = read_launch(r.stdout or "", python)
+    except Exception as e:  # noqa: BLE001 - a probe never raises
+        out = {"ok": False, "text": f"The crawler's browser could not be tested ({type(e).__name__}).", "hint": ""}
+    with _launch_lock:
+        _launch_cache.update(key=key, value=out)
+    return out
+
+
+def warm_browser_probe(python: str) -> None:
+    """Test the launch in the background at start, so the header's dot is true before the first Check."""
+    threading.Thread(target=probe_browser_launch, args=(python,), name="browser-probe", daemon=True).start()
+
+
+def probe_chromium(python: str | None = None) -> dict:
+    """The header's Chromium dot. A build folder on disk is the least; when the launch test for this Python has
+    run, its answer is the one shown."""
+    hits = _browser_builds()
+    if not hits:
+        return {"ok": False, "path": None, "hint": install_hint("chromium")}
+    with _launch_lock:
+        tested = _launch_cache.get("value") if python and _launch_cache.get("key") == (python, hits) else None
+    if tested is not None:
+        return {"ok": tested["ok"], "path": hits[-1], "hint": tested["hint"], "text": tested["text"], "tested": True}
+    return {"ok": True, "path": hits[-1], "tested": False}
 
 
 STAGE_ENTRY = {

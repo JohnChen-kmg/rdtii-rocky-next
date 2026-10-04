@@ -889,9 +889,10 @@ def precheck(app: App, req: dict) -> list[dict]:
         checks.extend(cn_run.precheck_cn(app, req))
     if not engine or any(c["level"] == "fail" and c["check"] == "economies" for c in checks):
         return checks
-    ch = _probes.probe_chromium()
-    add("ok" if ch["ok"] else "warn", "browser",
-        "Chromium for Playwright is installed." if ch["ok"] else "Chromium is not installed for Playwright; portals that need a browser will fail. Run: python -m playwright install chromium")
+    ch = _probes.probe_browser_launch(s.python_for("p1"))
+    # a dry run fetches nothing, so it may go ahead; a crawl without its browser loses every page that needs one
+    add("ok" if ch["ok"] else "warn" if n["dry_run"] else "fail", "browser",
+        ch["text"] + ("" if ch["ok"] else f" Pages fetched through the browser would fail as HTTP 0. Run: {ch['hint']}"))
     if n["frontier"] == "links":
         states = {c: link_state(s, c) for c in engine}
         for c in engine:
@@ -990,7 +991,9 @@ P1_RULES: list[tuple[re.Pattern, object]] = [
                    {"total": int(m[2]), "done": 0, "unit": "documents"})),
     (re.compile(r"^\[dry-run\] (\w\w) (.+?) -> (\S+)$"), lambda m, j: ((f"Would fetch: {m[2]}" if (j.progress.get('done') or 0) < 12 else None), {"+done": 1})),
     (re.compile(r"^\[crawl\] OK (\w\w) (.+?) -> (\w+) \((\d+)\).*-> (\S+)$"), _ok_line),
-    (re.compile(r"^\[crawl\] XX (\w\w) (.+?) -> .*\(HTTP (\d+)\)"), lambda m, j: (f"Could not fetch {m[2]} (HTTP {m[3]}).", {"+failed": 1})),
+    (re.compile(r"^\[crawl\] XX (\w\w) (.+?) -> .*\(HTTP (\d+)\)"),
+     lambda m, j: (f"Could not fetch {m[2]} (" + ("no answer: the portal did not reply or the browser could not open the page" if m[3] == "0" else f"HTTP {m[3]}") + ").",
+                   {"+failed": 1})),
     (re.compile(r"^\[crawl\] XX (\w\w) (.+?) -> store error: (.*)"), lambda m, j: (f"Could not store {m[2]}: {m[3][:100]}", {"+failed": 1})),
     (re.compile(r"^\[crawl\] -- (\w\w) (.+?) -> skipped"), lambda m, j: (None, {"+skipped": 1})),
     (re.compile(r"^\[crawl\] throttled \(HTTP (\d+)\) on (.+?); cooldown (\d+)s"), lambda m, j: (f"The portal asked us to slow down (HTTP {m[1]}); waiting {m[3]} s.", None)),
