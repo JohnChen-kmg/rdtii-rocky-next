@@ -11,6 +11,18 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 
 ## 2026-10-04 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
 
+Interface review: every tab driven in a browser on a test copy, every Check pressed, no Start. One bug and
+several fit and wording problems, fixed one by one at the developer's word.
+
+- Mapping, the index: it holds one ranking per indicator, and the page compared dates only. The demo index was ranked for 6.1 and 6.4; with nine indicators ticked Check said "Reusing the index" and the stage would have stopped at candidate selection ("no top-K idx array for indicator 6.2"). The page now reads which indicators each leg holds from the member names of the `.npz`, shows "ranked for 6.1, 6.4; ranked again at Start" on the Index line, says so in Check, and plans the two ranking steps; the provisions read and their embeddings are reused. An index it cannot read is left to the dates. `pages/mapping.py` (`_index_indicators`, `index_lacks`), `static/app.js`, two new tests.
+- Engines are named, not lettered. The Mapping page letters its steps A to E (4 October), and the engines were A to E as well, so Check said "Engine A needs a key" under "A Candidate selection". The banner, Check, the run's sentences and the run record say Claude, Qwen, DeepSeek, Kimi, ChatGPT. Engine ids are unchanged wherever a setting or a run id carries them (`RDTII_ENGINE`, the `_A` in a run folder's name).
+- Overview: it now says what the Mapping page says. The chain reads A select, B screen, C read, D re-check, E tie-break; "Triage" is "Quick screen"; the models are named and the line on choosing a model per step is there; the cost table's columns carry the steps' names; "Before you start" covers every hosted provider's key. No figure changed.
+- Extraction, Input: the shipped lists whose documents are not on the machine (nine here) sit last, under the heading "Lists only: the documents are not on this machine".
+- Mapping, Output record: the model by its name and the cost in dollars and cents ("Claude Sonnet 5", "$109.29"), in place of "anthropic: claude-sonnet-5" and "$109.2905".
+- Fit: the Open and Clear buttons of the Output tables stay on one line each and the box shows four to five rows (it showed one and a half); the Overview's example trees are no longer cut on the right; the line "hold the key in the banner above" is said once per provider, not in every step; at 1,100 px the economy tiles go one per row.
+- Verified: interface suite 235 passed, from 233; the walk-through repeated on the test copy with no browser error and no failed request; each changed place read back from the page.
+- Left open, for the developer: the Sonnet 5 price card ($3 / $15 in the stage, $2 / $10 posted); the "not measured" notes on DeepSeek, Kimi and ChatGPT, which wait for the form in which the 4 October model check goes onto the page; the raw command line under Start.
+
 The third instrument hand-off (decision D17: what an absence scores, and the count rule, as data), and
 the mapping stage reading both. The mapping stage's requests R5 and R6, decided by the developer on
 4 October and built in the instrument workshop that night.

@@ -97,6 +97,8 @@ async function loadHealth() {
 }
 
 /* the models an engine puts in each role, in plain words */
+/* an older run manifest names its engine "provider: model id"; show the model by its name */
+const engineText = (s) => { const m = /^(anthropic|ollama|openai_compat): (.+)$/.exec(String(s)); return m ? (MODEL_NAMES[m[2]] || m[2]) : String(s); };
 const MODEL_NAMES = { 'claude-sonnet-5': 'Claude Sonnet 5', 'claude-haiku-4-5': 'Claude Haiku 4.5', 'claude-opus-4-8': 'Claude Opus 4.8', 'qwen2.5:14b': 'Qwen 2.5 14B, local' };
 const engineList = () => { const eng = (S.health || {}).engine || {}; return Array.isArray(eng.engines) ? eng.engines : []; };
 const engineOf = (id) => engineList().find((e) => e.id === id) || null;
@@ -227,8 +229,8 @@ function renderRunRow() {
       ${cur && cur.kind === 'frozen' ? '<div class="muted small">Filed rows, read-only: review decisions are refused here.</div>' : ''}
       ${cur ? `<div class="record"><b class="record-title">Record</b><ul class="note-list">
         <li><b>What this is</b>: ${esc(cur.kind === 'fixture' ? 'a fixture slice of run_2026-09-27, shipped with the interface so the review screen works on a clean clone' : cur.kind === 'frozen' ? 'the filed rows of the submission, read-only' : 'the output of a run from this interface')}.</li>
-        ${cur.engine ? `<li><b>Engine</b>: ${esc(cur.engine)}.</li>` : ''}
-        ${cur.cost_usd != null ? `<li><b>Recorded cost</b>: $${esc(String(cur.cost_usd))}, from the run manifest.</li>` : ''}
+        ${cur.engine ? `<li><b>Engine</b>: ${esc(engineText(cur.engine))}.</li>` : ''}
+        ${cur.cost_usd != null ? `<li><b>Recorded cost</b>: $${esc(Number(cur.cost_usd).toFixed(2))}, from the run manifest.</li>` : ''}
         ${cur.arms.length > 1 ? `<li><b>Arms</b>: ${cur.arms.length}, ${esc(cur.arms.join(', '))}; the rows of both are listed.</li>` : ''}
         ${cur.git ? `<li><b>Stage commit</b>: <code>${esc(cur.git.slice(0, 10))}</code>, the mapping stage that produced it.</li>` : ''}
         <span id="record-corpus"></span>
@@ -616,13 +618,17 @@ function inputLabel(i) {
   return `${i.id}: ${what}${bytes} (${i.origin})`;
 }
 
+/* a shipped manifest describes documents without holding them: listed last, under its own heading */
+const listOnly = (i) => i.kind === 'crawled' && i.raw_checked > 0 && i.raw_present === 0;
+const inputOption = (i) => `<option value="${esc(i.id)}" ${EX.chosen === i.id ? 'selected' : ''}>${esc(inputLabel(i))}</option>`;
+
 function renderExtractSetup() {
   const d = EX.desc;
   const inboxSetting = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_INBOX_DIR');
   const inbox = inboxSetting ? inboxSetting.value : 'inbox';
   $('#extract-setup').innerHTML = `
     <div class="setup-row"><div class="setup-label">Input</div>
-      <div class="row"><select id="ex-input" class="wide-select">${EX.inputs.map((i) => `<option value="${esc(i.id)}" ${EX.chosen === i.id ? 'selected' : ''}>${esc(inputLabel(i))}</option>`).join('')}<option value="__typed" ${EX.chosen === '__typed' ? 'selected' : ''}>another folder on this machine</option></select>
+      <div class="row"><select id="ex-input" class="wide-select">${EX.inputs.filter((i) => !listOnly(i)).map(inputOption).join('')}<option value="__typed" ${EX.chosen === '__typed' ? 'selected' : ''}>another folder on this machine</option>${EX.inputs.some(listOnly) ? `<optgroup label="Lists only: the documents are not on this machine">${EX.inputs.filter(listOnly).map(inputOption).join('')}</optgroup>` : ''}</select>
         ${EX.chosen === '__typed' ? `<input type="text" id="ex-typed" size="48" placeholder="a folder holding PDF, HTML or Word files" value="${esc(EX.typed)}"> <button class="btn" id="ex-describe">Look</button>` : ''}
       </div>
     </div>
@@ -1064,6 +1070,7 @@ const dollars = (x) => `$${Number(x)}`;
 const priceText = (m) => !m.price ? 'no price card' : (m.price[0] === 0 && m.price[1] === 0) ? 'no charge' : `${dollars(m.price[0])} / ${dollars(m.price[1])}`;
 
 /* one step: the provider blocks, then the models of the chosen provider */
+let KEY_HINTED = new Set();
 function modelBlock(step) {
   const pick = MP.models[step.key];
   const held = heldKeys();
@@ -1081,7 +1088,10 @@ function modelBlock(step) {
   const m = modelOf(e, pick.model);
   const notes = [];
   if (!(e && e.measured && m && m.measured)) notes.push('<span class="chip warn">not measured</span> the prompts and every reported figure were made on Claude');
-  if (e && e.key_env && !held[e.key_env]) notes.push(`<span class="chip bad">no key</span> hold the ${esc(e.name)} key in the banner above`);
+  if (e && e.key_env && !held[e.key_env] && !KEY_HINTED.has(e.key_env)) {   // said once, in the first step that needs it; the pill says "no key" in each
+    KEY_HINTED.add(e.key_env);
+    notes.push(`<span class="chip bad">no key</span> hold the ${esc(e.name)} key in the banner above`);
+  }
   return `<div class="subblock">
       <div class="subblock-head"><b><span class="letter">${step.letter}</span>${esc(step.title)}</b><span>${esc(step.sub)}</span></div>
       <div class="stack">
@@ -1235,7 +1245,7 @@ function renderMapRun() {
       <label class="stack-row"><span class="setup-label">Meaning index</span> <select id="mp-dense"><option value="auto" ${MP.dense === 'auto' ? 'selected' : ''}>Auto</option><option value="real" ${MP.dense === 'real' ? 'selected' : ''}>Build</option><option value="stub" ${MP.dense === 'stub' ? 'selected' : ''}>Skip</option></select> <span class="muted">matches provisions to indicators by meaning, in any language; the thresholds are read on its score</span></label>
       </div>
     </div>
-    ${MP.models ? MODEL_STEPS.map(modelBlock).join('') : ''}
+    ${MP.models ? (KEY_HINTED = new Set(), MODEL_STEPS.map(modelBlock)).join('') : ''}
     <div class="stack">
       <label class="stack-row"><span class="setup-label">Translation</span> <input type="checkbox" id="mp-gloss" ${MP.gloss ? 'checked' : ''}> <span>for review</span></label>
       <label class="stack-row"><span class="setup-label">Quick run</span> <input type="text" id="mp-limit" size="5" value="${esc(MP.limit)}" placeholder="all"> <span>map at most this many provisions per economy; blank for everything</span></label>

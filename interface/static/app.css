@@ -646,3 +646,14 @@ label.radio.big { border-radius: 12px; transition: border-color .15s, background
 .guide pre.tree, .guide .row-line { border-radius: 10px; }
 .guide .scorecard { border-width: 1px; border-radius: 10px; }
 /* === lighter look: end === */
+
+/* === fit: begin (4 October 2026) === */
+/* Output tables: each action on its own line, never broken in two, so a row is three lines high at most
+   and the box shows several rows */
+table.rows td:last-child .btn { display: block; width: 100%; white-space: nowrap; margin: 3px 0; padding: 3px 12px; }
+#scrape-output .table-wrap, #extract-output .table-wrap { max-height: 64vh; }
+/* Overview examples: nothing is cut on the right; a long line wraps */
+.guide pre.tree { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; }
+/* a narrow window: one economy per row */
+@media (max-width: 1200px) { .econ-grid { grid-template-columns: minmax(0, 1fr); } }
+/* === fit: end === */
