@@ -20,13 +20,15 @@ from config import manifest
 from config.llm.factory import get_llm
 from config.settings import SETTINGS
 from src.p3map.mapping.prompt import build_system_prefix
+from src.p3map.mapping.schema import SCORE_LABELS
 
 WORKERS = SETTINGS.verify_workers   # settings, not code: the live hour is rate-limit-bound
 VERIFY_SCHEMA = {
     "type": "object",
     "properties": {
         "applies": {"type": "boolean"},
-        "score_hint": {"type": "string", "enum": ["1", "0.5", "0", "n/a"]},
+        # the run's scope's own scores, as the mapper is offered them (mapping/schema.py)
+        "score_hint": {"type": "string", "enum": list(SCORE_LABELS)},
         "confidence": {"type": "number"},
         "reason": {"type": "string", "maxLength": 300},
     },
@@ -40,7 +42,7 @@ TEXT:
 QUESTION (answer independently from the text alone): does this provision
 constitute evidence for indicator {ind} under its scoring tree? Run the trap
 checks in the system instructions before answering. If it applies, which
-scoring branch fires ('1', '0.5', '0'); if not, 'n/a'."""
+scoring branch fires (""" + ", ".join(f"'{x}'" for x in SCORE_LABELS[:-1]) + """); if not, 'n/a'."""
 
 
 def run_verify(economy: str) -> None:

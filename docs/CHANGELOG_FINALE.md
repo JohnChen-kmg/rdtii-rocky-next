@@ -11,6 +11,18 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 
 ## 2026-10-04 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
 
+Mapping after the second instrument hand-off (commit `bafe873`: all 61 indicators at pillar 6-7 depth).
+The first three of the six things mapping has to absorb, and the evaluator; the developer's go-ahead of
+4 October.
+
+- Mapping stage, the measured path pinned first: `tests/test_second_handoff.py` holds, by fingerprint or word for word, every request a model receives for the nine indicators of pillars 6 and 7: the prompt (31,929 characters), the re-check's form and question, and the economy-level question and form for 7.1 and 7.2. The fingerprints were taken at `bafe873`, before the change, and are the same after it. Why: every filed row and reported figure came from those requests.
+- Mapping stage, scales per block: the scores a verdict may carry are read from each block's `scoring.values` (`Instrument.values`, `labels`, `on_scale`) in place of one fixed 1 / 0.5 / 0. The reading and the re-check are offered the union over the run's scope; for pillars 6 and 7 that union is 1 / 0.5 / 0, which is why their requests did not move, although 6.3, 7.3 and 7.5 are binary. Whether a value belongs to its own indicator is checked in the roll-up: a verified value the block's scale does not offer is set aside and counted in the cell's basis. A 0.5 on a binary indicator keeps its old rule, so the roll-up of pillars 6 and 7 says what it always said. Why: 23 indicators are binary, 3.1 and 5.2 add 0.8, 3.4 and 5.4 add 0.25, 1.4 has five steps.
+- Mapping stage, economy-level indicators: the roll-up takes the framework's name from the block (`framework_name`, on all 13) and asks every indicator but 7.1 and 7.2 with its block's own scoring branches and scale; an answer off that scale leaves the cell unscored. Before, the eleven new ones ended "pending" on a missing table entry, and one fixed sentence fitted neither 5.4 nor the binary 5.7, 11.1 and 12.9.
+- Mapping stage, the prompt's first sentence names the pillars of the run's scope. Any scope inside pillars 6 and 7 still reads "Pillars 6-7"; before, a full-instrument run said so too.
+- Mapping stage, the evaluator reads `label_flag`: a suspect row is not gold (53), and the seven rows Round 1's review set aside stay out (two suspect, five advisory), so the published pillar 6-7 figures keep their rows; a test holds that the rule sets aside exactly those seven in pillars 6 and 7. Advisory, host-marked and candidate rows count in the headline figure, and `row_recall_unflagged` is the same measure on rows with no flag: the developer's decision. The report says how many rows each reason set aside and which indicators have no gold left; 14 economy-and-indicator cells have a suspect row as their only gold row.
+- Waiting, by the developer's decisions of 4 October: counting indicators wait for the count rule as data on the block (request R5), and what an absence scores waits for a field on the block (request R6; 11.2 and the inverted indicators). The prompt strategy for a full-instrument run is left for a detailed look with the developer at how the query is built from the instrument, with the model choice in mind. No run was made against a model for this change, at his word; it is tested with stand-ins only.
+- Tests: mapping stage 471, from 451.
+
 A choice for each step of the mapping, asked for on 4 October: a number per indicator for the candidate
 selection, and a provider and a model for each step that calls one.
 

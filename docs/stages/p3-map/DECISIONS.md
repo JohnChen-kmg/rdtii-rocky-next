@@ -8,6 +8,36 @@ it is reversed later. Entries marked **Proposed** are recommendations, not settl
 
 ---
 
+## 2026-10-04, M17 After the second hand-off: scales and economy-level questions come from the blocks; the measured requests are pinned
+
+**Decision.** The stage reads from each block what it used to fix in code: the scores a verdict may
+carry (`scoring.values`), and for an economy-level indicator the framework's name and the branches
+it is asked with. The evaluator reads `label_flag` in place of a list of ids. Before any of it, a
+test pins every request a model receives for the nine indicators of pillars 6 and 7, and those
+requests are the same after the change.
+
+**Reason.** The instrument of 4 October gives all 61 indicators the depth of pillars 6 and 7, with
+five different scales and 13 economy-level indicators; one enum and a two-entry table no longer fit.
+The nine measured indicators must not move while the other 52 are made to work, because every filed
+row and every reported figure came from their requests.
+
+**Two rules that follow from "must not move".** The scores offered to a model are the union over the
+run's scope, not each indicator's own list: per indicator, 6.3, 7.3 and 7.5 would lose the 0.5 they
+have always been offered. And 7.1 and 7.2 keep the scale sentence they were measured with, while the
+other eleven economy-level indicators are asked with their block's scoring tree.
+
+**The developer's decisions of 4 October.** Counting indicators: the instrument states the count rule
+as data (R5), the stage does not hand-code twelve rules. What an absence scores: a field on the block
+(R6), needed first for 11.2. Evaluator: suspect rows and the seven of Round 1's review are out;
+advisory, host-marked and candidate rows count, with a second figure on unflagged rows. Verification
+runs against a model: left for now. How the query is built from the instrument for the indicators
+that lacked this depth, across the model choices now on the page: to be looked at in detail later.
+
+**If reversed.** Restore the fixed enum and the table and every indicator outside pillars 6 and 7 with
+another scale validates wrongly or ends "pending"; nothing changes for the nine.
+
+---
+
 ## 2026-10-04, M16 A role may have its own engine, and three unmeasured engines are declared
 
 **Decision.** `engines.json` version 1.1.0 lists each engine's models with a price card and declares

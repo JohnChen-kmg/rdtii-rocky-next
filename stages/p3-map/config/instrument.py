@@ -109,6 +109,35 @@ class Instrument:
         """True for a "Lack of ..." indicator, where an absent framework scores 1."""
         return normalize(iid) in self.inverted
 
+    # ---- the block's own scale (second hand-off, 4 October 2026) --------------------
+    def values(self, iid) -> tuple[float, ...]:
+        """The scores this indicator's scoring tree can give, highest first. Scales differ by block
+        since the second hand-off: 1/0.5/0, binary 1/0, 1/0.8/0.5/0, 1/0.5/0.25/0 and five steps of
+        0.25. A block that states none falls back to 1/0.5/0, the only scale Round 1 had."""
+        scoring = self.block(iid).get("scoring") or {}
+        raw = scoring.get("values") if isinstance(scoring, dict) else None
+        vals = sorted({float(v) for v in (raw or (1, 0.5, 0))}, reverse=True)
+        return tuple(vals)
+
+    def on_scale(self, iid, score) -> bool:
+        """True when `score` (text or number) is one of the block's own values."""
+        try:
+            x = float(score)
+        except (TypeError, ValueError):
+            return False
+        return any(abs(x - v) < 1e-9 for v in self.values(iid))
+
+    def labels(self, ids) -> tuple[str, ...]:
+        """Every score any of these indicators can take, as the text a model answers with, highest
+        first. For the nine of pillars 6 and 7 that is ("1", "0.5", "0")."""
+        vals = sorted({v for i in ids for v in self.values(i)}, reverse=True)
+        return tuple(f"{v:g}" for v in vals)
+
+    def framework_name(self, iid) -> str | None:
+        """For an economy-level indicator: the phrase that completes "does the economy lack a ___?"."""
+        name = self.block(iid).get("framework_name")
+        return str(name).strip() if name else None
+
     # ---- retrieval material ------------------------------------------------------
     def signature(self, iid) -> dict:
         """Signature for one indicator, by decimal filename or the legacy one."""

@@ -11,8 +11,19 @@ from functools import lru_cache
 
 import yaml
 
+from config.indicator_ids import pillar_of
 from config.instrument import load as load_instrument
 from config.settings import INDICATORS
+
+
+def scope_label(ids) -> str:
+    """The pillars a run's scope covers, for the prompt's first sentence. Any scope inside pillars 6
+    and 7 reads "Pillars 6-7", the words every measured run was given; before 4 October the header
+    said that whatever the scope held, a full-instrument run included."""
+    pillars = sorted({pillar_of(i) for i in ids})
+    if set(pillars) <= {6, 7}:
+        return "Pillars 6-7"
+    return ("Pillar " if len(pillars) == 1 else "Pillars ") + ", ".join(str(x) for x in pillars)
 
 
 @lru_cache(maxsize=1)
@@ -24,7 +35,7 @@ def build_system_prefix() -> str:
 
     parts = [
         "You are a legal analyst coding statutory provisions against the RDTII 2.1 "
-        "digital-trade indicators (Pillars 6-7). Decide from the provided text only; "
+        f"digital-trade indicators ({scope_label(INDICATORS)}). Decide from the provided text only; "
         "never invent provisions. Follow each indicator's scoring tree exactly.",
         "\n## Score polarity\n" + yaml.dump(ind_doc.get("score_polarity", {}),
                                             sort_keys=True, allow_unicode=True),

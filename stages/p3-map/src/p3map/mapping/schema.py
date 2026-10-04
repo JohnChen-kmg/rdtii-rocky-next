@@ -13,7 +13,25 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, model_validator
 
+from config.instrument import load as load_instrument
 from config.settings import INDICATORS
+
+# The scores a verdict may carry are the run's own scope's: the union of its blocks' scales, read
+# from each block's `scoring.values` (second instrument hand-off, 4 October 2026: 23 indicators are
+# binary, 3.1 and 5.2 add 0.8, 3.4 and 5.4 add 0.25, 1.4 has five steps). The union, not each
+# indicator's own list, because one document is sent for the whole run -- and because for the nine
+# indicators of pillars 6 and 7 the union is 1 / 0.5 / 0, so the document they are sent has not
+# moved by a byte. Whether a value belongs to ITS indicator is checked where scores are used
+# (rollup.py), against the block.
+SCORE_LABELS: tuple[str, ...] = (*load_instrument().labels(INDICATORS), "n/a")
+_MEASURED_LABELS = ("1", "0.5", "0", "n/a")
+_SCORE_HINT_TEXT = (
+    "The scoring-tree branch outcome for THIS provision: one of '1', "
+    "'0.5', '0', 'n/a'. Economy rollup happens downstream; binary indicators "
+    "never 0.5." if SCORE_LABELS == _MEASURED_LABELS else
+    "The scoring-tree branch outcome for THIS provision: one of "
+    + ", ".join(f"'{x}'" for x in SCORE_LABELS)
+    + ". Use only a value the indicator's own scoring tree offers. Economy rollup happens downstream.")
 
 
 NARRATIVE_FIELDS = ("core_legal_question_answer", "who_is_regulated",
@@ -61,10 +79,7 @@ class IndicatorVerdict(BaseModel):
     # constrains score_hint this way; the mapper now matches its verifier.
     coverage: Literal["Horizontal", "Sectoral", "None"] = Field(
         description="Horizontal | Sectoral | None")
-    score_hint: Literal["1", "0.5", "0", "n/a"] = Field(
-        description="The scoring-tree branch outcome for THIS provision: one of '1', "
-        "'0.5', '0', 'n/a'. Economy rollup happens downstream; binary indicators "
-        "never 0.5.")
+    score_hint: Literal[SCORE_LABELS] = Field(description=_SCORE_HINT_TEXT)
     verbatim_quote: str = Field(description="EXACT substring of the provided "
                                 "provision text that carries the obligation. No "
                                 "paraphrase — validated byte-for-byte downstream.")
