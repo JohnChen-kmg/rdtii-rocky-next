@@ -1091,6 +1091,11 @@ def _all_skipped_fails(n_economies: int):
     def hook(job: Job, rc: int) -> None:
         if rc == 0 and (job.progress.get("skipped_economies") or 0) >= n_economies:
             job.progress["_fail"] = "Nothing was crawled: the crawler skipped the economy. The reason is in the sentence above."
+            return
+        failed = int(job.progress.get("failed") or 0)
+        if failed:      # the run ends as done, so the documents left behind must be said, with the way to get them
+            job.say(f"{failed} document{'s' if failed != 1 else ''} could not be fetched and {'are' if failed != 1 else 'is'} not in the folder. "
+                    "Update an existing crawl, over this folder, tries only those again.")
     return hook
 
 

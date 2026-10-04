@@ -1,4 +1,5 @@
 """The Scraping and Extraction set-up lists, read from the stages' own files."""
+import tempfile
 import unittest
 
 from . import INTERFACE  # noqa: F401
@@ -8,7 +9,11 @@ from rdtii_ui.pages import extract, scrape
 
 class Scraping(unittest.TestCase):
     def setUp(self):
-        self.s = settings_mod.load({})
+        # an empty runs root: the numbers pinned here are the shipped link lists', and a list refreshed on
+        # this machine would take their place
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.s = settings_mod.load({"RDTII_RUNS_ROOT": tmp.name})
 
     def test_registry_and_codes_come_from_the_stage(self):
         reg = scrape.registry(self.s)

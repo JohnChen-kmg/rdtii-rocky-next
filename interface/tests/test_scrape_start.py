@@ -385,6 +385,17 @@ class Narration(unittest.TestCase):
         self.assertIn("LA skipped: the portal closed or dropped the connection", text)
         self.assertIn("start it again", text)
 
+    def test_a_run_that_left_documents_behind_says_so(self):
+        job = jobs.Job(stage="p1", title="t", steps=[])
+        job.bump(total=23, done=23, failed=6)
+        scrape._all_skipped_fails(1)(job, 0)
+        self.assertNotIn("_fail", job.progress)
+        self.assertIn("6 documents could not be fetched", job.sentences[-1]["text"])
+        self.assertIn("Update an existing crawl", job.sentences[-1]["text"])
+        clean = jobs.Job(stage="p1", title="t", steps=[])
+        scrape._all_skipped_fails(1)(clean, 0)
+        self.assertEqual(clean.sentences, [])
+
     def test_the_two_adapters_that_report_their_listing_progress_are_heard(self):
         job = jobs.Job(stage="p1", title="t", steps=[])
         self.assertEqual(scrape.parse_p1("[catalogue] MY: 50 timeline(s) read; 106 request(s) so far", job)[0],
