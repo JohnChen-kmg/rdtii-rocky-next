@@ -98,11 +98,21 @@ async function loadHealth() {
 
 /* the models an engine puts in each role, in plain words */
 const MODEL_NAMES = { 'claude-sonnet-5': 'Claude Sonnet 5', 'claude-haiku-4-5': 'Claude Haiku 4.5', 'claude-opus-4-8': 'Claude Opus 4.8', 'qwen2.5:14b': 'Qwen 2.5 14B, local' };
+const engineList = () => { const eng = (S.health || {}).engine || {}; return Array.isArray(eng.engines) ? eng.engines : []; };
+const engineOf = (id) => engineList().find((e) => e.id === id) || null;
+const modelOf = (e, id) => (e && (e.models || []).find((m) => m.id === id)) || null;
+const heldKeys = () => (((S.health || {}).probes || {}).key || {}).names || {};
+/* the engines the next mapping run calls: one per step once the steps are set, else the banner's */
+function enginesInUse() {
+  const eng = (S.health || {}).engine || {};
+  const ids = MP.models ? Object.values(MP.models).map((x) => x.engine) : [eng.selected];
+  return [...new Set(ids)].map(engineOf).filter(Boolean);
+}
 function roleLine(e) {
-  const r = e.roles || {}; const nm = (m) => MODEL_NAMES[m] || m || '?';
-  const same = r.mapper && r.mapper === r.verifier && r.mapper === r.escalation && r.mapper === r.triage;
-  if (same) return `${nm(r.mapper)} in every role: reading, re-check, tie-break and triage.`;
-  return `reads with ${nm(r.mapper)}, re-checks with ${nm(r.verifier)}, breaks ties with ${nm(r.escalation)}; triage ${nm(r.triage)}.`;
+  const r = e.roles || {}; const nm = (m) => MODEL_NAMES[m] || (modelOf(e, m) ? `${e.model_prefix || ''}${modelOf(e, m).label}` : m) || '?';
+  const same = r.mapper && r.mapper === r.verifier && r.mapper === r.escalation;
+  if (same) return `${nm(r.mapper)} in every step: quick screen, reading, re-check and tie-break.`;
+  return `screens and re-checks with ${nm(r.verifier)}, reads with ${nm(r.mapper)}, breaks ties with ${nm(r.escalation)}.`;
 }
 
 function renderTop() {
@@ -112,37 +122,44 @@ function renderTop() {
     `<label class="radio ${e.id === eng.selected ? 'on' : ''}" title="${esc(e.provider)} · mapper ${esc(e.roles?.mapper || '')}">
        <input type="radio" name="engine" value="${esc(e.id)}" ${e.id === eng.selected ? 'checked' : ''}> ${esc(e.id)} · ${esc(e.label)}</label>`).join('')
     + (eng.engines.length ? '' : `<span class="muted small">no engines declared (stages/p3-map missing?)</span>`)
-    + (eng.engines.length ? `<div class="roles">${eng.engines.map((e) => `<div class="${e.id === eng.selected ? 'on' : ''}"><b>${esc(e.id)}</b> ${esc(roleLine(e))}</div>`).join('')}</div>` : '');
+    + (eng.engines.length ? `<div class="roles">${eng.engines.filter((e) => e.id === eng.selected).map((e) => `<div class="on"><b>${esc(e.id)}</b> ${esc(roleLine(e))}${e.measured ? '' : ' <span class="chip warn">not measured</span>'}</div>`).join('')}<div>Sets every step of a run. Each step can be given another model under Run, below.</div></div>` : '');
   $('#engine').querySelectorAll('input[name=engine]').forEach((inp) => inp.addEventListener('change', async () => {
-    try { await api('/api/engine', { method: 'POST', body: JSON.stringify({ id: inp.value }) }); } catch (e) { alert(e.message); }
-    loadHealth();
+    try { await api('/api/engine', { method: 'POST', body: JSON.stringify({ id: inp.value }) }); MP.models = null; MP.checks = null; } catch (e) { alert(e.message); }
+    await loadHealth(); renderMapRun();
   }));
   renderJobStrip();
   const p = h.probes || {};
   const dot = (ok) => `<span class="dot ${ok === true ? 'ok' : ok === false ? 'bad' : ''}"></span>`;
   const st = h.stages || {};
+  const held = heldKeys();
+  const needKeys = enginesInUse().filter((e) => e.key_env);
   $('#health').innerHTML = [
     ['Ollama', p.ollama?.ok, p.ollama?.ok ? `${p.ollama.host}, ${p.ollama.models.length} models` : (p.ollama?.error || 'not answering')],
     ['Tesseract', p.tesseract?.ok, p.tesseract?.path || p.tesseract?.hint],
     ['Chromium', p.chromium?.ok, p.chromium?.path || p.chromium?.hint],
-    ['Key', p.key?.held, p.key?.held ? 'held in memory for this process' : 'no API key held (engine A needs one)'],
+    ['Key', needKeys.every((e) => held[e.key_env]), needKeys.length ? needKeys.map((e) => `${e.name}: ${held[e.key_env] ? 'key held in memory' : 'no key held'}`).join(', ') : 'no API key needed for the current choice'],
     ['Stages', st.p1?.present && st.p2?.present && st.p3?.present, Object.entries(st).map(([k, v]) => `${k}: ${v.present ? 'present' : 'missing'}`).join(', ')],
   ].map(([name, ok, tip]) => `<span class="item" title="${esc(tip)}">${dot(ok)}${name}</span>`).join('');
-  const held = p.key?.held;
-  const sel = eng.engines.find((e) => e.id === eng.selected);
-  const keyEng = eng.engines.find((e) => e.key_env) || sel;   // the engine that needs a key, whichever is selected
-  const needsKey = !!(sel && sel.key_env);
-  $('#keyfold').classList.remove('folded');   // the key row always stays in view
-  const label = `<span class="keylabel">${esc(keyEng ? keyEng.label : 'The hosted engine')} needs an API key:</span>`;
-  const aside = needsKey ? '' : ` <span class="small muted">(not needed for ${esc(sel ? sel.id : '')})</span>`;
-  $('#key').innerHTML = held
-    ? `${label} <span class="small muted">key held in memory for this process</span> <button class="btn small" id="key-clear">Forget</button>${aside}`
-    : `${label} <input type="password" id="key-input" placeholder="${esc(keyEng && keyEng.key_env ? keyEng.key_env : 'API key')} (memory only, never written)" autocomplete="off"> <button class="btn" id="key-set">Hold</button>${aside}`;
-  $('#key-set')?.addEventListener('click', async () => {
-    try { await api('/api/key', { method: 'POST', body: JSON.stringify({ key: $('#key-input').value }) }); $('#key-input').value = ''; } catch (e) { alert(e.message); }
-    loadHealth();
-  });
-  $('#key-clear')?.addEventListener('click', async () => { await api('/api/key', { method: 'DELETE' }); loadHealth(); });
+  $('#keyfold').classList.remove('folded');   // the key rows always stay in view
+  // one row per hosted provider the current choice calls; with none, the first hosted engine's row, marked not needed
+  const firstHosted = eng.engines.find((e) => e.key_env);
+  const rows = needKeys.length ? needKeys : (firstHosted ? [firstHosted] : []);
+  const aside = needKeys.length ? '' : ' <span class="small muted">(not needed for the current choice)</span>';
+  const typing = [...document.querySelectorAll('#key input')].some((i) => i.value || i === document.activeElement);
+  if (typing) return;   // a refresh must not wipe a key being typed
+  $('#key').innerHTML = rows.map((e) => `<div class="keyrow"><span class="keylabel">${esc(e.label)} needs an API key:</span> ` + (held[e.key_env]
+    ? `<span class="small muted">key held in memory for this process</span> <button class="btn small" data-key-clear="${esc(e.key_env)}">Forget</button>`
+    : `<input type="password" data-key-input="${esc(e.key_env)}" placeholder="${esc(e.key_env)} (memory only, never written)" autocomplete="off"> <button class="btn" data-key-set="${esc(e.key_env)}">Hold</button>`) + `${aside}</div>`).join('');
+  $('#key').querySelectorAll('[data-key-set]').forEach((btn) => btn.addEventListener('click', async () => {
+    const inp = $(`#key input[data-key-input="${btn.dataset.keySet}"]`);
+    try { await api('/api/key', { method: 'POST', body: JSON.stringify({ key: inp.value, name: btn.dataset.keySet }) }); } catch (e) { alert(e.message); }
+    inp.value = ''; inp.blur();
+    await loadHealth(); MP.checks = null; renderMapRun();
+  }));
+  $('#key').querySelectorAll('[data-key-clear]').forEach((btn) => btn.addEventListener('click', async () => {
+    try { await api(`/api/key?name=${encodeURIComponent(btn.dataset.keyClear)}`, { method: 'DELETE' }); } catch (e) { alert(e.message); }
+    await loadHealth(); MP.checks = null; renderMapRun();
+  }));
 }
 
 /* ---------- Mapping · Set up ---------- */
@@ -507,10 +524,10 @@ function sourcesBlock(code, d, crawl) {
       ${china ? `<div class="callout gap"><b class="gap-title">Card colours</b><ul class="legend"><li><b>White:</b> the China tools can read the source, and they have run.</li><li><b>Yellow:</b> collected by hand; no tool may read it.</li><li><b>Grey:</b> the tools can read it and once did, but it was never taken into Extraction, so it is not in the corpus.</li></ul><span class="small">The two layers and what to check by hand: <a href="#" class="goto-cn">Scraping › China</a>.</span></div>` : ''}
       ${!d.counts && !china ? '<p class="muted small">No link list for this economy.</p>' : ''}
       </div></div>
-    ${h ? `<div class="setup-row"><div class="setup-label">${esc(h.label)}${h.sub ? `<br><span class="sublabel">${esc(h.sub)}</span>` : ''}</div>
-      <div>${factsList(h.facts)}
+    ${h ? `<details class="hand hold" data-hold="${esc(code)}" ${SC.holdOpen && SC.holdOpen.has(code) ? 'open' : ''}><summary class="setup-label">${esc(h.label)} <span class="muted">${esc(h.sub || '')}</span> <span class="hint">${h.rows} documents</span></summary>
+      ${factsList(h.facts)}
       <details class="doclist" id="holdings-${esc(code)}" data-code="${esc(code)}" data-src="holdings"><summary>Documents ${esc(h.doclist_label || 'held')} <span class="muted">(${h.rows}; ${esc(h.scope_hint || 'with a filter')})</span></summary><div class="doclist-body"></div></details>
-      </div></div>` : `<div class="setup-row"><div class="setup-label">What we hold today<br><span class="sublabel">(9.30 Finale Submission)</span></div><div><p class="muted">No shipped corpus for this economy in this clone.</p></div></div>`}` : ''}
+      </details>` : `<details class="hand hold"><summary class="setup-label">What we hold today <span class="muted">(9.30 Finale Submission)</span> <span class="hint">nothing in this clone</span></summary><p class="muted">No shipped corpus for this economy in this clone.</p></details>`}` : ''}
     <details class="hand"><summary class="setup-label">Sources to check by hand <span class="muted">(${d.watchlist.length})</span> <span class="hint">recommended, not yet incorporated</span></summary>
       <p class="src-counts">${esc(d.manual_note)}</p>
       ${d.watchlist.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Source</th><th>Kind</th><th>Why not automatic</th><th>What to look for</th><th>Indicators</th><th>Last checked</th></tr></thead><tbody>${watch}</tbody></table></div>` : '<p class="muted small">No watchlist shipped for this economy.</p>'}
@@ -530,6 +547,11 @@ async function renderScrapeSources() {
   }
   $('#scrape-sources').innerHTML = parts.join('');
   bindDocLists();
+  // a fold stays as the reader left it when the cards are drawn again
+  document.querySelectorAll('#scrape-sources details.hold[data-hold]').forEach((d) => d.addEventListener('toggle', () => {
+    SC.holdOpen = SC.holdOpen || new Set();
+    if (d.open) SC.holdOpen.add(d.dataset.hold); else SC.holdOpen.delete(d.dataset.hold);
+  }));
   document.querySelectorAll('#scrape-sources a.goto-cn').forEach((a) => { a.onclick = (e) => { e.preventDefault(); showTab('cn'); }; });
   document.querySelectorAll('#scrape-sources input.cn-src').forEach((inp) => inp.addEventListener('change', () => {
     if (inp.checked) SC.cnSources.add(inp.value); else SC.cnSources.delete(inp.value);
@@ -1018,7 +1040,63 @@ async function startExtract() {
 }
 
 /* ---------- Mapping · Set up + Start ---------- */
-const MP = { loaded: false, handoffs: [], handoff: null, economies: new Set(), selectMode: 'scores', dense: 'auto', gloss: true, limit: '', checks: null, stagePresent: true, python: '' };
+const MP = { loaded: false, handoffs: [], handoff: null, economies: new Set(), selectMode: 'scores', dense: 'auto', gloss: true, limit: '', checks: null, stagePresent: true, python: '',
+  thetaShift: 0, capsScale: 1, models: null };
+
+/* the steps of a run that call a model, in run order; `role` is what the step asks the stage for */
+const MODEL_STEPS = [
+  { key: 'screen', role: 'verifier', n: 2, title: 'Quick screen', sub: 'a fast model drops the borderline pairs that are clearly unrelated' },
+  { key: 'mapper', role: 'mapper', n: 3, title: 'Careful reading', sub: 'each provision is read against the indicator’s rulebook' },
+  { key: 'verifier', role: 'verifier', n: 4, title: 'Re-check', sub: 'a second model re-reads every match without seeing the first answer' },
+  { key: 'escalation', role: 'escalation', n: 5, title: 'Tie-break', sub: 'a third model decides when the reading and the re-check disagree' },
+];
+
+/* every step on one engine's own models: what the banner's choice means */
+function presetModels(eid) {
+  const e = engineOf(eid);
+  if (!e) return null;
+  const out = {};
+  MODEL_STEPS.forEach((s) => { out[s.key] = { engine: eid, model: (e.roles || {})[s.role] || ((e.models || [])[0] || {}).id || '' }; });
+  return out;
+}
+
+const dollars = (x) => `$${Number(x)}`;
+const priceText = (m) => !m.price ? 'no price card' : (m.price[0] === 0 && m.price[1] === 0) ? 'no charge' : `${dollars(m.price[0])} / ${dollars(m.price[1])}`;
+
+/* one step: the provider blocks, then the models of the chosen provider */
+function modelBlock(step) {
+  const pick = MP.models[step.key];
+  const held = heldKeys();
+  const e = engineOf(pick.engine);
+  const provs = engineList().map((x) => {
+    const on = x.id === pick.engine;
+    const sub = x.key_env ? (held[x.key_env] ? 'key held' : 'no key') : 'local';
+    return `<label class="radio big ${on ? 'on' : ''}"><input type="radio" name="mp-eng-${step.key}" value="${esc(x.id)}" ${on ? 'checked' : ''}> <span class="name">${esc(x.name)}</span> <span class="sub">${sub}</span></label>`;
+  }).join('');
+  const models = ((e && e.models) || []).map((m) => {
+    const on = m.id === pick.model;
+    const measured = e.measured && m.measured;
+    return `<label class="radio model ${on ? 'on' : ''} ${measured ? '' : 'unmeasured'}" title="${esc(m.id)}${measured ? '' : ', not measured'}"><input type="radio" name="mp-mod-${step.key}" value="${esc(m.id)}" ${on ? 'checked' : ''}> <span class="name">${esc(m.label)}</span> <span class="sub">${esc(priceText(m))}</span></label>`;
+  }).join('');
+  const m = modelOf(e, pick.model);
+  const notes = [];
+  if (!(e && e.measured && m && m.measured)) notes.push('<span class="chip warn">not measured</span> the prompts and every reported figure were made on Claude');
+  if (e && e.key_env && !held[e.key_env]) notes.push(`<span class="chip bad">no key</span> hold the ${esc(e.name)} key in the banner above`);
+  return `<div class="subblock">
+      <div class="subblock-head"><b>${esc(step.title)}</b><span>step ${step.n} of the mapping: ${esc(step.sub)}</span></div>
+      <div class="stack">
+        <div class="stack-row"><span class="setup-label">Provider</span> <div class="picks">${provs}</div></div>
+        <div class="stack-row"><span class="setup-label">Model</span> <div class="picks">${models || '<span class="muted">no model listed</span>'}</div></div>
+        ${notes.length ? `<div class="stack-row"><span class="setup-label"></span> <div class="pick-note">${notes.map((n) => `<div>${n}</div>`).join('')}</div></div>` : ''}
+      </div>
+    </div>`;
+}
+
+/* what the slider has done, in words */
+function adjustText() {
+  if (MP.selectMode === 'caps') return MP.capsScale === 1 ? 'Round 1 caps' : `${Math.round(MP.capsScale * 100)}% of Round 1: reads ${MP.capsScale > 1 ? 'more' : 'fewer'}`;
+  return MP.thetaShift === 0 ? 'as measured' : `threshold ${MP.thetaShift > 0 ? '+' : '−'}${Math.abs(MP.thetaShift).toFixed(2)}: reads ${MP.thetaShift < 0 ? 'more' : 'fewer'}`;
+}
 
 async function loadMapHandoffs() {
   MP.loaded = true;
@@ -1060,13 +1138,13 @@ function selectionLine() {
   if (!ids.length) return '<span class="muted">tick an indicator</span>';
   if (MP.selectMode === 'caps') {
     const caps = (sel.caps || {}).per_indicator || {};
-    const parts = ids.map((id) => caps[id] != null ? `<span class="theta"><b>${esc(id)}</b> ${caps[id]}</span>` : `<span class="theta bad"><b>${esc(id)}</b> no cap</span>`);
+    const parts = ids.map((id) => caps[id] != null ? `<span class="theta ${MP.capsScale === 1 ? '' : 'moved'}" title="Round 1: ${caps[id]}"><b>${esc(id)}</b> ${Math.max(1, Math.round(caps[id] * MP.capsScale))}</span>` : `<span class="theta bad"><b>${esc(id)}</b> no cap</span>`);
     const missing = ids.filter((id) => caps[id] == null).length;
     return parts.join(' ') + `<span class="muted small">counts of provisions, not scores; grey band ${esc(String((sel.caps || {}).gray_mult || 3))}\u00d7 the cap; no caps outside pillars 6 and 7` + (missing ? `, so ${missing} ticked indicator(s) cannot run this way` : '') + '</span>';
   }
   const measured = new Set(sel.measured || Object.keys(sel.thetas || {}));
   const parts = ids.map((id) => sel.thetas[id] != null
-    ? `<span class="theta ${measured.has(id) ? '' : 'cls'}" title="${measured.has(id) ? 'measured' : 'class default: ' + esc((sel.classes || {})[id] || '')}"><b>${esc(id)}</b> ${Number(sel.thetas[id]).toFixed(2)}</span>`
+    ? `<span class="theta ${measured.has(id) ? '' : 'cls'} ${MP.thetaShift ? 'moved' : ''}" title="${measured.has(id) ? 'measured' : 'class default: ' + esc((sel.classes || {})[id] || '')}${MP.thetaShift ? ' ' + Number(sel.thetas[id]).toFixed(2) : ''}"><b>${esc(id)}</b> ${Math.min(0.95, Math.max(0.05, Number(sel.thetas[id]) + MP.thetaShift)).toFixed(2)}</span>`
     : `<span class="theta bad"><b>${esc(id)}</b> none</span>`);
   const unmeasured = ids.filter((id) => !measured.has(id)).length;
   const offs = Object.entries(sel.language_offset || {}).filter(([k, v]) => k !== '_default' && Number(v) !== 0).map(([k, v]) => `${k} ${v}`).join(', ');
@@ -1078,7 +1156,9 @@ function chosenIndicators() {
 }
 
 function mapRequest() {
-  return { handoff: MP.handoff, economies: [...MP.economies], indicators: chosenIndicators(), engine: S.health && S.health.engine ? S.health.engine.selected : null,
+  return { handoff: MP.handoff, economies: [...MP.economies], indicators: chosenIndicators(),
+    engine: MP.models ? MP.models.mapper.engine : (S.health && S.health.engine ? S.health.engine.selected : null), models: MP.models || undefined,
+    theta_shift: MP.selectMode === 'scores' ? MP.thetaShift : 0, caps_scale: MP.selectMode === 'caps' ? MP.capsScale : 1,
     select_mode: MP.selectMode, dense: MP.dense, gloss: MP.gloss, limit: MP.limit ? parseInt(MP.limit, 10) : null };
 }
 
@@ -1099,9 +1179,17 @@ function renderMapRun() {
   if (!note) return;
   const h = MP.handoffs.find((x) => x.id === MP.handoff);
   const eng = S.health && S.health.engine ? S.health.engine : null;
-  const list = eng ? (Array.isArray(eng.engines) ? eng.engines : Array.isArray(eng.list) ? eng.list : []) : [];
-  const sel = eng ? list.find((e) => e.id === eng.selected) : null;
-  const engineText = sel ? `${esc(sel.id)} · ${esc(sel.label)}` : (eng && eng.selected ? esc(eng.selected) : '?');
+  if (!MP.models && eng && eng.selected) MP.models = presetModels(eng.selected);
+  const runEngine = MP.models ? MP.models.mapper.engine : (eng && eng.selected) || 'A';   // the careful reading's engine names the run
+  const capsMode = MP.selectMode === 'caps';
+  const limits = (S.picker || {}).selection || {};
+  const shiftMax = limits.theta_shift_max || 0.1;
+  const scaleRange = limits.caps_scale_range || [0.5, 3];
+  const moved = capsMode ? MP.capsScale !== 1 : MP.thetaShift !== 0;
+  // to the right always reads more: a larger cap, or a lower threshold
+  const slider = capsMode
+    ? `<input type="range" id="mp-adjust" min="${scaleRange[0]}" max="${scaleRange[1]}" step="0.1" value="${MP.capsScale}">`
+    : `<input type="range" id="mp-adjust" min="${-shiftMax}" max="${shiftMax}" step="0.01" value="${-MP.thetaShift}">`;
   const rootSetting = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_RUNS_ROOT');
   const root = rootSetting ? rootSetting.value : 'outputs';
   const BS = root.includes('/') ? '/' : String.fromCharCode(92);
@@ -1114,18 +1202,19 @@ function renderMapRun() {
     : idx.stale ? `<span class="chip warn">older than the output (${esc(idx.built || '')} against ${esc(idx.source_written || '')}), will be rebuilt</span>` : '<span class="chip ok">as new as the output</span>';
   note.innerHTML = `
     <div class="targets">
-      <div class="target"><span class="setup-label">Writes to</span> <code>${esc(root)}${BS}map${BS}${stamp()}_${eng && eng.selected ? esc(eng.selected) : 'A'}${BS}out</code> <span class="muted">(a new folder, created at Start)</span></div>
-      <div class="target"><span class="setup-label">Engine</span> <code>${engineText}</code> <span class="muted">(chosen in the banner above)</span></div>
+      <div class="target"><span class="setup-label">Writes to</span> <code>${esc(root)}${BS}map${BS}${stamp()}_${esc(runEngine)}${BS}out</code> <span class="muted">(a new folder, created at Start)</span></div>
     </div>
     <div class="subblock">
       <div class="subblock-head"><b>Candidate selection</b><span>step 1 of the mapping: which provisions go forward, scored by meaning with BGE-M3</span></div>
       <div class="stack">
       ${idx ? `<div class="stack-row"><span class="setup-label">Index</span> <div class="idxline"><code>${esc(idx.id)}</code> <span class="muted">${esc(idxState)}</span> ${idxPlan} ${idx.corpus ? `<button class="btn small" data-clear="${esc(idx.dir)}" data-what="the corpus index">Clear index</button>` : ''}</div></div>` : ''}
       <label class="stack-row"><span class="setup-label">Selection</span> <select id="mp-mode"><option value="scores" ${MP.selectMode === 'scores' ? 'selected' : ''}>Score threshold</option><option value="caps" ${MP.selectMode === 'caps' ? 'selected' : ''}>Caps</option></select></label>
-      <div class="stack-row"><span class="setup-label">${MP.selectMode === 'caps' ? 'Caps' : 'Thresholds'}</span> <div class="thetas">${selectionLine()} ${MP.selectMode === 'caps' ? '<span class="chip">Round 1 numbers, fixed</span>' : '<span class="chip warn">can be changed by hand later</span>'}</div></div>
+      <div class="stack-row"><span class="setup-label">Adjust</span> <div class="slider"><span class="muted">fewer</span> ${slider} <span class="muted">more</span> <b id="mp-adjust-val" class="${moved ? 'moved' : ''}">${esc(adjustText())}</b> <button class="btn small" id="mp-adjust-reset" ${moved ? '' : 'disabled'}>Reset</button> <span class="muted">every ticked indicator, this run only</span></div></div>
+      <div class="stack-row"><span class="setup-label">${capsMode ? 'Caps' : 'Thresholds'}</span> <div class="thetas" id="mp-thetas">${selectionLine()}</div></div>
       <label class="stack-row"><span class="setup-label">Meaning index</span> <select id="mp-dense"><option value="auto" ${MP.dense === 'auto' ? 'selected' : ''}>Auto</option><option value="real" ${MP.dense === 'real' ? 'selected' : ''}>Build</option><option value="stub" ${MP.dense === 'stub' ? 'selected' : ''}>Skip</option></select> <span class="muted">matches provisions to indicators by meaning, in any language; the thresholds are read on its score</span></label>
       </div>
     </div>
+    ${MP.models ? MODEL_STEPS.map(modelBlock).join('') : ''}
     <div class="stack">
       <label class="stack-row"><span class="setup-label">Translation</span> <input type="checkbox" id="mp-gloss" ${MP.gloss ? 'checked' : ''}> <span>for review</span></label>
       <label class="stack-row"><span class="setup-label">Quick run</span> <input type="text" id="mp-limit" size="5" value="${esc(MP.limit)}" placeholder="all"> <span>map at most this many provisions per economy; blank for everything</span></label>
@@ -1136,17 +1225,17 @@ function renderMapRun() {
               <li><b>Score threshold</b>, the stage’s default: keep every provision whose meaning score clears the indicator’s threshold. Needs the meaning index.</li>
               <li><b>Caps</b>: rank the provisions by score and keep the top N per indicator and economy, N being Round 1’s numbers. Works with the keyword index alone.</li>
               <li><b>Why two units</b>: a threshold is a score, a cosine between 0 and 1 that each provision must clear, so how many pass follows the corpus. A cap is a count, so how many pass is fixed whatever the scores. Round 1 fixed the count; the finale measured the score instead, so the two rules cannot share one setting.</li>
-              <li>Triage, the quick reader’s screen of the borderline pairs, is the next step and not a choice here.</li>
+              <li>The quick screen of the borderline pairs is the next step, with a block of its own below.</li>
             </ul>
           </li>
           <li><b>Thresholds</b>: from the stage’s selection.json, shown for the ticked indicators.
             <ul>
               <li>Measured for the nine indicators of pillars 6 and 7. The other 52 take the default of their class from the codebook, 0.55 to 0.60, shown in italics.</li>
               <li>A small offset per language; at 0.65 or above a candidate skips triage.</li>
-              <li><mark>Can be changed by hand later</mark>: the stage reads an edited copy of selection.json through SELECTION_CONFIG. A control on this page is reserved for a later round.</li>
+              <li><b>Adjust</b>: the slider moves the threshold of every ticked indicator by the same amount, up to 0.10 either way, for this run only. To the right the threshold drops, so more candidates are read and the run costs more. The run reads a copy of selection.json written into its own folder; <mark>the measured file is never changed</mark>.</li>
             </ul>
           </li>
-          <li><b>Caps</b>: a cap on the number of provisions, ranked by score. Round 1’s numbers, 150 to 600 per indicator and economy; the grey band takes three times the cap.
+          <li><b>Caps</b>: a cap on the number of provisions, ranked by score. Round 1’s numbers, 150 to 600 per indicator and economy; the grey band takes three times the cap. The slider scales every cap, from half to three times, for this run only.
             <ul>
               <li><mark>No cap exists outside pillars 6 and 7</mark>: Round 1 never ran those indicators. They run on Score threshold, and Check refuses caps for them.</li>
             </ul>
@@ -1156,6 +1245,13 @@ function renderMapRun() {
               <li><b>Auto</b>: reuse the index when it is as new as the extraction output; build it when it is missing, stubbed or older. The Index line above says which.</li>
               <li><b>Build</b>: build everything from scratch now, the manual rebuild for the rare case the dates cannot see. Needs torch and a one-time 2 GB model download.</li>
               <li><b>Skip</b>: keyword only. Fine for English economies on Caps.</li>
+            </ul>
+          </li>
+          <li><b>Quick screen, Careful reading, Re-check, Tie-break</b>: the four steps that call a model. Each takes a provider and one of its models; the banner’s engine sets all four at once.
+            <ul>
+              <li><mark>Measured: Claude Sonnet 5, Haiku 4.5 and Opus 4.8, and local Qwen 2.5.</mark> The prompts and the traps were written for Claude, and every reported figure comes from those models. Anything else is marked not measured: try it on a Quick run first.</li>
+              <li>Prices are US dollars per million tokens, input then output, from each provider’s own page on 4 October 2026; DeepSeek’s is its peak rate. Claude Sonnet 5 shows the stage’s own card, which the reported costs used.</li>
+              <li>Each hosted provider reads its own API key, held in memory in the banner. The translation for review uses the Re-check model, and the economy-level scores use the Careful reading model.</li>
             </ul>
           </li>
           <li><b>Translation</b>: machine English of the quotes for the review screen only; never in the export.</li>
@@ -1171,6 +1267,18 @@ function renderMapRun() {
   if (!MP.stagePresent) note.insertAdjacentHTML('afterbegin', '<p class="note">The mapping stage is not in this repository.</p>');
   const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { MP.runNotesOpen = nb.open; });
   $('#mp-mode').onchange = (e) => { MP.selectMode = e.target.value; MP.checks = null; renderMapRun(); };
+  const adj = $('#mp-adjust');
+  const readAdjust = () => { const v = Number(adj.value); if (MP.selectMode === 'caps') MP.capsScale = Math.round(v * 10) / 10; else MP.thetaShift = (-Math.round(v * 100) / 100) || 0; };
+  // while the slider is dragged only the numbers are redrawn, so the handle stays under the pointer
+  adj.oninput = () => { readAdjust(); $('#mp-adjust-val').textContent = adjustText(); $('#mp-thetas').innerHTML = selectionLine(); };
+  adj.onchange = () => { readAdjust(); MP.checks = null; renderMapRun(); };
+  $('#mp-adjust-reset').onclick = () => { if (MP.selectMode === 'caps') MP.capsScale = 1; else MP.thetaShift = 0; MP.checks = null; renderMapRun(); };
+  note.querySelectorAll('input[name^="mp-eng-"]').forEach((inp) => inp.addEventListener('change', () => {
+    const step = MODEL_STEPS.find((x) => x.key === inp.name.slice(7)); const e = engineOf(inp.value);
+    MP.models[step.key] = { engine: inp.value, model: (e.roles || {})[step.role] || ((e.models || [])[0] || {}).id || '' };
+    MP.checks = null; renderMapRun(); renderTop();   // the banner shows a key row for each provider in use
+  }));
+  note.querySelectorAll('input[name^="mp-mod-"]').forEach((inp) => inp.addEventListener('change', () => { MP.models[inp.name.slice(7)].model = inp.value; MP.checks = null; renderMapRun(); }));
   $('#mp-dense').onchange = (e) => { MP.dense = e.target.value; MP.checks = null; renderMapRun(); };
   $('#mp-gloss').onchange = (e) => { MP.gloss = e.target.checked; };
   $('#mp-limit').onchange = (e) => { MP.limit = e.target.value.trim(); MP.checks = null; renderMapRun(); };

@@ -346,6 +346,7 @@ def indicator_picker(s: Settings) -> dict:
             "class_defaults": {k: v.get("theta") for k, v in sel_classes.items()},
             "caps": round1_caps(s),
             "direct_band": (sel.get("score") or {}).get("direct_band"),
+            "theta_shift_max": THETA_SHIFT_MAX, "caps_scale_range": list(CAPS_SCALE_RANGE),
             "language_offset": {k: v for k, v in (sel.get("language_offset") or {}).items() if not k.startswith("_")},
         },
         "practice_based": {it["id"]: practice[it["id"]] for it in items if it["id"] in practice},
@@ -369,6 +370,14 @@ from ..jobs import Job, Step  # noqa: E402
 from .extract import DEFAULT_LANGUAGE as _LANG  # noqa: E402
 
 P3_MODULE = "src.p3map"
+
+# The steps of a run that call a model, in run order, with the role each one asks the stage for.
+# The translation for review rides with the re-check and the economy-level scores with the careful
+# reading: the stage builds each pair from one role in one process.
+MODEL_STAGES = (("screen", "verifier", "quick screen"), ("mapper", "mapper", "careful reading"),
+                ("verifier", "verifier", "re-check"), ("escalation", "escalation", "tie-break"))
+THETA_SHIFT_MAX = 0.10          # how far the page may move the thresholds of the ticked indicators
+CAPS_SCALE_RANGE = (0.5, 3.0)   # and the Round 1 caps, as a multiple
 
 # An empty dense leg keyed like the sparse leg, so candidate selection sees a zero-contribution dense
 # side (the bm25-only path: no torch, no model download). Runs under the stage's Python for numpy.
@@ -488,7 +497,29 @@ def _norm_request(app: App, req: dict) -> dict:
     order = readers.parse_indicator_order(s.instrument_dir / "indicator_order.yaml")
     in_scope = [it["id"] for it in order.get("indicators", []) if it.get("status") == "in_scope"]
     indicators = [str(i) for i in (req.get("indicators") or readers.automated_ids(order))]
-    engine = str(req.get("engine") or app.engines.selected or "")
+    picks = req.get("models") if isinstance(req.get("models"), dict) else {}
+    # the run's engine is the careful reading's: it names the run folder and is what the manifest leads with
+    engine = str((picks.get("mapper") or {}).get("engine") or req.get("engine") or app.engines.selected or "")
+    models = {}
+    for stage, role, _ in MODEL_STAGES:
+        pick = picks.get(stage) if isinstance(picks.get(stage), dict) else {}
+        rid = str(pick.get("engine") or engine)
+        try:
+            default = (app.engines.get(rid).get("roles") or {}).get(role, "")
+        except ValueError:
+            default = ""
+        models[stage] = {"engine": rid, "model": str(pick.get("model") or default)}
+    if not isinstance(picks.get("screen"), dict):      # unset, the quick screen follows the re-check, as in the stage
+        models["screen"] = dict(models["verifier"])
+    try:
+        shift = round(float(req.get("theta_shift") or 0), 2)
+        scale = round(float(req.get("caps_scale") or 1), 2)
+    except (TypeError, ValueError):
+        raise ApiError(400, "theta_shift and caps_scale must be numbers") from None
+    if abs(shift) > THETA_SHIFT_MAX:
+        raise ApiError(400, f"theta_shift must lie between -{THETA_SHIFT_MAX:.2f} and +{THETA_SHIFT_MAX:.2f}")
+    if not CAPS_SCALE_RANGE[0] <= scale <= CAPS_SCALE_RANGE[1]:
+        raise ApiError(400, f"caps_scale must lie between {CAPS_SCALE_RANGE[0]} and {CAPS_SCALE_RANGE[1]}")
     select_mode = str(req.get("select_mode") or "scores")   # the stage's own default (config/settings.py)
     if select_mode not in ("caps", "scores"):
         raise ApiError(400, "select_mode must be caps or scores")
@@ -509,7 +540,8 @@ def _norm_request(app: App, req: dict) -> dict:
     if dense == "auto":   # keep the meaning index if there was one; build it when the threshold rule needs it
         dense = "real" if have_dense_real or select_mode == "scores" else "stub"
     return {"handoff": h, "economies": economies, "present": present, "indicators": indicators, "in_scope": in_scope,
-            "engine": engine, "select_mode": select_mode, "dense": dense, "rebuild": rebuild,
+            "engine": engine, "models": models, "theta_shift": shift, "caps_scale": scale,
+            "select_mode": select_mode, "dense": dense, "rebuild": rebuild,
             "gloss": bool(req.get("gloss", True)), "limit": limit, "index_dir": idx,
             "run_name": re.sub(r"[^A-Za-z0-9_.-]", "_", str(req.get("run_name") or ""))[:40]}
 
@@ -632,39 +664,71 @@ def precheck(app: App, req: dict) -> list[dict]:
         if no_cap:
             add("fail", "selection", "Round 1 caps exist for the nine indicators of pillars 6 and 7 only; the stage stops on "
                                      f"{', '.join(no_cap[:8])}{' and more' if len(no_cap) > 8 else ''}. Choose Score threshold for them.")
+        elif n["caps_scale"] != 1:
+            add("warn", "selection", f"Selection: Round 1 caps at {n['caps_scale']:.0%} for this run, grey band "
+                                     f"{caps['gray_mult']}x the cap. " + ("More candidates are read, at more cost."
+                                     if n["caps_scale"] > 1 else "Fewer candidates are read; what falls below the cap is not seen."))
         else:
             add("ok", "selection", "Selection: Round 1 fixed caps per indicator and economy, grey band "
                                    f"{caps['gray_mult']}x the cap, fused over both legs.")
+    elif n["theta_shift"]:
+        add("warn", "selection", f"Selection: the threshold of each ticked indicator moved by {n['theta_shift']:+.2f} for this run. "
+                                 + ("Lower: more candidates are read, at more cost. " if n["theta_shift"] < 0
+                                    else "Higher: fewer candidates are read; a provision below the new threshold is not seen. ")
+                                 + "The measured values stay in the stage's selection.json; this run reads a copy in its own folder.")
     else:
         add("ok", "selection", "Selection: score thresholds per indicator and language, from the stage's selection.json "
-                               "(measured for pillars 6 and 7, class defaults for the rest); changing them from the page "
-                               "is reserved for a later round.")
+                               "(measured for pillars 6 and 7, class defaults for the rest).")
 
-    eid = n["engine"]
-    try:
-        e = app.engines.get(eid)
-    except ValueError as exc:
-        add("fail", "engine", str(exc))
-        e = None
-    if e:
+    used: dict[str, list[tuple[str, str]]] = {}
+    for stage, _, step in MODEL_STAGES:
+        used.setdefault(n["models"][stage]["engine"], []).append((step, n["models"][stage]["model"]))
+    unmeasured: list[str] = []
+    unpriced: list[str] = []
+    for eid, uses in used.items():
+        try:
+            e = app.engines.get(eid)
+        except ValueError as exc:
+            add("fail", "engine", str(exc))
+            continue
         label = f"{eid} ({e.get('label', '')})"
+        ol = None if e.get("key_env") else _probes.probe_ollama(ttl=5)
+        offered = {m["id"]: m for m in app.engines.models_of(eid, ol["models"] if ol and ol["ok"] else None)}
+        wanted = list(dict.fromkeys(m for _, m in uses))
+        serves = "For the " + ", the ".join(f"{step} ({offered.get(m, {}).get('label', m)})" for step, m in uses) + "."
+        for m in wanted:
+            if m in offered and not (e.get("measured", True) and offered[m].get("measured", True)):
+                unmeasured.append(f"{e.get('name') or eid} {offered[m].get('label', m)}")
+            if m in offered and offered[m].get("price") is None:
+                unpriced.append(m)
         if e.get("key_env"):
-            add("ok" if app.key.held() else "fail", "engine",
-                f"Engine {label}: " + ("API key held in memory." if app.key.held() else "needs an API key; hold one in the banner under Engine Selection first."))
+            unknown = [m for m in wanted if m not in offered]
+            if unknown:
+                add("fail", "engine", f"Engine {label}: {', '.join(unknown)} is not one of its models ({', '.join(offered)}).")
+                continue
+            held = app.key.held(e["key_env"])
+            add("ok" if held else "fail", "engine",
+                f"Engine {label}: " + ("API key held in memory. " if held else "needs an API key; hold one in the banner under Engine Selection first. ") + serves)
+        elif not ol["ok"]:
+            add("fail", "engine", f"Engine {label}: Ollama is not answering at {ol['host']} ({ol.get('error', '')}). Start Ollama first.")
         else:
-            ol = _probes.probe_ollama(ttl=5)
-            model = (e.get("roles") or {}).get("mapper", "")
-            if not ol["ok"]:
-                add("fail", "engine", f"Engine {label}: Ollama is not answering at {ol['host']} ({ol.get('error', '')}). Start Ollama first.")
-            elif model and model not in ol["models"]:
-                add("fail", "engine", f"Engine {label}: model {model} is not pulled on {ol['host']} (present: {', '.join(ol['models'][:8])}). Run: ollama pull {model}")
+            missing = [m for m in wanted if m not in ol["models"]]
+            declared = (e.get("roles") or {}).get("mapper", "")
+            dg = ol["digests"].get(declared, "") or ""
+            want = (e.get("digest") or "").replace("sha256:", "")
+            if missing:
+                add("fail", "engine", f"Engine {label}: model {missing[0]} is not pulled on {ol['host']} (present: {', '.join(ol['models'][:8])}). Run: ollama pull {missing[0]}")
+            elif declared in wanted and want and dg and not dg.startswith(want[:12]):
+                add("warn", "engine", f"Engine {label}: {declared} is present but its digest {dg[:12]} differs from the declared {want[:12]}.")
             else:
-                dg = ol["digests"].get(model, "") or ""
-                want = (e.get("digest") or "").replace("sha256:", "")
-                if want and dg and not dg.startswith(want[:12]):
-                    add("warn", "engine", f"Engine {label}: {model} is present but its digest {dg[:12]} differs from the declared {want[:12]}.")
-                else:
-                    add("ok", "engine", f"Engine {label}: Ollama answering, {model} present" + (f", digest {dg[:12]} matches the declaration." if want else "."))
+                add("ok", "engine", f"Engine {label}: Ollama answering, {', '.join(wanted)} present"
+                                    + (f", digest {dg[:12]} matches the declaration. " if want and declared in wanted else ". ") + serves)
+    if unmeasured:
+        add("warn", "measured", "Not measured: " + ", ".join(dict.fromkeys(unmeasured)) + ". The prompts, the traps and every reported "
+                                "figure were made with Claude Sonnet 5, Haiku 4.5 and Opus 4.8; rows from another model have not been "
+                                "scored against the baseline. Try it on a Quick run first.")
+    if unpriced:
+        add("warn", "cost", f"No price card for {', '.join(dict.fromkeys(unpriced))}: its cost will read $0 in this run.")
     have_b = [p for p in (s.baseline_path, s.baseline_r2_path) if p and Path(p).exists()]
     if have_b:
         add("ok", "baseline", f"Baseline database found ({len(have_b)} file(s)); NEW against KNOWN will be real.")
@@ -799,7 +863,9 @@ P3_RULES: list[tuple[re.Pattern, object]] = [
     (re.compile(r"^\[gloss-sections:(\w\w)\] (\d+) glossed, (\d+) not literal, (\d+) errors,.*?\$([\d.]+)"), _sections_done),
     (re.compile(r"^\[excel\] (\d+) fires -> "), lambda m, j: (f"Review workbook written ({m[1]} matches).", None)),
     (re.compile(r"^\[audit\] (\d+) fires -> "), lambda m, j: (f"Audit page written ({m[1]} matches).", None)),
+    (re.compile(r"^\[select\] caps scaled by ([\d.]+)"), lambda m, j: (f"Round 1 caps at {float(m[1]):.0%} for this run.", None)),
     (re.compile(r"LLMConfigError|ANTHROPIC_API_KEY is empty"), lambda m, j: ("The chosen engine needs an API key: hold one in the banner under Engine Selection and start again.", None)),
+    (re.compile(r"ProviderError: (\S+) at \S+: HTTP (\d+)"), lambda m, j: (f"{m[1]}: the provider refused the request (HTTP {m[2]}). 401 or 403 is the key; 404 is the model name; 400 is the request shape.", None)),
     (re.compile(r"ConnectError|Connection refused|actively refused"), lambda m, j: ("Cannot reach the local model server (Ollama). Start it and run again.", None)),
     (re.compile(r"ContextOverflow"), lambda m, j: ("The local model's context window is too small for the codebook; raise OLLAMA_NUM_CTX.", None)),
     (re.compile(r"ModuleNotFoundError: No module named '([^']+)'"), lambda m, j: (f"A Python package is missing: {m[1]}. Install requirements-demo.txt or point RDTII_PYTHON_P3 at a Python that has it.", None)),
@@ -841,6 +907,41 @@ def _poll_manifest(out_dir: Path):
     return poll
 
 
+def shifted_selection(s: Settings, indicators: list[str], shift: float) -> dict:
+    """The stage's selection.json with the threshold of each named indicator moved by `shift`: what a run
+    is pointed at through SELECTION_CONFIG. Nothing else in the file changes, and the stage's own copy
+    is never written."""
+    cfg = _json.loads((s.stage_dirs["p3"] / "config" / "selection.json").read_text(encoding="utf-8"))
+    classes = cfg.get("class_defaults") or {}
+    blocks = cfg.get("indicators") or {}
+
+    def move(value) -> float:
+        return round(min(0.95, max(0.05, float(value) + shift)), 4)
+
+    moved = 0
+    for iid in indicators:
+        block = blocks.get(iid)
+        if not isinstance(block, dict):
+            continue
+        base = block.get("theta")
+        if base is None:      # an indicator on its class default gets a threshold of its own for this run
+            base = (classes.get(block.get("class") or "") or {}).get("theta")
+        if base is None:
+            continue
+        block["theta"] = move(base)
+        moved += 1
+    for econ, inds in (cfg.get("economy_overrides") or {}).items():
+        if econ.startswith("_") or not isinstance(inds, dict):
+            continue
+        for iid in indicators:
+            if isinstance(inds.get(iid), dict) and "theta" in inds[iid]:
+                inds[iid]["theta"] = move(inds[iid]["theta"])
+    cfg["version"] = f"{cfg.get('version', '')}+shift{shift:+.2f}"
+    cfg["_shift"] = (f"Written by the interface for one run: the threshold of {moved} indicator(s) moved by {shift:+.2f} "
+                     "from the stage's config/selection.json. Every other value is that file's.")
+    return cfg
+
+
 def plan_map(app: App, req: dict) -> Job:
     s = app.settings
     p3 = s.stage_dirs["p3"]
@@ -860,9 +961,28 @@ def plan_map(app: App, req: dict) -> Job:
         extra["BASELINE_PATH"] = s.baseline_path
     if s.baseline_r2_path:
         extra["BASELINE_R2_PATH"] = s.baseline_r2_path
+    if n["select_mode"] == "scores" and n["theta_shift"]:
+        moved = out_dir.parent / "selection.json"      # the run's own copy; the stage's file is not touched
+        moved.parent.mkdir(parents=True, exist_ok=True)
+        moved.write_text(_json.dumps(shifted_selection(s, n["indicators"], n["theta_shift"]), indent=2, ensure_ascii=False),
+                         encoding="utf-8", newline="\n")
+        extra["SELECTION_CONFIG"] = str(moved)
+    if n["select_mode"] == "caps" and n["caps_scale"] != 1:
+        extra["CAPS_SCALE"] = f"{n['caps_scale']:g}"
+    picks = n["models"]
+    roles = {r: picks[r] for r in ("mapper", "verifier", "escalation")}
+    local = any(not app.engines.get(p["engine"]).get("key_env") for p in picks.values())
+    pulled = _probes.probe_ollama(ttl=5)["models"] if local else None
     try:
-        env, public = build_env("p3", app.engines, app.key, {"RDTII_ENGINE": eid}, extra=extra)
-    except ChoiceError as e:
+        env, public = build_env("p3", app.engines, app.key, {"RDTII_ENGINE": eid}, extra=extra, roles=roles,
+                                ollama_models=pulled)
+        env_screen = env
+        if picks["screen"] != picks["verifier"]:
+            # the quick screen asks the stage for the re-check's role, so it gets its own process environment
+            env_screen, _ = build_env("p3", app.engines, app.key, {"RDTII_ENGINE": eid}, extra=extra,
+                                      roles={**roles, "verifier": picks["screen"]}, ollama_models=pulled)
+            public["quick screen"] = f"engine {picks['screen']['engine']}, {picks['screen']['model']}"
+    except (ChoiceError, ValueError) as e:
         raise ApiError(400, str(e)) from None
     except NeedsKey as e:
         raise ApiError(409, str(e)) from None
@@ -892,7 +1012,7 @@ def plan_map(app: App, req: dict) -> Job:
     steps.append(Step(label=f"select candidate pairs ({n['select_mode']} rule)", cwd=p3, env=env, parse=parse_p3,
                       argv=mod + [f"{P3_MODULE}.cli", "select"]))
     tri = mod + [f"{P3_MODULE}.triage.haiku"] + (["--limit", str(n["limit"])] if n["limit"] else [])
-    steps.append(Step(label="quick screen of the borderline pairs", cwd=p3, env=env, parse=parse_p3, argv=tri))
+    steps.append(Step(label="quick screen of the borderline pairs", cwd=p3, env=env_screen, parse=parse_p3, argv=tri))
     have_baseline = any(p and Path(p).exists() for p in (s.baseline_path, s.baseline_r2_path))
     if have_baseline:
         steps.append(Step(label="load the baseline database (NEW against KNOWN)", cwd=p3, env=env, parse=parse_p3,
@@ -908,6 +1028,12 @@ def plan_map(app: App, req: dict) -> Job:
     title = f"Map {', '.join(n['economies'])} on {len(n['indicators'])} indicator(s), engine {eid}"
     job = Job(stage="p3", title=title, steps=steps, out_dir=out_dir.parent, env_public=public, redact=app.key.redact)
     job.say(f"Run folder: {rel_or_abs(out_dir, REPO)}. Engine {eid}: {app.engines.get(eid).get('label', '')}.")
+    job.say("Models: " + "; ".join(f"{step} {picks[stage]['model']}" + ("" if picks[stage]["engine"] == eid else f" (engine {picks[stage]['engine']})")
+                                   for stage, _, step in MODEL_STAGES) + ".")
+    if "SELECTION_CONFIG" in extra:
+        job.say(f"Thresholds of the ticked indicators moved by {n['theta_shift']:+.2f}: {rel_or_abs(Path(extra['SELECTION_CONFIG']), REPO)}.")
+    if "CAPS_SCALE" in extra:
+        job.say(f"Round 1 caps at {n['caps_scale']:.0%}.")
     if not have_baseline:
         job.say("No baseline database is configured (BASELINE_PATH, BASELINE_R2_PATH), so the baseline load is "
                 "skipped and every match will be tagged NEW.")

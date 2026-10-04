@@ -6,7 +6,17 @@ from pathlib import Path
 
 from . import __version__, probes, settings as settings_mod
 from .server import ApiError, App
+from .envbuild import DEFAULT_KEY
 from .settings import REPO
+
+
+def _key_name(app: App, name) -> str:
+    """The variable a key is held under: one a declared engine reads, the Claude one when none is named."""
+    name = str(name or "").strip() or DEFAULT_KEY
+    known = app.engines.key_names()
+    if name != DEFAULT_KEY and name not in known:
+        raise ValueError(f"{name!r} is not a key a declared engine reads; known: {', '.join(known) or DEFAULT_KEY}")
+    return name
 
 
 def register(app: App) -> None:
@@ -27,7 +37,7 @@ def register(app: App) -> None:
                 "chromium": probes.probe_chromium(s.python_for("p1")),
                 "key": app.key.public(),
             },
-            "engine": app.engines.public(),
+            "engine": app.engines.public(ollama["models"] if ollama["ok"] else None),
             "job": app.jobs.public_summary() if app.jobs else {"active": None, "queued": []},
         }
 
@@ -50,14 +60,17 @@ def register(app: App) -> None:
     @app.route("POST", r"/api/key")
     def key_set(app: App, m, q, b):
         try:
-            app.key.set((b or {}).get("key", ""))
+            app.key.set((b or {}).get("key", ""), _key_name(app, (b or {}).get("name")))
         except ValueError as e:
             raise ApiError(400, str(e)) from None
         return 200, app.key.public()
 
     @app.route("DELETE", r"/api/key")
     def key_clear(app: App, m, q, b):
-        app.key.clear()
+        try:
+            app.key.clear(_key_name(app, q.get("name")) if q.get("name") else None)
+        except ValueError as e:
+            raise ApiError(400, str(e)) from None
         return 200, app.key.public()
 
     def _explorer_windows():

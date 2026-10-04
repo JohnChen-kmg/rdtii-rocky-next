@@ -537,3 +537,19 @@ table.rows.tiers ul.tb { margin: 0; padding-left: 20px; } table.rows.tiers ul.tb
 .engine-banner .roles div.on { color: var(--un-blue-deep); font-weight: 600; } .engine-banner .roles b { margin-right: 6px; color: var(--un-blue-deep); }
 .engine-banner > .group { flex-wrap: wrap; }
 .guide details.subfold > p.models { margin: 8px 16px 2px; font-size: 16px; line-height: 1.5; color: #3b4652; }
+details.hold > dl.portal-facts, details.hold > details.doclist, details.hold > p { margin-left: 22px; }
+.keyrow { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 3px 0; }
+.picks { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.picks label.radio.big { padding: 7px 12px; gap: 8px; font-size: 17px; background: #fff; border-color: #b9cfe3; }
+.picks label.radio.big.on { border: 2px solid var(--un-blue); background: #eaf4fc; padding: 6px 11px; }
+.picks label.radio.big .sub { margin-left: 0; font-size: 13px; }
+.picks label.radio.big input { width: 16px; height: 16px; }
+.picks label.radio.model { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid #b9cfe3; border-radius: 999px; background: #fff; cursor: pointer; font-size: 17px; }
+.picks label.radio.model.unmeasured { border-style: dashed; }
+.picks label.radio.model.on { border: 1px solid var(--un-blue); background: var(--un-blue); color: #fff; font-weight: 600; }
+.picks label.radio.model .sub { font-size: 14px; color: var(--muted); font-weight: 500; } .picks label.radio.model.on .sub { color: #e3f1fb; }
+.pick-note { font-size: 16px; color: #3b4652; } .pick-note div { margin: 2px 0; }
+.slider { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 16px; }
+.slider input[type=range] { width: 240px; accent-color: var(--un-blue); }
+.slider b { color: var(--un-blue-deep); } .slider b.moved { color: var(--warn); }
+.thetas .theta.moved { background: #fef3c7; }
