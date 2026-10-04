@@ -11,6 +11,13 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 
 ## 2026-10-04 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
 
+A run note on Scraping, Extraction and Mapping, asked for by the developer: "we can write sth to carry ... and then
+we can see our note later on, or when importing the folder to the next stage".
+
+- What: each Run block has a line "Run note". What is typed there is said at the top of the run, kept in the run's own folder as `run_note.txt` (one dated line per run, so a second pass adds a line), and shown again wherever that folder is listed: in the stage's Output table, on the Input of the next stage when the folder is chosen there (a crawl folder at Extraction, an extraction output at Mapping), and on the Record card of a mapping run. The stages never read it.
+- How: `rdtii_ui/notes.py` (`clean`, `write`, `read`, `carry`). A stage creates its own folder, sometimes part of the way through, so every step's finish tries once and the first that finds the folder writes the line; a step's own hook still runs. The China tools' run carries it too.
+- Verified: a demo extraction started from a test copy with a note, into a folder of its own (removed afterwards): the run said the note, the file held one dated line, the Output row showed it and Mapping's Input showed it under the chosen folder. Interface suite 243, from 237, with `tests/test_run_notes.py`.
+
 Documents that gave no provisions: three causes fixed in the stages, and a list for a person to check. Found by
 opening the frozen text of the documents with status `zero_provisions` in the day's interface runs (Lao PDR 71 of
 334, Timor-Leste 32 of 198, Malaysia 7, China 4), at the developer's request.

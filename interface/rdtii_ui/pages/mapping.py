@@ -62,6 +62,11 @@ def _records_files(arm: Path) -> list[Path]:
     return []
 
 
+def _run_note(path: Path) -> dict:
+    from .. import notes as _notes
+    return _notes.read(path)
+
+
 def _describe_run(run_id: str, name: str, arms: list[Path], kind: str) -> dict:
     economies: set[str] = set()
     total = 0
@@ -80,6 +85,7 @@ def _describe_run(run_id: str, name: str, arms: list[Path], kind: str) -> dict:
         "created": manifest.get("created"), "run_id": manifest.get("run_id"),
         "cost_usd": readers.manifest_cost(manifest) if manifest else None,
         "git": (manifest.get("git") or {}).get("commit"),
+        **(_run_note(arms[0]) if arms else {"note": "", "noted": ""}),       # the line written at Start
     }
 
 
@@ -468,6 +474,7 @@ def describe_handoff(s: Settings, path: Path, kind: str) -> dict:
         "economies": econs, "documents": len(status), "docs_ok": sum(1 for r in status if r.get("status") == "ok"),
         "provisions": sum(int(r.get("n_provisions") or 0) for r in status), "laws": len(laws),
         "languages": {c: _LANG.get(c) for c in econs},
+        **_run_note(path),                    # the note written when this extraction was started
         "index": {"dir": str(idx), "id": rel_or_abs(idx, REPO),
                   "corpus": (idx / "prefilter_corpus.jsonl").is_file(), "bm25": (idx / "bm25_top.npz").is_file(),
                   "dense": dense.is_file(), "dense_is_stub": dense.is_file() and dense.stat().st_size < 4096,
@@ -1093,6 +1100,11 @@ def plan_map(app: App, req: dict) -> Job:
                           cwd=p3, env=env, parse=parse_p3, argv=chain, poll=_poll_manifest(out_dir)))
     title = f"Map {', '.join(n['economies'])} on {len(n['indicators'])} indicator(s), {_engine_name(app, eid)}"
     job = Job(stage="p3", title=title, steps=steps, out_dir=out_dir.parent, env_public=public, redact=app.key.redact)
+    from .. import notes as _notes
+    _note = _notes.clean(req.get("note"))
+    if _note:
+        job.say(f"Run note: {_note}")
+        _notes.carry(steps, out_dir, _note)
     job.say(f"Run folder: {rel_or_abs(out_dir, REPO)}. Engine: {app.engines.get(eid).get('label') or eid}.")
     job.say("Models: " + "; ".join(f"{step} {picks[stage]['model']}" + ("" if picks[stage]["engine"] == eid else f" ({_engine_name(app, picks[stage]['engine'])})")
                                    for stage, _, step in MODEL_STAGES) + ".")

@@ -264,6 +264,11 @@ def plan_cn(app: App, req: dict) -> Job:
     job.say(f"Run folder {rel_or_abs(run_dir, REPO)}; the tools read only the hosts that permit us, one request every 6 to 12 s."
             + (f" Staged {staged} index file(s) of {BASELINE} to compare against." if staged else ""))
     job.say("The national database, MIIT and Customs stay by hand; the China page lists what to check.")
+    from .. import notes as _notes
+    _note = _notes.clean(req.get("note"))
+    if _note:
+        job.say(f"Run note: {_note}")
+        _notes.carry(steps, run_dir, _note)
     return job
 
 

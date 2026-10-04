@@ -686,4 +686,8 @@ table.rows .btn.tocheck { background: #fff6e0; border-color: #e0b84d; color: #6b
 #ex-unread .unread-head .btn { display: inline-block; width: auto; }
 #ex-unread .table-wrap { max-height: 52vh; margin-top: 8px; }
 #ex-unread td { vertical-align: top; }
+/* the run note: typed at Start, shown again wherever the folder is listed */
+.run-note-input { width: min(520px, 100%); }
+.carried { display: inline-block; background: #fff6e0; border: 1px solid #e0b84d; color: #5c4000; border-radius: 10px; padding: 2px 10px; font-size: 15px; line-height: 1.4; }
+td .carried { display: block; width: fit-content; margin-top: 5px; }
 /* === fit: end === */

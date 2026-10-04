@@ -97,6 +97,8 @@ async function loadHealth() {
 }
 
 /* the models an engine puts in each role, in plain words */
+/* the line written at Start and carried with a run folder (notes.py): shown wherever the folder is listed */
+const carried = (f) => (f && f.note ? `<span class="carried" title="${esc(f.noted ? 'written ' + f.noted : '')}">${esc(f.note)}</span>` : '');
 /* an older run manifest names its engine "provider: model id"; show the model by its name */
 const engineText = (s) => { const m = /^(anthropic|ollama|openai_compat): (.+)$/.exec(String(s)); return m ? (MODEL_NAMES[m[2]] || m[2]) : String(s); };
 const MODEL_NAMES = { 'claude-sonnet-5': 'Claude Sonnet 5', 'claude-haiku-4-5': 'Claude Haiku 4.5', 'claude-opus-4-8': 'Claude Opus 4.8', 'qwen2.5:14b': 'Qwen 2.5 14B, local' };
@@ -229,6 +231,7 @@ function renderRunRow() {
       ${cur && cur.kind === 'frozen' ? '<div class="muted small">Filed rows, read-only: review decisions are refused here.</div>' : ''}
       ${cur ? `<div class="record"><b class="record-title">Record</b><ul class="note-list">
         <li><b>What this is</b>: ${esc(cur.kind === 'fixture' ? 'a fixture slice of run_2026-09-27, shipped with the interface so the review screen works on a clean clone' : cur.kind === 'frozen' ? 'the filed rows of the submission, read-only' : 'the output of a run from this interface')}.</li>
+        ${cur.note ? `<li><b>Run note</b>: ${esc(cur.note)}${cur.noted ? ` <span class="muted">(${esc(cur.noted)})</span>` : ''}</li>` : ''}
         ${cur.engine ? `<li><b>Engine</b>: ${esc(engineText(cur.engine))}.</li>` : ''}
         ${cur.cost_usd != null ? `<li><b>Recorded cost</b>: $${esc(Number(cur.cost_usd).toFixed(2))}, from the run manifest.</li>` : ''}
         ${cur.arms.length > 1 ? `<li><b>Arms</b>: ${cur.arms.length}, ${esc(cur.arms.join(', '))}; the rows of both are listed.</li>` : ''}
@@ -584,7 +587,7 @@ async function loadScrapeOutputs() {
     + (f.kind === 'hand-collected manifest' ? ` <button class="btn small" data-clear="${esc(f.path)}" data-what="the manifest written for these hand-collected files; the files stay in the inbox">Clear folder</button>` : '')
     + (f.kind === 'link list' ? ` <button class="btn small" data-clear="${esc(f.path)}" data-what="this refreshed link list; the list before it, or the shipped one, is used again">Clear folder</button>` : '');
   $('#scrape-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Economy</th><th>Source</th><th>Folder</th><th>Kind</th><th>Documents</th><th>By type</th><th>Bytes present</th><th>Fetched last pass</th><th></th></tr></thead><tbody>
-    ${j.folders.map((f) => `<tr><td class="small">${econ(f)}</td><td class="small">${source(f)}</td><td class="small" title="${esc(f.path)}">${esc(f.id)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.rows}</td><td class="small">${kv(f.by_source_type)}</td><td class="small">${present(f)}</td><td class="num">${last(f)}</td><td class="small">${buttons(f)}</td></tr>`).join('')}
+    ${j.folders.map((f) => `<tr><td class="small">${econ(f)}</td><td class="small">${source(f)}</td><td class="small" title="${esc(f.path)}">${esc(f.id)}${carried(f)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.rows}</td><td class="small">${kv(f.by_source_type)}</td><td class="small">${present(f)}</td><td class="num">${last(f)}</td><td class="small">${buttons(f)}</td></tr>`).join('')}
     </tbody></table></div><p class="muted small">Results are filed by economy, then source: <code>scrape/&lt;economy&gt;/&lt;source&gt;/&lt;time&gt;</code> for a crawl, <code>inbox/&lt;economy&gt;/&lt;source&gt;</code> for files fetched by hand. A shipped manifest describes every document without containing one; the bytes come back by running the crawler. The fetched count is the crawler's own figure from cost_report.json and must read 0 on a second pass over the same folder. A China tools run counts the documents its raw folders hold. A hand-collected row goes to Extraction like a crawl folder. A link list is what Refresh from the portal wrote: the documents the portal lists, not yet fetched.</p>`
     : '<p class="muted">No crawl folders yet.</p>';
   bindClear('#scrape-output', loadScrapeOutputs);
@@ -699,7 +702,7 @@ function renderExtractDescribe() {
   }
   let facts;
   if (d.kind === 'crawled') {
-    facts = `<dt>Path</dt><dd><code>${esc(d.path)}</code></dd>
+    facts = `<dt>Path</dt><dd><code>${esc(d.path)}</code></dd>${d.note ? `<dt>Run note</dt><dd>${carried(d)}</dd>` : ''}
        <dt>Documents</dt><dd><b>${d.rows}</b></dd>
        <dt>By economy</dt><dd>${kvb(d.by_economy) || 'none'}</dd>
        <dt>By type</dt><dd>${kvb(d.by_source_type) || 'none'}</dd>
@@ -713,7 +716,7 @@ function renderExtractDescribe() {
     const langLine = d.per_subfolder
       ? Object.keys(d.by_economy || {}).map((c) => `${esc(c)} ${esc(langName((EX.defaultLang || {})[c] || 'eng'))}`).join(' · ')
       : (d.economy || EX.economy) ? `${esc(langName((EX.defaultLang || {})[d.economy || EX.economy] || 'eng'))}, from the economy table` : 'follows the economy';
-    facts = `<dt>Path</dt><dd><code>${esc(d.path)}</code></dd>
+    facts = `<dt>Path</dt><dd><code>${esc(d.path)}</code></dd>${d.note ? `<dt>Run note</dt><dd>${carried(d)}</dd>` : ''}
        <dt>Files</dt><dd>${kvb(d.by_source_type)}</dd>
        <dt>Economy</dt><dd>${econLine}</dd>
        ${d.source ? `<dt>Source</dt><dd>${d.source_url ? `<a href="${esc(d.source_url)}" target="_blank" rel="noopener">${esc(d.source_name || d.source)}</a>` : esc(d.source_name || d.source)} <span class="muted">(${esc(d.source)})</span></dd>` : ''}
@@ -737,7 +740,7 @@ async function loadExtractOutputs() {
   let j;
   try { j = await api('/api/extract/outputs'); } catch (e) { $('#extract-output').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
   $('#extract-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Folder</th><th>Kind</th><th>Documents</th><th>By status</th><th>By lane</th><th>Provisions</th><th>Laws</th><th>OCR cache</th><th>Frozen text</th><th></th></tr></thead><tbody>
-    ${j.folders.map((f) => `<tr><td title="${esc(f.path)}">${esc(f.id)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.documents}</td><td class="small">${kv(f.by_status)}</td><td class="small">${kv(f.by_lane)}</td><td class="num">${f.provisions}</td><td class="num">${f.laws}</td><td class="num">${fmtBytes(f.cache_bytes.ocr)}</td><td class="num">${fmtBytes(f.cache_bytes.source_text)}</td><td class="small">${f.to_check ? `<button class="btn small tocheck" data-unread="${esc(f.path)}">${f.to_check} to check</button> ` : ''}<button class="btn small" data-open="${esc(f.path)}">Open folder</button> ${f.kind === 'interface run' ? `<button class="btn small" data-clear-ocr="${esc(f.path)}">Clear OCR cache</button> <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole extraction folder">Clear folder</button>` : ''}</td></tr>`).join('')}
+    ${j.folders.map((f) => `<tr><td title="${esc(f.path)}">${esc(f.id)}${carried(f)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.documents}</td><td class="small">${kv(f.by_status)}</td><td class="small">${kv(f.by_lane)}</td><td class="num">${f.provisions}</td><td class="num">${f.laws}</td><td class="num">${fmtBytes(f.cache_bytes.ocr)}</td><td class="num">${fmtBytes(f.cache_bytes.source_text)}</td><td class="small">${f.to_check ? `<button class="btn small tocheck" data-unread="${esc(f.path)}">${f.to_check} to check</button> ` : ''}<button class="btn small" data-open="${esc(f.path)}">Open folder</button> ${f.kind === 'interface run' ? `<button class="btn small" data-clear-ocr="${esc(f.path)}">Clear OCR cache</button> <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole extraction folder">Clear folder</button>` : ''}</td></tr>`).join('')}
     </tbody></table></div><p class="muted small">Lanes: A web page, B native PDF, C scanned PDF read by OCR, D Word. The OCR cache and the frozen text are what a re-run reuses; clearing both forces a fresh OCR.</p>`
     : '<p class="muted">No extraction output yet. HANDOFF2_DIR points at a folder that appears after the first run.</p>';
   bindClear('#extract-output', loadExtractOutputs);
@@ -978,7 +981,7 @@ function extractRequest() {
   const d = EX.desc;
   const economy = d && d.kind === 'hand_collected' ? (d.per_subfolder ? '' : (d.economy || EX.economy || '')) : EX.economy;
   return { input: d ? d.path : '', pack: EX.pack, workers: EX.workers,
-    out_name: EX.outName || (d ? (d.out_name || d.name) : ''), economy };
+    out_name: EX.outName || (d ? (d.out_name || d.name) : ''), economy, note: EX.note || '' };
 }
 
 function renderExtractRun() {
@@ -1008,6 +1011,7 @@ function renderExtractRun() {
       ${econRow}
       <label class="stack-row"><span class="setup-label">OCR pack</span> <select id="ex-pack"><option value="fast" ${EX.pack === 'fast' ? 'selected' : ''}>Fast: the measured choice</option><option value="best" ${EX.pack === 'best' ? 'selected' : ''}>Best: slower, for hard scans</option></select></label>
       <label class="stack-row"><span class="setup-label">OCR workers</span> <input type="text" id="ex-workers" size="3" value="${EX.workers}"></label>
+      <label class="stack-row"><span class="setup-label">Run note</span> <input type="text" id="ex-note" class="run-note-input" maxlength="300" value="${esc(EX.note || '')}" placeholder="a line to carry with this run, optional"> <span class="muted">shown in Output and at Mapping’s Input</span></label>
       <details class="notes-box" ${EX.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
         <p>* <b>Output name</b> names the folder under ${esc(root)}${BS}extract. Running into an existing folder reuses its OCR cache and frozen text; Clear OCR cache below forces a fresh OCR.</p>
         <p>* <b>OCR pack</b>: Fast is the measured choice from the stage’s own tests; Best trades time for difficult scans. <b>Workers</b> is how many pages are read at once.</p>
@@ -1022,6 +1026,7 @@ function renderExtractRun() {
     </div>`;
   if (EX.stagePresent === false) note.insertAdjacentHTML('afterbegin', '<p class="note">The extraction stage is not in this repository.</p>');
   const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { EX.runNotesOpen = nb.open; });
+  const exNote = $('#ex-note'); if (exNote) exNote.oninput = (e) => { EX.note = e.target.value; };
   $('#ex-out').onchange = (e) => { EX.outName = e.target.value.trim(); EX.checks = null; renderExtractRun(); renderExtractCmd(); };
   $('#ex-pack').onchange = (e) => { EX.pack = e.target.value; EX.checks = null; renderExtractRun(); renderExtractCmd(); };
   $('#ex-workers').onchange = (e) => { EX.workers = parseInt(e.target.value, 10) || 16; EX.checks = null; renderExtractRun(); renderExtractCmd(); };
@@ -1171,6 +1176,7 @@ function renderMapInput() {
     <div class="setup-row"><div class="setup-label">Input</div>
       <div><select id="mp-handoff" class="wide-select">${MP.handoffs.map((x) => `<option value="${esc(x.id)}" ${x.id === MP.handoff ? 'selected' : ''}>${esc(x.id)}: ${x.documents} documents, ${x.provisions} provisions, ${Object.keys(x.economies).join(', ')} (${esc(x.kind)})</option>`).join('')}</select></div>
     </div>
+    ${h.note ? `<div class="setup-row"><div class="setup-label">Run note</div><div>${carried(h)} <span class="small muted">written when this extraction was started</span></div></div>` : ''}
     <div class="setup-row"><div class="setup-label">Economies</div>
       <div class="row">${Object.entries(h.economies).map(([c, k]) => `<label class="radio big ${MP.economies.has(c) ? 'on' : ''}"><input type="checkbox" value="${c}" ${MP.economies.has(c) ? 'checked' : ''}> <span class="name">${esc(name(c))}</span> <span class="sub">${k} law${k === 1 ? '' : 's'}, ${esc(h.languages[c] || '?')}</span></label>`).join('')}</div>
     </div>`;
@@ -1218,7 +1224,7 @@ function mapRequest() {
   return { handoff: MP.handoff, economies: [...MP.economies], indicators: ids,
     engine: MP.models ? MP.models.mapper.engine : (S.health && S.health.engine ? S.health.engine.selected : null), models: MP.models || undefined,
     thetas: MP.selectMode === 'scores' ? typed(MP.thetas) : {}, caps: MP.selectMode === 'caps' ? typed(MP.caps) : {},
-    select_mode: MP.selectMode, dense: MP.dense, gloss: MP.gloss, limit: MP.limit ? parseInt(MP.limit, 10) : null };
+    select_mode: MP.selectMode, dense: MP.dense, gloss: MP.gloss, limit: MP.limit ? parseInt(MP.limit, 10) : null, note: MP.note || '' };
 }
 
 async function runMapCheck() {
@@ -1274,6 +1280,7 @@ function renderMapRun() {
     <div class="stack">
       <label class="stack-row"><span class="setup-label">Translation</span> <input type="checkbox" id="mp-gloss" ${MP.gloss ? 'checked' : ''}> <span>for review</span></label>
       <label class="stack-row"><span class="setup-label">Quick run</span> <input type="text" id="mp-limit" size="5" value="${esc(MP.limit)}" placeholder="all"> <span>map at most this many provisions per economy; blank for everything</span></label>
+      <label class="stack-row"><span class="setup-label">Run note</span> <input type="text" id="mp-note" class="run-note-input" maxlength="300" value="${esc(MP.note || '')}" placeholder="a line to carry with this run, optional"> <span class="muted">shown in Output</span></label>
       <details class="notes-box" ${MP.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
         <ul class="note-list">
           <li><b>A Candidate selection</b>: the first step of a run, which provisions go forward for each indicator.
@@ -1322,6 +1329,7 @@ function renderMapRun() {
     </div>`;
   if (!MP.stagePresent) note.insertAdjacentHTML('afterbegin', '<p class="note">The mapping stage is not in this repository.</p>');
   const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { MP.runNotesOpen = nb.open; });
+  const mpNote = $('#mp-note'); if (mpNote) mpNote.oninput = (e) => { MP.note = e.target.value; };
   $('#mp-mode').onchange = (e) => { MP.selectMode = e.target.value; MP.checks = null; renderMapRun(); };
   note.querySelectorAll('input.mp-num').forEach((inp) => inp.addEventListener('change', () => {
     const id = inp.dataset.id; const caps = MP.selectMode === 'caps';
@@ -1483,7 +1491,7 @@ function scrapeRequest() {
   if (SC.mode === 'same') engine.forEach((c) => { const f = passFolder(c); if (f) folders[c] = f.id; });
   return { economies: [...SC.chosen], scope: SC.scope, forms: SC.forms, dry_run: SC.dryRun, mode: SC.mode, frontier: SC.frontier,
     folders: SC.mode === 'same' ? folders : null, limit: SC.mode === 'fresh' && SC.limit ? SC.limit : null,
-    cn_mode: mode, cn_sources: cnPicked().map((p) => p.src) };
+    cn_mode: mode, cn_sources: cnPicked().map((p) => p.src), note: SC.note || '' };
 }
 
 function renderScrapeRun() {
@@ -1527,6 +1535,7 @@ function renderScrapeRun() {
       <label class="stack-row"><span class="setup-label">Quick run</span> <input type="text" id="sc-limit" size="5" value="${esc(same ? '' : (SC.limit || ''))}" placeholder="all" ${same ? 'disabled' : ''}> <span>fetch only the first documents of each economy; blank for all</span></label>` : ''}
       ${china ? `<label class="stack-row"><span class="setup-label">China</span> <select id="sc-cn"><option value="update" ${mode === 'update' ? 'selected' : ''}>Update check: what changed at CAC and gov.cn</option><option value="collect" ${mode === 'collect' ? 'selected' : ''}>Collect the ticked publishers${pickedNames ? `: ${esc(pickedNames)}` : ' (none ticked yet)'}</option></select></label>` : ''}
       <label class="stack-row"><span class="setup-label">Dry run</span> <input type="checkbox" id="sc-dry" ${SC.dryRun ? 'checked' : ''}> <span>list only, fetch nothing</span></label>
+      <label class="stack-row"><span class="setup-label">Run note</span> <input type="text" id="sc-note" class="run-note-input" maxlength="300" value="${esc(SC.note || '')}" placeholder="a line to carry with this run, optional"> <span class="muted">shown in Output and at Extraction’s Input</span></label>
       <details class="notes-box" ${SC.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
         <p>* <b>New crawl</b> writes into a new folder, filed by economy and source; several economies run one after another, one folder each. <b>Update an existing crawl</b> reuses that economy's folder and fetches only laws not already retrieved, which is how a second pass over a complete folder fetches zero.</p>
         <p>* <b>Link list</b>: the document addresses are already known, so fetching starts at once. It is the list shipped with the crawler, or the one last refreshed here. <b>Refresh from the portal</b>: the portal's listings are read again first, the new list is kept under the runs root and used from then on, and the documents are fetched from it. Reading the listings takes from two minutes (Timor-Leste) to over two hours (Malaysia); Check says how long for each economy. With Dry run ticked it only rebuilds the list.</p>
@@ -1540,6 +1549,7 @@ function renderScrapeRun() {
       <div class="stack-row full"><button class="btn primary wide" id="scrape-start" ${canStart ? '' : 'disabled'}>Start</button></div>
     </div>`;
   const rn = note.querySelector('details.notes-box'); if (rn) rn.addEventListener('toggle', () => { SC.runNotesOpen = rn.open; });
+  const scNote = $('#sc-note'); if (scNote) scNote.oninput = (e) => { SC.note = e.target.value; };
   const sm = $('#sc-mode'); if (sm) sm.onchange = (e) => { SC.mode = e.target.value; SC.checks = null; renderScrapeSetup(); };
   note.querySelectorAll('select.sc-pass').forEach((sel) => { sel.onchange = (e) => { SC.pass = { ...(SC.pass || {}), [sel.dataset.code]: e.target.value }; SC.checks = null; renderScrapeSetup(); }; });
   const sf = $('#sc-frontier'); if (sf) sf.onchange = (e) => { SC.frontier = e.target.value; SC.checks = null; renderScrapeRun(); };

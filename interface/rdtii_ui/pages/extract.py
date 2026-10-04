@@ -911,6 +911,11 @@ def plan_extract(app: App, req: dict) -> Job:
               env_public=public, redact=app.key.redact)
     for n in notes:
         job.say(n)
+    from .. import notes as _notes
+    _note = _notes.clean(req.get("note"))
+    if _note:
+        job.say(f"Run note: {_note}")
+        _notes.carry(steps, out_dir, _note)
     return job
 
 
@@ -987,6 +992,11 @@ def _say_unread(out_dir: Path):
     return hook
 
 
+def _run_note(path: Path) -> dict:
+    from .. import notes as _notes
+    return _notes.read(path)
+
+
 def describe_output(path: Path, kind: str) -> dict:
     status_file = path / "doc_status.jsonl"
     statuses: Counter = Counter()
@@ -1003,6 +1013,7 @@ def describe_output(path: Path, kind: str) -> dict:
         "path": str(path), "id": rel_or_abs(path, REPO), "name": path.name, "kind": kind,
         "documents": sum(statuses.values()), "by_status": dict(statuses), "by_lane": dict(lanes),
         "to_check": sum(n for k, n in statuses.items() if k != "ok"),     # gave no provision: listed by /api/extract/unread
+        **_run_note(path),                                                # the line written at Start
         "provisions": provisions_total, "provisions_file": prov.is_file(),
         "laws": readers.count_lines(path / "laws.jsonl") if (path / "laws.jsonl").is_file() else 0,
         "wallclock_seconds": (cost or {}).get("wallclock_seconds") if isinstance(cost, dict) else None,

@@ -441,6 +441,8 @@ def describe_crawl_folder(path: Path, sample: int = 200) -> dict:
                   "manifest": manifest.is_file(), "rows": 0, "by_economy": {}, "by_source_type": {},
                   "raw_checked": 0, "raw_present": 0, "law_table": (path / "law_table.csv").is_file(),
                   "fetched_last_pass": None, "crawl_state": None}
+    from .. import notes as _notes
+    info.update(_notes.read(path))        # the line written at Start, carried with the folder
     if manifest.is_file():
         loaded = readers.cached(manifest, readers.read_csv)
         rows = loaded[1] if loaded else []
@@ -1198,6 +1200,11 @@ def plan_scrape(app: App, req: dict) -> Job:
                       on_done=_all_skipped_fails(len(codes))))
     title = ("Dry run: " if n["dry_run"] else "Quick run: " if limit else "Crawl ") + ", ".join(codes) + f" ({n['scope']})"
     job = Job(stage="p1", title=title, steps=steps, out_dir=out_dir, env_public=public, redact=app.key.redact)
+    from .. import notes as _notes
+    _note = _notes.clean(req.get("note"))
+    if _note:
+        job.say(f"Run note: {_note}")
+        _notes.carry(steps, out_dir, _note)
     job.say(f"{'Second pass over' if n['mode'] == 'same' else 'New folder'} {rel_or_abs(out_dir, REPO)}; "
             + ("the link list" if n["frontier"] == "links" else
                f"a link list refreshed from the portal, kept in {rel_or_abs(new_list, REPO)}" if new_list is not None else "live discovery")
