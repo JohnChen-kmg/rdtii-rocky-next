@@ -52,6 +52,10 @@ class Plan(unittest.TestCase):
             self.assertIn("--dry-run", crawl.argv)
             self.assertIn("--scope", crawl.argv)
             self.assertEqual(crawl.argv[crawl.argv.index("--scope") + 1], "seed")
+            # one document per law in every scope; left alone the crawler takes a page and a PDF of each Singapore act
+            self.assertEqual(crawl.argv[crawl.argv.index("--forms") + 1], "pdf")
+            both = scrape.plan_scrape(app, {"economies": ["SG"], "scope": "relevant", "forms": "both"}).steps[1].argv
+            self.assertEqual(both[both.index("--forms") + 1], "both")
             self.assertEqual(crawl.env["REQUEST_DELAY_MS"], "6000")
             self.assertEqual(crawl.env["SSO_FRONTIER"], "links_file")
             self.assertTrue(crawl.env["SSO_LINKS_FILE"].endswith("documents.jsonl"))

@@ -929,7 +929,8 @@ def precheck(app: App, req: dict) -> list[dict]:
     for c in engine:
         add("ok", "time", estimate_text(c, estimate(s, c, n["scope"], n["frontier"], limit), second_pass=n["mode"] == "same"))
     if n["scope"] == "relevant":
-        add("ok", "scope", "Sample scope: titles matching the pillar 6 and 7 vocabulary plus the seed list; the crawler's 60-candidate cap is lifted so nothing is cut short.")
+        add("ok", "scope", "Sample scope: titles matching the pillar 6 and 7 vocabulary plus the seed list; the crawler's 60-candidate cap is lifted so nothing is cut short. "
+                           "One document per law, as in a full crawl.")
         add("warn", "seeds", "The seed list must come from the host's portal list only, never from the 2025 database. Check the registry before a live-test crawl.")
     elif n["scope"] == "all":
         add("ok" if limit else "warn", "scope", "All scope: every principal law on the portal." + ("" if limit else " A full crawl takes hours at the polite pace; Quick run proves the chain in a minute."))
@@ -1167,8 +1168,10 @@ def plan_scrape(app: App, req: dict) -> Job:
     py = s.python_for("p1")
     mods = "p1_scrape.cli, playwright, requests, tenacity, dateutil, yaml, jsonschema" + (", cryptography" if "MY" in codes else "")
     argv = [py, "scrape.py", "--economy", ",".join(codes), "--pillars", "6,7", "--out", str(out_dir), "--scope", n["scope"]]
-    if n["forms"]:
-        argv += ["--forms", n["forms"]]
+    # One document per law. Left to itself the crawler takes "both" forms outside All scope, which for Singapore
+    # is a web page and a PDF of every act: twice the requests, and a page the extraction stage has no reader for.
+    # "pdf" is what the full crawl uses, and each adapter still takes the web page where a law has no PDF.
+    argv += ["--forms", n["forms"] or "pdf"]
     if n["dry_run"]:
         argv.append("--dry-run")
     costs = [estimate(s, c, n["scope"], n["frontier"], limit) for c in codes]

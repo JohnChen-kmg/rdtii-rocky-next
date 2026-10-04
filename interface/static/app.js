@@ -442,7 +442,7 @@ function renderScrapeSetup() {
   SC.checks = null; renderScrapeRun();
   const parts = [];
   const srcOf = (c) => (SC.econs.find((e) => e.code === c) || {}).source || '';
-  const crawlCmd = (list, out) => `cwd stages/p1-scrape  REQUEST_DELAY_MS=${delayFor(list)}${SC.scope === 'relevant' ? ' MAX_CANDIDATES_PER_ECONOMY=100000' : ''}  python scrape.py --economy ${list.join(',')} --pillars 6,7 --scope ${SC.scope}${SC.forms ? ` --forms ${SC.forms}` : ''} --out ${out}`;
+  const crawlCmd = (list, out) => `cwd stages/p1-scrape  REQUEST_DELAY_MS=${delayFor(list)}${SC.scope === 'relevant' ? ' MAX_CANDIDATES_PER_ECONOMY=100000' : ''}  python scrape.py --economy ${list.join(',')} --pillars 6,7 --scope ${SC.scope} --forms ${SC.forms || 'pdf'} --out ${out}`;
   // one run per economy: a new crawl is filed by economy and source, a second pass goes over that economy's own folder
   if (SC.mode === 'same') engineCodes.forEach((c) => { const f = passFolder(c); parts.push(crawlCmd([c], f ? f.id : '<no crawl folder yet>')); });
   else engineCodes.forEach((c) => parts.push(crawlCmd([c], srcOf(c) ? `outputs/scrape/${c}/${srcOf(c)}/${stamp()}` : `outputs/scrape/${c}_${stamp()}`)));
