@@ -8,6 +8,30 @@ it is reversed later. Entries marked **Proposed** are recommendations, not settl
 
 ---
 
+## 2026-10-04, M16 A role may have its own engine, and three unmeasured engines are declared
+
+**Decision.** `engines.json` version 1.1.0 lists each engine's models with a price card and declares
+C (DeepSeek), D (Kimi) and E (ChatGPT), reached by one OpenAI-compatible client. A role takes its own
+engine from `RDTII_ENGINE_MAPPER`, `RDTII_ENGINE_VERIFIER` or `RDTII_ENGINE_ESCALATION` and otherwise
+follows `RDTII_ENGINE`. Every engine and model the pipeline was not scored on carries `measured: false`.
+Added after the finale, on the branch; A and B and the requests they send are unchanged.
+
+**Reason.** The developer asked on 4 October for a model choice per step from the interface: other
+Claude models first, then DeepSeek, Kimi and ChatGPT. M1 already put engines and prices in JSON so that
+this would be a declaration; what was missing was a client for the third kind of provider and a way to
+give one role a different engine. Decision #3 stands: triage stays local, and a role whose engine lacks
+its key is refused, never moved to a local model.
+
+**What is not claimed.** No row has been produced on C, D or E, or on Claude Sonnet 5.5, Opus 5.5 or
+Fable 5.1; no key for them was at hand on 4 October. The client was exercised against a local
+OpenAI-compatible server only. The prompts and the traps were written for Claude. A figure from one of
+these models is a new measurement, not a continuation of the reported ones.
+
+**If reversed.** Remove the three engines and the role variables and the stage is the two-engine stage
+of the submission; nothing else depends on them.
+
+---
+
 ## 2026-09-27, M15 Selection recall is reported as 56/63; the 61/63 figure is in-sample and must be labelled so
 
 **Decision.** The four per-(economy, indicator) overrides in `config/selection.json` stay at their

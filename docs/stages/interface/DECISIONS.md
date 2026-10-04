@@ -281,3 +281,20 @@ its first step. A fact about one computer does not belong in the repository or i
 
 **Consequence if reversed:** Without it the only ways are a system-wide environment variable or a `.venv`
 inside the clone; the first is invisible from the page, the second is a second copy of a large environment.
+
+## 2026-10-04, Each step of a mapping run has its own choice, and an unmeasured choice says so
+
+**Decision:** The Run block of the Mapping tab holds one block per step: a slider for the candidate selection,
+and a provider with one of its models for the quick screen, the careful reading, the re-check and the
+tie-break. The banner's engine remains and sets all four at once. Providers and models are read from the
+stage's declaration; whatever the pipeline was not measured on is marked "not measured" on the block and
+warned about in Check. Keys are held per provider, in memory.
+
+**Why:** Asked for by the developer on 4 October: the thresholds were readable on the page but could only be
+moved by editing a file, and a run took one provider for every step. The prompts and the traps were written
+for Claude and every reported figure comes from three Claude models, so offering another model without
+saying so would let an untested row look like a tested one.
+
+**Consequence if reversed:** One engine per run and fixed numbers are simpler and cannot produce a
+combination nobody has scored. The price is a file edit to move a threshold and no way to try a cheaper or a
+newer model on a Quick run.
