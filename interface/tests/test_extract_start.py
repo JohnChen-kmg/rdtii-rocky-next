@@ -206,5 +206,54 @@ class Plan(unittest.TestCase):
         self.assertIsNone(extract.parse_p2("some unknown line", job))
 
 
+
+class DocumentsToCheck(unittest.TestCase):
+    """A document that gave no provision is counted on its output, listed with what happened, and said at the end."""
+
+    def _output(self, d: str) -> Path:
+        import json
+        out = Path(d) / "out"
+        (out / "source_text").mkdir(parents=True)
+        status = [{"doc_id": "tl-dl12003-001", "status": "ok", "n_provisions": 12, "lane": "B"},
+                  {"doc_id": "tl-dp12023-001", "status": "zero_provisions", "n_provisions": 0, "lane": "B",
+                   "reason": "parsed cleanly; no citable provision grounded"},
+                  {"doc_id": "tl-dl22003-001", "status": "parse_failed", "n_provisions": 0, "lane": "D", "reason": "legacy .doc"}]
+        laws = [{"doc_id": "tl-dp12023-001", "law_name": "Decreto do Presidente 1/2023", "law_name_en": "Presidential Decree 1/2023",
+                 "source_url": "https://www.mj.gov.tl/jornal/x.pdf"}]
+        (out / "doc_status.jsonl").write_text("".join(json.dumps(r) + "\n" for r in status), encoding="utf-8")
+        (out / "laws.jsonl").write_text("".join(json.dumps(r) + "\n" for r in laws), encoding="utf-8")
+        (out / "source_text" / "tl-dp12023-001.txt").write_text("um texto", encoding="utf-8")
+        return out
+
+    def test_the_output_counts_them_and_the_list_says_what_happened(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            out = self._output(d)
+            self.assertEqual(extract.describe_output(out, "test")["to_check"], 2)
+            got = extract.unread_documents(out)
+            self.assertEqual((got["total"], len(got["documents"]), got["counts"]), (3, 2, {"parse_failed": 1, "zero_provisions": 1}))
+            one = next(x for x in got["documents"] if x["status"] == "zero_provisions")
+            self.assertEqual(one["title"], "Presidential Decree 1/2023")
+            self.assertEqual(one["title_original"], "Decreto do Presidente 1/2023")
+            self.assertIn("one piece of text", one["what"])
+            self.assertEqual(one["text_file"], "source_text/tl-dp12023-001.txt")
+            self.assertTrue(one["source_url"].startswith("https://"))
+            failed = next(x for x in got["documents"] if x["status"] == "parse_failed")
+            self.assertEqual((failed["what"], failed["reason"], failed["text_file"]), ("Could not be read.", "legacy .doc", ""))
+
+    def test_the_run_says_so_at_the_end(self):
+        import tempfile
+        from rdtii_ui import jobs
+        with tempfile.TemporaryDirectory() as d:
+            out = self._output(d)
+            job = jobs.Job(stage="p2", title="t", steps=[])
+            extract._say_unread(out)(job, 0)
+            said = job.sentences[-1]["text"]
+            self.assertIn("2 of 3 document(s) gave no provisions", said)
+            self.assertIn("1 could not be read", said)
+            self.assertIn("1 with no article found", said)
+            self.assertIn("to check", said)
+
+
 if __name__ == "__main__":
     unittest.main()

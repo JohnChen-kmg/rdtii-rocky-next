@@ -679,4 +679,11 @@ table.rows td:last-child .btn { display: block; width: 100%; white-space: nowrap
 .guide .guide-row .block.node > details.subfold { margin: 16px 28px 0; }
 .guide .guide-row .block.node > details.subfold > summary { padding: 12px 18px; }
 .guide .arrow-row { height: 46px; margin: 18px 0; }
+/* Extraction Output: the documents to check */
+table.rows .btn.tocheck { background: #fff6e0; border-color: #e0b84d; color: #6b4a00; font-weight: 700; }
+#ex-unread .unread { margin: 14px 20px 4px; }
+#ex-unread .unread-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 18px; margin-bottom: 4px; }
+#ex-unread .unread-head .btn { display: inline-block; width: auto; }
+#ex-unread .table-wrap { max-height: 52vh; margin-top: 8px; }
+#ex-unread td { vertical-align: top; }
 /* === fit: end === */

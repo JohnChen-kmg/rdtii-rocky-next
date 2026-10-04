@@ -737,11 +737,36 @@ async function loadExtractOutputs() {
   let j;
   try { j = await api('/api/extract/outputs'); } catch (e) { $('#extract-output').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
   $('#extract-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Folder</th><th>Kind</th><th>Documents</th><th>By status</th><th>By lane</th><th>Provisions</th><th>Laws</th><th>OCR cache</th><th>Frozen text</th><th></th></tr></thead><tbody>
-    ${j.folders.map((f) => `<tr><td title="${esc(f.path)}">${esc(f.id)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.documents}</td><td class="small">${kv(f.by_status)}</td><td class="small">${kv(f.by_lane)}</td><td class="num">${f.provisions}</td><td class="num">${f.laws}</td><td class="num">${fmtBytes(f.cache_bytes.ocr)}</td><td class="num">${fmtBytes(f.cache_bytes.source_text)}</td><td class="small"><button class="btn small" data-open="${esc(f.path)}">Open folder</button> ${f.kind === 'interface run' ? `<button class="btn small" data-clear-ocr="${esc(f.path)}">Clear OCR cache</button> <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole extraction folder">Clear folder</button>` : ''}</td></tr>`).join('')}
+    ${j.folders.map((f) => `<tr><td title="${esc(f.path)}">${esc(f.id)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.documents}</td><td class="small">${kv(f.by_status)}</td><td class="small">${kv(f.by_lane)}</td><td class="num">${f.provisions}</td><td class="num">${f.laws}</td><td class="num">${fmtBytes(f.cache_bytes.ocr)}</td><td class="num">${fmtBytes(f.cache_bytes.source_text)}</td><td class="small">${f.to_check ? `<button class="btn small tocheck" data-unread="${esc(f.path)}">${f.to_check} to check</button> ` : ''}<button class="btn small" data-open="${esc(f.path)}">Open folder</button> ${f.kind === 'interface run' ? `<button class="btn small" data-clear-ocr="${esc(f.path)}">Clear OCR cache</button> <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole extraction folder">Clear folder</button>` : ''}</td></tr>`).join('')}
     </tbody></table></div><p class="muted small">Lanes: A web page, B native PDF, C scanned PDF read by OCR, D Word. The OCR cache and the frozen text are what a re-run reuses; clearing both forces a fresh OCR.</p>`
     : '<p class="muted">No extraction output yet. HANDOFF2_DIR points at a folder that appears after the first run.</p>';
   bindClear('#extract-output', loadExtractOutputs);
   bindOpen('#extract-output');
+  $('#extract-output').insertAdjacentHTML('beforeend', '<div id="ex-unread"></div>');
+  document.querySelectorAll('#extract-output [data-unread]').forEach((b) => b.addEventListener('click', () => showUnread(b.dataset.unread)));
+  if (EX.unread) showUnread(EX.unread);      // the list stays open across a refresh of the table
+}
+
+/* the documents of one output that gave no provision, for a person to check */
+async function showUnread(path) {
+  const box = $('#ex-unread');
+  if (!box) return;
+  let j;
+  try { j = await api('/api/extract/unread?folder=' + encodeURIComponent(path)); } catch (e) { EX.unread = null; box.innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  EX.unread = path;
+  const link = (d) => /^https?:/.test(d.source_url) ? `<a href="${esc(d.source_url)}" target="_blank" rel="noopener">source</a>` : '';
+  box.innerHTML = `<div class="src-card unread">
+    <div class="unread-head"><b>${j.documents.length} of ${j.total} documents to check</b> <code>${esc(j.id)}</code>
+      ${j.text_folder ? `<button class="btn small" data-open="${esc(j.text_folder)}">Open the text folder</button>` : ''} <button class="btn small" id="ex-unread-close">Close</button></div>
+    <p class="small muted">These gave no provisions, so Mapping does not see them. Open one to see whether it holds a rule; the text file is what the tool read.</p>
+    <div class="table-wrap"><table class="rows"><thead><tr><th>Document</th><th>What happened</th><th>The stage’s note</th><th>Where</th></tr></thead><tbody>
+    ${j.documents.map((d) => `<tr><td><b>${esc(d.title)}</b>${d.title_original ? `<div class="small">${esc(d.title_original)}</div>` : ''}<div class="small muted">${esc(d.doc_id)}${d.lane ? ` · lane ${esc(d.lane)}` : ''}</div></td>
+      <td>${esc(d.what)}</td><td class="small">${esc(d.reason)}</td>
+      <td class="small">${d.text_file ? `<code>${esc(d.text_file)}</code><div class="muted">${d.text_chars.toLocaleString()} bytes</div>` : '<span class="muted">no text kept</span>'} ${link(d)}</td></tr>`).join('')}
+    </tbody></table></div></div>`;
+  bindOpen('#ex-unread');
+  $('#ex-unread-close').onclick = () => { EX.unread = null; box.innerHTML = ''; };
+  box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
 function bindClear(rootSel, reload) {

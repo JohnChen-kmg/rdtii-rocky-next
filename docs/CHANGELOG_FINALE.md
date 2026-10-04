@@ -11,6 +11,18 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 
 ## 2026-10-04 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
 
+Documents that gave no provisions: three causes fixed in the stages, and a list for a person to check. Found by
+opening the frozen text of the documents with status `zero_provisions` in the day's interface runs (Lao PDR 71 of
+334, Timor-Leste 32 of 198, Malaysia 7, China 4), at the developer's request.
+
+- Extraction, Portuguese headings (`segment_civil.py`): seven Timorese decree-laws of 2003 to 2005 write "Artigo 1.o" with a non-breaking space between word and number, and a treaty text carried by a 2025 resolution writes "ARTIGO 7". The pattern accepted an ordinary space and "Artigo" only, so eight documents with 22 to 62 articles gave nothing, among them the telecommunications base law (Decree-Law 11/2003) and the Communications Regulatory Authority (12/2003). The pattern now takes either space and either case; the frozen text is untouched.
+- Extraction, English editions (`segment_civil.py`, `cli.py` `_segment_for`): the Lao gazette publishes its own English translation of some laws. Declared English in an economy whose own language is written in articles now takes an English "Article N" profile; before, all 13 in the run were read with the Lao pattern and gave nothing. Chosen from two declared facts (the crawler's language for the file, the economy's language for the run), not by reading the text; Singapore, Australia and Malaysia keep the common-law segmenter (pinned by a test).
+- Extraction reads the crawler's facts from `manifest.jsonl` (`sidecars.py` `_read_manifest_meta`) when the two side files are not beside the corpus, which is every crawl run started from the interface. A side file that names the language keeps its say.
+- Scraping (`orchestrator.py`, `manifest.py`): the adapter's facts about each file (language, translation, legal status) are written into `manifest.jsonl` as `contract_meta`. They were kept only in the link list, so a crawl run lost each file's language. The CSV keeps the contract's columns. A crawl folder made before this change does not carry the facts: Lao needs a new crawl before its English editions are split.
+- Interface, Extraction: a run ends by saying how many documents gave no provisions and why; each output under 2.3 carries a button "N to check" that lists them with the title, what happened in plain words, the stage's own note, the frozen text file and the source address (`pages/extract.py` `unread_documents`, route `/api/extract/unread`).
+- Verified: the fixed splitter run over the frozen texts of the day's outputs splits all 8 Timorese documents (22 to 62 articles each) and all 13 English editions (for example 114 for Commercial Banks, whose Lao original gave 118 provisions); the 58 Lao documents with no article heading stay one piece, as they are. Extraction suite 127 passed with 7 new tests; 6 tests in `test_fresh_keeps_ocr_cache.py` fail before and after, because they load `stages/tools/run_economy.py`, a workshop tool this repository does not hold. Scraping suite 428 passed with 1 new test. Interface suite 237, from 235. The list read back from the page on a test copy.
+- Not done: the outputs on disk were not re-run. One-piece documents (a notice, an instruction) are still not passed to Mapping; the list makes them visible, and passing them on is the developer's decision.
+
 Interface review: every tab driven in a browser on a test copy, every Check pressed, no Start. One bug and
 several fit and wording problems, fixed one by one at the developer's word.
 

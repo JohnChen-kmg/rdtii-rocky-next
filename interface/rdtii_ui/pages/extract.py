@@ -151,6 +151,15 @@ def register(app: App) -> None:
     def outputs(app: App, m, q, b):
         return 200, {"folders": list_outputs(app.settings)}
 
+    @app.route("GET", r"/api/extract/unread")
+    def unread(app: App, m, q, b):
+        raw = str(q.get("folder", "")).strip()
+        listed = {Path(f["path"]).resolve(): f for f in list_outputs(app.settings)}
+        folder = Path(raw).resolve() if raw else None
+        if folder not in listed:
+            raise ApiError(400, "folder must be one of the extraction outputs listed under Output")
+        return 200, unread_documents(folder)
+
 
 # ---- inputs -------------------------------------------------------------------------------------------
 
@@ -896,6 +905,8 @@ def plan_extract(app: App, req: dict) -> Job:
                                 "freeze the text, verify every quote",
                           cwd=p2, env=env, parse=parse_p2, argv=run_argv, poll=_poll_doc_status(out_dir)))
     title_langs = ", ".join(LANG_LABEL.get(l, l) for l in langs)
+    if steps:
+        steps[-1].on_done = _say_unread(out_dir)     # which documents gave nothing, said once, at the end
     job = Job(stage="p2", title=f"Extract {folder.name} ({n_docs} documents, {title_langs})", steps=steps, out_dir=out_dir,
               env_public=public, redact=app.key.redact)
     for n in notes:
@@ -919,6 +930,63 @@ def _poll_doc_status(out_dir: Path):
 
 # ---- outputs ---------------------------------------------------------------------------------------------
 
+# A document that gave no provision never reaches Mapping. What happened, in plain words, by the stage's status.
+UNREAD_WHAT = {
+    "zero_provisions": "Read, but no article heading was found. It is one piece of text and is not passed to Mapping.",
+    "parse_failed": "Could not be read.",
+    "excluded": "Left out on purpose.",
+    "skipped": "Not read.",
+}
+UNREAD_SHORT = {"zero_provisions": "with no article found", "parse_failed": "could not be read",
+                "excluded": "left out on purpose", "skipped": "not read"}
+
+
+def unread_documents(path: Path) -> dict:
+    """The documents of one extraction output that gave no provision, each with what happened and where to
+    look, for a person to check: the title, the stage's own reason, the source address, the frozen text."""
+    rows = readers.read_jsonl(path / "doc_status.jsonl") if (path / "doc_status.jsonl").is_file() else []
+    laws = {str(r.get("doc_id")): r for r in (readers.read_jsonl(path / "laws.jsonl") if (path / "laws.jsonl").is_file() else [])}
+    docs = []
+    for r in rows:
+        status = str(r.get("status") or "?")
+        if status == "ok":
+            continue
+        doc_id = str(r.get("doc_id") or "")
+        law = laws.get(doc_id, {})
+        text = path / "source_text" / f"{doc_id}.txt"
+        english = str(law.get("law_name_en") or "")
+        original = str(law.get("law_name") or law.get("law_name_original") or "")
+        docs.append({
+            "doc_id": doc_id, "status": status, "what": UNREAD_WHAT.get(status, status.replace("_", " ")),
+            "reason": str(r.get("reason") or law.get("exclusion_reason") or ""),
+            "title": english or original or doc_id, "title_original": original if english and original != english else "",
+            "source_url": str(law.get("source_url") or ""), "lane": r.get("lane") or "",
+            "text_file": f"source_text/{doc_id}.txt" if text.is_file() else "",
+            "text_chars": text.stat().st_size if text.is_file() else 0,
+        })
+    docs.sort(key=lambda d: (d["status"], d["doc_id"]))
+    return {"id": rel_or_abs(path, REPO), "path": str(path), "total": len(rows), "documents": docs,
+            "counts": dict(Counter(d["status"] for d in docs)),
+            "text_folder": str(path / "source_text") if (path / "source_text").is_dir() else ""}
+
+
+def _say_unread(out_dir: Path):
+    """After the last step: how many documents gave nothing, and where the list is."""
+    def hook(job: Job, rc: int) -> None:
+        f = out_dir / "doc_status.jsonl"
+        rows = readers.read_jsonl(f) if f.is_file() else []
+        if not rows:
+            return
+        bad = Counter(str(r.get("status") or "?") for r in rows if r.get("status") != "ok")
+        if not bad:
+            job.say(f"Every one of the {len(rows)} document(s) gave provisions.")
+            return
+        parts = ", ".join(f"{n} {UNREAD_SHORT.get(k, k.replace('_', ' '))}" for k, n in sorted(bad.items()))
+        job.say(f"{sum(bad.values())} of {len(rows)} document(s) gave no provisions ({parts}). Mapping will not see them. "
+                "They are listed for checking under 2.3 Output: press 'to check' on this folder.")
+    return hook
+
+
 def describe_output(path: Path, kind: str) -> dict:
     status_file = path / "doc_status.jsonl"
     statuses: Counter = Counter()
@@ -934,6 +1002,7 @@ def describe_output(path: Path, kind: str) -> dict:
     return {
         "path": str(path), "id": rel_or_abs(path, REPO), "name": path.name, "kind": kind,
         "documents": sum(statuses.values()), "by_status": dict(statuses), "by_lane": dict(lanes),
+        "to_check": sum(n for k, n in statuses.items() if k != "ok"),     # gave no provision: listed by /api/extract/unread
         "provisions": provisions_total, "provisions_file": prov.is_file(),
         "laws": readers.count_lines(path / "laws.jsonl") if (path / "laws.jsonl").is_file() else 0,
         "wallclock_seconds": (cost or {}).get("wallclock_seconds") if isinstance(cost, dict) else None,
