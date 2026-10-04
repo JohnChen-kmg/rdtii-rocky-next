@@ -1,0 +1,702 @@
+# Citation audit, 2026-10-04
+# Command (from this workspace): python code/tools/audit_citations.py --out evidence/citation_audit_2026-10-04.txt
+# Heuristic: for each rule line that cites a Guide or Internal Guide page, the share of the line's distinctive words
+# found on the cited page, and whether the countries it names are on that page. A listed line is a prompt to read
+# it, not a verdict: paraphrases score low, and a country example usually comes from a workbook row cited in the
+# same line. The drafting checker separately confirmed that every cited page and row exists and that every Guide
+# example's country is on its cited page.
+
+audited 1272 lines; 231 to review
+
+[1.4 coding_rules] Guide p.17: 15% word overlap; proper nouns not on page: []
+   One duty order is one measure: an order that names several exporting economies counts once, while the host counted separate orders on the same product against different origins as separate measures (Guide p.17; workbook round2 India row 4; workbook round2 Chin
+
+[1.4 coding_rules] Internal Guide p.11: 30% word overlap; proper nouns not on page: ['India']
+   Check the product before counting or dismissing it: ICT goods are those on the WTO ITA I, ITA II and proposed ITA III lists, whose HS codes are in the Guide's Annex III, and ICT-related goods are components of the kind the Guide names. Products that look unrel
+
+[1.4 coding_rules] Guide p.16: 43% word overlap; proper nouns not on page: ['India']
+   Check the product before counting or dismissing it: ICT goods are those on the WTO ITA I, ITA II and proposed ITA III lists, whose HS codes are in the Guide's Annex III, and ICT-related goods are components of the kind the Guide names. Products that look unrel
+
+[1.4 coding_rules] Guide pp.102-103: 48% word overlap; proper nouns not on page: ['India']
+   Check the product before counting or dismissing it: ICT goods are those on the WTO ITA I, ITA II and proposed ITA III lists, whose HS codes are in the Guide's Annex III, and ICT-related goods are components of the kind the Guide names. Products that look unrel
+
+[1.4 exceptions] Internal Guide p.7: 25% word overlap; proper nouns not on page: []
+   Raw materials used in ICT manufacturing, such as rare earth elements, lithium, cobalt and silicon, are not counted (Guide p.16; Internal Guide p.7).
+
+[1.4 disambiguation] Guide p.17: 18% word overlap; proper nouns not on page: []
+   TRAP: a trade remedy act, an investigating authority or a law notified to the WTO is only the legal basis. Without an active duty or safeguard on an ICT or ICT-related product it is not scored as a measure, and the answer is 0 (Guide p.17; workbook round2 Lao 
+
+[1.4 disambiguation] Guide p.16: 70% word overlap; proper nouns not on page: ['Thailand']
+   Steel and aluminium inputs are not automatically outside the indicator: the Guide names galvanized steel coils, stainless steel tubes and aluminium alloy strips as ICT-related goods. The host answered 0 for Thailand while noting duties on steel products, so ch
+
+[2.1 coding_rules] Guide p.19: 25% word overlap; proper nouns not on page: []
+   An enabling clause that lets the government adopt bans scores 0 until an implementing exclusion is found; record and score the implementing instrument (Guide p.19; Methodology sheet 2.1).
+
+[2.1 disambiguation] Guide p.75: 47% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: a local-content duty on private operators' own purchases, such as a domestic-component share in telecom operators' capital expenditure, is a commercial-market local content requirement under 10.3, not a procurement exclusion. The host recorded Indonesia'
+
+[2.2 coding_rules] Guide p.18: 29% word overlap; proper nouns not on page: []
+   The condition must be attached to public procurement. Look in procurement laws and rules, tender and contract conditions, and rules on software or electronic systems supplied to public bodies (Guide p.18; Guide p.19; workbook round2 Indonesia row 10).
+
+[3.1 coding_rules] Guide p.12: 25% word overlap; proper nouns not on page: []
+   Evidence is the provision that states the percentage or the prohibition, found in investment laws, negative or positive investment lists, company law or sector statutes. The WTO Trade Policy Review and the STRI databases only point to the law; cite the officia
+
+[3.1 disambiguation] Guide p.42: 50% word overlap; proper nouns not on page: ['Malaysia']
+   TRAP: a foreign equity cap written for telecommunication operators or telecom licences is 5.2, not 3.1. The host filed Malaysia's 70% cap on network facilities and network service licensees under both indicators; only the 5.2 row follows the exception (Indicat
+
+[3.1 disambiguation] Guide p.84: 60% word overlap; proper nouns not on page: ['India']
+   TRAP: a cap on foreign ownership of e-commerce businesses is 12.01, not 3.1, as with India's prohibition of foreign investment in inventory-based e-commerce. 12.01 has no state-owned-enterprise category (Indicator Reference note; Guide p.84; workbook round2 In
+
+[3.1 disambiguation] Guide p.25: 79% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: a horizontal cap on foreign shares in state-owned enterprises is recorded only under 3.1. The host repeated Indonesia's 49% cap on foreign shares in government-controlled firms under 5.2; follow the Guide and record it once, here (Guide p.25; workbook ro
+
+[3.1 disambiguation] Guide p.11: 21% word overlap; proper nouns not on page: []
+   TRAP: a requirement to take a local partner or form a joint venture is 3.2; an equity ceiling with no mandated partner is 3.1. One provision can carry both, as in a joint venture with foreign ownership capped at 50%, and then each part is recorded under its ow
+
+[3.1 disambiguation] Guide p.26: 44% word overlap; proper nouns not on page: ['India']
+   TRAP: government approval required above a threshold is screening (3.4), not a cap, when foreign investors can still reach 100%. The host scored India's satellite rule, automatic route to 74% and government route above it, 0.5 under 3.1 although no maximum is 
+
+[3.1 disambiguation] Guide p.26: 46% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: a rule on the nationality or residency of directors or managers is 3.3, and the share of capital that nationals must hold is 3.1. A licence-eligibility provision can hold both, as in Thailand's broadcasting law with 75% Thai capital and 75% Thai director
+
+[3.1 disambiguation] Guide p.11: 25% word overlap; proper nouns not on page: []
+   TRAP: a foreign equity cap on delivery, postal, payment or e-money firms is 3.1, not a delivery limit (12.2) or other payment restriction (12.4.7); a payment-licence ownership condition is also tested under 12.4.4 (Guide p.84; Guide p.11; workbook round2 Indon
+
+[3.2 coding_rules] Guide p.25: 27% word overlap; proper nouns not on page: []
+   A mandate phrased as a partnership, consortium or shared ownership with nationals counts when the law makes the local party a condition of investing. The host scored 1 a rule that IPTV consortia include at least two Indonesian entities and a rule that foreigne
+
+[3.2 coding_rules] Guide p.11: 23% word overlap; proper nouns not on page: []
+   Where the mandate comes with an equity ceiling or a minimum local shareholding, record the joint venture under 3.2 and the ceiling under the equity indicator for that sector: 3.1, or 5.2 for telecom, or 12.01 for e-commerce (Guide p.25; Guide p.11).
+
+[3.2 coding_rules] Guide p.12: 17% word overlap; proper nouns not on page: []
+   Where no mandate exists, record an absence row that cites the investment or company law, with score 0 (Guide p.12; workbook round2 Mongolia row 10).
+
+[3.2 disambiguation] Guide p.25: 53% word overlap; proper nouns not on page: ['Malaysia']
+   TRAP: an equity cap alone is 3.1 (5.2 in telecom, 12.01 in e-commerce), not a joint venture requirement, even when the cap makes a local partner commercially necessary. The host scored Malaysia 0 under 3.2 although its equity caps make joint ventures common (G
+
+[3.3 coding_rules] Guide p.12: 0% word overlap; proper nouns not on page: []
+   Where no such condition exists, record an absence row that cites the company or investment law, with score 0 (Guide p.12; workbook round2 China row 15).
+
+[3.3 disambiguation] Guide p.26: 41% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: the nationality of shareholders, or the share of capital nationals must hold, is a foreign equity limit under 3.1 (5.2 in telecom), not 3.3. One provision can carry both: Thailand's broadcasting law requires 75% Thai capital and 75% Thai directors, and t
+
+[3.3 disambiguation] Guide p.11: 6% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: the nationality of shareholders, or the share of capital nationals must hold, is a foreign equity limit under 3.1 (5.2 in telecom), not 3.3. One provision can carry both: Thailand's broadcasting law requires 75% Thai capital and 75% Thai directors, and t
+
+[3.3 disambiguation] Guide p.26: 44% word overlap; proper nouns not on page: ['India']
+   TRAP: investment conditions with no director or manager element are not 3.3. The host scored India's single-brand retail conditions 1 under 3.3 although the text holds no such rule; its 30% local sourcing condition is the Guide's local content example for 10.3
+
+[3.4 definition] Internal Guide p.8: 15% word overlap; proper nouns not on page: []
+   Investment screening refers to regulatory mechanisms that allow the Government to review, approve or block foreign investments or acquisitions, whether on grounds of national security and public order or on economic grounds (Guide p.26). The indicator asks two
+
+[3.4 coding_rules] Guide p.27: 10% word overlap; proper nouns not on page: []
+   Two kinds of evidence are needed. The mechanism is shown by the legal text that creates the review or approval power. A blocking case is shown by an official decision or announcement, and because this indicator looks at practice, secondary sources such as news
+
+[3.4 coding_rules] Internal Guide p.7: 20% word overlap; proper nouns not on page: []
+   The top score needs an actual block of an investment or acquisition in a sector relevant to digital trade. Pending approvals, approvals with conditions, and blocks in other sectors such as mining or raw materials do not reach 1 (Guide p.27; Methodology sheet 3
+
+[3.4 coding_rules] Guide p.26: 58% word overlap; proper nouns not on page: ['Thailand']
+   A foreign business licence or permission that the authority grants after weighing national security or economic effects is a screening mechanism; host verification confirmed Thailand's Foreign Business Act permission at 0.25 (Guide p.26; workbook round2 Thaila
+
+[3.4 disambiguation] Guide p.25: 33% word overlap; proper nouns not on page: ['India']
+   TRAP: a prohibition or percentage ceiling on foreign ownership is a foreign equity limit under 3.1 (5.2 in telecom, 12.01 in e-commerce), not screening. Screening is a case-by-case review that can approve or refuse; a rule that sends foreign holdings above a t
+
+[3.4 disambiguation] Guide p.26: 48% word overlap; proper nouns not on page: ['India']
+   TRAP: a prohibition or percentage ceiling on foreign ownership is a foreign equity limit under 3.1 (5.2 in telecom, 12.01 in e-commerce), not screening. Screening is a case-by-case review that can approve or refuse; a rule that sends foreign holdings above a t
+
+[3.4 disambiguation] Guide p.26: 64% word overlap; proper nouns not on page: ['China']
+   TRAP: a national security review of foreign investment is 3.4; a security review of network products and services is 11.3. China's National Security Law provision covers both, and the host recorded it under each (Guide p.26; workbook round2 China rows 20 and 1
+
+[3.4 disambiguation] Guide p.27: 32% word overlap; proper nouns not on page: ['Australia', 'India']
+   TRAP: evidence short of a block in a digital-trade sector is not scored as a blocking case. The host scored Australia 1 on a divestment order in a rare earths project and India 1 on a news report of pending approvals; on that evidence the score stays at the me
+
+[3.4 disambiguation] Internal Guide p.7: 16% word overlap; proper nouns not on page: ['Australia', 'India']
+   TRAP: evidence short of a block in a digital-trade sector is not scored as a blocking case. The host scored Australia 1 on a divestment order in a rare earths project and India 1 on a news report of pending approvals; on that evidence the score stays at the me
+
+[3.4 disambiguation] Guide p.27: 65% word overlap; proper nouns not on page: ['India']
+   A commercial presence requirement (3.5) obliges a provider to establish locally and is not a review of the investment. Prior government permission to open a branch or office is an approval mechanism of the 3.4 kind, which the host recorded inside a 3.5 row for
+
+[3.4 disambiguation] Guide p.26: 47% word overlap; proper nouns not on page: ['India']
+   A commercial presence requirement (3.5) obliges a provider to establish locally and is not a review of the investment. Prior government permission to open a branch or office is an approval mechanism of the 3.4 kind, which the host recorded inside a 3.5 row for
+
+[3.4 disambiguation] Guide p.26: 22% word overlap; proper nouns not on page: []
+   Sanctions lists, court suspension of an existing shareholder's corporate rights and ownership-notification duties with no approval power are not clearly entry screening. The host scored each 0.25; record them with the reason and flag them for review (Guide p.2
+
+[3.5 disambiguation] Guide pp.87-88: 67% word overlap; proper nouns not on page: ['Singapore']
+   TRAP: corporate-law registered office rules are not 12.8 local presence requirements; the workbook records the same Singapore Companies Act provision as 3.5 = 1 and 12.8 = 0 (Guide pp.87-88; workbook round1 Singapore row 14; workbook round1 Singapore row 92).
+
+[3.5 disambiguation] Guide p.11: 38% word overlap; proper nouns not on page: ['Russia', 'Singapore']
+   TRAP: a telecom licence that only locally incorporated or registered companies can hold carries a commercial presence condition. Record that condition under 3.5; 5.5 asks whether the licence conditions discriminate or bar entry. Host coders split on the 5.5 si
+
+[3.5 disambiguation] Guide p.27: 29% word overlap; proper nouns not on page: ['Russia']
+   A duty to open a branch, representative office or local entity is 3.5; restricting access to the provider's online resource for failing to comply is 9.1. The host recorded Russia's rule for large foreign internet firms under both (Guide p.27; workbook round2 R
+
+[3.5 disambiguation] Guide p.11: 38% word overlap; proper nouns not on page: ['India']
+   TRAP: conditions on e-commerce investment other than the equity share are not 12.01: a duty on online retailers to open physical stores is recorded under 3.5, as the host did for India's single-brand retail (Guide p.11; workbook round2 India row 31).
+
+[4.01 coding_rules] Guide p.30: 24% word overlap; proper nouns not on page: []
+   The methodology sheet's 0.5 list is longer than the Guide's: besides filing locally first it names a non-transparent process, high filing fees, high registration costs and substantive examination. Follow the methodology sheet and name the listed feature in Not
+
+[4.01 coding_rules] Guide p.12: 21% word overlap; proper nouns not on page: []
+   The indicator covers patents in every field, not only digital products. Amendments that ease filing duties are not restrictions, and where nothing restrictive is found the row is 0 with the patent act cited as the governing law (Guide p.12; workbook round1 Aus
+
+[4.01 disambiguation] Guide p.37: 24% word overlap; proper nouns not on page: []
+   TRAP: ID hazard. This block is host ID 4.01, patent applications, the first pillar 4 indicator. Host ID 4.1 is the trade secrets framework indicator, the last one in the Guide's list. Never write 4.1 for a patent application rule; the host itself filed one pat
+
+[4.2 coding_rules] Guide p.31: 25% word overlap; proper nouns not on page: []
+   Score from the legal text. Comments that provisional measures are little used in practice do not lower the answer; a host row records that concern and still scores 0 (Guide p.31; workbook round2 Indonesia row 37).
+
+[4.2 disambiguation] Guide p.31: 20% word overlap; proper nouns not on page: []
+   TRAP: inverted polarity. Infringement suits, remedies and interim orders found in the law mean 0, not 1; score 1 only where the framework has neither element (Guide p.31; Methodology sheet 4.2).
+
+[4.2 disambiguation] Guide p.31: 44% word overlap; proper nouns not on page: ['Malaysia']
+   TRAP: compulsory licences, government use and other limits on what a patent holder can enforce are 4.3 questions, not missing procedures here; the host's Malaysia row for 4.2 describes compulsory licensing next to the remedies, which adds nothing to the 4.2 an
+
+[4.2 disambiguation] Internal Guide p.12: 39% word overlap; proper nouns not on page: ['Malaysia']
+   TRAP: compulsory licences, government use and other limits on what a patent holder can enforce are 4.3 questions, not missing procedures here; the host's Malaysia row for 4.2 describes compulsory licensing next to the remedies, which adds nothing to the 4.2 an
+
+[4.3 coding_rules] Internal Guide p.8: 20% word overlap; proper nouns not on page: []
+   This is not a practice-based indicator: the evidence is the legal text, and accounts of how well courts or inspectors enforce patents are not measures. Where no restriction is found, record 0 and cite the patent act (Internal Guide p.8; Guide p.12; workbook ro
+
+[4.3 coding_rules] Guide p.12: 20% word overlap; proper nouns not on page: []
+   This is not a practice-based indicator: the evidence is the legal text, and accounts of how well courts or inspectors enforce patents are not measures. Where no restriction is found, record 0 and cite the patent act (Internal Guide p.8; Guide p.12; workbook ro
+
+[4.5 definition] Guide p.10: 17% word overlap; proper nouns not on page: []
+   The indicator asks whether a copyright legal framework exists and what type of copyright exceptions the economy has adopted (Guide p.33). Exceptions allow lawful use of copyrighted works without permission or a licence from the right holder (Guide p.33). Fair 
+
+[4.5 coding_rules] Guide p.33: 29% word overlap; proper nouns not on page: []
+   ECONOMY-LEVEL: answer once per economy. Record the answer once and cite the exceptions provision of the copyright act (the fair use or fair dealing section, or the list of permitted acts); other provisions of the act are not separate findings (Guide p.33; Meth
+
+[4.5 coding_rules] Guide p.33: 23% word overlap; proper nouns not on page: []
+   Host rows also score 0 where an enumerated list is subject to a fairness-type condition, such as a three-step proviso over the list or an assessment of the circumstances as a whole; the host's only 0.5 row is a closed list of non-commercial exceptions with no 
+
+[4.5 coding_rules] Internal Guide p.8: 0% word overlap; proper nouns not on page: []
+   Cite the act's exceptions provision, not statements about it: a host row built on a ministry press release adds nothing to the economy's answer (Internal Guide p.8; workbook round2 India row 39).
+
+[4.5 disambiguation] Guide p.33: 12% word overlap; proper nouns not on page: []
+   TRAP: economy-level, not provision-level. Each permitted-use section of a copyright act is not a separate finding; give one answer per economy (Guide p.33; Methodology sheet 4.5).
+
+[4.5 disambiguation] Guide p.33: 29% word overlap; proper nouns not on page: []
+   TRAP: remedies, injunctions, takedown and other enforcement tools for copyright are 4.6; this indicator stops at the framework and its exceptions. Enforcement material inside a host 4.5 row, such as compounding of offences, does not move the score (Guide p.33;
+
+[4.5 disambiguation] Guide p.33: 27% word overlap; proper nouns not on page: []
+   TRAP: a shield that limits Internet intermediaries' liability for their users' copyright infringement is the safe harbour of 8.1, not a copyright exception for users of works. A host 4.5 row discusses a court ruling on digital platforms' duties, which belongs 
+
+[4.5 disambiguation] Guide p.33: 8% word overlap; proper nouns not on page: []
+   The statute's own label does not decide between 0 and 0.5: read the provision for a fairness condition. The host scored two enumerated lists 0 where the row text shows no statutory fairness test; treat a bare closed list as 0.5 and say so in Notes (Guide p.33;
+
+[4.6 coding_rules] Internal Guide p.8: 20% word overlap; proper nouns not on page: []
+   Case law is an official source: court-made dynamic injunctions against infringing websites, granted under a civil procedure code's inherent powers, were accepted as evidence (Internal Guide p.8; workbook round2 India row 40).
+
+[4.6 coding_rules] Internal Guide p.12: 29% word overlap; proper nouns not on page: []
+   Score from the legal text. Watch-list reports and piracy statistics do not decide the score: one host row reports widespread software piracy and scores 0, and another was moved from 1 to 0 on a de jure reading. The Internal Guide FAQ's answer that a high pirac
+
+[4.6 disambiguation] Guide p.11: 6% word overlap; proper nouns not on page: []
+   TRAP: takedown procedures, injunctions and other remedies framed for right holders are 4.6 evidence; a provision that limits an intermediary's liability for users' infringement is the safe harbour of 8.1. One notice-and-takedown scheme can do both, so record i
+
+[4.1 definition] Guide p.29: 29% word overlap; proper nouns not on page: []
+   The indicator asks whether the economy has adopted a trade secrets legal framework that provides effective protection (Guide p.37). Effective protection means that confidential business information or commercially valuable data are protected from unauthorised 
+
+[4.1 coding_rules] Guide p.38: 25% word overlap; proper nouns not on page: []
+   ECONOMY-LEVEL: answer once per economy. Cite the provision or doctrine that establishes protection (the trade secrets act's definition and remedies sections, the unfair-competition or criminal-code articles, or the leading breach-of-confidence case); further l
+
+[4.1 coding_rules] Guide p.38: 28% word overlap; proper nouns not on page: []
+   Guide and methodology differ on clauses. The Guide counts clauses as a valid form and gives 0.5 only to narrow provisions without comprehensive coverage; the methodology sheet gives 0.5 to certain clauses included in the IP law or a relevant law. Follow the me
+
+[4.1 coding_rules] Guide p.38: 73% word overlap; proper nouns not on page: ['Australia', 'India', 'Malaysia']
+   Common-law protection is scored both ways by the host: breach of confidence scores 0 for Singapore and India but 0.5 for Australia and Malaysia. The Guide uses Singapore's doctrine as its example of effective protection, so score court-enforced breach of confi
+
+[4.1 coding_rules] Guide p.12: 25% word overlap; proper nouns not on page: []
+   Score from the legal text. A dedicated trade secrets act with a definition, holder rights, civil remedies and criminal penalties scores 0 even where commentators report weak practice; secondary sources only point to the law (Guide p.12; workbook round2 Indones
+
+[4.1 disambiguation] Guide p.37: 27% word overlap; proper nouns not on page: []
+   TRAP: ID hazard. Host ID 4.1 is this trade secrets indicator; patent application rules are host ID 4.01. The host filed a patent-application regulation under 4.1 with score 1, which contradicts the same economy's trade secrets row at 0; map patent filing rules
+
+[5.1 coding_rules] Guide p.42: 26% word overlap; proper nouns not on page: []
+   One mandate is enough for 0, whatever the level of the instrument: an act, a government decree, a regulator's resolution or a code of practice. A standing duty not to refuse access counts as a mandate even when it is qualified by technical or economic feasibil
+
+[5.1 coding_rules] Guide p.42: 45% word overlap; proper nouns not on page: ['Australia']
+   The methodology sheet's 0.5 criterion covers only sharing that is not mandated but practised; the Guide adds an obligation mandated only in specific circumstances or upon request, and the host scored Australia 0.5 on that basis, so a duty limited to declared s
+
+[5.1 coding_rules] Internal Guide p.8: 29% word overlap; proper nouns not on page: []
+   Cite the enforced instrument that carries the duty, such as the act, decree, regulator determination or licence condition; a consultation paper or inquiry report that recommends sharing is not a measure (Internal Guide p.8).
+
+[5.1 coding_rules] Internal Guide p.12: 22% word overlap; proper nouns not on page: []
+   ITU DataHub answers, STRI databases, WTO Trade Policy Reviews and legal guides only point to the law; cite the official text (Internal Guide p.12; Guide p.41).
+
+[5.1 disambiguation] Guide p.42: 40% word overlap; proper nouns not on page: ['India']
+   TRAP: permission is not a mandate and is not scored 0. The host scored India 0 on licence clauses that allow sharing by mutual agreement and on a power to permit spectrum sharing, although the row's own note says sharing is not mandatory; under the Guide that 
+
+[5.1 disambiguation] Guide p.41: 28% word overlap; proper nouns not on page: []
+   TRAP: a sharing duty written as a licence condition is still 5.1 evidence and lowers the score; 5.5 is about discriminatory or entry-blocking licence conditions, and the Guide treats sharing as a safeguard whose absence hampers entry (Guide p.41; Guide p.44; G
+
+[5.2 coding_rules] Internal Guide p.12: 22% word overlap; proper nouns not on page: []
+   ITU DataHub entries, STRI databases, WTO Trade Policy Reviews and legal guides only point to the law; cite the official text that sets the cap (Internal Guide p.12; Guide p.41).
+
+[5.2 disambiguation] Guide p.84: 44% word overlap; proper nouns not on page: ['China']
+   TRAP: foreign equity rules for e-commerce are 12.01, even where the e-commerce activity is licensed as a value-added telecom service: China's notice lifting the cap for online data processing and transaction processing (operational e-commerce) is coded 12.01 (
+
+[5.2 disambiguation] Guide p.11: 17% word overlap; proper nouns not on page: []
+   TRAP: 5.2 scores only the equity ceiling in telecom rules; a mandate to form a joint venture with a local partner is 3.2, and a nationality or residency rule for directors or managers is 3.3 (Guide pp.25-26; Guide p.11; workbook round2 China rows 14 and 32).
+
+[5.3 definition] Internal Guide p.8: 8% word overlap; proper nouns not on page: []
+   The indicator concerns the percentage of shares the Government owns in telecom companies, including operators that are state-owned enterprises (Guide p.42). It is about Government-held shares, not caps on foreign equity (Internal Guide p.12). Where a state-own
+
+[5.3 coding_rules] Guide p.43: 18% word overlap; proper nouns not on page: []
+   ITU DataHub answers cannot be the source for the answer; go to the regulator's report, the state-enterprise list or the company's own records (Internal Guide p.12; Guide p.43).
+
+[5.3 disambiguation] Internal Guide p.8: 8% word overlap; proper nouns not on page: []
+   TRAP: silence in the legislation is not scored 0. The answer comes from ownership facts, so a corpus of laws alone cannot show that the Government holds no shares (Internal Guide p.8; Internal Guide p.12).
+
+[5.3 disambiguation] Internal Guide p.12: 25% word overlap; proper nouns not on page: []
+   TRAP: silence in the legislation is not scored 0. The answer comes from ownership facts, so a corpus of laws alone cannot show that the Government holds no shares (Internal Guide p.8; Internal Guide p.12).
+
+[5.3 disambiguation] Guide p.46: 20% word overlap; proper nouns not on page: ['Lao']
+   TRAP: provisions that place the sector under a ministry's management, or let the State take temporary control of networks, concern the regulator and its powers (5.7), not ownership; the host's Lao PDR row cites such articles next to the shareholdings (Guide p.
+
+[5.4 coding_rules] Guide p.41: 25% word overlap; proper nouns not on page: []
+   ITU DataHub answers and other secondary sources only point to the law; cite the official text that imposes the separation (Internal Guide p.12; Guide p.41).
+
+[5.4 disambiguation] Guide p.44: 11% word overlap; proper nouns not on page: []
+   TRAP: economy-level, not provision-level. The answer combines both kinds of separation across the corpus; do not emit 0.5 for one provision and 0.25 for another (Guide p.44; Methodology sheet 5.4).
+
+[5.4 disambiguation] Guide p.44: 41% word overlap; proper nouns not on page: ['Lao']
+   TRAP: a duty to follow accounting standards, or to report statistics, volumes and prices to the regulator, is not accounting separation and is not scored as a mandate; the host's Lao PDR row cites such articles and contradicts itself on which separation exists
+
+[5.5 coding_rules] Guide p.44: 22% word overlap; proper nouns not on page: []
+   Holding a licence is not scored by itself; the eligibility criteria and licence conditions decide, so capture the clauses that set them (Guide p.44).
+
+[5.5 disambiguation] Guide p.11: 35% word overlap; proper nouns not on page: ['Russia', 'Singapore']
+   TRAP: host coders split on bare local-registration licence conditions, scoring Singapore's facilities-based licence 1 but Russia's communications licence 0; record such a condition under 3.5 and flag any 5.5 score of 1 that rests on it alone (Guide p.11; workb
+
+[5.5 disambiguation] Guide p.44: 38% word overlap; proper nouns not on page: ['India']
+   TRAP: host coders scored India's unified licence 0 despite an entry fee plus a licence fee of 8% of adjusted gross revenue, while the Guide treats revenue sharing on top of fees as a barrier; flag for review (workbook round2 India row 54; Guide p.44).
+
+[5.5 disambiguation] Guide p.81: 22% word overlap; proper nouns not on page: []
+   Licences to deal in encryption tools or services are not telecom operator licences, even when the same licensing law lists both (Guide p.81; workbook round2 Russian Federation row 77).
+
+[5.5 disambiguation] Guide p.85: 33% word overlap; proper nouns not on page: ['China']
+   TRAP: an e-commerce platform licence is 12.3 even when it is issued under telecom licensing rules, as with the value-added telecom licences China requires of e-commerce operators; 5.5 keeps licences to supply telecom services or operate telecom facilities. Und
+
+[5.5 disambiguation] Guide p.44: 58% word overlap; proper nouns not on page: ['China']
+   TRAP: an e-commerce platform licence is 12.3 even when it is issued under telecom licensing rules, as with the value-added telecom licences China requires of e-commerce operators; 5.5 keeps licences to supply telecom services or operate telecom facilities. Und
+
+[5.5 disambiguation] Guide p.44: 31% word overlap; proper nouns not on page: ['Singapore']
+   TRAP: a licence to import or deal in telecom equipment is an import restriction under 10.2, not operator licensing; the host's Singapore 5.5 row also lists the dealer's licence that its 10.2 row scores (Guide p.44; Guide p.75; workbook round1 Singapore rows 30
+
+[5.5 disambiguation] Guide p.75: 46% word overlap; proper nouns not on page: ['Singapore']
+   TRAP: a licence to import or deal in telecom equipment is an import restriction under 10.2, not operator licensing; the host's Singapore 5.5 row also lists the dealer's licence that its 10.2 row scores (Guide p.44; Guide p.75; workbook round1 Singapore rows 30
+
+[5.7 coding_rules] Internal Guide p.13: 29% word overlap; proper nouns not on page: []
+   Economy-level: answer once per economy and cite the provision that establishes the regulator and sets its powers; other provisions of the same act are not separate findings (Guide p.46; Internal Guide p.13).
+
+[5.7 coding_rules] Guide p.46: 69% word overlap; proper nouns not on page: ['Australia', 'Singapore']
+   A regulator established under a ministry, or reporting to one, can still be independent; test whether it decides without Government approval. An overrule mechanism is acceptable only if clearly defined and limited in scope. The host left Australia at 0 where t
+
+[5.7 coding_rules] Internal Guide p.12: 25% word overlap; proper nouns not on page: []
+   ITU DataHub entries and WTO Trade Policy Reviews only point to the establishing law; cite the official text (Internal Guide p.12; Guide p.41).
+
+[5.7 disambiguation] Guide p.46: 50% word overlap; proper nouns not on page: ['Mongolia']
+   TRAP: appointment of the regulator's chair and members by the Government is not scored 1 on its own. The Guide accepts established high-level appointments, although the host scored Mongolia 1 on that ground alone; follow the Guide (Guide p.46; workbook round2 
+
+[6.4 disambiguation] Guide p.54: 29% word overlap; proper nouns not on page: []
+   TRAP (mirror of the 6.1 trap): 'prohibited unless conditions are met' — the default-prohibition + exception drafting pattern (e.g. Singapore PDPA s.26: transfer only per prescribed requirements ensuring comparable protection) — is 6.4, NOT a 6.1 ban. Classify 
+
+[7.1 coding_rules] Guide p.58: 29% word overlap; proper nouns not on page: []
+   Sectoral data-protection instruments are part of the economy-level answer: they decide 0.5 when no comprehensive law exists, and they do not lift a 0 when one does. (Guide p.58; Assignment 1 answer key p.2) 
+
+[7.2 disambiguation] Guide p.62: 29% word overlap; proper nouns not on page: []
+   The same act's powers to access data without court orders evidence 7.5 separately. (Guide p.62)
+
+[7.3 disambiguation] Internal Guide p.13: 26% word overlap; proper nouns not on page: []
+   TRAP (multiply attested): 'do not keep longer than necessary' / 'as long as necessary' retention-limitation principles in data protection laws are MAXIMUM-period rules — NOT scored under RDTII 2.1 (score 0). Only 'retain for AT LEAST N' (a floor) scores 1. Loo
+
+[7.4 coding_rules] Guide p.61: 25% word overlap; proper nouns not on page: []
+   The duty must be MANDATORY. Advisory/recommended DPIAs (e.g. Singapore's advised DPIA for children's products) do not create a DPIA mandate — Singapore scores on its mandatory DPO duty. (Guide p.61)
+
+[8.1 coding_rules] Guide p.11: 14% word overlap; proper nouns not on page: []
+   One law that protects intermediaries against both copyright claims and other unlawful content is evidence for 8.1 and 8.2; record it under both (Guide pp.65-66; Guide p.11).
+
+[8.1 coding_rules] Guide p.12: 5% word overlap; proper nouns not on page: []
+   ECONOMY-LEVEL: answer once per economy. Record the copyright safe harbour once and cite the provision that limits intermediaries' liability. A horizontal shield meets the 0 criterion even where sectoral shields also exist, and a sectoral shield gives 0.5 only 
+
+[8.1 coding_rules] Internal Guide p.8: 11% word overlap; proper nouns not on page: []
+   Pillar 8 is not practice-based: a court order or a police complaint against a platform does not show whether a safe harbour exists, and news reports of such episodes are not evidence. The host's rows of this kind carry the economy's score and add nothing to th
+
+[8.1 disambiguation] Guide p.65: 22% word overlap; proper nouns not on page: []
+   TRAP inverted polarity: score 1 means the economy LACKS a copyright safe harbour; finding a shield lowers the score (Guide p.65; Methodology sheet 8.1).
+
+[8.1 disambiguation] Guide p.65: 57% word overlap; proper nouns not on page: ['Lao']
+   TRAP: do not score 8.1 as 1 only because a general intermediary safe harbour omits the word copyright; the workbook scores one Lao law 1 for 8.1 and 0 for 8.2, against the Guide (Guide p.65, footnote 40; workbook round2 Lao PDR rows 50, 51).
+
+[8.1 disambiguation] Internal Guide p.13: 15% word overlap; proper nouns not on page: []
+   TRAP: a copyright clause that only obliges intermediaries to prevent infringement or block infringing works gives no shield, so it is not a safe harbour; the duty itself is 8.4 material (Guide p.64; Internal Guide p.13; workbook round2 Mongolia row 44).
+
+[8.1 disambiguation] Guide p.65: 17% word overlap; proper nouns not on page: ['Russia']
+   An IP-only safe harbour leaves 8.2 open: Russia's Civil Code shield gives 8.1 a 0 while 8.2 scores 1 (Guide p.65; workbook round2 Russian Federation rows 60, 61).
+
+[8.2 coding_rules] Internal Guide p.10: 17% word overlap; proper nouns not on page: []
+   When no provision limits intermediaries' liability for such content, cite the general laws searched and score 1 (Methodology sheet 8.2; Internal Guide p.10; workbook round2 Russian Federation row 61).
+
+[8.2 coding_rules] Internal Guide p.8: 27% word overlap; proper nouns not on page: []
+   Pillar 8 is not practice-based: a ministry's lawsuit or other enforcement action against a platform is not evidence of a safe harbour or of its absence (Internal Guide p.8; workbook round2 Thailand row 73).
+
+[8.2 disambiguation] Guide p.65: 14% word overlap; proper nouns not on page: ['Lao']
+   An immunity covering all unlawful content, such as Lao PDR's e-transactions law, answers 8.1 as well (Guide p.65, footnote 40; workbook round2 Lao PDR rows 50, 51).
+
+[8.3 coding_rules] Guide p.67: 25% word overlap; proper nouns not on page: []
+   Prepaid or postpaid SIM registration stays at 0.5 even with ID-database cross-checks or biometrics (Guide p.67; workbook round1 Australia row 49; workbook round2 Indonesia row 100).
+
+[8.3 disambiguation] Guide p.66: 40% word overlap; proper nouns not on page: ['India']
+   TRAP: a first-originator identification duty is 8.3, not 8.4; the workbook also codes India's rule as 8.4 (Guide p.66; workbook round2 India rows 108, 113).
+
+[8.3 disambiguation] Guide p.66: 29% word overlap; proper nouns not on page: []
+   Intermediary rules can carry a compliance-officer duty beside an identification duty: the officer duty is tested under 7.4, where a general compliance officer is not a Data Protection Officer and was scored 0, and only the identification duty is 8.3 (Guide p.6
+
+[8.4 disambiguation] Guide p.67: 40% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: a platform duty to moderate, remove or block content stays 8.4 when the content is advertising; it is a 9.3 advertising requirement only where it sets rules for the advertisements themselves. The host also scored Indonesia's general moderation duties 1 u
+
+[8.4 disambiguation] Guide p.71: 40% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: a platform duty to moderate, remove or block content stays 8.4 when the content is advertising; it is a 9.3 advertising requirement only where it sets rules for the advertisements themselves. The host also scored Indonesia's general moderation duties 1 u
+
+[8.4 disambiguation] Guide p.67: 45% word overlap; proper nouns not on page: ['Nauru']
+   A retention law may also tell providers to check actively for illegal activity, as in the Guide's Nauru example: record the checking duty under 8.4 and the retention period under 7.3 (Guide p.60; Guide p.67).
+
+[9.1 disambiguation] Guide p.74: 40% word overlap; proper nouns not on page: ['India']
+   TRAP: a government ban on named applications may be an import ban on online services, 10.1; the workbooks code India's 2020 ban of 267 apps as 10.1 but a later app-blocking wave as 9.1 (Guide p.74; workbook round2 India rows 119 and 125).
+
+[9.1 disambiguation] Guide p.70: 29% word overlap; proper nouns not on page: []
+   TRAP: blocking copyright-infringing sites is not a 9.1 restriction: a court's power to order it is 4.6 enforcement evidence, and it does not show an 8.1 safe harbour, which needs a limit on intermediaries' liability (Guide p.70; Guide p.64; workbook round1 Aus
+
+[9.1 disambiguation] Guide p.64: 29% word overlap; proper nouns not on page: []
+   TRAP: blocking copyright-infringing sites is not a 9.1 restriction: a court's power to order it is 4.6 enforcement evidence, and it does not show an 8.1 safe harbour, which needs a limit on intermediaries' liability (Guide p.70; Guide p.64; workbook round1 Aus
+
+[9.1 disambiguation] Guide p.70: 27% word overlap; proper nouns not on page: []
+   An order to block domain names, or a state register of blocked domains, is DNS-based blocking under 9.1, not a 12.7 domain name requirement (Guide p.70; workbook round2 Russian Federation row 70).
+
+[9.3 coding_rules] Internal Guide p.10: 27% word overlap; proper nouns not on page: []
+   Cite the official text; the OECD Digital STRI only guides the researcher to the primary source. Where no restriction exists, record the general advertising or consumer protection law that was searched with score 0 and state the reason (Guide p.71; Guide p.12; 
+
+[9.3 disambiguation] Guide p.71: 63% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: a ban on misleading or false advertising in a consumer protection law is not a 9.3 restriction and scores 0 here. The same law is evidence for 12.9, which asks whether a consumer protection framework reaches online purchases; finding it scores 0 there as
+
+[9.3 disambiguation] Guide p.88: 53% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: a ban on misleading or false advertising in a consumer protection law is not a 9.3 restriction and scores 0 here. The same law is evidence for 12.9, which asks whether a consumer protection framework reaches online purchases; finding it scores 0 there as
+
+[9.3 disambiguation] Guide p.71: 13% word overlap; proper nouns not on page: []
+   TRAP: blocking or filtering a website because of what it advertises is tested under 9.1, which leaves out criminal and age-restricted content; a rule on what may be advertised is tested here. The host filed a pornography law's advertising ban under both indica
+
+[9.4 disambiguation] Guide p.72: 27% word overlap; proper nouns not on page: []
+   TRAP: data-centre licensing or registration is not 6.3 but may be 9.4, whereas a licence condition to keep servers in-country is also recorded under 6.3 and makes the licence strict (Internal Guide p.13; Guide p.72; workbook round2 China rows 49 and 88).
+
+[9.4 disambiguation] Guide p.72: 61% word overlap; proper nouns not on page: ['China']
+   TRAP: a licence condition that the operator be a locally established company is recorded under 3.5 as well, and it makes the 9.4 scheme strict, as in the Guide's Viet Nam example. The host recorded that condition under 3.5 for China's internet information serv
+
+[10.1 coding_rules] Guide p.74: 12% word overlap; proper nouns not on page: []
+   General prohibited-goods schedules count when they list ICT items: read the schedule and name each ICT product, as with the telecom schedule that bars scanning receivers, jamming devices and radio equipment in set bands (Guide p.74; workbook round1 Singapore r
+
+[10.1 coding_rules] Guide p.74: 54% word overlap; proper nouns not on page: ['India']
+   A government order that prohibits named applications is a ban on online services: the pillar uses import bans on applications as its illustration, and the host scored India's 2020 bans of mobile apps 1 (Guide p.74; workbook round2 India row 125)
+
+[10.1 coding_rules] Guide p.12: 18% word overlap; proper nouns not on page: []
+   A power to prohibit imports, or a prohibited list that names no ICT good or online service, is recorded at 0 with the governing customs or trade law cited (Guide p.12; workbook round2 Lao PDR row 65; workbook round2 China row 95)
+
+[10.1 disambiguation] Guide p.75: 35% word overlap; proper nouns not on page: ['Lao']
+   TRAP: a prohibition that a permit, licence or approval lifts is an import restriction, 10.2 at 0.5, not a ban. The wording does not decide it: the host reviewer moved Lao PDR's rules that walkie-talkies and satellite equipment may not be imported without permi
+
+[10.1 disambiguation] Guide p.74: 24% word overlap; proper nouns not on page: ['India']
+   TRAP: blocking a commercial website or filtering its content is 9.1; prohibiting named applications is 10.1. The same blocking power can underlie both: the host coded India's 2020 app bans as 10.1 but a later order blocking loan and betting apps as 9.1, so dec
+
+[10.1 disambiguation] Guide p.69: 52% word overlap; proper nouns not on page: ['India']
+   TRAP: blocking a commercial website or filtering its content is 9.1; prohibiting named applications is 10.1. The same blocking power can underlie both: the host coded India's 2020 app bans as 10.1 but a later order blocking loan and betting apps as 9.1, so dec
+
+[10.1 disambiguation] Internal Guide p.11: 0% word overlap; proper nouns not on page: ['India']
+   TRAP: blocking a commercial website or filtering its content is 9.1; prohibiting named applications is 10.1. The same blocking power can underlie both: the host coded India's 2020 app bans as 10.1 but a later order blocking loan and betting apps as 9.1, so dec
+
+[10.1 disambiguation] Guide p.11: 43% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: a product kept off the market only because it misses a domestic-content threshold is the local content requirement at work, 10.3: an LCR allows imports once they contain the required domestic share, while a ban blocks imports as such. The host put Indone
+
+[10.1 disambiguation] Internal Guide p.11: 17% word overlap; proper nouns not on page: []
+   An export ban is 10.4; an order that prohibits both import and export of the same ICT goods is recorded under each indicator (Guide p.76; Internal Guide p.11)
+
+[10.2 coding_rules] Guide p.75: 0% word overlap; proper nouns not on page: []
+   Score each cost-adding measure 0.5 and record it as its own finding; two or more such measures in the economy give 1. The host rows keep every measure at 0.5 even where an economy has several, so state the number of measures found for the economy-level step (G
+
+[10.2 coding_rules] Internal Guide p.11: 13% word overlap; proper nouns not on page: ['India']
+   Where a certificate, type approval or registration with a standards body is a condition of import, record that condition here and assess the certification route under 11.2 and any required testing under 11.3, as the host did for India's compulsory registration
+
+[10.2 disambiguation] Guide p.75: 30% word overlap; proper nouns not on page: ['Lao']
+   TRAP: a prohibition that a permit or licence lifts belongs here at 0.5, not in 10.1. Lao PDR's rules that walkie-talkies and satellite communication equipment may not be imported without permission are worded as bans, yet the host reviewer placed them in 10.2 
+
+[10.2 disambiguation] Guide p.44: 39% word overlap; proper nouns not on page: ['Singapore']
+   TRAP: an operator's licence to provide telecom services or run telecom facilities is 5.5; a licence to import or deal in telecom equipment is 10.2, as with Singapore's dealer's licence and import permit for telecom equipment (Guide p.44; workbook round1 Singap
+
+[10.2 disambiguation] Guide p.74: 39% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: trade defence measures on ICT goods (anti-dumping duties, countervailing duties, safeguards) are 1.4, customs duties on electronic transmissions are 12.6, and other tariffs or taxes are outside pillar 10; 10.2 holds non-tariff import restrictions such as
+
+[10.2 disambiguation] Guide p.16: 43% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: trade defence measures on ICT goods (anti-dumping duties, countervailing duties, safeguards) are 1.4, customs duties on electronic transmissions are 12.6, and other tariffs or taxes are outside pillar 10; 10.2 holds non-tariff import restrictions such as
+
+[10.2 disambiguation] Internal Guide p.15: 20% word overlap; proper nouns not on page: []
+   TRAP: the way conformity is certified (supplier's declaration or third-party certificates) is 11.2 and required laboratory testing is 11.3; 10.2 records only that a certificate, approval or registration is a condition of import (Internal Guide p.15; Guide p.75
+
+[10.2 disambiguation] Guide p.75: 20% word overlap; proper nouns not on page: []
+   TRAP: the way conformity is certified (supplier's declaration or third-party certificates) is 11.2 and required laboratory testing is 11.3; 10.2 records only that a certificate, approval or registration is a condition of import (Internal Guide p.15; Guide p.75
+
+[10.2 disambiguation] Internal Guide p.11: 17% word overlap; proper nouns not on page: []
+   Export-side licences or permits in the same instrument are 10.4: record the import side here and the export side there (Internal Guide p.11; workbook round2 Russian Federation row 81; workbook round2 Russian Federation row 84)
+
+[10.3 disambiguation] Guide p.11: 33% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: a sales or import bar that only enforces a content threshold is still the LCR and stays in 10.3, because an LCR allows imports once the domestic share is met; add a 10.1 import ban only where an official instrument prohibits the product outright. The hos
+
+[10.3 disambiguation] Internal Guide p.14: 45% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: export-side rules are 10.4, and raw-material rules such as ore export bans or domestic mineral processing are not scored: the host kept Indonesia's nickel measures at 0 under 10.4 and noted that the local content requirement is scored under 10.3 (Interna
+
+[10.3 disambiguation] Guide p.84: 47% word overlap; proper nouns not on page: ['India']
+   TRAP: a local-sourcing share attached to a foreign-investment rule is 10.3, as with India's single-brand retail condition; the equity limit is 12.01 for e-commerce, and such conditions are not director or manager rules (3.3) (Guide p.76; Guide p.84; Guide p.26
+
+[10.3 disambiguation] Guide p.26: 47% word overlap; proper nouns not on page: ['India']
+   TRAP: a local-sourcing share attached to a foreign-investment rule is 10.3, as with India's single-brand retail condition; the equity limit is 12.01 for e-commerce, and such conditions are not director or manager rules (3.3) (Guide p.76; Guide p.84; Guide p.26
+
+[10.4 definition] Guide p.9: 27% word overlap; proper nouns not on page: []
+   This indicator covers export restrictions on ICT goods and services: export bans, export licences and other restrictions that limit the number of goods or services exported (Guide p.76). All types of export restriction count when they apply to ICT products on 
+
+[10.4 coding_rules] Internal Guide p.14: 20% word overlap; proper nouns not on page: []
+   Evidence needed: a provision that prohibits export, requires an export licence or permit, or otherwise limits the quantity exported, and that reaches ICT products; name the ICT categories covered (Guide p.76; Internal Guide p.14)
+
+[10.4 coding_rules] Guide p.76: 29% word overlap; proper nouns not on page: []
+   Every type counts and one measure is enough for 1; further export restrictions are recorded as their own findings but do not change the binary score (Guide p.76; Methodology sheet 10.4)
+
+[10.4 disambiguation] Internal Guide p.11: 22% word overlap; proper nouns not on page: []
+   TRAP: one instrument often controls both directions. Record the import-side licence or permit under 10.2 and the export-side one under 10.4, each with its own score: the host split the Eurasian Economic Commission's non-tariff decision this way, 0.5 for import
+
+[10.4 disambiguation] Guide p.76: 60% word overlap; proper nouns not on page: ['Australia', 'Singapore']
+   TRAP: export licensing of dual-use and strategic goods is an export restriction (10.4) whenever the control list covers ICT items, including encryption products; it is not an encryption-standards deviation (11.4). The host scored Singapore's strategic goods li
+
+[10.4 disambiguation] Guide p.81: 37% word overlap; proper nouns not on page: ['Australia', 'China', 'India', 'Singapore']
+   TRAP: export licensing of dual-use and strategic goods is an export restriction (10.4) whenever the control list covers ICT items, including encryption products; it is not an encryption-standards deviation (11.4). The host scored Singapore's strategic goods li
+
+[10.4 disambiguation] Guide p.9: 26% word overlap; proper nouns not on page: []
+   TRAP: export bans, duties or processing rules on raw materials (nickel ore, rare earths) are not scored as export restrictions on ICT goods, although the Guide lists a raw-materials inventory among its secondary sources; a domestic-content requirement on ICT p
+
+[10.4 disambiguation] Internal Guide p.11: 29% word overlap; proper nouns not on page: []
+   An import ban is 10.1 and an export ban is 10.4; a prohibited-goods order that covers both directions is recorded under each (Guide p.76; Internal Guide p.11)
+
+[11.1 disambiguation] Guide p.78: 27% word overlap; proper nouns not on page: []
+   A rule that only organisations headquartered in the economy may nominate committee members was also scored 0 by the host, although the Guide's question covers restricted foreign participation; state such a rule in the note so a reviewer can decide (Guide p.78;
+
+[11.2 disambiguation] Internal Guide p.15: 59% word overlap; proper nouns not on page: ['India']
+   TRAP: 11.2 is about certification and marking, meaning who may certify or declare conformity; additional testing procedures are 11.3. One regime can evidence both: India's mandatory testing and certification of telecom equipment is coded 1 under 11.2 and 1 und
+
+[11.3 coding_rules] Guide p.80: 68% word overlap; proper nouns not on page: ['Indonesia']
+   Mixed regimes: the Guide gives 0.5 where third-party results are accepted for at least some ICT products, and 1 where domestic testing is required for certain products with no third-party acceptance; both can describe one economy. Follow the methodology sheet:
+
+[11.3 disambiguation] Guide p.26: 64% word overlap; proper nouns not on page: ['China']
+   TRAP: a national security review of foreign investment is 3.4 (investment screening); a security review of network products and services is 11.3. China's National Security Law provision covers both and the host recorded it under each (Guide p.26; workbook roun
+
+[11.3 disambiguation] Guide p.81: 48% word overlap; proper nouns not on page: ['Russia']
+   TRAP: a notification, registration or licence needed to import or distribute encryption products is an import-side procedure assessed under 10.2, since the Guide sends such licensing to pillars 9 and 10; record it under 11.3 only where the product itself must 
+
+[11.3 disambiguation] Guide p.80: 48% word overlap; proper nouns not on page: ['Russia']
+   TRAP: a notification, registration or licence needed to import or distribute encryption products is an import-side procedure assessed under 10.2, since the Guide sends such licensing to pillars 9 and 10; record it under 11.3 only where the product itself must 
+
+[11.3 disambiguation] Guide p.80: 46% word overlap; proper nouns not on page: ['China']
+   TRAP: mandatory testing or certification of commercial cryptographic products by accredited institutions is a testing requirement, 11.3; it becomes 11.4 only if certification demands a non-standard algorithm, weaker parameters or disclosure of keys or source c
+
+[11.3 disambiguation] Guide p.81: 62% word overlap; proper nouns not on page: ['China']
+   TRAP: mandatory testing or certification of commercial cryptographic products by accredited institutions is a testing requirement, 11.3; it becomes 11.4 only if certification demands a non-standard algorithm, weaker parameters or disclosure of keys or source c
+
+[11.4 coding_rules] Guide p.81: 29% word overlap; proper nouns not on page: []
+   One measure is enough and the score is binary; an economy with no encryption standard or policy is recorded at 0 with the governing law cited (Guide p.81; Guide p.12; workbook round2 Lao PDR row 83)
+
+[11.4 coding_rules] Guide p.12: 14% word overlap; proper nouns not on page: []
+   One measure is enough and the score is binary; an economy with no encryption standard or policy is recorded at 0 with the governing law cited (Guide p.81; Guide p.12; workbook round2 Lao PDR row 83)
+
+[11.4 disambiguation] Guide p.81: 48% word overlap; proper nouns not on page: ['Russia']
+   TRAP: a licence, registration or permit to use, import, export or distribute encryption products or services is not 11.4 unless its conditions set a deviating algorithm, parameter or disclosure: import permits are 10.2, export licences are 10.4 and licences fo
+
+[11.4 disambiguation] Guide p.85: 75% word overlap; proper nouns not on page: ['India']
+   TRAP: national standards for payment security that deviate from international standards are an online payment limitation, 12.4.3. One payment-security direction can be read under both, and the host recorded India's central bank direction at 0 under each (Guide
+
+[11.4 disambiguation] Guide p.62: 54% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: a government power to decrypt data or to order decryption is government access to data, 7.5, not an encryption standard; the host coded Thailand's decryption power under 7.5 and recorded 0 here (Guide p.62; workbook round2 Thailand row 105; workbook roun
+
+[11.4 disambiguation] Guide p.80: 50% word overlap; proper nouns not on page: ['China']
+   Testing or certification of encryption products by accredited bodies, with no deviating parameter and no forced disclosure, is a testing requirement (11.3), not a deviation; the host scored China's sales certification of commercial cryptography products 0 here
+
+[11.4 disambiguation] Guide p.81: 50% word overlap; proper nouns not on page: ['China']
+   Testing or certification of encryption products by accredited bodies, with no deviating parameter and no forced disclosure, is a testing requirement (11.3), not a deviation; the host scored China's sales certification of commercial cryptography products 0 here
+
+[12.01 scoring_tree] Guide p.84: 52% word overlap; proper nouns not on page: ['India']
+   Foreign investors may hold only a minority stake in an e-commerce business, meaning a cap between 1% and 50%, or foreign investment in an e-commerce business model is banned outright; the Guide's own example is a ban, and the host scored India's ban on foreign
+
+[12.01 scoring_tree] Guide p.84: 64% word overlap; proper nouns not on page: ['Lao']
+   Foreign investors may hold a controlling stake but a maximum cap remains, meaning a cap between 51% and 99%, such as the 90% limit in Lao PDR's e-commerce decree (Guide p.84; Methodology sheet 12.01; workbook round2 Lao PDR row 85)
+
+[12.01 coding_rules] Guide p.84: 11% word overlap; proper nouns not on page: []
+   A cap of exactly 50% scores 1. The methodology band for score 1 runs from 1% to 50%, while the Guide describes score 1 as less than 50% and score 0.5 as more than 50%, which leaves 50% unplaced; follow the methodology sheet (Methodology sheet 12.01; Guide p.84
+
+[12.01 coding_rules] Internal Guide p.8: 14% word overlap; proper nouns not on page: []
+   Score the measure in force: a notice that lifts an earlier cap and allows 100% foreign ownership scores 0 (workbook round2 China row 109; Internal Guide p.8).
+
+[12.01 coding_rules] Guide p.12: 25% word overlap; proper nouns not on page: []
+   Where no e-commerce-specific limit exists, record score 0, say so, and cite the general investment or company law as the governing rule (Guide p.12; workbook round2 Russian Federation row 94; workbook round1 Singapore row 77).
+
+[12.01 disambiguation] Guide p.84: 23% word overlap; proper nouns not on page: ['China']
+   TRAP: a cap on telecommunications operators is 5.2, not 12.01. A cap is 12.01 when the instrument addresses e-commerce, whoever issues it: the notice of China's industry and information technology ministry on online data processing and transaction processing s
+
+[12.01 disambiguation] Guide p.42: 18% word overlap; proper nouns not on page: ['China']
+   TRAP: a cap on telecommunications operators is 5.2, not 12.01. A cap is 12.01 when the instrument addresses e-commerce, whoever issues it: the notice of China's industry and information technology ministry on online data processing and transaction processing s
+
+[12.01 disambiguation] Guide p.11: 42% word overlap; proper nouns not on page: ['India']
+   TRAP: conditions on e-commerce investment other than the equity share map elsewhere: India's approval requirement above 49% in single-brand retail e-commerce was coded 3.4, its physical-store condition 3.5 and its 30% local sourcing condition 10.3 (Guide p.11;
+
+[12.01 disambiguation] Guide p.11: 25% word overlap; proper nouns not on page: []
+   An e-commerce equity cap alone is 12.01, not a joint venture requirement; a duty to take a local partner is 3.2, and a cap attached to it is recorded under 12.01 (Guide p.25; Guide p.11).
+
+[12.2 coding_rules] Guide p.84: 52% word overlap; proper nouns not on page: ['China']
+   The Guide excludes taxation, customs duties and fees, yet its own examples are a customs per-shipment value ceiling (Brazil) and a tax-free purchase allowance (Argentina), and the host scored China's quota from a tax-policy notice 1. Treat a ceiling on how muc
+
+[12.2 disambiguation] Guide p.84: 46% word overlap; proper nouns not on page: ['Russia']
+   TRAP: product-specific limits adopted for consumer protection are not scored under 12.2: Russia's row lists remote-sale bans on alcohol and tobacco, licensing of online medicine sales and items barred from postal shipment, and scores 0. Consumer-protection rul
+
+[12.2 disambiguation] Guide p.88: 35% word overlap; proper nouns not on page: ['Russia']
+   TRAP: product-specific limits adopted for consumer protection are not scored under 12.2: Russia's row lists remote-sale bans on alcohol and tobacco, licensing of online medicine sales and items barred from postal shipment, and scores 0. Consumer-protection rul
+
+[12.2 disambiguation] Guide p.86: 42% word overlap; proper nouns not on page: ['Russia']
+   TRAP: a de minimis threshold, the value below which no duty or tax is charged at the border, is 12.5, not a purchase limit: Russia's duty-free thresholds for goods imported for personal use were coded 12.5 while its 12.2 row scored 0. 12.2 needs a ceiling on h
+
+[12.2 disambiguation] Guide p.84: 54% word overlap; proper nouns not on page: ['Russia']
+   TRAP: a de minimis threshold, the value below which no duty or tax is charged at the border, is 12.5, not a purchase limit: Russia's duty-free thresholds for goods imported for personal use were coded 12.5 while its 12.2 row scored 0. 12.2 needs a ceiling on h
+
+[12.2 disambiguation] Guide p.85: 35% word overlap; proper nouns not on page: ['Mongolia']
+   TRAP: a licence for postal, courier or delivery operators is not by itself a delivery limit: Mongolia's postal licences, with no restriction on applying or renewing, scored 0. Such a licence is not 12.3 either, because 12.3 is the licence to run the e-commerce
+
+[12.2 disambiguation] Guide p.85: 45% word overlap; proper nouns not on page: ['China']
+   A ceiling on the amount that can be paid by an electronic payment method is 12.4.5, not a purchase limit: it caps the payment instrument, not the goods. China's cross-border purchase quota was coded 12.2 and its daily payment-account limits 12.4.5 (Guide p.85;
+
+[12.2 disambiguation] Guide p.84: 53% word overlap; proper nouns not on page: ['India']
+   Conditions in a foreign investment policy for marketplaces, such as India's rule that one vendor may not exceed 25% of a marketplace's sales, are not purchase or delivery limits and scored 0; a cap on foreign equity in e-commerce firms is 12.01 (Guide p.84; wo
+
+[12.3 coding_rules] Guide p.85: 25% word overlap; proper nouns not on page: []
+   Any licence scores 1: unlike 5.5 and 9.4, the criteria do not ask for strict, discriminatory or entry-blocking conditions (Methodology sheet 12.3; Guide p.85; Guide p.44; Guide p.72).
+
+[12.3 disambiguation] Internal Guide p.12: 18% word overlap; proper nouns not on page: []
+   TRAP: licences for ISPs, ICPs, social media, news, VPN or cloud services are 9.4, and 9.4 excludes e-commerce platform licences, which belong to Pillar 12 (Internal Guide p.12; Guide p.71; Indicator Reference note, 9.4).
+
+[12.4.1 definition] Guide p.86: 23% word overlap; proper nouns not on page: []
+   One of seven sub-indicators that the host scores separately within the Guide's single section on online payment limitations. That section covers requirements for online payments and other requirements affecting the use of electronic payment and credit services
+
+[12.4.1 coding_rules] Guide p.85: 29% word overlap; proper nouns not on page: []
+   The requirement must be stated in the text: score 1 where a provision obliges someone to open, hold or use an account with a bank in the economy, not where the need for an account is only inferred from other duties (Methodology sheet 12.4.1; Guide p.85).
+
+[12.4.1 coding_rules] Guide p.12: 22% word overlap; proper nouns not on page: []
+   A payment licensing or supervision regime with no account mandate scores 0; record the absence and cite the payment law as the governing rule (Guide p.12; workbook round1 Singapore row 81; workbook round2 Thailand row 114).
+
+[12.4.1 disambiguation] Guide p.85: 71% word overlap; proper nouns not on page: ['India']
+   TRAP: a condition that a payment provider be incorporated in the economy is a restrictive licensing condition, 12.4.4, not a bank account mandate; India's row mixes the two, and only its escrow-account rule supports 12.4.1 (Guide p.85; workbook round2 India ro
+
+[12.4.1 disambiguation] Guide p.85: 29% word overlap; proper nouns not on page: ['India']
+   TRAP: a rule on which currency must be used is 12.4.2 when it reaches international payments; a rule on where the account must sit is 12.4.1. India's prepaid-instrument rule, loading only from instruments issued in India and in rupees only, was coded 12.4.1 (G
+
+[12.4.2 disambiguation] Guide p.85: 31% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: a legal-tender rule for transactions inside the economy is not scored under 12.4.2. The host scored Indonesia's domestic Rupiah obligations 1 in two rows and 0 in a third that records the exemption for international trade; follow the criterion, which ask
+
+[12.4.2 disambiguation] Guide p.85: 10% word overlap; proper nouns not on page: ['India']
+   TRAP: a rule on where the account must sit is 12.4.1, not 12.4.2: India's prepaid-instrument rule, loading only from instruments issued in India and in rupees only, was coded 12.4.1 (Guide p.85; workbook round2 India row 146).
+
+[12.4.3 definition] Guide p.86: 28% word overlap; proper nouns not on page: []
+   One of seven sub-indicators that the host scores separately within the Guide's single section on online payment limitations. That section covers requirements for online payments and other requirements affecting the use of electronic payment and credit services
+
+[12.4.3 coding_rules] Guide p.12: 8% word overlap; proper nouns not on page: []
+   Score 1 needs the text of a binding national payment-security standard that neither refers to nor builds on an international standard; where none is found, record score 0 and cite the payment law as the governing rule (Guide p.85; Guide p.12; Methodology sheet
+
+[12.4.3 disambiguation] Guide p.81: 60% word overlap; proper nouns not on page: ['India']
+   TRAP: a general requirement to use a domestic encryption algorithm, a weaker key length or a non-standard key management method is a deviation from international encryption standards, 11.4, whatever the sector; 12.4.3 is limited to payment-security standards. 
+
+[12.4.4 definition] Guide p.86: 23% word overlap; proper nouns not on page: []
+   One of seven sub-indicators that the host scores separately within the Guide's single section on online payment limitations. That section covers requirements for online payments and other requirements affecting the use of electronic payment and credit services
+
+[12.4.4 coding_rules] Guide p.85: 19% word overlap; proper nouns not on page: ['Australia']
+   A limit on the type of licence available counts: in Australia the holder of stored value in a purchased payment facility classed as banking business must be an authorised deposit-taking institution, and foreign providers receive that licence on condition that 
+
+[12.4.4 disambiguation] Guide p.11: 29% word overlap; proper nouns not on page: []
+   TRAP: a foreign equity cap on payment or electronic money companies is an equity limit, 3.1, where the host coded an 85% cap on digital payment and e-wallet firms; a domestic-ownership condition written into the payment licence was also scored here. Record the
+
+[12.4.5 disambiguation] Guide p.84: 48% word overlap; proper nouns not on page: ['China']
+   TRAP: a ceiling on how much a buyer may purchase or import through e-commerce, such as a per-shipment value limit or an annual purchase quota, limits the goods and not the payment method, and is 12.2. China's cross-border purchase quota was coded 12.2 and its 
+
+[12.4.6 definition] Guide p.86: 25% word overlap; proper nouns not on page: []
+   One of seven sub-indicators that the host scores separately within the Guide's single section on online payment limitations. That section covers requirements for online payments and other requirements affecting the use of electronic payment and credit services
+
+[12.4.6 coding_rules] Guide p.12: 10% word overlap; proper nouns not on page: []
+   Score 1 needs text that obliges payers, merchants or providers to use a particular intermediary for online payments; where none is found, record score 0 and cite the payment law as the governing rule (Methodology sheet 12.4.6; Guide p.85; Guide p.12).
+
+[12.4.7 definition] Guide p.86: 25% word overlap; proper nouns not on page: []
+   The residual one of seven sub-indicators that the host scores separately within the Guide's single section on online payment limitations. That section covers requirements for online payments and other requirements affecting the use of electronic payment and cr
+
+[12.4.7 scoring_tree] Guide p.86: 14% word overlap; proper nouns not on page: []
+   No restriction: no other restriction on online payments beyond the six listed types (Guide p.86; Methodology sheet 12.4.7)
+
+[12.4.7 coding_rules] Internal Guide p.8: 9% word overlap; proper nouns not on page: []
+   A market problem is not a measure: reported credit card fraud that deters online payment scored 0 because no regulation restricts payments (workbook round1 Malaysia row 105; Internal Guide p.8).
+
+[12.5 definition] Guide p.91: 28% word overlap; proper nouns not on page: []
+   A de minimis rule sets a value ceiling for goods below which no duty or tax is charged at the border, so that low-value consignments ordered online keep moving (Guide p.86). The indicator asks whether the economy has adopted such a threshold and compares it wi
+
+[12.5 coding_rules] Internal Guide p.10: 14% word overlap; proper nouns not on page: []
+   Answer once per economy. Cite the provision that sets the duty-free value ceiling and score the economy on that threshold; if the customs, tariff and postal or courier import rules set no ceiling, record the absence once, naming the customs law searched, and s
+
+[12.5 coding_rules] Guide p.86: 23% word overlap; proper nouns not on page: []
+   Convert a local-currency threshold to USD at the IMF exchange rate and give the local amount with its USD equivalent, as host rows do; the host FAQ fixes the IMF USD rate of 31 August and says the earlier SDR 133 benchmark was replaced by USD 200 (Guide p.86; 
+
+[12.5 coding_rules] Internal Guide p.15: 23% word overlap; proper nouns not on page: []
+   Convert a local-currency threshold to USD at the IMF exchange rate and give the local amount with its USD equivalent, as host rows do; the host FAQ fixes the IMF USD rate of 31 August and says the earlier SDR 133 benchmark was replaced by USD 200 (Guide p.86; 
+
+[12.5 coding_rules] Internal Guide p.4: 46% word overlap; proper nouns not on page: ['Russia']
+   For a member of a customs union the threshold may sit in a union decision that applies to every member, such as the Eurasian Economic Union decisions cited for Russia (Internal Guide p.4; workbook round2 Russian Federation row 104).
+
+[12.5 disambiguation] Internal Guide p.10: 7% word overlap; proper nouns not on page: []
+   TRAP: inverted polarity. A de minimis provision found in the law is evidence that the rule exists and scores 0.5 or 0 by its USD value, never 1; score 1 is for an economy with no de minimis rule, so an empty search points to 1 here, the reverse of the usual ab
+
+[12.5 disambiguation] Guide p.84: 40% word overlap; proper nouns not on page: ['China']
+   TRAP: a cap on how much a consumer may buy through cross-border e-commerce (per transaction, per shipment or per year) is a purchase limit under 12.2; the value below which a parcel pays no duty or tax is 12.5. China's RMB 5,000 per-transaction and RMB 26,000 
+
+[12.5 disambiguation] Guide p.86: 33% word overlap; proper nouns not on page: ['China']
+   TRAP: a cap on how much a consumer may buy through cross-border e-commerce (per transaction, per shipment or per year) is a purchase limit under 12.2; the value below which a parcel pays no duty or tax is 12.5. China's RMB 5,000 per-transaction and RMB 26,000 
+
+[12.5 disambiguation] Guide p.86: 25% word overlap; proper nouns not on page: []
+   TRAP: the words de minimis also name a merger-control exemption by asset or turnover size and a rules-of-origin tolerance; these are not border value thresholds and are not scored (Guide p.86; workbook round2 India row 154; workbook round2 Mongolia row 84).
+
+[12.6 coding_rules] Internal Guide p.4: 45% word overlap; proper nouns not on page: ['Russia']
+   For a member of a customs union, read the union's customs code, which applies to every member; the host cited the Eurasian Economic Union code for Russia (Internal Guide p.4; workbook round2 Russian Federation row 106).
+
+[12.6 disambiguation] Guide p.75: 50% word overlap; proper nouns not on page: ['Indonesia']
+   TRAP: a customs declaration or import notification duty for intangible goods is an import procedure under 10.2, while the tariff mechanism is 12.6; the host recorded Indonesia's import notification rule for electronically transmitted software under 10.2 and it
+
+[12.8 disambiguation] Guide p.88: 50% word overlap; proper nouns not on page: ['Russia']
+   TRAP: Russia's 236-FZ duty to open a branch, representative office or legal entity was coded 3.5 = 1 and 12.8 = 0, while the Guide's 12.8 Türkiye example asks only for an appointed representative (workbook round2 Russian Federation rows 23 and 108; Guide p.88)
+
+[12.8 disambiguation] Guide p.61: 46% word overlap; proper nouns not on page: ['China']
+   TRAP: a Data Protection Officer or person-in-charge duty is 7.4, while an offshore processor's local representative is 12.8; China's PIPL Article 52 was coded 7.4 and Article 53 was coded 12.8 (Guide p.61; Guide p.88; workbook round2 China rows 63 and 122).
+
+[12.8 disambiguation] Guide p.88: 38% word overlap; proper nouns not on page: ['China']
+   TRAP: a Data Protection Officer or person-in-charge duty is 7.4, while an offshore processor's local representative is 12.8; China's PIPL Article 52 was coded 7.4 and Article 53 was coded 12.8 (Guide p.61; Guide p.88; workbook round2 China rows 63 and 122).
+
+[12.8 disambiguation] Guide p.27: 41% word overlap; proper nouns not on page: ['Indonesia']
+   Both the 12.8 and the 3.5 sections of the Guide mention representative offices: a representative office or officer required only as the administrative contact of a provider that keeps supplying remotely is 12.8, and an office that must be set up as the provide
+
+[12.8 disambiguation] Guide p.61: 23% word overlap; proper nouns not on page: ['India']
+   A locality condition on a Data Protection Officer stays in 7.4: India's rule that the officer of a significant data fiduciary be based in India was coded 7.4, and India's 12.8 row is 0 (Guide p.61; workbook round2 India rows 96 and 157).
+
+[12.9 coding_rules] Internal Guide p.8: 15% word overlap; proper nouns not on page: []
+   Score on the law in force: a draft chapter on remote or electronic sales does not count, and it does not undo a general consumer law that already reaches online transactions (Internal Guide p.8; workbook round2 Mongolia row 88).
+
+[12.9 disambiguation] Guide p.71: 75% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: consumer-protection rules on advertising, such as bans on misleading ads, score 0 under 9.3; Thailand's Consumer Protection Act was coded 0 under both 9.3 and 12.9 (Guide p.71; Internal Guide p.14; workbook round2 Thailand rows 82 and 131).
+
+[12.9 disambiguation] Internal Guide p.14: 75% word overlap; proper nouns not on page: ['Thailand']
+   TRAP: consumer-protection rules on advertising, such as bans on misleading ads, score 0 under 9.3; Thailand's Consumer Protection Act was coded 0 under both 9.3 and 12.9 (Guide p.71; Internal Guide p.14; workbook round2 Thailand rows 82 and 131).
+
+[12.9 disambiguation] Guide p.57: 27% word overlap; proper nouns not on page: []
+   TRAP: personal data duties such as consent and breach notification belong to pillar 7 (7.1 data protection framework), not to online consumer protection; one such row was filed under 12.9 (Guide p.57; workbook round2 Indonesia row 185).

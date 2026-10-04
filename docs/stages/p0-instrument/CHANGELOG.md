@@ -10,6 +10,158 @@ Each entry carries one of two tags:
 
 ---
 
+## 2026-10-04 (evening): the hand-off target is `rdtii_rocky_next`, and the hand-off is rehearsed
+
+**workspace · `HANDOFF.md` rewritten for the repo the tool is developed in now.**
+- What:
+  - The hand-off target is `C:\Users\woshi\Desktop\rdtii_rocky_next`, the working copy since 3 October.
+    `rdtii_rocky_finale_9.30` is the public submission repository and `rdtii-rocky-finale` the
+    development history; neither receives the instrument unless the developer says so.
+  - `HANDOFF.md` now lists what the repo's owner does with the copy: update the tier counts pinned in
+    `interface\tests\test_map_start.py` line 29, read `framework_name` in the mapping stage's
+    `rollup.py`, correct the "host-criteria-only" sentence in the repo `README.md`, and refresh
+    `docs\stages\p0-instrument\`.
+  - `code/tools/validate.py` compares with `rdtii_rocky_next` when it exists, else
+    `rdtii-rocky-finale`, and names the repo it compared with in the saved transcript.
+  - `NOTICE_FOR_OTHER_STAGES.md`, `README.md` and the header of `DECISIONS.md` name the repos the
+    same way; the notice gains the interface items.
+- Why: the earlier `HANDOFF.md` named `rdtii-rocky-finale`, which has been frozen at the submission tag
+  since 30 September. A copy made there would not have reached the mapping stage or the interface.
+- Verified: a rehearsal in an exported copy of `rdtii_rocky_next` at commit `2edcf44`. Nothing was
+  written to any repo.
+  - Mapping tests: 450 passed, 9 skipped, before and after the copy.
+  - Interface tests: 216 passed, 17 skipped, before and after.
+  - The pillar 6–7 prompt, built by the mapping stage's code: 31,929 characters, same SHA-256 before
+    and after.
+  - The mapping stage's code builds its prompt for each of the 61 indicators alone, and for all 61
+    together (322,081 characters).
+  - The interface's readers give 61 indicators, tiers A 9 / B 52 / C 0, the same nine automated.
+  - `python code\tools\validate.py --save`: PASS, exit 0; 45 files differ from the repo's copy.
+  - Not caught by the rehearsal: the pinned test above is skipped when the demo extraction output is
+    absent, as it is in an export. It will fail in the working copy until its counts are updated.
+
+**workspace · progress report written to the planning folder, at the developer's request.**
+- What: `RDTII Finale Plan\finale_progress\PROGRESS_p0-instrument_2026-10-04.md`, and its row in that
+  folder's `README.md`. It is the first instrument file there: the state on 4 October, the timeline
+  since 13 September, the file and block structure, what depends on the indicator, the rehearsal, what
+  each stage inherits and the open decisions.
+- Why: the other stages and the developer read that folder, not this one.
+- Verified: every count in it was read from `instrument\output\` or from the evidence files the same
+  day. Not committed in the planning repo.
+
+## 2026-10-04 (later): the coverage marks (D16)
+
+**instrument · `output/indicator_order.yaml` carries `coverage`, `coverage_reason` and `answer_nature`
+on every entry, and a top-level `coverage_marks` section.**
+- What:
+  - New data file `code/scripts/data/coverage.yaml`: the classes, the reason categories, the nature
+    codes, the automated pillars, each indicator's nature codes and the per-economy override for
+    China's pillar 6. `build_indicator_order.py` writes the marks from it.
+  - 9 automated (pillars 6 and 7), 52 manual, 6.5 excluded. Reason `practice` on 1.4, 3.4, 5.3, 9.1,
+    11.4 and 12.6; `scope` on the other 46.
+  - The validator checks the marks, and compares them with the coverage register when
+    `RDTII_COVERAGE_REGISTER` names it; `code/tools/validate.py` sets that variable.
+- Why: decision D14 and the mapping stage's request R1 asked for the marks, and the developer pointed
+  to the plan, where Timor-Leste is mapped for all 52 other indicators with a manual-check notice.
+- Verified:
+  - The nature codes were parsed from the register's tables (61 rows), not retyped. The validator
+    reports that classes and nature codes agree for all 61.
+  - Every earlier field of every entry is unchanged, and so is every earlier top-level key.
+  - The mapping stage's loader, run against this folder, still resolves the automated set to the same
+    nine indicators, and its own classification is unchanged. The pillar 6–7 prompt is still
+    byte-identical.
+  - The register's Tier column is out of date for 38 indicators (they are Tier B now). The register is
+    in the planning folder and was not edited.
+
+**workspace · `notes/timor_leste_all_indicator_run.md`.**
+- What: what the plan and the Timor-Leste run of 27 September say about the 52 other indicators: 13
+  produced scored rows, 39 a "no provision found" row, every row a manual-check notice.
+- Why: it decides the review order for the Tier B blocks and explains the coverage marks.
+- Verified: counts taken from `out_tl52/submission/records_TL.csv` and `submission_report_TL.json`.
+
+## 2026-10-04: every indicator at pillar 6–7 depth (D15)
+
+Not logged here at the time: the hand-off of 29 September (repo commit `bf2bb3e`, merged as
+`ad27d1f`), decisions D13 and D14 of 20 September, and a validator run on 27 September. The repo's
+copies matched this folder when this round began.
+
+**instrument · `output/indicators.yaml`: the 52 indicators outside pillars 6 and 7 carry the same
+elements as the nine pillar 6–7 blocks.**
+- What:
+  - 38 thin blocks rewritten at full depth and 14 blocks from 13 September completed. All are Tier B;
+    there is no Tier C block.
+  - Every block now has `weight` (from each Guide chapter's weights paragraph), `scoring_features`,
+    `guide_examples`, `null_statement` and `sources`, and a `question` separate from its `definition`.
+  - `polarity: inverted` on 14 blocks. `level: economy` with `framework_name` on 13: 7.1 and 7.2 as
+    before, plus 4.2, 4.5, 4.6, 4.1, 5.1, 5.4, 5.7, 8.1, 8.2, 11.1 and 12.9.
+  - Every trap is on both blocks it concerns.
+  - The nine pillar 6–7 blocks gained only keys the prompt does not render: `scoring_features` and
+    `guide_examples` where absent, `null_statement`, `sources`, and `framework_name` on 7.1 and 7.2.
+    The absence statements and framework names are the mapping stage's own wording, copied from
+    `submission.py` and `rollup.py`.
+  - A banner above each pillar says where its measures live. New top-level key `block_fields`;
+    `tiers` and `weights_note` rewritten.
+- Why: decision D15. The live test may draw any pillar, and a block with no traps gives the model no
+  warning about look-alikes.
+- Verified:
+  - Drafted by seven agents under `drafting/2026-10-04/BRIEF.md`. Each group's output passed
+    `check_group.py`: citations on every line, cited pages and host rows exist, Guide examples' countries
+    are on their cited pages, branch scores equal the host's.
+  - The scoring branches of all 38 rewritten blocks were read against the host criteria.
+  - A second pass closed all 37 one-sided sibling references; the validator reports 0.
+  - The mapping stage's own `build_system_prefix()`, run against this folder before and after, gives
+    the same pillar 6–7 prefix: 31,929 characters, same SHA-256, identical byte for byte.
+  - The nine pillar 6–7 signature files are identical to the repo's copies.
+  - `python code/tools/validate.py --save`: PASS, exit 0.
+  - **No person has read the new blocks.**
+
+**instrument · `output/policies.yaml`: new last section `indicator_sets`.**
+- What: lists of the inverted, economy-level, practice-based and non-regulatory indicators.
+- Why: the mapping stage lifts the inverted IDs out of a prose sentence and asked for a list a program
+  can read.
+- Verified: every pre-existing key is unchanged, so the three sections the prompt renders are
+  byte-identical. The validator checks the lists against the blocks and the order file, and checks that
+  the polarity sentence names the same 14 indicators.
+
+**instrument · Reviewed label flags for every pillar.**
+- What:
+  - `code/scripts/data/label_flags.yaml` is new. It holds the seven Round 1 flags, moved out of
+    `build_gold.py` with their reasons unchanged, and 208 new flags (51 suspect, 157 advisory) for rows
+    outside pillars 6 and 7.
+  - Each flag in the gold set now carries `basis`: `round1_review` or `drafting_review_2026-10-04`.
+  - One exemplar added (3.1, Thailand row 13). Signature files outside pillars 6–7 now say `tier: B`.
+- Why: the other pillars had no reviewed flags, so their evaluation would run on labels the drafters
+  already knew to be wrong.
+- Verified: the gold set rebuilds to 1,054 rows; before the new flags were added, the only difference
+  from the previous build was `basis` on the seven Round 1 rows. No suspect row is an exemplar.
+
+**instrument · `output/INSTRUMENT_NOTES.md` covers every indicator; new `build_notes.py`.**
+- What:
+  - Sections 8 to 10 are generated: one line per indicator, where each pillar's evidence lives, and the
+    reviewed flags by indicator. `code/scripts/data/notes_table.yaml` holds the one-line texts.
+  - The narrative's 18 legacy `P6-I1`-style IDs are now decimal, and section 7 describes the new state.
+- Why: the notes covered pillars 6 and 7 only.
+- Verified: `build_notes.py --check` reports the section current.
+
+**instrument · `validate_instrument.py` checks the same elements on every block.**
+- What: new group 1d (required keys, weight, row numbers against the host sheets, question differs
+  from definition, the allowed forms of `polarity` and `level`), the `indicator_sets` checks, `basis`
+  on reviewed flags, and an INFO line counting one-sided sibling references.
+- Why: "same structure" should be machine-checked, not asserted.
+- Verified: on the instrument as it stood before the merge it listed 203 problems; after the merge it
+  passes.
+
+**instrument · New `report_flags.py`; `report_coverage.py` legend updated.**
+- What: `report_flags.py` writes the label-flag report that was a one-off on 13 September.
+- Verified: `evidence/label_flags_2026-10-04.md` and `evidence/coverage_2026-10-04.md` generated.
+
+**workspace · `drafting/2026-10-04/`, the round's working material; `REPORT_2026-10-04_parity.md`;
+evidence dated 2026-10-04; `NOTICE_FOR_OTHER_STAGES.md`, `HANDOFF.md`, `README.md` and `code/README.md`
+updated.**
+- Why: the record of how the content was made, and what the other stages need to know.
+- Verified: evidence files regenerated from the merged instrument; prompt sizes measured with the
+  mapping stage's code (`evidence/prefix_sizes_2026-10-04.md`).
+
 ## 2026-09-13 (late afternoon): the code gets its own folder
 
 **workspace · The code moves to `code\` at the workspace root: `instrument\scripts\` becomes

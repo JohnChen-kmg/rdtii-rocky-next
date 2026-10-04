@@ -2,7 +2,7 @@
 # and scripts/data/curated_exemplars.yaml, then re-run; do not hand-edit.
 indicator: '3.3'
 name: Nationality or residency requirements for board of directors or managers
-tier: C
+tier: B
 instrument_version: 2.1.0
 keywords:
 - director

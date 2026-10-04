@@ -61,9 +61,10 @@ def main() -> None:
         + ", ".join(f"{k} {v}" for k, v in sorted(tiers.items()))
         + f" · baseline rows: {len(gold)} across {len({g['economy'] for g in gold})} economies.",
         "",
-        "Tier A = the Round 1 codebook, used in the Round 1 run · Tier B = drafted 2026-09-13 at Tier A depth, not yet reviewed · "
-        "Tier C = extracted by script from host sheets, no traps. All tiers sit in one file, `indicators.yaml`, in host order. "
-        "Flags = suspect / advisory (reviewed in Round 1) / host_marked (host verification said Not correct) / candidate (machine, unreviewed).",
+        "Tier A = the Round 1 codebook, used in the Round 1 run and the 30 September submission · Tier B = drafted at "
+        "Tier A depth with the same elements, not yet reviewed · Tier C = host text only, no traps (none when the count "
+        "is absent). All tiers sit in one file, `indicators.yaml`, in host order. "
+        "Flags = suspect / advisory (reviewed) / host_marked (host verification said Not correct) / candidate (machine, unreviewed).",
         "",
         "## By pillar",
         "",

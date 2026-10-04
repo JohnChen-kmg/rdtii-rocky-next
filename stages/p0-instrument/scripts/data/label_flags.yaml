@@ -1,0 +1,1223 @@
+# Reviewed label flags on host rows (gold_id -> status, basis, reason). build_gold.py writes them into
+# gold/gold_set.jsonl. Two statuses are set here:
+#   suspect   the score contradicts an explicit host rule, or the row is filed under the wrong indicator;
+#             never used as an exemplar
+#   advisory  the score is defensible but rests on a judgement the reader should know about
+# basis says which review made the call: round1_review (pillars 6-7, July 2026) or
+# drafting_review_2026-10-04 (the other pillars; made while drafting, not confirmed by a person).
+# host_marked and candidate flags are computed by build_gold.py and are not listed here.
+r1-my-053:
+  status: suspect
+  basis: round1_review
+  reason: Scored 1 for the PDPA Retention Principle, but 'not retaining personal data for longer than is required'
+    is a MAXIMUM-period rule; Guide p.60 fn.35 and the Internal Guide FAQ (p.13) prescribe score 0 for requirements
+    without a specified minimum period. Singapore's identical pattern (PDPA s.25, r1-sg-041) was scored 0. Prime
+    Malaysia error-check target.
+r1-my-054:
+  status: suspect
+  basis: round1_review
+  reason: Scored 1 for the Communications CoP retention principle ('kept only as long as necessary', s.5.5) — a
+    maximum-period rule that the Guide/FAQ score 0. Same pattern as r1-my-053. Prime Malaysia error-check target.
+r1-au-034:
+  status: advisory
+  basis: round1_review
+  reason: Impact text describes 'government medical records' (tension with the government-data exception), but the
+    Guide itself uses AU health records as the canonical 6.1/6.2 worked example (Guide p.50) — treat 0.5 (sectoral
+    personal data) as authoritative precedent.
+r1-au-035:
+  status: advisory
+  basis: round1_review
+  reason: Same as r1-au-034 (dual-recorded 6.1+6.2 per the Guide's dual-recording rule, Guide p.51).
+r1-my-050:
+  status: advisory
+  basis: round1_review
+  reason: Sectoral CoP scored 0.5 under 7.1 while the comprehensive PDPA row (r1-my-049) is 0. Per the Assignment
+    1 answer key, sectoral instruments ARE recorded, but the horizontal law is the controlling evidence for the
+    indicator-level score — the Singapore analog (Banking Act, r1-sg-039) was scored 0. The finale template adds
+    that 7.1 is answered once per economy (Indicator Reference row 80).
+r1-my-051:
+  status: advisory
+  basis: round1_review
+  reason: Same as r1-my-050 (Communications CoP sectoral complement scored 0.5).
+r1-sg-042:
+  status: advisory
+  basis: round1_review
+  reason: Coverage marked 'Horizontal' but the instrument is a telecom facilities-based operator licence — likely
+    sectoral (telecommunications).
+r1-au-005:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The 0.5 depends on which of the cited episodes (the 2012 Huawei broadband exclusion, the 2018 Huawei and
+    ZTE 5G ban, the 2023 TikTok device ban) count as procurement exclusions of specific firms; two or more would
+    score 1 (Guide p.19).
+r1-au-015:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 on a 2024 divestment order in a heavy rare earths project; the top score needs a block in a sector
+    relevant to digital trade, and raw materials are outside the framework (Methodology sheet 3.4; Guide p.27; Internal
+    Guide p.7).
+r1-au-024:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 on equitable breach of confidence plus statutory confidentiality clauses, while the same common-law
+    basis scores 0 for Singapore and India and is the Guide's example of effective protection. The 0.5 leans on
+    the methodology's certain-clauses criterion (Guide p.38; Methodology sheet 4.1; workbook round1 Singapore row
+    23).
+r1-au-047:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The Copyright Act safe harbour covers only listed provider types; whether that is a horizontal framework
+    (0) or a limited one (0.5) is a judgement the Guide does not settle (Guide p.65).
+r1-au-048:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scores 1 on removal and reporting duties, which are 8.4 material; the row does not examine whether the
+    Acts cited limit providers' liability (Internal Guide p.13).
+r1-au-051:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Mixes interception-assistance duties, which are government access under 7.5 (workbook round1 Australia
+    row 44), with the removal offence already scored in the row before it; the text itself says there is no general
+    monitoring requirement.
+r1-au-052:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 for duties to remove content within 24 hours of a notice and to block access in crisis events;
+    a duty to remove or block content is a monitoring requirement scored 1 (Internal Guide p.13; Methodology sheet
+    8.4), as in Australia's other 8.4 row (workbook round1 Australia row 50).
+r1-au-056:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The gambling-advertising limits on live-sport streams are the only online element; the Australian-content
+    quota applies to commercial television, and offline-only rules are excluded (Internal Guide p.14).
+r1-au-060:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Energy-efficiency registration and trade-description labelling for electrical appliances are scored 0.5;
+    the row does not show that the products are ICT goods on the ITA lists (Guide p.9).
+r1-au-061:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Australian content quotas for free-to-air commercial television are scored 1; the text describes broadcasting
+    over terrestrial spectrum only, and whether any streaming service is bound is not shown. Measures applying only
+    to offline versions are excluded (Guide p.9).
+r1-au-064:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 as a collaborative and transparent process, but a nominating organisation for standards committees
+    must be headquartered in Australia with an Australian membership base; the Guide's question covers restricted
+    foreign participation (Guide p.78).
+r1-au-079:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 fits the AUD 1,000 threshold, but the law column names the Australian Business Number Act 1999
+    and the row text does not tie the customs threshold to that act; check the law citation before matching on it.
+r1-my-005:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Host training confirms the 1, but the rule quoted concerns international tenders for works, and the sections
+    cited in the row do not state it; compare the construction-only rules left unscored in workbook round2 Thailand
+    row 5 (Guide p.18).
+r1-my-010:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Rests on a Treasury Directive that host training says lacks the force of law; its main clause, imports
+    only when local goods cannot be obtained, is the 2.1 exclusion pattern (Guide p.19), and the transparency argument
+    uses secondary sources.
+r1-my-013:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: 'Filed under 3.1 but describes the foreign equity cap for telecom network facilities and network service
+    licences, which is 5.2: 3.1 does not cover telecom caps (Indicator Reference note; workbook round1 Malaysia
+    row 32).'
+r1-my-014:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The 20% shareholding ceiling in trust companies binds domestic and foreign shareholders alike, so it is
+    not specifically a limit on foreign equity (Guide p.25), and the link between trust companies and digital trade
+    is unclear.
+r1-my-017:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Treats general ministerial discretion under the Ministerial Functions Act as a horizontal screening mechanism;
+    the note on workbook round1 Malaysia row 18 calls the two Malaysian regimes mutually exclusive, so the mechanism
+    count is a judgement (Guide p.26).
+r1-my-018:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The sector review mixes competition and national security grounds and notification is voluntary; it counts
+    only if it is not solely an antitrust mechanism (Indicator Reference note; Guide p.26).
+r1-my-027:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 for warrant-based police access to passwords and decryption codes, while the methodology sheet
+    lists disclosure under a court order as a limited-scope 0.5 case. Whether judicial authorisation is a safeguard
+    is a judgement (Methodology sheet 4.9; Guide p.37).
+r1-my-028:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 on common-law breach of confidence and contract, partly because other laws can compel disclosure
+    in proceedings. The Guide treats court-enforced breach of confidence as effective protection, and disclosure
+    powers are 4.9 material (Guide p.38; Guide p.37).
+r1-my-033:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5, but the row lists government-related holdings between 1% and 50% in four telecom companies
+    (Telekom Malaysia, CelcomDigi, Maxis, Digital Nasional Berhad); Government ownership of 1-50% in more than one
+    company scores 1 (Guide p.43; Methodology sheet 5.3).
+r1-my-036:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: '0 depends on a judgement: the row says the regulator is subject to the overall policies set by the Government
+    and does not examine the Minister''s power to direct or override it, the ground on which Singapore scored 1
+    (Guide p.46; workbook round1 Singapore row 31).'
+r1-my-067:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 on an innocent-carrier clause in an industry content code; whether that is a horizontal framework
+    or a sectoral one (0.5) is a judgement (Guide p.66).
+r1-my-068:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 8.2 but the evidence is Copyright Act offences, which are 8.1 scope (Guide p.65); it contradicts
+    Malaysia's other 8.2 row, which scores a non-copyright innocent-carrier clause 0 (workbook round1 Malaysia row
+    67).
+r1-my-071:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The text says there is no mandate for active monitoring and uses the wording of the 0.5 criterion, yet
+    the row scores 1 (Methodology sheet 8.4).
+r1-my-073:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The power cited targets seditious publications, which is political content that the host does not score
+    (Indicator Reference note); the commercial examples in the note are not tied to the Act cited.
+r1-my-077:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Says VPN and cloud services fall under the class licence for social media and messaging providers, which
+    the quoted sections do not show; the 1 holds only through the more-than-one-scheme rule (Guide p.72).
+r1-my-092:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The law field names a prohibition-of-exports order with the number that the 10.1 and 10.2 rows give to
+    the imports order, and the evidence leans on used personal computers and used mobile phones, which are not scored
+    (Internal Guide p.7); only the certificate for network-connected apparatus supports the score.
+r1-my-109:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 under 12.8 for a duty to incorporate locally to obtain a class licence. Establishing a local
+    entity is commercial presence (3.5), and a law imposing both duties is classified as commercial presence; the
+    row describes no representative-only duty, and the host coded Russia's comparable duty 3.5 = 1 and 12.8 = 0
+    (Guide pp.87-88; workbook round2 Russian Federation rows 23 and 108).
+r1-my-110:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 is right for Malaysia, but the cited Electronic Commerce Act 2006 is a legal-recognition statute
+    for electronic messages; the consumer protection framework is the Consumer Protection Act and its regulations
+    recorded in row 111.
+r1-my-112:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 is right for Malaysia, but the row describes e-money issuer approval under the Financial Services
+    Act with incidental consumer clauses; payment licensing is 12.4.4 territory, not the consumer protection framework
+    (Guide p.85).
+r1-sg-016:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 on a file-first rule for residents (Patents Act s.34) and an English-language rule. Both are
+    procedural requirements, which score 0.5, and the row cites no local representative rule, differential treatment
+    or discriminatory rejection (Guide p.30; Methodology sheet 4.01).
+r1-sg-029:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: '0.5 (accounting separation only) depends on a judgement: the row says accounting separation is required
+    of dominant licensees and also that it is a remedy the regulator may impose and is not applied by default (Guide
+    p.44; Methodology sheet 5.4).'
+r1-sg-030:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 1 rests on facilities-based licences being issued only to locally incorporated companies, which may be
+    wholly foreign-owned, and on equipment dealer licences; commercial presence belongs under 3.5, and a like registration
+    condition scored 0 for the Russian Federation (Guide p.11; workbook round2 Russian Federation row 39).
+r1-sg-051:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The shield cited protects providers that carry out government access-blocking orders, which is closer
+    to an immunity for compliance than to a safe harbour for users' content (Guide p.66).
+r1-sg-053:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 for a duty, backed by criminal liability, to comply with directions to disable access or block
+    a service, reasoning that no monitoring is required; a duty to block or remove content is itself scored 1 (Internal
+    Guide p.13; Methodology sheet 8.4).
+r1-sg-059:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 'Blocking a whole service for ignoring directions on egregious content: the content is of an excluded
+    kind, but a commercial service can be blocked entirely; the same provisions score 0 under 8.4 (workbook round1
+    Singapore row 53).'
+r1-sg-060:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Access-blocking directions against online activity that furthers criminal offences; criminal content is
+    excluded from 9.1 (Indicator Reference note), so the 1 depends on reading the power as reaching commercial websites.
+r1-sg-062:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: An automatic class licence with no strict condition; the 1 rests on the more-than-one-scheme rule, which
+    Round 2 rows do not apply row by row (Guide p.72).
+r1-sg-069:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 although the row itself records that military and dual-use goods need export authorisation under
+    the Strategic Goods (Control) Order. Export licences for strategic and dual-use items covering computers, telecom
+    equipment and information security products are the Guide's first score-1 example, all export licence types
+    on ITA products are captured, and the same kind of regime is scored 1 for Australia (Guide p.76; Internal Guide
+    p.14; Methodology sheet 10.4; workbook round1 Australia row 62).
+r1-sg-072:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 because only local registered dealers may file a supplier's declaration while MRA certificates
+    are accepted. Thailand's rows with a similar local-applicant condition are scored 0 (workbook round2 Thailand
+    row 102), so the treatment of local-entity conditions is not settled.
+r1-sg-074:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 on a security specification for private branch exchanges; the row describes minimum security
+    requirements and says nothing about testing or about acceptance of outside test results.
+r1-sg-079:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 for a class licence that the row says covers e-commerce providers; the same instrument scores
+    1 under 9.4, and the Guide records a platform licence that reaches marketplaces under both 9.4 and 12.3 (Guide
+    p.11; workbook round1 Singapore row 62).
+r1-sg-094:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 is right for Singapore, but the row cites anti-scam Transaction Safety Ratings and Technical Reference
+    76 guidelines, whose binding force is unclear; the framework evidence is the fair trading act in row 93.
+r2-cn-004:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Counts a duty on optical fibre from the European Union and the United States; the indicator is framed
+    around imports from economies in the considered region (Guide p.16), though the Guide's own examples include
+    origins outside the region (Guide p.17).
+r2-cn-007:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The rule that level-3 and higher systems use security products from Chinese-invested producers binds system
+    operators in general, not only public procurement, so its place under Pillar 2 is a judgement (Guide p.18).
+r2-cn-009:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 a rule that operators of level-3 and higher systems buy encryption products approved by the national
+    authority, reading it as no tender condition; the Guide's Egypt example of encryption approval (Guide p.19)
+    could support 0.5.
+r2-cn-010:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: An SME reservation and price preference turns on business status, not nationality; as one equal-treatment
+    limitation it is the 0.5 kind, and the row's 1 looks like an economy total (Methodology sheet 2.3; Guide p.20).
+r2-cn-019:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The unreliable entity list is a sanctions tool that can bar listed foreign entities from investing, not
+    a review of investments; the row says no digital-trade firm has been listed (Guide p.26).
+r2-cn-025:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 on a clause requiring foreigners without a Chinese establishment to use a patent agency for applications
+    and other patent-related matters. The Guide's 0.5 example is a local agent for enforcement-related matters,
+    and the note bases the 0 on practical evidence, not the legal text (Guide p.31).
+r2-cn-026:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 on an exhaustive list of exceptions with a catch-all clause. The Guide gives closed lists 0.5
+    unless they follow a fair dealing model with a fairness requirement, which the row text does not show (Guide
+    p.33).
+r2-cn-031:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 0 depends on treating the interconnection duty of dominant operators as a passive infrastructure sharing
+    mandate; the row cites no provision on towers, ducts, poles or sites (Guide p.41).
+r2-cn-073:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 8.2 but the cited regulation protects only works, performances and recordings, so it is 8.1
+    evidence and cannot show a safe harbour for other illegal activities (Guide p.65); the same instrument is the
+    8.1 row (workbook round2 China row 72).
+r2-cn-089:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 on the licence alone; the host's 3.5 row records that the same licence requires a legally established
+    company and minimum registered capital (workbook round2 China row 21), conditions the Guide treats as strict,
+    and China has several schemes (Guide p.72).
+r2-cn-091:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 as a single non-strict scheme, but China has several licensing schemes, and more than one scheme
+    lifts the economy's score to 1 (Guide p.72).
+r2-cn-092:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 on the licence alone; the same measures require servers in mainland China, recorded as a 6.3
+    row (workbook round2 China row 47), a condition the Guide treats as strict, and China has several schemes (Guide
+    p.72).
+r2-cn-093:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 as a single non-strict scheme, but China has several licensing schemes, and more than one scheme
+    lifts the economy's score to 1 (Guide p.72).
+r2-cn-104:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: A network access licence requiring at least three months of network testing in China is scored 1 under
+    11.2; the facts are a licence and in-country testing (11.3), and the row says nothing about supplier declarations
+    or foreign certificates.
+r2-cn-106:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 although the row records that listed commercial cryptographic products may be sold only after
+    testing and certification by accredited institutions, and that critical infrastructure purchases undergo a national
+    security review. A screening or testing requirement in place scores 1, or 0.5 if third-party results are accepted;
+    0 means no requirement (Guide p.80; Methodology sheet 11.3).
+r2-cn-110:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 reads an annual quota and a single-transaction limit set in a tax-policy notice as a purchase
+    limit; this matches the Guide's Argentina example but sits against the Guide's exclusion of taxation measures
+    (Guide p.84).
+r2-in-005:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The row's reviewer note says digital offset printing plates are not an ITA product and may be removed,
+    but HS 370130 and 844250 are on the ITA II list in the Guide annex (Guide pp.102-103), so the 0.25 is defensible.
+r2-in-009:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 for a rule that only lets the Central Government, by notification, mandate procurement from categories
+    of bidders or grant preferences; a legal basis alone scores 0 (Guide p.19; Methodology sheet 2.1).
+r2-in-012:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Mobile phones may be bought only from local suppliers; that closes a product to all non-local suppliers,
+    not to a specific group of firms, and local supplier status turns on local content, so the 0.5 is a judgement
+    (Guide p.19; Methodology sheet 2.1).
+r2-in-013:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scores 1 on an open-source preference policy for e-government; the policy is not worded as a duty to hand
+    over source code to win tenders (Methodology sheet 2.2), and the row says the documents have no regulation-like
+    structure.
+r2-in-014:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 while stating that patent claims for identified e-governance standards must be royalty-free,
+    which the row itself calls a surrender of patents; the 0 holds only if that policy is not a tender condition
+    (Methodology sheet 2.2).
+r2-in-016:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The cloud empanelment condition to store all data in India applies to every provider; it is either one
+    equal-treatment condition of the 0.5 kind or a data localisation rule, not direct discrimination (Methodology
+    sheet 2.3; Guide p.20).
+r2-in-017:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: A 25% procurement target for micro and small enterprises is the Guide's own status-based example; as one
+    measure it is the 0.5 kind unless the reference to Indian enterprises makes it nationality-based (Guide p.20;
+    Methodology sheet 2.3).
+r2-in-020:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The row's note says it may be deleted and that procurement has no quota or preference, while the text
+    describes a preference for domestic telecom manufacturers with 30% to 70% local content (Guide p.20).
+r2-in-023:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 although the row says 100% foreign investment is allowed in the space sector, with government
+    approval above 74%; full ownership allowed scores 0, and an approval route is screening under 3.4, as in the
+    host-verified workbook round2 Thailand row 13 (Methodology sheet 3.1).
+r2-in-027:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 under 3.3, but the text lists single-brand retail conditions (single brand, 30% local sourcing,
+    store opening) and no nationality or residency rule for directors or managers (Guide p.26; Methodology sheet
+    3.3).
+r2-in-028:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 on a news report that about 150 investment approvals are pending; the top score needs a case
+    where screening was used to block an investment in a digital-trade sector (Methodology sheet 3.4; Guide p.27).
+r2-in-030:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Coverage says e-commerce in food products while the text is about single-brand retail, and the row notes
+    that 100% foreign investment is allowed under the automatic route, which leaves the screening mechanism unclear
+    (Guide p.26).
+r2-in-047:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 (passive sharing mandated), but the row's own note says infrastructure sharing is not mandatory
+    and the licence clauses it cites only permit sharing by mutual agreement, mostly of active infrastructure; not
+    mandated but practised is 0.5 (Guide p.42; Methodology sheet 5.1).
+r2-in-048:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 on a power to permit spectrum sharing and on a regulator consultation paper that recommends passive
+    sharing; neither is an enforced passive sharing mandate, and the paper itself says the licence has no specific
+    passive sharing provisions (Guide pp.41-42; Methodology sheet 5.1; Internal Guide p.8).
+r2-in-054:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 0 although the row's note records an entry fee plus a licence fee of 8% of adjusted gross revenue; the
+    Guide's Bangladesh example treats revenue sharing with the regulator on top of licence fees as an entry barrier,
+    so the score depends on whether a revenue-based licence fee counts (Guide p.44).
+r2-in-104:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Records a court order to disclose infringers' identities, not a safe-harbour provision; the 0 is the economy-level
+    answer set by the IT Act immunity (workbook round2 India row 103).
+r2-in-105:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Records a news report of a police complaint against a platform; pillar 8 is not practice-based (Internal
+    Guide p.8), and the 0 is the economy-level answer set by the IT Act immunity (workbook round2 India row 103).
+r2-in-110:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: The source is a draft amendment (the URL file is named Draft_Intermediary_Amendment), and pending drafts
+    are not recorded or scored (Internal Guide p.8).
+r2-in-111:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Describes duties to assist government interception, monitoring and decryption, which are also the 7.5
+    row (workbook round2 India row 98); whether they count as 8.4 monitoring is a judgement (Guide p.67).
+r2-in-112:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Describes licence clauses that give security agencies subscriber lists and interception facilities; the
+    Guide uses the subscriber-list clause as a 7.5 example and the clauses are also the 7.5 row (workbook round2
+    India row 97), so their place under 8.4 is a judgement.
+r2-in-113:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 8.4 but describes the first-originator identification duty, which the Guide lists as a user
+    identity requirement, 8.3 (Guide p.66); the same duty is already the 8.3 row (workbook round2 India row 108).
+r2-in-115:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The law field names the interception rules while the text describes the blocking procedure; the 0 conflicts
+    with the 1 given to the same blocking power in the next row (workbook round2 India row 116).
+r2-in-117:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: 'Describes a due-diligence duty on intermediaries not to host misinformation about Government business:
+    non-commercial content, which is not scored (Indicator Reference note; Guide p.70), and an intermediary duty
+    of the 8.4 type rather than blocking or filtering. The URL is a proposed amendment.'
+r2-in-119:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Rests on a news article and mixes betting apps, whose blocking scores 0 in the row before (workbook round2
+    India row 118), with loan apps; similar app bans are coded as import bans under 10.1 (workbook round2 India
+    row 125).
+r2-in-121:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The certificate attests that an advertisement is not misleading, a consumer-protection aim that the Guide
+    scores 0, yet it is a pre-publication step for every advertisement (Guide p.71).
+r2-in-124:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Import of handsets with fake or duplicate IMEI numbers is prohibited, yet the row scores 0 and gives no
+    reason; a ban on one specific product would be 0.5 (Guide p.74). The 0 is defensible only if the rule is read
+    as an anti-fraud measure rather than a product ban.
+r2-in-133:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The law field names no instrument and the only URL is a news article; the 0 rests on a general description
+    of standards bodies rather than on a provision about participation or consultation (Guide p.12).
+r2-in-135:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 on the reading that the compulsory registration scheme accepts self-declaration from foreign
+    businesses, although registration needs tests at recognised labs in India; the testing side is scored 1 under
+    11.3 (workbook round2 India row 138).
+r2-in-145:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 rests on the escrow-account rule for non-bank prepaid instrument issuers; the row's first rationale,
+    local incorporation of payment aggregators, is a 12.4.4 licensing condition, not a bank account mandate (Guide
+    p.85).
+r2-in-149:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: 'Score 0 contradicts the Guide, which names local incorporation as a restrictive licensing condition:
+    the Payment Aggregator Guidelines cited here require an aggregator to be a company incorporated in India, as
+    quoted in the 12.4.1 row (Guide p.85; workbook round2 India row 145).'
+r2-in-152:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 12.4.6 but describes an authorisation requirement for non-bank payment aggregators, which
+    is licensing (12.4.4), not a requirement to use a specific intermediary; must-be-licensed regimes scored 0 under
+    12.4.6 elsewhere (Methodology sheet 12.4.6; workbook round2 Mongolia row 82; workbook round2 Indonesia row 167).
+r2-in-153:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Most of the row is value ceilings, which are the 12.4.5 criterion and already scored there in row 150;
+    the remaining other content is thin, and the row says its 2011 instructions were replaced in 2023 (Methodology
+    sheet 12.4.5; workbook round2 India row 150).
+r2-in-154:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 (no de minimis) although the row itself states a de minimis regime of INR 100 and INR 1,000;
+    an existing threshold below USD 200 is 0.5, and the merger-control paragraph in the row is not a border value
+    threshold (Guide p.86; Methodology sheet 12.5).
+r2-id-005:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The narrative concludes that Indonesia does not exclude foreign firms, yet the row scores 1; the 1 is
+    defensible because below the thresholds foreign firms take part only when no qualified national firm exists
+    (Internal Guide p.11).
+r2-id-006:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 2.1 but describes a quota, 40% of agency budgets for domestic SME products; allocation of
+    a quota is a limitation under 2.3, where the host also records it (Guide p.20; workbook round2 Indonesia row
+    18).
+r2-id-007:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Mandatory use of domestic products when qualifying ones exist resembles the exclusion pattern, but the
+    row turns on local-content thresholds and price preferences, which are 2.3 limitations (Guide p.20).
+r2-id-008:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 2.1 but describes local content in telecom operators' own capital expenditure, a commercial-market
+    local content requirement under 10.3, where the host also records it (Guide p.75; workbook round2 Indonesia
+    row 134).
+r2-id-009:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 2.1 but describes the 40% domestic content rule for transmission towers and conductors, which
+    the Guide gives as an example of a 2.3 limitation (Guide p.20; workbook round2 Indonesia row 17).
+r2-id-012:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Foreign-owned service suppliers are considered only when no domestic supplier takes part, which is the
+    2.1 exclusion pattern (Guide p.19); the same regulation is recorded again in workbook round2 Indonesia row 15.
+r2-id-013:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Describes a duty on public-scope electronic system operators to store data in Indonesia, which is not
+    a quota, preference or price preference (Guide p.20); it counts here only as a condition on suppliers to public
+    bodies.
+r2-id-014:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Describes a duty on foreign entities to set up an Indonesian company before using state property in public-private
+    partnerships, which the row itself calls a liberalisation; it is not a quota or preference (Guide p.20).
+r2-id-016:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The law column names the 2009 communications ministry regulation on domestic component levels, but the
+    text describes an industry ministry regulation covering 558 sub-sectors, and the note says the thresholds were
+    not found (Guide p.20).
+r2-id-017:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: A single 40% local-content rule, the Guide's own example, is the 0.5 kind (Methodology sheet 2.3; Guide
+    p.20); the 1 depends on also counting the industrial-empowerment regulation cited in the text.
+r2-id-019:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: A duty on foreign bidders to partner with national businesses is listed in the Guide among the 2.1 forms
+    of exclusion (Guide p.19); the host records it under 2.3.
+r2-id-022:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Describes a 49% foreign ownership limit on digital news and media platforms, a minority stake that scores
+    0.8, but the row is scored 0.5; it also cites 67% and 70% caps without naming sectors (Methodology sheet 3.1).
+r2-id-023:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: States an 85% foreign ownership cap on e-money issuers, which allows a controlling stake and scores 0.5,
+    but the row is scored 0.8 (Methodology sheet 3.1; Guide p.25).
+r2-id-024:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: States an 85% foreign ownership cap on peer-to-peer lending providers, which allows a controlling stake
+    and scores 0.5, but the row is scored 0.8 (Methodology sheet 3.1; Guide p.25).
+r2-id-025:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The 0.8 reads the 20% ceiling on later foreign capital in private broadcasters as a minority cap; the
+    same law bars foreign capital at establishment and foreign broadcasting institutions, which could be read as
+    a ban (Methodology sheet 3.1).
+r2-id-028:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The 1 rests on reading ownership 'in partnership with' Indonesian parties, with foreign ownership up to
+    99%, as a joint venture mandate; the row's own note says the regulation has no explicit joint venture requirement
+    (Guide p.25).
+r2-id-030:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 for the IPTV rule that consortia must include at least two Indonesian entities, the same provision
+    that workbook round2 Indonesia row 27 scores 1; any joint venture measure scores 1 (Methodology sheet 3.2).
+r2-id-033:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The 1 is inferred from the company-law rule that Indonesian companies are domiciled in Indonesia; the
+    row does not show a duty on foreign providers to establish, and the e-commerce regulation named in the law column
+    is not analysed (Guide p.27).
+r2-id-035:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: 'Filed under 4.1 (trade secrets) with score 1, but the row describes Regulation No.38/2018 on patent applications:
+    PCT local representation, fees, translation and priority claims. That is 4.01 content, and as a 4.1 score it
+    contradicts Indonesia''s own trade secrets row at 0 (Methodology sheet 4.01; Methodology sheet 4.1; Guide p.29;
+    workbook round2 Indonesia row 42).'
+r2-id-036:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 1, but the row says a local consultant is mandatory only when the applicant acts through a representative,
+    and it treats the 12-month priority period as a local filing requirement. Whether this is a local representative
+    requirement is a judgement (Guide p.30).
+r2-id-041:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 under 4.9 for a duty to submit or escrow the source code of software built for public bodies.
+    The Guide carves procurement-related disclosure out of this indicator yet uses Indonesia's escrow rule as an
+    example, and the same rule is coded 2.2 at 1 (Guide p.37; Guide p.19; workbook round2 Indonesia row 10).
+r2-id-042:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 on a dedicated Trade Secret Law with remedies and criminal penalties, while the note cites secondary
+    sources to support a limited practice or scope reading, which is the 0.5 criterion. Score and note disagree
+    (Methodology sheet 4.1; Guide p.38).
+r2-id-048:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 0.5 for a 49% cap on foreign holdings in state-owned enterprises under the general state-enterprise law,
+    repeated from the 3.1 row of the same sheet; horizontal caps are recorded only under 3.1, so the 5.2 score depends
+    on treating the rule as telecom-specific (Guide p.25; workbook round2 Indonesia row 26).
+r2-id-049:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 0.5 for a 67% cap on internet and application service providers, but the instrument named is a technical-standards
+    regulation whose title does not match that content, and row 46 of the same sheet says Presidential Regulation
+    10/2021 removed the 67% cap and allows full foreign ownership (workbook round2 Indonesia row 46).
+r2-id-053:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 1 depends on reading the Minister's announcement of the number and location of operations as a cap on
+    licences; the other grounds are local legal-entity status and capacity criteria, and the cited articles come
+    from Government Regulation 52/2000, which the 11.2 row of the same sheet says Regulation 46/2021 replaced (Guide
+    p.44; workbook round2 Indonesia row 144).
+r2-id-096:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The 0 rests on a hedged reading that the Copyright Law could be interpreted as a safe harbour; Indonesia's
+    other 8.1 rows score 0.5 (workbook round2 Indonesia rows 95 and 97).
+r2-id-097:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The text says the cited law gives intermediaries no safe harbour, yet the row carries 0.5, the economy-level
+    score earned by the e-commerce exemption (workbook round2 Indonesia row 95).
+r2-id-099:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The text says the cited law provides no safe harbour and imposes a takedown duty, yet the row carries
+    0.5, the economy-level score earned by the exemptions in the row before it (workbook round2 Indonesia row 98).
+r2-id-101:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The instrument named is a regulation on telecommunications operation, while the text describes identity
+    checks by electronic system operators for digital transactions; the 1 cannot be matched to the instrument cited.
+r2-id-104:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The instruments named do not provide the blocking power, and the practice examples are platforms blocked
+    over pornography; the row's own note doubts the score.
+r2-id-118:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: A general duty on electronic system operators to moderate content, including advertisements, is closer
+    to an 8.4 monitoring requirement than to a rule limiting advertising (Guide p.71).
+r2-id-119:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: A general content-moderation duty on platforms that host advertisements; the same regulation is the 8.4
+    row (workbook round2 Indonesia row 102).
+r2-id-120:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 0.5 for the Internet of Things licence with a local addressing requirement, which the Guide gives
+    as an example of a strict licensing scheme, scored 1 (Guide p.72).
+r2-id-124:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 'Speculative: the row says VPNs may fall under the general telecommunications-services licence, which
+    belongs to Pillar 5 (Indicator Reference note).'
+r2-id-126:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The ban facts (iPhone 16, Pixel, TikTok Shop, Temu) come from news reports cited in the note, and the
+    instruments in the law field are a local content regulation and an e-commerce regulation. The iPhone case is
+    also told in the 10.3 row (workbook round2 Indonesia row 135), and the note says the score will change next
+    year.
+r2-id-127:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Describes Import Approval plus Surveyor Report for electronics and scores 0.5, while workbook round2 Indonesia
+    row 131 scores the same pair of requirements 1; two cost-adding measures give 1 (Methodology sheet 10.2).
+r2-id-128:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The importer registration bundles several conditions (25 after-sales centres, a prior import record, a
+    certificate open only to Indonesian-owned firms) with a commitment to manufacture locally, which is closer to
+    a local content requirement (10.3); the row scores the bundle as one measure at 0.5.
+r2-id-131:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The only score-1 row for 10.2, resting on Import Approval plus Surveyor Report counted as two measures.
+    Workbook round2 Indonesia row 127 scores the same pair 0.5 and says the import regime is now a 2023 regulation,
+    so whether this 2020 regulation still applies is not shown.
+r2-id-132:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: An import notification form and VAT for electronically transmitted software are scored 0.5. Taxes are
+    outside pillar 10 (Guide p.74) and the tariff classification is coded 12.6 (workbook round2 Indonesia row 170),
+    so only the notification step supports the score.
+r2-id-133:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 on a certification regulation said to include provisions aimed at increasing local content, with
+    no article, share or product named; the level of the requirement cannot be checked from the row.
+r2-id-138:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The law field names a 2019 regulation on wavelength division multiplexing equipment, while the impact
+    describes a different 2019 regulation on digital TV receivers and set-top boxes with a 20% threshold; the score
+    fits the impact text, not the law cited.
+r2-id-139:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The row says the regulation text is not readily available in public records and relies on reports; no
+    share or threshold is given, against the official-source rule (Guide p.12).
+r2-id-148:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The only source is a certification company's web page and no official instrument is named; secondary sources
+    only guide to the primary source (Guide p.12; Internal Guide p.8).
+r2-id-150:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Current exemplar scored 0. The row says the national policy emphasises domestically developed algorithms
+    but can be implemented by operators and still allows international algorithms; a binding mandate to use an unlisted
+    domestic algorithm would score 1 (Guide p.81).
+r2-id-153:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 by treating the IDR 10 billion minimum for foreign investment as a horizontal condition, yet
+    the row says e-commerce below that value is reserved for domestic investors, and the Guide's own example is
+    a capital-threshold ban in retail trade (Guide p.84).
+r2-id-156:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 follows the host's practice that registration is not a licence, but the Guide lists Colombia's
+    registration of commercial websites as an example for this indicator (Guide p.85).
+r2-id-157:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 rests on a general trade business licence that applies to all traders; the row's note says there
+    is no specific e-commerce licence, and the Guide focuses on the licence imposed on e-commerce businesses (Guide
+    p.85).
+r2-id-159:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 12.4.1 but describes a duty to process electronic money transactions domestically, which is
+    local processing (6.1), not a requirement to use a local bank account; the row only infers the account need,
+    and its own note says the e-commerce regulation has no explicit local bank account requirement (Methodology
+    sheet 12.4.1; workbook round2 Thailand row 43).
+r2-id-160:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: 'Score 1 contradicts the criterion, which asks about the currency of international payments: the row describes
+    a Rupiah obligation for transactions within Indonesia that excepts cross-border transactions, and the same obligation
+    with its international-trade exemption is scored 0 in row 161 (Methodology sheet 12.4.2; workbook round2 Indonesia
+    row 161).'
+r2-id-162:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 for a rule that payment transactions within Indonesia be in Rupiah; whether a domestic currency
+    rule meets the international-payments criterion is a judgement, and row 161 scores the general Rupiah obligation
+    0 (Methodology sheet 12.4.2; workbook round2 Indonesia row 161).
+r2-id-163:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 relies on a disputed reading of PP 80/2019 Article 60 and on Minister of Trade Regulation 50/2020,
+    which the host's own Indonesia rows report as revoked and replaced by Regulation 31/2023; the row itself notes
+    exceptions for international trade (Internal Guide p.8).
+r2-id-165:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 rests on a 49% foreign ownership limit for e-money issuers, while the 3.1 row cites the same regulation
+    for an 85% cap and the 12.4.7 row cites a later regulation with different domestic-ownership rules; the facts
+    need checking (workbook round2 Indonesia rows 23 and 168).
+r2-id-168:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 under other restrictions although the row describes domestic share and voting-rights conditions
+    for a payment licence; the score is right only if such conditions belong to 12.4.4 or 3.1 (Methodology sheet
+    12.4.7).
+r2-id-171:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 for zero-rated tariff lines for software and digital products transmitted electronically; a legal
+    mechanism with zero rates is 0.5, as in the Guide's Indonesia example and the neighbouring row on the same regulation
+    (Guide p.86; Methodology sheet 12.6; workbook round2 Indonesia row 170).
+r2-id-173:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 for .co.id eligibility limited to entities operating in Indonesia with a business identity
+    number. No local administrator duty is described and a presence condition is 1 under the Guide, unless the power-of-attorney
+    route for brand holders is read as a local representative (Guide p.87).
+r2-id-174:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 although the row says .net.id registration indicates the need for a local presence in Indonesia
+    and describes no local administrator; a presence condition is 1 and 0.5 needs a local representative (Guide
+    p.87; Methodology sheet 12.7; workbook round1 Australia row 81; workbook round2 Thailand row 125).
+r2-id-175:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 for .biz.id eligibility limited to Indonesian small and medium enterprises with locally issued
+    incorporation documents; the row describes no local administrator, so the 0.5 criterion is not met, and a presence
+    condition is 1 (Guide p.87; Methodology sheet 12.7).
+r2-id-176:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 rests on reading a sanction-backed duty to prioritise the .id domain as not a mandate to use it.
+    The row also describes the representative duty for foreign e-commerce operators, which is 12.8 material coded
+    in workbook round2 Indonesia row 178 (Guide pp.87-88).
+r2-id-180:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 'Score 1 is right for Indonesia through the liaison-officer duty recorded in row 179, but this row contradicts
+    itself: it says a representative office must be established and then that the amended regulation has no explicit
+    physical or representative office requirement.'
+r2-id-185:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 12.9 but describes personal data consent and breach notification duties in Government Regulation
+    71/2019; that is data protection material (pillar 7, 7.1), not a consumer protection framework for online purchases
+    (Guide p.88; Methodology sheet 12.9).
+r2-la-013:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 0.25 for the general merger review under the competition law; antitrust measures on mergers and
+    acquisitions are not counted unless discriminatory (Indicator Reference note; Guide p.27).
+r2-la-017:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 while saying businesses are typically required to have a registered entity in the country; the
+    0 holds only if that is registration without physical or operational presence (Guide p.27).
+r2-la-031:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.25 (functional separation only), but the row's reviewer note says functional separation is not
+    mandated and only accounting separation is found, which is 0.5; the impact text says the opposite, and the articles
+    it cites concern anti-competitive conduct and statistical reporting (Methodology sheet 5.4; Guide p.44).
+r2-la-033:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 0 rests on a WTO Trade Policy Review; the row's note says the regulation establishing the regulator and
+    its duties could not be found and doubts its independence in practice, while secondary sources are only a guide
+    to the official law (Internal Guide p.12; Internal Guide p.13).
+r2-la-050:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 1 for the general intermediary exemption in the Law on Electronic Transactions because it does
+    not mention copyright, but a general exemption still applies to copyright (Guide p.65); the same articles score
+    0 under 8.2 (workbook round2 Lao PDR row 51).
+r2-la-058:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 1 although the text says no blocked or filtered website was found and the note says the reported
+    cases concern non-commercial content; no case of blocking or filtering scores 0 (Methodology sheet 9.1; Indicator
+    Reference note).
+r2-la-059:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Describes a power to take temporary control of telecommunications networks during unrest, which is an
+    Internet shutdown power (9.2, non-regulatory and not extracted), not blocking or filtering of commercial web
+    content (Guide pp.69-70).
+r2-la-061:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Prior permission to advertise is set in the consumer protection law, and the other articles cited are
+    truthfulness rules, which the Guide scores 0 (Guide p.71).
+r2-la-062:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The 0 fits the registration duty in the law cited, but the note records a data-centre operating licence
+    and online-media licences and sets them aside, although such licences are within 9.4 (Internal Guide p.14).
+r2-la-066:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 as a single-product ban, but the text says satellite receivers may not be imported without
+    prior approval, which reads as a permit-conditioned restriction (10.2), and the reviewer note in workbook round2
+    Lao PDR row 65 doubts the 2018 notification is still in force.
+r2-la-067:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 although its own note says the 2023 goods list is unavailable, to put 0.00 for now, and that
+    the earlier licensing lists cover no ICT goods. Workbook round2 Lao PDR row 77 (10.4) reads the same 2022 decision
+    as listing satellite phones and VSAT, so the product scope is unsettled.
+r2-la-081:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 although the row says the Standard Law permits self-conformity assessment by suppliers; if
+    that covers at least some ICT products the Guide gives 0 (Guide p.79). The row's view that EMC products need
+    third-party certification is stated as likely, not shown.
+r2-la-088:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Only the Law on Payment System part supports the label; the first rationale, a Lao bank statement in electronic-signature
+    licence applications, is not a requirement to use a local bank account for online payments (Guide p.85).
+r2-la-089:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 rests on a local bank account used to settle VAT, which the row says is implied; it is a tax-payment
+    channel rather than a requirement on online payments (Guide p.85).
+r2-la-090:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 rests on electronic money being denominated in Kip only, while the row itself says no currency
+    is mandated for international payments; Mongolia's equivalent rule scored 0 (Methodology sheet 12.4.2; workbook
+    round2 Mongolia row 75).
+r2-la-092:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 on prudential conditions only (capital, infrastructure, technical standards, shareholder suitability,
+    no licence transfer); none is a Guide-named restrictive condition and comparable regimes scored 0 (Guide p.85;
+    workbook round2 Mongolia row 79; workbook round1 Malaysia row 102).
+r2-la-093:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 12.4.4 but describes a licence for electronic-signature certification providers, not a licence
+    for online payment services, which is what the payment sub-indicators cover (Guide p.85; Methodology sheet 12.4.4).
+r2-la-102:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 is right for Lao PDR, but the row's note says only a secondary source was available for the Decision;
+    official sources are required, and the framework evidence is the consumer protection law in row 101 (Internal
+    Guide p.8).
+r2-mn-013:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Cites a duty to register with the state registry and an article that permits representative offices or
+    subsidiaries; requirements limited to business registration are not covered (Guide p.27), so the 1 depends on
+    reading a presence duty into the text.
+r2-mn-019:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 on the legal text although the row reports that at least 85 per cent of the market uses pirated
+    software and cites no provisional measure. The Internal Guide FAQ would give 1 for a high piracy rate, so the
+    0 rests on a de jure reading (Internal Guide p.12; Guide p.34).
+r2-mn-023:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 0.5 rests on a shared-network regulation that is still pending and on active 5G sharing, while row 24
+    of the same sheet records a regulator resolution that mandates sharing and scores 0; read at economy level,
+    Mongolia's answer is 0 (Guide p.42; workbook round2 Mongolia row 24).
+r2-mn-029:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 on the sole ground that the Prime Minister appoints the regulator's chair and members; the Guide
+    accepts established high-level appointments by the Government, and the row describes a commission that issues
+    licences and decides on professional judgement (Guide p.46).
+r2-mn-044:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scores 0, yet the text describes only duties to prevent infringement and to block infringing works, with
+    no limit on intermediaries' liability; with no intermediary liability framework the criteria give 1 (Guide p.64;
+    Methodology sheet 8.1). The duty itself is 8.4 material.
+r2-mn-047:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Licence conditions make telephone and IP-based service operators register each user's citizen number and
+    name; scored 0.5 as SIM-type registration, although coverage of IP-based services could support 1 (Guide p.67).
+r2-mn-048:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scores 1 for a duty to display a user's IP address publicly, which exposes users but does not verify and
+    record identity as a condition of access (Guide p.66).
+r2-mn-050:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scores 0 although the text describes duties to monitor, restrict and block content harmful to children,
+    which meet the criteria for 1 (Methodology sheet 8.4); coverage and timeframe are blank, so in-force status
+    is not shown.
+r2-mn-056:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The internet-advertising article reads like consent and consumer-information rules, and the listed bans
+    concern unlawful or unsafe products; the impact text and the timeframe give different dates for the law.
+r2-mn-058:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Mongolia's 8.4 row says the 2022 Permit Law stopped the issue of content-service special licences (workbook
+    round2 Mongolia row 52); whether this licence is still enforced is not shown.
+r2-mn-084:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 (no de minimis) although the row cites an article exempting mail parcels worth up to ten times
+    the monthly minimum wage from customs tax, a value ceiling that fits the Guide's definition of a de minimis
+    rule; comparable personal-goods exemptions are coded as de minimis rules (Guide p.86; Methodology sheet 12.5;
+    workbook round2 Lao PDR row 97; workbook round2 Russian Federation row 104).
+r2-ru-005:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 for an article that gives the Government the right to adopt procurement bans, with no implementing
+    ban cited; a legal basis alone scores 0 (Guide p.19; Methodology sheet 2.1).
+r2-ru-009:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Minimum procurement volumes from SMEs and for innovative products turn on business status, not nationality;
+    as equal-treatment limitations they are the 0.5 kind (Methodology sheet 2.3; Guide p.20).
+r2-ru-010:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Foreign radio-electronic products are rejected whenever a bid with Eurasian Economic Union products exists,
+    which is the 2.1 exclusion pattern of admitting foreign supply only when no domestic offer is made (Guide p.19;
+    Internal Guide p.11).
+r2-ru-013:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The 0.8 treats a 50% quota on total foreign capital across the banking sector as a minority cap in one
+    sector; it is not a per-firm cap, and banking's place among digital-trade sectors is a judgement (Guide p.24).
+r2-ru-014:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: No foreign equity cap is stated; the 0.5 rests on reading state ownership of unitary and strategic enterprises
+    as a limit that exists only in state-owned enterprises (Guide p.25).
+r2-ru-018:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The row describes a nationality rule for the executive body of banks with foreign investment, but its
+    note says no official source could be located; official sources are required (Internal Guide p.8).
+r2-ru-021:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Describes court suspension of a foreign holding company's corporate rights in economically significant
+    organisations, which acts on existing shareholders and is not a review of incoming investment (Guide p.26).
+r2-ru-022:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 for a rule that a foreign publisher with no branch or representative office needs a permit to
+    distribute its products; that is a permit for supply without presence, not a duty to establish a commercial
+    presence (Guide p.27; Methodology sheet 3.5).
+r2-ru-028:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0 on enumerated free uses in the Civil Code. Whether this closed list is a fair dealing model (0)
+    or another form of exception (0.5) is a judgement the row does not explain (Guide p.33).
+r2-ru-036:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: 0.5 for a horizontal privatization rule on a minimum state shareholding (25 percent plus one share), copied
+    from the 3.1 row of the same sheet; it sets no telecom-specific limit on foreign investors, and horizontal caps
+    are recorded only under 3.1 (Guide p.25; workbook round2 Russian Federation row 15).
+r2-ru-077:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 as a single non-strict scheme, but the Russian Federation has more than one licensing scheme,
+    which lifts the economy's score to 1 (Guide p.72).
+r2-ru-078:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 0.5 as a single non-strict scheme, but the Russian Federation has more than one licensing scheme,
+    which lifts the economy's score to 1 (Guide p.72).
+r2-ru-090:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 for a security-service notification required before importing devices that contain encryption;
+    this is a registration step with no testing described, and the Guide sends registration and licensing of encryption
+    devices to pillars 9 and 10 (Guide p.81). The same decision's import permits are coded 10.2 (workbook round2
+    Russian Federation row 81).
+r2-ru-101:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 says no ceiling exists, but the row's own note lists balance and monthly transfer caps on electronic
+    payment instruments under Article 10 of the payment system law; the note is headed From 2025 July, so timing
+    may explain the score (Methodology sheet 12.4.5).
+r2-ru-102:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0 while row 103 of the same law, filed under 12.4.7 with score 1, requires foreign payment providers
+    to operate through a Russian money transfer operator, which could be read as a mandated intermediary (Methodology
+    sheet 12.4.6; workbook round2 Russian Federation row 103).
+r2-ru-103:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 under other restrictions for a rule that foreign payment providers operate through an agreement
+    with a Russian operator; the rule could equally be a mandated intermediary under 12.4.6, where row 102 scores
+    0 (Methodology sheet 12.4.7; workbook round2 Russian Federation row 102).
+r2-ru-110:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Filed under 12.9 but describes the legal status of electronic signatures under Federal Law 63-FZ, which
+    is not a consumer protection law; legal recognition of electronic signatures relates to 12.12, which is not
+    extracted (Guide pp.88-89; Methodology sheet 12.9).
+r2-th-008:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The Guide gives Thailand's rule that foreign consultants team up with domestic ones as a 2.1 example (Guide
+    p.19), but host verification marked this 2.3 row correct because foreign consultants can still tender.
+r2-th-024:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 on Patent Act s.14, which limits applicants to Thai nationals, nationals of treaty or reciprocity
+    countries and persons domiciled in Thailand or a treaty country. Reading a treaty-based eligibility clause as
+    differential treatment is a judgement (Methodology sheet 4.01).
+r2-th-073:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Combines a liability rule with a news item about a ministry lawsuit against a platform; the procedure
+    that supports the 0 is in the notification recorded in the next row (workbook round2 Thailand row 74).
+r2-th-075:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The legal hook cited is traffic-data retention, which is 7.3 (workbook round2 Thailand row 64); the identity
+    element is café Wi-Fi practice and a company privacy statement.
+r2-th-078:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The 0 fits the decree cited, but the statement that Thailand has no monitoring requirement conflicts with
+    the removal deadlines in the ministerial notification recorded under 8.2 (workbook round2 Thailand row 74).
+r2-th-081:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: The notifications cited target criticism of the military council and incitement, which is political content,
+    and the blocking statistics are mostly gambling and fraud; the 1 depends on the residual national-security blocking.
+r2-th-119:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 1 for a duty on providers to set their own maximum e-money value per card or account; the regulator
+    fixes no amount, so whether this is a ceiling is a judgement (Methodology sheet 12.4.5).
+r2-th-124:
+  status: advisory
+  basis: drafting_review_2026-10-04
+  reason: Score 0.5 rests on reading the attorney-in-fact that foreign trademark owners must appoint for .co.th
+    as a local representative; the row does not say the agent must be in Thailand (Guide p.87).
+r2-th-129:
+  status: suspect
+  basis: drafting_review_2026-10-04
+  reason: Scored 1 for a duty to appoint personnel to coordinate with officers under a traffic-data retention notification.
+    The row states no locality condition and no link to foreign providers serving remotely, which the indicator
+    requires, and the same sheet scores an explicitly in-country contact point 0 (Guide pp.87-88; workbook round2
+    Thailand row 128).

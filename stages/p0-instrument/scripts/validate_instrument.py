@@ -4,19 +4,28 @@ Exit code 0 = the instrument is consistent and frozen-ready. Checks, grouped:
 
   0  indicator_order.yaml   62 listed IDs, canonical decimal text, pillar derivation, 61 in scope,
                             6.5 declared out of scope, host trap rows present; matches the host
-                            template's Indicator Reference when the template is present
+                            template's Indicator Reference when the template is present; every entry
+                            carries its coverage marks (automated or manual, the reason, the nature
+                            of the answer), compared with the coverage register when
+                            RDTII_COVERAGE_REGISTER names it
   1  codebook               indicators.yaml holds every in-scope ID exactly once, in host order, each
                             block tier A, B or C; the file's `tiers` key describes all three; required
                             fields per tier
   1b methodology            for ALL 61: category_official and scoring.values machine-match the host
                             methodology sheet; one scoring branch per allowed score, in order
+  1d same elements          every Tier A/B block carries weight, scoring_features, guide_examples,
+                            null_statement and sources (row numbers checked against the host sheets); a
+                            question that differs from the definition; polarity and level only in their
+                            allowed forms, with framework_name on every economy-level block
   1c citations              Tier A/B: every definition, coding rule, exception and disambiguation line
                             ends with a host citation; Tier A carries the Round 1 trap wording and the
                             finale template's trap rows 80-84 on the right indicators
   2  guide_refs             every in-scope ID has the Guide's defining sentence; when RDTII_GUIDE_TEXT
                             points at a page-numbered Guide extract, each sentence is checked verbatim
                             on its printed page
-  3  policies.yaml          contract §4.2 keys plus the finale additions
+  3  policies.yaml          contract §4.2 keys plus the finale additions; indicator_sets restates the
+                            blocks' polarity and level and the order file's lists exactly, and the
+                            polarity sentence names the same inverted indicators
   4  signatures/            one file per in-scope ID, named by ID; >=3 exemplars from >=2 economies,
                             every exemplar round-trips to its workbook row; no suspect row used
   5  gold/gold_set.jsonl    row count equals a fresh parse of both workbooks; every row round-trips;
@@ -69,6 +78,11 @@ HOST_ROW_ON = {"80": ["7.1", "7.2"], "81": ["7.3"], "82": ["7.5"], "83": ["6.2"]
 REQUIRED_ALL = ("id", "pillar", "tier", "review_status", "name", "category_official", "question",
                 "scoring", "scoring_tree", "exceptions", "disambiguation")
 REQUIRED_AB = ("definition", "coding_rules", "disambiguation")
+# Every Tier A and Tier B block carries the same elements as the pillar 6-7 blocks (decision D15).
+REQUIRED_FULL = ("weight", "scoring_features", "guide_examples", "null_statement", "sources")
+SOURCE_KEYS = ("guide_heading", "guide_pages", "faq_pages", "methodology_row", "template_row")
+SHARED_WEIGHT = re.compile(r"^12\.4\.\d$")   # the Guide gives 12.4 one weight; its sub-indicators carry null
+ID_IN_PROSE = re.compile(r"(?<![\w.])(\d{1,2}\.\d{1,2}(?:\.\d)?)(?![\w]|\.\d)")
 
 errs: list[str] = []
 info: list[str] = []
@@ -102,6 +116,25 @@ for e in entries:
 in_scope = [e["id"] for e in entries if e["status"] == "in_scope"]
 check(len(in_scope) == 61, f"order: expected 61 in scope, got {len(in_scope)}")
 check("6.5" in (order.get("out_of_scope") or {}) and "6.5" not in in_scope, "order: 6.5 must be declared out of scope")
+# coverage marks (decisions D13 and D14): what the tool automates, and why a manual indicator is manual
+marks = order.get("coverage_marks") or {}
+check(bool(marks.get("reasons")) and bool(marks.get("nature_codes")) and bool(marks.get("classes")),
+      "order: coverage_marks must carry classes, reasons and nature_codes (run build_indicator_order.py)")
+coverage_count = Counter()
+for e in entries:
+    cov, why, nature = e.get("coverage"), e.get("coverage_reason"), e.get("answer_nature")
+    coverage_count[cov] += 1
+    if e["status"] != "in_scope":
+        check(cov == "excluded", f"order: {e['id']} is out of scope, so coverage must be 'excluded'")
+        continue
+    check(cov in ("automated", "manual"), f"order: {e['id']} coverage {cov!r} must be automated or manual")
+    check(why is None if cov == "automated" else why in ("scope", "practice"),
+          f"order: {e['id']} coverage_reason {why!r} does not fit coverage {cov!r}")
+    check(bool(nature) and all(c in (marks.get("nature_codes") or {}) for c in nature or []),
+          f"order: {e['id']} answer_nature {nature!r} must list known nature codes")
+    if e.get("evidence") == "practice" and cov == "manual":
+        check(why == "practice", f"order: {e['id']} is practice-based, so its manual-check reason must be 'practice'")
+check(coverage_count["automated"] >= 1, "order: no indicator is marked automated")
 trap_rows = {str(t["template_row"]) for t in order.get("host_mapping_traps", [])}
 check({"80", "81", "82", "83", "84", "85"} <= trap_rows, f"order: host trap rows missing: {sorted({'80','81','82','83','84','85'} - trap_rows)}")
 if TEMPLATE_FINAL.exists():
@@ -151,6 +184,7 @@ for phrase in TIER_A_TRAP_TEXT:
     check(phrase in itext, f"indicators.yaml: Tier A trap text missing: {phrase}")
 
 tier_count = Counter()
+by_id = {e["id"]: e for e in entries}
 for iid, b in blocks.items():
     tier = b.get("tier")
     tier_count[tier] += 1
@@ -185,6 +219,35 @@ for iid, b in blocks.items():
         if str(b.get("name", "")).startswith("Lack of"):
             check(b.get("polarity") == "inverted" or "INVERTED" in json.dumps(b.get("disambiguation")),
                   f"codebook {iid}: 'Lack of' indicator must declare inverted polarity")
+        # 1d same elements on every Tier A/B block
+        for k in REQUIRED_FULL:
+            check(k in b, f"codebook {iid}: missing {k}")
+        for fld in ("scoring_features", "guide_examples"):
+            check(isinstance(b.get(fld, []), list), f"codebook {iid}: {fld} must be a list")
+            for line in b.get(fld) or []:
+                check(bool(CITE.search(str(line))), f"codebook {iid}: {fld} line lacks a citation: {str(line)[:70]}")
+        w = b.get("weight")
+        if SHARED_WEIGHT.match(iid):
+            check(w is None, f"codebook {iid}: weight must be null (the Guide gives 12.4 one shared weight)")
+        else:
+            check(isinstance(w, (int, float)) and 0 < w <= 1, f"codebook {iid}: weight {w!r} must be a fraction of 1")
+        check(norm_text(b.get("question", "")) != norm_text(b.get("definition", "")),
+              f"codebook {iid}: question repeats the definition")
+        check(str(b.get("null_statement") or "").lower().startswith("no "), f"codebook {iid}: null_statement must start with 'no'")
+        src = b.get("sources") or {}
+        for k in SOURCE_KEYS:
+            check(k in src, f"codebook {iid}: sources lacks {k}")
+        if m:
+            check(src.get("methodology_row") == m["row"], f"codebook {iid}: sources.methodology_row {src.get('methodology_row')} != {m['row']}")
+        check(src.get("template_row") == by_id[iid]["template_row"],
+              f"codebook {iid}: sources.template_row {src.get('template_row')} != {by_id[iid]['template_row']}")
+        check(b.get("polarity") in (None, "inverted"), f"codebook {iid}: polarity must be 'inverted' or absent")
+        check(b.get("level") in (None, "economy"), f"codebook {iid}: level must be 'economy' or absent")
+        if b.get("level") == "economy":
+            check(b.get("polarity") == "inverted", f"codebook {iid}: level economy is only for inverted framework indicators")
+            check(bool(b.get("framework_name")), f"codebook {iid}: level economy needs framework_name")
+        else:
+            check("framework_name" not in b, f"codebook {iid}: framework_name without level economy")
     blob = json.dumps(b, ensure_ascii=False)
     for mm in GUIDE_PAGE.finditer(blob):
         for pg in (mm.group(1), mm.group(2)):
@@ -195,6 +258,51 @@ for row, targets in HOST_ROW_ON.items():
         if iid in blocks:
             check(f"Indicator Reference row {row}" in json.dumps(blocks[iid], ensure_ascii=False),
                   f"codebook {iid}: host trap row {row} not encoded")
+pillar_weight = defaultdict(float)
+for iid, b in blocks.items():
+    if isinstance(b.get("weight"), (int, float)):
+        pillar_weight[b["pillar"]] += b["weight"]
+for p, total in pillar_weight.items():
+    check(total <= 1.03, f"codebook: pillar {p} block weights sum to {total:.2f}")
+
+
+def named_siblings(b: dict) -> set[str]:
+    text = re.sub(r"RDTII 2\.1", "RDTII", " ".join(str(x) for f in ("coding_rules", "exceptions", "disambiguation")
+                                                    for x in b.get(f) or []))
+    return {t for t in ID_IN_PROSE.findall(text) if t in blocks} - {b["id"]}
+
+
+# A trap is only useful if both blocks carry it: a run may load one indicator without the other.
+one_sided = sorted(f"{a}->{o}" for a, b in blocks.items() for o in named_siblings(b)
+                   if a not in named_siblings(blocks[o]) and blocks[o]["tier"] != "A")
+info.append(f"sibling references not mirrored by the named block (pillar 6-7 blocks exempt): {len(one_sided)}"
+            + (f", e.g. {one_sided[:6]}" if one_sided else ""))
+
+# The coverage register is the human-readable twin of the coverage marks (decision D14). It lives in
+# the planning folder, outside the repo, so it is compared only when RDTII_COVERAGE_REGISTER names it.
+register_path = os.environ.get("RDTII_COVERAGE_REGISTER")
+if register_path and Path(register_path).exists():
+    reg_text = Path(register_path).read_text(encoding="utf-8")
+    split_at = reg_text.find("## M. Manual check")
+    reg_row = re.compile(r"^\| (\d{1,2}\.\d{1,2}(?:\.\d)?) \| [^|]* \| ([ABC]) \| ([A-Za-z, ]+?) \| ", re.M)
+    reg_rows = {m.group(1): (m.group(2), [c.strip() for c in m.group(3).split(",")],
+                             "automated" if m.start() < split_at else "manual")
+                for m in reg_row.finditer(reg_text)}
+    check(set(reg_rows) == set(in_scope), f"coverage register: its rows differ from the in-scope IDs: {sorted(set(reg_rows) ^ set(in_scope))[:8]}")
+    stale_tier = []
+    for iid, (reg_tier, reg_nature, reg_class) in reg_rows.items():
+        e = by_id.get(iid)
+        if not e:
+            continue
+        check(e.get("answer_nature") == reg_nature, f"coverage register: {iid} nature {reg_nature} != instrument {e.get('answer_nature')}")
+        check(e.get("coverage") == reg_class, f"coverage register: {iid} is {reg_class} there and {e.get('coverage')} in the instrument")
+        if blocks.get(iid, {}).get("tier") != reg_tier:
+            stale_tier.append(iid)
+    info.append("coverage register compared: classes and nature codes agree for all " + str(len(reg_rows))
+                + (f"; its Tier column is out of date for {len(stale_tier)} indicators (the instrument has no Tier C block now)"
+                   if stale_tier else ""))
+else:
+    info.append("coverage register not compared (set RDTII_COVERAGE_REGISTER to COVERAGE_AND_MANUAL_CHECKS.md)")
 
 # --- 2. guide refs -------------------------------------------------------------
 refs = {normalize(k): v for k, v in (load_yaml(DATA / "guide_refs.yaml") or {}).items()}
@@ -229,6 +337,21 @@ for k in ("no_provision_found", "repealed", "broken_url", "same_provision_two_in
 for k in ("practice_based", "non_regulatory", "enforced_only"):
     check(k in pol.get("measure_inclusion", {}), f"policies.yaml: measure_inclusion.{k} missing")
 check("economy_level_indicators" in pol.get("scoring_policy", {}), "policies.yaml: scoring_policy.economy_level_indicators missing")
+# indicator_sets: machine-readable lists that must restate the blocks and the order file exactly
+sets = pol.get("indicator_sets") or {}
+want_sets = {
+    "inverted": [i for i in in_scope if blocks.get(i, {}).get("polarity") == "inverted"],
+    "economy_level": [i for i in in_scope if blocks.get(i, {}).get("level") == "economy"],
+    "practice_based": [i for i in in_scope if i in (order.get("practice_based") or {})],
+    "non_regulatory": list(order.get("non_regulatory_indicators") or []),
+}
+for k, want_ids in want_sets.items():
+    check(sets.get(k) == want_ids, f"policies.yaml: indicator_sets.{k} {sets.get(k)} != {want_ids} (from the blocks and the order file)")
+# The mapping stage lifts the inverted IDs out of this sentence, so it has to name the same indicators.
+polarity_prose = re.sub(r"RDTII 2\.1", "RDTII", str(pol.get("scoring_policy", {}).get("polarity") or ""))
+prose_ids = {t for t in ID_IN_PROSE.findall(polarity_prose) if t in blocks}
+check(prose_ids == set(want_sets["inverted"]),
+      f"policies.yaml: scoring_policy.polarity names {sorted(prose_ids ^ set(want_sets['inverted']))} differently from the blocks' polarity")
 
 # --- 4. signatures -------------------------------------------------------------
 gold = [json.loads(l) for l in (OUT / "gold" / "gold_set.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
@@ -290,6 +413,8 @@ for g in gold:
     if lf:
         check(lf.get("status") in ("suspect", "advisory", "host_marked", "candidate"), f"gold {g['gold_id']}: bad flag status {lf.get('status')}")
         check(bool(lf.get("reason")), f"gold {g['gold_id']}: flag without reason")
+        if lf.get("status") in ("suspect", "advisory"):
+            check(bool(lf.get("basis")), f"gold {g['gold_id']}: reviewed flag without basis")
         flag_count[lf["status"]] += 1
     check(sorted(g.get("exemplar_for") or []) == sorted(exemplar_keys.get(key, set())),
           f"gold {g['gold_id']}: exemplar_for {g.get('exemplar_for')} != signatures {sorted(exemplar_keys.get(key, set()))}")
@@ -346,6 +471,7 @@ if errs:
         print(f"  ... and {len(errs) - 200} more")
     sys.exit(1)
 print(f"PASS — {len(in_scope)}/{len(ids)} indicators in scope (6.5 excluded); tiers "
-      f"{dict(sorted(tier_count.items()))}; category names + score sets machine-match the methodology "
+      f"{dict(sorted(tier_count.items()))}; coverage automated {coverage_count['automated']} / manual "
+      f"{coverage_count['manual']}; category names + score sets machine-match the methodology "
       f"sheet for all {len(in_scope)}; {n_exemplars} exemplars round-trip; gold {len(gold)} rows round-trip 1:1 "
       f"(flags {dict(sorted(flag_count.items()))}); Guide sentences checked {guide_checked}; policies complete.")

@@ -151,3 +151,18 @@ edge_cases:
     A localization/retention measure applying only to GOVERNMENT data is not
     scored (6.1-6.4, 7.3). If retrieved, record nothing or a Notes-only
     explanation — never a scored row. (Indicator Reference notes)
+
+# >>> INDICATOR SETS (machine-readable; rebuilt from the codebook blocks) >>>
+# Lists a program can read instead of parsing prose. They restate fields carried on the codebook
+# blocks (polarity, level) and in indicator_order.yaml; the validator fails if they drift apart.
+# Nothing here is rendered into the mapping prompt.
+indicator_sets:
+  inverted:         # polarity: inverted — the score is 1 when the framework, mechanism or threshold is ABSENT
+    ["4.2", "4.5", "4.6", "4.1", "5.1", "5.4", "5.7", "7.1", "7.2", "8.1", "8.2", "11.1", "12.5", "12.9"]
+  economy_level:    # level: economy — answered once per economy; each block carries framework_name
+    ["4.2", "4.5", "4.6", "4.1", "5.1", "5.4", "5.7", "7.1", "7.2", "8.1", "8.2", "11.1", "12.9"]
+  practice_based:   # evidence of practice allowed (Internal Guide p.8)
+    ["3.4", "5.3", "9.1"]
+  non_regulatory:   # never extracted; no codebook block (decision D10)
+    ["1.1", "1.2", "1.3", "2.4", "4.4", "4.7", "4.8", "5.6", "6.5", "9.2", "12.10", "12.11", "12.12", "12.13"]
+# <<< INDICATOR SETS <<<

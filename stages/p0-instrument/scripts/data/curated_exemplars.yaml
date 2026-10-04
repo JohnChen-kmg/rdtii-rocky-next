@@ -127,6 +127,10 @@
   row: 9
   note: 'Absence row: investment law allows full foreign ownership outside listed activities; no cap in digital-trade
     sectors.'
+- sheet: Thailand
+  row: 13
+  note: 'Score-0 boundary with 3.4: the Foreign Business Act licence route still allows 100% foreign ownership,
+    so there is no cap; host verification marked the row correct.'
 '3.2':
 - sheet: China
   row: 14

@@ -1,72 +1,101 @@
-# Hand-off: sending the instrument to the finale repo
+# Hand-off: sending the instrument to the repo
 
-The instrument is built, checked and edited in this folder. The pipeline runs in the finale repo. At
-hand-off, the finished instrument is copied into the repo so the mapping stage can use it. Until then,
-`instrument\` (the files) and `code\scripts\` (the code) in this folder are the only working copy.
-Decisions D9 and D12 in `DECISIONS.md` record why.
+The instrument is built, checked and edited in this folder. The pipeline runs in the repo. At hand-off,
+the finished instrument is copied into the repo so the mapping stage and the interface can use it.
+Until then, `instrument\` (the files) and `code\scripts\` (the code) in this folder are the only
+working copy. Decisions D9 and D12 in `DECISIONS.md` record why.
 
-| | Path |
-| :---- | :---- |
-| This folder | `C:\Users\woshi\Desktop\rdtii-finale-0-instrument` |
-| Finale repo | `C:\Users\woshi\Desktop\rdtii-rocky-finale`, branch `finale` |
-| The contract | `instrument\output\`. This is what the mapping stage reads, from its own copy at `stages\p3-map\contracts\instrument\` |
+## Which repo
 
-## When to hand off
+There are four copies of the tool on this machine. Only one is the hand-off target.
 
-Not yet. Three things come first.
+| Folder on the Desktop | What it is | Hand off here? |
+| :---- | :---- | :---- |
+| `rdtii_rocky_next` | **The working copy**, where the mapping stage and the interface are developed since 3 October. On 4 October it was on branch `feature/desktop-workspace-triage` at commit `2edcf44`, and another session was committing to it that day | **Yes** |
+| `rdtii_rocky_finale_9.30` | The submission repository, public. Its `ASSEMBLY.md` says its release tag is what runs on 15 October | Only if the developer decides the submission itself should change |
+| `rdtii-rocky-finale` | The development history, at tag `finale-submission-2026-09-30`. The first hand-off landed here | No |
+| `rdtii-rocky-finale-w3` | The worktree of the 13 September build, retired | No |
 
-1. **The mapping stage must accept decimal IDs.** It still runs on the Round 1 instrument: nine
-   indicators with `P6-I1`-style IDs. Copying this instrument in before its code changes breaks
-   mapping. The changes are code in the repo, under `stages\p3-map\`:
-   - replace the `INDICATORS` literal in `config\settings.py` with a loader that reads the 61 IDs in
-     host order. `src\p3map\mapping\prompt.py` already reads all 61 blocks from `indicators.yaml`, but
-     it renders only the IDs in that literal
-   - settle per-pillar or single prompt in `src\p3map\mapping\prompt.py`
-   - remove the hard-coded legacy IDs in `src\p3map\output\submission.py`, `src\p3map\select.py`,
-     `src\p3map\rollup.py`, `src\p3map\mapping\schema.py` and `src\p3map\output\excel_export.py`
-   - make `src\p3map\eval\evaluator.py` and `src\p3map\discovery\malaysia.py` read `label_flag` from the
-     gold set instead of their own ID lists
-   - read the Round 1 baseline with decimal IDs in `src\p3map\discovery\baseline.py`
-   - apply leave-one-economy-out in `src\p3map\prefilter\queries.py`, using `exemplar_for`
-   - write `migrate_ids.py` for the Round 1 run artefacts and retrieval index (`PLAN.md` step 3A)
-2. **Our open decisions**, listed in `REPORT_2026-09-13_overnight.md` section 3:
-   - review of the 14 Tier B drafts
-   - whether Round 1's 6.2 cells survive the host's stricter trap wording
-   - what to ask the secretariat about rolling rows up to an economy score
-3. **The host workbook question.** `instrument\reference\OUTPUT_TEMPLATE_FINAL_ROUND.xlsx` is a host
-   document. Open host question 10 asks whether host workbooks may sit in the public repo.
+The contract is `instrument\output\`. The mapping stage reads its own copy at
+`stages\p3-map\contracts\instrument\`, and the interface reads that same copy.
+
+## Where things stand
+
+- **First hand-off: done on 29 September 2026** (commit `bf2bb3e` in `rdtii-rocky-finale`, carried into
+  the submission repository and `rdtii_rocky_next`). All three repos hold that instrument today.
+- **Second hand-off: pending.** It carries the rounds of 4 October: every indicator at pillar 6–7 depth
+  (D15) and the coverage marks (D16). 45 files differ from the repo's copy.
+- **Rehearsed on 4 October** in an exported copy of `rdtii_rocky_next` at commit `2edcf44`, with the new
+  files copied in as the steps below describe. The repo itself was not touched.
+
+  | Check | Before | After |
+  | :---- | :---- | :---- |
+  | Mapping stage tests (`stages\p3-map`) | 450 passed, 9 skipped | 450 passed, 9 skipped |
+  | Interface tests (`interface\tests`) | 216 passed, 17 skipped | 216 passed, 17 skipped |
+  | Interface indicator picker, read with its own parsers | 61 indicators; tiers A 9, B 14, C 38 | 61 indicators; tiers A 9, B 52, C 0 |
+  | Automated set, as the mapping stage and the interface resolve it | the nine of pillars 6 and 7 | the same nine |
+  | Pillar 6–7 mapping prompt, built by the mapping stage's code | 31,929 characters | identical, byte for byte |
+  | Mapping prompt for one indicator at a time (`INDICATORS_SCOPE`) | not run | builds for each of the 61 |
+  | Mapping prompt for all 61 together | not run | builds: 322,081 characters |
+
+  An earlier rehearsal the same day, at commit `5bcbf49`, gave the same result (443 mapping tests then).
+
+## What the repo's owner has to do with it
+
+These are in the repo, not in the instrument, so they belong to the session working there.
+
+1. **Update one pinned test.** `interface\tests\test_map_start.py` line 29 expects
+   `{"A": 9, "B": 14, "C": 38}`. After the hand-off the counts are `{"A": 9, "B": 52, "C": 0}`. The
+   rehearsal did not catch it because that test is skipped without the demo extraction output; it
+   will fail in the working copy.
+2. **Read `framework_name` in `stages\p3-map\src\p3map\rollup.py`.** Eleven more indicators are now
+   `level: economy` (4.2, 4.5, 4.6, 4.1, 5.1, 5.4, 5.7, 8.1, 8.2, 11.1, 12.9). The roll-up knows the
+   framework's name only for 7.1 and 7.2, so a run that includes any of the eleven leaves that cell
+   "pending". Nothing crashes, and pillar 6–7 runs are not affected.
+3. **Correct two texts.** `README.md` (Known Limitations) says the blocks outside pillars 6 and 7 are
+   "host-criteria-only"; they are now full depth and not yet reviewed. In the interface, the "host
+   criteria only" tag will show a count of 0.
+4. **Refresh `docs\stages\p0-instrument\` if wanted.** It holds copies of this folder's documents as
+   of 29 September. The current ones are `CHANGELOG.md`, `DECISIONS.md`, `HANDOFF.md`,
+   `NOTICE_FOR_OTHER_STAGES.md`, `README.md`, `REPORT_2026-10-04_parity.md` and `evidence\*_2026-10-04.*`.
+
+Section "Update of 4 October 2026" in `NOTICE_FOR_OTHER_STAGES.md` has the full list of contract
+changes.
+
+## Your decisions before it goes
+
+Listed in `REPORT_2026-10-04_parity.md` section 4:
+- whether any of the 52 manual indicators should be promoted to automated
+- the five economy-level calls the drafters were unsure of
+- who reviews the 52 Tier B blocks, which no person has read
+- whether the submission repository should also receive it, given that its tag is what runs on
+  15 October
 
 ## What goes where
 
-| From this folder | To the finale repo | How |
+| From this folder | To `rdtii_rocky_next` | How |
 | :---- | :---- | :---- |
-| `instrument\output\` | `stages\p0-instrument\output\` | Mirror. This also deletes the nine old `P6-I1.yaml`-style signature files |
-| `instrument\output\` | `stages\p3-map\contracts\instrument\` | Mirror. This is the contract the mapping stage reads |
+| `instrument\output\` | `stages\p0-instrument\output\` | Mirror |
+| `instrument\output\` | `stages\p3-map\contracts\instrument\` | Mirror. This is the contract the mapping stage and the interface read |
 | `code\scripts\` | `stages\p0-instrument\scripts\` | Mirror. The scripts find the stage folder in either layout |
-| `code\scripts\indicator_ids.py` | `stages\p3-map\config\indicator_ids.py` | Copy the same file. The repo test compares the two byte for byte |
-| `instrument\README.md`, `instrument\START_HERE.md` | `stages\p0-instrument\` | Copy |
-| `instrument\reference\OUTPUT_TEMPLATE_FINAL_ROUND.xlsx` | `stages\p0-instrument\reference\` | Only if host question 10 allows it |
-| Entries tagged **instrument** in `CHANGELOG.md` | `docs\CHANGELOG_FINALE.md`, under W3 | Paste |
+| `code\scripts\indicator_ids.py` | `stages\p3-map\config\indicator_ids.py` | Copy the same file. A repo test compares the two byte for byte |
+| `instrument\README.md` | `stages\p0-instrument\README.md` | Copy |
+| Entries tagged **instrument** in `CHANGELOG.md` | `docs\CHANGELOG_FINALE.md` | Paste |
 
-The rest of `instrument\` is unchanged from the repo, so there is nothing to send:
-- `examples\`, `framework\` and the other `reference\` files
-- `INTERFACE_CONTRACT.md`, `PLAN.md`, `TOOL_WORKFLOW_PROPOSAL.md`
-- `requirements.txt`, `.gitignore`
-
-If you edit one of them here, add it to the table.
+New since the first hand-off, all inside the folders above:
+- `code\scripts\build_notes.py`, `report_flags.py`
+- `code\scripts\data\label_flags.yaml`, `notes_table.yaml`, `coverage.yaml`
+- `instrument\output\VALIDATION_2026-10-04.txt`
 
 ## What never leaves this folder
 
 | Folder | Why |
 | :---- | :---- |
 | `sources\` | Host documents, ESCAP and KMITL material |
+| `instrument\examples\`, `instrument\reference\`, `instrument\framework\` | Host workbooks and templates. The submission repository was built without them, so the instrument's builders and validator cannot run there; they run here |
 | `drafting\` | Host workbook rows and Guide text |
 | `code\tools\`, `code\README.md` | The tools read `sources\`; the README describes this workspace's layout |
-| `notes\`, `evidence\`, `REPORT_*.md` | Working notes and proof for the submission. Quote from them; don't copy them in |
-
-The repo already tracks some Round 1 host files: two databases in `stages\p0-instrument\examples\`,
-plus the Round 1 template and two CSVs in `reference\`. That predates this folder and falls under the
-same host question.
+| `notes\`, `evidence\`, `REPORT_*.md` | Working notes and proof. Quote from them, or copy them under `docs\stages\p0-instrument\` |
 
 ## Steps
 
@@ -82,41 +111,49 @@ Run these in PowerShell. For `robocopy`, exit codes 0 to 7 mean success and 8 or
    is not re-vendored. That is expected. If the codebook changed, also run
    `python code\tools\audit_citations.py` from this folder and read the lines it lists.
 
-2. **Branch the repo.** Never commit on `finale` directly.
-
-   ```
-   git -C C:\Users\woshi\Desktop\rdtii-rocky-finale switch -c w3-instrument
-   ```
-
-   The name `w3-instrument-61` is still held by the old worktree (last section).
+2. **Agree the moment with the session working in the repo.** Run `git status` there first: it may
+   have uncommitted work. The copy touches only the paths in the table above. Start a branch or commit
+   there as that session prefers.
 
 3. **Copy.**
 
    ```
    $WS   = "C:\Users\woshi\Desktop\rdtii-finale-0-instrument\instrument"
    $CODE = "C:\Users\woshi\Desktop\rdtii-finale-0-instrument\code\scripts"
-   $RP   = "C:\Users\woshi\Desktop\rdtii-rocky-finale\stages"
+   $RP   = "C:\Users\woshi\Desktop\rdtii_rocky_next\stages"
    robocopy "$WS\output" "$RP\p0-instrument\output" /MIR
    robocopy "$WS\output" "$RP\p3-map\contracts\instrument" /MIR
    robocopy "$CODE"      "$RP\p0-instrument\scripts" /MIR /XD __pycache__
    Copy-Item "$CODE\indicator_ids.py" "$RP\p3-map\config\indicator_ids.py"
-   Copy-Item "$WS\README.md", "$WS\START_HERE.md" "$RP\p0-instrument\"
+   Copy-Item "$WS\README.md" "$RP\p0-instrument\README.md"
    ```
 
-4. **Check in the repo.** Both commands must pass.
+4. **Check.**
+
+   From this folder, which has the host workbooks the validator needs:
 
    ```
-   cd C:\Users\woshi\Desktop\rdtii-rocky-finale\stages\p0-instrument
-   $env:RDTII_GUIDE_TEXT = "C:\Users\woshi\Desktop\rdtii-finale-0-instrument\sources\text\guide.txt"
-   python -X utf8 scripts\validate_instrument.py --require-vendored
-   cd ..\p3-map
-   python -m pytest tests\test_indicator_ids.py -q
+   python C:\Users\woshi\Desktop\rdtii-finale-0-instrument\code\tools\validate.py --require-vendored
    ```
 
-   Then run the mapping stage's own tests and a small mapping run before trusting the result.
+   It must say "vendored copy p3-map/contracts/instrument/ is identical" and pass.
+
+   In the repo:
+
+   ```
+   cd C:\Users\woshi\Desktop\rdtii_rocky_next\stages\p3-map
+   python -m pytest -q
+   cd ..\..
+   python -m pytest interface\tests -q
+   ```
+
+   Expect the one failure named in "What the repo's owner has to do with it", item 1, until that test
+   is updated. To confirm the pillar 6–7 prompt is unchanged, render it before and after the copy with
+   `drafting\2026-10-04\snapshots\render_prefix.py` (its docstring gives the command) and compare the
+   two files.
 
 5. **Review and record.**
-   - Read `git status` and `git diff --stat`.
+   - Read `git status` and `git diff --stat` in the repo.
    - Paste the instrument entries into `docs\CHANGELOG_FINALE.md`.
    - Commit only when we agree.
    - Add a hand-off entry to `CHANGELOG.md` here, with the repo commit.
@@ -131,15 +168,14 @@ Files in this folder mix Windows (CRLF) and Unix (LF) line endings. Git on this 
 (`core.autocrlf=true`) writes CRLF when it checks files out, while the build scripts write LF. Git
 treats both as the same content.
 - The validator's comparison with the repo ignores the difference.
-- The repo's `tests\test_indicator_ids.py` compares its two copies of `indicator_ids.py` byte for
+- The repo test `tests\test_indicator_ids.py` compares its two copies of `indicator_ids.py` byte for
   byte, so step 3 copies the same file to both places.
 
 ## The old worktree
 
-`C:\Users\woshi\Desktop\rdtii-rocky-finale-w3`, on branch `w3-instrument-61`, holds the overnight build,
-uncommitted. This folder replaced it on 13 September 2026.
-- Everything in it is here, byte for byte. Later fixes were made here only.
-- Its changelog entries are in `CHANGELOG.md`.
+`C:\Users\woshi\Desktop\rdtii-rocky-finale-w3`, on branch `w3-instrument-61`, holds the build of
+13 September, uncommitted. This folder replaced it the same day.
+- Everything in it is here. Later work was done here only.
 - Don't edit it.
 
 To remove it, once we agree:

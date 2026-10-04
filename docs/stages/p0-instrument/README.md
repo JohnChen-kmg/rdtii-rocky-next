@@ -43,12 +43,14 @@ decision D9 says why.
 | `instrument\` | The instrument's files: a mirror of `stages\p0-instrument` without its `scripts\` folder | Yes, at hand-off |
 | `instrument\output\` | **The contract** the mapping stage reads: codebook, policies, ID order, signatures, gold set | Yes, twice: the stage and `p3-map\contracts\instrument` |
 | `drafting\2026-09-13\` | Record of the overnight drafting: agent brief, drafts, inputs, scripts. Not a workspace | No |
+| `drafting\2026-10-04\` | Record of the round that brought every indicator to pillar 6–7 depth: brief, drafts, checker, merge script, snapshots. Not a workspace | No |
 | `sources\` | Read-only host documents and Round 1 records, with a SHA-256 manifest | No |
 | `evidence\` | Proof artefacts the submission quotes | No, quoted from |
 | `notes\` | Working notes and the label review queue | No |
 | `HANDOFF.md`, `CHANGELOG.md` | How to send it, and what changed | Changelog entries tagged `instrument`, yes |
 | `NOTICE_FOR_OTHER_STAGES.md` | What the other stages must know about contract and workflow changes, with a part for each stage | No; other stages read it from here |
 | `REPORT_2026-09-13_overnight.md` | The overnight build report and the ranked concerns | No |
+| `REPORT_2026-10-04_parity.md` | What the 4 October round changed, how it was checked, and what is still open | No |
 
 Where each artefact sits:
 
@@ -65,9 +67,10 @@ Where each artefact sits:
 | Helpers: workbook parser, decimal ID rules, codebook file layout | `code\scripts\rdtii_examples.py`, `indicator_ids.py`, `codebook_file.py` |
 
 **The mapping stage's copy.** It reads a vendored copy at
-`C:\Users\woshi\Desktop\rdtii-rocky-finale\stages\p3-map\contracts\instrument`, and the ID helper has
-a second copy at `stages\p3-map\config\indicator_ids.py`. Both still hold the Round 1 instrument until
-hand-off.
+`C:\Users\woshi\Desktop\rdtii_rocky_next\stages\p3-map\contracts\instrument`, and the ID helper has
+a second copy at `stages\p3-map\config\indicator_ids.py`. Both hold the instrument as handed off on
+29 September until the next hand-off. `HANDOFF.md` explains which of the repos on this machine is
+which.
 - `code\tools\validate.py` compares `instrument\output\` with the contract copy, file by file with
   subfolders included, and reports how many files differ.
 - `--require-vendored` turns that report into a failure. Use it after hand-off.
@@ -75,7 +78,7 @@ hand-off.
   `stages\p3-map\tests\test_indicator_ids.py`, compares the two copies of `indicator_ids.py`.
 
 **Repo documentation.** It stays in the repo. The index of where each function lives is
-`C:\Users\woshi\Desktop\rdtii-rocky-finale\docs\CODE_MAP.md`. Instrument changes reach the repo's
+`C:\Users\woshi\Desktop\rdtii_rocky_next\docs\CODE_MAP.md`. Instrument changes reach the repo's
 `docs\CHANGELOG_FINALE.md`, under W3, at hand-off.
 
 ## Marks this task carries
@@ -86,26 +89,31 @@ hand-off.
 | C2a framework alignment at scale | 10 | One vocabulary and one scoring tree per indicator, applied identically in every economy |
 | C2b citation fidelity at scale | 10, shared | The traps are what stop a wrong-but-plausible citation. This task underwrites C2b, it does not own it |
 
-## State as of 2026-09-13
+## State as of 2026-10-04
 
 | Item | State | Verified against |
 | :---- | :---- | :---- |
 | Indicators covered | 61 of the 62 the host lists; 6.5 declared out of scope | `instrument\output\indicator_order.yaml` |
-| Codebook | one file, `indicators.yaml`: all 61 blocks in host order, every block read the same way (D11) | validator group 1 |
-| Depth | Tier A 9 (pillars 6 and 7, the Round 1 codebook, used in the Round 1 run); Tier B 14 (drafted overnight at the same depth, **not yet reviewed**); Tier C 38 (extracted by script from host text, no traps) | each block's `tier` field |
+| Codebook | one file, `indicators.yaml`: all 61 blocks in host order, every block with the same elements (D11, D15) | validator groups 1 and 1d |
+| Depth | Tier A 9 (pillars 6 and 7, the Round 1 codebook, used in the Round 1 run and the 30 September submission); Tier B 52 (every other indicator, drafted at the same depth, **not yet reviewed**); no Tier C | each block's `tier` field |
+| Machine-readable marks | `polarity: inverted` on 14 blocks; `level: economy` with `framework_name` on 13; `null_statement` on all 61 | `policies.yaml` `indicator_sets`; validator |
+| Traps | written on both blocks they concern; 0 one-sided references | validator INFO line |
 | Indicator IDs on disk | decimal text everywhere in `instrument\` | validator hygiene check |
-| Signature files | 61, named by decimal ID, 400 exemplars | `instrument\output\signatures\` |
+| Signature files | 61, named by decimal ID, 401 exemplars | `instrument\output\signatures\` |
 | Gold rows | 1,054: every coded host row, ten economies, all pillars | `instrument\output\gold\gold_set.jsonl` |
+| Reviewed label flags | 53 suspect, 162 advisory. 7 from Round 1; 208 set while drafting on 4 October, not confirmed by a person | `code\scripts\data\label_flags.yaml`; `evidence\label_flags_2026-10-04.md` |
 | Validator | PASS, exit 0, Guide sentences checked for all 61 | `python code\tools\validate.py` |
 | Host zero-score rules | all seven encoded: rows 80–84 on the Tier A blocks, row 85 and the wrong-section rule in `policies.yaml`, the government-data exception on the blocks and in `policies.yaml` | validator group 1c; `CHANGELOG.md` |
-| Decimal ID helper | unchanged; 28 tests pass in the repo | `pytest tests/test_indicator_ids.py` run from `stages\p3-map` |
-| Mapping stage | still on the Round 1 instrument: nine-item `INDICATORS` literal, single prompt, legacy IDs in code | `stages\p3-map\config\settings.py` line 74 in the repo |
-| ID migration script | does not exist | no `migrate_ids.py` in `code\scripts\` |
-| Repo copy | Round 1; not re-vendored (77 files differ) | `python code\tools\validate.py` INFO line |
+| Pillar 6–7 prompt | unchanged by the 4 October round: 31,929 characters, byte-identical | `evidence\prefix_sizes_2026-10-04.md` |
+| Repo copy | the instrument as handed off on 29 September (repo commit `bf2bb3e`); the 4 October round is **not** in the repo (45 files differ) | `python code\tools\validate.py` INFO line |
+| Hand-off rehearsal | the 4 October instrument copied into an export of `rdtii_rocky_next` (commit `2edcf44`): mapping tests 450 passed and interface tests 216 passed, as before the copy; the mapping prompt builds for each of the 61 indicators | `HANDOFF.md`, "Where things stand" |
+| Mapping stage | reads decimal IDs and all 61 blocks; automates pillars 6 and 7 unless a run sets `INDICATORS_SCOPE` | `stages\p3-map\config\settings.py` in the repo |
+| Coverage marks (D14, D16) | in `indicator_order.yaml`: 9 automated (pillars 6 and 7), 52 manual, each with its reason and the nature of its answer; they agree with the coverage register | validator INFO line; `code\scripts\data\coverage.yaml` |
+| Timor-Leste | the one economy mapped against all 52 other indicators (run of 27 September): 13 produced scored rows, 39 a "no provision found" row | `notes\timor_leste_all_indicator_run.md` |
 
-The gap in one line: the instrument now covers every scoreable indicator, but only the nine
-pillar 6 and 7 indicators have been used and evaluated at full depth, in Round 1. The mapping stage
-cannot read any of it until its code moves to decimal IDs.
+The gap in one line: every scoreable indicator now has a full-depth block, but only the nine
+pillar 6 and 7 indicators have been used and evaluated, and nobody has reviewed the other 52.
+`REPORT_2026-10-04_parity.md` lists what that leaves open.
 
 ## The five mapping traps
 
@@ -231,7 +239,7 @@ in an existing format, not inventing one.
 
 | Path | Why open it |
 | :---- | :---- |
-| `instrument\output\indicators.yaml` | The nine Tier A blocks are the shape a Tier B block must match, and the 14 Tier B drafts follow it. Copy one, keep every key, fill in the new indicator. This is the single highest-value file in the task |
+| `instrument\output\indicators.yaml` | The nine Tier A blocks are the shape every block must match, and the 52 Tier B blocks follow it. Copy one, keep every key, fill in the new indicator. This is the single highest-value file in the task |
 | `code\scripts\data\signature_spec.yaml` and `curated_exemplars.yaml` | The curated half of a signature, not mined from the workbooks (keywords, definition text, law types, scope patterns, negative signals), and the workbook sheet and row of each exemplar with its teaching note. Round 1 kept these as the `SPEC` and `CURATED` dicts in `build_signatures.py`. All 61 indicators already have an entry in each |
 
 ### Reference, beside the code
@@ -262,27 +270,16 @@ other 17 are audits and scorecards for the later stages.
 
 ## First thing to do
 
-**Revised 2026-09-13.** The overnight build did the instrument side of these `PLAN.md` steps, at the
-user's request to cover every indicator:
-- Step 0: `indicator_order.yaml`
-- 3A: decimal IDs
-- 3B: the Tier C generator
-- 3E: signatures for all 61
-- 3F: the Tier B drafts
-- 3G: the gold set
-- 3H: the host trap wording
+**Revised 2026-10-04.** The instrument side of `PLAN.md` is built, and every indicator is at pillar
+6–7 depth (D15). What is left:
 
-What is left falls into three groups.
-
-1. **Decide.** Work through `REPORT_2026-09-13_overnight.md` section 3, starting with the stricter
-   host traps and the roll-up question.
-2. **Review.** Read the 14 Tier B drafts, starting with 8.4 and 12.3 at the end of
-   `instrument\output\indicators.yaml`. Open questions are in each block's `review_notes` and in
-   `notes\drafting_*.md`. After each edit, run `python code\tools\validate.py` and
-   `python code\tools\audit_citations.py`, and add a `CHANGELOG.md` entry.
-3. **Prepare the repo.** The mapping-stage code changes listed under "When to hand off" in
-   `HANDOFF.md` are repo work, not instrument work. They must land before the hand-off.
-
-The mapping stage's test still carries its own `HOST_ORDER` literal instead of reading
-`indicator_order.yaml`, as decision D6 intends. The order is identical today; the test change belongs
-with the repo work.
+1. **Decide.** `REPORT_2026-10-04_parity.md` section 4: whether any of the 52 manual indicators should
+   be promoted to automated, when to hand off, the five uncertain economy-level calls, and the 51
+   suspect flags.
+2. **Review.** Read the 52 Tier B blocks, starting with the 13 that produced filed rows for
+   Timor-Leste (`notes\timor_leste_all_indicator_run.md`). Open questions are in each block's `review_notes` and in
+   `drafting\2026-10-04\drafts\<group>\notes.md`; `evidence\citation_audit_2026-10-04.txt` lists the
+   lines worth checking against their cited page. After each edit, run `python code\tools\validate.py`
+   and `python code\tools\audit_citations.py`, and add a `CHANGELOG.md` entry.
+3. **Hand off.** Follow `HANDOFF.md`. The mapping stage needs one change first for the new
+   economy-level indicators (the notice, section "Update of 4 October").

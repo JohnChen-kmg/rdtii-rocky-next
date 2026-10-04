@@ -9,8 +9,11 @@ accuracy, per economy. It is quarantined: discovery, extraction, triage and mapp
 it to decide anything (mapping-stage decision 11).
 
 label_flag, four statuses:
-  suspect      reviewed in Round 1: likely mis-scored against the Guide/FAQ; never used as an exemplar
-  advisory     reviewed in Round 1: defensible but nuanced; usable as an exemplar with its note
+  suspect      reviewed: likely mis-scored against the Guide/FAQ, or filed under the wrong
+               indicator; never used as an exemplar
+  advisory     reviewed: defensible but nuanced; usable as an exemplar with its note
+               Both come from scripts/data/label_flags.yaml, which records the basis of each call:
+               round1_review (pillars 6-7) or a later drafting review not confirmed by a person.
   host_marked  the host's own data verification marked the row "Not correct" (Thailand sheet,
                columns M-O); the action usually keeps the score and corrects the text or law
                title. Never used as an exemplar. host_verification carries the host's wording.
@@ -37,51 +40,17 @@ from rdtii_examples import (DATA, REPO, articles_mentioned, load_all, load_metho
 OUT = REPO / "output" / "gold" / "gold_set.jsonl"
 CURATED = DATA / "curated_exemplars.yaml"
 
-# Flags reviewed in Round 1 (gold_id -> flag). Reasons cite the framework sources.
-LABEL_FLAGS = {
-    "r1-my-053": {
-        "status": "suspect",
-        "reason": ("Scored 1 for the PDPA Retention Principle, but 'not retaining personal data "
-                   "for longer than is required' is a MAXIMUM-period rule; Guide p.60 fn.35 and the "
-                   "Internal Guide FAQ (p.13) prescribe score 0 for requirements without a specified minimum "
-                   "period. Singapore's identical pattern (PDPA s.25, r1-sg-041) was "
-                   "scored 0. Prime Malaysia error-check target."),
-    },
-    "r1-my-054": {
-        "status": "suspect",
-        "reason": ("Scored 1 for the Communications CoP retention principle ('kept only as long as "
-                   "necessary', s.5.5) — a maximum-period rule that the Guide/FAQ score 0. Same "
-                   "pattern as r1-my-053. Prime Malaysia error-check target."),
-    },
-    "r1-au-034": {
-        "status": "advisory",
-        "reason": ("Impact text describes 'government medical records' (tension with the "
-                   "government-data exception), but the Guide itself uses AU health records as the "
-                   "canonical 6.1/6.2 worked example (Guide p.50) — treat 0.5 (sectoral personal data) as "
-                   "authoritative precedent."),
-    },
-    "r1-au-035": {
-        "status": "advisory",
-        "reason": "Same as r1-au-034 (dual-recorded 6.1+6.2 per the Guide's dual-recording rule, Guide p.51).",
-    },
-    "r1-my-050": {
-        "status": "advisory",
-        "reason": ("Sectoral CoP scored 0.5 under 7.1 while the comprehensive PDPA row (r1-my-049) is 0. "
-                   "Per the Assignment 1 answer key, sectoral instruments ARE recorded, but the "
-                   "horizontal law is the controlling evidence for the indicator-level score — the "
-                   "Singapore analog (Banking Act, r1-sg-039) was scored 0. The finale template adds that "
-                   "7.1 is answered once per economy (Indicator Reference row 80)."),
-    },
-    "r1-my-051": {
-        "status": "advisory",
-        "reason": "Same as r1-my-050 (Communications CoP sectoral complement scored 0.5).",
-    },
-    "r1-sg-042": {
-        "status": "advisory",
-        "reason": ("Coverage marked 'Horizontal' but the instrument is a telecom facilities-based "
-                   "operator licence — likely sectoral (telecommunications)."),
-    },
-}
+FLAGS_FILE = DATA / "label_flags.yaml"
+
+
+def load_label_flags() -> dict[str, dict]:
+    """Reviewed flags (suspect, advisory) for every pillar, keyed by gold_id. See the file's header."""
+    doc = yaml.safe_load(FLAGS_FILE.read_text(encoding="utf-8")) or {}
+    for gid, f in doc.items():
+        if f.get("status") not in ("suspect", "advisory") or not f.get("reason") or not f.get("basis"):
+            raise SystemExit(f"label_flags.yaml {gid}: needs status (suspect|advisory), basis and reason")
+    return {str(k): v for k, v in doc.items()}
+
 
 LACK_OF = {"4.5", "4.1", "5.1", "5.4", "5.7", "7.1", "7.2", "8.1", "8.2", "11.1", "12.9"}
 _MAX = re.compile(r"(as long as (is )?necessary|no longer than (is )?(necessary|required)|not longer than|"
@@ -138,6 +107,10 @@ def candidate_checks(r: dict, allowed: list[float], economy_min: dict) -> list[s
 def main() -> None:
     rows = [r for r in load_all() if not r["strikethrough"]]
     meth = load_methodology()
+    label_flags = load_label_flags()
+    stale = sorted(set(label_flags) - {r["gold_id"] for r in rows})
+    if stale:
+        raise SystemExit(f"label_flags.yaml names rows that are not in the workbooks: {stale}")
     curated = yaml.safe_load(CURATED.read_text(encoding="utf-8")) if CURATED.exists() else {}
     exemplar_for: dict[tuple, list[str]] = defaultdict(list)
     for ind, lst in (curated or {}).items():
@@ -155,7 +128,9 @@ def main() -> None:
     with OUT.open("w", encoding="utf-8", newline="\n") as f:
         for r in rows:
             allowed = score_values(meth[r["indicator"]]["possible_scores"]) if r["indicator"] in meth else []
-            flag = LABEL_FLAGS.get(r["gold_id"])
+            reviewed = label_flags.get(r["gold_id"])
+            flag = ({"status": reviewed["status"], "basis": reviewed["basis"], "reason": reviewed["reason"]}
+                    if reviewed else None)
             hv = r.get("host_verification") or {}
             if flag is None and (hv.get("feedback") or "").strip().lower() == "not correct":
                 flag = {"status": "host_marked",
@@ -198,7 +173,7 @@ def main() -> None:
 
     by_key = {(r["sheet"], r["row"]): r for r in rows}
     used_suspect = [by_key[k]["gold_id"] for k in exemplar_for if k in by_key
-                    and LABEL_FLAGS.get(by_key[k]["gold_id"], {}).get("status") == "suspect"]
+                    and label_flags.get(by_key[k]["gold_id"], {}).get("status") == "suspect"]
     if used_suspect:
         raise SystemExit(f"suspect rows used as exemplars: {used_suspect}")
     print(f"wrote {len(rows)} gold rows -> {OUT.relative_to(REPO)} "

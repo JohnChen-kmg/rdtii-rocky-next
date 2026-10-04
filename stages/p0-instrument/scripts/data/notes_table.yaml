@@ -1,0 +1,214 @@
+# One line per indicator for INSTRUMENT_NOTES.md: what it asks, and the one thing to not get wrong.
+# Read by scripts/build_notes.py. Pillars 6-7 from the Round 1 notes; the rest drafted 2026-10-04.
+'1.4':
+  asks: Are anti-dumping, countervailing or safeguard measures in force on ICT or ICT-related goods, and how many?
+  not_to_get_wrong: A trade remedy law or a pending investigation is not a measure; count only active duties, 0.25
+    each
+'2.1':
+  asks: Are foreign firms, or specific foreign firms, barred from public procurement of ICT goods or services?
+  not_to_get_wrong: Quotas, preferences and local-content conditions are 2.3; a power to exclude with no implementing
+    ban scores 0
+'2.2':
+  asks: Must bidders surrender source code, trade secrets or patents, or use a specific encryption standard?
+  not_to_get_wrong: Only tender conditions count; disclosure to government outside procurement is 4.9 and market-wide
+    encryption rules are 11.4
+'2.3':
+  asks: Do quotas, supplier preferences or price preferences limit bidding, and do they discriminate against foreign
+    bidders?
+  not_to_get_wrong: Foreign bidders admitted only when no domestic supplier exists is exclusion (2.1), not a limitation
+'3.1':
+  asks: What maximum foreign equity share is allowed in digital-trade sectors other than telecom and e-commerce?
+  not_to_get_wrong: Telecom caps are 5.2 and e-commerce caps are 12.01; approval above a threshold is screening
+    (3.4), not a cap
+'3.2':
+  asks: Must foreign firms form a joint venture with a local partner to invest or operate?
+  not_to_get_wrong: An equity cap that merely makes a local partner convenient is 3.1; 3.2 needs a mandated partner
+'3.3':
+  asks: Must any director or manager be a national or resident of the economy?
+  not_to_get_wrong: Officers who are not directors or managers do not count; shareholder nationality rules are 3.1
+'3.4':
+  asks: Is foreign investment screened in digital-trade sectors, by how many mechanisms, and was any investment
+    blocked?
+  not_to_get_wrong: Score 1 needs a documented block in a digital-trade sector; antitrust merger review is not screening
+'3.5':
+  asks: Must foreign providers set up a local branch, subsidiary or office to supply services?
+  not_to_get_wrong: Appointing a local agent or representative for remote supply is 12.8; registration without presence
+    is not scored
+'4.01':
+  asks: Is the patent application process restricted, and by what type of rule?
+  not_to_get_wrong: Host ID 4.01 is patent applications; 4.1 is trade secrets. A local agent for filing scores 1.
+'4.2':
+  asks: Does patent law lack civil or administrative procedures and remedies, or provisional measures?
+  not_to_get_wrong: 'Inverted: remedies and interim orders found mean 0. Provisional protection of a published application
+    is not a provisional measure.'
+'4.3':
+  asks: Does any law restrict patent enforcement, horizontally or in specific cases?
+  not_to_get_wrong: TRIPS-consistent compulsory licences and government use with remuneration are not restrictions;
+    score 0.
+'4.5':
+  asks: Does the economy lack a copyright framework or clear fair use or fair dealing exceptions?
+  not_to_get_wrong: 'Inverted: fair use or fair dealing scores 0; a closed list with no fairness test scores 0.5.'
+'4.6':
+  asks: Does copyright law lack civil or administrative procedures and remedies, or provisional measures?
+  not_to_get_wrong: 'Inverted and de jure: remedies found mean 0; piracy statistics do not raise the score. Safe
+    harbour is 8.1.'
+'4.9':
+  asks: Must firms disclose trade secrets, source code or algorithms to the Government without safeguards?
+  not_to_get_wrong: Procurement source-code duties are 2.2, encryption certification is 11.4, and a law protecting
+    trade secrets is 4.1.
+'4.1':
+  asks: Does the economy lack a legal framework that effectively protects trade secrets?
+  not_to_get_wrong: 'Inverted: protection found means 0. Host ID 4.1 is trade secrets, not patent applications (4.01).'
+'5.1':
+  asks: Does the economy lack an obligation to share passive telecom infrastructure (towers, ducts, poles)?
+  not_to_get_wrong: 'Inverted: a sharing mandate means 0; sharing only permitted or practised is 0.5. Answered once
+    per economy'
+'5.2':
+  asks: How much of a telecom company may foreign investors own under telecom-specific rules?
+  not_to_get_wrong: 'Telecom-specific caps only: horizontal and broadcasting caps are 3.1, e-commerce caps 12.01,
+    approval thresholds 3.4'
+'5.3':
+  asks: Does the Government hold shares in telecom companies, and how large are the holdings?
+  not_to_get_wrong: Ownership facts, not a legal provision or a foreign equity cap (5.2); any holding above 50%
+    scores 1
+'5.4':
+  asks: Does the economy lack accounting and functional separation duties for dominant telecom operators?
+  not_to_get_wrong: 'Inverted, four levels: both mandates 0, functional only 0.25, accounting only 0.5, neither
+    1. Answered once per economy'
+'5.5':
+  asks: Do telecom operator licences carry discriminatory conditions or significant entry barriers?
+  not_to_get_wrong: A licence alone is not scored; ISP, content and broadcasting licences are 9.4, e-commerce licences
+    12.3
+'5.7':
+  asks: Does the economy lack a telecom regulator independent of operators and the Government?
+  not_to_get_wrong: 'Inverted: an independent regulator means 0. Government appointment of its members alone does
+    not fail the test'
+'6.1':
+  asks: Is transfer banned, or must data be processed locally?
+  not_to_get_wrong: '"Prohibited unless conditions" is not a ban; it is 6.4'
+'6.2':
+  asks: Must a copy stay in-country (transfer still allowed)?
+  not_to_get_wrong: Location, not duration or general record-keeping; duration rules are 7.3
+'6.3':
+  asks: Must a provider build or use local infrastructure to serve?
+  not_to_get_wrong: Data-centre licensing is 9.4, not 6.3
+'6.4':
+  asks: Is transfer allowed only on consent, adequacy or approval?
+  not_to_get_wrong: Personal data scores 1 even if sector-specific, unlike 6.1 and 6.2
+'7.1':
+  asks: Does the economy lack a comprehensive (horizontal) data protection law?
+  not_to_get_wrong: 'Inverted: a strong data protection act means 0. Answered once per economy'
+'7.2':
+  asks: Does the economy lack a dedicated cybersecurity framework?
+  not_to_get_wrong: 'Inverted: a dedicated horizontal act means 0. Answered once per economy'
+'7.3':
+  asks: Must data be kept for at least a stated period?
+  not_to_get_wrong: '"Not longer than necessary" is a maximum rule and scores 0'
+'7.4':
+  asks: Is there a duty to appoint a DPO or carry out a DPIA?
+  not_to_get_wrong: An advisory DPIA is not a mandate; contact persons are not a DPO
+'7.5':
+  asks: Can the government access personal data without a court order?
+  not_to_get_wrong: 'Look outside privacy law: criminal procedure, surveillance and telecom acts'
+'8.1':
+  asks: Does the economy lack a safe harbour for intermediaries against users' copyright infringement?
+  not_to_get_wrong: 'Inverted and economy-level: a shield found means 0 or 0.5; a general shield silent on copyright
+    still counts'
+'8.2':
+  asks: Does the economy lack a safe harbour for users' illegal content other than copyright?
+  not_to_get_wrong: Inverted; a copyright-only shield is 8.1 evidence, and a removal duty with no exemption is 8.4
+'8.3':
+  asks: Must intermediaries verify users' identity for Internet access, online services or SIM registration?
+  not_to_get_wrong: Keeping identity or traffic records for a set period is 7.3; government access to them is 7.5
+'8.4':
+  asks: Must intermediaries monitor users' activity, or remove or block illegal content?
+  not_to_get_wrong: Interception and data-access duties for agencies are 7.5; removal duties triggered by a notice
+    still count here
+'9.1':
+  asks: Has the Government blocked or filtered commercial websites, or required intermediaries to do so?
+  not_to_get_wrong: Political, criminal, age-restricted, defamatory and copyright-infringing content is not scored;
+    shutdowns are 9.2 and never extracted
+'9.3':
+  asks: Does a rule limit online advertising, beyond truthfulness and product health or safety rules?
+  not_to_get_wrong: Bans on misleading ads are consumer protection, scored 0 here; that law is 12.9 evidence
+'9.4':
+  asks: Must online content providers or applications hold a licence, and is the licence strict?
+  not_to_get_wrong: Telecom operator licences are 5.5 and e-commerce licences 12.3; registration or notification
+    alone scores 0
+'10.1':
+  asks: Is the import of an ICT good or online service prohibited outright?
+  not_to_get_wrong: A prohibition lifted by a permit or licence is 10.2; a government-only ban is checked against
+    2.1.
+'10.2':
+  asks: Do quotas, licences, permits, registration or labelling restrict imports of ICT goods or online services?
+  not_to_get_wrong: 'Count the measures: one cost-adding measure is 0.5; two or more, or any quota, is 1.'
+'10.3':
+  asks: Must ICT goods or online services for the commercial market contain a domestic share?
+  not_to_get_wrong: Local content rules in public procurement tenders are 2.3, not 10.3.
+'10.4':
+  asks: Is the export of ICT goods or online services banned, licensed or otherwise limited?
+  not_to_get_wrong: Dual-use export licensing that covers ICT items scores 1; raw-material export controls score
+    0.
+'11.1':
+  asks: Are foreigners barred from standard-setting, or are standards made without public consultation?
+  not_to_get_wrong: 'Inverted and economy-level: an open, consulted standards process scores 0; exclusion or opacity
+    scores 1.'
+'11.2':
+  asks: Can foreign suppliers self-certify conformity, or at least use foreign conformity assessment bodies?
+  not_to_get_wrong: The certification route is 11.2 and extra testing is 11.3; MRA members score 0.5 or less.
+'11.3':
+  asks: Must ICT products be screened or tested domestically before entering the market?
+  not_to_get_wrong: Accepting third-party test results gives 0.5; testing only by in-country designated labs gives
+    1.
+'11.4':
+  asks: Does any measure require encryption that deviates from ISO/IEC standards?
+  not_to_get_wrong: Licensing or registering encryption products is not a deviation; it belongs to 10.2, 10.4 or
+    9.4.
+'12.01':
+  asks: Is foreign ownership of e-commerce businesses capped, and at a minority or a controlling stake?
+  not_to_get_wrong: Caps in other sectors are 3.1 and telecom caps 5.2; a horizontal cap is 3.1 only
+'12.2':
+  asks: Does any measure limit online purchases or the delivery of products bought online?
+  not_to_get_wrong: Alcohol, tobacco and pharmaceutical limits, taxes and duties are not scored; de minimis is 12.5
+'12.3':
+  asks: Must an e-commerce business hold a licence to operate?
+  not_to_get_wrong: Payment-service licences are 12.4.4 and delivery licences are out; platform licences reaching
+    social media also go to 9.4
+12.4.1:
+  asks: Is a local bank account required for online payments?
+  not_to_get_wrong: Domestic processing of payments is 6.1 and local incorporation of the provider is 12.4.4
+12.4.2:
+  asks: Is the currency of international payments prescribed by law?
+  not_to_get_wrong: A domestic legal-tender rule that exempts international trade does not score
+12.4.3:
+  asks: Does a mandatory national payment-security standard deviate from international standards?
+  not_to_get_wrong: A standard based on ISO/IEC or PCI DSS scores 0; general encryption mandates are 11.4
+12.4.4:
+  asks: Does a payment-service licence carry restrictive conditions such as local incorporation or nationality?
+  not_to_get_wrong: A payment licence with only prudential conditions scores 0; an e-commerce business licence is
+    12.3
+12.4.5:
+  asks: Is the amount payable or holdable through electronic payment methods capped?
+  not_to_get_wrong: AML reporting thresholds are not ceilings; purchase quotas are 12.2 and de minimis is 12.5
+12.4.6:
+  asks: Must online payments pass through a specific, designated intermediary?
+  not_to_get_wrong: A duty to use licensed providers is not a mandated intermediary; authorisation rules are 12.4.4
+12.4.7:
+  asks: Is there any payment restriction that fits none of the six listed types?
+  not_to_get_wrong: 'Use last: ceilings are 12.4.5 and licence conditions 12.4.4; safeguards and AML duties score
+    0'
+'12.5':
+  asks: Is there a duty-free value threshold for imported goods, and is it below USD 200?
+  not_to_get_wrong: 'Inverted: no de minimis rule scores 1; a rule found scores 0.5 or 0 by USD value'
+'12.6':
+  asks: Are customs duties charged, or legally possible, on digital products delivered electronically?
+  not_to_get_wrong: A tariff line at a zero rate is a legal mechanism and scores 0.5, not 0
+'12.7':
+  asks: Must firms use a local domain name, or meet presence or representative conditions to register one?
+  not_to_get_wrong: A representative for supplying services, not tied to a domain, is 12.8
+'12.8':
+  asks: Must a foreign online provider appoint a local representative, agent or contact point to serve remotely?
+  not_to_get_wrong: A duty to set up a branch, subsidiary or company is commercial presence, 3.5
+'12.9':
+  asks: Does the economy lack a consumer protection law that applies to online purchases?
+  not_to_get_wrong: 'Inverted: a consumer protection law found means 0; only its absence scores 1'

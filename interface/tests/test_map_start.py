@@ -26,7 +26,7 @@ class PickerTiers(unittest.TestCase):
         pk = mp.indicator_picker(settings_mod.load({}))
         flat = [i for p in pk["pillars"] for i in p["indicators"]]
         self.assertEqual(len(flat), 61)
-        self.assertEqual(pk["tier_counts"], {"A": 9, "B": 14, "C": 38})
+        self.assertEqual(pk["tier_counts"], {"A": 9, "B": 52, "C": 0})
         self.assertTrue(all(i["tier"] in ("A", "B", "C") for i in flat))
         self.assertEqual({i["id"] for i in flat if i["automated"]}, {i["id"] for i in flat if i["tier"] == "A"})
         self.assertEqual(sorted(i["id"] for i in flat if i["practice_based"]), ["3.4", "5.3", "9.1"])

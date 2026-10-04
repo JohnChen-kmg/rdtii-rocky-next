@@ -289,9 +289,11 @@ once their prompts are adapted.
   below them lives on ministry sites by law. MIIT and Customs refuse an honest client and stay manual.
   Only 6 of 1,090 hand-collected files have full retrieval timestamps; the provenance gaps are
   recorded rather than invented.
-- **Indicators outside pillars 6 and 7** run through the same pipeline, but their codebook blocks are
-  host-criteria-only, and rows whose answers live outside legal databases (facts, technical standards,
-  WTO postures) carry a manual-check notice instead of a pretended answer. This is easily improved: the
+- **Indicators outside pillars 6 and 7** run through the same pipeline. Since 4 October their codebook
+  blocks carry the same depth as pillars 6 and 7 — scoring trees, coding rules, disambiguation, traps —
+  but **no person has yet reviewed those 52 blocks**, so their rows deserve a reviewer's eye, and rows
+  whose answers live outside legal databases (facts, technical standards, WTO postures) carry a
+  manual-check notice instead of a pretended answer. This is easily improved: the
   pipeline computes every indicator the same way, and the only thing that differs is the rulebook it is
   given. Writing those 52 blocks to the reviewed depth of pillars 6 and 7 (definition, scoring tree, coding
   rules, traps, worked examples) is an edit to `stages/p0-instrument/output/indicators.yaml`, no code.

@@ -1,0 +1,108 @@
+# What the tool automates, and what kind of thing each indicator's answer is (decisions D13 and D14).
+# Read by scripts/build_indicator_order.py, which writes these marks into output/indicator_order.yaml.
+#
+# Source: the coverage register, RDTII Finale Plan/3_Final_Stage/COVERAGE_AND_MANUAL_CHECKS.md
+# (generated 2026-09-20, revised 2026-09-21). The nature codes below were read from its tables on
+# 2026-10-04. The register and this file must agree; the validator compares them when
+# RDTII_COVERAGE_REGISTER points at the register.
+#
+# To make the tool automate another indicator: add its pillar to automated_pillars, or its ID to
+# automated_indicators, then rebuild. The mapping stage maps the automated set by default.
+
+register: "RDTII Finale Plan/3_Final_Stage/COVERAGE_AND_MANUAL_CHECKS.md (generated 2026-09-20, revised 2026-09-21)"
+
+classes:
+  automated: "retrieved, extracted, mapped and verified by the tool"
+  manual: "in scope for the index, but not automated: every row or null row carries a manual-check notice with the reason. The mapping stage can still run it on request (INDICATORS_SCOPE)"
+  excluded: "non-regulatory: the host fills it from external databases and treaty status; no row is written"
+
+reasons:        # the mapping stage's three reason categories (its decision M9), by key
+  scope: "outside the automated scope"
+  practice: "practice or external evidence"
+  portal_tier: "the tier that answers it is not published by this economy's portal"
+
+nature_codes:   # what kind of thing the answer is; the first code on an indicator is the operative one
+  L: "a rule's existence, in primary legislation"
+  Dg: "a number or a list set by delegated legislation, published in the official gazette or legislation database"
+  Dr: "a number, list or procedure set by a regulator or administrative body"
+  T: "a technical specification, in a standards document"
+  F: "a fact or a practice: who owns shares, what is actually blocked, whether screening was ever applied"
+  W: "an international trade posture: measures in force, participation in a moratorium"
+
+# A manual indicator whose operative code is one of these gets the reason "practice": no legal
+# instrument states its answer, in any economy.
+outside_any_law_database: [F, T, W]
+
+automated_pillars: [6, 7]      # decision D14; the mapping stage's M7
+automated_indicators: []       # single indicators to automate beyond those pillars
+
+answer_nature:
+  "1.4": [W]
+  "2.1": [Dg, Dr]
+  "2.2": [Dr, Dg]
+  "2.3": [Dg]
+  "3.1": [Dg]
+  "3.2": [Dg]
+  "3.3": [L]
+  "3.4": [F]
+  "3.5": [Dg, L]
+  "4.01": [L]
+  "4.2": [L]
+  "4.3": [L]
+  "4.5": [L]
+  "4.6": [L]
+  "4.9": [Dr]
+  "4.1": [L]
+  "5.1": [Dr, L]
+  "5.2": [Dg, L]
+  "5.3": [F]
+  "5.4": [Dr]
+  "5.5": [L, Dg]
+  "5.7": [L]
+  "6.1": [L, Dg]
+  "6.2": [Dr, Dg]
+  "6.3": [Dr, Dg]
+  "6.4": [L, Dg]
+  "7.1": [L]
+  "7.2": [L]
+  "7.3": [L, Dg]
+  "7.4": [L, Dg]
+  "7.5": [L]
+  "8.1": [L]
+  "8.2": [L]
+  "8.3": [Dr, Dg]
+  "8.4": [Dr, Dg]
+  "9.1": [F]
+  "9.3": [L, Dg]
+  "9.4": [Dr, Dg]
+  "10.1": [Dg]
+  "10.2": [Dg]
+  "10.3": [Dg, Dr]
+  "10.4": [Dg]
+  "11.1": [L, F]
+  "11.2": [Dg, T]
+  "11.3": [Dg, T]
+  "11.4": [T]
+  "12.01": [Dg]
+  "12.2": [Dg]
+  "12.3": [L, Dg]
+  "12.4.1": [Dr, Dg]
+  "12.4.2": [Dr, Dg]
+  "12.4.3": [Dr, T]
+  "12.4.4": [Dr, Dg]
+  "12.4.5": [Dr, Dg]
+  "12.4.6": [Dr, Dg]
+  "12.4.7": [Dr, Dg]
+  "12.5": [Dg]
+  "12.6": [W]
+  "12.7": [Dr]
+  "12.8": [Dg]
+  "12.9": [L]
+
+# Per-economy overrides: an automated indicator whose operative tier that economy's official source
+# does not publish gets the manual mark there. Each entry names its evidence in the register.
+economy_overrides:
+  CN:
+    - pillars: [6]
+      reason: portal_tier
+      evidence: "coverage register, China section: the national database stops above departmental rules, so pillar 6 is framework-only"

@@ -2,7 +2,7 @@
 # and scripts/data/curated_exemplars.yaml, then re-run; do not hand-edit.
 indicator: '12.7'
 name: Domain name requirements
-tier: C
+tier: B
 instrument_version: 2.1.0
 keywords:
 - domain name

@@ -54,6 +54,35 @@ host_mapping_traps:
     ban (6.1).
 - template_row: 85
   text: Drafts, repealed provisions, and an amending act cited in place of the principal act all score zero.
+coverage_marks:
+  register: RDTII Finale Plan/3_Final_Stage/COVERAGE_AND_MANUAL_CHECKS.md (generated 2026-09-20, revised 2026-09-21)
+  classes:
+    automated: retrieved, extracted, mapped and verified by the tool
+    manual: 'in scope for the index, but not automated: every row or null row carries a manual-check notice with
+      the reason. The mapping stage can still run it on request (INDICATORS_SCOPE)'
+    excluded: 'non-regulatory: the host fills it from external databases and treaty status; no row is written'
+  reasons:
+    scope: outside the automated scope
+    practice: practice or external evidence
+    portal_tier: the tier that answers it is not published by this economy's portal
+  nature_codes:
+    L: a rule's existence, in primary legislation
+    Dg: a number or a list set by delegated legislation, published in the official gazette or legislation database
+    Dr: a number, list or procedure set by a regulator or administrative body
+    T: a technical specification, in a standards document
+    F: 'a fact or a practice: who owns shares, what is actually blocked, whether screening was ever applied'
+    W: 'an international trade posture: measures in force, participation in a moratorium'
+  counts:
+    automated: 9
+    manual: 52
+    excluded: 1
+  economy_overrides:
+    CN:
+    - pillars:
+      - 6
+      reason: portal_tier
+      evidence: 'coverage register, China section: the national database stops above departmental rules, so pillar
+        6 is framework-only'
 indicators:
 - id: '1.4'
   pillar: 1
@@ -66,6 +95,10 @@ indicators:
   methodology_row: 3
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: practice
+  answer_nature:
+  - W
 - id: '2.1'
   pillar: 2
   pillar_label: 'Pillar 2: Public Procurement'
@@ -76,6 +109,11 @@ indicators:
   methodology_row: 5
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
+  - Dr
 - id: '2.2'
   pillar: 2
   pillar_label: 'Pillar 2: Public Procurement'
@@ -86,6 +124,11 @@ indicators:
   methodology_row: 6
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: '2.3'
   pillar: 2
   pillar_label: 'Pillar 2: Public Procurement'
@@ -96,6 +139,10 @@ indicators:
   methodology_row: 7
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '3.1'
   pillar: 3
   pillar_label: 'Pillar 3: Foreign Direct Investment'
@@ -107,6 +154,10 @@ indicators:
   methodology_row: 9
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '3.2'
   pillar: 3
   pillar_label: 'Pillar 3: Foreign Direct Investment'
@@ -117,6 +168,10 @@ indicators:
   methodology_row: 10
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '3.3'
   pillar: 3
   pillar_label: 'Pillar 3: Foreign Direct Investment'
@@ -127,6 +182,10 @@ indicators:
   methodology_row: 11
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '3.4'
   pillar: 3
   pillar_label: 'Pillar 3: Foreign Direct Investment'
@@ -137,6 +196,10 @@ indicators:
   methodology_row: 12
   status: in_scope
   evidence: practice
+  coverage: manual
+  coverage_reason: practice
+  answer_nature:
+  - F
 - id: '3.5'
   pillar: 3
   pillar_label: 'Pillar 3: Foreign Direct Investment'
@@ -147,6 +210,11 @@ indicators:
   methodology_row: 13
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
+  - L
 - id: '4.01'
   pillar: 4
   pillar_label: 'Pillar 4: Intellectual Property Rights'
@@ -157,6 +225,10 @@ indicators:
   methodology_row: 15
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '4.2'
   pillar: 4
   pillar_label: 'Pillar 4: Intellectual Property Rights'
@@ -167,6 +239,10 @@ indicators:
   methodology_row: 16
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '4.3'
   pillar: 4
   pillar_label: 'Pillar 4: Intellectual Property Rights'
@@ -177,6 +253,10 @@ indicators:
   methodology_row: 17
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '4.5'
   pillar: 4
   pillar_label: 'Pillar 4: Intellectual Property Rights'
@@ -187,6 +267,10 @@ indicators:
   methodology_row: 18
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '4.6'
   pillar: 4
   pillar_label: 'Pillar 4: Intellectual Property Rights'
@@ -198,6 +282,10 @@ indicators:
   methodology_row: 19
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '4.9'
   pillar: 4
   pillar_label: 'Pillar 4: Intellectual Property Rights'
@@ -208,6 +296,10 @@ indicators:
   methodology_row: 20
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
 - id: '4.1'
   pillar: 4
   pillar_label: 'Pillar 4: Intellectual Property Rights'
@@ -218,6 +310,10 @@ indicators:
   methodology_row: 21
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '5.1'
   pillar: 5
   pillar_label: 'Pillar 5: Telecom Regulations & Competition'
@@ -228,6 +324,11 @@ indicators:
   methodology_row: 23
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - L
 - id: '5.2'
   pillar: 5
   pillar_label: 'Pillar 5: Telecom Regulations & Competition'
@@ -238,6 +339,11 @@ indicators:
   methodology_row: 24
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
+  - L
 - id: '5.3'
   pillar: 5
   pillar_label: 'Pillar 5: Telecom Regulations & Competition'
@@ -248,6 +354,10 @@ indicators:
   methodology_row: 25
   status: in_scope
   evidence: practice
+  coverage: manual
+  coverage_reason: practice
+  answer_nature:
+  - F
 - id: '5.4'
   pillar: 5
   pillar_label: 'Pillar 5: Telecom Regulations & Competition'
@@ -258,6 +368,10 @@ indicators:
   methodology_row: 26
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
 - id: '5.5'
   pillar: 5
   pillar_label: 'Pillar 5: Telecom Regulations & Competition'
@@ -268,6 +382,11 @@ indicators:
   methodology_row: 27
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
+  - Dg
 - id: '5.7'
   pillar: 5
   pillar_label: 'Pillar 5: Telecom Regulations & Competition'
@@ -278,6 +397,10 @@ indicators:
   methodology_row: 28
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '6.1'
   pillar: 6
   pillar_label: 'Pillar 6: Cross-border Data Policies'
@@ -288,6 +411,11 @@ indicators:
   methodology_row: 30
   status: in_scope
   evidence: legal
+  coverage: automated
+  coverage_reason: null
+  answer_nature:
+  - L
+  - Dg
 - id: '6.2'
   pillar: 6
   pillar_label: 'Pillar 6: Cross-border Data Policies'
@@ -298,6 +426,11 @@ indicators:
   methodology_row: 31
   status: in_scope
   evidence: legal
+  coverage: automated
+  coverage_reason: null
+  answer_nature:
+  - Dr
+  - Dg
 - id: '6.3'
   pillar: 6
   pillar_label: 'Pillar 6: Cross-border Data Policies'
@@ -308,6 +441,11 @@ indicators:
   methodology_row: 32
   status: in_scope
   evidence: legal
+  coverage: automated
+  coverage_reason: null
+  answer_nature:
+  - Dr
+  - Dg
 - id: '6.4'
   pillar: 6
   pillar_label: 'Pillar 6: Cross-border Data Policies'
@@ -318,6 +456,11 @@ indicators:
   methodology_row: 33
   status: in_scope
   evidence: legal
+  coverage: automated
+  coverage_reason: null
+  answer_nature:
+  - L
+  - Dg
 - id: '6.5'
   pillar: 6
   pillar_label: 'Pillar 6: Cross-border Data Policies'
@@ -328,6 +471,9 @@ indicators:
   methodology_row: null
   status: out_of_scope
   evidence: legal
+  coverage: excluded
+  coverage_reason: null
+  answer_nature: null
 - id: '7.1'
   pillar: 7
   pillar_label: 'Pillar 7: Domestic Data Protection & Privacy'
@@ -338,6 +484,10 @@ indicators:
   methodology_row: 35
   status: in_scope
   evidence: legal
+  coverage: automated
+  coverage_reason: null
+  answer_nature:
+  - L
 - id: '7.2'
   pillar: 7
   pillar_label: 'Pillar 7: Domestic Data Protection & Privacy'
@@ -348,6 +498,10 @@ indicators:
   methodology_row: 36
   status: in_scope
   evidence: legal
+  coverage: automated
+  coverage_reason: null
+  answer_nature:
+  - L
 - id: '7.3'
   pillar: 7
   pillar_label: 'Pillar 7: Domestic Data Protection & Privacy'
@@ -358,6 +512,11 @@ indicators:
   methodology_row: 37
   status: in_scope
   evidence: legal
+  coverage: automated
+  coverage_reason: null
+  answer_nature:
+  - L
+  - Dg
 - id: '7.4'
   pillar: 7
   pillar_label: 'Pillar 7: Domestic Data Protection & Privacy'
@@ -368,6 +527,11 @@ indicators:
   methodology_row: 38
   status: in_scope
   evidence: legal
+  coverage: automated
+  coverage_reason: null
+  answer_nature:
+  - L
+  - Dg
 - id: '7.5'
   pillar: 7
   pillar_label: 'Pillar 7: Domestic Data Protection & Privacy'
@@ -378,6 +542,10 @@ indicators:
   methodology_row: 39
   status: in_scope
   evidence: legal
+  coverage: automated
+  coverage_reason: null
+  answer_nature:
+  - L
 - id: '8.1'
   pillar: 8
   pillar_label: 'Pillar 8: Internet Intermediary Liability'
@@ -388,6 +556,10 @@ indicators:
   methodology_row: 41
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '8.2'
   pillar: 8
   pillar_label: 'Pillar 8: Internet Intermediary Liability'
@@ -398,6 +570,10 @@ indicators:
   methodology_row: 42
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
 - id: '8.3'
   pillar: 8
   pillar_label: 'Pillar 8: Internet Intermediary Liability'
@@ -408,6 +584,11 @@ indicators:
   methodology_row: 43
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: '8.4'
   pillar: 8
   pillar_label: 'Pillar 8: Internet Intermediary Liability'
@@ -418,6 +599,11 @@ indicators:
   methodology_row: 44
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: '9.1'
   pillar: 9
   pillar_label: 'Pillar 9: Content Access'
@@ -429,6 +615,10 @@ indicators:
   methodology_row: 46
   status: in_scope
   evidence: practice
+  coverage: manual
+  coverage_reason: practice
+  answer_nature:
+  - F
 - id: '9.3'
   pillar: 9
   pillar_label: 'Pillar 9: Content Access'
@@ -439,6 +629,11 @@ indicators:
   methodology_row: 47
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
+  - Dg
 - id: '9.4'
   pillar: 9
   pillar_label: 'Pillar 9: Content Access'
@@ -451,6 +646,11 @@ indicators:
   methodology_row: 48
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: '10.1'
   pillar: 10
   pillar_label: 'Pillar 10: Non-technical NTMs'
@@ -462,6 +662,10 @@ indicators:
   methodology_row: 50
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '10.2'
   pillar: 10
   pillar_label: 'Pillar 10: Non-technical NTMs'
@@ -472,6 +676,10 @@ indicators:
   methodology_row: 51
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '10.3'
   pillar: 10
   pillar_label: 'Pillar 10: Non-technical NTMs'
@@ -482,6 +690,11 @@ indicators:
   methodology_row: 52
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
+  - Dr
 - id: '10.4'
   pillar: 10
   pillar_label: 'Pillar 10: Non-technical NTMs'
@@ -492,6 +705,10 @@ indicators:
   methodology_row: 53
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '11.1'
   pillar: 11
   pillar_label: 'Pillar 11: Standards and Procedures'
@@ -502,6 +719,11 @@ indicators:
   methodology_row: 55
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
+  - F
 - id: '11.2'
   pillar: 11
   pillar_label: 'Pillar 11: Standards and Procedures'
@@ -512,6 +734,11 @@ indicators:
   methodology_row: 56
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
+  - T
 - id: '11.3'
   pillar: 11
   pillar_label: 'Pillar 11: Standards and Procedures'
@@ -522,6 +749,11 @@ indicators:
   methodology_row: 57
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
+  - T
 - id: '11.4'
   pillar: 11
   pillar_label: 'Pillar 11: Standards and Procedures'
@@ -532,6 +764,10 @@ indicators:
   methodology_row: 58
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: practice
+  answer_nature:
+  - T
 - id: '12.01'
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -542,6 +778,10 @@ indicators:
   methodology_row: 60
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '12.2'
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -553,6 +793,10 @@ indicators:
   methodology_row: 61
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '12.3'
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -564,6 +808,11 @@ indicators:
   methodology_row: 62
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L
+  - Dg
 - id: 12.4.1
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -574,6 +823,11 @@ indicators:
   methodology_row: 63
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: 12.4.2
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -584,6 +838,11 @@ indicators:
   methodology_row: 64
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: 12.4.3
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -594,6 +853,11 @@ indicators:
   methodology_row: 65
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - T
 - id: 12.4.4
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -604,6 +868,11 @@ indicators:
   methodology_row: 66
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: 12.4.5
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -614,6 +883,11 @@ indicators:
   methodology_row: 67
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: 12.4.6
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -624,6 +898,11 @@ indicators:
   methodology_row: 68
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: 12.4.7
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -634,6 +913,11 @@ indicators:
   methodology_row: 69
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
+  - Dg
 - id: '12.5'
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -644,6 +928,10 @@ indicators:
   methodology_row: 70
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '12.6'
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -654,6 +942,10 @@ indicators:
   methodology_row: 71
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: practice
+  answer_nature:
+  - W
 - id: '12.7'
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -664,6 +956,10 @@ indicators:
   methodology_row: 72
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dr
 - id: '12.8'
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -674,6 +970,10 @@ indicators:
   methodology_row: 73
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - Dg
 - id: '12.9'
   pillar: 12
   pillar_label: 'Pillar 12: Online Sales and Transactions'
@@ -684,3 +984,7 @@ indicators:
   methodology_row: 74
   status: in_scope
   evidence: legal
+  coverage: manual
+  coverage_reason: scope
+  answer_nature:
+  - L

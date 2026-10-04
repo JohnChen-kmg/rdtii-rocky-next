@@ -1,10 +1,11 @@
 # P0 — the RDTII 2.1 measuring instrument
 
-> **Finale draft (2026-09-13).** The instrument now covers all twelve pillars: 61 scoreable
+> **Finale status (2026-10-04).** The instrument covers all twelve pillars: 61 scoreable
 > indicators of the 62 the host lists (6.5 is non-regulatory and declared out of scope), with decimal
-> text IDs throughout. Tiers: A 9 (pillars 6-7, Round 1) · B 14 (drafted, pending review) ·
-> C 38 (extracted by script from the host methodology sheet), all 61 blocks in
-> `output/indicators.yaml` in host order. Health check:
+> text IDs throughout. Every indicator has a full-depth codebook block with the same elements.
+> Tiers: A 9 (pillars 6-7, the Round 1 codebook) · B 52 (every other indicator, drafted at the same
+> depth, not yet reviewed by a person) · no Tier C. All 61 blocks sit in `output/indicators.yaml` in
+> host order. Health check:
 > `RDTII_GUIDE_TEXT=<page-numbered Guide text> python -X utf8 scripts/validate_instrument.py`
 > → `PASS — 61/62 indicators in scope ...`. Inventory and build order: `output/README.md`.
 > The sections below describe the Round 1 build and remain accurate as history.

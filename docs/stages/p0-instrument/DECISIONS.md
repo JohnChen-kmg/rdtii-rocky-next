@@ -1,12 +1,86 @@
 # Decisions: instrument
 
 Task-level choices and the reason for each. Newest entry on top. Code changes are not logged here.
-They go in `C:\Users\woshi\Desktop\rdtii-rocky-finale\docs\CHANGELOG_FINALE.md` under workstream W3.
+They go in the repo's `docs\CHANGELOG_FINALE.md` under workstream W3 (`HANDOFF.md` says which repo).
 
 Each entry gives the decision, the reason, and what breaks if it is reversed. The third line is the
 important one. It is what stops a decision being quietly undone in week three.
 
 ---
+
+## 2026-10-04 D16. The coverage marks of D13 and D14 are in the instrument, taken from the register
+
+**Decision:** `indicator_order.yaml` carries three marks on every entry, written by
+`build_indicator_order.py` from `code\scripts\data\coverage.yaml`:
+
+- `coverage`: `automated` for pillars 6 and 7 (9 indicators), `manual` for the other 52 in-scope
+  indicators, `excluded` for 6.5. This is D14 as it stands; nothing is promoted.
+- `coverage_reason`, on a manual indicator: `scope` (outside the automated scope) or `practice`
+  (practice or external evidence). The keys are the mapping stage's own reason categories.
+- `answer_nature`: the coverage register's nature codes (L, Dg, Dr, T, F, W), operative code first.
+
+Six indicators get the reason `practice`, because no legal instrument states their answer in any
+economy: 3.4, 5.3 and 9.1 (the host's practice-based list) and 1.4, 11.4 and 12.6 (a trade posture or
+a technical standard, by the register). The per-economy override for China's pillar 6 is recorded under
+`coverage_marks.economy_overrides`.
+
+"Manual" does not mean "not run". The mapping stage maps any indicator a run names, and did so for
+Timor-Leste on all 52 (`notes\timor_leste_all_indicator_run.md`).
+
+**Why:** the developer pointed to the plan on 2026-10-04: Timor-Leste has been mapped for every pillar,
+though not every indicator, because of what some indicators' answers are. The plan had already
+assigned this to the instrument: D14 says the machine-readable marks belong here and must agree with
+the register, and the mapping stage's request R1 had been open since 22 September.
+
+**Consequence if reversed:** the mapping stage goes back to deriving the automated set from "pillars 6
+and 7" in its own code and the manual-check reason from the host's practice list, so the register and
+the tool can drift apart with nothing to catch it. Promoting indicators to `automated` is a separate
+step with a cost: the mapping stage maps the automated set by default, so its default prompt and its
+cost per economy grow with every indicator added.
+
+## 2026-10-04 D15. Every in-scope indicator carries the same instrument elements as pillars 6 and 7
+
+**Decision:** the developer's call, 2026-10-04: "I want to have the instrument for all the indicators
+we are trying to automation, have the workbook, policy, etc the same structure and element as the ones
+for pillar 6 and 7." All 52 indicators outside pillars 6 and 7 now have what the nine pillar 6–7
+indicators have:
+
+- **Codebook.** A full-depth block: a question, a definition, grading features, one scoring branch per
+  host score, coding rules, exceptions, disambiguation with TRAP lines, Guide examples, and the Guide's
+  weight. The 38 thin blocks were rewritten; the 14 drafted on 13 September were completed. All 52 are
+  Tier B: drafted, not yet reviewed, not yet used in a filed run. There is no Tier C block.
+- **Machine-readable marks.** `polarity: inverted` and `level: economy` where they apply, with
+  `framework_name` on every economy-level block and a `null_statement` on every block.
+  `policies.yaml` `indicator_sets` lists the inverted and economy-level indicators.
+- **Both sides of every trap.** A block that sends a look-alike to a sibling is named back by that
+  sibling, because a run may load one indicator without the other. The validator counts one-sided
+  references.
+- **Reviewed label flags.** `code\scripts\data\label_flags.yaml` now holds suspect and advisory flags
+  for every pillar, each with the basis of the call.
+- **Notes.** `INSTRUMENT_NOTES.md` has one line per indicator and where each pillar's evidence lives.
+
+**The rule that kept pillars 6 and 7 safe:** nothing the mapping prompt renders for the nine pillar 6–7
+indicators may change. Their blocks gained only keys the prompt does not render. `policies.yaml`
+`measure_inclusion`, `scoring_policy` and `edge_cases`, and the codebook's `definitions` and
+`score_polarity`, are byte-identical. So rules for other pillars sit on those pillars' own blocks, not
+in the shared sections.
+
+**What this does not decide:** which indicators the tool automates. D13 and D14 stand: the mapping stage
+automates pillars 6 and 7 unless a run sets `INDICATORS_SCOPE`. The `coverage` mark D14 asks for was
+added the same day; see D16.
+
+**Why:** the live test on 15 October may draw any pillar, and an indicator whose block only restates
+host text gives the model no warning about look-alikes. The time premise behind tiering (D2) no longer
+held: the drafting process that produced the 14 Tier B blocks could do the other 38 in a day.
+
+**Consequence if reversed:**
+- Going back to thin blocks returns 38 indicators to "no traps", which is where wrong-but-plausible
+  rows come from.
+- Putting other pillars' rules into the shared prompt sections would change the pillar 6–7 prompt and
+  break the byte-for-byte match with the run filed on 30 September.
+- Removing `level: economy` from the eleven new economy-level blocks makes the mapping stage treat a
+  framework's every provision as a separate finding, the error the host's trap row 80 names for 7.1
+  and 7.2.
 
 ## 2026-09-20 D14. Every indicator the tool does not automate is marked for a manual check, in every economy
 
