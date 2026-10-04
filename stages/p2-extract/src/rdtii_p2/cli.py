@@ -113,7 +113,7 @@ def _scanned_rank(row: ManifestRow) -> tuple[int, int]:
     return (1, 0 if any(k in title for k in _PRIORITY_KEYWORDS) else 1)
 
 
-def _segment_for(text: str, language: str | None) -> segment.SegmentResult:
+def _segment_for(text: str, language: str | None, economy_language: str | None = None) -> segment.SegmentResult:
     """Pick the segmenter by the document's declared language, never by sniffing the text.
 
     English keeps `segment.py` untouched, so the Round 1 corpus stays the regression
@@ -121,8 +121,17 @@ def _segment_for(text: str, language: str | None) -> segment.SegmentResult:
     language falls back to the common-law segmenter and says so, because emitting nothing
     is worse than emitting what the old path would have emitted.
     """
-    if language in segment_civil.PROFILES:
+    if language in segment_civil.PROFILES and language != segment_civil.ENGLISH_ARTICLES:
         return segment_civil.segment_civil(text, language)
+    if (language == "eng" and economy_language in segment_civil.PROFILES
+            and economy_language != segment_civil.ENGLISH_ARTICLES):
+        # Declared English, in an economy whose own language is written in articles: the publisher's
+        # English edition of such a law ("Article 12"). Both facts are declared (the crawler's language
+        # for the file, the economy's language for the run); the text is not sniffed. When that profile
+        # finds nothing, the common-law segmenter below still gets its turn, as before.
+        result = segment_civil.segment_civil(text, segment_civil.ENGLISH_ARTICLES)
+        if result.n_sections:
+            return result
     if language not in (None, "eng", "msa"):
         log.warning("no segmenter profile for language %r - using the common-law segmenter",
                     language)
@@ -131,7 +140,7 @@ def _segment_for(text: str, language: str | None) -> segment.SegmentResult:
 
 def _parse_doc(doc_id: str, decision: router.Route, local_path: Path, source_url: str,
                settings: Settings, out_dir: Path, force: bool = False,
-               language: str | None = None
+               language: str | None = None, economy_language: str | None = None
                ) -> tuple[NormalizedDoc, segment.SegmentResult, dict[str, str] | None,
                           dict | None]:
     """Lane A/B/C parsing + segmentation. NOTHING is written to disk here -
@@ -144,13 +153,13 @@ def _parse_doc(doc_id: str, decision: router.Route, local_path: Path, source_url
         log.info("%s: lane D read %d paragraph(s), %d table(s) -> %d chars",
                  doc_id, doc.paragraphs, doc.tables, len(doc.text))
         normalized = normalize_pages([doc.text])
-        segmented = _segment_for(normalized.text, language)
+        segmented = _segment_for(normalized.text, language, economy_language)
         return normalized, segmented, None, None
     if decision.lane == "B":
         raw_pages = parse_pdf_native.extract_pages(local_path)
         log.info("%s: lane B extracted %d pages (pypdfium2)", doc_id, len(raw_pages))
         normalized = normalize_pages(raw_pages)
-        segmented = _segment_for(normalized.text, language)
+        segmented = _segment_for(normalized.text, language, economy_language)
         return normalized, segmented, None, None
     if decision.lane == "A":
         from rdtii_p2 import parse_html
@@ -163,7 +172,7 @@ def _parse_doc(doc_id: str, decision: router.Route, local_path: Path, source_url
             # ("15. An APRA-regulated entity must...") carry no DOM section
             # markup at all - the generic segmenter already handles that
             # numbering (it segments the same instruments' PDF twins)
-            segmented = _segment_for(html_doc.text, language)
+            segmented = _segment_for(html_doc.text, language, economy_language)
             log.info("%s: lane A found no DOM sections - generic segmenter "
                      "fallback: %d sections, %d spans",
                      doc_id, segmented.n_sections, len(segmented.spans))
@@ -183,7 +192,7 @@ def _parse_doc(doc_id: str, decision: router.Route, local_path: Path, source_url
                      doc_id, len(cached.text))
             ocr_meta = {"engine": settings.ocr_engine, "preprocessing": ["cached"],
                         "cached": True}
-            return cached, _segment_for(cached.text, language), None, ocr_meta
+            return cached, _segment_for(cached.text, language, economy_language), None, ocr_meta
         # the pre-pass has almost always been here first: `p2-extract ocr` fills a
         # per-page cache in parallel, keyed on the file's sha256, the engine, the language
         # and the DPI, so nothing is re-read because the normaliser changed
@@ -201,14 +210,14 @@ def _parse_doc(doc_id: str, decision: router.Route, local_path: Path, source_url
         if pages is not None:
             log.info("%s: lane C using %d cached OCR page(s) (%s)", doc_id, len(pages), pack)
             normalized = normalize_pages(pages)
-            segmented = _segment_for(normalized.text, language)
+            segmented = _segment_for(normalized.text, language, economy_language)
             return normalized, segmented, None, {"engine": f"tesseract-{pack}",
                                                  "preprocessing": ["cached"], "cached": True}
         engine = get_ocr(settings, language=language)
         result = engine.to_text(local_path)
         log.info("%s: lane C OCR'd %d pages (%s)", doc_id, len(result.pages), result.engine)
         normalized = normalize_pages([page.text for page in result.pages])
-        segmented = _segment_for(normalized.text, language)
+        segmented = _segment_for(normalized.text, language, economy_language)
         ocr_meta = {"engine": result.engine, "preprocessing": result.preprocessing,
                     "cached": False}
         return normalized, segmented, None, ocr_meta
@@ -459,7 +468,8 @@ def cmd_run(args: argparse.Namespace) -> int:
                         or getattr(args, "default_language", None))
             normalized, segmented, anchors, ocr_meta = _parse_doc(
                 doc_id, decision, local_path, row.data["source_url"],
-                settings, out_dir, force=args.force, language=language)
+                settings, out_dir, force=args.force, language=language,
+                economy_language=getattr(args, "default_language", None))
             ocr_cer = None
             ocr_engine_str = None
             if ocr_meta is not None:

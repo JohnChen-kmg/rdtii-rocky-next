@@ -162,6 +162,36 @@ def _read_link_rows(path: Path, facts: dict[str, DocFacts]) -> None:
                 f.language_source = meta.get("language_source") or "portal_field"
 
 
+def _read_manifest_meta(path: Path, facts: dict[str, DocFacts]) -> None:
+    """The crawler's own facts about each file, where the crawl run carries them in manifest.jsonl.
+
+    A corpus assembled in the workshop has `law_table.csv` and `links_used/`; a crawl run started from
+    the interface has neither, and until 4 October 2026 the adapter's per-document facts stayed in the
+    link list. The Lao gazette's English editions were therefore read as Lao and gave no provision.
+    Same rule as the two side files (D3): a value here was written by the crawler from the portal's own
+    field; nothing is detected. A side file that already named the language keeps its say.
+    """
+    if not path.is_file():
+        return
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            meta = row.get("contract_meta") or {}
+            doc_id = (row.get("doc_id") or "").strip()
+            if not doc_id or not meta:
+                continue
+            f = facts.setdefault(doc_id, DocFacts(doc_id=doc_id))
+            if meta.get("language") and not f.language:
+                f.language = meta["language"]
+                f.language_source = meta.get("language_source") or "manifest"
+            if not f.content_flags and meta.get("content_flags"):
+                f.content_flags = list(meta["content_flags"])
+            if not f.contains and meta.get("contains"):
+                f.contains = meta["contains"]
+
+
 def load_facts(corpus_dir: Path, registry_default_language: str | None = None,
                mismatch_language: str | None = None) -> dict[str, DocFacts]:
     """Join both sidecars and decide, per document, whether it is read.
@@ -176,6 +206,7 @@ def load_facts(corpus_dir: Path, registry_default_language: str | None = None,
     """
     facts = _read_law_table(corpus_dir / "law_table.csv")
     _read_link_rows(corpus_dir / "links_used" / "documents.jsonl", facts)
+    _read_manifest_meta(corpus_dir / "manifest.jsonl", facts)
     for f in facts.values():
         if mismatch_language and "language_mismatch" in f.content_flags:
             f.language = mismatch_language

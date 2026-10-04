@@ -125,3 +125,20 @@ def test_bad_doc_id_pattern_fails(tmp_path):
     csv_path, _ = write_manifest([row], tmp_path)
     report = validate_manifest(csv_path, "0.1.0", check_files=False)
     assert not report.ok
+
+
+def test_the_adapters_facts_travel_in_the_jsonl_only(tmp_path):
+    """What an adapter read from the portal about a file (its language, whether it is a translation) is
+    written to manifest.jsonl, so extraction can read it in a crawl run; the CSV keeps the contract's columns."""
+    import csv
+    import json
+
+    row = _valid_row(tmp_path)
+    row["contract_meta"] = {"language": "eng", "language_source": "portal_field", "is_translation": True}
+    plain = _valid_row(tmp_path, doc_id="sg-ca1967-001", sha=_sha(b"other"))
+    csv_path, jsonl_path = write_manifest([row, plain], tmp_path)
+    rows = [json.loads(line) for line in jsonl_path.read_text(encoding="utf-8").splitlines()]
+    assert rows[0]["contract_meta"]["language"] == "eng"
+    assert "contract_meta" not in rows[1]                       # an adapter that declares nothing adds nothing
+    with csv_path.open(encoding="utf-8", newline="") as fh:
+        assert "contract_meta" not in (csv.DictReader(fh).fieldnames or [])

@@ -105,16 +105,26 @@ def chinese_numeral(text: str) -> int | None:
     return total + section + digit
 
 
+# The key of the English-edition profile. Not a language code: no document declares it, the stage
+# picks it (cli._segment_for) for a file declared English in an economy that writes in articles.
+ENGLISH_ARTICLES = "eng-articles"
+
 PROFILES: dict[str, Profile] = {
     "por": Profile(
         language="por",
         # "Artigo 5.o" on its own line. The ordinal mark is printed several ways and OCR
         # adds more, so the tail is permissive; the line anchor does the real work.
-        article=re.compile(r"(?m)^[ \t]*Artigo[ \t]+(\d{1,3})\s*[.º°o⁰]*[ \t]*$"),
+        #
+        # Two forms the first pattern missed, both measured on 4 October 2026 on documents that
+        # came out with no provisions: seven decree-laws of 2003 to 2005 whose text layer puts a
+        # NON-BREAKING space between the word and the number ("Artigo\u00a01.o"), and a treaty
+        # text that writes the word in capitals ("ARTIGO 7"). A space is a space here, whichever
+        # code point the PDF used; the frozen text itself is not touched.
+        article=re.compile(r"(?m)^[ \t\xa0]*(?:Artigo|ARTIGO)[ \t\xa0]+(\d{1,3})\s*[.º°o⁰]*[ \t\xa0]*$"),
         divisions=(
-            ("title", re.compile(r"(?m)^[ \t]*T[ÍI]TULO\b[^\n]*", re.IGNORECASE)),
-            ("chapter", re.compile(r"(?m)^[ \t]*CAP[ÍI]TULO\b[^\n]*", re.IGNORECASE)),
-            ("section", re.compile(r"(?m)^[ \t]*SEC[ÇC][ÃA]O\b[^\n]*", re.IGNORECASE)),
+            ("title", re.compile(r"(?m)^[ \t\xa0]*T[ÍI]TULO\b[^\n]*", re.IGNORECASE)),
+            ("chapter", re.compile(r"(?m)^[ \t\xa0]*CAP[ÍI]TULO\b[^\n]*", re.IGNORECASE)),
+            ("section", re.compile(r"(?m)^[ \t\xa0]*SEC[ÇC][ÃA]O\b[^\n]*", re.IGNORECASE)),
         ),
         # A Timorese article reads:
         #     Artigo 6.o
@@ -124,7 +134,25 @@ PROFILES: dict[str, Profile] = {
         # so the paragraph is "N." at the line start. Measured on the Competition Law:
         # 86 paragraphs and 98 lettered items. The letters stay inside their paragraph,
         # because an item is not separately citable - the host wants "Art. 26(2)".
-        subsection=re.compile(r"(?m)^[ \t]*(\d{1,2})\.[ \t]+"),
+        subsection=re.compile(r"(?m)^[ \t\xa0]*(\d{1,2})\.[ \t\xa0]+"),
+    ),
+    # An ENGLISH EDITION of a law from an economy that writes in articles: the Lao gazette publishes
+    # its own English translation of some laws, headed "Article 12" with the title on the same line
+    # or the next. It is chosen by what the crawler declared (the file is English, the economy's own
+    # language has a profile here), never by reading the text: see cli._segment_for.
+    # "Article 12 of this Law" at the start of a wrapped line is a cross-reference, so the words that
+    # follow a reference are refused, and so is a heading line that runs on like a sentence.
+    ENGLISH_ARTICLES: Profile(
+        language="eng",
+        article=re.compile(r"(?m)^[ \t\xa0]*Article[ \t\xa0]+(\d{1,3})"
+                           r"(?![ \t\xa0]*(?:of|and|or|to|in|on|shall|is|are|above|below|hereof)\b)"
+                           r"[.:]?(?:[ \t\xa0]+[^\n]{0,110})?[ \t\xa0]*$"),
+        divisions=(
+            ("part", re.compile(r"(?m)^[ \t\xa0]*Part[ \t\xa0]+[IVXLC\d]+\b[^\n]*")),
+            ("chapter", re.compile(r"(?m)^[ \t\xa0]*Chapter[ \t\xa0]+[IVXLC\d]+\b[^\n]*")),
+            ("section", re.compile(r"(?m)^[ \t\xa0]*Section[ \t\xa0]+[IVXLC\d]+\b[^\n]*")),
+        ),
+        subsection=None,
     ),
     "lao": Profile(
         language="lao",

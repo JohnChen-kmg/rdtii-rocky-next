@@ -33,7 +33,8 @@ def write_manifest(rows: list[dict[str, Any]], out_dir: Path) -> tuple[Path, Pat
     """Write manifest.csv + manifest.jsonl into out_dir (handoff1/).
 
     Each row is a dict keyed by MANIFEST_FIELDS. A row may additionally carry an
-    "http" dict; it is written only to the JSONL (nested), never to the CSV.
+    "http" dict and a "contract_meta" dict (the adapter's facts about the file, such as
+    its language); both are written only to the JSONL (nested), never to the CSV.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
     csv_path = out_dir / "manifest.csv"
@@ -50,6 +51,8 @@ def write_manifest(rows: list[dict[str, Any]], out_dir: Path) -> tuple[Path, Pat
             obj: dict[str, Any] = {k: row.get(k) for k in MANIFEST_FIELDS}
             if row.get("http") is not None:
                 obj["http"] = row["http"]
+            if row.get("contract_meta"):      # the adapter's facts about the file; extraction reads the language
+                obj["contract_meta"] = row["contract_meta"]
             fh.write(json.dumps(obj, ensure_ascii=False) + "\n")
 
     return csv_path, jsonl_path
