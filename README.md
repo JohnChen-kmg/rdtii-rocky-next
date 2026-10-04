@@ -54,16 +54,33 @@ git checkout final-submission
 
 ### 2. Set up the environment
 
+Python 3.12 or newer for the stages (the pinned numpy needs it; the interface alone runs on 3.10).
+
+Windows:
+
 ```
-# Python 3.10+ required
 python -m venv .venv
 .venv\Scripts\pip install -r requirements-demo.txt
 .venv\Scripts\pip install -e stages/p2-extract
+.venv\Scripts\python -m playwright install chromium
 ```
 
-Only for live crawling: `python -m playwright install chromium`.
-Only for scanned PDFs: install Tesseract 5 (`winget install UB-Mannheim.TesseractOCR`); the language
-packs (English, Lao, Chinese, Portuguese, Malay) ship in `stages/p2-extract/fixtures/`.
+macOS (12 or newer) and Linux:
+
+```
+python3.12 -m venv .venv
+.venv/bin/pip install -r requirements-demo.txt
+.venv/bin/pip install -e stages/p2-extract
+.venv/bin/python -m playwright install chromium
+```
+
+The `playwright` line is only for live crawling. For scanned PDFs install Tesseract 5
+(`winget install UB-Mannheim.TesseractOCR`, `brew install tesseract`, or `sudo apt install tesseract-ocr`);
+the language packs (English, Lao, Chinese, Portuguese, Malay) ship in `stages/p2-extract/fixtures/`.
+
+A `.venv` at the top of the repository is found by itself: the launcher starts with it and every stage runs
+with it. When a stage's packages live somewhere else, name that Python once in the interface, Appendix →
+This machine. Check on each stage's Run block says what is missing before anything starts.
 
 For the open-weights engine (Engine B, $0): install [Ollama](https://ollama.com), then
 `ollama pull qwen2.5:14b` and verify the digest with `ollama list --digests`
@@ -88,7 +105,8 @@ machine; nothing is installed. Closing the window stops the tool, and a run with
 Or from a terminal, as a browser tab that Ctrl+C stops:
 
 ```
-.venv\Scripts\python interface/app.py
+.venv\Scripts\python interface/app.py        (Windows)
+.venv/bin/python interface/app.py            (macOS, Linux)
 ```
 
 Open **http://127.0.0.1:8765/**. The header shows health dots for Ollama, Tesseract, Chromium, key

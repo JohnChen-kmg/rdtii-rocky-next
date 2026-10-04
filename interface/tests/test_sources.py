@@ -108,8 +108,13 @@ class CrawlFolders(unittest.TestCase):
             self.assertIn("Singapore", by["20261003-101500"]["source_name"])
             self.assertEqual(by["SG_20260930-000323"]["economy"], "")
             self.assertEqual(by["hand_all_20261003-101500"]["kind"], "hand-collected manifest")
+            empty = root / "outputs" / "scrape" / "SG" / "sso-agc-gov-sg" / "20261003-225523"      # a run the crawler skipped
+            empty.mkdir()
+            (empty / "manifest.csv").write_text("doc_id,economy,source_type,local_path", encoding="utf-8")     # a header and no row
             names = [i["name"] for i in extract.list_inputs(s) if i["origin"] == "interface crawl"]
             self.assertIn("20261003-101500", names)
+            self.assertNotIn("20261003-225523", names)                       # nothing fetched, nothing to extract
+            self.assertNotIn("hand_all_20261003-101500", names)              # its documents sit in the inbox
             desc = extract.describe_input(new, "interface crawl", s)
             self.assertEqual(desc["out_name"], "SG_sso-agc-gov-sg_20261003-101500")
 

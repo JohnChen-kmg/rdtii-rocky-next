@@ -21,6 +21,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import sys
 import threading
 import time
 import urllib.error
@@ -36,6 +37,7 @@ TICK = 0.5              # seconds between two looks
 GRACE_TICKS = 10        # 5 s with no page before stopping: a reload reconnects well inside it
 STARTUP_TICKS = 90      # 45 s for the window to load its first page
 ORPHAN_TICKS = 240      # 2 min: a browser process still there with no page and no run is a leftover
+MAC_BUSY_TICKS = 60     # 30 s: on a Mac, how long a run survives its page (see decide)
 
 
 class Presence:
@@ -56,13 +58,19 @@ class Presence:
             self.count = max(0, self.count - 1)
 
 
-def decide(*, window_alive: bool, present: int, ever_present: bool, busy: bool, quiet_ticks: int, age_ticks: int) -> str:
+def decide(*, window_alive: bool, present: int, ever_present: bool, busy: bool, quiet_ticks: int, age_ticks: int,
+           mac: bool = False) -> str:
     """"run" or "stop", for a server that was started with a window.
 
     quiet_ticks: consecutive ticks with no page connected. age_ticks: ticks since the window was started.
+    mac: on macOS an application stays running when its last window is closed, so the browser process says
+    nothing; there the page's own stream is the signal, with a longer grace while a run is in progress (a page
+    that reloads or crashes must not take the run with it at once).
     """
     if present > 0:
         return "run"
+    if window_alive and mac and ever_present:
+        return "stop" if quiet_ticks >= (MAC_BUSY_TICKS if busy else GRACE_TICKS) else "run"
     if window_alive:
         if busy or not ever_present:
             return "run"                      # a run is never cut short while its window exists; a first page may be slow
@@ -73,9 +81,10 @@ def decide(*, window_alive: bool, present: int, ever_present: bool, busy: bool, 
     return "stop" if age_ticks >= STARTUP_TICKS else "run"
 
 
-def watch(app: App, proc, tick: float = TICK, sleep=time.sleep) -> str:
+def watch(app: App, proc, tick: float = TICK, sleep=time.sleep, mac: bool | None = None) -> str:
     """Block until the server should stop; returns why."""
     quiet = age = 0
+    mac = (sys.platform == "darwin") if mac is None else mac
     while True:
         sleep(tick)
         age += 1
@@ -86,7 +95,7 @@ def watch(app: App, proc, tick: float = TICK, sleep=time.sleep) -> str:
         alive = proc is not None and proc.poll() is None
         busy = bool(app.jobs and app.jobs.busy())
         if decide(window_alive=alive, present=present, ever_present=app.presence.ever, busy=busy,
-                  quiet_ticks=quiet, age_ticks=age) == "stop":
+                  quiet_ticks=quiet, age_ticks=age, mac=mac) == "stop":
             return "the window was closed" if app.presence.ever else "the window did not open"
 
 

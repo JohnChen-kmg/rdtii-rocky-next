@@ -7,6 +7,7 @@ resolve against the repository root. See interface/DATA_PATHS.md for the reasoni
 from __future__ import annotations
 
 import getpass
+import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
@@ -41,6 +42,34 @@ DEFAULTS: dict[str, str] = {
     "RDTII_PORT": "8765",
     "RDTII_REVIEWER": "",
 }
+
+# Settings that belong to the machine, not to the repository, and may be kept in machine.json (see machine.py).
+MACHINE_NAMES = ("RDTII_PYTHON_P1", "RDTII_PYTHON_P2", "RDTII_PYTHON_P3")
+
+
+def machine_file() -> Path:
+    from . import shell
+    return shell.state_dir() / "machine.json"
+
+
+def read_machine(path: Path | None = None) -> dict[str, str]:
+    """This machine's kept settings: {name: value} for the names above, empty when there is no file."""
+    try:
+        got = json.loads((path or machine_file()).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    kept = got.get("settings") if isinstance(got, dict) else None
+    return {k: str(v).strip() for k, v in (kept or {}).items() if k in MACHINE_NAMES and str(v).strip()}
+
+
+def write_machine(values: Mapping[str, str], path: Path | None = None) -> None:
+    path = path or machine_file()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".part")
+    tmp.write_text(json.dumps({"settings": {k: v for k, v in values.items() if k in MACHINE_NAMES and v}}, indent=1),
+                   encoding="utf-8")
+    tmp.replace(path)
+
 
 # Folders a runs root must never sit inside: the code, the fixtures, the demo corpus, the filed rows.
 PROTECTED = ("interface", "stages", "demo_data", "submission", "docs")
@@ -119,7 +148,8 @@ class Settings:
             raw = _paths.expand(explicit)
             if not _paths.is_bare_command(raw) and not Path(raw).is_absolute():
                 raw = str(REPO / raw)   # absolute, never resolved: a venv's python is a link on POSIX
-            return raw, f"RDTII_PYTHON_{stage.upper()}"
+            name = f"RDTII_PYTHON_{stage.upper()}"
+            return raw, name + (", kept for this machine" if self.source.get(name) == "machine" else "")
         if self.python_auto:
             stage_dir = self.stage_dirs[stage]
             for venv, label in ((stage_dir / ".venv", f"stages/{stage_dir.name}/.venv"),
@@ -132,14 +162,20 @@ class Settings:
         return console_python(), "the Python running the interface"
 
 
-def load(env: Mapping[str, str] | None = None) -> Settings:
-    env = os.environ if env is None else env
+def load(env: Mapping[str, str] | None = None, machine: Mapping[str, str] | None = None) -> Settings:
+    """The settings in effect: an environment variable, else what is kept for this machine, else the default.
+    A caller that passes its own environment (the tests) gets no machine file unless it passes one too."""
+    if env is None:
+        env = os.environ
+        machine = read_machine() if machine is None else machine
+    machine = machine or {}
     vals: dict[str, str] = {}
     source: dict[str, str] = {}
     for name, default in DEFAULTS.items():
         raw = str(env.get(name, "")).strip()
-        vals[name] = raw or default
-        source[name] = "env" if raw else "default"
+        kept = str(machine.get(name, "")).strip() if name in MACHINE_NAMES else ""
+        vals[name] = raw or kept or default
+        source[name] = "env" if raw else "machine" if kept else "default"
     reviewer = vals["RDTII_REVIEWER"]
     if not reviewer:
         try:

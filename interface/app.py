@@ -21,7 +21,7 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
-from rdtii_ui import core, fsguard, jobs, lifecycle, probes, review, settings as settings_mod, shell  # noqa: E402
+from rdtii_ui import core, fsguard, jobs, lifecycle, machine, probes, review, settings as settings_mod, shell  # noqa: E402
 from rdtii_ui.pages import china, extract, inbox, mapping, scrape  # noqa: E402
 from rdtii_ui.server import App, make_server  # noqa: E402
 
@@ -41,6 +41,7 @@ def build_app(env=None) -> App:
     mapping.register(app)
     review.register(app)
     lifecycle.register(app)
+    machine.register(app)
     return app
 
 
@@ -169,6 +170,7 @@ def _run_window(args, state: Path) -> int:
     note.write(app.settings.host, app.port)
     print(f"  window     : {browser['name']} in app mode; closing the window stops the interface.", flush=True)
     threading.Thread(target=server.serve_forever, name="http", daemon=True).start()
+    proc = None
     try:
         proc = shell.launch(browser, url, profile)
         why = lifecycle.watch(app, proc)
@@ -181,6 +183,13 @@ def _run_window(args, state: Path) -> int:
         server.shutdown()
         server.server_close()
         note.release()
+        # The browser started for the window is this tool's alone (its own profile). On a Mac it is still
+        # running with no window; after Ctrl+C its window would show a page with nothing behind it.
+        if proc is not None and proc.poll() is None:
+            try:
+                proc.terminate()
+            except OSError:
+                pass
     return 0
 
 

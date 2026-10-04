@@ -8,6 +8,7 @@ for the bytes. Nothing is ever written into the user's folder or into the reposi
 """
 from __future__ import annotations
 
+import os
 import csv
 import hashlib
 import json
@@ -337,7 +338,8 @@ def list_inputs(s: Settings) -> list[dict]:
     for p, _where in sources.scrape_runs(s):
         # a crawl is an input once it has a manifest; a dry run, a link list or the manifest written for
         # hand-collected files (whose documents sit in the inbox) is not
-        if cn_run.is_run(p) or ((p / "manifest.csv").is_file() and not p.name.startswith(("hand_", "links_"))):
+        if cn_run.is_run(p) or ((p / "manifest.csv").is_file() and not p.name.startswith(("hand_", "links_"))
+                                 and scrape.describe_crawl_folder(p)["rows"]):      # a run that fetched nothing lists nothing
             add(p, "interface crawl")
     shipped = s.stage_dirs["p1"] / "handoff1"
     if shipped.is_dir():
@@ -627,6 +629,9 @@ P2_RULES: list[tuple[re.Pattern, object]] = [
 ]
 
 
+P2_IMPORTS = "rdtii_p2.cli, pypdfium2, pytesseract, jsonschema, pydantic"     # what the stage needs to start
+
+
 def parse_p2(line: str, job: Job):
     for rx, fn in P2_RULES:
         m = rx.search(line)
@@ -652,10 +657,17 @@ def precheck(app: App, req: dict) -> list[dict]:
         return checks
     add("ok", "stage", "Extraction stage present.")
     py = s.python_for("p2")
-    if Path(py).is_file() or shutil.which(py):
-        add("ok", "interpreter", f"Interpreter: {py}.")
+    if not (Path(py).is_file() or shutil.which(py)):
+        add("fail", "interpreter", f"Interpreter not found: {py}. Name the Python that has the stage's packages in Appendix, This machine.")
     else:
-        add("fail", "interpreter", f"Interpreter not found: {py}. Set RDTII_PYTHON_P2 to a Python that has the stage's packages.")
+        from .. import probes
+        got = probes.probe_imports(py, p2, P2_IMPORTS, pythonpath=os.pathsep.join(("src", ".")))
+        if got["ok"]:
+            add("ok", "interpreter", f"Interpreter: {py}; the stage's packages import.")
+        else:       # said here, not by the run's first step after Start
+            add("fail", "interpreter", f"{py} cannot run the extraction stage: {got['missing']} is missing. Name the Python that has the "
+                                       "stage's packages in Appendix, This machine, or install them into this one "
+                                       "(pip install -r requirements-demo.txt, then pip install -e stages/p2-extract).")
 
     try:
         folder = resolve_folder(req.get("input", ""))
@@ -856,7 +868,7 @@ def plan_extract(app: App, req: dict) -> Job:
 
     common = ["--manifest", str(manifest), "--raw", str(raw_dir), "--out", str(out_dir)]
     steps = [Step(label="check the extraction stage imports", cwd=p2, env=env, parse=parse_p2,
-                  argv=[py, "-c", "import rdtii_p2.cli, pypdfium2, pytesseract, jsonschema, pydantic; print('imports ok')"])]
+                  argv=[py, "-c", f"import {P2_IMPORTS}; print('imports ok')"])]
     for econ, lang in passes:
         sel = (["--economy", econ] if econ else []) + ["--default-language", lang]
         mine = [r for r in rows if econ is None or econ_of(r) == econ]

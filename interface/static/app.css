@@ -121,6 +121,8 @@ ul.plain { margin: 4px 0; padding-left: 18px; } ul.plain li { padding: 1px 0; }
 #shell-overlay .box { background: #fff; border-top: 8px solid var(--un-blue); border-radius: 12px; padding: 26px 34px 28px; max-width: 560px; box-shadow: 0 12px 40px rgba(0, 0, 0, .3); }
 #shell-overlay h2 { margin: 0 0 10px; font-size: 26px; } #shell-overlay p { font-size: 19px; margin: 0 0 18px; }
 p.saved-line { margin: 12px 0 0; font-size: 17px; }
+.callout.time-note { font-size: 18px; max-width: 1000px; } .callout.time-note ul { margin: 6px 0 6px; padding-left: 24px; } .callout.time-note li { margin: 3px 0; }
+input.mc-py { font-size: 15px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; max-width: 100%; }
 .job { border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin-top: 10px; background: #fcfcfd; }
 .bar { height: 8px; background: var(--chip); border-radius: 4px; overflow: hidden; margin: 8px 0 2px; } .bar div { height: 100%; background: var(--accent); }
 ol.steps { margin: 8px 0; padding-left: 20px; font-size: 15px; color: var(--muted); } ol.steps li.past { text-decoration: line-through; } ol.steps li.now { color: var(--ink); font-weight: 600; }

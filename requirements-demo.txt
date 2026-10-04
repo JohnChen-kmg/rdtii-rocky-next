@@ -37,6 +37,7 @@ playwright==1.49.1
 requests==2.32.3
 tenacity==9.0.0
 python-dateutil==2.9.0.post0
+cryptography==44.0.0            # Laws of Malaysia encrypts its act listings; the crawl's import check asks for it
 
 # --- shared across stages ---
 pypdfium2==5.11.0

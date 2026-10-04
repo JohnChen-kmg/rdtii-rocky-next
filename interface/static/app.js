@@ -380,8 +380,35 @@ async function loadOther() {
     }));
   } catch (e) { $('#docs').innerHTML = `<p class="note">${esc(e.message)}</p>`; }
   $('#selftest-btn')?.addEventListener('click', runSelftest);
+  loadMachine();
   const st = S.health?.settings || [];
   $('#settings').innerHTML = `<table class="settings-table"><tr><th>Setting</th><th>Value</th><th></th></tr>${st.map((s) => `<tr><td>${esc(s.name)}</td><td class="v">${esc(s.value)}</td><td class="small muted">${s.source === 'env' ? 'from environment' : 'default'}${s.value ? (s.exists ? ' · exists' : ' · <span style="color:var(--bad)">missing</span>') : ''}</td></tr>`).join('')}</table>`;
+}
+
+/* Which Python runs each stage on this computer: kept per machine, set here, in effect at once. */
+async function loadMachine() {
+  const el = $('#machine');
+  if (!el) return;
+  let j;
+  try { j = await api('/api/machine'); } catch (e) { el.innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  el.innerHTML = `<p class="small muted">Which Python runs each stage on this computer. Blank lets the tool choose: a <code>.venv</code> in the repository, else the Python running the page. Check on each stage's Run block says whether the choice has the stage's packages.</p>
+    <table class="settings-table"><tr><th>Stage</th><th>Python in use</th><th>Name another</th></tr>
+    ${j.stages.map((s) => `<tr><td>${esc(s.label)}</td><td class="v">${esc(s.python)}<div class="small muted">${esc(s.chosen_by)}</div></td>
+      <td><input type="text" class="mc-py" data-name="${esc(s.name)}" size="56" value="${esc(s.kept)}" placeholder="full path of the python program, or blank" ${s.from_environment ? 'disabled' : ''}>
+        <button class="btn small mc-save" data-name="${esc(s.name)}" ${s.from_environment ? 'disabled' : ''}>Save</button>
+        <div class="small muted mc-msg">${s.from_environment ? `set by the environment variable ${esc(s.name)}, which wins` : ''}</div></td></tr>`).join('')}</table>
+    <p class="small muted">Kept in <code>${esc(j.file)}</code>, for this computer only.</p>`;
+  el.querySelectorAll('button.mc-save').forEach((b) => b.addEventListener('click', async () => {
+    const cell = b.parentElement;
+    const msg = cell.querySelector('.mc-msg');
+    msg.textContent = 'Checking…';
+    try {
+      await api('/api/machine', { method: 'POST', body: JSON.stringify({ name: b.dataset.name, value: cell.querySelector('input.mc-py').value }) });
+      EX.loaded = false; MP.loaded = false; SC.checks = null;
+      await loadHealth();
+      loadMachine();
+    } catch (e) { msg.textContent = e.message; }
+  }));
 }
 
 /* ---------- shared ---------- */
@@ -1306,6 +1333,14 @@ function renderScrapeRun() {
   const passRows = !same ? '' : engineCodes.map((c) => { const runs = runsOf(c); const cur = passFolder(c);
     return `<label class="stack-row"><span class="setup-label">${esc(c)} folder</span> <select class="sc-pass" data-code="${esc(c)}">${runs.length ? runs.map((f) => `<option value="${esc(f.id)}" ${cur && cur.id === f.id ? 'selected' : ''}>${esc(f.id)} (${f.rows} documents)</option>`).join('') : '<option value="">no crawl folder for this economy yet</option>'}</select></label>`; }).join('');
   note.innerHTML = `
+    <div class="callout time-note"><b>How long scraping takes.</b>
+      <ul>
+        <li><b>Quick run:</b> about a minute.</li>
+        <li><b>Sample:</b> 5 to 35 minutes per economy.</li>
+        <li><b>All:</b> 2 to 5 hours per economy; Singapore needs pauses and a second pass.</li>
+        <li><b>Refresh from the portal</b> reads the listings first: 2 minutes (Timor-Leste) to over 2 hours (Malaysia).</li>
+      </ul>
+      Check gives the figures for your choice.</div>
     <div class="target"><span class="setup-label">Writes to</span> <code>${target}</code></div>
     <div class="stack">
       ${engineCodes.length ? `<label class="stack-row"><span class="setup-label">Run</span> <select id="sc-mode"><option value="fresh" ${!same ? 'selected' : ''}>New crawl</option><option value="same" ${same ? 'selected' : ''}>Update an existing crawl</option></select></label>

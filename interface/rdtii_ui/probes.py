@@ -182,6 +182,39 @@ def probe_browser_launch(python: str, run=None) -> dict:
     return out
 
 
+_imports_cache: dict = {}
+
+
+def probe_imports(python: str, cwd: Path, modules: str, pythonpath: str = "", run=None) -> dict:
+    """Whether an interpreter can import what a stage needs, said before Start instead of by the run's first
+    step. {"ok", "missing"}; kept per interpreter until that program's file changes."""
+    from .proc import run_quiet
+    try:
+        stamp = Path(python).stat().st_mtime_ns
+    except OSError:
+        stamp = 0
+    key = (python, stamp, str(cwd), modules)
+    if key in _imports_cache:
+        return _imports_cache[key]
+    env = {**os.environ, "PYTHONUTF8": "1"}
+    if pythonpath:
+        env["PYTHONPATH"] = pythonpath
+    try:
+        r = (run or run_quiet)([python, "-c", f"import {modules}; print('imports ok')"], cwd=str(cwd), env=env,
+                                capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
+        text = (r.stdout or "") + (r.stderr or "")
+        if "imports ok" in text:
+            out = {"ok": True, "missing": ""}
+        else:
+            import re
+            m = re.search(r"No module named '([^']+)'", text)
+            out = {"ok": False, "missing": m.group(1) if m else (text.strip().splitlines() or ["it could not be started"])[-1][:160]}
+    except Exception as e:  # noqa: BLE001 - a probe never raises
+        out = {"ok": False, "missing": f"it could not be started ({type(e).__name__})"}
+    _imports_cache[key] = out
+    return out
+
+
 def warm_browser_probe(python: str) -> None:
     """Test the launch in the background at start, so the header's dot is true before the first Check."""
     threading.Thread(target=probe_browser_launch, args=(python,), name="browser-probe", daemon=True).start()
