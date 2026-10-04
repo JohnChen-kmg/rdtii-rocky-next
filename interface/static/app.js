@@ -443,8 +443,8 @@ function renderScrapeSetup() {
   const parts = [];
   const srcOf = (c) => (SC.econs.find((e) => e.code === c) || {}).source || '';
   const crawlCmd = (list, out) => `cwd stages/p1-scrape  REQUEST_DELAY_MS=${delayFor(list)}${SC.scope === 'relevant' ? ' MAX_CANDIDATES_PER_ECONOMY=100000' : ''}  python scrape.py --economy ${list.join(',')} --pillars 6,7 --scope ${SC.scope}${SC.forms ? ` --forms ${SC.forms}` : ''} --out ${out}`;
-  // a new crawl is one run per economy, filed by economy and source; a second pass stays in the folder it is given
-  if (engineCodes.length && SC.mode === 'same') parts.push(crawlCmd(engineCodes, SC.folder || '<the crawl folder chosen in Run>'));
+  // one run per economy: a new crawl is filed by economy and source, a second pass goes over that economy's own folder
+  if (SC.mode === 'same') engineCodes.forEach((c) => { const f = passFolder(c); parts.push(crawlCmd([c], f ? f.id : '<no crawl folder yet>')); });
   else engineCodes.forEach((c) => parts.push(crawlCmd([c], srcOf(c) ? `outputs/scrape/${c}/${srcOf(c)}/${stamp()}` : `outputs/scrape/${c}_${stamp()}`)));
   if (codes.includes('CN')) {
     const req = scrapeRequest();
@@ -525,14 +525,16 @@ async function loadScrapeOutputs() {
   const source = (f) => f.source ? `<span title="${esc(f.source)}">${esc(f.source_name || f.source)}</span>${tools(f) ? ` <span class="muted">(${tools(f)})</span>` : ''}` : tools(f);
   const last = (f) => f.kind === 'hand-collected' ? `<span class="small muted">${f.batches && f.batches.length ? `${f.batches.length} batch${f.batches.length === 1 ? '' : 'es'}` : 'by hand'}</span>`
     : f.kind === 'hand-collected manifest' ? '<span class="small muted">by hand</span>'
+    : f.kind === 'link list' ? '<span class="small muted">in use from here on</span>'
     : `${f.fetched_last_pass ?? ''}${f.crawl_state ? ` <span class="chip">${esc(f.crawl_state.state)}</span>` : ''}`;
   const buttons = (f) => `<button class="btn small" data-open="${esc(f.path)}">Open folder</button>`
     + (f.kind === 'interface run' ? ` <button class="btn small" data-clear="${esc(f.path)}/raw" data-what="the downloaded documents (raw/)">Clear raw</button>` : '')
     + (f.kind === 'interface run' || f.kind === 'China tools run' ? ` <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole run folder">Clear folder</button>` : '')
-    + (f.kind === 'hand-collected manifest' ? ` <button class="btn small" data-clear="${esc(f.path)}" data-what="the manifest written for these hand-collected files; the files stay in the inbox">Clear folder</button>` : '');
+    + (f.kind === 'hand-collected manifest' ? ` <button class="btn small" data-clear="${esc(f.path)}" data-what="the manifest written for these hand-collected files; the files stay in the inbox">Clear folder</button>` : '')
+    + (f.kind === 'link list' ? ` <button class="btn small" data-clear="${esc(f.path)}" data-what="this refreshed link list; the list before it, or the shipped one, is used again">Clear folder</button>` : '');
   $('#scrape-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Economy</th><th>Source</th><th>Folder</th><th>Kind</th><th>Documents</th><th>By type</th><th>Bytes present</th><th>Fetched last pass</th><th></th></tr></thead><tbody>
     ${j.folders.map((f) => `<tr><td class="small">${econ(f)}</td><td class="small">${source(f)}</td><td class="small" title="${esc(f.path)}">${esc(f.id)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.rows}</td><td class="small">${kv(f.by_source_type)}</td><td class="small">${present(f)}</td><td class="num">${last(f)}</td><td class="small">${buttons(f)}</td></tr>`).join('')}
-    </tbody></table></div><p class="muted small">Results are filed by economy, then source: <code>scrape/&lt;economy&gt;/&lt;source&gt;/&lt;time&gt;</code> for a crawl, <code>inbox/&lt;economy&gt;/&lt;source&gt;</code> for files fetched by hand. A shipped manifest describes every document without containing one; the bytes come back by running the crawler. The fetched count is the crawler's own figure from cost_report.json and must read 0 on a second pass over the same folder. A China tools run counts the documents its raw folders hold. A hand-collected row goes to Extraction like a crawl folder.</p>`
+    </tbody></table></div><p class="muted small">Results are filed by economy, then source: <code>scrape/&lt;economy&gt;/&lt;source&gt;/&lt;time&gt;</code> for a crawl, <code>inbox/&lt;economy&gt;/&lt;source&gt;</code> for files fetched by hand. A shipped manifest describes every document without containing one; the bytes come back by running the crawler. The fetched count is the crawler's own figure from cost_report.json and must read 0 on a second pass over the same folder. A China tools run counts the documents its raw folders hold. A hand-collected row goes to Extraction like a crawl folder. A link list is what Refresh from the portal wrote: the documents the portal lists, not yet fetched.</p>`
     : '<p class="muted">No crawl folders yet.</p>';
   bindClear('#scrape-output', loadScrapeOutputs);
   bindOpen('#scrape-output');
@@ -1253,16 +1255,30 @@ async function loadExportSummary() {
 /* ---------- Scraping · Start ---------- */
 SC.mode = SC.mode || 'fresh'; SC.folder = SC.folder || ''; SC.frontier = SC.frontier || 'links'; SC.dryRun = SC.dryRun || false; SC.checks = null; SC.folders = SC.folders || [];
 
+/* the crawl folders one economy's second pass may run over, newest first */
+function runsOf(code) {
+  return (SC.folders || []).filter((f) => f.kind === 'interface run' && (f.economy ? f.economy === code : !!(f.by_economy && f.by_economy[code])));
+}
+
+function passFolder(code) {
+  const runs = runsOf(code);
+  const picked = (SC.pass || {})[code];
+  return runs.find((f) => f.id === picked) || runs[0] || null;
+}
+
 function scrapeRequest() {
   const mode = SC.cnMode === 'collect_cac' || SC.cnMode === 'collect_all' ? 'collect' : (SC.cnMode || 'update');
-  return { economies: [...SC.chosen], scope: SC.scope, forms: SC.forms, dry_run: SC.dryRun, mode: SC.mode, frontier: SC.frontier, folder: SC.mode === 'same' ? SC.folder : null,
+  const engine = [...SC.chosen].filter((c) => c !== 'CN');
+  const folders = {};
+  if (SC.mode === 'same') engine.forEach((c) => { const f = passFolder(c); if (f) folders[c] = f.id; });
+  return { economies: [...SC.chosen], scope: SC.scope, forms: SC.forms, dry_run: SC.dryRun, mode: SC.mode, frontier: SC.frontier,
+    folders: SC.mode === 'same' ? folders : null, limit: SC.mode === 'fresh' && SC.limit ? SC.limit : null,
     cn_mode: mode, cn_sources: cnPicked().map((p) => p.src) };
 }
 
 function renderScrapeRun() {
   const note = $('#scrape-run-note');
   if (!note) return;
-  const runs = SC.folders.filter((f) => f.kind === 'interface run');
   const fails = SC.checks ? SC.checks.filter((c) => c.level === 'fail') : null;
   const rootSetting = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_RUNS_ROOT');
   const root = rootSetting ? rootSetting.value : 'outputs';
@@ -1270,9 +1286,9 @@ function renderScrapeRun() {
   const codes = [...SC.chosen];
   const engineCodes = codes.filter((c) => c !== 'CN');
   const china = codes.includes('CN');
-  const chosenRun = runs.find((f) => f.id === SC.folder);
-  const engineTarget = !engineCodes.length ? '' : SC.mode === 'same'
-    ? (chosenRun ? `${esc(chosenRun.path)} <span class="muted">(${chosenRun.rows} documents already there; only new laws are fetched)</span>` : '<span class="muted">choose a crawl folder</span>')
+  const same = SC.mode === 'same';
+  const engineTarget = !engineCodes.length ? '' : same
+    ? engineCodes.map((c) => { const f = passFolder(c); return f ? `${esc(f.path)} <span class="muted">(${esc(c)}: ${f.rows} documents already there; only new laws are fetched)</span>` : `<span class="muted">${esc(c)}: no crawl folder yet, run a new crawl first</span>`; }).join('<br>')
     : engineCodes.map((c) => { const k = ((SC.econs || []).find((e) => e.code === c) || {}).source; return k ? `${esc(root)}${BS}scrape${BS}${esc(c)}${BS}${esc(k)}${BS}${stamp()}` : `${esc(root)}${BS}scrape${BS}${esc(c)}_${stamp()}`; }).join('<br>')
       + ` <span class="muted">(${engineCodes.length === 1 ? 'a new folder' : 'a new folder and a run for each economy'}, filed by economy and source, created at Start)</span>`;
   const chinaTarget = china ? `${esc(root)}${BS}scrape${BS}CN${BS}china-tools${BS}${stamp()} <span class="muted">(China, a new folder for the China tools)</span>` : '';
@@ -1281,35 +1297,41 @@ function renderScrapeRun() {
   const mode = SC.cnMode === 'collect_cac' || SC.cnMode === 'collect_all' ? 'collect' : (SC.cnMode || 'update');
   const picked = cnPicked();
   const pickedNames = picked.map((p) => p.name.split(' ')[0]).join(', ');
+  const passRows = !same ? '' : engineCodes.map((c) => { const runs = runsOf(c); const cur = passFolder(c);
+    return `<label class="stack-row"><span class="setup-label">${esc(c)} folder</span> <select class="sc-pass" data-code="${esc(c)}">${runs.length ? runs.map((f) => `<option value="${esc(f.id)}" ${cur && cur.id === f.id ? 'selected' : ''}>${esc(f.id)} (${f.rows} documents)</option>`).join('') : '<option value="">no crawl folder for this economy yet</option>'}</select></label>`; }).join('');
   note.innerHTML = `
     <div class="target"><span class="setup-label">Writes to</span> <code>${target}</code></div>
     <div class="stack">
-      ${engineCodes.length ? `<label class="stack-row"><span class="setup-label">Run</span> <select id="sc-mode"><option value="fresh" ${SC.mode === 'fresh' ? 'selected' : ''}>New crawl</option><option value="same" ${SC.mode === 'same' ? 'selected' : ''}>Update an existing crawl</option></select>
-        ${SC.mode === 'same' ? `<select id="sc-folder">${runs.length ? runs.map((f) => `<option value="${esc(f.id)}" ${SC.folder === f.id ? 'selected' : ''}>${esc(f.id)} (${f.rows} documents)</option>`).join('') : '<option value="">no crawl folder yet</option>'}</select>` : ''}</label>
-      <label class="stack-row"><span class="setup-label">Sources</span> <select id="sc-frontier"><option value="links" ${SC.frontier === 'links' ? 'selected' : ''}>Shipped link list</option><option value="discover" ${SC.frontier === 'discover' ? 'selected' : ''}>Discover on the portal</option></select></label>` : ''}
+      ${engineCodes.length ? `<label class="stack-row"><span class="setup-label">Run</span> <select id="sc-mode"><option value="fresh" ${!same ? 'selected' : ''}>New crawl</option><option value="same" ${same ? 'selected' : ''}>Update an existing crawl</option></select></label>
+      ${passRows}
+      <label class="stack-row"><span class="setup-label">Sources</span> <select id="sc-frontier"><option value="links" ${SC.frontier === 'links' ? 'selected' : ''}>Link list</option><option value="discover" ${SC.frontier === 'discover' ? 'selected' : ''}>Refresh from the portal</option></select></label>
+      <label class="stack-row"><span class="setup-label">Quick run</span> <input type="text" id="sc-limit" size="5" value="${esc(same ? '' : (SC.limit || ''))}" placeholder="all" ${same ? 'disabled' : ''}> <span>fetch only the first documents of each economy; blank for all</span></label>` : ''}
       ${china ? `<label class="stack-row"><span class="setup-label">China</span> <select id="sc-cn"><option value="update" ${mode === 'update' ? 'selected' : ''}>Update check: what changed at CAC and gov.cn</option><option value="collect" ${mode === 'collect' ? 'selected' : ''}>Collect the ticked publishers${pickedNames ? `: ${esc(pickedNames)}` : ' (none ticked yet)'}</option></select></label>` : ''}
       <label class="stack-row"><span class="setup-label">Dry run</span> <input type="checkbox" id="sc-dry" ${SC.dryRun ? 'checked' : ''}> <span>list only, fetch nothing</span></label>
       <details class="notes-box" ${SC.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
-        <p>* <b>New crawl</b> writes into a new folder, filed by economy and source; several economies run one after another, one folder each. <b>Update an existing crawl</b> reuses a folder and fetches only laws not already retrieved, which is how a second pass over a complete folder fetches zero.</p>
-        <p>* <b>Shipped link list</b>: the document addresses are already known, so fetching starts at once. <b>Discover on the portal</b>: the crawler reads the portal's listings first to find the documents; slow, and silent for up to 20 minutes.</p>
+        <p>* <b>New crawl</b> writes into a new folder, filed by economy and source; several economies run one after another, one folder each. <b>Update an existing crawl</b> reuses that economy's folder and fetches only laws not already retrieved, which is how a second pass over a complete folder fetches zero.</p>
+        <p>* <b>Link list</b>: the document addresses are already known, so fetching starts at once. It is the list shipped with the crawler, or the one last refreshed here. <b>Refresh from the portal</b>: the portal's listings are read again first, the new list is kept under the runs root and used from then on, and the documents are fetched from it. Reading the listings takes from two minutes (Timor-Leste) to over two hours (Malaysia); Check says how long for each economy. With Dry run ticked it only rebuilds the list.</p>
+        <p>* <b>Quick run</b>: a number, for example 5, fetches only the first documents of each economy. A proof in a minute that fetching works, not a crawl. Blank fetches everything in scope, which takes hours for All.</p>
         ${china ? `<p>* <b>China</b> runs through the China tools, not the crawler, as a job of its own. <b>Update check</b> compares CAC and gov.cn with the shipped collection and fetches what is new. <b>Collect</b> takes the whole index of each publisher ticked on the China card, one pass each: CAC alone takes about 12 minutes, several publishers an hour or more. The documents then appear in 2 Extraction → Input with the economy fixed to China. The national database, MIIT and Customs stay by hand.</p>` : ''}
         <p>* <b>Dry run</b> lists what would be fetched and fetches nothing; no manifest is written.</p>
       </details>
       <div class="stack-row full"><span class="setup-label">Press Check first; Start unlocks when no check fails.</span></div>
-      <div class="stack-row full"><button class="btn wide" id="sc-check">Check</button></div>
+      <div class="stack-row full"><button class="btn wide" id="sc-check">${SC.checking ? 'Checking…' : 'Check'}</button></div>
       ${SC.checks ? `<div class="stack-row full"><ul class="checks">${SC.checks.map((c) => `<li><span class="chip ${c.level === 'ok' ? 'ok' : c.level === 'warn' ? 'warn' : 'bad'}">${esc(c.level)}</span> ${esc(c.text)}</li>`).join('')}</ul></div>` : ''}
       <div class="stack-row full"><button class="btn primary wide" id="scrape-start" ${canStart ? '' : 'disabled'}>Start</button></div>
     </div>`;
   const rn = note.querySelector('details.notes-box'); if (rn) rn.addEventListener('toggle', () => { SC.runNotesOpen = rn.open; });
-  const sm = $('#sc-mode'); if (sm) sm.onchange = (e) => { SC.mode = e.target.value; if (SC.mode === 'same' && !SC.folder && runs[0]) SC.folder = runs[0].id; SC.checks = null; renderScrapeSetup(); };
-  const fs = $('#sc-folder'); if (fs) fs.onchange = (e) => { SC.folder = e.target.value; SC.checks = null; renderScrapeSetup(); };
+  const sm = $('#sc-mode'); if (sm) sm.onchange = (e) => { SC.mode = e.target.value; SC.checks = null; renderScrapeSetup(); };
+  note.querySelectorAll('select.sc-pass').forEach((sel) => { sel.onchange = (e) => { SC.pass = { ...(SC.pass || {}), [sel.dataset.code]: e.target.value }; SC.checks = null; renderScrapeSetup(); }; });
   const sf = $('#sc-frontier'); if (sf) sf.onchange = (e) => { SC.frontier = e.target.value; SC.checks = null; renderScrapeRun(); };
+  const lim = $('#sc-limit'); if (lim) lim.onchange = (e) => { const n = parseInt(e.target.value, 10); SC.limit = n > 0 ? n : ''; SC.checks = null; renderScrapeRun(); };
   const cn = $('#sc-cn'); if (cn) cn.onchange = (e) => { SC.cnMode = e.target.value; SC.checks = null; renderScrapeSetup(); };
   $('#sc-dry').onchange = (e) => { SC.dryRun = e.target.checked; SC.checks = null; renderScrapeSetup(); };
   $('#sc-check').onclick = async () => {
+    SC.checking = true; renderScrapeRun();     // the first Check asks the crawler about each link list, which takes a second
     try { const j = await api('/api/scrape/precheck', { method: 'POST', body: JSON.stringify(scrapeRequest()) }); SC.checks = j.checks; }
     catch (e) { SC.checks = [{ level: 'fail', text: e.message }]; }
-    renderScrapeRun();
+    SC.checking = false; renderScrapeRun();
   };
   $('#scrape-start').onclick = startScrape;
 }
@@ -1318,11 +1340,15 @@ async function startScrape() {
   $('#scrape-start').disabled = true;
   try {
     const r = await api('/api/scrape/start', { method: 'POST', body: JSON.stringify(scrapeRequest()) });
-    $('#scrape-run-panel').innerHTML = '';
-    const ids = (r.jobs || [r.job]).map((j) => j.id);
-    const finish = () => { SC.checks = null; loadScrapeOutputs(); EX.loaded = false; renderScrapeRun(); };
-    const next = (i) => { if (i >= ids.length) { finish(); return; } watchJob(ids[i], 'scrape-run-panel', () => { loadScrapeOutputs(); next(i + 1); }); };
-    next(0);
+    const jobs = r.jobs || [r.job];
+    // one panel per run, so an economy's result stays on the page while the next one runs
+    $('#scrape-run-panel').innerHTML = jobs.map((j) => `<div id="scrape-run-panel-${j.id}"></div>`).join('');
+    let left = jobs.length;
+    jobs.forEach((j) => watchJob(j.id, `scrape-run-panel-${j.id}`, () => {
+      loadScrapeOutputs();
+      left -= 1;
+      if (!left) { SC.checks = null; EX.loaded = false; renderScrapeRun(); }
+    }));
     loadHealth();
   } catch (e) { alert(e.message); SC.checks = null; renderScrapeRun(); }
 }
@@ -1567,8 +1593,14 @@ async function restoreJobPanels() {
   const newest = {};
   const hidden = dismissedJobs();
   (j.jobs || []).forEach((x) => { if (!newest[x.stage] && !hidden.has(x.id)) newest[x.stage] = x; });
-  const panels = { p1: 'scrape-run-panel', p2: 'extract-run-panel', p3: 'map-run-panel', selftest: 'selftest-panel' };
+  const panels = { p2: 'extract-run-panel', p3: 'map-run-panel', selftest: 'selftest-panel' };
   Object.entries(panels).forEach(([stage, id]) => { if (newest[stage] && $(`#${id}`)) watchJob(newest[stage].id, id); });
+  // a crawl is one run per economy: show the ones still going and the last few finished, oldest first, each in its own panel
+  const crawls = (j.jobs || []).filter((x) => x.stage === 'p1' && !hidden.has(x.id)).slice(0, 6).reverse();
+  if (crawls.length && $('#scrape-run-panel')) {
+    $('#scrape-run-panel').innerHTML = crawls.map((x) => `<div id="scrape-run-panel-${x.id}"></div>`).join('');
+    crawls.forEach((x) => watchJob(x.id, `scrape-run-panel-${x.id}`, () => loadScrapeOutputs()));
+  }
 }
 
 /* Self-test button on the Appendix tab. */

@@ -335,7 +335,10 @@ def list_inputs(s: Settings) -> list[dict]:
         if len(filled) > 1:
             add(s.inbox_dir, "inbox, every economy")
     for p, _where in sources.scrape_runs(s):
-        add(p, "interface crawl")
+        # a crawl is an input once it has a manifest; a dry run, a link list or the manifest written for
+        # hand-collected files (whose documents sit in the inbox) is not
+        if cn_run.is_run(p) or ((p / "manifest.csv").is_file() and not p.name.startswith(("hand_", "links_"))):
+            add(p, "interface crawl")
     shipped = s.stage_dirs["p1"] / "handoff1"
     if shipped.is_dir():
         for cc in sorted(shipped.iterdir()):

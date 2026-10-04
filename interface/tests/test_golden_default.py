@@ -63,7 +63,12 @@ class Ids(unittest.TestCase):
 
     def test_crawl_folders(self):
         folders = scrape.list_crawl_folders(self.s)
-        self.assertEqual((folders[0]["id"], folders[0]["kind"]), ("demo_data/mini_raw", "HANDOFF1_DIR"))
+        # crawls made on this machine are listed first, so the default hand-off is found by its kind
+        default = next(f for f in folders if f["kind"] == "HANDOFF1_DIR")
+        self.assertEqual(default["id"], "demo_data/mini_raw")
+        made_here = [f for f in folders if f["kind"] == "interface run"]
+        self.assertEqual(folders[:len(made_here)], made_here)
+        self.assertTrue(all(f["id"].startswith("outputs/scrape/") for f in made_here))
 
     def test_inbox_folders(self):
         extract.ensure_inbox(self.s)
