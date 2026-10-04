@@ -14,7 +14,7 @@ are in `START_PROMPT_INTERFACE_2026-09-29.md` and `DATA_PATHS.md` beside this fi
 | Tab (Stage 1 to 3 in the sidebar, which also lists the open page's blocks) | Block n.1 Set up | Block Run (1.2, 2.2, 3.2) | Block Output (1.4, 2.3, 3.3) |
 | :-- | :-- | :-- | :-- |
 | **Overview** | a workflow map: Scraping, Extraction, Mapping, Review and export, one line each with a button to the page, and below it the instrument (methodology to a rulebook per indicator) as a reference row; the model-calling steps are drawn as short conversations; the mapping step by step (index, select, triage, read, re-check, tag, score, evidence, review) folded inside the Mapping node, an open grey Before-you-start block under the map; the worked example on Singapore PDPA s.26(1) runs down the right of the map, one card per node, with a button to its row | | |
-| **Scraping** | economies the crawler has adapters for, China through its own tools (CAC and gov.cn; the rest by hand), scope, the sources it will read and the sources to check by hand | fresh folder or second pass, shipped link list or live discovery, dry run, **Check** then **Start** | folders by economy and source (`scrape/<economy>/<source>/<time>`), documents by type, whether the bytes are present, **Fetched last pass**, Clear. Between Run and Output, block 1.3 **Hand-collected**: choose one economy, then one of its designated sources, drop PDF, Word, saved web pages or a .zip; they land in `inbox/<economy>/<source>/<date_time>`, each file says how it will be read or why it cannot be, and takes the address it came from; Output is 1.4 on this tab |
+| **Scraping** | economies the crawler has adapters for, China through its own tools (CAC and gov.cn; the rest by hand), scope, the sources it will read and the sources to check by hand | a new crawl or a second pass over that economy's own folder, the link list or **Refresh from the portal**, **Quick run** (the first N documents), dry run, **Check** then **Start**; one run and one result panel per economy | folders by economy and source (`scrape/<economy>/<source>/<time>`), documents by type, whether the bytes are present, **Fetched last pass**, Clear. Between Run and Output, block 1.3 **Hand-collected**: choose one economy, then one of its designated sources, drop PDF, Word, saved web pages or a .zip; they land in `inbox/<economy>/<source>/<date_time>`, each file says how it will be read or why it cannot be, and takes the address it came from; Output is 1.4 on this tab |
 | **Extraction** | a crawl folder, or hand-collected documents from `inbox/<economy>/<source>` (the folder names the economy and the source, the language follows the economy table; a Readiness list says per file how it is read, and files that cannot be read are left out and listed; Check reads the text and warns when a file does not fit its folder) | output name, OCR pack and workers, **Check** then **Start**: import check, OCR of scanned pages, read and segment, freeze the text | documents by status and lane, provisions, cache sizes, Open folder, Clear OCR cache |
 | **Mapping** | an extraction output, economies, indicators (61, the nine automated ones pre-selected) | the write path, the engine from the banner, the index (rebuilt by itself when older than the output); selection rule with its thresholds or caps, meaning index, translation, quick run; **Check** then **Start**: ingest, prefilter, select, triage, map, verify, roll up, glosses, workbook, audit page | run selector (fixtures, interface runs, filed rows), filters, Export CSV and xlsx, rows with the English gloss beside the original, row detail with Accept / Reject / Correct and Clear decision, Open folder, Clear |
 | **Appendix** | documentation shipped in the repository, the settings in effect, a run-layer self-test | | |
@@ -62,6 +62,20 @@ The ones the interface adds:
 - In the window a link to a source opens in the person's own browser, only `http` and `https`, and Export
   says where the file was saved instead of downloading it.
 - One server per port: a second start on a port in use is refused (Windows used to let both bind it).
+- **A crawl says what it will do before Start.** Check asks the crawler's own code, in a process of its own,
+  whether it will accept the link list, and states per economy how many documents and how long, from the
+  list's own record: its counts, and the time its last build took from first request to last.
+- **The link list in use** is the newest one refreshed from this page that was built for the registry the
+  crawler reads (`scrape/<economy>/<source>/links_<time>` under the runs root), else the one shipped in
+  `stages/p1-scrape/links/`. Refresh from the portal runs the stage's catalogue tool to read the listings
+  into such a list, then replays it; the interface writes nothing under `stages/`.
+- **Quick run** replays a small list cut from the one in use (`links_used/` in the run folder), so it works
+  for either scope. A second pass runs over a folder of the same economy and no other.
+- On Windows without long paths, a run folder so deep that a long-named law could not be stored fails Check.
+- The browser check is a real launch by the crawler's own Python, kept until the builds on disk change; a
+  Chromium folder says nothing once the Playwright package has moved to another build.
+- A crawl asks for one document per law (`--forms pdf`). A run the portal cut short ends as failed, with
+  the count missing and the way to resume; nothing fetched is lost.
 - **Open folder** opens a run folder in the file manager of the machine that runs the server; it is
   limited to the folders the page itself lists (the runs root, the fixtures, the demo data, the hand-offs).
   On Windows the Explorer window is brought in front of the browser, and a window already showing the
@@ -80,7 +94,7 @@ The ones the interface adds:
 
     python -m unittest discover -s interface/tests -t interface
 
-182 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
+205 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
 window (which browser, when to stop, one instance, the presence stream on a real server), the
 Clear guard, the folders by economy and source, the inbox (designated sources, addresses, archives, what
 can be read), the manifest written for hand-collected documents, the three run plans and their parsers,

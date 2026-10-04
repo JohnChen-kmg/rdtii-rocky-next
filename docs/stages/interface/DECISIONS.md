@@ -231,3 +231,40 @@ from anywhere produced files with neither.
 
 **Consequence if reversed:** A free box needs detection of the source from content, which was estimated at
 most of the triage workstream and still ends in "unknown" for a bare PDF.
+
+## 2026-10-04, The registries receive their seed laws: the one change under stages/
+
+**Decision:** The seed laws in `stages/p1-scrape/links/<cc>/seed_laws.yaml` are appended to
+`sources_<cc>.yaml`, in both `instrument/` and `contracts/instrument/`, for all five economies. It is a commit of
+its own (`e61d324`), registry data only.
+
+**Why:** Each link list's README describes this join as the hand-back step, and the repository never received
+it. The crawler therefore loaded a registry with no seeds, whose fingerprint differed from every shipped link
+list's, and refused the list: a crawl with "Shipped link list" skipped the economy, in all five. The interface
+cannot repair that from outside, because the crawler reads its registry from two fixed folders. The rule that
+the interface never edits the pipeline was weighed against a default path that could not work at all; the
+developer had asked for the scraping function to be made to work.
+
+**What it changes:** 638 lines added, none altered. Each registry's fingerprint now equals its link list's.
+The stage's 427 tests pass before and after. Seeds also become visible to a refresh from the portal, as the
+stage intends.
+
+**Consequence if reversed:** Reverting the commit returns to registries without seeds. The shipped lists are
+then refused again; a list refreshed from the page (built for the seedless registry) would still be accepted.
+**Still to decide by a person:** the judged tag carries the same defect, and the live test's rule that seeds
+come from the host's portal list has to be checked against these seeds.
+
+## 2026-10-04, Refresh from the portal replaces live discovery on the page
+
+**Decision:** The second Sources option reads the portal's listings with the stage's catalogue tool into a link
+list kept under the runs root, then crawls from that list. The crawler's inline discovery is no longer offered
+on the page; it remains in the stage.
+
+**Why:** Reading the listings is the long, silent part of a crawl: by the lists' own build logs, 68 minutes for
+Singapore and 134 for Malaysia, where the page had said "up to 20 minutes". Inline discovery spends that time
+and throws the list away; the same wait spent on a refresh leaves a list that later runs, second passes and
+quick runs reuse, and whose counts the page can show before fetching. With Dry run ticked it only rebuilds
+the list, which is the step wanted before a live test.
+
+**Consequence if reversed:** Inline discovery needs fewer moving parts and no list folder, at the price of the
+wait on every run and no count before the first document.
