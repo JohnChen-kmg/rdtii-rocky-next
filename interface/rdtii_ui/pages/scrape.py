@@ -285,6 +285,9 @@ def list_economies(s: Settings) -> list[dict]:
             "source": filed.CHINA_TOOLS if tools else (portal or {}).get("key", ""),
             "note": note, "delay_ms": POLITE_DELAY_MS.get(code, DEFAULT_DELAY_MS),
             "links": meta.get("counts") if meta else None,
+            # which link list is in use: the one shipped with the crawler, or one refreshed from this page
+            "list_origin": ("shipped" if links_dir(s, code) == shipped_links_dir(s, code) else "refreshed") if meta else "",
+            "list_built": str(meta.get("generated_at") or "")[:10] if meta else "",
             "watchlist_rows": len(read_watchlist(wl)) if wl else 0,
         })
     return out

@@ -1255,6 +1255,12 @@ async function loadExportSummary() {
 /* ---------- Scraping · Start ---------- */
 SC.mode = SC.mode || 'fresh'; SC.folder = SC.folder || ''; SC.frontier = SC.frontier || 'links'; SC.dryRun = SC.dryRun || false; SC.checks = null; SC.folders = SC.folders || [];
 
+/* which link list each ticked economy would replay: the shipped one, or one refreshed from this page */
+function listLine(codes) {
+  return codes.map((c) => { const e = (SC.econs || []).find((x) => x.code === c) || {};
+    return e.list_built ? `${c}: ${e.list_origin === 'refreshed' ? 'refreshed here' : 'shipped'}, ${e.list_built}` : ''; }).filter(Boolean).join(' · ');
+}
+
 /* the crawl folders one economy's second pass may run over, newest first */
 function runsOf(code) {
   return (SC.folders || []).filter((f) => f.kind === 'interface run' && (f.economy ? f.economy === code : !!(f.by_economy && f.by_economy[code])));
@@ -1304,7 +1310,7 @@ function renderScrapeRun() {
     <div class="stack">
       ${engineCodes.length ? `<label class="stack-row"><span class="setup-label">Run</span> <select id="sc-mode"><option value="fresh" ${!same ? 'selected' : ''}>New crawl</option><option value="same" ${same ? 'selected' : ''}>Update an existing crawl</option></select></label>
       ${passRows}
-      <label class="stack-row"><span class="setup-label">Sources</span> <select id="sc-frontier"><option value="links" ${SC.frontier === 'links' ? 'selected' : ''}>Link list</option><option value="discover" ${SC.frontier === 'discover' ? 'selected' : ''}>Refresh from the portal</option></select></label>
+      <label class="stack-row"><span class="setup-label">Sources</span> <select id="sc-frontier"><option value="links" ${SC.frontier === 'links' ? 'selected' : ''}>Link list</option><option value="discover" ${SC.frontier === 'discover' ? 'selected' : ''}>Refresh from the portal</option></select> <span class="muted">${esc(listLine(engineCodes))}</span></label>
       <label class="stack-row"><span class="setup-label">Quick run</span> <input type="text" id="sc-limit" size="5" value="${esc(same ? '' : (SC.limit || ''))}" placeholder="all" ${same ? 'disabled' : ''}> <span>fetch only the first documents of each economy; blank for all</span></label>` : ''}
       ${china ? `<label class="stack-row"><span class="setup-label">China</span> <select id="sc-cn"><option value="update" ${mode === 'update' ? 'selected' : ''}>Update check: what changed at CAC and gov.cn</option><option value="collect" ${mode === 'collect' ? 'selected' : ''}>Collect the ticked publishers${pickedNames ? `: ${esc(pickedNames)}` : ' (none ticked yet)'}</option></select></label>` : ''}
       <label class="stack-row"><span class="setup-label">Dry run</span> <input type="checkbox" id="sc-dry" ${SC.dryRun ? 'checked' : ''}> <span>list only, fetch nothing</span></label>
@@ -1347,7 +1353,12 @@ async function startScrape() {
     jobs.forEach((j) => watchJob(j.id, `scrape-run-panel-${j.id}`, () => {
       loadScrapeOutputs();
       left -= 1;
-      if (!left) { SC.checks = null; EX.loaded = false; renderScrapeRun(); }
+      if (!left) {
+        SC.checks = null; EX.loaded = false;
+        // a refresh changes which link list is in use: the cards and the counts follow it
+        SC.sources = {};
+        api('/api/scrape/economies').then((x) => { SC.econs = x.economies; renderScrapeSetup(); renderScrapeSources(); }).catch(() => renderScrapeRun());
+      }
     }));
     loadHealth();
   } catch (e) { alert(e.message); SC.checks = null; renderScrapeRun(); }
