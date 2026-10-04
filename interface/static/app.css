@@ -656,4 +656,10 @@ table.rows td:last-child .btn { display: block; width: 100%; white-space: nowrap
 .guide pre.tree { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; }
 /* a narrow window: one economy per row */
 @media (max-width: 1200px) { .econ-grid { grid-template-columns: minmax(0, 1fr); } }
+/* Overview map, one column: each stage's example is a folded sub-block inside the stage's own block */
+.guide .guide-head, .guide .guide-row, .guide .arrow-row { grid-template-columns: minmax(0, 1fr); }
+.guide details.subfold.example > .example-card { border: 0; border-radius: 0; background: transparent; padding: 10px 16px 12px; }
+.guide details.subfold.example pre.tree { font-size: 14px; }
+/* a head with one title keeps it in a narrow window (the rule above hid a last title, meant for the old second column) */
+@media (max-width: 1150px) { .guide .guide-head .col-title:last-child { display: block; } }
 /* === fit: end === */
