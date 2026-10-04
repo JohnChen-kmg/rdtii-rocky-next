@@ -29,8 +29,21 @@ PRICES = {
 }
 
 
-def usd(model: str, u: Usage) -> float:
+def price_card(model: str) -> tuple | None:
+    """The card a model is metered with: this file's own three first, then whatever the engine
+    declaration carries for the models added after them. None means the model is metered at $0."""
     p = PRICES.get(model)
+    if p is None:
+        try:
+            from config.llm import engines
+            p = engines.price_cards().get(model)
+        except Exception:      # an unreadable declaration must not stop a run over a price
+            p = None
+    return p
+
+
+def usd(model: str, u: Usage) -> float:
+    p = price_card(model)
     if p is None:
         return 0.0
     return (u.input_tokens * p[0] + u.output_tokens * p[1]

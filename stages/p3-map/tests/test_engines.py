@@ -30,16 +30,19 @@ ANTHROPIC = dataclasses.replace(
 def _no_engine(monkeypatch):
     """Each test says for itself whether an engine is selected."""
     monkeypatch.delenv(engines.ENGINE_ENV, raising=False)
-    for var in engines.ROLE_ENV.values():
+    monkeypatch.delenv(engines.ENGINES_FILE_ENV, raising=False)
+    for var in list(engines.ROLE_ENV.values()) + list(engines.ROLE_ENGINE_ENV.values()):
         monkeypatch.delenv(var, raising=False)
 
 
 def test_two_engines_are_declared_one_of_them_open_weights():
     ids = engines.ids()
-    assert ids == ["A", "B"], "C4b/C5b declare exactly two"
+    assert ids[:2] == ["A", "B"], "C4b/C5b declare two, and they come first"
+    measured = [i for i in ids if engines.get(i).measured]
+    assert measured == ["A", "B"], "an engine added after the finale must say it is not measured"
     assert engines.get("A").open_weights is False
     assert engines.get("B").open_weights is True
-    assert engines.default_id() in ids
+    assert engines.default_id() == "A"
 
 
 def test_engine_b_is_pinned_by_digest():
@@ -75,7 +78,7 @@ def test_nothing_is_selected_unless_the_variable_is_set(monkeypatch):
 
 
 def test_an_undeclared_engine_raises_and_lists_the_declared_ones(monkeypatch):
-    monkeypatch.setenv(engines.ENGINE_ENV, "C")
+    monkeypatch.setenv(engines.ENGINE_ENV, "Z")
     with pytest.raises(engines.EngineError) as e:
         engines.selected()
     assert "RDTII_ENGINE" in str(e.value)

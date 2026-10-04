@@ -49,8 +49,17 @@ def _engine() -> dict:
     if declared is not None:
         # the engine's own record, plus the per-role resolution the factory will perform
         out = declared.as_manifest()
-        out["roles"] = {role: {"provider": "ollama" if role == "triage" else declared.provider,
-                               "model": declared.model_for(role)} for role in ROLES}
+        out["roles"] = {}
+        for role in ROLES:
+            try:        # a role may have been given an engine of its own
+                e = engines.selected(role=role) or declared
+                out["roles"][role] = {"provider": "ollama" if role == "triage" else e.provider,
+                                      "model": e.model_for(role)}
+                if e.id != declared.id and role != "triage":
+                    out["roles"][role]["engine_id"] = e.id
+            except Exception as err:      # a bad role engine: recorded, not raised
+                out["roles"][role] = {"provider": None, "model": None,
+                                      "error": f"{type(err).__name__}: {err}"}
         out["provider"] = declared.provider
         out["ollama_host"] = SETTINGS.ollama_host if declared.provider == "ollama" else None
         return out

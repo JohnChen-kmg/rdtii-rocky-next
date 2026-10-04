@@ -244,9 +244,18 @@ def _select_by_score(meta, bm, dn, economies, direct_f, gray_f, cell_pairs, repo
             for e, c in zip(economies, cells)), flush=True)
 
 
+def scaled_cap(ind: str, scale: float | None = None) -> int:
+    """Round 1's cap for an indicator times CAPS_SCALE, never below 1. At 1.0 it is the cap."""
+    scale = SETTINGS.caps_scale if scale is None else scale
+    return max(1, int(round(CAPS[ind] * scale)))
+
+
 def _select_by_caps(meta, bm, dn, economies, direct_f, gray_f, cell_pairs, report) -> None:
     """Round 1 exactly: RRF fusion, hint boosts, fixed per-cell caps."""
     n = len(meta)
+    report["caps_scale"] = SETTINGS.caps_scale
+    if SETTINGS.caps_scale != 1.0:
+        print(f"[select] caps scaled by {SETTINGS.caps_scale:g} (CAPS_SCALE)", flush=True)
     for ind in INDICATORS:
         rrf = np.zeros(n, dtype=np.float32)
         for leg in (bm, dn):
@@ -263,7 +272,7 @@ def _select_by_caps(meta, bm, dn, economies, direct_f, gray_f, cell_pairs, repor
                 rrf[i] *= NONPERSONAL_DAMP
 
         order = np.argsort(-rrf)
-        cap = CAPS[ind]
+        cap = scaled_cap(ind)
         taken = Counter()          # per economy, direct band
         gray_taken = Counter()
         floor = SETTINGS.prefilter_floor

@@ -60,6 +60,10 @@ class Settings:
     # threshold moves on 15 October without editing a tracked file.
     select_mode: str = os.getenv("SELECT_MODE", "scores")
     selection_config: str = os.getenv("SELECTION_CONFIG", "")
+    # Caps mode only: every Round 1 cap is multiplied by this (and the gray band with it, which
+    # is a multiple of the cap). 1.0 is Round 1 exactly. The threshold rule has no such dial here
+    # because SELECTION_CONFIG already moves it. Added 2026-10-04 for the interface's slider.
+    caps_scale: float = float(os.getenv("CAPS_SCALE", "1.0"))
     embed_batch: int = int(os.getenv("EMBED_BATCH", "128"))
     embed_device: str = os.getenv("EMBED_DEVICE", "cuda")
 

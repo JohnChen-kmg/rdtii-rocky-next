@@ -23,11 +23,16 @@ a run configured before engines existed resolves exactly as it did then.
 """
 from __future__ import annotations
 
+import os
+
 from config.llm import engines
 from config.llm.base import LLMClient
 from config.settings import Settings
 
-PROVIDERS = ("anthropic", "ollama")
+PROVIDERS = ("anthropic", "ollama", "openai_compat")
+# Reached only through a declared engine (its base URL, key variable and request shape live in
+# engines.json): there is no pre-engine variable that names a model for it.
+ENGINE_ONLY = ("openai_compat",)
 ROLES = ("mapper", "verifier", "escalation", "triage")
 # Roles decision #3 reserves for a hosted model: a local model never maps, verifies or breaks
 # a tie. "triage" is deliberately absent — that stage is local-first and costs nothing.
@@ -44,6 +49,9 @@ def _model_for(settings: Settings, provider: str, role: str) -> str:
     # model, and the manifest would record a local model for a run that never used one.
     if provider not in PROVIDERS:
         raise ValueError(f"unknown provider {provider!r}; expected one of {', '.join(PROVIDERS)}")
+    if provider in ENGINE_ONLY:
+        raise ValueError(f"provider {provider!r} has no model variables of its own; it is reached "
+                         f"through a declared engine (RDTII_ENGINE)")
     if provider == "anthropic":
         return {
             "mapper": settings.llm_model,
@@ -60,7 +68,7 @@ def get_llm(settings: Settings, role: str = "mapper", model: str | None = None) 
     if role not in ROLES:
         raise ValueError(f"unknown role {role!r}; expected one of {', '.join(ROLES)}")
 
-    engine = engines.selected()
+    engine = engines.selected(role=role)     # the role's own engine first, then RDTII_ENGINE
     requested = (engine.provider if engine else (settings.llm_provider or "")).strip().lower()
     if requested not in PROVIDERS:
         raise ValueError(
@@ -72,6 +80,23 @@ def get_llm(settings: Settings, role: str = "mapper", model: str | None = None) 
     provider = requested
     if role == "triage":
         provider = "ollama"  # decision #3: local never maps/verifies; triage is local-first
+    if provider in ENGINE_ONLY:
+        if engine is None:
+            raise LLMConfigError(
+                f"LLM_PROVIDER={requested!r} needs a declared engine: set RDTII_ENGINE to one of "
+                f"{', '.join(engines.ids())} (engines.json carries the address and the key variable).")
+        if not engine.base_url:
+            raise LLMConfigError(f"engine {engine.id} ({engine.label}) declares no base_url")
+        if engine.key_env and not os.environ.get(engine.key_env, "").strip():
+            # the same refusal as for Claude below, for the same reason: no silent downgrade
+            raise LLMConfigError(
+                f"role {role!r} resolves to engine {engine.id} ({engine.label}) but "
+                f"{engine.key_env} is empty. Set the key, or give the role another engine. "
+                f"Refusing to downgrade {role} to a local model silently.")
+        resolved = model or engine.model_for(role)
+        from config.llm.openai_compat_client import OpenAICompatClient
+        return OpenAICompatClient(model=resolved, base_url=engine.base_url,
+                                  key_env=engine.key_env or "", request=engine.request_for(resolved))
     if (provider == "anthropic" and role in JUDGING_ROLES
             and not settings.anthropic_api_key.strip()):
         # Round 1 fell back to Ollama here and printed a line. For the finale that is a
