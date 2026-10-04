@@ -21,6 +21,8 @@ venv/
 *.env
 !*.env.example
 .env
+# provider keys for test runs on one machine (also caught by *.env; named so the rule cannot be lost)
+keys.local.env
 
 # OS clutter
 Thumbs.db
