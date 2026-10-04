@@ -41,7 +41,8 @@ def sniff(path: Path) -> str:
     low = body.replace(b"\x00", b"").lstrip().lower()
     if low.startswith(b"{\\rtf"):
         return "rtf"
-    if low.startswith((b"<!doctype html", b"<html", b"<head", b"<body", b"<meta", b"<!--")) or b"<html" in low[:2000]:
+    # markup of any kind: a whole page, an XHTML page that opens with <?xml, or the fragment a tool saved
+    if b"<html" in low[:2000] or (low[:1] == b"<" and (low[1:2].isalpha() or low[1:2] in (b"!", b"?"))):
         return "html"
     return "other"
 

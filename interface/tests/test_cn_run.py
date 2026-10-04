@@ -146,6 +146,30 @@ class ExtractionInput(unittest.TestCase):
             self.assertFalse([c for c in checks if c["level"] == "fail"], checks)
             self.assertIn("the China tools run", next(c["text"] for c in checks if c["check"] == "economy"))
 
+    def test_an_attachment_the_reader_cannot_take_is_left_out_of_a_tools_folder_too(self):
+        # CAC, 4 October: 17 old .doc forms attached to one regulation went into the run and failed there
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            s = settings_mod.load({"RDTII_RUNS_ROOT": str(root / "outputs"), "RDTII_INBOX_DIR": str(root / "inbox")})
+            src = root / "outputs" / "scrape" / "CN" / "china-tools" / "20261004-073420" / "data" / "CN" / cn_run.BASELINE / "auto" / "cac"
+            (src / "raw").mkdir(parents=True)
+            (src / "raw" / "abc-1a2b3c4d.html").write_text("<html><body><p>第一条 网络安全</p></body></html>", encoding="utf-8")
+            (src / "raw" / "form-c7cd1b0c.doc").write_bytes(bytes.fromhex("D0CF11E0A1B11AE1") + bytes(600))
+            (src / "provenance.tsv").write_text("n\ttitle\turl\tfile\n1\t网络安全法\thttps://www.cac.gov.cn/x.htm\tabc-1a2b3c4d\n", encoding="utf-8")
+            app = App(s)
+            app.jobs = jobs.JobManager()
+            checks = {c["check"]: c for c in extract.precheck(app, {"input": str(src)})}
+            self.assertEqual(checks["readiness"]["level"], "warn")
+            self.assertIn("1 of 2 file(s) will be read; 1 are left out", checks["readiness"]["text"])
+            self.assertNotIn("address", checks)                    # the tools record each address themselves
+            job = extract.plan_extract(app, {"input": str(src)})
+            manifest = Path(next(st.argv[st.argv.index("--manifest") + 1] for st in job.steps if "--manifest" in st.argv))
+            # filed beside the tools' runs, not loose under scrape/
+            self.assertEqual(manifest.parent.parent, root / "outputs" / "scrape" / "CN" / "china-tools")
+            self.assertTrue(manifest.parent.name.startswith("hand_cac_"))
+            self.assertNotIn("form-c7cd1b0c.doc", manifest.read_text(encoding="utf-8-sig"))
+            self.assertIn("form-c7cd1b0c.doc", (manifest.parent / "left_out.csv").read_text(encoding="utf-8-sig"))
+
 
 if __name__ == "__main__":
     unittest.main()

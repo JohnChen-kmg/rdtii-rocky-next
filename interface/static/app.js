@@ -1339,6 +1339,7 @@ function renderScrapeRun() {
         <li><b>Sample:</b> 5 to 35 minutes per economy.</li>
         <li><b>All:</b> 2 to 5 hours per economy; Singapore needs pauses and a second pass.</li>
         <li><b>Refresh from the portal</b> reads the listings first: 2 minutes (Timor-Leste) to over 2 hours (Malaysia).</li>
+        <li><b>China tools:</b> the update check about 2 minutes, collecting CAC about 25.</li>
       </ul>
       Check gives the figures for your choice.</div>
     <div class="target"><span class="setup-label">Writes to</span> <code>${target}</code></div>
@@ -1353,7 +1354,7 @@ function renderScrapeRun() {
         <p>* <b>New crawl</b> writes into a new folder, filed by economy and source; several economies run one after another, one folder each. <b>Update an existing crawl</b> reuses that economy's folder and fetches only laws not already retrieved, which is how a second pass over a complete folder fetches zero.</p>
         <p>* <b>Link list</b>: the document addresses are already known, so fetching starts at once. It is the list shipped with the crawler, or the one last refreshed here. <b>Refresh from the portal</b>: the portal's listings are read again first, the new list is kept under the runs root and used from then on, and the documents are fetched from it. Reading the listings takes from two minutes (Timor-Leste) to over two hours (Malaysia); Check says how long for each economy. With Dry run ticked it only rebuilds the list.</p>
         <p>* <b>Quick run</b>: a number, for example 5, fetches only the first documents of each economy. A proof in a minute that fetching works, not a crawl. Blank fetches everything in scope, which takes hours for All.</p>
-        ${china ? `<p>* <b>China</b> runs through the China tools, not the crawler, as a job of its own. <b>Update check</b> compares CAC and gov.cn with the shipped collection and fetches what is new. <b>Collect</b> takes the whole index of each publisher ticked on the China card, one pass each: CAC alone takes about 12 minutes, several publishers an hour or more. The documents then appear in 2 Extraction → Input with the economy fixed to China. The national database, MIIT and Customs stay by hand.</p>` : ''}
+        ${china ? `<p>* <b>China</b> runs through the China tools, not the crawler, as a job of its own. <b>Update check</b> compares CAC and gov.cn with the shipped collection and fetches what is new. <b>Collect</b> takes the whole index of each publisher ticked on the China card, one pass each: CAC alone takes about 25 minutes, several publishers an hour or more. The documents then appear in 2 Extraction → Input with the economy fixed to China. The national database, MIIT and Customs stay by hand.</p>` : ''}
         <p>* <b>Dry run</b> lists what would be fetched and fetches nothing; no manifest is written.</p>
       </details>
       <div class="stack-row full"><span class="setup-label">Press Check first; Start unlocks when no check fails.</span></div>

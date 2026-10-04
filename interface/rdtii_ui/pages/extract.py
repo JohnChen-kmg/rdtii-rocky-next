@@ -562,6 +562,8 @@ def write_manifest(s: Settings, folder: Path, rows: list[dict], left_out: list[d
     stamp = time.strftime("%Y%m%d-%H%M%S")
     if where.get("source"):          # filed like a crawl: by economy, then source
         dest = sources.scrape_run_dir(s, where["economy"], where["source"], f"hand_{where.get('batch') or 'all'}_{stamp}")
+    elif any(cn_run.is_run(a) for a in folder.parents):      # a publisher's folder of a China tools run
+        dest = sources.scrape_run_dir(s, "CN", sources.CHINA_TOOLS, f"hand_{slug(folder.name)}_{stamp}")
     else:
         dest = s.runs_root / "scrape" / f"hand_{slug(folder.name)}_{stamp}"
     dest.mkdir(parents=True, exist_ok=True)
@@ -630,6 +632,13 @@ P2_RULES: list[tuple[re.Pattern, object]] = [
 
 
 P2_IMPORTS = "rdtii_p2.cli, pypdfium2, pytesseract, jsonschema, pydantic"     # what the stage needs to start
+
+
+def leaves_out(desc: dict, folder: Path) -> bool:
+    """Whether a run over this folder leaves out the files the reader cannot take: a designated source's inbox
+    folder, and a publisher's folder of a China tools run. Their kinds are known, so a file that cannot be read
+    is listed with what to do instead of failing inside the run. A free folder is run as it is."""
+    return bool(desc.get("source")) or any(cn_run.is_run(a) for a in folder.parents)
 
 
 def parse_p2(line: str, job: Job):
@@ -730,7 +739,8 @@ def precheck(app: App, req: dict) -> list[dict]:
         if not n:
             add("fail", "input", "No PDF, HTML or Word file in this folder.")
         else:
-            add("ok", "input", f"{n} hand-collected file(s): " + ", ".join(f"{k} {v}" for k, v in types.items())
+            fetched = "file(s) the China tools fetched" if any(cn_run.is_run(a) for a in folder.parents) else "hand-collected file(s)"
+            add("ok", "input", f"{n} {fetched}: " + ", ".join(f"{k} {v}" for k, v in types.items())
                                + ". The interface writes manifest.csv and law_table.csv for them."
                                + (f" Source: {desc['source_name'] or desc['source']}." if desc.get("source") else ""))
         hand_rows = []
@@ -742,8 +752,8 @@ def precheck(app: App, req: dict) -> list[dict]:
         if hand_rows:
             cannot = [r for r in hand_rows if r["_status"] != "ready"]
             ready_n = len(hand_rows) - len(cannot)
-            if desc.get("source"):
-                # a designated source: only what the reader can take goes into the run
+            if leaves_out(desc, folder):
+                # a designated source or a China tools folder: only what the reader can take goes into the run
                 if not ready_n:
                     add("fail", "readiness", f"None of the {len(hand_rows)} file(s) can be read as they are. "
                                              + " ".join(f"{Path(r['local_path']).name}: {r['_action']}" for r in cannot[:3]))
@@ -754,14 +764,14 @@ def precheck(app: App, req: dict) -> list[dict]:
                 else:
                     add("ok", "readiness", f"All {ready_n} file(s) can be read.")
                 unaddressed = sum(1 for r in hand_rows if r["_status"] == "ready" and r["_url_basis"] != "the file's own address")
-                if unaddressed:
+                if unaddressed and desc.get("source"):
                     add("warn", "address", f"{unaddressed} file(s) have no address of their own and will be cited to the "
                                            "source's page. Type each file's address in the Hand-collected block to cite the document itself.")
             elif cannot:
                 add("warn", "readiness", f"{len(cannot)} of {len(hand_rows)} file(s) will fail in the run: "
                                          + " ".join(f"{Path(r['local_path']).name}: {r['_action']}" for r in cannot[:3]))
             # only a PDF that really has no text layer needs OCR
-            types = dict(Counter(r["source_type"] for r in hand_rows if r["_status"] == "ready" or not desc.get("source")))
+            types = dict(Counter(r["source_type"] for r in hand_rows if r["_status"] == "ready" or not leaves_out(desc, folder)))
 
     if kind == "crawled":
         lang_info = desc["languages"]
@@ -835,8 +845,8 @@ def plan_extract(app: App, req: dict) -> Job:
     else:
         every = build_manifest_rows(folder, str(req.get("economy") or desc.get("economy") or ""),
                                     req.get("source_urls") or None, s=s)
-        # from a designated source only what the reader can take goes into the run; elsewhere every file, as before
-        left_out = [r for r in every if r["_status"] != "ready"] if desc.get("source") else []
+        # from a designated source or a China tools folder only what the reader can take goes into the run
+        left_out = [r for r in every if r["_status"] != "ready"] if leaves_out(desc, folder) else []
         rows = [r for r in every if r not in left_out]
         if not rows:
             raise ApiError(409, f"none of the {len(every)} file(s) can be read as they are; the Readiness list in Set up says what to do for each")
@@ -845,7 +855,8 @@ def plan_extract(app: App, req: dict) -> Job:
         n_docs = len(rows)
         plan = language_plan(Counter(r["economy"] for r in rows))
         notes.append(f"Wrote a manifest and a law table ({', '.join(LANG_LABEL.get(l, l) for _, l in plan)}) for {n_docs} "
-                     f"hand-collected document(s) under {rel_or_abs(manifest.parent, REPO)}."
+                     + ("document(s) the China tools fetched" if any(cn_run.is_run(a) for a in folder.parents) else "hand-collected document(s)")
+                     + f" under {rel_or_abs(manifest.parent, REPO)}."
                      + (f" {len(left_out)} file(s) the reader cannot take were left out; left_out.csv lists them." if left_out else ""))
 
     try:

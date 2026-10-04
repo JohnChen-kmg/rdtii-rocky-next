@@ -214,7 +214,7 @@ def precheck_cn(app: App, req: dict) -> list[dict]:
         if not dry:
             add("ok", "cn_fetch", "new CAC documents are fetched into the run folder; the gov.cn copies are compared by text.")
     elif sources == ["cac"]:
-        add("ok", "cn_scope", "a full collection of the CAC index takes about 12 minutes.")
+        add("ok", "cn_scope", "a full collection of the CAC index takes about 25 minutes.")
     else:
         add("warn", "cn_scope", f"{len(sources)} publishers at one request every 6 to 12 s: expect an hour or more.")
     add("ok", "cn_hand", "the national database, MIIT and Customs stay by hand; the China page lists what to check.")
