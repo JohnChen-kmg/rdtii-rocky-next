@@ -8,6 +8,29 @@ it is reversed later. Entries marked **Proposed** are recommendations, not settl
 
 ---
 
+## 2026-10-04, M18 The roll-up counts and scores an absence as the instrument says, not as the stage hard-codes
+
+**Decision.** `measure_score()` applies the block's `count_rule` and `absence_score` (instrument
+decision D17, third hand-off). The stage keeps no list of counting indicators and no rule of its own
+for an empty cell; on an instrument vintage without the fields it falls back to what it did before.
+
+**Reason.** The developer's decisions of 4 October: the instrument states the count rule as data
+(R5) and what an absence scores as a field (R6). Fifteen blocks count measures and the stage could
+count for two; twenty indicators must not score 0 on an empty search, fourteen of them because the
+absence is their top score.
+
+**What a count is today.** Distinct laws, each at its highest verified score. Six rules count
+something a verdict does not record (sectors, companies, products, procedures, one measure stated in
+two laws); for them the cell says that laws stood in. Capturing those facts means asking the model
+for them, which changes the answer form of those indicators; that belongs with the query design the
+developer wants to go through, and is not done.
+
+**If reversed.** Drop the two fields and the stage is back to two counting indicators and a 0 for
+every empty cell; pillars 6 and 7 are unaffected either way, except that a no-provision row for 7.1
+or 7.2 would again carry a private score of 0.
+
+---
+
 ## 2026-10-04, M17 After the second hand-off: scales and economy-level questions come from the blocks; the measured requests are pinned
 
 **Decision.** The stage reads from each block what it used to fix in code: the scores a verdict may

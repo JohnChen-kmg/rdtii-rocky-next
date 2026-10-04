@@ -37,9 +37,14 @@ _ECONOMY_LEVEL_FALLBACK = frozenset({"7.1", "7.2"})   # "answer once per economy
 _INVERTED_FALLBACK = frozenset({"7.1", "7.2"})        # "Lack of ..." — absence scores 1
 _ID_IN_PROSE = re.compile(r"\b\d{1,2}\.\d{1,2}(?:\.\d{1,2})?\b")
 
-# A Round 1 design choice, not an instrument field: several verified half-point measures in one
-# cell justify a 1. Kept here, keyed decimally, so no module carries its own legacy copy.
+# A Round 1 design choice: several verified half-point measures in one cell justify a 1. Since the
+# third hand-off (4 October 2026) the instrument states it as data, `count_rule` on the block, for
+# these two and for thirteen more; this pair and the rule below are the fallback for an instrument
+# vintage that does not carry the field.
 ESCALATION_IDS = frozenset({"6.1", "6.2"})
+ESCALATION_RULE = {"unit": "measure", "counted_as": "law", "method": "threshold",
+                   "counted_scores": [0.5], "thresholds": [{"at_least": 2, "score": 1}],
+                   "otherwise": "highest_verified_score", "needs": []}
 
 
 class InstrumentError(RuntimeError):
@@ -132,6 +137,34 @@ class Instrument:
         first. For the nine of pillars 6 and 7 that is ("1", "0.5", "0")."""
         vals = sorted({v for i in ids for v in self.values(i)}, reverse=True)
         return tuple(f"{v:g}" for v in vals)
+
+    # ---- the roll-up fields (third hand-off, 4 October 2026; instrument decision D17) -------------
+    def count_rule(self, iid) -> dict | None:
+        """The block's rule for an indicator that scores by how many measures an economy has, or
+        None. On a vintage without the field, 6.1 and 6.2 keep Round 1's rule."""
+        key = normalize(iid)
+        rule = self.block(key).get("count_rule")
+        if rule:
+            return dict(rule)
+        return dict(ESCALATION_RULE) if key in ESCALATION_IDS else None
+
+    def absence(self, iid) -> tuple[bool, float | None]:
+        """(declared, value): what a cell scores when the corpus was searched and nothing qualified.
+        value None means leave the cell and the no-provision row unscored. declared is False on a
+        vintage without the field, where the stage's old answer stands: 0."""
+        block = self.block(iid)
+        if "absence_score" not in block:
+            return False, 0.0
+        value = block["absence_score"]
+        return True, (None if value is None else float(value))
+
+    def absence_basis(self, iid) -> str:
+        return str(self.block(iid).get("absence_basis") or "").strip()
+
+    def null_statement(self, iid) -> str | None:
+        """What an absence row says for this indicator, in the instrument's words."""
+        text = self.block(iid).get("null_statement")
+        return str(text).strip() if text else None
 
     def traps(self, iid) -> list[str]:
         """The indicator's own traps: the lines of its block's disambiguation list that begin TRAP."""

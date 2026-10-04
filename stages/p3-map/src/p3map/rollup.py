@@ -3,7 +3,11 @@
 Provision-level indicators (6.1-6.4, 7.3, 7.4, 7.5): deterministic
 max-rollup over verified fires' final score hints, with the methodology
 clauses applied:
-- escalation clause (6.1/6.2 ONLY): >=2 half-point measures -> 1
+- the block's count rule, where it has one (`count_rule`, read from the
+  instrument since the third hand-off): for 6.1 and 6.2, two or more
+  half-point measures -> 1, the escalation clause this file used to hard-code
+- an empty cell takes the block's `absence_score`: 0 for most, and for some
+  no score at all ("unscored"), because an empty search is not their answer
 - 6.4 asymmetry: personal-data conditions score 1 even if sectoral
   (already encoded in the scoring tree; rollup just takes max)
 - government-data-only fires never reach here (trap-filtered at S4).
@@ -28,15 +32,43 @@ from collections import defaultdict
 import yaml
 
 from config import manifest
-from config.instrument import ESCALATION_IDS, from_artifact, load as load_instrument
+from config.instrument import from_artifact, load as load_instrument
 from config.llm.base import usd
 from config.settings import INDICATORS, SETTINGS
 
 # Which indicators allow a 0.5 is the codebook's business, not this file's: it is read from each
 # block's `scoring.values` via the instrument loader. Derived that way it reproduces the set this
 # module used to hard-code — 6.3, 7.3 and 7.5 — against both instrument vintages, and it keeps
-# working if the codebook changes a scoring tree.
-ESCALATION_INDICATORS = ESCALATION_IDS  # a Round 1 design choice; see config/instrument.py
+# working if the codebook changes a scoring tree. The same goes for which indicators count their
+# measures and how: `Instrument.count_rule`.
+
+
+def apply_count_rule(rule: dict, by_law: dict[str, float]) -> tuple[float | None, str]:
+    """(score, basis) the block's count rule gives over each law's highest verified score, or
+    (None, "") when it gives nothing. The caller keeps the higher of this and the highest single
+    score: a rule never lowers a cell.
+
+    threshold  count the laws whose highest score is one of `counted_scores`; the highest threshold
+               met gives the score
+    sum        add those laws' scores and stop at `cap` (1.4 only)
+    """
+    counted = [float(x) for x in (rule.get("counted_scores") or [])]
+    laws = [law for law, s in by_law.items() if any(abs(s - c) < 1e-9 for c in counted)]
+    if rule.get("method") == "sum":
+        if not laws:
+            return None, ""
+        cap = float(rule.get("cap") if rule.get("cap") is not None else 1)
+        total = min(cap, round(sum(by_law[law] for law in laws), 6))
+        return total, (f"count rule: the scores of {len(laws)} distinct verified measures added, "
+                       f"capped at {cap:g}")
+    met = [th for th in (rule.get("thresholds") or []) if len(laws) >= int(th.get("at_least", 0))]
+    if not met:
+        return None, ""
+    score = max(float(th["score"]) for th in met)
+    if counted == [0.5]:      # the wording 6.1 and 6.2 have always carried
+        return score, f"escalation clause: {len(laws)} distinct verified half-point measures"
+    at = "/".join(f"{c:g}" for c in counted)
+    return score, f"count rule: {len(laws)} distinct verified measures at {at} give {score:g}"
 
 FRAMEWORK_PROMPT = """Evidence rows collected for {econ} / {ind} (each: law, section, coverage, quote):
 {evidence}
@@ -86,7 +118,7 @@ def measure_score(ins, ind: str, fires: list[dict]) -> dict:
                 if t["verification"] in ("agree", "tiebreak_upheld")]
     pending = [t for t in fires
                if t["verification"] not in ("agree", "tiebreak_upheld")]
-    vals, val_laws, off_scale = [], defaultdict(list), 0
+    vals, by_law, off_scale = [], {}, 0
     for t in verified:
         try:
             x = float(t["score_hint"])
@@ -99,27 +131,48 @@ def measure_score(ins, ind: str, fires: list[dict]) -> dict:
             off_scale += 1
             continue
         vals.append(x)
-        val_laws[x].append(t["doc_id"])
+        by_law[t["doc_id"]] = max(by_law.get(t["doc_id"], x), x)     # each law's highest verified score
     aside = (f"; {off_scale} verified value(s) outside this indicator's scale set aside"
              if off_scale else "")
+    waiting = f" ({len(pending)} fires pending verification)" if pending else ""
+    rule = ins.count_rule(ind)
     if not vals:
-        out = {"score": 0.0 if not pending else "provisional-0",
-               "basis": "no VERIFIED qualifying measure"
-                        + (f" ({len(pending)} fires pending verification)"
-                           if pending else "") + aside,
-               "evidence_rows": 0, "pending": len(pending)}
+        # Nothing verified: the cell takes what the block says an absence scores. 0 for most, as it
+        # always was; for an inverted indicator, and a few whose answer lies outside the legislation
+        # searched, no score at all, because an empty search is not evidence of their answer.
+        declared, absent = ins.absence(ind)
+        if not declared or absent == 0:
+            out = {"score": 0.0 if not pending else "provisional-0",
+                   "basis": "no VERIFIED qualifying measure" + waiting + aside,
+                   "evidence_rows": 0, "pending": len(pending)}
+        elif absent is None:
+            out = {"score": "unscored",
+                   "basis": ("no VERIFIED qualifying measure" + waiting + aside
+                             + "; an absence is left unscored for this indicator: "
+                             + ins.absence_basis(ind)[:300]),
+                   "evidence_rows": 0, "pending": len(pending)}
+        else:
+            out = {"score": absent if not pending else f"provisional-{absent:g}",
+                   "basis": ("no VERIFIED qualifying measure" + waiting + aside
+                             + f"; an absence scores {absent:g} for this indicator"),
+                   "evidence_rows": 0, "pending": len(pending)}
     else:
         score = max(vals)
         basis = f"max over {len(vals)} verified fires"
-        # escalation clause counts distinct MEASURES (laws), verified only
-        if (ind in ESCALATION_INDICATORS and score == 0.5
-                and len(set(val_laws[0.5])) >= 2):
-            score, basis = 1.0, (f"escalation clause: {len(set(val_laws[0.5]))} "
-                                 "distinct verified half-point measures")
+        # the block's count rule, over distinct MEASURES (laws), verified only; it never lowers a cell
+        if rule:
+            counted, why = apply_count_rule(rule, by_law)
+            if counted is not None and counted > score:
+                score, basis = counted, why
         if ins.is_binary(ind) and score == 0.5:
             score, basis = 0.0, "binary indicator: lone 0.5 does not qualify (flagged)"
         out = {"score": score, "basis": basis + aside,
                "evidence_rows": len(vals), "pending": len(pending)}
+        needs = [str(n.get("fact")) for n in (rule or {}).get("needs") or [] if isinstance(n, dict)]
+        if needs:
+            # the host counts something a verdict does not record; distinct laws stand in for it
+            out["count_note"] = (f"counted by distinct laws; the block counts {rule.get('unit')}s, which "
+                                 f"needs {', '.join(needs)} on each verdict")
     if off_scale:
         out["off_scale"] = off_scale
     return out

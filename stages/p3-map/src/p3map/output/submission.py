@@ -58,6 +58,23 @@ COLUMNS = ["Economy", "Law Name", "Law Number / Ref", "Last Amended",
 _VERIF_RANK = {"agree": 0, "tiebreak_upheld": 1, "pending": 2}
 
 
+def np_reason(ins, indicator: str) -> str:
+    """What a no-provision row says. The nine of pillars 6 and 7 keep this file's own wording, which
+    the instrument copied onto their blocks; every other indicator takes its block's
+    `null_statement`."""
+    return _NP_REASON.get(indicator) or ins.null_statement(indicator) or "no qualifying measure found"
+
+
+def absence_hint(ins, indicator: str) -> str | None:
+    """The score a no-provision row carries in records.json: the block's `absence_score`, or None
+    when the instrument leaves an absence unscored (an inverted indicator, 11.2, and the few whose
+    answer lies outside the legislation searched). "0" on a vintage without the field, as before."""
+    declared, absent = ins.absence(indicator)
+    if not declared:
+        return "0"
+    return None if absent is None else f"{absent:g}"
+
+
 def unfilable_reason(verdict: dict, trap_checks: dict, indicator: str) -> str | None:
     """Why this fire cannot be filed, or None if it can.
 
@@ -670,7 +687,7 @@ def run_submission(economy: str) -> dict:
                                     + ("a governing law from the baseline rather than a corpus "
                                        "document" if np_named_law else "no document"))
             np_caveat = notification(ind, economy)
-            reason = _NP_REASON.get(ind, "no qualifying measure found")
+            reason = np_reason(ins, ind)
             if ind == "6.1" and any(r["Indicator ID"] == "6.4"
                                       and r["_record_type"] == "scored"
                                       for r in rows):
@@ -713,7 +730,7 @@ def run_submission(economy: str) -> dict:
                 "model_version": _model_version({}),
                 "raw_context": None,
                 "_record_type": "no_provision", "_provision_id": "",
-                "_score_hint": "0",
+                "_score_hint": absence_hint(ins, ind),
             })
 
     # hard audit-trio gate (rubric FAIL trigger): every SCORED row must carry
