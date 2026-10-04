@@ -148,6 +148,55 @@ class IndexFollowsTheOutput(unittest.TestCase):
                                             "engine": "B", "select_mode": "caps", "dense": "stub"})
             self.assertIn("newer than its index", next(c for c in checks if c["check"] == "index")["text"])
 
+    def _ranked_for(self, app, ids) -> None:
+        """A current index whose two legs hold rankings for these indicators (an .npz is a zip of arrays)."""
+        import os
+        import zipfile
+        idx = self._index_with_age(app, -3600)
+        for name in ("bm25_top.npz", "dense_top.npz"):
+            with zipfile.ZipFile(idx / name, "w") as z:
+                for i in ids:
+                    z.writestr(f"{i}_idx.npy", b"0" * 3000)
+                    z.writestr(f"{i}_score.npy", b"0" * 3000)
+        t = (DEMO / "provisions.jsonl").stat().st_mtime + 3600
+        for f in idx.iterdir():
+            os.utime(f, (t, t))
+
+    def test_an_index_ranked_for_other_indicators_is_ranked_again(self):
+        """The demo index held 6.1 and 6.4 only; a run on nine indicators passed Check and stopped at selection."""
+        with tempfile.TemporaryDirectory() as d:
+            app = _app(str(Path(d) / "outputs"))
+            self._ranked_for(app, ["6.1", "P6-I4"])               # one key in the form used before the decimal IDs
+            h = mapping.describe_handoff(app.settings, DEMO, "test")
+            self.assertEqual(h["index"]["indicators"], {"bm25": ["6.1", "6.4"], "dense": ["6.1", "6.4"]})
+            req = {"handoff": str(DEMO), "economies": ["SG"], "indicators": ["6.1", "6.2"],
+                   "engine": "B", "select_mode": "caps", "dense": "stub"}
+            self.assertEqual(mapping._norm_request(app, req)["index_lacks"], ["6.2"])
+            labels = [st.label for st in mapping.plan_map(app, req).steps]
+            self.assertFalse(any("corpus index" in x for x in labels), labels)        # the provisions read are reused
+            self.assertTrue(any("rank the keyword index" in x for x in labels), labels)
+            self.assertTrue(any("stub" in x for x in labels), labels)                 # the stub mirrors the new keys
+            text = next(c for c in mapping.precheck(app, req) if c["check"] == "index")["text"]
+            self.assertIn("was ranked for 6.1, 6.4", text)
+            self.assertIn("ranked again", text)
+
+            same = {**req, "indicators": ["6.4", "6.1"]}                             # what the index already holds
+            self.assertEqual(mapping._norm_request(app, same)["index_lacks"], [])
+            labels = [st.label for st in mapping.plan_map(app, same).steps]
+            self.assertFalse(any("keyword index" in x or "meaning index" in x for x in labels), labels)
+            self.assertIn("as new as the extraction output",
+                          next(c for c in mapping.precheck(app, same) if c["check"] == "index")["text"])
+
+    def test_an_index_that_cannot_be_read_is_left_to_the_dates(self):
+        with tempfile.TemporaryDirectory() as d:
+            app = _app(str(Path(d) / "outputs"))
+            self._index_with_age(app, -3600)                      # the legs are one byte each: not archives
+            h = mapping.describe_handoff(app.settings, DEMO, "test")
+            self.assertEqual(h["index"]["indicators"], {"bm25": None, "dense": None})
+            n = mapping._norm_request(app, {"handoff": str(DEMO), "economies": ["SG"], "indicators": ["6.1"],
+                                             "engine": "B", "select_mode": "caps", "dense": "stub"})
+            self.assertEqual(n["index_lacks"], [])
+
     def test_build_rebuilds_a_current_index_from_scratch(self):
         with tempfile.TemporaryDirectory() as d:
             app = _app(str(Path(d) / "outputs"))

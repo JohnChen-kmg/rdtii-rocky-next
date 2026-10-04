@@ -8,6 +8,7 @@ two arms are read as two arms and summed; 7.1 and 7.2 are inverted.
 from __future__ import annotations
 
 import re
+import zipfile
 from pathlib import Path
 
 from .. import readers
@@ -425,6 +426,25 @@ def index_dir_for(s: Settings, handoff: Path) -> Path:
     return s.runs_root / "index" / handoff.name
 
 
+_RANKED = re.compile(r"^(?:(\d+(?:\.\d+)+)|P(\d+)-I(\d+))_idx(?:\.npy)?$")
+
+
+def _index_indicators(leg: Path) -> list[str] | None:
+    """The indicators one index leg holds a ranking for, read from the member names of the archive (an
+    .npz is a zip, so no numpy here). None when the file is missing or is not an archive: nothing is known."""
+    try:
+        with zipfile.ZipFile(leg) as z:
+            names = z.namelist()
+    except (OSError, zipfile.BadZipFile):
+        return None
+    out = []
+    for name in names:
+        m = _RANKED.match(name)
+        if m:      # "6.1_idx", or "P6-I1_idx" from an index built before the decimal IDs
+            out.append(m.group(1) or f"{m.group(2)}.{m.group(3)}")
+    return out
+
+
 def describe_handoff(s: Settings, path: Path, kind: str) -> dict:
     laws = readers.cached(path / "laws.jsonl", readers.read_jsonl) or []
     status = readers.cached(path / "doc_status.jsonl", readers.read_jsonl) or []
@@ -451,7 +471,9 @@ def describe_handoff(s: Settings, path: Path, kind: str) -> dict:
         "index": {"dir": str(idx), "id": rel_or_abs(idx, REPO),
                   "corpus": (idx / "prefilter_corpus.jsonl").is_file(), "bm25": (idx / "bm25_top.npz").is_file(),
                   "dense": dense.is_file(), "dense_is_stub": dense.is_file() and dense.stat().st_size < 4096,
-                  "stale": stale, "built": when(index_mtime), "source_written": when(source_mtime)},
+                  "stale": stale, "built": when(index_mtime), "source_written": when(source_mtime),
+                  # the rankings are per indicator; a run on other indicators ranks both legs again
+                  "indicators": {"bm25": _index_indicators(idx / "bm25_top.npz"), "dense": _index_indicators(dense)}},
     }
 
 
@@ -534,11 +556,16 @@ def _norm_request(app: App, req: dict) -> dict:
         raise ApiError(400, "limit must be a whole number") from None
     idx = Path(h["index"]["dir"])
     have_dense_real = have["dense"] and not have["dense_is_stub"]
+    # The index holds a ranking per indicator. A ticked indicator it was not ranked for means both legs are
+    # ranked again at Start (the provisions read into the corpus, and their embeddings, are reused); the
+    # stage's selection step stops on a missing ranking.
+    held = have.get("indicators") or {}
+    lacks = [i for i in indicators if any(held.get(leg) is not None and i not in held[leg] for leg in ("bm25", "dense"))]
     if dense == "auto":   # keep the meaning index if there was one; build it when the threshold rule needs it
         dense = "real" if have_dense_real or select_mode == "scores" else "stub"
     return {"handoff": h, "economies": economies, "present": present, "indicators": indicators, "in_scope": in_scope,
             "engine": engine, "models": models, "thetas": thetas, "caps": caps,
-            "select_mode": select_mode, "dense": dense, "rebuild": rebuild,
+            "select_mode": select_mode, "dense": dense, "rebuild": rebuild, "index_lacks": lacks,
             "gloss": bool(req.get("gloss", True)), "limit": limit, "index_dir": idx,
             "run_name": re.sub(r"[^A-Za-z0-9_.-]", "_", str(req.get("run_name") or ""))[:40]}
 
@@ -662,6 +689,10 @@ def precheck(app: App, req: dict) -> list[dict]:
     elif n["rebuild"] or not have["corpus"] or not have["bm25"]:
         add("ok", "index", f"The corpus index will be built at {rel_or_abs(idx, REPO)}: read every provision, then the keyword index"
                            + (" (Build: from scratch)." if n["dense"] == "real" and have["corpus"] else "."))
+    elif n["index_lacks"]:
+        ranked = (have.get("indicators") or {}).get("bm25") or []
+        add("ok", "index", f"The index at {rel_or_abs(idx, REPO)} was ranked for {_listed(ranked) or 'no indicator'}; "
+                           "it is ranked again for the ticked indicators at Start. The provisions already read are reused.")
     else:
         add("ok", "index", f"Reusing the index at {rel_or_abs(idx, REPO)}; it is as new as the extraction output.")
     if n["dense"] == "stub":
@@ -673,8 +704,14 @@ def precheck(app: App, req: dict) -> list[dict]:
                                  "(measured: zero of 450,000 slots for Chinese and Lao). Use the real dense leg.")
         else:
             add("warn", "dense", "Keyword index only; the meaning index is stubbed empty. Fine for English corpora with the caps rule; nothing is downloaded.")
-    elif have["dense"] and not have["dense_is_stub"] and not n["rebuild"]:
+    elif have["dense"] and not have["dense_is_stub"] and not n["rebuild"] and not n["index_lacks"]:
         add("ok", "dense", "Reusing the meaning index (BGE-M3 embeddings).")
+    elif have["dense"] and not have["dense_is_stub"] and not n["rebuild"]:
+        t = _torch_state(py, p3)
+        if not t["ok"]:
+            add("fail", "dense", f"Ranking the meaning index again needs torch and sentence-transformers: {t['error'] or 'not importable'}.")
+        else:
+            add("ok", "dense", "Meaning index: ranked again for the ticked indicators; the stored BGE-M3 embeddings are reused.")
     else:
         t = _torch_state(py, p3)
         if not t["ok"]:
@@ -1003,7 +1040,8 @@ def plan_map(app: App, req: dict) -> Job:
         raise ApiError(409, str(e)) from None
     py = s.python_for("p3")
     have = h["index"]
-    need_dense = n["rebuild"] or not have["dense"] or (n["dense"] == "real" and have["dense_is_stub"])
+    rerank = bool(n["index_lacks"])     # the index was ranked for other indicators: both legs again
+    need_dense = n["rebuild"] or not have["dense"] or (n["dense"] == "real" and have["dense_is_stub"]) or rerank
     if need_dense and n["dense"] == "real" and "EMBED_DEVICE" not in env:
         t = _torch_state(py, p3)
         env["EMBED_DEVICE"] = t.get("device") or "cpu"
@@ -1014,12 +1052,16 @@ def plan_map(app: App, req: dict) -> Job:
     if n["rebuild"] or not have["corpus"]:
         steps.append(Step(label="read every provision into the corpus index", cwd=p3, env=env, parse=parse_p3,
                           argv=mod + [f"{P3_MODULE}.cli", "ingest"]))
-    if n["rebuild"] or not have["bm25"]:
-        steps.append(Step(label="build the keyword index", cwd=p3, env=env, parse=parse_p3,
+    if n["rebuild"] or not have["bm25"] or rerank:
+        only_rank = rerank and not n["rebuild"] and have["bm25"]
+        steps.append(Step(label="rank the keyword index for the ticked indicators" if only_rank else "build the keyword index",
+                          cwd=p3, env=env, parse=parse_p3,
                           argv=mod + [f"{P3_MODULE}.cli", "prefilter", "--leg", "bm25"]))
     if need_dense:
         if n["dense"] == "real":
-            steps.append(Step(label="build the meaning index (BGE-M3 embeddings)", cwd=p3, env=env, parse=parse_p3,
+            only_rank = rerank and not n["rebuild"] and have["dense"] and not have["dense_is_stub"]
+            steps.append(Step(label="rank the meaning index for the ticked indicators (embeddings reused)" if only_rank
+                              else "build the meaning index (BGE-M3 embeddings)", cwd=p3, env=env, parse=parse_p3,
                               argv=mod + [f"{P3_MODULE}.cli", "prefilter", "--leg", "dense"]))
         else:
             steps.append(Step(label="stub the meaning index (keyword retrieval only)", cwd=p3, env=env, parse=parse_p3,

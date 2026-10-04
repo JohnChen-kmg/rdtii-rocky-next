@@ -1214,9 +1214,13 @@ function renderMapRun() {
   const canStart = !!(MP.stagePresent && h && MP.checks && fails.length === 0);
   const idx = h ? h.index : null;
   const idxState = idx ? [idx.corpus ? 'corpus ready' : 'no corpus', idx.bm25 ? 'keyword index ready' : 'no keyword index', idx.dense ? (idx.dense_is_stub ? 'meaning index stubbed' : 'meaning index ready') : 'no meaning index'].join(', ') : '';
+  // the index holds a ranking per indicator: one that is ticked and missing means both legs are ranked again at Start
+  const idxRanked = (idx && idx.indicators && idx.indicators.bm25) || null;
+  const idxLacks = idxRanked ? chosenIndicators().filter((i) => !idxRanked.includes(i)) : [];
   // what the next run does with the index: Build rebuilds from scratch; Auto and Skip rebuild only when it is older than the output
   const idxPlan = !idx || !idx.corpus ? '' : MP.dense === 'real' ? '<span class="chip">Build: rebuilt from scratch</span>'
-    : idx.stale ? `<span class="chip warn">older than the output (${esc(idx.built || '')} against ${esc(idx.source_written || '')}), will be rebuilt</span>` : '<span class="chip ok">as new as the output</span>';
+    : idx.stale ? `<span class="chip warn">older than the output (${esc(idx.built || '')} against ${esc(idx.source_written || '')}), will be rebuilt</span>`
+    : idxLacks.length ? `<span class="chip">ranked for ${esc(idxRanked.join(', ') || 'no indicator')}; ranked again at Start</span>` : '<span class="chip ok">as new as the output</span>';
   note.innerHTML = `
     <div class="targets">
       <div class="target"><span class="setup-label">Writes to</span> <code>${esc(root)}${BS}map${BS}${stamp()}_${esc(runEngine)}${BS}out</code> <span class="muted">(a new folder, created at Start)</span></div>
