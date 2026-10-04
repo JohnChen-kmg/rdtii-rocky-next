@@ -49,7 +49,11 @@ button, input, select, textarea { font: inherit; }
 .tabs button { border: 1px solid transparent; border-bottom: none; background: transparent; padding: 8px 16px;
   border-radius: 8px 8px 0 0; cursor: pointer; color: var(--muted); }
 .tabs button.active { background: var(--bg); border-color: var(--line); color: var(--ink); font-weight: 600; }
-main { flex: 1 1 auto; min-width: 0; padding: 16px 18px 40px; }
+/* empty space on both sides of every page, wider on a wider window: room to scroll the page with the pointer
+   off the tables, and to reach the window's scroll bar without catching a table's */
+main { flex: 1 1 auto; min-width: 0; padding: 16px max(18px, min(9vw - 60px, 180px)) 40px; }
+/* the Overview's two-column map needs the width, and holds no table to catch the pointer: half the space there */
+main:has(> #tab-overview:not([hidden])) { padding-left: max(18px, min(4.5vw - 30px, 90px)); padding-right: max(18px, min(4.5vw - 30px, 90px)); }
 .tab[hidden] { display: none; }
 .block { background: var(--panel); border: 2px solid var(--un-blue); border-radius: 12px; padding: 0 0 16px; margin-bottom: 18px; overflow: hidden; }
 .block > :not(h2):not(summary) { margin-left: 20px; margin-right: 20px; }
@@ -148,9 +152,10 @@ ul.checks { list-style: none; padding: 0; margin: 8px 0; font-size: 16px; } ul.c
 .correct label.cf input, .correct label.cf select { margin-left: 6px; }
 .correct label.cf textarea { display: block; width: 100%; max-width: 900px; font: inherit; font-size: 16px; padding: 6px; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); }
 a.btn { text-decoration: none; color: var(--ink); display: inline-block; }
-.setup-row { display: grid; grid-template-columns: 130px 1fr; gap: 8px 14px; align-items: start; margin: 10px 0; }
+.setup-row { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 8px 14px; align-items: start; margin: 10px 0; }
 .setup-label { font-size: 19px; font-weight: 600; padding-top: 8px; }
 .econ-grid { display: grid; grid-template-columns: repeat(3, minmax(240px, 1fr)); gap: 10px 12px; max-width: 1050px; }
+@media (max-width: 1600px) { .econ-grid { grid-template-columns: repeat(2, minmax(240px, 1fr)); } }   /* with the side space, a third column would squeeze the counts out of their tiles */
 label.radio.big { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--chip); cursor: pointer; font-size: 19px; }
 label.radio.big.on { border-color: var(--accent); background: #e8efff; }
 label.radio.big.off { opacity: .6; cursor: not-allowed; }
@@ -183,7 +188,7 @@ details.src-card > summary::-webkit-details-marker { display: none; }
 details.src-card > summary::before { content: '▸'; color: var(--un-blue); font-size: 20px; }
 details.src-card[open] > summary::before { content: '▾'; }
 details.src-card .econ-name { font-size: 24px; font-weight: 700; }
-details.src-card .setup-row { grid-template-columns: 250px 1fr; margin: 14px 0 6px; }
+details.src-card .setup-row { grid-template-columns: 250px minmax(0, 1fr); margin: 14px 0 6px; }
 .portal-grid { display: flex; flex-wrap: wrap; gap: 10px 12px; }
 .portal-card { display: inline-flex; flex-direction: column; gap: 2px; padding: 10px 16px; border: 1px solid #b9cfe3; border-radius: 12px; background: #fff; text-decoration: none; color: var(--ink); min-width: 220px; }
 .portal-card:hover { border-color: var(--un-blue); }
@@ -226,7 +231,7 @@ details.doclist { margin: 10px 0 4px; } details.doclist > summary { font-size: 1
 
 /* shared by the three stage pages */
 .setup-row select, .stack-row select, .setup-row input[type=text], .stack-row input[type=text], .setup-row input[type=search] { font-size: 17px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); }
-select.wide-select { min-width: 560px; max-width: 100%; }
+select.wide-select { min-width: min(560px, 100%); max-width: 100%; }
 .setup-row .row { gap: 10px 12px; }
 .setup-row label { font-size: 17px; }
 details.src-card summary .sum { font-size: 19px; font-weight: 600; color: var(--un-blue-deep); }
@@ -422,7 +427,7 @@ table.rows.tiers ul.tb { margin: 0; padding-left: 20px; } table.rows.tiers ul.tb
 .guide .mini-io span { background: #eaf4fc; border: 2px solid #9fc0dd; border-radius: 999px; padding: 3px 12px; font-size: 15px; }
 .guide .mini-io b { display: block; position: relative; width: 44px; height: 2px; background: var(--un-blue); font-size: 0; }
 .guide .mini-io b::after { content: ""; position: absolute; right: 1px; top: 50%; width: 9px; height: 9px; border-top: 2px solid var(--un-blue); border-right: 2px solid var(--un-blue); transform: translateY(-50%) rotate(45deg); }
-.guide pre.tree { background: #f4f7fa; border-radius: 8px; padding: 8px 12px; font-size: 14px; line-height: 1.45; margin: 4px 0 0; white-space: pre; overflow-x: auto; color: var(--ink); }
+.guide pre.tree { background: #f4f7fa; border-radius: 8px; padding: 8px 12px; font-size: 13.5px; line-height: 1.45; margin: 4px 0 0; white-space: pre; overflow-x: auto; color: var(--ink); }
 .guide .example-card ul.steps { margin: 2px 0 0; padding-left: 18px; font-size: 15px; line-height: 1.45; }
 .guide .example-card ul.steps li { margin: 4px 0; } .guide .example-card ul.steps b { color: var(--un-blue-deep); margin-right: 4px; }
 .guide .row-line { background: #f4f7fa; border-radius: 8px; padding: 8px 12px; font-size: 15px; margin: 2px 0 10px; }
