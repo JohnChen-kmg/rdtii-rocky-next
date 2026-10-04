@@ -268,3 +268,16 @@ the list, which is the step wanted before a live test.
 
 **Consequence if reversed:** Inline discovery needs fewer moving parts and no list folder, at the price of the
 wait on every run and no count before the first document.
+
+## 2026-10-04, Which Python runs a stage is kept per machine, and set from the page
+
+**Decision:** The three stage interpreters can be named in Appendix, This machine. The choice is written to
+`machine.json` in the state folder and applies at once. An environment variable of the same name wins; a
+`.venv` in the repository is still found by itself.
+
+**Why:** The window is started by double-click, with no terminal to set a variable in. On the developer's
+machine the extraction stage's packages live in an environment outside the repository, so Extraction failed at
+its first step. A fact about one computer does not belong in the repository or in a project folder.
+
+**Consequence if reversed:** Without it the only ways are a system-wide environment variable or a `.venv`
+inside the clone; the first is invisible from the page, the second is a second copy of a large environment.

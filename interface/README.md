@@ -36,7 +36,7 @@ The ones the interface adds:
 | `RDTII_OUT_DIR_EXTRA` | (auto: a sibling `out_*` of `OUT_DIR`) | further arms of the displayed run, comma separated |
 | `RDTII_SUBMISSION_DIR` | `submission` | the filed rows, shown read-only |
 | `RDTII_INBOX_DIR` | `inbox` | documents collected by hand, one subfolder per economy and designated source; listed on the Extraction tab |
-| `RDTII_PYTHON_P1`, `_P2`, `_P3` | a stage's own `.venv` when it has one, then the repository's, then the interpreter running the page | a different Python per stage when each has its own environment; a relative value is taken against the repository |
+| `RDTII_PYTHON_P1`, `_P2`, `_P3` | what Appendix, This machine keeps for this computer; else a stage's own `.venv` when it has one, then the repository's, then the interpreter running the page | a different Python per stage when each has its own environment; a relative value is taken against the repository |
 | `RDTII_PYTHON_AUTO` | `1` | set to `0` to stop a `.venv` being picked up by itself |
 | `RDTII_TESSERACT` | (found on PATH, then in the usual place for the system) | the Tesseract program, when it is somewhere else |
 | `RDTII_HOST`, `RDTII_PORT` | `127.0.0.1`, `8765` | bind address; port `0` takes a free one, and a window start does so by itself when the port is taken |
@@ -74,6 +74,8 @@ The ones the interface adds:
 - On Windows without long paths, a run folder so deep that a long-named law could not be stored fails Check.
 - The browser check is a real launch by the crawler's own Python, kept until the builds on disk change; a
   Chromium folder says nothing once the Playwright package has moved to another build.
+- Which Python runs each stage belongs to the machine: it is kept in `machine.json` in the state folder, set
+  from Appendix, This machine, and tested by each stage's Check before Start.
 - A crawl asks for one document per law (`--forms pdf`). A run the portal cut short ends as failed, with
   the count missing and the way to resume; nothing fetched is lost.
 - **Open folder** opens a run folder in the file manager of the machine that runs the server; it is
@@ -94,7 +96,7 @@ The ones the interface adds:
 
     python -m unittest discover -s interface/tests -t interface
 
-205 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
+214 tests: the readers and the traps they guard, the run layer with a real subprocess, the allowlist, the
 window (which browser, when to stop, one instance, the presence stream on a real server), the
 Clear guard, the folders by economy and source, the inbox (designated sources, addresses, archives, what
 can be read), the manifest written for hand-collected documents, the three run plans and their parsers,
