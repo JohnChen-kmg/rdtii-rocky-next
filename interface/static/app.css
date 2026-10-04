@@ -662,4 +662,21 @@ table.rows td:last-child .btn { display: block; width: 100%; white-space: nowrap
 .guide details.subfold.example pre.tree { font-size: 14px; }
 /* a head with one title keeps it in a narrow window (the rule above hid a last title, meant for the old second column) */
 @media (max-width: 1150px) { .guide .guide-head .col-title:last-child { display: block; } }
+/* Overview map: roomier stage blocks. The boxes inside are taller and stand apart; nothing is moved. */
+.guide .guide-row .block.node { padding-bottom: 28px; }
+.guide .guide-row .block.node > h2 { margin-bottom: 28px; }
+.guide .io { box-sizing: border-box; max-width: 1000px; margin: 8px auto 28px; padding: 0 24px; gap: 14px 30px; }
+.guide .io { align-items: stretch; }   /* the two boxes of a row are the same height, their text centred */
+.guide .io-box { align-content: center; padding: 18px 22px 20px; font-size: 20px; }   /* a block, so a footnote mark stays beside its word */
+.guide .io-arrow { align-self: center; }
+.guide .io-box small { font-size: 16px; line-height: 1.4; margin-top: 6px; }
+.guide .io-arrow i { font-size: 16px; }
+.guide .io-arrow b { width: 112px; margin: 12px 0 6px; }
+.guide .guide-row .block.node > p { margin: 0 28px 18px; line-height: 1.55; }
+.guide .guide-row .block.node > p:last-child { margin-bottom: 4px; }
+.guide .guide-row .chain { margin: 6px 24px 22px; gap: 10px; }
+.guide .guide-row .chain span { padding: 7px 18px; font-size: 17px; }
+.guide .guide-row .block.node > details.subfold { margin: 16px 28px 0; }
+.guide .guide-row .block.node > details.subfold > summary { padding: 12px 18px; }
+.guide .arrow-row { height: 46px; margin: 18px 0; }
 /* === fit: end === */
