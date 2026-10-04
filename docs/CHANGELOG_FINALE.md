@@ -11,11 +11,13 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 
 ## 2026-10-04 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
 
-A lighter look for the interface, asked for on 4 October: "the color heaviness, the box, the space between, the
-button, the menu bar", after the manner of Apple's site, with no change of arrangement.
+The interface's shapes and spacing, asked for on 4 October ("the color heaviness, the box, the space between, the
+button, the menu bar", after the manner of Apple's site, with no change of arrangement). The colours are the
+original ones.
 
-- Interface, styling only, one layer at the end of `static/app.css`. The main colour is blue-grey, not white (the developer, the same day: "this is a data website, lets not use white as main color"; a first version with white bars and white cards was replaced): a blue top bar, a blue-grey sidebar whose active page is a blue tile, and a blue-grey band at the head of every block, sub-block and table. The page behind the blocks is close to white (his third word on it: "the main page bg should sth close to white"; a blue-grey page was tried in between). The heavy parts are gone: the thick blue frames and the solid blue title bars give way to a hairline and a soft shadow, titles are deep blue text on the band, and UN blue is kept for what can be pressed and for the step numbers and letters. Buttons are pills, one filled blue for the main action; tiles and choices are white with a hairline, blue only when chosen; a little more air under blocks and between rows; thinner arrows and frames on the Overview. No element moved and no markup or script changed. On a Mac the text now takes the system font; on Windows it is Calibri as before.
-- Checked in a browser on every tab at the window's own 1500 px, and for fit at 1280, 1440 and 1920: no sideways scroll, nothing spills out of its box that did not before, and the tables run past their frames no further than they did (the Scraping output table by 1 px against 5). The header is lower, 74 px against 98.
+- Interface, styling only, one layer at the end of `static/app.css` that sets no colour: rounder blocks with a soft shadow, thin frames in place of the 2 px ones, pill buttons, a slimmer top bar, rounder sidebar items, a little more air under blocks and between rows, thinner arrows and frames on the Overview. No element moved and no markup or script changed. On a Mac the text now takes the system font; on Windows it is Calibri as before.
+- The colours were tried three ways in that layer the same day and taken back at the developer's word ("revert the color to the original ones"): white bars and white cards; then blue-grey as the main colour; then that with a near-white page. What stands is the stylesheet's own colours: the UN-blue top bar and sidebar, the solid blue title banners, the light-blue tints and blue outlines.
+- Checked in a browser on every tab at the window's own 1500 px, and for fit at 1280, 1440 and 1920: no sideways scroll, nothing spills out of its box that did not before, and the tables run past their frames no further than they did.
 
 Mapping after the second instrument hand-off (commit `bafe873`: all 61 indicators at pillar 6-7 depth).
 The first three of the six things mapping has to absorb, and the evaluator; the developer's go-ahead of
