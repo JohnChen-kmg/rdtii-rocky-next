@@ -564,10 +564,10 @@ details.hold > dl.portal-facts, details.hold > details.doclist, details.hold > p
 /* === lighter look: begin ===
    4 October 2026. Details only: how heavy the colour is, the boxes, the space between them, the buttons and
    the two bars. No arrangement changes: every element stays where it was and keeps its size class.
-   The main colour is blue-grey, not white: a blue top bar, a blue-grey sidebar and page, a blue-grey band at
-   the head of every block. UN blue is the accent for what can be pressed and for the step numbers. */
+   The colour is blue and blue-grey: a blue top bar, a blue-grey sidebar, a blue-grey band at the head of every
+   block. The page behind the blocks is close to white. UN blue is the accent for what can be pressed and for the step numbers. */
 :root {
-  --bg: #dfe7ef; --panel: #f7fafc; --band: #d3e0ec; --band-soft: #e3ecf4;
+  --bg: #f6f8fb; --panel: #ffffff; --band: #d3e0ec; --band-soft: #e3ecf4;   /* the page itself is close to white; the colour is in the bars and the bands */
   --ink: #1b2a3a; --muted: #55677a; --line: #b9c8d6; --hair: #c5d2de;
   --accent: #0072bc; --chip: #e3eaf1; --tint: #e3eef8; --tint-line: #b3cbe1; --soft: #eef3f8;
   --un-blue-deep: #0f3554;
