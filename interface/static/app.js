@@ -319,8 +319,12 @@ async function loadPicker() {
   try { S.picker = await api('/api/map/indicators'); } catch (e) { $('#map-setup').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
   const pk = S.picker;
   const tc = pk.tier_counts || {};
-  const flag = (i) => i.tier === 'B' ? `<span class="chip tier tier-b" title="${esc((pk.tiers || {}).B || '')}">not reviewed</span>`
+  // a reviewed rulebook is the one that carries a tag; one that is not reviewed carries none
+  const flag = (i) => i.tier === 'A' ? `<span class="chip tier tier-a" title="${esc((pk.tiers || {}).A || '')}">reviewed</span>`
     : i.tier === 'C' ? `<span class="chip tier tier-c" title="${esc((pk.tiers || {}).C || '')}">host criteria only</span>` : '';
+  // the nine elements of a rulebook, named and ordered as the Overview names them
+  const NINE = ['Question', 'Definition', 'Scores', 'Scoring tree', 'Coding rules', 'Exceptions', 'Traps', 'Count rule', 'Absence'];
+  const nine = NINE.map((x) => `<span>${x}</span>`).join('');
   const practiceChip = (i) => i.practice_based ? `<span class="chip warn" title="${esc(i.practice_based)}">practice-based</span>` : '';
   $('#map-setup').innerHTML = `
     <div class="setup-row"><div class="setup-label">Indicators</div>
@@ -345,11 +349,12 @@ async function loadPicker() {
         <div class="tag-table plain">
       <p class="lead">Every indicator is computed the same way: one query from its name, definition and keywords; the same prompt, verification and NEW or KNOWN comparison for all ${pk.in_scope}. What differs is the rulebook the model is given.</p>
       <div class="table-wrap"><table class="rows tags"><thead><tr><th>Tag in the list</th><th>Indicators</th><th>What the rulebook carries</th></tr></thead><tbody>
-        <tr><td><span class="chip tier tier-a">reviewed</span><div class="small muted">no tag shown: the pre-selected</div></td><td class="num">${tc.A ?? 9}</td><td><div class="parts"><span>Definition</span><span>Scoring tree</span><span>Coding rules</span><span>Disambiguation</span><span>Exceptions</span><span>Guide examples</span><span class="plus">Traps from real mistakes</span><span class="plus">Reviewed line by line</span></div><div class="small muted">Pillars 6 and 7, checked against the host’s methodology.</div></td></tr>
-        <tr><td><span class="chip tier tier-b">not reviewed</span></td><td class="num">${tc.B ?? '?'}</td><td><div class="parts"><span>Definition</span><span>Scoring tree</span><span>Coding rules</span><span>Disambiguation</span><span>Exceptions</span><span>Guide examples</span></div><div class="small muted">Drafted from the guides, unchecked. An error repeats in every row mapped under the indicator, so its rows deserve a reviewer’s eye.</div></td></tr>
+        <tr><td><span class="chip tier tier-a">reviewed</span><div class="small muted">the pre-selected</div></td><td class="num">${tc.A ?? 9}</td><td><div class="parts">${nine}<span class="plus">Traps from real mistakes</span><span class="plus">Reviewed line by line</span></div><div class="small muted">Pillars 6 and 7, checked against the host’s methodology.</div></td></tr>
+        <tr><td><span class="muted">no tag</span><div class="small muted">not reviewed</div></td><td class="num">${tc.B ?? '?'}</td><td><div class="parts">${nine}</div><div class="small muted">The same nine, drafted from the guides, unchecked. An error repeats in every row mapped under the indicator, so its rows deserve a reviewer’s eye.</div></td></tr>
         <tr><td><span class="chip tier tier-c">host criteria only</span></td><td class="num">${tc.C ?? '?'}</td><td><div class="parts"><span>Definition</span><span>Scoring tree</span><span class="thin">Host criteria, copied by script</span></div><div class="small muted">No traps, no examples, no rules of our own. The model settles edge cases itself, so more rows need review; a row should name this in Notes and clear a higher confidence before NEW.</div></td></tr>
         <tr><td><span class="chip warn">practice-based</span></td><td class="num">3</td><td><div class="parts"><span class="ext">Facts outside legislation</span></div><div class="small muted">3.4, 5.3 and 9.1 score a blocked investment or company ownership and the like. The legal dataset shows the framework, not the practice.</div></td></tr>
       </tbody></table></div>
+      <p class="small muted">The nine elements are those of the Overview’s instrument fold. Not every indicator has every one: an indicator with no exception, no count rule or no look-alike carries none. The Guide’s examples are kept in the rulebook file for the reviewer; the model is not given them.</p>
       <p class="small muted">Any rulebook can be raised to the reviewed level later, by review alone; the pipeline does not change.</p>
         </div>
     </details>`;
