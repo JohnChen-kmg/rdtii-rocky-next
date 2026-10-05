@@ -903,4 +903,9 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 /* the performance block's warning: one highlighted line, in the amber the pages use for a caution */
 .guide .block.cost > p.caution { margin: 2px 20px 12px; font-size: 19px; font-weight: 700; }
 .guide .block.cost > p.caution mark { background: #ffe08a; color: #5c3d00; padding: 3px 10px; border-radius: 6px; }
+/* a highlighted line that runs over two lines keeps its padding and its corners on each */
+.guide .block.cost > p.caution { line-height: 1.75; }
+.guide .block.cost > p.caution mark { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+/* the label over the rulebook's nine elements: bolder to the eye (darker) and a little larger */
+.guide .rb-label { font-size: 19px; font-weight: 800; color: var(--ink); margin: 6px 20px 8px; }
 /* === fit: end === */
