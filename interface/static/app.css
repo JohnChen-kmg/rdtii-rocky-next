@@ -969,4 +969,7 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 /* 3.2 Run: the notice lists the finale's model for each step; the threshold line says it is the default, larger */
 #mp-engine-notice ul { margin: 6px 0 6px; padding-left: 24px; } #mp-engine-notice li { margin: 3px 0; }
 .num-state b { font-size: 19px; font-weight: 800; }
+/* a step's models sit in a grey tray, so the Model row reads apart from the Provider row above it */
+.subblock .picks.model-picks { background: #eef0f3; border: 1px solid #b4bec8; border-radius: 14px; padding: 9px 12px; }
+.subblock .stack-row.model-row { align-items: center; }
 /* === fit: end === */
