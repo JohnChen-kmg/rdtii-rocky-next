@@ -760,4 +760,14 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide details.subfold.grey .io-arrow b::after, .guide details.subfold.grey .mini-io b::after { border-color: #6b7a89; }
 .guide details.subfold.grey .example-inside { border-color: #b4bec8; margin-bottom: 14px; }
 .guide details.subfold.grey .mini-io span { background: #f1f3f5; border-color: #b4bec8; color: #3b4652; }
+/* the rulebook's elements as small blocks, and the example element by element */
+.guide .rb-label { margin: 2px 20px 6px; font-size: 15px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: #4b5563; }
+.guide .rb-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 20px 16px; }
+.guide .rb-el, .guide .rb-rows .k { background: #f1f3f5; border: 1px solid #8a97a5; border-radius: 10px; color: #3b4652; font-weight: 700; }
+.guide .rb-el { padding: 7px 12px 8px; font-size: 17px; }
+.guide .rb-el small { display: block; font-size: 14.5px; font-weight: 500; line-height: 1.35; color: #4b5563; margin-top: 1px; }
+.guide .rb-rows { display: grid; grid-template-columns: 138px minmax(0, 1fr); gap: 7px 14px; margin-top: 10px; align-items: start; }
+.guide .rb-rows .k { padding: 5px 10px; font-size: 15.5px; text-align: center; }
+.guide .rb-rows .v { padding: 5px 0; font-size: 16.5px; line-height: 1.45; color: var(--ink); }
+@media (max-width: 1150px) { .guide .rb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* === fit: end === */
