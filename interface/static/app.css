@@ -944,4 +944,8 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 /* the Introduction's three stages: a small white circle with the number, not the section titles' blue one */
 .guide .guide-intro ol.stages li { padding-left: 40px; }
 .guide .guide-intro ol.stages li::before { left: 2px; top: 5px; width: 26px; height: 26px; box-sizing: border-box; background: #fff; color: var(--un-blue); border: 2px solid var(--un-blue); font-size: 16px; line-height: 1; }
+/* a small table inside a grey note fold: white, no height limit, numbers left as figures */
+.notes-box > .table-wrap { background: #fff; max-height: none; margin: 8px 0 6px; max-width: 760px; }
+.notes-box > .table-wrap table.rows { margin-top: 0; }
+.notes-box > .table-wrap td.num { text-align: left; font-variant-numeric: tabular-nums; }
 /* === fit: end === */

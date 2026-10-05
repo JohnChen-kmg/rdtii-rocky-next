@@ -1182,13 +1182,20 @@ function renderExtractRun() {
       ${econRow}
       <label class="stack-row"><span class="setup-label">OCR pack</span> <select id="ex-pack"><option value="fast" ${EX.pack === 'fast' ? 'selected' : ''}>Fast: the measured choice</option><option value="best" ${EX.pack === 'best' ? 'selected' : ''}>Best: slower, for hard scans</option></select> <span class="muted">scanned PDFs only, no charge; Fast about 1 second a page, Best about 2</span></label>
       <label class="stack-row"><span class="setup-label">OCR workers</span> <input type="text" id="ex-workers" size="3" value="${EX.workers}"> <span class="muted">pages read at once; each takes one processor core and about 160 MB of memory</span></label>
+      <details class="notes-box" id="ex-ocr-cost" ${EX.ocrCostOpen ? 'open' : ''}><summary>OCR workers: what they cost the computer</summary>
+        <div class="table-wrap"><table class="rows"><thead><tr><th>Workers</th><th>Pages a second</th><th>Memory at the peak</th><th>Processor load</th></tr></thead><tbody>
+          <tr><td class="num">16</td><td class="num">15.0</td><td class="num">2.5 GB</td><td>about half: it rose from 26% to about 80%</td></tr>
+          <tr><td class="num">4</td><td class="num">5.6</td><td class="num">0.6 GB</td><td>about a seventh: it rose from 26% to about 42%</td></tr>
+        </tbody></table></div>
+        <p>* Measured on the developer’s machine (28 cores, 32 GB): 272 scanned Lao pages, Fast pack. The 26% was other programs already running.</p>
+        <p>* OCR costs no money and uses no graphics card. Memory is not the limit; the processor is.</p>
+      </details>
       <label class="stack-row note-row"><span class="setup-label">Run note</span> <span class="note-cell"><textarea id="ex-note" class="run-note-input" rows="3" maxlength="300" placeholder="a line to carry with this run, optional">${esc(EX.note || '')}</textarea><span class="muted">shown in Output and at Mapping’s Input</span></span></label>
       <details class="notes-box" ${EX.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
         <p>* <b>Output name</b> names the folder under ${esc(root)}${BS}extract. Running into an existing folder reuses its OCR cache and frozen text; Clear OCR cache below forces a fresh OCR.</p>
         <p>* <b>OCR</b> reads scanned PDFs only, and each page once: a second run reuses the cache. It runs on this machine, so it costs no money, only time and processor.</p>
         <p>* <b>OCR pack</b>: Fast takes about 1 second a page, Best about 2. On real Lao scans Best gained nothing measurable (titles recovered 0.887 with Fast, 0.891 with Best); whether it helps a poor scan was not measured. Changing the pack reads every page again.</p>
         <p>* <b>OCR workers</b> is how many pages are read at once. Each takes one processor core and about 160 MB of memory; no graphics card is used. Speed stops rising after about 12; above 16 the OCR engine can crash (the page is retried). Lower it to keep the machine free for other work.</p>
-        <p>* <b>Measured</b> on the developer’s machine (28 cores, 32 GB), Fast pack: 16 workers read 15 pages a second with 2.5 GB of memory and about half the processor; 4 workers read 5.6 pages a second with 0.6 GB and about a seventh of it.</p>
         <p>* <b>For scale</b>: the whole Lao corpus, 24,773 scanned pages, takes about half an hour with 16 workers, about 75 minutes with 4, about 6.5 hours with one. Best doubles each.</p>
         ${hand ? `<p>* <b>Economy</b> names every document id and fixes the language${needEcon ? '. This folder does not name one, so the text was read to suggest it; you confirm' : ', from the folder name'}. Preview the manifest to see the ids and kinds before the run.</p>` : ''}
         ${ok && d.recoverable ? `<p>* ${d.recoverable} document(s) missing from this folder are restored from committed copies by hash.</p>` : ''}
@@ -1202,6 +1209,7 @@ function renderExtractRun() {
   if (EX.stagePresent === false) note.insertAdjacentHTML('afterbegin', '<p class="note">The extraction stage is not in this repository.</p>');
   const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { EX.runNotesOpen = nb.open; });
   const exNote = $('#ex-note'); if (exNote) exNote.oninput = (e) => { EX.note = e.target.value; };
+  const ocrCost = $('#ex-ocr-cost'); if (ocrCost) ocrCost.addEventListener('toggle', () => { EX.ocrCostOpen = ocrCost.open; });
   $('#ex-out').onchange = (e) => { EX.outName = e.target.value.trim(); EX.checks = null; renderExtractRun(); renderExtractCmd(); };
   $('#ex-pack').onchange = (e) => { EX.pack = e.target.value; EX.checks = null; renderExtractRun(); renderExtractCmd(); };
   $('#ex-workers').onchange = (e) => { EX.workers = parseInt(e.target.value, 10) || 16; EX.checks = null; renderExtractRun(); renderExtractCmd(); };
