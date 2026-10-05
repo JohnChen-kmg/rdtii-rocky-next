@@ -937,4 +937,7 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 .guide .col-title .sec-num { display: inline-block; min-width: 40px; height: 40px; line-height: 40px; box-sizing: border-box; padding: 0 8px; margin-right: 12px; border-radius: 20px; background: var(--un-blue); color: #fff; font-size: 22px; font-weight: 800; text-align: center; vertical-align: 3px; }
 .guide .guide-head.below .col-title .sec-num { background: #6b7a89; }
 .side .outline[data-for="overview"] button.jump .num { min-width: 26px; }
+/* Scraping's Output is wider than its box: the buttons stay in view while the other columns scroll under them */
+#scrape-output table.rows td:last-child, #scrape-output table.rows th:last-child { position: sticky; right: 0; background: var(--panel); box-shadow: -10px 0 10px -10px rgba(0, 0, 0, .18); }
+#scrape-output table.rows th:last-child { z-index: 2; }
 /* === fit: end === */

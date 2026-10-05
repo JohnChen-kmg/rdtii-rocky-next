@@ -457,7 +457,7 @@ def describe_crawl_folder(path: Path, sample: int = 200) -> dict:
         info["fetched_last_pass"] = cost.get("docs_retrieved")
     status = readers.cached(path / "crawl_status.json", readers.read_json)
     if isinstance(status, dict):
-        info["crawl_state"] = {k: status.get(k) for k in ("state", "attempted", "todo", "stored_total", "updated_at")}
+        info["crawl_state"] = {k: status.get(k) for k in ("state", "attempted", "todo", "stored_total", "updated_at", "started_at")}
     return info
 
 
@@ -475,6 +475,16 @@ def run_began(name: str) -> str:
     try:
         return datetime.strptime(m.group(1) + m.group(2), "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M")
     except ValueError:
+        return ""
+
+
+def local_time(stamp) -> str:
+    """A time the crawler wrote in UTC ("2026-10-04T06:40:16Z") as this machine's time, "2026-10-04 02:40",
+    so it reads like Began beside it. Empty when there is none or it is not a time."""
+    from datetime import datetime
+    try:
+        return datetime.fromisoformat(str(stamp).replace("Z", "+00:00")).astimezone().strftime("%Y-%m-%d %H:%M")
+    except (ValueError, TypeError, OSError):
         return ""
 
 
@@ -556,6 +566,8 @@ def list_crawl_folders(s: Settings, jobs=None) -> list[dict]:
     for d in out:        # when each run began and how it stands, for Output's first column and its Status
         d["began"] = run_began(d.get("name", "")) if d.get("kind") in RUN_KINDS + ("hand-collected manifest",) else ""
         d["run_state"] = run_state(Path(d["path"]), d.get("kind", ""), d.get("crawl_state"), jobs)
+        # when the crawler last started here: its own record, so a second pass into the same folder moves it
+        d["last_run"] = local_time((d.get("crawl_state") or {}).get("started_at")) if d.get("kind") == "interface run" else ""
     return out
 
 

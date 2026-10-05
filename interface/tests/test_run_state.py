@@ -86,6 +86,24 @@ class State(unittest.TestCase):
         self.assertEqual(sorted(p.name for p in self.folder.iterdir()), before)
 
 
+class LastRun(unittest.TestCase):
+    def test_the_crawlers_own_start_is_shown_in_this_machines_time(self):
+        from datetime import datetime, timezone
+        expected = datetime(2026, 10, 4, 6, 40, 16, tzinfo=timezone.utc).astimezone().strftime("%Y-%m-%d %H:%M")
+        self.assertEqual(scrape.local_time("2026-10-04T06:40:16Z"), expected)
+        for bad in (None, "", "yesterday", 12, "2026-13-40T99:00:00Z"):
+            self.assertEqual(scrape.local_time(bad), "", bad)
+
+    def test_it_is_read_from_the_status_file_the_crawler_writes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp) / "20261004-012901"
+            folder.mkdir()
+            (folder / "crawl_status.json").write_text(json.dumps({"state": "done", "started_at": "2026-10-04T06:40:16Z"}), encoding="utf-8")
+            info = scrape.describe_crawl_folder(folder)
+            self.assertEqual(info["crawl_state"]["started_at"], "2026-10-04T06:40:16Z")
+            self.assertEqual(sorted(p.name for p in folder.iterdir()), ["crawl_status.json"])       # reading wrote nothing
+
+
 class Listed(unittest.TestCase):
     def test_every_row_of_output_carries_both(self):
         folders = scrape.list_crawl_folders(settings_mod.load({}))
@@ -94,7 +112,8 @@ class Listed(unittest.TestCase):
             self.assertIn("began", f, f["id"])
             self.assertIn(f["run_state"], ("", "running", "complete", "paused", "stopped", "not complete"), f["id"])
         default = next(f for f in folders if f["kind"] == "HANDOFF1_DIR")
-        self.assertEqual((default["began"], default["run_state"]), ("", ""))       # the demo corpus is no run
+        self.assertEqual((default["began"], default["run_state"], default["last_run"]), ("", "", ""))       # the demo corpus is no run
+        self.assertTrue(all("last_run" in f for f in folders))
 
 
 if __name__ == "__main__":
