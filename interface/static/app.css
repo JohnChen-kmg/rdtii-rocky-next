@@ -891,4 +891,13 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .block.cost > .cost-sub span { font-weight: 600; color: #5b6b7a; }
 .guide .block.cost > details.subfold > ul { margin: 0 14px 12px; padding-left: 24px; font-size: 17px; line-height: 1.5; }
 .guide .block.cost > details.subfold > ul li { margin: 6px 0; }
+/* the performance table: three groups of columns (screen, reading, re-check), a line between the groups */
+.guide .block.cost table.dist th.grp { text-align: center; border-left: 1px solid #cfd5db; }
+.guide .block.cost table.dist th.g, .guide .block.cost table.dist td.g { border-left: 1px solid #cfd5db; }
+.guide .block.cost table.dist td.ref { text-align: center; vertical-align: middle; white-space: normal; background: #f8f9fb; color: #3b4652; font-weight: 700; }
+.guide .block.cost table.dist td.ref small { display: block; margin-top: 2px; font-size: 13px; font-weight: 500; color: #6b7280; }
+.guide .block.cost table.dist td.few-cell { text-align: center; color: #6b7280; }
+.guide .block.cost > ul + .cost-sub { margin-top: 14px; }
+#ov-perf { scroll-margin-top: 96px; }
+.guide .cost-key .few { font-size: 12px; font-weight: 700; color: #6b7280; border: 1px solid #cfd5db; border-radius: 999px; padding: 0 7px; margin-right: 4px; background: #fff; }
 /* === fit: end === */

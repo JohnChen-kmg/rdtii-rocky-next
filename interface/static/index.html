@@ -469,6 +469,73 @@
 }
     </script>
 
+    <div class="block node cost grey" id="ov-perf" data-outline="Model performance">
+      <h2><span class="step">%</span>Estimated performance by model</h2>
+      <p>On 4 October we ran an experiment: every model got <b>the tool’s own requests</b>, on provisions the finale run had already judged, in four languages.</p>
+      <ul>
+        <li><b>The reference</b> is Claude’s answer in the finale, not a person’s. A figure shows how often a model agrees with it: an <b>estimate</b>, not a score.</li>
+        <li><b>Small samples:</b> 80 pairs for the quick screen, 40 provisions for the careful reading, 50 provisions a language for the re-check.</li>
+      </ul>
+      <div class="cost-sub">Results <span>(agreement with the finale)</span></div>
+      <div class="cost-table perf">
+        <table class="dist">
+          <thead>
+          <tr><th rowspan="2">Provider</th><th rowspan="2">Model</th><th class="grp" colspan="2"><span class="letter">B</span>Quick screen</th><th class="grp" colspan="2"><span class="letter">C</span>Careful reading</th><th class="grp" colspan="4"><span class="letter">D</span>Re-check: same verdict as Claude</th></tr>
+          <tr><th class="num g">Keeps a match<small>of 40</small></th><th class="num">Drops a non-match<small>of 40</small></th><th class="num g">Finds the match<small>of 25</small></th><th class="num">Keeps a clear no<small>of 52</small></th><th class="num g">English</th><th class="num">Chinese</th><th class="num">Portuguese</th><th class="num">Lao</th></tr>
+          </thead>
+          <tbody>
+          <tr class="first"><td class="prov" rowspan="7">Claude</td><td>Haiku 4.5</td><td class="num g"><i class="used">40/40</i></td><td class="num"><i class="used">36/40</i></td><td class="num muted g">–</td><td class="num muted">–</td><td class="ref g" colspan="4" rowspan="3">The reference: the finale’s verdict<small>Sonnet 5 read, Haiku 4.5 re-checked, Opus 4.8 broke ties</small></td></tr>
+          <tr><td>Sonnet 5</td><td class="num muted g">–</td><td class="num muted">–</td><td class="num g"><i class="used">19/25</i></td><td class="num"><i class="used">51/52</i></td></tr>
+          <tr><td>Opus 4.8</td><td class="num muted g">–</td><td class="num muted">–</td><td class="num muted g">–</td><td class="num muted">–</td></tr>
+          <tr><td>Sonnet 5.5 <span class="few">8 calls</span></td><td class="num g"><i>4/4</i></td><td class="num"><i>4/4</i></td><td class="num g"><i>2/5</i></td><td class="num"><i>16/16</i></td><td class="few-cell g" colspan="4">5 of 8 the same</td></tr>
+          <tr><td>Opus 5 <span class="few">8 calls</span></td><td class="num g"><i>4/4</i></td><td class="num"><i>4/4</i></td><td class="num g"><i>3/5</i></td><td class="num"><i>15/16</i></td><td class="few-cell g" colspan="4">7 of 8 the same</td></tr>
+          <tr><td>Opus 5.5 <span class="few">8 calls</span></td><td class="num g"><i>4/4</i></td><td class="num"><i>4/4</i></td><td class="num g"><i>2/5</i></td><td class="num"><i>16/16</i></td><td class="few-cell g" colspan="4">5 of 8 the same</td></tr>
+          <tr><td>Fable 5.1 <span class="few">8 calls</span></td><td class="num g"><i>4/4</i></td><td class="num"><i>4/4</i></td><td class="num g"><i>2/5</i></td><td class="num"><i>16/16</i></td><td class="few-cell g" colspan="4">5 of 8 the same</td></tr>
+          <tr class="first"><td class="prov" rowspan="1">Qwen<small>on this machine</small></td><td>Qwen 2.5 14B</td><td class="num g"><i>40/40</i></td><td class="num"><i>29/40</i></td><td class="num g"><i>18/24</i></td><td class="num"><i>45/52</i></td><td class="num g"><i>94%</i></td><td class="num"><i>90%</i></td><td class="num"><i>90%</i></td><td class="num"><i>78%</i></td></tr>
+          <tr class="first"><td class="prov" rowspan="2">DeepSeek</td><td>Flash</td><td class="num g"><i>40/40</i></td><td class="num"><i>29/40</i></td><td class="num muted g">–</td><td class="num muted">–</td><td class="num g"><i>98%</i></td><td class="num"><i>92%</i></td><td class="num"><i>98%</i></td><td class="num"><i>92%</i></td></tr>
+          <tr><td>V4 Pro</td><td class="num muted g">–</td><td class="num muted">–</td><td class="num g"><i>18/25</i></td><td class="num"><i>52/52</i></td><td class="num g"><i>96%</i></td><td class="num"><i>94%</i></td><td class="num"><i>98%</i></td><td class="num"><i>92%</i></td></tr>
+          <tr class="first"><td class="prov" rowspan="2">Kimi</td><td>K2.6</td><td class="num g"><i>39/40</i></td><td class="num"><i>35/40</i></td><td class="num muted g">–</td><td class="num muted">–</td><td class="num g"><i>94%</i></td><td class="num"><i>88%</i></td><td class="num"><i>82%</i></td><td class="num"><i>70%</i></td></tr>
+          <tr><td>K3</td><td class="num muted g">–</td><td class="num muted">–</td><td class="num g"><i>17/25</i></td><td class="num"><i>49/52</i></td><td class="num g"><i>94%</i></td><td class="num"><i>90%</i></td><td class="num"><i>94%</i></td><td class="num"><i>94%</i></td></tr>
+          <tr class="first"><td class="prov" rowspan="3">ChatGPT</td><td>GPT-6 Luna</td><td class="num g"><i>39/40</i></td><td class="num"><i>35/40</i></td><td class="num muted g">–</td><td class="num muted">–</td><td class="num g"><i>94%</i></td><td class="num"><i>86%</i></td><td class="num"><i>88%</i></td><td class="num"><i>88%</i></td></tr>
+          <tr><td>GPT-6.1 Sol</td><td class="num muted g">–</td><td class="num muted">–</td><td class="num g"><i>12/25</i></td><td class="num"><i>50/52</i></td><td class="num g"><i>88%</i></td><td class="num"><i>78%</i></td><td class="num"><i>82%</i></td><td class="num"><i>78%</i></td></tr>
+          <tr><td>GPT-6 Astra</td><td class="num muted g">–</td><td class="num muted">–</td><td class="num muted g">–</td><td class="num muted">–</td><td class="num muted g">–</td><td class="num muted">–</td><td class="num muted">–</td><td class="num muted">–</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cost-key"><span><i class="used">40/40</i> the finale’s model for that step</span><span><i>–</i> not run on that step</span><span><span class="few">8 calls</span> a first try only</span></div>
+      <ul>
+        <li><b>Quick screen:</b> every model keeps the real matches. DeepSeek Flash and Qwen drop fewer non-matches, so more goes on to the reading.</li>
+        <li><b>Careful reading:</b> Sonnet 5, asked again, finds 19 of its own 25. DeepSeek V4 Pro and Kimi K3 come close; GPT-6.1 Sol is stricter. Qwen says yes to 7 clear no’s, and 4 of its quotes are not in the law.</li>
+        <li><b>Re-check:</b> DeepSeek and Kimi K3 agree with Claude in every language. Kimi K2.6 and Qwen fall behind on Lao.</li>
+        <li>Every model answered in the form the tool needs. One of Qwen’s 40 readings was too long for it.</li>
+      </ul>
+      <details class="subfold grey">
+        <summary>Can each model read Lao? <span class="fold"></span></summary>
+        <div class="cost-table">
+        <table class="dist">
+          <thead><tr><th>Provider</th><th>Model</th><th class="num">Right from the Lao</th><th class="num">Right from the English</th></tr></thead>
+          <tbody>
+          <tr class="first"><td class="prov" rowspan="3">Claude</td><td>Haiku 4.5</td><td class="num"><i>92.5%</i></td><td class="num"><i>95.0%</i></td></tr>
+          <tr><td>Sonnet 5</td><td class="num"><i>93.5%</i></td><td class="num"><i>96.5%</i></td></tr>
+          <tr><td>Opus 4.8</td><td class="num"><i>93.5%</i></td><td class="num"><i>94.0%</i></td></tr>
+          <tr class="first"><td class="prov" rowspan="1">Qwen<small>on this machine</small></td><td>Qwen 2.5 14B</td><td class="num"><i>85.0%</i></td><td class="num"><i>92.0%</i></td></tr>
+          <tr class="first"><td class="prov" rowspan="2">DeepSeek</td><td>Flash</td><td class="num"><i>91.5%</i></td><td class="num"><i>95.0%</i></td></tr>
+          <tr><td>V4 Pro</td><td class="num"><i>93.5%</i></td><td class="num"><i>94.5%</i></td></tr>
+          <tr class="first"><td class="prov" rowspan="2">Kimi</td><td>K2.6</td><td class="num"><i>91.5%</i></td><td class="num"><i>96.0%</i></td></tr>
+          <tr><td>K3</td><td class="num"><i>92.0%</i></td><td class="num"><i>94.5%</i></td></tr>
+          <tr class="first"><td class="prov" rowspan="2">ChatGPT</td><td>GPT-6 Luna</td><td class="num"><i>92.0%</i></td><td class="num"><i>93.0%</i></td></tr>
+          <tr><td>GPT-6.1 Sol</td><td class="num"><i>93.5%</i></td><td class="num"><i>95.0%</i></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <ul>
+          <li>40 articles of Lao law that the official gazette also prints in English, five factual questions each (200 answers).</li>
+          <li><b>Right</b> = the answer most models give when they read the English.</li>
+          <li>Every hosted model reads the Lao almost as well as the English. Qwen loses 7 points.</li>
+        </ul>
+      </details>
+    </div>
+
     <div class="block grey" id="ov-start" data-outline="Before you start">
       <h2>Before you start</h2>
       <ul>

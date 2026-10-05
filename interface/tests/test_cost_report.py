@@ -109,5 +109,27 @@ class Models(unittest.TestCase):
         self.assertEqual(self.data["finale"]["read_live"], 2)   # the batch lane is half price, so live is twice the bill
 
 
+class Performance(unittest.TestCase):
+    """The block after the cost report: what the experiment of 4 October found, model by model."""
+
+    def setUp(self):
+        page = (INTERFACE / "static" / "index.html").read_text(encoding="utf-8")
+        start = page.index('id="ov-perf"')
+        self.block = page[start:page.index('id="ov-start"', start)]
+        self.table = self.block[:self.block.index("<details")]
+
+    def test_it_lists_every_model_the_mapping_page_offers(self):
+        engines = json.loads((REPO / "stages" / "p3-map" / "config" / "llm" / "engines.json").read_text(encoding="utf-8"))["engines"]
+        labels = [m["label"] for e in engines.values() for m in e["models"]]
+        for label in labels:
+            self.assertIn(f"<td>{label}", self.table, label)
+        self.assertEqual(self.table.count("<tr"), 2 + len(labels))      # two header rows, then a row per model
+
+    def test_it_says_what_the_figures_are(self):
+        self.assertIn("estimate", self.block)
+        self.assertIn("not a person", self.block)                         # the reference is Claude's own answer
+        self.assertIn("not run on that step", self.block)                 # a dash is never a guess
+
+
 if __name__ == "__main__":
     unittest.main()
