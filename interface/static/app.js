@@ -1168,11 +1168,13 @@ function renderExtractRun() {
       ? `<div class="stack-row"><span class="setup-label">Economy</span> <span><b>${esc(econName(d.economy))}</b> (${esc(d.economy)}), from the folder name</span> <button class="btn small" id="ex-preview">Preview the manifest</button></div>`
       : `<label class="stack-row"><span class="setup-label">Economy</span> <select id="ex-econ"><option value="">choose the economy these documents belong to</option>${(EX.economies || []).map((e) => `<option value="${e.code}" ${EX.economy === e.code ? 'selected' : ''}>${esc(e.name)} (${e.code})</option>`).join('')}</select> ${EX.economy ? '<button class="btn small" id="ex-preview">Preview the manifest</button>' : ''}${det && det.suggested_economy ? `<span class="muted">${EX.economy === det.suggested_economy ? 'suggested by the text' : `the text points to ${esc(econName(det.suggested_economy))}`}</span>` : ''}</label>`;
   note.innerHTML = `
-    <div class="callout time-note"><b>How well extraction works.</b>
+    <div class="callout time-note"><b>How extraction works.</b>
       <ul>
-        <li>It splits each law at the headings common in the economy’s laws: Section 1, Article 1, Artigo 1.º, ມາດຕາ 1, 第一条.</li>
-        <li>A file laid out differently may come out as one piece, or split in the wrong places.</li>
-        <li>Output lists the documents that gave no provisions, <b>to check</b>. A wrong split is not flagged: read through an unusual file yourself.</li>
+        <li><b>File type:</b> it identifies each file: a web page, a PDF with a text layer, a scanned PDF, or Word. Output counts them by lane (A, B, C, D).</li>
+        <li><b>Reading:</b> the text of a web page, a PDF’s text layer or a Word file is taken as it is. A scanned PDF is read by OCR, in the economy’s language.</li>
+        <li><b>Splitting:</b> each law is split at the headings common in the economy’s laws: Section 1, Article 1, Artigo 1.º, ມາດຕາ 1, 第一条, etc.</li>
+        <li><b>Limit:</b> a file laid out differently may come out as one piece, or split in the wrong places.</li>
+        <li><b>Check:</b> Output lists the documents that gave no provisions, <b>to check</b>. A wrong split is not flagged: read through an unusual file yourself.</li>
       </ul></div>
     <div class="target"><span class="setup-label">Writes to</span> <code>${target}</code></div>
     <div class="stack">
