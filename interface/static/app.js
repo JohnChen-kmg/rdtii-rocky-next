@@ -1294,7 +1294,10 @@ function modelBlock(step) {
     const sub = x.key_env ? (held[x.key_env] ? 'key held' : 'no key') : 'local';
     return `<label class="radio big ${on ? 'on' : ''}"><input type="radio" name="mp-eng-${step.key}" value="${esc(x.id)}" ${on ? 'checked' : ''}> <span class="name">${esc(x.name)}</span> <span class="sub">${sub}</span></label>`;
   }).join('');
-  const models = ((e && e.models) || []).map((m) => {
+  // cheapest first, left to right: by the price of the text sent, then of the text written back; a model with no price card goes last
+  const cost = (m) => (m.price ? [m.price[0], m.price[1]] : [Infinity, Infinity]);
+  const byPrice = (a, b) => { const x = cost(a), y = cost(b); return x[0] !== y[0] ? (x[0] < y[0] ? -1 : 1) : x[1] !== y[1] ? (x[1] < y[1] ? -1 : 1) : 0; };   // equal prices keep the stage's order
+  const models = [...((e && e.models) || [])].sort(byPrice).map((m) => {
     const on = m.id === pick.model;
     const measured = e.measured && m.measured;
     return `<label class="radio model ${on ? 'on' : ''} ${measured ? '' : 'unmeasured'}" title="${esc(m.id)}${measured ? '' : ', not measured'}"><input type="radio" name="mp-mod-${step.key}" value="${esc(m.id)}" ${on ? 'checked' : ''}> <span class="name">${esc(m.label)}</span> <span class="sub">${esc(priceText(m))}</span></label>`;
