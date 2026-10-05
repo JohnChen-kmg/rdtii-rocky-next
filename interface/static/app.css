@@ -714,7 +714,9 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .io-part .io-tag { display: block; width: fit-content; font-size: 14px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: #fff; border-radius: 999px; padding: 2px 13px; margin: 0 0 8px; }
 .guide .io-part.in .io-tag { background: #c23a34; }
 .guide .io-part.out .io-tag { background: #23874c; }
-.guide .io-part pre.tree, .guide .io-part .row-line { background: rgba(255, 255, 255, .8); margin: 0; }
+.guide .io-part pre.tree, .guide .io-part .row-line { background: transparent; margin: 0; padding: 0 2px; border-radius: 0; }   /* one colour for the whole block, no white inside */
+.guide .io-part.in .btn { background: transparent; border-color: #d0453f; color: #8f2620; }
+.guide .io-part.in .btn:hover { background: rgba(208, 69, 63, .12); }
 .guide .io-part .row-line { margin-bottom: 10px; }
 .guide .io-part p.summary { margin: 0; font-size: 17px; }
 .guide .example-card > details.subfold.light { margin-top: 2px; }
