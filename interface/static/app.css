@@ -770,8 +770,9 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .rb-rows .k { padding: 5px 10px; font-size: 15.5px; text-align: center; }
 .guide .rb-rows .v { padding: 5px 0; font-size: 16.5px; line-height: 1.45; color: var(--ink); }
 @media (max-width: 1150px) { .guide .rb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-/* another indicator named inside an example: its number in a heavy outline of another colour */
-.guide .other-ind { display: inline-block; border: 2.5px solid #b45309; background: #fff4de; color: #7a3b00; border-radius: 8px; padding: 0 7px; font-weight: 800; line-height: 1.3; }
-.guide .rb-rows .aside { color: #5b6470; }
+/* the example inside the instrument: the whole sub-block stands apart, a heavier outline and its own ground.
+   A line about another indicator is only illustration, so it goes in brackets, in the same ink. */
+.guide details.subfold.grey .example-inside { background: #eef1f4; border: 2.5px solid #6b7a89; }
+.guide details.subfold.grey .example-inside .rb-rows .k, .guide details.subfold.grey .example-inside .mini-io span { background: #fff; }
 .guide .fake-row { margin-bottom: 18px; }
 /* === fit: end === */
