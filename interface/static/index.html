@@ -146,6 +146,27 @@
           <span class="cell"><small>Score</small>1</span>
         </div>
         <p class="out-note"><b>Out:</b> one evidence row per match, with its quote. The rows give the indicator scores of each economy.</p>
+        <details class="subfold grey" id="ov-instrument">
+          <summary>The instrument: the RDTII rules as a rulebook <span class="fold"></span></summary>
+        <div class="io">
+          <span class="io-box">RDTII 2.1 methodology<small>12 pillars, 61 indicators, the Guide’s pages</small></span>
+          <span class="io-arrow"><i>our codebook</i><b>→</b></span>
+          <span class="io-box">A rulebook per indicator<small>question, definition, scoring tree, coding rules, traps, examples</small></span>
+        </div>
+        <p>What the models read at every step. This is how the RDTII rules become something a model can apply, the same way for every indicator. Reviewed for the nine indicators of pillars 6 and 7, drafted for the rest.</p>
+      <div class="example-inside">
+        <div class="example-label">Example: one indicator</div>
+        <div class="mini-io left"><span>Guide pp. 52…54</span><b>→</b><span>the rulebook of 6.4</span></div>
+<pre class="tree">6.4  Conditional flow regimes          pillar 6, reviewed
+Question   is cross-border transfer permitted ONLY IF
+           conditions are met?
+Scoring    1   personal data, or horizontal
+           0.5 specific data only
+           0   no condition attached
+Trap       a ban with a compliant transfer path is 6.4,
+           not 6.1</pre>
+      </div>
+        </details>
         <details class="subfold">
           <summary>Mapping, step by step <span class="fold"></span></summary>
           <p class="models"><b>The models in the finale run:</b> quick screen and re-check Claude Haiku 4.5; careful reading Claude Sonnet 5; tie-break Claude Opus 4.8; translations Claude Haiku 4.5. Each step can be given another model on the Mapping page: Claude, Qwen (local), DeepSeek, Kimi or ChatGPT.</p>
@@ -255,29 +276,6 @@ Candidate indicators: 6.1, a ban on transfers; 6.4, a conditional rule</pre></di
       <p><sup>1</sup> A few documents cannot be crawled. They are fetched by hand and dropped in at 1.3, each into its source’s own folder.</p>
       <p><sup>2</sup> The language follows the economy. Scanned pages are recognised first, then read like the rest.</p>
     </div>
-
-    <div class="block node instrument grey" id="ov-instrument">
-        <h2><span class="step">§</span>The RDTII rules as a rulebook</h2>
-        <div class="io">
-          <span class="io-box">RDTII 2.1 methodology<small>12 pillars, 61 indicators, the Guide’s pages</small></span>
-          <span class="io-arrow"><i>our codebook</i><b>→</b></span>
-          <span class="io-box">A rulebook per indicator<small>question, definition, scoring tree, coding rules, traps, examples</small></span>
-        </div>
-        <p>What the models read in step 3. This is how the RDTII rules become something a model can apply, the same way for every indicator. Reviewed for the nine indicators of pillars 6 and 7, drafted for the rest.</p>
-      <div class="example-inside">
-        <div class="example-label">Example: one indicator</div>
-        <div class="mini-io left"><span>Guide pp. 52…54</span><b>→</b><span>the rulebook of 6.4</span></div>
-<pre class="tree">6.4  Conditional flow regimes          pillar 6, reviewed
-Question   is cross-border transfer permitted ONLY IF
-           conditions are met?
-Scoring    1   personal data, or horizontal
-           0.5 specific data only
-           0   no condition attached
-Trap       a ban with a compliant transfer path is 6.4,
-           not 6.1</pre>
-      </div>
-    </div>
-
 
     <div class="guide-head below" id="ov-cost" data-outline="Cost report"><span class="col-title">Cost report</span></div>
     <div class="block node cost grey">
