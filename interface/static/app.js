@@ -1180,12 +1180,15 @@ function renderExtractRun() {
     <div class="stack">
       <label class="stack-row"><span class="setup-label">Output name</span> <input type="text" id="ex-out" size="22" value="${esc(outName)}" ${ok ? '' : 'disabled'}></label>
       ${econRow}
-      <label class="stack-row"><span class="setup-label">OCR pack</span> <select id="ex-pack"><option value="fast" ${EX.pack === 'fast' ? 'selected' : ''}>Fast: the measured choice</option><option value="best" ${EX.pack === 'best' ? 'selected' : ''}>Best: slower, for hard scans</option></select></label>
-      <label class="stack-row"><span class="setup-label">OCR workers</span> <input type="text" id="ex-workers" size="3" value="${EX.workers}"></label>
+      <label class="stack-row"><span class="setup-label">OCR pack</span> <select id="ex-pack"><option value="fast" ${EX.pack === 'fast' ? 'selected' : ''}>Fast: the measured choice</option><option value="best" ${EX.pack === 'best' ? 'selected' : ''}>Best: slower, for hard scans</option></select> <span class="muted">scanned PDFs only; Fast about 1 second a page, Best about 2</span></label>
+      <label class="stack-row"><span class="setup-label">OCR workers</span> <input type="text" id="ex-workers" size="3" value="${EX.workers}"> <span class="muted">pages read at once; 16 reads about 17 pages a second</span></label>
       <label class="stack-row note-row"><span class="setup-label">Run note</span> <span class="note-cell"><textarea id="ex-note" class="run-note-input" rows="3" maxlength="300" placeholder="a line to carry with this run, optional">${esc(EX.note || '')}</textarea><span class="muted">shown in Output and at Mapping’s Input</span></span></label>
       <details class="notes-box" ${EX.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
         <p>* <b>Output name</b> names the folder under ${esc(root)}${BS}extract. Running into an existing folder reuses its OCR cache and frozen text; Clear OCR cache below forces a fresh OCR.</p>
-        <p>* <b>OCR pack</b>: Fast is the measured choice from the stage’s own tests; Best trades time for difficult scans. <b>Workers</b> is how many pages are read at once.</p>
+        <p>* <b>OCR</b> reads scanned PDFs only, and each page once: a second run reuses the cache. It runs on this machine, so it costs no money, only time and processor.</p>
+        <p>* <b>OCR pack</b>: Fast takes about 1 second a page, Best about 2. On real Lao scans Best gained nothing measurable (titles recovered 0.887 with Fast, 0.891 with Best); whether it helps a poor scan was not measured. Changing the pack reads every page again.</p>
+        <p>* <b>OCR workers</b> is how many pages are read at once, one processor core each. Speed stops rising after about 12; above 16 the OCR engine can crash (the page is retried). Lower it to keep the machine free for other work.</p>
+        <p>* <b>For scale</b>: the whole Lao corpus, 24,773 scanned pages, takes about 25 minutes with Fast and 16 workers, about 50 with Best, about 6.5 hours with one worker.</p>
         ${hand ? `<p>* <b>Economy</b> names every document id and fixes the language${needEcon ? '. This folder does not name one, so the text was read to suggest it; you confirm' : ', from the folder name'}. Preview the manifest to see the ids and kinds before the run.</p>` : ''}
         ${ok && d.recoverable ? `<p>* ${d.recoverable} document(s) missing from this folder are restored from committed copies by hash.</p>` : ''}
         <p>* Interpreter: <code>${esc(EX.python || 'python')}</code>.</p>
