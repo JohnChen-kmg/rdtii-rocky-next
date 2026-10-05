@@ -386,20 +386,16 @@ function renderRunRow() {
     + (made(r) ? ` <button class="btn small" data-clear="${esc(runDir(r))}" data-what="this run folder and its rows">Clear run</button>` : '');
   // a model by its name: the three of the finale and Qwen by heart, any other from the stage's list
   const modelName = (id) => { if (MODEL_NAMES[id]) return MODEL_NAMES[id]; for (const e of engineList()) { const m = modelOf(e, id); if (m) return `${e.model_prefix || ''}${m.label}`; } return id; };
-  // the provider of a run's models, in one line: one name when one engine did every step. The model of each step is in the Record
-  const providerOf = (id) => { const e = engineList().find((x) => (x.models || []).some((m) => m.id === id)); return e ? e.name : modelName(id); };
-  const runEngine = (r) => (r.models && Object.keys(r.models).length ? esc([...new Set(MODEL_STEPS.map((s) => r.models[s.key]).filter(Boolean).map(providerOf))].join(', '))
-    : r.engine ? esc(engineText(r.engine)) : '<span class="muted">–</span>');
   const can = (r) => r.selectable !== false;   // a run with rows; a folder listed as unfinished has none to examine
   const line = (r) => `<tr class="${r.id === S.run ? 'picked' : ''} ${can(r) ? 'can' : ''}" ${can(r) ? `data-run="${esc(r.id)}" title="Click to examine this run"` : ''}><td class="small began">${whenCell(r.began)}</td><td class="small began">${whenCell(r.last_run)}</td>
       <td class="folder" title="${esc(r.arm_paths[0])}">${esc(r.id)}${carried(r)}</td><td class="small">${kind(r)}</td><td class="small state">${stateChip(r, TIPS)}</td>
-      <td class="small">${esc(r.economies.join(', ')) || '<span class="muted">–</span>'}</td><td class="num">${r.rows}</td><td class="small">${runEngine(r)}</td>
+      <td class="small">${esc(r.economies.join(', ')) || '<span class="muted">–</span>'}</td><td class="num">${r.rows}</td>
       <td class="num">${r.cost_usd ? `$${Number(r.cost_usd).toFixed(2)}` : '<span class="muted">–</span>'}</td><td class="small">${buttons(r)}</td></tr>`;
   const listed = [...S.runs, ...(S.unfinished || [])].sort((a, b) => (made(b) - made(a)) || (made(a) ? String(b.name).localeCompare(String(a.name)) : 0));
   $('#map-run-row').innerHTML = `<div class="run-list">
-      <div class="table-wrap short"><table class="rows"><thead><tr><th>Began</th><th>Last run</th><th>Folder</th><th>Kind</th><th>Status</th><th>Economies</th><th>Rows</th><th>Engine</th><th>Cost</th><th></th></tr></thead><tbody>
+      <div class="table-wrap short"><table class="rows"><thead><tr><th>Began</th><th>Last run</th><th>Folder</th><th>Kind</th><th>Status</th><th>Economies</th><th>Rows</th><th>Cost</th><th></th></tr></thead><tbody>
         ${listed.map(line).join('')}</tbody></table></div>
-      <p class="muted small"><b>Click a run</b> to examine it: its record, then its rows to review and export, follow below. <b>Began</b> is when Start was pressed, read from the folder’s name (for the fixture, from its run manifest). <b>Last run</b> is the latest step the stage recorded. <b>Status</b>: complete once the run wrote its rows; running; stopped; or not complete. <b>Engine</b> is the provider of the run’s models; the Record names the model of each step. <b>Cost</b> is the run manifest’s own figure.</p>
+      <p class="muted small"><b>Click a run</b> to examine it: its record, then its rows to review and export, follow below. <b>Began</b> is when Start was pressed, read from the folder’s name (for the fixture, from its run manifest). <b>Last run</b> is the latest step the stage recorded. <b>Status</b>: complete once the run wrote its rows; running; stopped; or not complete. <b>Cost</b> is the run manifest’s own figure. The Record names the model of each step.</p>
     </div>
     <div>
       ${cur && cur.kind === 'frozen' ? '<div class="muted small">Filed rows, read-only: review decisions are refused here.</div>' : ''}
