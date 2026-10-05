@@ -47,8 +47,8 @@ the path short.
 ### 1. Clone the repository
 
 ```
-git clone https://github.com/JohnChen-kmg/rdtii-rocky-finale-9.30
-cd rdtii-rocky-finale-9.30
+git clone https://github.com/JohnChen-kmg/rdtii-rocky-next
+cd rdtii-rocky-next
 git checkout final-submission
 ```
 
