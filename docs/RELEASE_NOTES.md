@@ -1,4 +1,67 @@
-# Release notes — `final-submission`, 1 October 2026
+# Release notes — `final-submission`, prepared 5 October 2026
+
+**RDTII Rocky**, final round of the UN Global Hackathon on AI for Digital Trade Regulatory Analysis.
+Team: Rocky has a home run. This release follows the one of 1 October, whose notes are kept below.
+
+## What did not change
+
+- **The filed evidence.** `submission/` is byte for byte what was filed on 1 October: 101 workbook rows of
+  318 produced, six economies, four languages, from the run of 27 September, with its cost ledger
+  ($275.24 on Engine A, $0 on Engine B).
+- **The two declared engines.** Engine A is the hosted Claude stack (Sonnet 5, Haiku 4.5, Opus 4.8);
+  Engine B is Qwen2.5-14B-Instruct, local, digest-pinned. The request Claude receives is unchanged.
+- **The honesty rules.** No quote, no record; a translation never becomes evidence; the gold set scores and
+  never steers; robots.txt is obeyed.
+
+## What changed since 1 October
+
+| Area | Change |
+| :-- | :-- |
+| Starting the tool | Double-click launchers for Windows, macOS and Linux open the pages in a window of their own; closing it stops the tool, and a run with it, after a warning. One instance per repository. A `.venv` is found by itself; otherwise Appendix → This machine names the Python of each stage |
+| Overview | A workflow map of the three stages; a cost report in three blocks (money by model and step, time by stage, a calculator); estimated performance by model, from one experiment of 4 October, said to be small |
+| Scraping | One run per economy; results filed by economy and source; Check asks the stage whether the link list fits and states the time; Refresh from the portal; Quick run (the first N documents); a crawl the portal cut short ends as failed, nothing lost |
+| Hand-collected files | Any of the six economies, no source to pick: each file is judged by what it is (ready, or why not and what to do) and filed under `inbox/<economy>/Hand_collected/<date_time>/` |
+| Extraction | Documents that gave no provision are listed "to check"; article headings in capitals or with a non-breaking space are found; an English "Article N" pattern for English editions; the language an adapter read from the portal travels with each file; the OCR choice shows its measured pace and memory |
+| Mapping | Run is laid out as the steps in order, A to E: candidate selection with a number per indicator (the recommended one prefilled), quick screen, careful reading, re-check, tie-break, each model step with its own provider and model. Keys for hosted providers in one place, held in memory only |
+| Engines offered | DeepSeek, Kimi and ChatGPT can be chosen per step through one OpenAI-compatible client. They are **not** declared engines and are marked "not measured" |
+| Instrument | The 52 indicators outside pillars 6 and 7 now carry blocks of the same depth (scoring trees, coding rules, traps, count rules, absence scores). No person has reviewed them yet |
+| Output of every stage | A table of runs: when each began, when it last ran, complete or not, with Open folder and Clear. In Mapping a click on a run examines it, and its Record names the model of each step |
+| Appendix | Opens with "Adding a new economy": what each stage needs, the file that holds it, what is built |
+| Tests | Interface 94 → 291; crawler 429; extraction 134 (six need a development tool not shipped); mapping 504. A workflow runs the interface's tests on Windows, macOS and Ubuntu |
+
+## A fault found and repaired on 5 October
+
+From 4 October a change of ours made every real crawl end with an error after it had stored its documents:
+the crawler wrote each adapter's facts about a file into the manifest, and the crawler's own contract check
+allows no other field there. The facts now go to a side file, `manifest_meta.jsonl`. Found by a small test
+run from the page, repaired, and run again: three Timor-Leste documents crawled, checked and extracted.
+
+## Tested on 5 October, from the page, small runs
+
+Scraping (a Quick run of three documents, a dry run, files dropped by hand), Extraction (the demo corpus and
+three more inputs), Mapping on local Qwen (Singapore, indicators 6.1 and 6.4: two rows in the host's
+columns in three minutes, $0), Accept, Reject, Correct and Clear decision with the export after each, Stop,
+Clear run, the self-test. No hosted model was called in this test. The record is in
+`docs/CHANGELOG_FINALE.md`, under 2026-10-05.
+
+## Honest limits added to the README's list
+
+No full run has been made and scored on a model outside the two declared engines. Local Qwen agrees with
+Claude less often on Lao (78%) than on the other languages. A rerun today will not reproduce the filed rows
+byte for byte: the portals move, a model does not always answer twice alike, and the rulebooks of 52
+indicators are deeper than on 27 September. No window has been opened by us on a Mac.
+
+## Verify this release
+
+```
+git checkout final-submission
+python -m unittest discover -s interface/tests -t interface   # 291 tests
+python interface/app.py                                        # http://127.0.0.1:8765/
+```
+
+---
+
+# Release notes — the release of 1 October 2026 (kept as written)
 
 The judged release of **RDTII Rocky** for the final round of the UN Global Hackathon on AI for
 Digital Trade Regulatory Analysis. Team: Rocky has a home run.
