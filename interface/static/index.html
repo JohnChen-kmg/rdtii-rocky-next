@@ -363,7 +363,7 @@
     <div class="guide-head below" id="ov-cost" data-outline="Cost report"><span class="col-title">Cost report</span></div>
     <div class="block node cost grey" id="cost-money">
       <h2><span class="step">$</span>Money</h2>
-      <div class="dist-title">By model and step (USD per 1,000 calls)</div>
+      <div class="cost-sub">By model and step <span>(USD per 1,000 calls)</span></div>
       <div class="cost-table" id="cost-prices"></div>
       <div class="cost-key"><span><i>1.95</i> measured</span><span><i class="est">≈ 6.20</i> estimated</span><span><i class="used">1.95</i> used in the finale</span></div>
       <ul>
@@ -371,12 +371,14 @@
         <li><b>Estimated:</b> the model’s price card times the tokens that step sends and gets back.</li>
         <li>A <b>tie-break</b> is a re-check sent to a stronger model. <b>Qwen</b> runs on this machine: $0.</li>
       </ul>
-      <div class="dist-title">The finale run, 27 September (USD)</div>
-      <div class="cost-table" id="cost-finale"></div>
-      <ul>
-        <li>The nine indicators of pillars 6 and 7, from the run’s own ledger. The careful reading ran in Claude’s <b>batch lane, at half price</b>.</li>
-        <li><b>All 61 indicators:</b> about 4 times as much. Timor-Leste, measured: $21.93 for the nine, $69.04 for the other 52.</li>
-      </ul>
+      <details class="subfold grey">
+        <summary>The finale run, 27 September (USD) <span class="fold"></span></summary>
+        <div class="cost-table" id="cost-finale"></div>
+        <ul>
+          <li>The nine indicators of pillars 6 and 7, from the run’s own ledger. The careful reading ran in Claude’s <b>batch lane, at half price</b>.</li>
+          <li><b>All 61 indicators:</b> about 4 times as much. Timor-Leste, measured: $21.93 for the nine, $69.04 for the other 52.</li>
+        </ul>
+      </details>
     </div>
 
     <div class="block node cost grey" id="cost-time">
