@@ -739,4 +739,12 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .block.node > p.how { line-height: 1.9; }
 /* the chain carries the steps' full names, the letter first */
 .guide .guide-row .chain span b { color: var(--un-blue); margin-right: 3px; }
+/* the Mapping block's output: an arrow down from the steps, then a made-up evidence row in small blocks */
+.guide .guide-row .arrow-row.inner { height: 34px; margin: 2px 0 14px; }
+.guide .fake-row { display: flex; flex-wrap: wrap; gap: 8px; box-sizing: border-box; max-width: 1000px; margin: 0 auto 12px; padding: 10px 12px; border: 1px dashed #7fa9cf; border-radius: 16px; }
+.guide .fake-row .cell { flex: 1 1 110px; min-width: 0; background: #eaf4fc; border: 1px solid var(--un-blue); border-radius: 10px; padding: 7px 12px 8px; font-size: 17px; font-weight: 700; color: var(--un-blue-deep); line-height: 1.3; }
+.guide .fake-row .cell small { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #5b6b7a; margin-bottom: 2px; }
+.guide .fake-row .cell.wide { flex: 2.2 1 220px; font-weight: 500; font-style: italic; }
+.guide .fake-row .cell.mid { flex: 1.6 1 170px; white-space: nowrap; }
+.guide .guide-row .block.node > p.out-note { text-align: center; font-size: 17px; margin-bottom: 14px; }
 /* === fit: end === */
