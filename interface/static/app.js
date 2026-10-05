@@ -1460,7 +1460,11 @@ function renderMapRun() {
       ${finale ? `<ul>${MODEL_STEPS.map((s) => `<li><b>${s.letter} ${esc(s.title)}:</b> ${esc(finaleModel(s))}</li>`).join('')}</ul>
       Each step below starts on these, and can be given another provider and model there.` : '<span class="muted">no engines declared (stages/p3-map missing?)</span>'}
     </div>
-    <div class="callout time-note" id="mp-compare-notice"><b>Comparing models.</b> For the estimated money, time and performance of each model, see the Overview: <a href="#" data-ov="ov-cost">3 Cost report</a> and <a href="#" data-ov="ov-perf">4 Model performance</a>.</div>
+    <div class="callout time-note" id="mp-compare-notice"><b>In the Overview.</b>
+      <ul>
+        <li><b>How each step works:</b> <a href="#" data-ov="ov-steps">2 Workflow map, “Mapping, step by step”</a>.</li>
+        <li><b>Comparing models</b>, the estimated money, time and performance of each: <a href="#" data-ov="ov-cost">3 Cost report</a> and <a href="#" data-ov="ov-perf">4 Model performance</a>.</li>
+      </ul></div>
     <div class="callout time-note" id="mp-price-notice"><b>The two prices beside a model.</b> <b>$3 / $15</b> means US dollars per million tokens: $3 for the text sent to the model, $15 for the text it writes back. A token is about three quarters of a word. These are list prices, not the cost of a run.</div>
     <div class="subblock">
       <div class="subblock-head"><b><span class="letter">A</span>Candidate selection</b><span>which provisions go forward, scored by meaning with BGE-M3</span></div>
@@ -1528,7 +1532,8 @@ function renderMapRun() {
   note.querySelectorAll('a[data-ov]').forEach((a) => a.addEventListener('click', (e) => {     // to a section of the Overview
     e.preventDefault();
     showTab('overview');
-    setTimeout(() => { const m = document.getElementById(a.dataset.ov); if (m) window.scrollTo({ top: m.getBoundingClientRect().top + window.scrollY - (($('#topfix') || {}).offsetHeight || 92) - 10, behavior: 'smooth' }); }, 60);
+    setTimeout(() => { const m = document.getElementById(a.dataset.ov); if (m && m.tagName === 'DETAILS') m.open = true;   // a fold is opened, then shown
+      if (m) window.scrollTo({ top: m.getBoundingClientRect().top + window.scrollY - (($('#topfix') || {}).offsetHeight || 92) - 10, behavior: 'smooth' }); }, 60);
   }));
   const mpNote = $('#mp-note'); if (mpNote) mpNote.oninput = (e) => { MP.note = e.target.value; };
   $('#mp-mode').onchange = (e) => { MP.selectMode = e.target.value; MP.checks = null; renderMapRun(); };

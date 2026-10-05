@@ -979,4 +979,6 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 /* 3.2 Run: the short notices under the finale's models */
 #mp-compare-notice a { color: var(--un-blue-deep); font-weight: 700; }
 #mp-compare-notice, #mp-price-notice { line-height: 1.5; }
+#mp-compare-notice ul { margin: 6px 0 2px; padding-left: 24px; } #mp-compare-notice li { margin: 3px 0; }
+#ov-steps { scroll-margin-top: 96px; }
 /* === fit: end === */
