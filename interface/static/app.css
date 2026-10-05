@@ -707,4 +707,15 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 /* the instrument is part of the workflow map now: it follows the footnotes with no title of its own */
 .guide .block.instrument { margin-top: 24px; }
 #ov-intro { scroll-margin-top: 96px; }
+/* Overview examples in two parts: what goes in (red) and what comes out (green) */
+.guide .io-part { border: 1px solid; border-left-width: 7px; border-radius: 12px; padding: 10px 14px 12px; margin: 0 0 12px; }
+.guide .io-part.in { background: #fdeeee; border-color: #d0453f; }
+.guide .io-part.out { background: #e8f6ed; border-color: #2a9455; }
+.guide .io-part .io-tag { display: block; width: fit-content; font-size: 14px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: #fff; border-radius: 999px; padding: 2px 13px; margin: 0 0 8px; }
+.guide .io-part.in .io-tag { background: #c23a34; }
+.guide .io-part.out .io-tag { background: #23874c; }
+.guide .io-part pre.tree, .guide .io-part .row-line { background: rgba(255, 255, 255, .8); margin: 0; }
+.guide .io-part .row-line { margin-bottom: 10px; }
+.guide .io-part p.summary { margin: 0; font-size: 17px; }
+.guide .example-card > details.subfold.light { margin-top: 2px; }
 /* === fit: end === */

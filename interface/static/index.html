@@ -69,14 +69,17 @@
         <details class="subfold example">
           <summary>Example: Singapore <span class="fold"></span></summary>
           <div class="example-card">
-        <div class="mini-io"><span>Singapore Statutes Online</span><b>→</b><span>one crawl folder</span></div>
+        <div class="io-part in"><span class="io-tag">Input</span>
+<pre class="tree">Singapore Statutes Online        sso.agc.gov.sg
+  the portal’s own list of laws: 1,051 documents</pre></div>
+        <div class="io-part out"><span class="io-tag">Output</span>
 <pre class="tree">SG/sso-agc-gov-sg/20260930-000323/
   manifest.csv         one row per document
   raw/sg/
     personal_data_protection_act_2012/   PDF
     cybersecurity_act_2018/              web page
     companies_act_1967/                  PDF
-    … one folder per law</pre>
+    … one folder per law</pre></div>
           </div>
         </details>
       </div>
@@ -94,14 +97,19 @@
         <details class="subfold example">
           <summary>Example: Singapore <span class="fold"></span></summary>
           <div class="example-card">
-        <div class="mini-io"><span>the crawl folder</span><b>→</b><span>provisions, law by law</span></div>
+        <div class="io-part in"><span class="io-tag">Input</span>
+<pre class="tree">SG/sso-agc-gov-sg/20260930-000323/
+  raw/sg/
+    personal_data_protection_act_2012/   PDF
+    … one folder per law</pre></div>
+        <div class="io-part out"><span class="io-tag">Output</span>
 <pre class="tree">Personal Data Protection Act 2012  (English)
   s.3      The purpose of this Act is to govern…
   s.11(3)  An organisation must designate one or more…
   s.26(1)  An organisation must not transfer any personal
            data to a country or territory outside Singapore
            except in accordance with requirements prescribed…
-  … every section of every law</pre>
+  … every section of every law</pre></div>
           </div>
         </details>
       </div>
@@ -170,8 +178,14 @@
         <details class="subfold example">
           <summary>Example: Singapore <span class="fold"></span></summary>
           <div class="example-card">
-        <div class="mini-io"><span>s.26(1)</span><b>→</b><span>one evidence row</span></div>
-        <p class="summary">s.26(1) comes up for 6.1 and 6.4. The reading model reads it: a conditional transfer rule, so 6.4 applies and 6.1 does not, quote and score 1. The second model agrees. The row is KNOWN, already in the Round 1 baseline, and feeds Singapore’s 6.4.</p>
+        <div class="io-part in"><span class="io-tag">Input</span>
+<pre class="tree">Personal Data Protection Act 2012, s.26(1)
+  “An organisation must not transfer any personal data to a country
+   or territory outside Singapore except in accordance with
+   requirements prescribed…”
+Candidate indicators: 6.1, a ban on transfers; 6.4, a conditional rule</pre></div>
+        <div class="io-part out"><span class="io-tag">Output</span>
+        <p class="summary"><b>6.4 applies, score 1</b>, with the quote: a conditional transfer rule. <b>6.1 does not</b>: a way to transfer exists. The second model agrees. The row is KNOWN, already in the Round 1 baseline, and feeds Singapore’s 6.4.</p></div>
         <details class="subfold light">
           <summary>Step by step <span class="fold"></span></summary>
         <ul class="steps">
@@ -203,9 +217,11 @@
         <details class="subfold example">
           <summary>Example: Singapore <span class="fold"></span></summary>
           <div class="example-card">
-        <div class="mini-io"><span>Mapping Output</span><b>→</b><span>the row</span></div>
+        <div class="io-part in"><span class="io-tag">Input</span>
         <div class="row-line">Singapore · Personal Data Protection Act 2012 · s.26(1) · <b>6.4</b> · KNOWN · agreed · score 1</div>
-        <button class="btn small" data-example-row="SG" data-indicator="6.4">Show this row</button>
+        <button class="btn small" data-example-row="SG" data-indicator="6.4">Show this row</button></div>
+        <div class="io-part out"><span class="io-tag">Output</span>
+        <p class="summary">After <b>Accept</b>: the row in the exported CSV and workbook, in the host’s 14 columns, with the decision kept in <code>review_log.csv</code>.</p></div>
           </div>
         </details>
       </div>
