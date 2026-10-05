@@ -691,14 +691,16 @@ table.rows .btn.tocheck { background: #fff6e0; border-color: #e0b84d; color: #6b
 .carried { display: inline-block; background: #fff6e0; border: 1px solid #e0b84d; color: #5c4000; border-radius: 10px; padding: 2px 10px; font-size: 15px; line-height: 1.4; }
 td .carried { display: block; width: fit-content; margin-top: 5px; }
 /* Overview: the introduction at the top, and the places its links jump to */
-.guide .guide-intro { margin: 2px 4px 26px; }
+.guide .guide-intro { margin: 2px 4px 58px; }
 .guide .guide-intro p.lead { font-size: 25px; line-height: 1.5; margin: 0 0 16px; color: var(--ink); }
 /* a stage named inside the sentence: its name in the page's blue, and a click opens that page */
 .guide .guide-intro .stage-ref { color: var(--un-blue); font-weight: 700; white-space: nowrap; cursor: pointer; }
 .guide .guide-intro .stage-ref:hover { text-decoration: underline; }
 .guide .guide-intro p.lead { margin-bottom: 8px; }
-.guide .guide-intro ol.stages { margin: 0 0 18px; padding-left: 38px; font-size: 23px; line-height: 1.6; color: var(--ink); }
-.guide .guide-intro ol.stages li { padding-left: 4px; }
+/* the three stages, each number in a circle like the step badges of the blocks */
+.guide .guide-intro ol.stages { list-style: none; counter-reset: stage; margin: 4px 0 0; padding: 0; font-size: 23px; line-height: 1.5; color: var(--ink); }
+.guide .guide-intro ol.stages li { counter-increment: stage; position: relative; padding-left: 50px; margin: 12px 0; }
+.guide .guide-intro ol.stages li::before { content: counter(stage); position: absolute; left: 2px; top: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--un-blue); color: #fff; font-size: 19px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
 .guide .guide-intro p.on-page { font-size: 22px; font-weight: 700; margin: 0 0 6px; color: var(--un-blue-deep); }
 .guide .guide-intro ul { margin: 0; padding-left: 30px; font-size: 21px; line-height: 1.6; }
 .guide .guide-intro a { color: var(--un-blue); font-weight: 700; text-decoration: none; }
@@ -720,4 +722,12 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .io-part .row-line { margin-bottom: 10px; }
 .guide .io-part p.summary { margin: 0; font-size: 17px; }
 .guide .example-card > details.subfold.light { margin-top: 2px; }
+/* the Mapping block's picture: several provisions on the left, one indicator on the right, the instrument over the arrow */
+.guide .io-stack { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; align-self: center; }
+.guide .io-box.mini { flex: 0 0 auto; padding: 9px 18px; font-size: 18px; }
+.guide .io-more { text-align: center; font-size: 22px; font-weight: 800; line-height: .8; color: var(--un-blue); }
+.guide .io-via { display: block; background: #f1f3f5; border: 1px solid #8a97a5; color: #3b4652; border-radius: 12px; padding: 9px 18px; font-size: 18px; font-weight: 700; text-align: center; }
+.guide .io-via small { display: block; font-size: 14px; font-weight: 500; color: #4b5563; margin-top: 2px; white-space: nowrap; }
+.guide .map-io .io-arrow b { width: 100%; min-width: 150px; }
+.guide .map-io { margin-bottom: 22px; }
 /* === fit: end === */
