@@ -149,7 +149,7 @@ def register(app: App) -> None:
 
     @app.route("GET", r"/api/extract/outputs")
     def outputs(app: App, m, q, b):
-        return 200, {"folders": list_outputs(app.settings)}
+        return 200, {"folders": list_outputs(app.settings, getattr(app, "jobs", None))}
 
     @app.route("GET", r"/api/extract/unread")
     def unread(app: App, m, q, b):
@@ -997,7 +997,54 @@ def _run_note(path: Path) -> dict:
     return _notes.read(path)
 
 
-def describe_output(path: Path, kind: str) -> dict:
+def log_span(path: Path) -> tuple[str, str]:
+    """The first and the latest time the stage logged a document in an output folder, as it wrote them (UTC).
+    The stage appends to this log, so the first line is the folder's first run and the last its latest."""
+    first = last = ""
+    try:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    ts = str(json.loads(line).get("ts") or "")
+                except (ValueError, AttributeError):
+                    continue
+                if ts:
+                    first = first or ts
+                    last = ts
+    except OSError:
+        pass
+    return first, last
+
+
+def output_state(path: Path, kind: str, cost, jobs=None) -> str:
+    """How an extraction output stands: running, complete, stopped (Stop was pressed in this session) or
+    not complete. Empty where nothing says, for a folder no run of the interface made.
+
+    Read only. The stage writes its report (cost_report.json) only when a run ends, together with the
+    provisions, so a folder that has it holds a finished output: complete. A folder a run made that has
+    none never finished: not complete. A re-run stopped part of the way leaves the earlier run's whole
+    output in place, so the folder stays complete; "stopped" is said for it only while the interface that
+    stopped it is still open, because nothing is written when a run stops."""
+    mine = []
+    if jobs is not None:
+        try:
+            rp = path.resolve()
+            mine = [j for j in jobs.all() if j.out_dir and Path(j.out_dir).resolve() == rp]
+        except (OSError, AttributeError):
+            mine = []
+    if any(j.status in ("queued", "running") for j in mine):
+        return "running"
+    if mine and mine[0].status == "cancelled":
+        return "stopped"
+    if isinstance(cost, dict):
+        return "complete"
+    return "not complete" if kind == "interface run" else ""
+
+
+def describe_output(path: Path, kind: str, jobs=None) -> dict:
     status_file = path / "doc_status.jsonl"
     statuses: Counter = Counter()
     lanes: Counter = Counter()
@@ -1009,8 +1056,12 @@ def describe_output(path: Path, kind: str) -> dict:
             provisions_total += int(row.get("n_provisions") or 0)
     prov = path / "provisions.jsonl"
     cost = readers.cached(path / "cost_report.json", readers.read_json)
+    span = readers.cached(path / "extract_log.jsonl", log_span) or ("", "")
     return {
         "path": str(path), "id": rel_or_abs(path, REPO), "name": path.name, "kind": kind,
+        # when the stage first and last logged a document here, in this machine's time, and how the folder stands
+        "began": scrape.local_time(span[0]), "last_run": scrape.local_time(span[1]),
+        "run_state": output_state(path, kind, cost, jobs),
         "documents": sum(statuses.values()), "by_status": dict(statuses), "by_lane": dict(lanes),
         "to_check": sum(n for k, n in statuses.items() if k != "ok"),     # gave no provision: listed by /api/extract/unread
         **_run_note(path),                                                # the line written at Start
@@ -1022,7 +1073,7 @@ def describe_output(path: Path, kind: str) -> dict:
     }
 
 
-def list_outputs(s: Settings) -> list[dict]:
+def list_outputs(s: Settings, jobs=None) -> list[dict]:
     out = []
     seen = set()
 
@@ -1031,7 +1082,7 @@ def list_outputs(s: Settings) -> list[dict]:
         if rp in seen or not p.is_dir():
             return
         seen.add(rp)
-        out.append(describe_output(p, kind))
+        out.append(describe_output(p, kind, jobs))
 
     root = s.runs_root / "extract"
     if root.is_dir():

@@ -720,6 +720,15 @@ async function renderScrapeSources() {
   }));
 }
 
+/* Output tables: a time as the date over the time, and how a run folder stands as a chip. `tips` gives the
+   page's own words for a state; `extra` goes before them (the crawler's counts). */
+const whenCell = (x) => x ? x.split(' ').map((y) => `<span>${esc(y)}</span>`).join(' ') : '<span class="muted">–</span>';
+const RUN_STATES = { running: ['chip warn', 'running'], complete: ['chip ok', 'complete'], paused: ['chip warn', 'paused'], stopped: ['chip', 'stopped'], 'not complete': ['chip bad', 'not complete'] };
+function stateChip(f, tips, extra = '') {
+  const x = RUN_STATES[f.run_state];
+  return x ? `<span class="${x[0]}" title="${esc(extra + (tips[f.run_state] || ''))}">${x[1]}</span>` : '<span class="muted">–</span>';
+}
+
 async function loadScrapeOutputs() {
   let j;
   try { j = await api('/api/scrape/outputs'); } catch (e) { $('#scrape-output').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
@@ -734,14 +743,12 @@ async function loadScrapeOutputs() {
     : f.kind === 'link list' ? '<span class="small muted">in use from here on</span>'
     : `${f.fetched_last_pass ?? ''}`;
   // how the run stands: the crawler's own record, and this session's runs for "running" and "stopped"
-  const STATE = { running: ['chip warn', 'running', 'a run is writing into this folder now'], complete: ['chip ok', 'complete', 'the crawler finished'],
-    paused: ['chip warn', 'paused', 'paused by the portal: it stopped answering. Update an existing crawl fetches the rest later'],
-    stopped: ['chip', 'stopped', 'Stop was pressed; Update an existing crawl fetches the rest'],
-    'not complete': ['chip bad', 'not complete', 'the run ended before the crawler finished: stopped, or failed. Update an existing crawl fetches the rest'] };
-  const state = (f) => { const x = STATE[f.run_state]; if (!x) return '<span class="muted">–</span>';
-    const c = f.crawl_state; const n = c && c.todo ? `${c.attempted} of ${c.todo} attempted, ${c.stored_total} stored. ` : '';
-    return `<span class="${x[0]}" title="${esc(n + x[2])}">${x[1]}</span>`; };
-  const when = (x) => x ? x.split(' ').map((y) => `<span>${esc(y)}</span>`).join(' ') : '<span class="muted">–</span>';   // the date over the time
+  const TIPS = { running: 'a run is writing into this folder now', complete: 'the crawler finished',
+    paused: 'paused by the portal: it stopped answering. Update an existing crawl fetches the rest later',
+    stopped: 'Stop was pressed; Update an existing crawl fetches the rest',
+    'not complete': 'the run ended before the crawler finished: stopped, or failed. Update an existing crawl fetches the rest' };
+  const state = (f) => { const c = f.crawl_state; return stateChip(f, TIPS, c && c.todo ? `${c.attempted} of ${c.todo} attempted, ${c.stored_total} stored. ` : ''); };
+  const when = whenCell;
   const buttons = (f) => `<button class="btn small" data-open="${esc(f.path)}">Open folder</button>`
     + (f.kind === 'interface run' ? ` <button class="btn small" data-clear="${esc(f.path)}/raw" data-what="the downloaded documents (raw/)">Clear raw</button>` : '')
     + (f.kind === 'interface run' || f.kind === 'China tools run' ? ` <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole run folder">Clear folder</button>` : '')
@@ -900,9 +907,12 @@ function renderExtractDescribe() {
 async function loadExtractOutputs() {
   let j;
   try { j = await api('/api/extract/outputs'); } catch (e) { $('#extract-output').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
-  $('#extract-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Folder</th><th>Kind</th><th>Documents</th><th>By status</th><th>By lane</th><th>Provisions</th><th>Laws</th><th>OCR cache</th><th>Frozen text</th><th></th></tr></thead><tbody>
-    ${j.folders.map((f) => `<tr><td title="${esc(f.path)}">${esc(f.id)}${carried(f)}</td><td class="small">${esc(f.kind)}</td><td class="num">${f.documents}</td><td class="small">${kv(f.by_status)}</td><td class="small">${kv(f.by_lane)}</td><td class="num">${f.provisions}</td><td class="num">${f.laws}</td><td class="num">${fmtBytes(f.cache_bytes.ocr)}</td><td class="num">${fmtBytes(f.cache_bytes.source_text)}</td><td class="small">${f.to_check ? `<button class="btn small tocheck" data-unread="${esc(f.path)}">${f.to_check} to check</button> ` : ''}<button class="btn small" data-open="${esc(f.path)}">Open folder</button> ${f.kind === 'interface run' ? `<button class="btn small" data-clear-ocr="${esc(f.path)}">Clear OCR cache</button> <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole extraction folder">Clear folder</button>` : ''}</td></tr>`).join('')}
-    </tbody></table></div><p class="muted small">Lanes: A web page, B native PDF, C scanned PDF read by OCR, D Word. The OCR cache and the frozen text are what a re-run reuses; clearing both forces a fresh OCR.</p>`
+  const TIPS = { running: 'a run is writing into this folder now', complete: 'the stage wrote its report here: a run finished',
+    stopped: 'Stop was pressed; Start again into the same folder, what was read is reused',
+    'not complete': 'the run ended before the stage finished: stopped, or failed. Start again into the same folder, what was read is reused' };
+  $('#extract-output').innerHTML = j.folders.length ? `<div class="table-wrap short"><table class="rows"><thead><tr><th>Began</th><th>Last run</th><th>Folder</th><th>Kind</th><th>Status</th><th>Documents</th><th>By status</th><th>By lane</th><th>Provisions</th><th>Laws</th><th>OCR cache</th><th>Frozen text</th><th></th></tr></thead><tbody>
+    ${j.folders.map((f) => `<tr><td class="small began">${whenCell(f.began)}</td><td class="small began">${whenCell(f.last_run)}</td><td class="folder" title="${esc(f.path)}">${esc(f.id)}${carried(f)}</td><td class="small">${esc(f.kind)}</td><td class="small state">${stateChip(f, TIPS)}</td><td class="num">${f.documents}</td><td class="small">${kv(f.by_status)}</td><td class="small">${kv(f.by_lane)}</td><td class="num">${f.provisions}</td><td class="num">${f.laws}</td><td class="num">${fmtBytes(f.cache_bytes.ocr)}</td><td class="num">${fmtBytes(f.cache_bytes.source_text)}</td><td class="small">${f.to_check ? `<button class="btn small tocheck" data-unread="${esc(f.path)}">${f.to_check} to check</button> ` : ''}<button class="btn small" data-open="${esc(f.path)}">Open folder</button> ${f.kind === 'interface run' ? `<button class="btn small" data-clear-ocr="${esc(f.path)}">Clear OCR cache</button> <button class="btn small" data-clear="${esc(f.path)}" data-what="the whole extraction folder">Clear folder</button>` : ''}</td></tr>`).join('')}
+    </tbody></table></div><p class="muted small"><b>Began</b> and <b>Last run</b> are the first and the latest time the stage logged a document in that folder. <b>Status</b>: complete once the stage has written its report in that folder; running; stopped; or not complete (no run finished there). Lanes: A web page, B native PDF, C scanned PDF read by OCR, D Word. The OCR cache and the frozen text are what a re-run reuses; clearing both forces a fresh OCR.</p>`
     : '<p class="muted">No extraction output yet. HANDOFF2_DIR points at a folder that appears after the first run.</p>';
   bindClear('#extract-output', loadExtractOutputs);
   bindOpen('#extract-output');

@@ -928,18 +928,19 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 #cn-body > .cn-lead .cn-lead-title { font-size: 26px; font-weight: 800; color: var(--un-blue-deep); line-height: 1.25; margin-bottom: 8px; }
 #cn-body > .cn-lead ul.plain-list.big { margin: 0; }
 /* Scraping's Output: when a run began, on one line */
-#scrape-output td.began { font-variant-numeric: tabular-nums; } #scrape-output td.began span { display: block; white-space: nowrap; }
-#scrape-output th { white-space: normal; line-height: 1.25; vertical-align: bottom; }
+#scrape-output td.began, #extract-output td.began { font-variant-numeric: tabular-nums; } #scrape-output td.began span, #extract-output td.began span { display: block; white-space: nowrap; }
+#scrape-output th, #extract-output th { white-space: normal; line-height: 1.25; vertical-align: bottom; }
 #scrape-output td.folder { width: 160px; min-width: 160px; max-width: 160px; overflow-wrap: anywhere; }
-#scrape-output td.state .chip { white-space: nowrap; margin-right: 0; }
+#scrape-output td.state .chip, #extract-output td.state .chip { white-space: nowrap; margin-right: 0; }
 #scrape-output td.num { white-space: normal; }
 /* the Overview's sections carry their number: a pill before a section title, as a block's own number is */
 .guide .col-title .sec-num { display: inline-block; min-width: 40px; height: 40px; line-height: 40px; box-sizing: border-box; padding: 0 8px; margin-right: 12px; border-radius: 20px; background: var(--un-blue); color: #fff; font-size: 22px; font-weight: 800; text-align: center; vertical-align: 3px; }
 .guide .guide-head.below .col-title .sec-num { background: #6b7a89; }
 .side .outline[data-for="overview"] button.jump .num { min-width: 26px; }
 /* Scraping's Output is wider than its box: the buttons stay in view while the other columns scroll under them */
-#scrape-output table.rows td:last-child, #scrape-output table.rows th:last-child { position: sticky; right: 0; background: var(--panel); box-shadow: -10px 0 10px -10px rgba(0, 0, 0, .18); }
-#scrape-output table.rows th:last-child { z-index: 2; }
+#scrape-output table.rows td:last-child, #scrape-output table.rows th:last-child, #extract-output table.rows td:last-child, #extract-output table.rows th:last-child { position: sticky; right: 0; background: var(--panel); box-shadow: -10px 0 10px -10px rgba(0, 0, 0, .18); }
+#scrape-output table.rows th:last-child, #extract-output table.rows th:last-child { z-index: 2; }
+#extract-output td.folder { width: 190px; min-width: 190px; max-width: 190px; overflow-wrap: anywhere; }
 /* the Introduction's three stages: a small white circle with the number, not the section titles' blue one */
 .guide .guide-intro ol.stages li { padding-left: 40px; }
 .guide .guide-intro ol.stages li::before { left: 2px; top: 5px; width: 26px; height: 26px; box-sizing: border-box; background: #fff; color: var(--un-blue); border: 2px solid var(--un-blue); font-size: 16px; line-height: 1; }
