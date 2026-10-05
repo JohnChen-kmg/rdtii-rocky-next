@@ -361,25 +361,111 @@
     </div>
 
     <div class="guide-head below" id="ov-cost" data-outline="Cost report"><span class="col-title">Cost report</span></div>
-    <div class="block node cost grey">
-      <h2><span class="step">$</span>What the runs cost, and what a run would cost</h2>
-      <p>Claude, from the run’s own ledger (<code>submission/reports/cost_ledger.json</code>). Qwen, local, is <b>$0</b> at every size.</p>
-      <div class="dist-title" style="margin: 2px 20px 2px">The finale run, 27 September, by economy and stage (USD)</div>
-      <div class="cost-table"><table class="dist"><thead><tr><th>Economy</th><th>Scope</th><th>Careful reading</th><th>Quick screen</th><th>Re-check, tie-break</th><th>Translation</th><th>Scores</th><th>Total</th></tr></thead><tbody><tr><td>Australia</td><td class="muted">pillars 6 and 7</td><td class="num">26.83</td><td class="num">12.06</td><td class="num">7.47</td><td class="num">0.00</td><td class="num">0.02</td><td class="num">46.38</td></tr><tr><td>China</td><td class="muted">pillars 6 and 7</td><td class="num">22.83</td><td class="num">18.46</td><td class="num">7.70</td><td class="num">3.06</td><td class="num">0.02</td><td class="num">52.08</td></tr><tr><td>Singapore</td><td class="muted">pillars 6 and 7</td><td class="num">15.48</td><td class="num">12.53</td><td class="num">4.93</td><td class="num">0.00</td><td class="num">0.02</td><td class="num">32.96</td></tr><tr><td>Malaysia</td><td class="muted">pillars 6 and 7</td><td class="num">12.71</td><td class="num">12.01</td><td class="num">5.92</td><td class="num">0.00</td><td class="num">0.01</td><td class="num">30.65</td></tr><tr><td>Lao PDR</td><td class="muted">pillars 6 and 7</td><td class="num">9.50</td><td class="num">7.26</td><td class="num">4.12</td><td class="num">1.07</td><td class="num">0.04</td><td class="num">22.00</td></tr><tr><td>Timor-Leste</td><td class="muted">pillars 6 and 7</td><td class="num">8.37</td><td class="num">11.03</td><td class="num">1.94</td><td class="num">0.57</td><td class="num">0.02</td><td class="num">21.93</td></tr><tr><td>Timor-Leste</td><td class="muted">the other 52 indicators</td><td class="num">30.97</td><td class="num">27.54</td><td class="num">9.25</td><td class="num">1.29</td><td class="num">0.00</td><td class="num">69.04</td></tr><tr class="total"><td><b>Whole run</b></td><td></td><td class="num"><b>126.69</b></td><td class="num"><b>100.89</b></td><td class="num"><b>41.33</b></td><td class="num"><b>5.98</b></td><td class="num"><b>0.35</b></td><td class="num"><b>275.24</b></td></tr></tbody></table>
-      <div class="small muted">The careful reading (Sonnet, batch lane at 50%), the re-check (Haiku, with the Opus tie-break), translation and scores are the per-economy reports; the quick screen (Haiku) is shared pro rata by each economy’s borderline pairs. The scores total carries $0.20 of re-runs during the build that belong to no economy. The index, candidate selection, NEW/KNOWN and export are $0.</div></div>
-      <div class="dist-title" style="margin-top:12px">Estimates, Claude</div>
+    <div class="block node cost grey" id="cost-money">
+      <h2><span class="step">$</span>Money</h2>
+      <div class="dist-title">By model and step (USD per 1,000 calls)</div>
+      <div class="cost-table" id="cost-prices"></div>
+      <div class="cost-key"><span><i>1.95</i> measured</span><span><i class="est">≈ 6.20</i> estimated</span><span><i class="used">1.95</i> used in the finale</span></div>
       <ul>
-        <li><b>One economy, all 61 indicators: $90 to $220.</b> Timor-Leste was run on all 61 and measured $91; the full instrument cost 4.1 times its two pillars. The same ratio on the others gives Lao PDR 91, Malaysia 127, Singapore 137, Australia 192, China 216.</li>
-        <li><b>One economy, two indicators: about $7</b>, the shape of the 15 October draw.</li>
-        <li><b>Six economies, all 61 indicators: about $850</b>, the sum of the per-economy figures above.</li>
+        <li><b>Measured</b> on 4 October: every model on the same calls (80 pairs, 40 provisions, 196 re-checks; the newer Claude models on 8).</li>
+        <li><b>Estimated:</b> the model’s price card times the tokens that step sends and gets back.</li>
+        <li>A <b>tie-break</b> is a re-check sent to a stronger model. <b>Qwen</b> runs on this machine: $0.</li>
       </ul>
-      <div class="dist-title" style="margin: 12px 20px 2px">Across models, measured on 4 October (USD per 1,000 calls)</div>
-      <div class="cost-table"><table class="dist"><thead><tr><th>Model</th><th>Quick screen</th><th>Careful reading</th><th>Re-check</th></tr></thead><tbody><tr><td>Qwen 2.5 14B, on this machine</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr><tr><td>DeepSeek Flash</td><td class="num">0.31</td><td class="num muted">–</td><td class="num">0.46</td></tr><tr><td>DeepSeek V4 Pro</td><td class="num muted">–</td><td class="num">4.70</td><td class="num">2.10</td></tr><tr><td>GPT-6 Luna</td><td class="num">0.11</td><td class="num muted">–</td><td class="num">0.21</td></tr><tr><td>GPT-6.1 Sol</td><td class="num muted">–</td><td class="num">9.60</td><td class="num">3.50</td></tr><tr><td>Kimi K2.6</td><td class="num">0.91</td><td class="num muted">–</td><td class="num">4.30</td></tr><tr><td>Kimi K3</td><td class="num muted">–</td><td class="num">18.80</td><td class="num">8.80</td></tr><tr><td>Claude Haiku 4.5</td><td class="num">1.95</td><td class="num muted">–</td><td class="num">about 3</td></tr><tr><td>Claude Sonnet 5</td><td class="num muted">–</td><td class="num">18.60</td><td class="num muted">–</td></tr></tbody></table>
-      <div class="small muted">Every model in a column got the same request on the same provisions: 80 pairs for the screen, 40 provisions for the reading, 196 for the re-check. A dash means the model was not run on that step. Claude Sonnet 5 is its second run, with the rulebook already cached; its first read 26.90. Haiku’s re-check is an estimate from its price card. The newer Claude models ran 8 calls each, too few for a figure.</div></div>
+      <div class="dist-title">The finale run, 27 September (USD)</div>
+      <div class="cost-table" id="cost-finale"></div>
       <ul>
-        <li><b>An economy the size of Singapore, pillars 6 and 7:</b> Claude <b>$33</b>, measured in the finale run. With the same number of calls, about <b>$13</b> on DeepSeek, <b>$22</b> on ChatGPT, <b>$50</b> on Kimi, and <b>$0</b> on Qwen. Estimates, from 40 to 200 test calls per model; the ChatGPT tie-break is priced at its reading model.</li>
+        <li>The nine indicators of pillars 6 and 7, from the run’s own ledger. The careful reading ran in Claude’s <b>batch lane, at half price</b>.</li>
+        <li><b>All 61 indicators:</b> about 4 times as much. Timor-Leste, measured: $21.93 for the nine, $69.04 for the other 52.</li>
       </ul>
     </div>
+
+    <div class="block node cost grey" id="cost-time">
+      <h2><span class="step">h</span>Time</h2>
+      <p>One economy, start to finish, with the finale’s models. <b>Estimates</b>, from the pace each step was measured at.</p>
+      <div class="cost-table" id="cost-hours"></div>
+      <ul>
+        <li><b>Scraping</b> is the long part: 4 to 11 seconds a document, the polite pace. Singapore’s portal makes the crawler wait about 50 minutes.</li>
+        <li><b>Extraction:</b> seconds for text. Scanned pages are recognised 16 at a time (Lao PDR, Malaysia).</li>
+        <li><b>Index:</b> 60 provisions a second on this machine’s graphics card.</li>
+        <li><b>Model steps:</b> calls × seconds per call ÷ calls at a time. <span id="cost-local-line"></span></li>
+      </ul>
+      <details class="subfold grey">
+        <summary>Seconds per call, by model <span class="fold"></span></summary>
+        <div class="cost-table" id="cost-seconds"></div>
+        <div class="cost-key"><span><i>1.3</i> measured, 4 October</span><span><i class="est">≈ 4</i> estimated</span><span>Haiku 4.5’s re-check and Opus 4.8: from the finale’s own run time.</span></div>
+      </details>
+    </div>
+
+    <div class="block node cost grey" id="cost-calc">
+      <h2><span class="step">=</span>Calculator</h2>
+      <div class="calc" id="calc"></div>
+    </div>
+    <script type="application/json" id="cost-data">
+{
+  "_": "The cost report's figures. usd = US dollars per 1,000 calls of that step; sec = seconds one call takes. est lists the figures that are estimates, not measurements; few marks a model measured on 8 calls only. The calculator scales the finale's own bill by these prices, so the finale's models give the finale's bill (its careful reading doubled: the finale read in the batch lane at half price, a run from this tool reads live).",
+  "measured": "2026-10-04",
+  "index_per_sec": 60,
+  "steps": [
+    {"key": "screen", "letter": "B", "title": "Quick screen", "unit": "pairs"},
+    {"key": "read", "letter": "C", "title": "Careful reading", "unit": "provisions"},
+    {"key": "recheck", "letter": "D", "title": "Re-check", "unit": "matches"},
+    {"key": "tiebreak", "letter": "E", "title": "Tie-break", "unit": "disagreements"}
+  ],
+  "providers": [
+    {"id": "A", "name": "Claude", "workers": 12, "roles": {"screen": "claude-haiku-4-5", "read": "claude-sonnet-5", "recheck": "claude-haiku-4-5", "tiebreak": "claude-opus-4-8"}},
+    {"id": "B", "name": "Qwen", "local": true, "workers": 1, "roles": {"screen": "qwen2.5:14b", "read": "qwen2.5:14b", "recheck": "qwen2.5:14b", "tiebreak": "qwen2.5:14b"}},
+    {"id": "C", "name": "DeepSeek", "workers": 8, "roles": {"screen": "deepseek-flash", "read": "deepseek-v4-pro", "recheck": "deepseek-flash", "tiebreak": "deepseek-v4-pro"}},
+    {"id": "D", "name": "Kimi", "workers": 4, "roles": {"screen": "kimi-k2.6", "read": "kimi-k3", "recheck": "kimi-k2.6", "tiebreak": "kimi-k3"}},
+    {"id": "E", "name": "ChatGPT", "workers": 8, "roles": {"screen": "gpt-6-luna", "read": "gpt-6.1-sol", "recheck": "gpt-6-luna", "tiebreak": "gpt-6-astra"}}
+  ],
+  "models": [
+    {"id": "claude-haiku-4-5", "provider": "A", "label": "Haiku 4.5", "name": "Claude Haiku 4.5", "usd": {"screen": 1.95, "read": 6.2, "recheck": 3.4, "translate": 2.6}, "sec": {"screen": 1.3, "read": 4, "recheck": 3.2}, "est": ["usd.read", "usd.recheck", "sec.read", "sec.recheck"]},
+    {"id": "claude-sonnet-5", "provider": "A", "label": "Sonnet 5", "name": "Claude Sonnet 5", "usd": {"screen": 6, "read": 18.6, "recheck": 10, "translate": 7.8}, "sec": {"screen": 2, "read": 7, "recheck": 4}, "est": ["usd.screen", "usd.recheck", "usd.translate", "sec.screen", "sec.recheck"]},
+    {"id": "claude-opus-4-8", "provider": "A", "label": "Opus 4.8", "name": "Claude Opus 4.8", "usd": {"screen": 10, "read": 31, "recheck": 17, "translate": 13}, "sec": {"screen": 2.5, "read": 11, "recheck": 5.4}, "est": ["usd.screen", "usd.read", "usd.recheck", "usd.translate", "sec.screen", "sec.read", "sec.recheck"]},
+    {"id": "claude-sonnet-5-5", "provider": "A", "label": "Sonnet 5.5", "name": "Claude Sonnet 5.5", "few": true, "usd": {"screen": 4, "read": 14, "recheck": 7, "translate": 5.2}, "sec": {"screen": 1.8, "read": 7.8, "recheck": 3.8}, "est": ["usd.read", "usd.recheck", "usd.translate"]},
+    {"id": "claude-opus-5", "provider": "A", "label": "Opus 5", "name": "Claude Opus 5", "few": true, "usd": {"screen": 9.9, "read": 33, "recheck": 15, "translate": 13}, "sec": {"screen": 2.4, "read": 10.9, "recheck": 3.7}, "est": ["usd.read", "usd.recheck", "usd.translate"]},
+    {"id": "claude-opus-5-5", "provider": "A", "label": "Opus 5.5", "name": "Claude Opus 5.5", "few": true, "usd": {"screen": 7.9, "read": 30, "recheck": 13, "translate": 10}, "sec": {"screen": 2.6, "read": 12.4, "recheck": 6.5}, "est": ["usd.read", "usd.recheck", "usd.translate"]},
+    {"id": "claude-fable-5-1", "provider": "A", "label": "Fable 5.1", "name": "Claude Fable 5.1", "few": true, "usd": {"screen": 23.9, "read": 100, "recheck": 39, "translate": 26}, "sec": {"screen": 5.3, "read": 27.9, "recheck": 9}, "est": ["usd.read", "usd.recheck", "usd.translate"]},
+    {"id": "qwen2.5:14b", "provider": "B", "label": "Qwen 2.5 14B", "name": "Qwen 2.5 14B, local", "usd": {"screen": 0, "read": 0, "recheck": 0, "translate": 0}, "sec": {"screen": 3.4, "read": 12.2, "recheck": 4.4}, "est": []},
+    {"id": "deepseek-flash", "provider": "C", "label": "Flash", "name": "DeepSeek Flash", "usd": {"screen": 0.31, "read": 1.2, "recheck": 0.46, "translate": 0.67}, "sec": {"screen": 1.1, "read": 3, "recheck": 1.5}, "est": ["usd.read", "usd.translate", "sec.read"]},
+    {"id": "deepseek-v4-pro", "provider": "C", "label": "V4 Pro", "name": "DeepSeek V4 Pro", "usd": {"screen": 1.4, "read": 4.7, "recheck": 2.1, "translate": 2.4}, "sec": {"screen": 1.5, "read": 4.5, "recheck": 2.1}, "est": ["usd.screen", "usd.translate", "sec.screen"]},
+    {"id": "kimi-k2.6", "provider": "D", "label": "K2.6", "name": "Kimi K2.6", "usd": {"screen": 0.91, "read": 6, "recheck": 4.3, "translate": 2.2}, "sec": {"screen": 1.8, "read": 7, "recheck": 3.6}, "est": ["usd.read", "usd.translate", "sec.read"]},
+    {"id": "kimi-k3", "provider": "D", "label": "K3", "name": "Kimi K3", "usd": {"screen": 5, "read": 18.8, "recheck": 8.8, "translate": 7.8}, "sec": {"screen": 5, "read": 17.9, "recheck": 8.5}, "est": ["usd.screen", "usd.translate", "sec.screen"]},
+    {"id": "gpt-6-luna", "provider": "E", "label": "GPT-6 Luna", "name": "GPT-6 Luna", "usd": {"screen": 0.11, "read": 0.5, "recheck": 0.21, "translate": 0.26}, "sec": {"screen": 1.6, "read": 5, "recheck": 3.5}, "est": ["usd.read", "usd.translate", "sec.read"]},
+    {"id": "gpt-6.1-sol", "provider": "E", "label": "GPT-6.1 Sol", "name": "GPT-6.1 Sol", "usd": {"screen": 2.2, "read": 9.6, "recheck": 3.5, "translate": 5.2}, "sec": {"screen": 2.5, "read": 11.8, "recheck": 3.9}, "est": ["usd.screen", "usd.translate", "sec.screen"]},
+    {"id": "gpt-6-astra", "provider": "E", "label": "GPT-6 Astra", "name": "GPT-6 Astra", "usd": {"screen": 11, "read": 52, "recheck": 22, "translate": 26}, "sec": {"screen": 4, "read": 15, "recheck": 6}, "est": ["usd.screen", "usd.read", "usd.recheck", "usd.translate", "sec.screen", "sec.read", "sec.recheck"]}
+  ],
+  "finale": {
+    "run": "run_2026-09-27",
+    "models": {"screen": "claude-haiku-4-5", "read": "claude-sonnet-5", "recheck": "claude-haiku-4-5", "tiebreak": "claude-opus-4-8", "translate": "claude-haiku-4-5"},
+    "read_live": 2,
+    "economies": [
+      {"id": "AU", "name": "Australia", "documents": 1256, "provisions": 302243, "scrape_sec": 8.6, "scrape_pause": 0, "extract_min": 5,
+       "calls": {"screen": 6949, "read": 3640, "recheck": 550, "tiebreak": 323, "translate": 0},
+       "usd": {"screen": 12.06, "read": 26.83, "verify": 7.47, "translate": 0, "scores": 0.02, "total": 46.38}},
+      {"id": "CN", "name": "China", "documents": 1061, "provisions": 50026, "scrape_sec": 11, "scrape_pause": 0, "extract_min": 2,
+       "calls": {"screen": 10637, "read": 2617, "recheck": 544, "tiebreak": 293, "translate": 1108},
+       "usd": {"screen": 18.46, "read": 22.83, "verify": 7.7, "translate": 3.06, "scores": 0.02, "total": 52.08}},
+      {"id": "SG", "name": "Singapore", "documents": 717, "provisions": 110661, "scrape_sec": 7.2, "scrape_pause": 50, "extract_min": 2,
+       "calls": {"screen": 7219, "read": 2093, "recheck": 352, "tiebreak": 236, "translate": 0},
+       "usd": {"screen": 12.53, "read": 15.48, "verify": 4.93, "translate": 0, "scores": 0.02, "total": 32.96}},
+      {"id": "MY", "name": "Malaysia", "documents": 900, "provisions": 72505, "scrape_sec": 4.8, "scrape_pause": 0, "extract_min": 15,
+       "calls": {"screen": 6920, "read": 1674, "recheck": 438, "tiebreak": 286, "translate": 0},
+       "usd": {"screen": 12.01, "read": 12.71, "verify": 5.92, "translate": 0, "scores": 0.01, "total": 30.65}},
+      {"id": "LA", "name": "Lao PDR", "documents": 1109, "provisions": 41534, "scrape_sec": 4.3, "scrape_pause": 0, "extract_min": 17,
+       "calls": {"screen": 4185, "read": 902, "recheck": 191, "tiebreak": 148, "translate": 393},
+       "usd": {"screen": 7.26, "read": 9.5, "verify": 4.12, "translate": 1.07, "scores": 0.04, "total": 22.0}},
+      {"id": "TL", "name": "Timor-Leste", "documents": 1026, "provisions": 189557, "scrape_sec": 5.1, "scrape_pause": 0, "extract_min": 5,
+       "calls": {"screen": 6353, "read": 1011, "recheck": 132, "tiebreak": 93, "translate": 301},
+       "usd": {"screen": 11.03, "read": 8.37, "verify": 1.94, "translate": 0.57, "scores": 0.02, "total": 21.93}}
+    ],
+    "other": [
+      {"name": "Timor-Leste", "scope": "the other 52 indicators", "usd": {"screen": 27.54, "read": 30.97, "verify": 9.25, "translate": 1.29, "scores": 0, "total": 69.04}}
+    ],
+    "total": {"screen": 100.89, "read": 126.69, "verify": 41.33, "translate": 5.98, "scores": 0.35, "total": 275.24}
+  }
+}
+    </script>
 
     <div class="block grey" id="ov-start" data-outline="Before you start">
       <h2>Before you start</h2>

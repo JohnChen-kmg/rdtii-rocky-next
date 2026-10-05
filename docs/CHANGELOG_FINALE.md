@@ -9,6 +9,18 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 
 ---
 
+## 2026-10-05 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
+
+Overview: the cost report rewritten in three blocks, asked for by the developer.
+
+- **What.** Money: the model-by-step table now has every model the Mapping page offers (15) and no empty cell, a figure being either measured on 4 October or an estimate marked "≈" (the model's price card times the tokens that step sends and gets back), with the finale's own models outlined; then the finale's bill by economy. Time: one economy start to finish with the finale's models, by stage (scraping, extraction, index, model steps), with a folded table of seconds per call by model. Calculator: tick economies, give each of the four model steps a model (or a provider's defaults in one click), read dollars and hours with a row per step. The earlier text estimates are replaced by it.
+- **Why.** The table had dashes where a model was not run on a step, time was nowhere, and an estimate for another model or another economy had to be worked out by hand.
+- **How it is computed.** One data block in the page (`#cost-data` in `interface/static/index.html`) feeds the three blocks. Dollars: the finale's bill of that economy and step, times the ratio of the chosen model's price to the finale model's in the table; the careful reading is doubled, because the finale read in Claude's batch lane at half price and a run from the interface reads live. So Singapore with the finale's models is $48.44, against $32.96 billed. Minutes of a model step: the finale's calls times the seconds one call takes, divided by the provider's calls at a time. Scraping is documents times the measured seconds per document of that portal (4.3 to 11), extraction and the index from their measured pace (16 OCR workers; 60 provisions a second on the developer's graphics card).
+- **Verified.** `interface/tests/test_cost_report.py` (9 tests): the finale figures equal `submission/reports/cost_ledger.json`, rows and columns add up, every model of `engines.json` is priced under its provider with the stage's defaults and worker counts, and a price counts as measured only if it is in the 4 October measurements or the finale's bill. 252 interface tests pass. Walked on a test copy in a browser: three blocks drawn, each provider preset, a mixed choice, six economies, none ticked, and no sideways scroll at 1,100 and 760 pixels.
+- **Not measured, said on the page.** The estimates in the table; every time figure (a pace measured on a sample, applied to the finale's document and call counts); a provider's rate limit is not counted.
+
+---
+
 ## 2026-10-04 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
 
 Overview: an introduction at the top, and the cost across models, asked for by the developer.

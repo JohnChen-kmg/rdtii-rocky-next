@@ -64,6 +64,146 @@ function bindOverview() {
   }));
 }
 
+/* ---------- the Overview's cost report ----------
+   One data block in the page (#cost-data) feeds the price table, the finale's bill, the time table and the
+   calculator, so no two of them can disagree. The calculator scales the finale's own bill, economy by
+   economy, by the prices of that table: with the finale's models it gives the finale's bill, the careful
+   reading doubled (the finale read in the batch lane at half price; a run from this tool reads live). */
+const COST = (() => { try { return JSON.parse($('#cost-data').textContent); } catch (e) { return null; } })();
+const CALC = { econ: new Set(['SG']), pick: null };
+const costModel = (id) => COST.models.find((m) => m.id === id);
+const costWorkers = (id) => (COST.providers.find((p) => p.id === costModel(id).provider) || {}).workers || 1;
+const isEst = (m, key) => (m.est || []).includes(key);
+const money = (x) => `$${Number(x).toFixed(2)}`;
+const thousands = (x) => Number(x).toLocaleString('en-US');
+/* a price per 1,000 calls: two decimals when measured, rounder and marked when estimated */
+const price = (m, k) => { const v = m.usd[k]; if (!isEst(m, `usd.${k}`)) return v === 0 ? '0' : v.toFixed(2); return `≈ ${v < 10 && v % 1 ? v.toFixed(2) : Math.round(v)}`; };
+/* minutes as people say them: to the minute under an hour, to five minutes under ten hours, to the half hour beyond */
+function span(min) {
+  if (min < 0.5) return 'under 1 min';
+  if (min < 59.5) return `${Math.round(min)} min`;
+  const step = min < 600 ? 5 : 30; const r = Math.round(min / step) * step;
+  return r % 60 ? `${Math.floor(r / 60)} h ${r % 60} min` : `${r / 60} h`;
+}
+
+/* one economy with a model per step: dollars and minutes for every row of a run */
+const PLAN_ROWS = ['scrape', 'extract', 'index', 'select', 'screen', 'read', 'recheck', 'tiebreak', 'translate', 'scores'];
+const MODEL_ROWS = ['select', 'screen', 'read', 'recheck', 'tiebreak', 'translate', 'scores'];
+function costPlan(e, pick) {
+  const F = COST.finale.models;
+  const ratio = (id, k, ref) => { const base = costModel(ref).usd[k]; return base ? costModel(id).usd[k] / base : 0; };
+  const mins = (calls, id, k) => calls * costModel(id).sec[k] / costWorkers(id) / 60;
+  // the finale billed the re-check and the tie-break together: split by calls times the table's price
+  const d = e.calls.recheck * costModel(F.recheck).usd.recheck, tb = e.calls.tiebreak * costModel(F.tiebreak).usd.recheck;
+  const share = d + tb ? d / (d + tb) : 0;
+  return {
+    scrape: { usd: 0, min: e.documents * e.scrape_sec / 60 + e.scrape_pause },
+    extract: { usd: 0, min: e.extract_min },
+    index: { usd: 0, min: e.provisions / COST.index_per_sec / 60 + 1 },   // the meaning index, plus a minute for the keyword index
+    select: { usd: 0, min: 0.2 },
+    screen: { calls: e.calls.screen, usd: e.usd.screen * ratio(pick.screen, 'screen', F.screen), min: mins(e.calls.screen, pick.screen, 'screen') },
+    read: { calls: e.calls.read, usd: e.usd.read * COST.finale.read_live * ratio(pick.read, 'read', F.read), min: mins(e.calls.read, pick.read, 'read') },
+    recheck: { calls: e.calls.recheck, usd: e.usd.verify * share * ratio(pick.recheck, 'recheck', F.recheck), min: mins(e.calls.recheck, pick.recheck, 'recheck') },
+    tiebreak: { calls: e.calls.tiebreak, usd: e.usd.verify * (1 - share) * ratio(pick.tiebreak, 'recheck', F.tiebreak), min: mins(e.calls.tiebreak, pick.tiebreak, 'recheck') },
+    // translation is the re-check model's work; a piece takes about as long as a reading
+    translate: { calls: e.calls.translate, usd: e.usd.translate * ratio(pick.recheck, 'translate', F.translate), min: mins(e.calls.translate, pick.recheck, 'read') },
+    scores: { usd: e.usd.scores * ratio(pick.read, 'read', F.read), min: 0.3 },
+  };
+}
+const planSum = (plan, keys, f) => keys.reduce((s, k) => s + (plan[k][f] || 0), 0);
+const finalePick = () => { const m = COST.finale.models; return { screen: m.screen, read: m.read, recheck: m.recheck, tiebreak: m.tiebreak }; };
+
+function renderCost() {
+  if (!COST || !$('#cost-prices')) return;
+  const F = COST.finale, label = (id) => costModel(id).label;
+  const used = { screen: [F.models.screen], read: [F.models.read], recheck: [F.models.recheck, F.models.tiebreak], translate: [F.models.translate] };
+  const cols = [['screen', 'Quick screen'], ['read', 'Careful reading'], ['recheck', 'Re-check, tie-break'], ['translate', 'Translation']];
+  /* a table with one row per model, the provider named once */
+  const byProvider = (cells) => COST.providers.map((p) => {
+    const ms = COST.models.filter((m) => m.provider === p.id);
+    return ms.map((m, i) => `<tr class="${i ? '' : 'first'}">${i ? '' : `<td class="prov" rowspan="${ms.length}">${esc(p.name)}${p.local ? '<small>on this machine</small>' : ''}</td>`}<td>${esc(m.label)}${m.few ? ' <span class="few">8 calls</span>' : ''}</td>${cells(m, p, i, ms.length)}</tr>`).join('');
+  }).join('');
+  $('#cost-prices').innerHTML = `<table class="dist"><thead><tr><th>Provider</th><th>Model</th>${cols.map((c) => `<th class="num">${c[1]}</th>`).join('')}</tr></thead><tbody>${
+    byProvider((m) => cols.map(([k]) => `<td class="num"><i class="${isEst(m, `usd.${k}`) ? 'est' : ''} ${used[k].includes(m.id) ? 'used' : ''}">${price(m, k)}</i></td>`).join(''))}</tbody></table>`;
+
+  const fcols = [['screen', 'Quick screen', label(F.models.screen)], ['read', 'Careful reading', `${label(F.models.read)}, batch lane`], ['verify', 'Re-check, tie-break', `${label(F.models.recheck)}, ${label(F.models.tiebreak)}`],
+    ['translate', 'Translation', label(F.models.translate)], ['scores', 'Scores', label(F.models.read)], ['total', 'Total', '']];
+  const frow = (name, usd, cls) => `<tr class="${cls || ''}"><td>${name}</td>${fcols.map(([k]) => `<td class="num">${usd[k].toFixed(2)}</td>`).join('')}</tr>`;
+  $('#cost-finale').innerHTML = `<table class="dist"><thead><tr><th>Economy</th>${fcols.map((c) => `<th class="num">${c[1]}${c[2] ? `<small>${esc(c[2])}</small>` : ''}</th>`).join('')}</tr></thead><tbody>${
+    F.economies.map((e) => frow(esc(e.name), e.usd)).join('')}${F.other.map((o) => frow(`${esc(o.name)} <span class="muted">${esc(o.scope)}</span>`, o.usd)).join('')}${frow('<b>Whole run</b>', F.total, 'total')}</tbody></table>`;
+
+  const fin = finalePick();
+  $('#cost-hours').innerHTML = `<table class="dist"><thead><tr><th>Economy</th><th class="num">Documents</th><th class="num">Provisions</th><th class="num"><span class="st">1</span>Scraping</th><th class="num"><span class="st">2</span>Extraction</th><th class="num"><span class="st">3</span>Mapping: index</th><th class="num"><span class="st">3</span>Mapping: model steps</th><th class="num">Total</th></tr></thead><tbody>${
+    F.economies.map((e) => { const pl = costPlan(e, fin);
+      return `<tr><td>${esc(e.name)}</td><td class="num">${thousands(e.documents)}</td><td class="num">${thousands(e.provisions)}</td><td class="num">${span(pl.scrape.min)}</td><td class="num">${span(pl.extract.min)}</td><td class="num">${span(pl.index.min)}</td><td class="num">${span(planSum(pl, MODEL_ROWS, 'min'))}</td><td class="num"><b>${span(planSum(pl, PLAN_ROWS, 'min'))}</b></td></tr>`; }).join('')}</tbody></table>`;
+  const sg = F.economies.find((e) => e.id === 'SG'), local = COST.providers.find((p) => p.local), host = COST.providers.find((p) => p.id === costModel(F.models.read).provider);
+  if (sg && local && host) $('#cost-local-line').textContent = `${sg.name}’s model steps: ${span(planSum(costPlan(sg, fin), MODEL_ROWS, 'min'))} on ${host.name}, ${host.workers} calls at a time; about ${span(planSum(costPlan(sg, local.roles), MODEL_ROWS, 'min'))} on ${local.name}, one at a time.`;
+
+  const scols = [['screen', 'Quick screen'], ['read', 'Careful reading'], ['recheck', 'Re-check, tie-break']];
+  $('#cost-seconds').innerHTML = `<table class="dist"><thead><tr><th>Provider</th><th>Model</th>${scols.map((c) => `<th class="num">${c[1]}</th>`).join('')}<th class="num">Calls at a time</th></tr></thead><tbody>${
+    byProvider((m, p, i, n) => scols.map(([k]) => `<td class="num"><i class="${isEst(m, `sec.${k}`) ? 'est' : ''}">${isEst(m, `sec.${k}`) ? `≈ ${m.sec[k] % 1 ? m.sec[k].toFixed(1) : m.sec[k]}` : m.sec[k].toFixed(1)}</i></td>`).join('') + (i ? '' : `<td class="num prov" rowspan="${n}">${p.workers}</td>`))}</tbody></table>`;
+  buildCalc();
+}
+
+/* the calculator: tick economies, give each step a model, read dollars and hours */
+function buildCalc() {
+  const F = COST.finale, host = $('#calc');
+  if (!CALC.pick) CALC.pick = finalePick();
+  const finaleProvider = costModel(F.models.read).provider;
+  const options = (key) => COST.providers.map((p) => `<optgroup label="${esc(p.name)}">${COST.models.filter((m) => m.provider === p.id).map((m) => {
+    const k = key === 'tiebreak' ? 'recheck' : key;
+    return `<option value="${esc(m.id)}">${esc(m.label)} · ${m.usd[k] === 0 ? '$0' : `${isEst(m, `usd.${k}`) ? '≈ ' : ''}$${price(m, k).replace('≈ ', '')}`}</option>`; }).join('')}</optgroup>`).join('');
+  host.innerHTML = `
+    <div class="calc-line"><span class="calc-label">Economies</span><div class="picks">${F.economies.map((e) => `<label class="radio big"><input type="checkbox" name="calc-econ" value="${e.id}"> <span class="name">${esc(e.name)}</span></label>`).join('')}</div></div>
+    <div class="calc-line"><span class="calc-label">Models</span><div class="picks">${COST.providers.map((p) => `<label class="radio big"><input type="radio" name="calc-preset" value="${p.id}"> <span class="name">${esc(p.name)}</span>${p.id === finaleProvider ? ' <span class="sub">the finale</span>' : p.local ? ' <span class="sub">on this machine</span>' : ''}</label>`).join('')}</div></div>
+    <div class="calc-steps">${COST.steps.map((s) => `<label class="calc-step"><span><span class="letter">${s.letter}</span><b>${esc(s.title)}</b></span><select data-step="${s.key}" aria-label="${esc(s.title)}">${options(s.key)}</select></label>`).join('')}</div>
+    <div class="calc-hint">Beside each model: US dollars per 1,000 calls of that step.</div>
+    <div id="calc-out"></div>`;
+  host.querySelectorAll('input[name=calc-econ]').forEach((inp) => inp.addEventListener('change', () => { if (inp.checked) CALC.econ.add(inp.value); else CALC.econ.delete(inp.value); syncCalc(); }));
+  host.querySelectorAll('input[name=calc-preset]').forEach((inp) => inp.addEventListener('change', () => { CALC.pick = { ...COST.providers.find((p) => p.id === inp.value).roles }; syncCalc(); }));
+  host.querySelectorAll('select[data-step]').forEach((sel) => sel.addEventListener('change', () => { CALC.pick[sel.dataset.step] = sel.value; syncCalc(); }));
+  syncCalc();
+}
+
+/* the controls follow CALC, then the result is drawn again; the controls themselves are never rebuilt, so a select keeps the focus */
+function syncCalc() {
+  const F = COST.finale, host = $('#calc'), out = $('#calc-out');
+  const same = (roles) => COST.steps.every((s) => CALC.pick[s.key] === roles[s.key]);
+  host.querySelectorAll('input[name=calc-econ]').forEach((inp) => { inp.checked = CALC.econ.has(inp.value); inp.parentElement.classList.toggle('on', inp.checked); });
+  host.querySelectorAll('input[name=calc-preset]').forEach((inp) => { inp.checked = same(COST.providers.find((p) => p.id === inp.value).roles); inp.parentElement.classList.toggle('on', inp.checked); });
+  host.querySelectorAll('select[data-step]').forEach((sel) => { sel.value = CALC.pick[sel.dataset.step]; });
+  const econ = F.economies.filter((e) => CALC.econ.has(e.id));
+  if (!econ.length) { out.innerHTML = '<p class="calc-empty">Tick an economy.</p>'; return; }
+  const plans = econ.map((e) => costPlan(e, CALC.pick));
+  const sum = (k, f) => plans.reduce((s, pl) => s + (pl[k][f] || 0), 0);
+  const all = (f) => PLAN_ROWS.reduce((s, k) => s + sum(k, f), 0);
+  const name = (id) => esc(costModel(id).name);
+  const docs = thousands(econ.reduce((s, e) => s + e.documents, 0)), prov = thousands(econ.reduce((s, e) => s + e.provisions, 0));
+  const rows = [
+    ['<span class="st">1</span>Scraping', '<span class="muted">no model</span>', `${docs} documents`, 'scrape'],
+    ['<span class="st">2</span>Extraction', '<span class="muted">no model</span>', `${docs} documents`, 'extract'],
+    ['<span class="st">3</span>Mapping: index', '<span class="muted">on this machine</span>', `${prov} provisions`, 'index'],
+    ['<span class="letter">A</span>Candidate selection', '<span class="muted">on this machine</span>', '', 'select'],
+    ...COST.steps.map((s) => [`<span class="letter">${s.letter}</span>${esc(s.title)}`, name(CALC.pick[s.key]), `${thousands(sum(s.key, 'calls'))} ${s.unit}`, s.key]),
+    ['Translation', name(CALC.pick.recheck), `${thousands(sum('translate', 'calls'))} pieces`, 'translate'],
+    ['Scores', name(CALC.pick.read), '', 'scores'],
+  ];
+  const paid = econ.reduce((s, e) => s + e.usd.total, 0);
+  const names = econ.map((e) => e.name); const listed = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0];
+  out.innerHTML = `
+    <div class="calc-totals"><div class="calc-total"><small>Money</small><b>${money(all('usd'))}</b></div><div class="calc-total"><small>Time</small><b>${span(all('min'))}</b></div></div>
+    <div class="cost-table"><table class="dist"><thead><tr><th>Step</th><th>Model</th><th class="num">Calls</th><th class="num">Cost</th><th class="num">Time</th></tr></thead><tbody>${
+      rows.map(([step, model, calls, k]) => `<tr><td>${step}</td><td>${model}</td><td class="num">${calls}</td><td class="num">${money(sum(k, 'usd'))}</td><td class="num">${sum(k, 'calls') === 0 && k === 'translate' ? '–' : span(sum(k, 'min'))}</td></tr>`).join('')}
+      <tr class="total"><td><b>Total</b></td><td></td><td></td><td class="num"><b>${money(all('usd'))}</b></td><td class="num"><b>${span(all('min'))}</b></td></tr></tbody></table></div>
+    ${econ.length > 1 ? `<div class="cost-table by-econ"><table class="dist"><thead><tr><th>Economy</th><th class="num">Cost</th><th class="num">Time</th></tr></thead><tbody>${
+      econ.map((e, i) => `<tr><td>${esc(e.name)}</td><td class="num">${money(planSum(plans[i], PLAN_ROWS, 'usd'))}</td><td class="num">${span(planSum(plans[i], PLAN_ROWS, 'min'))}</td></tr>`).join('')}</tbody></table></div>` : ''}
+    <ul>
+      <li><b>An estimate</b>, from the finale’s run of each economy: its calls and its bill, nine indicators. Another model is priced by its ratio in the Money table.</li>
+      <li>The careful reading is priced <b>live</b>. The finale paid ${money(paid)} for ${esc(listed)}, its reading at half price in Claude’s batch lane.</li>
+      <li>Time assumes one economy after another, and no waiting on a provider’s rate limit.</li>
+    </ul>`;
+}
+
 /* ---------- the sidebar outline: the active page's blocks, click to jump ---------- */
 function renderOutline(tab) {
   document.querySelectorAll('#tabs .outline').forEach((o) => { o.innerHTML = ''; });
@@ -1913,6 +2053,7 @@ document.addEventListener('click', (e) => {
   await loadHealth();
   showTab('overview');   // every visit lands on the Overview
   bindOverview();
+  renderCost();
   loadPicker();
   loadMapHandoffs();
   await loadRuns();

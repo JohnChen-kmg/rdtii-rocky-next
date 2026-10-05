@@ -836,4 +836,47 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .example-card > .fake-row { max-width: none; margin: 4px 0 0; }
 .guide .example-card > .fake-row .cell.mid { white-space: normal; }
 .guide .block > h2 .cont { font-weight: 500; opacity: .9; }
+/* the cost report in three blocks: Money, Time, Calculator. The tables are drawn by app.js from #cost-data. */
+.guide .block.cost table.dist { font-size: 16px; }
+.guide .block.cost table.dist th, .guide .block.cost table.dist td { padding: 6px 12px; }
+.guide .block.cost table.dist th.num { text-align: right; }
+.guide .block.cost table.dist th small { display: block; font-size: 12.5px; font-weight: 600; color: #6b7280; }
+.guide .block.cost table.dist td.prov { font-weight: 800; color: #3b4652; vertical-align: top; background: #f8f9fb; border-right: 1px solid #e3ebf2; }
+.guide .block.cost table.dist td.num.prov { vertical-align: middle; text-align: center; border-right: 0; border-left: 1px solid #e3ebf2; }
+.guide .block.cost table.dist td.prov small { display: block; font-size: 12.5px; font-weight: 600; color: #6b7280; }
+.guide .block.cost table.dist tr.first td { border-top: 2px solid #b4bec8; }
+.guide .block.cost table.dist tbody tr:first-child td { border-top: 0; }
+.guide .block.cost table.dist .few { font-size: 12px; font-weight: 700; color: #6b7280; border: 1px solid #cfd5db; border-radius: 999px; padding: 0 7px; margin-left: 4px; }
+/* a figure: plain when measured, grey and slanted when estimated, outlined in blue when the finale used that model */
+.guide .cost-table td i, .guide .cost-key i { font-style: normal; display: inline-block; padding: 0 7px; border: 2px solid transparent; border-radius: 7px; font-variant-numeric: tabular-nums; }
+.guide .cost-table td i.est, .guide .cost-key i.est { color: #6b7280; font-style: italic; }
+.guide .cost-table td i.used, .guide .cost-key i.used { border-color: var(--un-blue); background: #eaf4fc; color: var(--un-blue-deep); font-weight: 800; }
+.guide .cost-key { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 8px 20px 2px; font-size: 15px; color: #3b4652; }
+.guide .cost-key i { margin-right: 4px; background: #fff; border-color: #e3ebf2; }
+.guide .cost-key i.used { border-color: var(--un-blue); background: #eaf4fc; }
+.guide .block.cost > details.subfold { margin-top: 10px; }
+.guide .block.cost > details.subfold > .cost-table { margin: 12px 14px; }
+.guide .cost-table .st, .guide .cost-table .letter { display: inline-block; min-width: 24px; height: 24px; line-height: 24px; box-sizing: border-box; padding: 0 5px; margin-right: 8px; border-radius: 12px; background: #6b7a89; color: #fff; font-size: 13.5px; font-weight: 800; text-align: center; }
+.guide .cost-table .letter { background: var(--un-blue); }
+/* the calculator */
+.guide .calc { margin: 6px 20px 12px; }
+.guide .calc-line { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 12px; align-items: center; margin: 12px 0; }
+.guide .calc-label { font-size: 18px; font-weight: 700; color: #3b4652; }
+.guide .calc-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 14px 0 4px; }
+.guide .calc-step { display: flex; flex-direction: column; gap: 8px; background: #fff; border: 1px solid #b4bec8; border-radius: 14px; padding: 10px 14px 14px; font-size: 17.5px; }
+.guide .calc-step b { color: var(--un-blue-deep); }
+.guide .calc-step .letter { display: inline-block; width: 28px; height: 28px; line-height: 28px; margin-right: 8px; border-radius: 14px; background: var(--un-blue); color: #fff; font-size: 15px; font-weight: 800; text-align: center; }
+.guide .calc-step select { width: 100%; font-size: 16px; padding: 7px 8px; }
+.guide .calc-totals { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0 14px; }
+.guide .calc-total { background: #eaf4fc; border: 2px solid var(--un-blue); border-radius: 16px; padding: 12px 18px 14px; text-align: center; }
+.guide .calc-total small { display: block; font-size: 14px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #5b6b7a; }
+.guide .calc-total b { font-size: 40px; line-height: 1.15; color: var(--un-blue-deep); font-variant-numeric: tabular-nums; }
+.guide .calc .cost-table { margin: 0 0 10px; }
+.guide .calc .cost-table.by-econ { max-width: 520px; }
+.guide .calc ul { margin: 4px 0 0; padding-left: 24px; font-size: 16.5px; line-height: 1.5; color: #3b4652; }
+.guide .calc-empty { font-size: 18px; color: var(--muted); margin: 14px 0; }
+@media (max-width: 1150px) { .guide .calc-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .guide .calc-steps, .guide .calc-totals, .guide .calc-line { grid-template-columns: 1fr; } }
+.guide .calc-hint { font-size: 14.5px; color: var(--muted); margin: 6px 2px 0; }
+.guide .block.cost > details.subfold > .cost-key { margin: 0 14px 12px; }
 /* === fit: end === */
