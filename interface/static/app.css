@@ -730,4 +730,8 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .io-via small { display: block; font-size: 14px; font-weight: 500; color: #4b5563; margin-top: 2px; white-space: nowrap; }
 .guide .map-io .io-arrow b { width: 100%; min-width: 150px; }
 .guide .map-io { margin-bottom: 22px; }
+/* the sentence under the Mapping picture: its two nouns in the picture's blue, the instrument in its grey */
+.guide .block.node > p.how { font-size: 19px; }
+.guide .k-blue { color: var(--un-blue); }
+.guide .k-grey { color: #4b5563; }
 /* === fit: end === */
