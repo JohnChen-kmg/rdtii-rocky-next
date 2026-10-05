@@ -696,6 +696,9 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 /* a stage named inside the sentence: its name in the page's blue, and a click opens that page */
 .guide .guide-intro .stage-ref { color: var(--un-blue); font-weight: 700; white-space: nowrap; cursor: pointer; }
 .guide .guide-intro .stage-ref:hover { text-decoration: underline; }
+.guide .guide-intro p.lead { margin-bottom: 8px; }
+.guide .guide-intro ol.stages { margin: 0 0 18px; padding-left: 38px; font-size: 23px; line-height: 1.6; color: var(--ink); }
+.guide .guide-intro ol.stages li { padding-left: 4px; }
 .guide .guide-intro p.on-page { font-size: 22px; font-weight: 700; margin: 0 0 6px; color: var(--un-blue-deep); }
 .guide .guide-intro ul { margin: 0; padding-left: 30px; font-size: 21px; line-height: 1.6; }
 .guide .guide-intro a { color: var(--un-blue); font-weight: 700; text-decoration: none; }
