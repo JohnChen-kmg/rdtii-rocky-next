@@ -1769,8 +1769,8 @@ function renderChina() {
   const inboxLink = (key) => `<a href="#" class="cn-inbox" data-src="${key}"><code>inbox/CN/${key}</code></a>`;
 
   $('#cn-body').innerHTML = `
-    <div class="block">
-      <h2>Why China is collected by hand</h2>
+    <div class="cn-lead">
+      <div class="cn-lead-title">Why China is collected by hand</div>
       <ul class="plain-list big">
         <li><b>Forbids automated tools:</b> the national database, the central bank. <b>By hand.</b></li>
         <li><b>Refuses our client</b> (403, 412): MIIT, NDRC, Customs. <b>By hand.</b></li>

@@ -923,4 +923,8 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 #cn-body details.wl summary { font-size: 18px; }
 #cn-body > .cn-caution { max-width: none; margin: 0 0 var(--block-gap); }
 #cn-body > details.block > summary > h2 .muted { margin-left: 4px; }
+/* the China page opens with plain text, not a block: a title and three lines */
+#cn-body > .cn-lead { margin: 4px 4px 22px; }
+#cn-body > .cn-lead .cn-lead-title { font-size: 26px; font-weight: 800; color: var(--un-blue-deep); line-height: 1.25; margin-bottom: 8px; }
+#cn-body > .cn-lead ul.plain-list.big { margin: 0; }
 /* === fit: end === */
