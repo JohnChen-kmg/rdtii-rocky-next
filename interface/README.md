@@ -23,8 +23,9 @@ The **header** holds the title and the health dots (Ollama, Tesseract, Chromium,
 the tabs run down a **left sidebar**, Overview first. The Mapping tab, the only stage that uses an AI engine, opens with
 **Engine API keys**: one row per engine of `stages/p3-map/config/llm/engines.json` (A Claude and B local Qwen, the
 two the pipeline was measured on, then DeepSeek, Kimi and ChatGPT, marked not measured), each hosted one with its
-key and each saying whether the current choice calls it. The **Engine** choice is the notice 3.2 Run opens with: it
-sets every step of a run, and each step can then be given another provider and model below it. A key lives in memory for the life of the process, under the variable its
+key and each saying whether the current choice calls it. 3.2 Run opens with where the run writes, then a
+notice naming the model each step used in the finale run; each step starts on that model and can be given another
+provider and model in its own block. A key lives in memory for the life of the process, under the variable its
 engine reads, and is never written or shown.
 
 ## Settings

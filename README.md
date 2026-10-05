@@ -148,7 +148,7 @@ in weights, not protocol.
 
 ### Switching between them
 
-Mapping tab → 3.2 Run → the **Engine** notice at its top → Engine A or Engine B. One control, no file edit, no typed
+Mapping tab → 3.2 Run → each model step (B to E) has its own Provider and Model; they start on Engine A, and Qwen in the four steps is Engine B. No file edit, no typed
 command. The browser can only name an allowlisted choice that the server validates; the choice is
 recorded in the run's `run_manifest.json`.
 

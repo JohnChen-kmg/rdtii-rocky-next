@@ -258,10 +258,10 @@ const engineList = () => { const eng = (S.health || {}).engine || {}; return Arr
 const engineOf = (id) => engineList().find((e) => e.id === id) || null;
 const modelOf = (e, id) => (e && (e.models || []).find((m) => m.id === id)) || null;
 const heldKeys = () => (((S.health || {}).probes || {}).key || {}).names || {};
-/* the engines the next mapping run calls: one per step once the steps are set, else the chosen engine */
+/* the engines the next mapping run calls: one per step once the steps are set, else the stage's default engine */
 function enginesInUse() {
   const eng = (S.health || {}).engine || {};
-  const ids = MP.models ? Object.values(MP.models).map((x) => x.engine) : [eng.selected];
+  const ids = MP.models ? Object.values(MP.models).map((x) => x.engine) : [eng.default || eng.selected];
   return [...new Set(ids)].map(engineOf).filter(Boolean);
 }
 function roleLine(e) {
@@ -1271,7 +1271,7 @@ const MODEL_STEPS = [
   { key: 'escalation', role: 'escalation', letter: 'E', title: 'Tie-break', sub: 'a third model decides when the reading and the re-check disagree' },
 ];
 
-/* every step on one engine's own models: what the Engine choice at the top of Run means */
+/* every step on one engine's own models: how the steps start, on the finale's engine */
 function presetModels(eid) {
   const e = engineOf(eid);
   if (!e) return null;
@@ -1323,10 +1323,10 @@ function numState() {
     const caps = (((S.picker || {}).selection || {}).caps || {}).per_indicator || {};
     const n = ids.filter((id) => MP.caps[id] != null).length;
     const missing = ids.filter((id) => caps[id] == null && MP.caps[id] == null).length;
-    return (n ? `${n} changed for this run.` : 'Round 1’s caps, the recommended numbers.') + (missing ? ` ${missing} ticked indicator(s) have no Round 1 cap: type one, or use Score threshold.` : '');
+    return (n ? `${n} changed for this run.` : 'Default: Round 1’s caps, the recommended numbers.') + (missing ? ` ${missing} ticked indicator(s) have no Round 1 cap: type one, or use Score threshold.` : '');
   }
   const n = ids.filter((id) => MP.thetas[id] != null).length;
-  return n ? `${n} changed for this run.` : 'The recommended numbers.';
+  return n ? `${n} changed for this run.` : 'Default: the recommended numbers.';
 }
 
 /* a number was typed: the last Check no longer describes the run */
@@ -1428,8 +1428,9 @@ function renderMapRun() {
   if (!note) return;
   const h = MP.handoffs.find((x) => x.id === MP.handoff);
   const eng = S.health && S.health.engine ? S.health.engine : null;
-  if (!MP.models && eng && eng.selected) MP.models = presetModels(eng.selected);
-  const runEngine = MP.models ? MP.models.mapper.engine : (eng && eng.selected) || 'A';   // the careful reading's engine names the run
+  const finaleId = eng ? (eng.default || eng.selected) : null;   // the stage's default engine: the one the finale ran on
+  if (!MP.models && finaleId) MP.models = presetModels(finaleId);
+  const runEngine = MP.models ? MP.models.mapper.engine : finaleId || 'A';   // the careful reading's engine names the run
   const capsMode = MP.selectMode === 'caps';
   const typedNow = chosenIndicators().some((id) => (capsMode ? MP.caps : MP.thetas)[id] != null);
   const rootSetting = ((S.health && S.health.settings) || []).find((x) => x.name === 'RDTII_RUNS_ROOT');
@@ -1446,17 +1447,15 @@ function renderMapRun() {
   const idxPlan = !idx || !idx.corpus ? '' : MP.dense === 'real' ? '<span class="chip">Build: rebuilt from scratch</span>'
     : idx.stale ? `<span class="chip warn">older than the output (${esc(idx.built || '')} against ${esc(idx.source_written || '')}), will be rebuilt</span>`
     : idxLacks.length ? `<span class="chip">ranked for ${esc(idxRanked.join(', ') || 'no indicator')}; ranked again at Start</span>` : '<span class="chip ok">as new as the output</span>';
-  const engines = (eng && eng.engines) || [];
-  const chosen = engines.find((e) => e.id === (eng && eng.selected));
-  // every step on the chosen engine's own models, or the steps were given models one by one below
-  const preset = chosen && MP.models && MODEL_STEPS.every((s) => MP.models[s.key].engine === chosen.id && MP.models[s.key].model === ((chosen.roles || {})[s.role] || ''));
+  const finale = engineOf(finaleId);
+  const finaleModel = (s) => { const id = ((finale || {}).roles || {})[s.role]; const m = modelOf(finale, id); return MODEL_NAMES[id] || (m ? `${finale.model_prefix || ''}${m.label}` : id) || '?'; };
   note.innerHTML = `
-    <div class="callout time-note" id="mp-engine-notice"><b>Engine.</b> One choice sets the model of every step of a run; each step can be given another below.
-      <div class="picks">${engines.map((e) => `<label class="radio big ${e.id === eng.selected ? 'on' : ''}" title="${esc(e.label)}"><input type="radio" name="engine" value="${esc(e.id)}" ${e.id === eng.selected ? 'checked' : ''}> <span class="name">${esc(e.name || e.label)}</span><span class="sub">${e.key_env ? (heldKeys()[e.key_env] ? 'key held' : 'no key') : 'local'}</span></label>`).join('') || '<span class="muted">no engines declared (stages/p3-map missing?)</span>'}</div>
-      ${chosen ? `<div class="engine-says"><b>${esc(chosen.name || chosen.label)}</b> ${esc(roleLine(chosen))}${chosen.measured ? '' : ' <span class="chip warn">not measured</span>'}${preset ? '' : ' <span class="chip">some steps were changed below</span>'}</div>` : ''}
-    </div>
     <div class="targets">
       <div class="target"><span class="setup-label">Writes to</span> <code>${esc(root)}${BS}map${BS}${stamp()}_${esc(runEngine)}${BS}out</code> <span class="muted">(a new folder, created at Start)</span></div>
+    </div>
+    <div class="callout time-note" id="mp-engine-notice"><b>The models of the finale run.</b>
+      ${finale ? `<ul>${MODEL_STEPS.map((s) => `<li><b>${s.letter} ${esc(s.title)}:</b> ${esc(finaleModel(s))}</li>`).join('')}</ul>
+      Each step below starts on these, and can be given another provider and model there.` : '<span class="muted">no engines declared (stages/p3-map missing?)</span>'}
     </div>
     <div class="subblock">
       <div class="subblock-head"><b><span class="letter">A</span>Candidate selection</b><span>which provisions go forward, scored by meaning with BGE-M3</span></div>
@@ -1502,7 +1501,7 @@ function renderMapRun() {
               <li><b>Skip</b>: keyword only. Fine for English economies on Caps.</li>
             </ul>
           </li>
-          <li><b>B Quick screen, C Careful reading, D Re-check, E Tie-break</b>: the four steps that call a model. Each takes a provider and one of its models; the Engine choice at the top of this block sets all four at once.
+          <li><b>B Quick screen, C Careful reading, D Re-check, E Tie-break</b>: the four steps that call a model. Each takes a provider and one of its models, and starts on the model the finale run used, named in the notice at the top of this block.
             <ul>
               <li><mark>Measured: Claude Sonnet 5, Haiku 4.5 and Opus 4.8, and local Qwen 2.5.</mark> The prompts and the traps were written for Claude, and every reported figure comes from those models. Anything else is marked not measured: try it on a Quick run first.</li>
               <li>Prices are US dollars per million tokens, input then output, from each provider’s own page on 4 October 2026; DeepSeek’s is its peak rate. Claude Sonnet 5 shows the stage’s own card, which the reported costs used.</li>
@@ -1521,10 +1520,6 @@ function renderMapRun() {
     </div>`;
   if (!MP.stagePresent) note.insertAdjacentHTML('afterbegin', '<p class="note">The mapping stage is not in this repository.</p>');
   const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { MP.runNotesOpen = nb.open; });
-  note.querySelectorAll('input[name=engine]').forEach((inp) => inp.addEventListener('change', async () => {
-    try { await api('/api/engine', { method: 'POST', body: JSON.stringify({ id: inp.value }) }); MP.models = null; MP.checks = null; } catch (e) { alert(e.message); }
-    await loadHealth(); renderMapRun();
-  }));
   const mpNote = $('#mp-note'); if (mpNote) mpNote.oninput = (e) => { MP.note = e.target.value; };
   $('#mp-mode').onchange = (e) => { MP.selectMode = e.target.value; MP.checks = null; renderMapRun(); };
   note.querySelectorAll('input.mp-num').forEach((inp) => inp.addEventListener('change', () => {
