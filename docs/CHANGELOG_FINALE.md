@@ -11,6 +11,12 @@ W2 provider layer and experiments · W3 twelve-pillar instrument.
 
 ## 2026-10-04 (branch `feature/desktop-workspace-triage`; the judged tag is untouched)
 
+Overview: an introduction at the top, and the cost across models, asked for by the developer.
+
+- The page opens with one sentence on what the tool does and a list of what the page holds, each item a link to its section: Workflow map, The instrument, Cost report, Before you start.
+- Cost report gains "Across models, measured on 4 October (USD per 1,000 calls)": the quick screen, the careful reading and the re-check for nine models, each column from the same request on the same provisions (80 pairs, 40 provisions, 196 provisions), and one estimate line: an economy the size of Singapore on pillars 6 and 7 is $33 on Claude (the finale run's own figure) and, with the same number of calls (7,219 screened, 2,093 read, 352 re-checked, 236 tie-breaks), about $13 on DeepSeek, $22 on ChatGPT and $50 on Kimi. The figures are those of `costs_by_model_and_task.csv` beside the run folders; the estimate is marked as one, and says that the ChatGPT tie-break is priced at its reading model because GPT-6 Astra was not run.
+- Verified: read back from the page on a test copy; the four links land on their sections below the top bar; interface suite 243.
+
 A run note on Scraping, Extraction and Mapping, asked for by the developer: "we can write sth to carry ... and then
 we can see our note later on, or when importing the folder to the next stage".
 

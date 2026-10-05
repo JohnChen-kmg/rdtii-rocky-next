@@ -45,7 +45,18 @@
 </nav>
 <main>
   <section id="tab-overview" class="tab guide">
-    <div class="guide-head"><span class="col-title">Workflow Map</span></div>
+    <div class="guide-intro">
+      <p class="lead"><b>RDTII Rocky</b> collects an economy’s laws from its official portals, splits them into numbered provisions, and maps each provision to the RDTII indicators, with the quote, the score and a review by a person.</p>
+      <p class="on-page">On this page:</p>
+      <ul>
+        <li><a href="#ov-map">Workflow map</a>: the four stages, each with an example from Singapore.</li>
+        <li><a href="#ov-instrument">The instrument</a>: how the RDTII rules become a rulebook per indicator.</li>
+        <li><a href="#ov-cost">Cost report</a>: what our finale run cost, and an estimate across models.</li>
+        <li><a href="#ov-start">Before you start</a>: what must be ready.</li>
+      </ul>
+    </div>
+
+    <div class="guide-head" id="ov-map"><span class="col-title">Workflow Map</span></div>
 
     <div class="guide-row">
       <div class="block node">
@@ -205,7 +216,7 @@
       <p><sup>2</sup> The language follows the economy. Scanned pages are recognised first, then read like the rest.</p>
     </div>
 
-    <div class="guide-head below"><span class="col-title">The instrument</span></div>
+    <div class="guide-head below" id="ov-instrument"><span class="col-title">The instrument</span></div>
     <div class="block node instrument grey">
         <h2><span class="step">§</span>The RDTII rules as a rulebook</h2>
         <div class="io">
@@ -229,7 +240,7 @@ Trap       a ban with a compliant transfer path is 6.4,
     </div>
 
 
-    <div class="guide-head below"><span class="col-title">Cost report</span></div>
+    <div class="guide-head below" id="ov-cost"><span class="col-title">Cost report</span></div>
     <div class="block node cost grey">
       <h2><span class="step">$</span>What the runs cost, and what a run would cost</h2>
       <p>Claude, from the run’s own ledger (<code>submission/reports/cost_ledger.json</code>). Qwen, local, is <b>$0</b> at every size.</p>
@@ -242,9 +253,15 @@ Trap       a ban with a compliant transfer path is 6.4,
         <li><b>One economy, two indicators: about $7</b>, the shape of the 15 October draw.</li>
         <li><b>Six economies, all 61 indicators: about $850</b>, the sum of the per-economy figures above.</li>
       </ul>
+      <div class="dist-title" style="margin: 12px 20px 2px">Across models, measured on 4 October (USD per 1,000 calls)</div>
+      <div class="cost-table"><table class="dist"><thead><tr><th>Model</th><th>Quick screen</th><th>Careful reading</th><th>Re-check</th></tr></thead><tbody><tr><td>Qwen 2.5 14B, on this machine</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr><tr><td>DeepSeek Flash</td><td class="num">0.31</td><td class="num muted">–</td><td class="num">0.46</td></tr><tr><td>DeepSeek V4 Pro</td><td class="num muted">–</td><td class="num">4.70</td><td class="num">2.10</td></tr><tr><td>GPT-6 Luna</td><td class="num">0.11</td><td class="num muted">–</td><td class="num">0.21</td></tr><tr><td>GPT-6.1 Sol</td><td class="num muted">–</td><td class="num">9.60</td><td class="num">3.50</td></tr><tr><td>Kimi K2.6</td><td class="num">0.91</td><td class="num muted">–</td><td class="num">4.30</td></tr><tr><td>Kimi K3</td><td class="num muted">–</td><td class="num">18.80</td><td class="num">8.80</td></tr><tr><td>Claude Haiku 4.5</td><td class="num">1.95</td><td class="num muted">–</td><td class="num">about 3</td></tr><tr><td>Claude Sonnet 5</td><td class="num muted">–</td><td class="num">18.60</td><td class="num muted">–</td></tr></tbody></table>
+      <div class="small muted">Every model in a column got the same request on the same provisions: 80 pairs for the screen, 40 provisions for the reading, 196 for the re-check. A dash means the model was not run on that step. Claude Sonnet 5 is its second run, with the rulebook already cached; its first read 26.90. Haiku’s re-check is an estimate from its price card. The newer Claude models ran 8 calls each, too few for a figure.</div></div>
+      <ul>
+        <li><b>An economy the size of Singapore, pillars 6 and 7:</b> Claude <b>$33</b>, measured in the finale run. With the same number of calls, about <b>$13</b> on DeepSeek, <b>$22</b> on ChatGPT, <b>$50</b> on Kimi, and <b>$0</b> on Qwen. Estimates, from 40 to 200 test calls per model; the ChatGPT tie-break is priced at its reading model.</li>
+      </ul>
     </div>
 
-    <div class="block grey">
+    <div class="block grey" id="ov-start">
       <h2>Before you start</h2>
       <ul>
         <li>The <b>health dots</b> in the header: Ollama, Tesseract, Chromium, Key, Stages. Green means ready.</li>
