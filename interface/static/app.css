@@ -805,4 +805,7 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .sel-rest { padding-right: 118px; opacity: .55; }
 .guide .sel-note { margin-top: 8px; font-size: 15.5px; color: #3b4652; line-height: 1.4; }
 @media (max-width: 1150px) { .guide .sel-pair { grid-template-columns: minmax(0, 1fr); } }
+/* the menu: a page's sub-entries are as wide as the main entries above them */
+.side .outline { margin-left: 0; }
+.side button.sub { margin-left: 0; width: 100%; }
 /* === fit: end === */
