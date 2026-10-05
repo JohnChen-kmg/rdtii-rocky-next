@@ -84,7 +84,7 @@ python3.12 -m venv .venv
 
 The `playwright` line is only for live crawling. For scanned PDFs install Tesseract 5
 (`winget install UB-Mannheim.TesseractOCR`, `brew install tesseract`, or `sudo apt install tesseract-ocr`);
-the language packs (English, Lao, Chinese, Portuguese, Malay) ship in `stages/p2-extract/fixtures/`.
+the language packs (English, Lao, Chinese, Portuguese) ship in `stages/p2-extract/fixtures/`.
 
 A `.venv` at the top of the repository is found by itself: the launcher starts with it and every stage runs
 with it. When a stage's packages live somewhere else, name that Python once in the interface, Appendix →
@@ -166,9 +166,9 @@ runs in every Output block (when it began, when it last ran, complete or not); c
 the index and run folders clearable from the page, only under the runs root, with a preview and a confirm.
 The filed submission is shown read-only.
 
-**Walkthrough recording:** `walkthrough_RockyHasAHomeRun.mp4`, submitted with the Word document. It was
-recorded on the release of 1 October; the screens have been rearranged since (the engine choice moved from
-a banner into the steps of 3.2 Run).
+**Walkthrough recording:** `walkthrough_RockyHasAHomeRun_Oct05.mp4`, submitted with the Word document. It was
+recorded on 5 October 2026 and replaces the recording of 1 October, which showed the screens before they were
+rearranged (the engine choice moved from a banner into the steps of 3.2 Run).
 
 ---
 
@@ -472,7 +472,7 @@ No full run has been made and scored on any model outside the two declared engin
 python -m unittest discover -s interface/tests -t interface     # 291 tests, standard library only
 cd stages/p1-scrape  && pytest -q                                # 429 tests
 cd stages/p2-extract && pytest -q                                # 134 tests
-cd stages/p3-map     && pytest -q                                # 504 tests
+cd stages/p3-map     && pytest -q                                # 505 tests
 ```
 
 | Test folder | What it tests |

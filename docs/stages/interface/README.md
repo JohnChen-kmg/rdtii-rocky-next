@@ -1,4 +1,137 @@
-# Task 4: dashboard, the interface a stranger has to operate
+# Task 4: the interface a stranger has to operate
+
+This folder is the working record of the interface task: this file, `PLAN.md` and `DECISIONS.md`. The code
+is in `interface/`, with its own engineering notes in `interface/README.md`.
+
+**This file has two parts.** The first is the state on 5 October 2026. The second, from "As written on
+12 September 2026" down, is the file as it stood at the start of the task and is kept as written: the
+one-file dashboard it describes was replaced on 29 and 30 September and is no longer in the repository.
+
+## What this task owns
+
+Everything a user sees and touches. The button that starts a run. The progress in plain words. The screen
+where a reviewer checks a quoted phrase against its source. The accept, reject and correct controls. The
+choice of engine and model. The export.
+
+## What this task does not own
+
+The pipeline stages it drives. The interface starts each stage's own command line as a child process and
+reads what the stages write to disk. It imports no stage code and writes nothing under `stages/`.
+Crawler politeness, mapping quality, the instrument and the cost ledger belong to the stages. This task
+shows them and must not compute them a second time.
+
+One boundary is worth stating twice. The fourteen columns of an evidence row are written by the mapping
+stage. This task reads them, applies the reviewer's decisions, and writes the exported file.
+
+One thing changed on 4 October. On the post-finale branch, a fault the interface found in a stage has
+been repaired in the stage, at the developer's word, where before it was only noted: the registries'
+seed laws, the splitting patterns, the adapters' facts beside the manifest, the engines' declaration.
+Each is in `docs/CHANGELOG_FINALE.md`, and the decisions are in `DECISIONS.md`.
+
+## Where the code lives
+
+| What | Path |
+| :---- | :---- |
+| The interface | `interface/app.py`, `interface/rdtii_ui/` (the server, the run layer, one module per page), `interface/static/` (the page) |
+| Its own notes, beside it | `interface/README.md`, `interface/DATA_PATHS.md`, `interface/START_PROMPT_INTERFACE_2026-09-29.md` |
+| The rows shown on a clean clone | `interface/fixtures/` |
+| Tests | `interface/tests/`, 291, standard library only |
+| Launchers | `Start-RDTII-Rocky.cmd`, `Start-RDTII-Rocky.command`, `start-rdtii-rocky.sh`, at the top of the repository |
+| Code map | `docs/CODE_MAP.md` |
+| Change log, one entry per change with how it was verified | `docs/CHANGELOG_FINALE.md` |
+| The 14-column writer it must stay compatible with | `stages/p3-map/src/p3map/output/submission.py`, `COLUMNS` |
+| The data contract mapping handed over | `docs/stage_results/UI_HANDOFF_p3-map_2026-09-29.md` |
+| Progress reports | `docs/stage_results/` |
+
+## Current state, 5 October 2026
+
+A standard-library server and one page: an Overview, three stage pages (Scraping, Extraction, Mapping),
+each with Set up, Run and Output, and an Appendix. 8,355 lines of Python outside the tests, 51 routes,
+291 tests. It starts as a browser tab or, from the launchers, in a window of its own.
+
+**What works today.** Code paths in this table are relative to `interface/`.
+
+| Capability | Where on the page | Where in the code | Last tried |
+| :---- | :---- | :---- | :---- |
+| Start a run, Check first, progress in plain words, Stop | 1.2, 2.2 and 3.2 Run | `rdtii_ui/jobs.py`; `plan_scrape`, `plan_extract`, `plan_map` in `rdtii_ui/pages/` | 5 October, small runs of every stage from the page; a run stopped after 25 seconds left no process behind |
+| The audit view: a row beside the text it came from, the original beside labelled machine English | Mapping → 3.3 Output → a run → a row | `rdtii_ui/pages/mapping.py`, `row_detail` | 5 October |
+| Follow a row to its official source | the same view: Source, and the fold "Where the quote sits in the source text" | `rdtii_ui/pages/mapping.py` | 5 October |
+| Accept, Reject, Correct, Clear decision, each appended to a log | the same view | `rdtii_ui/review.py`, `record_decision` | 5 October: each one, with an export after it |
+| Export to the 14 columns, CSV and xlsx, IDs as text | Mapping → 3.3 Output | `rdtii_ui/review.py`, `export` | 5 October: the rejected row left the file, the corrected text was in it |
+| A provider and a model for each model step | Mapping → 3.2 Run, steps B to E; keys under Engine API keys | `rdtii_ui/envbuild.py`; the stage's `engines.json` | 5 October on local Qwen in all four steps; 4 October with a different engine per step, on a test engine. No hosted model has been called from the page since this was built |
+| A number per indicator for candidate selection | Mapping → 3.2 Run, step A | `rdtii_ui/pages/mapping.py`, `selection_with` | 4 October |
+| Hand-collected files, any of the six economies, no source asked | Scraping → 1.3 | `rdtii_ui/pages/inbox.py`, `rdtii_ui/readiness.py` | 5 October |
+| A table of runs in every Output: began, last run, complete or not | 1.4, 2.3, 3.3 | `run_state` in `rdtii_ui/pages/scrape.py` and `rdtii_ui/pages/mapping.py`, `output_state` in `rdtii_ui/pages/extract.py` | 5 October |
+| Clear a run folder or a cache, with a preview and a confirmation | every Output | `rdtii_ui/fsguard.py` | 5 October |
+| A window of its own, one instance, closing it stops the tool | the launchers, or `--window` | `rdtii_ui/shell.py`, `rdtii_ui/lifecycle.py` | 3 October on Windows 11. Not opened on a Mac |
+| Which Python runs each stage, set from the page | Appendix → This machine | `rdtii_ui/machine.py` | 4 October |
+| The cost report and its calculator; estimated performance by model | Overview, sections 3 and 4 | `static/index.html`, the block `#cost-data`; `tests/test_cost_report.py` | 5 October, in a browser |
+
+**What does not exist.** Said plainly, because the host marks honesty.
+
+1. **No comparison of two engines' runs.** A pass on each engine is a run with its own export. The host's
+   workbook has sheets named Engine Comparison and Run Record; the tool fills neither.
+2. **The export is a workbook of its own**, one sheet with the 14 columns. Filling the host's template,
+   with its formulas, is a step of the mapping stage (`stages/p3-map/src/p3map/output/template.py`) that is
+   run by hand, not from the page.
+3. **No hosted model has been called from the page since the rework of 4 and 5 October.** The requests
+   for DeepSeek, Kimi and ChatGPT are tested against a stand-in for the network only.
+4. **No second machine.** The thirty-minute deployment has been rehearsed on the development machine
+   only, and no window has been opened on a Mac. The interface's tests passed on Windows, macOS and
+   Ubuntu in the repository's workflow on 4 October.
+5. **A stopped run** reads "stopped" only while the interface that stopped it is open; after a restart it
+   reads "not complete". Stop writes nothing into the run folder.
+6. **The calculator** prices the careful reading as a live call. The finale read in the batch lane at half
+   the price; the page has no batch option.
+7. **Old Word `.doc` files** are not converted. The page says to save them as `.docx`.
+8. **A working folder outside the clone** (a project a person opens and comes back to) was planned on
+   3 October and deferred.
+
+## What the host asks of this task, and where each stands
+
+The requirements were read line by line from the host's templates on 12 September; that reading is in the
+second part of this file. Where each stands today:
+
+| Requirement | Today |
+| :---- | :---- |
+| Set the economy and the indicators in the interface (live test, step 1) | Mapping → 3.1 Set up: the economies of the chosen extraction output, and any of the 61 indicators. Six economies are built; of the nine 2025-database economies, China and Lao PDR have been run |
+| The README names a screen and a control for six actions | `README.md`, "Your Interface", rewritten on 5 October |
+| One command starts the interface, and the command line is not needed again | a launcher, or `python interface/app.py`; no `.env` to edit |
+| Progress in plain words; review and export in the interface | built, above |
+| The engine is switched inside the interface, with no file edited and no command typed | Provider and Model in steps B to E of Mapping → 3.2 Run |
+| Caches and downloaded documents can be cleared on screen | Clear in every Output; only under the runs root |
+| Export into the host's workbook | not in the interface: item 2 above |
+| Run Record and Engine Comparison sheets | not built: item 1 above |
+| A walkthrough recording | `walkthrough_RockyHasAHomeRun_Oct05.mp4`, recorded on 5 October, submitted with the Word document |
+| The interface can be left available for the marking period | the address and the port are settings; not rehearsed on another machine |
+
+## Rubric criteria this task carries
+
+| Criterion | Points | What the marker checks |
+| :---- | ----: | :---- |
+| C3a audit mode, human in the loop | 10 | A policy officer checks the source unaided and records a verdict |
+| C3b UI/UX and export | 5 | Operable without training, exports to the RDTII schema |
+| C4a technical handover, interface share | part of 8 | A stranger reaches a working interface from the repository's documents in 30 minutes |
+| C5b engine swap, live test | 4 of 10 | The switch happens inside the interface, no file edited, no command typed |
+
+Nothing here may add an installation step. A failed install on a clean machine costs more than good
+styling earns, which is why the interface is still standard library only.
+
+## The rest of the record
+
+- `DECISIONS.md`: the choices of this task and the reason for each, in order of time, with what became of
+  the proposals of 12 September.
+- `PLAN.md`: the plan of 12 September for the one-file dashboard. Superseded by the rebuild; kept as
+  written. The plan the rebuild followed is `interface/START_PROMPT_INTERFACE_2026-09-29.md`.
+- `docs/CHANGELOG_FINALE.md`: every change since, with how it was verified.
+- `docs/stage_results/PROGRESS_interface_2026-10-05.md`: the progress report of 5 October.
+
+---
+
+# As written on 12 September 2026 (kept as written)
+
+The paths below are the author's working paths of that month, and `interface\dashboard.py`, `interface\PLAN.md`,
+`interface\CLAUDE.md` and `interface\MIGRATION_NOTE.md` are no longer in the repository.
 
 This folder is a workshop. The code lives in the repo. Nothing here is source, and nothing here
 is a second copy of the repo's engineering docs.

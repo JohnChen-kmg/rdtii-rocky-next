@@ -1,16 +1,24 @@
-# Decisions: Dashboard
+# Decisions: the interface
 
 Task-level choices and the reason for each. Newest at the bottom, so the file reads forward in time.
 
-Code changes are not logged here. They go in
-`C:\Users\woshi\Desktop\rdtii-rocky-finale\docs\CHANGELOG_FINALE.md`, three lines each.
+Code changes are not logged here. They go in `docs/CHANGELOG_FINALE.md`, with how each was verified.
 
-Entries marked **Proposed** have not been agreed. They are this task's recommendation with the
-reason attached, so a decision can be made quickly rather than reopened from nothing.
+Entries marked **Proposed** were this task's recommendation on 12 September, with the reason attached.
+What became of each is in the last entry of this file.
+
+The entries are kept as written. Where a later decision changed one, a line in italics under its heading
+says so, dated 5 October 2026, and points forward. In the entries of 12 September, `dashboard.py` is the
+one-file interface of Round 1, which was replaced on 29 and 30 September, and the paths are the author's
+working paths of that month.
 
 ---
 
 ## 2026-09-12, One file, standard library only
+
+*5 October 2026: half of this stands. The one file was replaced on 29 and 30 September by a small package
+(`interface/app.py`, `interface/rdtii_ui/`, `interface/static/`). It is still standard library only, which
+is the property this entry asked to protect.*
 
 **Decision:** The interface stays a single Python file that imports nothing outside the standard
 library.
@@ -26,6 +34,10 @@ including the review screen and the export writer.
 
 ## 2026-09-12, The interface never edits the pipeline
 
+*5 October 2026: still true of the interface's own code, which now starts each stage's command line and
+not `main.py`. Since 4 October a fault the page finds in a stage is repaired in the stage; see "A fault
+found in a stage is repaired in the stage" below.*
+
 **Decision:** The interface passes environment variables and runs `main.py` as a subprocess. It
 reads what the stages write. It does not import stage code and does not write into stage
 directories.
@@ -39,6 +51,9 @@ interface in the loop. The secretariat's check of cost claims against the code g
 easier. The blast radius of a UI bug becomes the whole pipeline.
 
 ## 2026-09-12, Secrets live in memory only
+
+*5 October 2026: in force. Since 4 October there is one key per provider, each held under the name of the
+variable its engine reads.*
 
 **Decision:** The API key arrives by a POST to `/api/key`, lives in a process-memory holder, is
 redacted from every captured line, and is never written to disk or rendered. Anything in the launch
@@ -64,6 +79,9 @@ stops being a four-command story, and the Apache 2.0 release picks up third-part
 obligations that have to be tracked and declared.
 
 ## 2026-09-12, revised the same day: the walkthrough recording is about four minutes, with five beats
+
+*5 October 2026: a recording was made on 1 October and a second on 5 October, on the rearranged screens:
+`walkthrough_RockyHasAHomeRun_Oct05.mp4`.*
 
 **Decision:** Record to about four minutes, state the length on screen and in the file name, and
 cover all five beats that Section 6 of the Word template lists.
@@ -173,6 +191,10 @@ before a code freeze.
 
 ## 2026-09-12, Six economies and pillars 6 and 7 are required. Further is optional
 
+*5 October 2026: changed in the rebuild. The picker offers all 61 indicators, the nine of pillars 6 and 7
+ticked at first and the nine reviewed ones tagged. Economies that are not built are not shown greyed on
+the run screen; what each would need is listed in Appendix, Adding a new economy.*
+
 **Decision:** The run screen offers the six covered economies and pillars 6 and 7. Any other
 economy or pillar appears greyed out with a one-line reason, rather than being hidden.
 
@@ -220,6 +242,9 @@ so the reattach half exists; the hidden-run half was not wanted.
 
 ## 2026-10-03, Results are filed by economy and source; hand collection is for designated sources only
 
+*5 October 2026: the first half stands. The second half was reversed; see "Hand-collected files need no
+source" below.*
+
 **Decision:** A crawl writes to `scrape/<economy>/<source>/<time>`, hand-collected files go to
 `inbox/<economy>/<source>/<date_time>`, and the inbox takes a file only for a source the stage's own files
 designate: an economy's watchlist, and China's by-hand publishers.
@@ -233,6 +258,9 @@ from anywhere produced files with neither.
 most of the triage workstream and still ends in "unknown" for a bare PDF.
 
 ## 2026-10-04, The registries receive their seed laws: the one change under stages/
+
+*5 October 2026: it was the first change under `stages/`, no longer the only one; see "A fault found in a
+stage is repaired in the stage" below.*
 
 **Decision:** The seed laws in `stages/p1-scrape/links/<cc>/seed_laws.yaml` are appended to
 `sources_<cc>.yaml`, in both `instrument/` and `contracts/instrument/`, for all five economies. It is a commit of
@@ -284,6 +312,9 @@ inside the clone; the first is invisible from the page, the second is a second c
 
 ## 2026-10-04, Each step of a mapping run has its own choice, and an unmeasured choice says so
 
+*5 October 2026: stands, except its fourth sentence. The banner's engine, which set the four steps at
+once, is gone; see "The model of a run is set step by step" below.*
+
 **Decision:** The Run block of the Mapping tab holds one block per step, lettered A to E: for the candidate
 selection a number box per ticked indicator, holding the recommended threshold or cap and changed for one run
 by typing; and a provider with one of its models for the quick screen, the careful reading, the re-check and
@@ -301,3 +332,111 @@ saying so would let an untested row look like a tested one.
 **Consequence if reversed:** One engine per run and fixed numbers are simpler and cannot produce a
 combination nobody has scored. The price is a file edit to move a threshold and no way to try a cheaper or a
 newer model on a Quick run.
+
+## 2026-10-05, A fault found in a stage is repaired in the stage
+
+**Decision:** On the post-finale branch, when the page shows that a stage is at fault, the stage is
+repaired, with a test beside the stage's own tests and an entry in the change log. The interface's own code
+still imports no stage code and writes nothing under `stages/`. The judged tag and `submission/` are not
+touched.
+
+**Why:** The developer's call, first on 4 October for the registries (the entry above) and then, the same
+day, for extraction ("please take account of it, and modify our extraction scrape") and for the choice of a
+model per step, which needed the engines declared in the stage. The earlier rule, to note a stage's fault
+and leave it, belonged to the judged submission, where the stages were frozen. Since then: the seed laws
+joined to the registries, the splitting patterns for Portuguese headings and for English editions, the
+adapters' facts written beside the manifest, and `engines.json` with a model list per engine and an
+OpenAI-compatible client.
+
+**Consequence if reversed:** Back to notes owed upstream. The page could then say what is wrong and not
+make it work: a crawl from a shipped link list was refused in all five economies until the registries were
+repaired.
+
+## 2026-10-05, The adapters' facts go beside the manifest, not into it
+
+**Decision:** What an adapter knows about a file beyond the contract's columns (its language, whether it is
+a translation) is written to `manifest_meta.jsonl`, one line per document, beside `manifest.jsonl`.
+Extraction reads the side file first.
+
+**Why:** On 4 October the facts were written into `manifest.jsonl`. The crawler ends every run by checking
+its manifest against the contract's schema, and the schema admits no other field, so every real crawl
+stored its documents and then ended as failed. A small run from the page found it on 5 October; the unit
+test added with the change had checked the writing and not the check.
+
+**Consequence if reversed:** Either the schema gains a field, which is a contract change for the three
+stages that keep a copy of it, or every crawl fails its own check again.
+
+## 2026-10-05, Hand-collected files need no source
+
+**Decision:** Block 1.3 asks for the economy and the files, nothing else. A drop goes to
+`inbox/<economy>/Hand_collected/<date_time>/`. This reverses the second half of the entry of 3 October.
+A folder of a designated source made before this day is still read.
+
+**Why:** The developer's call on 5 October: choosing the files is enough, in a folder named
+Hand_collected under the economy, with the date. How a file is read follows from what it is and from the
+economy's language, not from which office published it. The one exception is a saved web page, which is
+read by its portal's parser and so must bring or be given its address.
+
+**Consequence if reversed:** The source pick returns, and with it a refusal for every file whose publisher
+is not on a list. What is given up by this decision: with no source there is no source page to cite, so a
+file with no address noted has an empty address in the output.
+
+## 2026-10-05, The model of a run is set step by step; there is no one choice for all four
+
+**Decision:** The Mapping page opens with Engine API keys, one row per engine. Block 3.2 Run opens with
+where the run writes and a notice naming the model each step used in the finale run. Each of the steps B
+to E starts on that model and is given another provider and model in its own block. No control sets the
+four at once.
+
+**Why:** The developer's call on 5 October; the reason was not written down. This task's reading: once
+each step had its own choice, the engine control and the step blocks set the same thing in two places, and
+the page needed a mark to say when they disagreed. One place is plainer.
+
+**Consequence if reversed:** One control that puts a whole engine in the four steps is quicker to show a
+steward on 15 October: today a run on the open-weights engine is Qwen chosen four times. The README says
+so in its section on switching.
+
+## 2026-10-05, An Output is a table of runs, and its status is read, never written
+
+**Decision:** Each stage's Output lists its runs with when each began, when it last ran and how it stands.
+Every one of those is read from what the stage already writes (the folder's name, `crawl_status.json`,
+`extract_log.jsonl`, `cost_report.json`, `run_manifest.json`), plus this session's own runs for "running"
+and "stopped". The interface writes no status file.
+
+**Why:** The developer asked for the columns only if they could not break a run. A file written by the
+interface into a run folder is a second writer in a folder the stage owns.
+
+**Consequence if reversed:** Writing a line when Stop is pressed would let a stopped run read "stopped"
+for good. As it is, a run stopped before the interface was last started reads "not complete".
+
+## 2026-10-05, The cost report says what is measured and what is estimated
+
+**Decision:** The Overview's Money, Time and Calculator blocks are drawn from one data block in the page.
+A figure counts as measured only if it is in the finale's bill or in the measurements of 4 October; any
+other is an estimate and carries "≈". The performance block says its figures come from one experiment
+with small samples, that the reference is Claude's own answer and not a person's, and shows a dash, never
+an estimate, for a model that was not run on a step.
+
+**Why:** The developer asked for a table with no empty cell and for a calculator. A table with no empty
+cell mixes bills with arithmetic unless each cell says which it is. A test holds the finale's figures to
+`submission/reports/cost_ledger.json`.
+
+**Consequence if reversed:** Unmarked estimates beside measured figures read as measurements, in a
+submission whose cost claims are checked against the code.
+
+## 2026-10-05, What became of the entries of 12 September
+
+| Entry | Today |
+| :---- | :---- |
+| One file, standard library only | A package of small modules; standard library only still holds |
+| The interface never edits the pipeline | Holds for the interface's code; stage faults are repaired in the stage (above) |
+| Secrets live in memory only | Holds; one key per provider |
+| Informed by templates, built on none | Holds: no framework, no build step, and the page loads nothing from outside the machine |
+| The walkthrough recording | Recorded on 1 October and again on 5 October |
+| Review applies to run output, never to the frozen submission | Holds; the filed rows are shown read-only and a decision on them is refused |
+| Proposed: decisions are an append-only log | Built. The log is `outputs/reviews/<run>/decisions.jsonl`, under the runs root and not under `interface/db/`. A fourth verdict, clear, withdraws a decision by adding a line |
+| Proposed: rejected rows leave the evidence file, and the review log keeps them | Built as proposed; `review_log.csv` is written beside every export |
+| Proposed: the export is written as xlsx by zipfile, all cells inline strings | Built as proposed, one sheet, columns A to N. The host's own template is filled by the mapping stage (`output/template.py`), not by the interface |
+| Proposed: two named engine presets, raw variables demoted | Built on 30 September as a choice between the two declared engines, read from the stage's `engines.json`; replaced on 4 and 5 October by a provider and a model per step |
+| Proposed: engine is recorded per run, not per row | Built: `run_manifest.json` in the run folder. Since 4 October it names the provider and model of each role |
+| Six economies and pillars 6 and 7 are required. Further is optional | All 61 indicators are offered; six economies are built; the rest are listed with what they need, not greyed |

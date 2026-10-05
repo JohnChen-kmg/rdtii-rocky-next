@@ -27,7 +27,7 @@ Team: Rocky has a home run. This release follows the one of 1 October, whose not
 | Instrument | The 52 indicators outside pillars 6 and 7 now carry blocks of the same depth (scoring trees, coding rules, traps, count rules, absence scores). No person has reviewed them yet |
 | Output of every stage | A table of runs: when each began, when it last ran, complete or not, with Open folder and Clear. In Mapping a click on a run examines it, and its Record names the model of each step |
 | Appendix | Opens with "Adding a new economy": what each stage needs, the file that holds it, what is built |
-| Tests | Interface 94 → 291; crawler 429; extraction 134 (six need a development tool not shipped); mapping 504. A workflow runs the interface's tests on Windows, macOS and Ubuntu |
+| Tests | Interface 94 → 291; crawler 429; extraction 134 (six need a development tool not shipped); mapping 505. A workflow runs the interface's tests on Windows, macOS and Ubuntu |
 
 ## A fault found and repaired on 5 October
 
