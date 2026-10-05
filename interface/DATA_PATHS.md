@@ -1,6 +1,13 @@
 # Where the interface reads its data
 
-Settled 2026-09-29. **The repository ships code, evidence and a small demo corpus. It does not ship the
+Settled 2026-09-29; the reasoning below is kept as written. What changed by 5 October 2026: the interface's
+own defaults are in `rdtii_ui/settings.py` (`HANDOFF2_DIR` is `outputs/extract/demo` and `INDEX_DIR` is
+`outputs/index/demo`, both written by the first demo run); the allowlist grew from eight names to twelve
+with the engine variables of 4 October, and the list in this file is the current one; the question in the
+last section was answered on 4 October, a resubmission is possible, and the interface was updated for it.
+The settings table of today is in `README.md` beside this file and in `docs/DATA.md`.
+
+**The repository ships code, evidence and a small demo corpus. It does not ship the
 corpora.** Those are outputs, they are 28 GB across three stages, and two single files in the extraction
 hand-off exceed what GitHub accepts. So every data location is a **setting**, with a default that works
 on a clean clone.
@@ -41,11 +48,13 @@ browser may set, and only to values the server has enumerated:
 ```
 LLM_PROVIDER  LLM_MODEL  VERIFIER_MODEL  ESCALATION_MODEL  TRIAGE_MODEL
 OLLAMA_MODEL  OLLAMA_HOST  OCR_ENGINE
+RDTII_ENGINE  RDTII_ENGINE_MAPPER  RDTII_ENGINE_VERIFIER  RDTII_ENGINE_ESCALATION
 ```
 
-Never let the client supply the variable name, and never a value the server has not listed. Read the
-offered engines from `stages/p3-map/config/llm/engines.json` rather than hardcoding them, so the
-declared engines and the offered engines cannot diverge.
+(The third line was added on 4 October 2026, when each model step was given its own engine; the list is
+`ALLOWLIST` in `rdtii_ui/envbuild.py`.) Never let the client supply the variable name, and never a value
+the server has not listed. Read the offered engines from `stages/p3-map/config/llm/engines.json` rather
+than hardcoding them, so the declared engines and the offered engines cannot diverge.
 
 ## What ships, and what a reviewer does instead
 

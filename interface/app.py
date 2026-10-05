@@ -69,7 +69,7 @@ def banner(app: App, url: str) -> None:
     print(f"  repository : {settings_mod.REPO}")
     print(f"  showing    : OUT_DIR={s.out_dir}")
     print(f"  runs root  : {s.runs_root}")
-    print(f"  inbox      : {s.inbox_dir}  (hand-collected files, one folder per economy and source)")
+    print(f"  inbox      : {s.inbox_dir}  (hand-collected files, <economy>/Hand_collected/<date_time>)")
     print("  stages     : " + ", ".join(f"{k} {'present' if v['present'] else 'MISSING'}" for k, v in present.items()))
     print(f"  engines    : {', '.join(app.engines.ids()) or 'none declared'} (selected {app.engines.selected})", flush=True)
 

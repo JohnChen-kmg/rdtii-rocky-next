@@ -1,5 +1,27 @@
 # How this repository was assembled
 
+**Status on 5 October 2026**, added above the record of 29 September, which is kept as written below.
+
+- The tree was pushed as `JohnChen-kmg/rdtii-rocky-finale-9.30` and judged at its tag `final-submission`
+  (the release of 1 October). Since 4 October the post-finale work, branch `feature/desktop-workspace-triage`,
+  is pushed to a second repository, `JohnChen-kmg/rdtii-rocky-next`, branch `main`, which the resubmission
+  documents of 5 October name. On 5 October both repositories are still private.
+- `interface/`: built from scratch on 29 and 30 September and reworked from 3 to 5 October; 291 tests. There
+  is one interface in the tree; the Round 1 dashboard never travelled.
+- Tests on 5 October: crawler 429 pass and 3 skipped; extraction 128 pass, 2 skipped, 6 fail for want of a
+  workshop tool this repository does not hold; mapping 505 pass and 8 skipped.
+- `main.py`: still not reviewed. Tried on 5 October, its default mode writes the 14 column names and no
+  rows, because it keeps rows whose Indicator ID begins `P6-` and the filed rows carry `6.1`. The interface
+  does not use it (`docs/DATA.md`).
+- Of the six items under "Before the release tag": the tree is clean of host material (1); one interface is
+  named (2); the deployment has been rehearsed on the development machine only (3); `main.py` was not
+  checked beyond p1, and see above (4); the three run notes keep their absolute paths, as decided (5); the
+  question in (6) was answered on 4 October: a resubmission is possible, and one is prepared.
+- The language packs (last section) are 78 MB of tracked files: 58 MB `best`, 14 MB `fast`, and no Malay
+  pack; the README says so since 5 October.
+
+---
+
 Created 2026-09-29 as `rdtii-finale-submission`, renamed the same day to
 **`rdtii_rocky_finale_9.30`**, after the team name and the submission date. The remote name is chosen at
 the first push and does not have to match the folder. Nothing inside this tree depends on either.
