@@ -137,6 +137,7 @@
         <p class="how">For every <span class="k-box blue">provision</span> to be mapped to a given <span class="k-box blue">indicator</span>, using the <span class="k-box grey">instrument</span>, we take the following steps:</p>
         <div class="chain"><span><b>A</b> Candidate selection</span><span><b>B</b> Quick screen</span><span><b>C</b> Careful reading</span><span><b>D</b> Re-check</span><span><b>E</b> Tie-break</span></div>
         <div class="arrow-row inner"><div class="map-arrow">↓</div></div>
+        <p class="out-note"><b>Out:</b> one evidence row per match, with its quote. The rows give the indicator scores of each economy.</p>
         <div class="fake-row">
           <span class="cell"><small>Economy</small>Economy X</span>
           <span class="cell"><small>Law</small>Law Y</span>
@@ -145,7 +146,6 @@
           <span class="cell wide"><small>Quote</small>“the words of the provision”</span>
           <span class="cell"><small>Score</small>1</span>
         </div>
-        <p class="out-note"><b>Out:</b> one evidence row per match, with its quote. The rows give the indicator scores of each economy.</p>
         <details class="subfold grey" id="ov-instrument">
           <summary>The instrument: the RDTII rules as a rulebook <span class="fold"></span></summary>
         <div class="io">
@@ -176,8 +176,8 @@
             <span class="k">Scoring tree</span><span class="v"><b>1</b> the conditions cover personal data, or apply across all sectors. <b>0.5</b> non-personal data, or a specific set of data only. <b>0</b> no condition attached.</span>
             <span class="k">Coding rules</span><span class="v">Commercial transactions only. A condition on personal data scores 1 even in one sector. Every kind of condition scores the same.</span>
             <span class="k">Exceptions</span><span class="v">Conditions on government data are not scored.</span>
-            <span class="k">Traps</span><span class="v">“Prohibited unless conditions are met” is 6.4, not a 6.1 ban: a way to transfer exists.</span>
-            <span class="k">Count rule</span><span class="v">None for 6.4. Under 6.1 and 6.2, two or more half-point measures score 1.</span>
+            <span class="k">Traps</span><span class="v">“Prohibited unless conditions are met” is 6.4, not a <span class="other-ind">6.1</span> ban: a way to transfer exists.</span>
+            <span class="k">Count rule</span><span class="v">None for 6.4. <span class="aside">(Under <span class="other-ind">6.1</span> and <span class="other-ind">6.2</span>, two or more half-point measures score 1.)</span></span>
             <span class="k">Absence</span><span class="v">Nothing found scores 0.</span>
           </div>
       </div>

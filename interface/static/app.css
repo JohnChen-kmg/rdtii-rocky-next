@@ -746,7 +746,7 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .fake-row .cell small { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #5b6b7a; margin-bottom: 2px; }
 .guide .fake-row .cell.wide { flex: 2.2 1 220px; font-weight: 500; font-style: italic; }
 .guide .fake-row .cell.mid { flex: 1.6 1 170px; white-space: nowrap; }
-.guide .guide-row .block.node > p.out-note { text-align: center; font-size: 17px; margin-bottom: 14px; }
+.guide .guide-row .block.node > p.out-note { text-align: center; font-size: 17px; margin: 0 28px 12px; }   /* just under the arrow, above the row */
 /* the instrument, folded inside the Mapping block, in its grey */
 .guide details.subfold.grey { border-color: #8a97a5; }
 .guide details.subfold.grey > summary { background: #e6e9ed; color: #3b4652; }
@@ -770,4 +770,8 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .rb-rows .k { padding: 5px 10px; font-size: 15.5px; text-align: center; }
 .guide .rb-rows .v { padding: 5px 0; font-size: 16.5px; line-height: 1.45; color: var(--ink); }
 @media (max-width: 1150px) { .guide .rb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* another indicator named inside an example: its number in a heavy outline of another colour */
+.guide .other-ind { display: inline-block; border: 2.5px solid #b45309; background: #fff4de; color: #7a3b00; border-radius: 8px; padding: 0 7px; font-weight: 800; line-height: 1.3; }
+.guide .rb-rows .aside { color: #5b6470; }
+.guide .fake-row { margin-bottom: 18px; }
 /* === fit: end === */
