@@ -148,7 +148,7 @@ in weights, not protocol.
 
 ### Switching between them
 
-Mapping tab → **Engine Selection** banner → Engine A or Engine B. One control, no file edit, no typed
+Mapping tab → 3.2 Run → the **Engine** notice at its top → Engine A or Engine B. One control, no file edit, no typed
 command. The browser can only name an allowlisted choice that the server validates; the choice is
 recorded in the run's `run_manifest.json`.
 

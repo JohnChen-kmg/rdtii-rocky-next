@@ -290,7 +290,7 @@ def build_env(stage: str, engines: EngineState, key: KeyHolder, choices: dict | 
             key_env = u.get("key_env")
             if key_env:
                 if not key.held(key_env):
-                    raise NeedsKey(f"{u.get('label') or u.get('id', '')} needs {key_env}; hold a key in the banner under Engine Selection on the Mapping tab first")
+                    raise NeedsKey(f"{u.get('label') or u.get('id', '')} needs {key_env}; hold its key under Engine API keys, at the top of the Mapping tab, first")
                 env[key_env] = key.get(key_env)
                 public[key_env] = "(held in memory)"
     for k, v in (extra or {}).items():

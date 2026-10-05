@@ -258,7 +258,7 @@ const engineList = () => { const eng = (S.health || {}).engine || {}; return Arr
 const engineOf = (id) => engineList().find((e) => e.id === id) || null;
 const modelOf = (e, id) => (e && (e.models || []).find((m) => m.id === id)) || null;
 const heldKeys = () => (((S.health || {}).probes || {}).key || {}).names || {};
-/* the engines the next mapping run calls: one per step once the steps are set, else the banner's */
+/* the engines the next mapping run calls: one per step once the steps are set, else the chosen engine */
 function enginesInUse() {
   const eng = (S.health || {}).engine || {};
   const ids = MP.models ? Object.values(MP.models).map((x) => x.engine) : [eng.selected];
@@ -274,15 +274,8 @@ function roleLine(e) {
 function renderTop() {
   const h = S.health || {};
   const eng = h.engine || { engines: [] };
-  $('#engine').innerHTML = `<span class="muted small">Engine Selection:</span>` + eng.engines.map((e) =>
-    `<label class="radio ${e.id === eng.selected ? 'on' : ''}" title="${esc(e.provider)} · mapper ${esc(e.roles?.mapper || '')}">
-       <input type="radio" name="engine" value="${esc(e.id)}" ${e.id === eng.selected ? 'checked' : ''}> ${esc(e.label)}</label>`).join('')
-    + (eng.engines.length ? '' : `<span class="muted small">no engines declared (stages/p3-map missing?)</span>`)
-    + (eng.engines.length ? `<div class="roles">${eng.engines.filter((e) => e.id === eng.selected).map((e) => `<div class="on"><b>${esc(e.name || e.label)}</b> ${esc(roleLine(e))}${e.measured ? '' : ' <span class="chip warn">not measured</span>'}</div>`).join('')}<div>Sets every step of a run. Each step can be given another model under Run, below.</div></div>` : '');
-  $('#engine').querySelectorAll('input[name=engine]').forEach((inp) => inp.addEventListener('change', async () => {
-    try { await api('/api/engine', { method: 'POST', body: JSON.stringify({ id: inp.value }) }); MP.models = null; MP.checks = null; } catch (e) { alert(e.message); }
-    await loadHealth(); renderMapRun();
-  }));
+  $('#engine').innerHTML = `<span class="banner-title">Engine API keys</span> <span class="banner-sub">held in memory for this session, never written and never shown</span>`
+    + (eng.engines.length ? '' : ' <span class="banner-sub">no engines declared (stages/p3-map missing?)</span>');
   renderJobStrip();
   const p = h.probes || {};
   const dot = (ok) => `<span class="dot ${ok === true ? 'ok' : ok === false ? 'bad' : ''}"></span>`;
@@ -297,15 +290,18 @@ function renderTop() {
     ['Stages', st.p1?.present && st.p2?.present && st.p3?.present, Object.entries(st).map(([k, v]) => `${k}: ${v.present ? 'present' : 'missing'}`).join(', ')],
   ].map(([name, ok, tip]) => `<span class="item" title="${esc(tip)}">${dot(ok)}${name}</span>`).join('');
   $('#keyfold').classList.remove('folded');   // the key rows always stay in view
-  // one row per hosted provider the current choice calls; with none, the first hosted engine's row, marked not needed
-  const firstHosted = eng.engines.find((e) => e.key_env);
-  const rows = needKeys.length ? needKeys : (firstHosted ? [firstHosted] : []);
-  const aside = needKeys.length ? '' : ' <span class="small muted">(not needed for the current choice)</span>';
+  // one row per engine: a hosted one has its key, a local one says it needs none; each says whether the current choice calls it
+  const inUse = new Set(enginesInUse().map((e) => e.id));
   const typing = [...document.querySelectorAll('#key input')].some((i) => i.value || i === document.activeElement);
   if (typing) return;   // a refresh must not wipe a key being typed
-  $('#key').innerHTML = rows.map((e) => `<div class="keyrow"><span class="keylabel">${esc(e.label)} needs an API key:</span> ` + (held[e.key_env]
-    ? `<span class="small muted">key held in memory for this process</span> <button class="btn small" data-key-clear="${esc(e.key_env)}">Forget</button>`
-    : `<input type="password" data-key-input="${esc(e.key_env)}" placeholder="${esc(e.key_env)} (memory only, never written)" autocomplete="off"> <button class="btn" data-key-set="${esc(e.key_env)}">Hold</button>`) + `${aside}</div>`).join('');
+  $('#key').innerHTML = eng.engines.map((e) => {
+    const used = inUse.has(e.id);
+    const state = !e.key_env ? '<span class="chip">no key needed</span>' : held[e.key_env] ? '<span class="chip ok">key held</span>' : used ? '<span class="chip bad">no key: needed for the current choice</span>' : '<span class="chip">no key</span>';
+    const field = !e.key_env ? '<span class="small muted">runs on this machine</span>'
+      : held[e.key_env] ? `<span class="small muted">held in memory for this process</span> <button class="btn small" data-key-clear="${esc(e.key_env)}">Forget</button>`
+      : `<input type="password" data-key-input="${esc(e.key_env)}" placeholder="${esc(e.key_env)}" autocomplete="off"> <button class="btn" data-key-set="${esc(e.key_env)}">Hold</button>`;
+    return `<div class="keyrow ${used ? 'used' : ''}"><span class="keylabel">${esc(e.name || e.label)}</span><span class="keyfield">${field}</span><span class="keystate">${state}${used ? '' : ' <span class="small muted">not used by the current choice</span>'}</span></div>`;
+  }).join('');
   $('#key').querySelectorAll('[data-key-set]').forEach((btn) => btn.addEventListener('click', async () => {
     const inp = $(`#key input[data-key-input="${btn.dataset.keySet}"]`);
     try { await api('/api/key', { method: 'POST', body: JSON.stringify({ key: inp.value, name: btn.dataset.keySet }) }); } catch (e) { alert(e.message); }
@@ -1270,7 +1266,7 @@ const MODEL_STEPS = [
   { key: 'escalation', role: 'escalation', letter: 'E', title: 'Tie-break', sub: 'a third model decides when the reading and the re-check disagree' },
 ];
 
-/* every step on one engine's own models: what the banner's choice means */
+/* every step on one engine's own models: what the Engine choice at the top of Run means */
 function presetModels(eid) {
   const e = engineOf(eid);
   if (!e) return null;
@@ -1303,7 +1299,7 @@ function modelBlock(step) {
   if (!(e && e.measured && m && m.measured)) notes.push('<span class="chip warn">not measured</span> the prompts and every reported figure were made on Claude');
   if (e && e.key_env && !held[e.key_env] && !KEY_HINTED.has(e.key_env)) {   // said once, in the first step that needs it; the pill says "no key" in each
     KEY_HINTED.add(e.key_env);
-    notes.push(`<span class="chip bad">no key</span> hold the ${esc(e.name)} key in the banner above`);
+    notes.push(`<span class="chip bad">no key</span> hold the ${esc(e.name)} key under Engine API keys, at the top of the page`);
   }
   return `<div class="subblock">
       <div class="subblock-head"><b><span class="letter">${step.letter}</span>${esc(step.title)}</b><span>${esc(step.sub)}</span></div>
@@ -1445,7 +1441,15 @@ function renderMapRun() {
   const idxPlan = !idx || !idx.corpus ? '' : MP.dense === 'real' ? '<span class="chip">Build: rebuilt from scratch</span>'
     : idx.stale ? `<span class="chip warn">older than the output (${esc(idx.built || '')} against ${esc(idx.source_written || '')}), will be rebuilt</span>`
     : idxLacks.length ? `<span class="chip">ranked for ${esc(idxRanked.join(', ') || 'no indicator')}; ranked again at Start</span>` : '<span class="chip ok">as new as the output</span>';
+  const engines = (eng && eng.engines) || [];
+  const chosen = engines.find((e) => e.id === (eng && eng.selected));
+  // every step on the chosen engine's own models, or the steps were given models one by one below
+  const preset = chosen && MP.models && MODEL_STEPS.every((s) => MP.models[s.key].engine === chosen.id && MP.models[s.key].model === ((chosen.roles || {})[s.role] || ''));
   note.innerHTML = `
+    <div class="callout time-note" id="mp-engine-notice"><b>Engine.</b> One choice sets the model of every step of a run; each step can be given another below.
+      <div class="picks">${engines.map((e) => `<label class="radio big ${e.id === eng.selected ? 'on' : ''}" title="${esc(e.label)}"><input type="radio" name="engine" value="${esc(e.id)}" ${e.id === eng.selected ? 'checked' : ''}> <span class="name">${esc(e.name || e.label)}</span><span class="sub">${e.key_env ? (heldKeys()[e.key_env] ? 'key held' : 'no key') : 'local'}</span></label>`).join('') || '<span class="muted">no engines declared (stages/p3-map missing?)</span>'}</div>
+      ${chosen ? `<div class="engine-says"><b>${esc(chosen.name || chosen.label)}</b> ${esc(roleLine(chosen))}${chosen.measured ? '' : ' <span class="chip warn">not measured</span>'}${preset ? '' : ' <span class="chip">some steps were changed below</span>'}</div>` : ''}
+    </div>
     <div class="targets">
       <div class="target"><span class="setup-label">Writes to</span> <code>${esc(root)}${BS}map${BS}${stamp()}_${esc(runEngine)}${BS}out</code> <span class="muted">(a new folder, created at Start)</span></div>
     </div>
@@ -1493,11 +1497,11 @@ function renderMapRun() {
               <li><b>Skip</b>: keyword only. Fine for English economies on Caps.</li>
             </ul>
           </li>
-          <li><b>B Quick screen, C Careful reading, D Re-check, E Tie-break</b>: the four steps that call a model. Each takes a provider and one of its models; the banner’s engine sets all four at once.
+          <li><b>B Quick screen, C Careful reading, D Re-check, E Tie-break</b>: the four steps that call a model. Each takes a provider and one of its models; the Engine choice at the top of this block sets all four at once.
             <ul>
               <li><mark>Measured: Claude Sonnet 5, Haiku 4.5 and Opus 4.8, and local Qwen 2.5.</mark> The prompts and the traps were written for Claude, and every reported figure comes from those models. Anything else is marked not measured: try it on a Quick run first.</li>
               <li>Prices are US dollars per million tokens, input then output, from each provider’s own page on 4 October 2026; DeepSeek’s is its peak rate. Claude Sonnet 5 shows the stage’s own card, which the reported costs used.</li>
-              <li>Each hosted provider reads its own API key, held in memory in the banner. The translation for review uses the Re-check model, and the economy-level scores use the Careful reading model.</li>
+              <li>Each hosted provider reads its own API key, held in memory under Engine API keys at the top of the page. The translation for review uses the Re-check model, and the economy-level scores use the Careful reading model.</li>
             </ul>
           </li>
           <li><b>Translation</b>: machine English of the quotes for the review screen only; never in the export.</li>
@@ -1512,6 +1516,10 @@ function renderMapRun() {
     </div>`;
   if (!MP.stagePresent) note.insertAdjacentHTML('afterbegin', '<p class="note">The mapping stage is not in this repository.</p>');
   const nb = note.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { MP.runNotesOpen = nb.open; });
+  note.querySelectorAll('input[name=engine]').forEach((inp) => inp.addEventListener('change', async () => {
+    try { await api('/api/engine', { method: 'POST', body: JSON.stringify({ id: inp.value }) }); MP.models = null; MP.checks = null; } catch (e) { alert(e.message); }
+    await loadHealth(); renderMapRun();
+  }));
   const mpNote = $('#mp-note'); if (mpNote) mpNote.oninput = (e) => { MP.note = e.target.value; };
   $('#mp-mode').onchange = (e) => { MP.selectMode = e.target.value; MP.checks = null; renderMapRun(); };
   note.querySelectorAll('input.mp-num').forEach((inp) => inp.addEventListener('change', () => {
@@ -1536,7 +1544,7 @@ function renderMapRun() {
   note.querySelectorAll('input[name^="mp-eng-"]').forEach((inp) => inp.addEventListener('change', () => {
     const step = MODEL_STEPS.find((x) => x.key === inp.name.slice(7)); const e = engineOf(inp.value);
     MP.models[step.key] = { engine: inp.value, model: (e.roles || {})[step.role] || ((e.models || [])[0] || {}).id || '' };
-    MP.checks = null; renderMapRun(); renderTop();   // the banner shows a key row for each provider in use
+    MP.checks = null; renderMapRun(); renderTop();   // the key rows say which engines the choice now calls
   }));
   note.querySelectorAll('input[name^="mp-mod-"]').forEach((inp) => inp.addEventListener('change', () => { MP.models[inp.name.slice(7)].model = inp.value; MP.checks = null; renderMapRun(); }));
   $('#mp-dense').onchange = (e) => { MP.dense = e.target.value; MP.checks = null; renderMapRun(); };

@@ -20,11 +20,11 @@ are in `START_PROMPT_INTERFACE_2026-09-29.md` and `DATA_PATHS.md` beside this fi
 | **Appendix** | documentation shipped in the repository, the settings in effect, a run-layer self-test | | |
 
 The **header** holds the title and the health dots (Ollama, Tesseract, Chromium, API key held, stages present);
-the tabs run down a **left sidebar**, Overview first. The **Engine Selection** banner sits at the top of the Mapping tab, the
-only stage that uses an AI engine (from `stages/p3-map/config/llm/engines.json`: A Claude and B local Qwen, the two
-the pipeline was measured on, then DeepSeek, Kimi and ChatGPT, marked not measured). The banner's choice sets every
-step of a run; each step can then be given another provider and model under Run. Beneath it, one key row per hosted
-provider the current choice calls. A key lives in memory for the life of the process, under the variable its
+the tabs run down a **left sidebar**, Overview first. The Mapping tab, the only stage that uses an AI engine, opens with
+**Engine API keys**: one row per engine of `stages/p3-map/config/llm/engines.json` (A Claude and B local Qwen, the
+two the pipeline was measured on, then DeepSeek, Kimi and ChatGPT, marked not measured), each hosted one with its
+key and each saying whether the current choice calls it. The **Engine** choice is the notice 3.2 Run opens with: it
+sets every step of a run, and each step can then be given another provider and model below it. A key lives in memory for the life of the process, under the variable its
 engine reads, and is never written or shown.
 
 ## Settings

@@ -543,7 +543,7 @@
       <h2><span class="step">5</span>Before you start</h2>
       <ul>
         <li>The <b>health dots</b> in the header: Ollama, Tesseract, Chromium, Key, Stages. Green means ready.</li>
-        <li>A <b>hosted</b> provider (Claude, DeepSeek, Kimi, ChatGPT) needs its API key in the Mapping banner. A key is held in memory for this session and never written anywhere.</li>
+        <li>A <b>hosted</b> provider (Claude, DeepSeek, Kimi, ChatGPT) needs its API key under Engine API keys, at the top of the Mapping page. A key is held in memory for this session and never written anywhere.</li>
         <li><b>Qwen</b>, local, needs Ollama running with the model pulled.</li>
         <li>Every page: <b>Set up</b>, <b>Run</b>, <b>Output</b>. Press <b>Check</b> before <b>Start</b>; Start unlocks when no check fails. Every Output block opens its folder.</li>
         <li>The first mapping run on a new extraction output builds the index. The meaning index needs a one-time model download.</li>
@@ -597,7 +597,7 @@
 
   <section id="tab-map" class="tab" hidden>
     <div class="engine-banner">
-      <div class="group" id="engine" title="The AI engine the next mapping run uses. Read from the stage's engines.json and recorded in every run's manifest."></div>
+      <div class="group" id="engine" title="One key per hosted engine, held in memory while the interface runs. The engines are read from the stage's engines.json."></div>
       <div class="top-keyfold" id="keyfold"><div class="group key" id="key"></div></div>
     </div>
     <div class="block">

@@ -948,4 +948,22 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 .notes-box > .table-wrap { background: #fff; max-height: none; margin: 8px 0 6px; max-width: 760px; }
 .notes-box > .table-wrap table.rows { margin-top: 0; }
 .notes-box > .table-wrap td.num { text-align: left; font-variant-numeric: tabular-nums; }
+/* Mapping's first block: the engines' API keys, one engine a row (name, key, state) */
+.engine-banner .banner-title { color: var(--un-blue-deep); font-size: 22px; font-weight: 800; white-space: nowrap; }
+.engine-banner .banner-sub { color: #3b4652; font-size: 16px; font-weight: 500; }
+.engine-banner > .group { padding-bottom: 6px; }
+.top-keyfold { padding: 0 22px 16px; }
+.top-keyfold .keyrow { display: grid; grid-template-columns: 130px minmax(0, 470px) minmax(0, 1fr); align-items: center; gap: 8px 14px; margin: 0; padding: 9px 0; border-top: 1px solid #c5d8e8; }
+.top-keyfold .keyrow .keylabel { font-size: 19px; margin: 0; }
+.top-keyfold .keyrow:not(.used) .keylabel { color: #5b6b7a; }
+.top-keyfold .keyfield { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.top-keyfold .key .keyfield input { min-width: 0; width: 100%; flex: 1 1 auto; }
+.top-keyfold .keystate { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.top-keyfold .keystate .chip { margin-right: 0; white-space: nowrap; }
+@media (max-width: 1150px) { .top-keyfold .keyrow { grid-template-columns: 110px minmax(0, 1fr); } .top-keyfold .keystate { grid-column: 2; } }
+/* the engine choice, as the notice 3.2 Run opens with */
+#mp-engine-notice .picks { margin: 10px 0 8px; }
+#mp-engine-notice .engine-says { font-size: 17px; color: var(--ink); }
+#mp-engine-notice .engine-says b { margin-right: 4px; }
+#mp-engine-notice .engine-says .chip { margin-left: 6px; }
 /* === fit: end === */

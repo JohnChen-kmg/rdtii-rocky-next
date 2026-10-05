@@ -790,7 +790,7 @@ def precheck(app: App, req: dict) -> list[dict]:
                 continue
             held = app.key.held(e["key_env"])
             add("ok" if held else "fail", "engine",
-                f"{label}: " + ("API key held in memory. " if held else "needs an API key; hold one in the banner under Engine Selection first. ") + serves)
+                f"{label}: " + ("API key held in memory. " if held else "needs an API key; hold one under Engine API keys, at the top of the page, first. ") + serves)
         elif not ol["ok"]:
             add("fail", "engine", f"{label}: Ollama is not answering at {ol['host']} ({ol.get('error', '')}). Start Ollama first.")
         else:
@@ -947,7 +947,7 @@ P3_RULES: list[tuple[re.Pattern, object]] = [
     (re.compile(r"^\[audit\] (\d+) fires -> "), lambda m, j: (f"Audit page written ({m[1]} matches).", None)),
     (re.compile(r"^\[select\] caps set by CAPS_OVERRIDE: (.+)"), lambda m, j: (f"Selecting with the caps typed for this run: {m[1][:160]}.", None)),
     (re.compile(r"^\[select\] (CAPS_OVERRIDE: .+|no cap for .+)"), lambda m, j: (f"Selection stopped: {m[1][:200]}", None)),
-    (re.compile(r"LLMConfigError|ANTHROPIC_API_KEY is empty"), lambda m, j: ("The chosen engine needs an API key: hold one in the banner under Engine Selection and start again.", None)),
+    (re.compile(r"LLMConfigError|ANTHROPIC_API_KEY is empty"), lambda m, j: ("The chosen engine needs an API key: hold one under Engine API keys, at the top of the page, and start again.", None)),
     (re.compile(r"ProviderError: (\S+) at \S+: HTTP (\d+)"), lambda m, j: (f"{m[1]}: the provider refused the request (HTTP {m[2]}). 401 or 403 is the key; 404 is the model name; 400 is the request shape.", None)),
     (re.compile(r"ConnectError|Connection refused|actively refused"), lambda m, j: ("Cannot reach the local model server (Ollama). Start it and run again.", None)),
     (re.compile(r"ContextOverflow"), lambda m, j: ("The local model's context window is too small for the codebook; raise OLLAMA_NUM_CTX.", None)),
