@@ -131,6 +131,18 @@ def test_one_records_file_and_one_workbook_per_economy(tmp_path):
     assert rep["economies"]["TL"]["indicators"] == 2
 
 
+def test_the_packaged_records_keep_the_byte_order_mark(tmp_path):
+    """A run writes its records with the mark and the packager dropped it: the six files filed on
+    1 October have none, and Excel on a Chinese Windows showed every Lao snippet as noise (found
+    5 October 2026). The text was intact; only the reader was misled."""
+    p1 = _arm(tmp_path / "out", "TL", [_row(ind="6.1")], ["6.1"])
+    out = tmp_path / "submission"
+    build({"TL": [p1]}, out)
+    raw = (out / "records_TL.csv").read_bytes()
+    assert raw.startswith(b"\xef\xbb\xbf")
+    assert merge_csv([out / "records_TL.csv"])[0]["Indicator ID"] == "6.1"      # and it still reads
+
+
 def test_a_half_merged_workbook_is_reported_not_shipped_silently(tmp_path):
     """The failure this guard exists for: a workbook copied from one arm looks entirely normal and
     is simply missing the other arm's indicators. Nothing else in the folder would show it."""

@@ -121,7 +121,9 @@ def build(arms: dict[str, list[Path]], out: Path, template: Path | None = None) 
         recs = [d / "submission" / f"records_{econ}.csv" for d in dirs]
         rows = merge_csv([p for p in recs if p.exists()])
         dest = out / f"records_{econ}.csv"
-        with dest.open("w", encoding="utf-8", newline="") as f:
+        # with the byte-order mark, as the run's own CSV has it: without one, Excel on a Chinese, Lao or
+        # Thai Windows reads the file in the local code page and shows every non-English snippet as noise
+        with dest.open("w", encoding="utf-8-sig", newline="") as f:
             w = csv.DictWriter(f, fieldnames=CSV_COLUMNS, extrasaction="ignore")
             w.writeheader()
             w.writerows(rows)
