@@ -378,10 +378,11 @@ function renderRunRow() {
   const cur = S.runs.find((r) => r.id === S.run);
   const TIPS = { running: 'a run is writing into this folder now', complete: 'the run wrote its rows',
     stopped: 'Stop was pressed', 'not complete': 'the run ended before it wrote its rows: stopped, or failed. There is nothing to examine; Clear run removes the folder' };
-  const made = (r) => !!r.made_here;   // a run this interface started, under the runs root
+  // a run this interface started, under the runs root; a server not yet restarted does not say, so the id is read
+  const made = (r) => (r.made_here != null ? !!r.made_here : r.id.startsWith('outputs/map/'));
   const kind = (r) => r.kind === 'fixture' ? 'fixture' : r.kind === 'frozen' ? 'filed submission' : made(r) ? 'interface run' : 'OUT_DIR';
-  const runDir = (r) => r.dir;
-  const buttons = (r) => (r.selectable ? `<button class="btn small ${r.id === S.run ? 'primary' : ''}" data-run="${esc(r.id)}">${r.id === S.run ? 'Examining' : 'Examine'}</button> ` : '')
+  const runDir = (r) => r.dir || r.arm_paths[0].replace(/[\\/]out[^\\/]*$/, '');
+  const buttons = (r) => (r.selectable !== false ? `<button class="btn small ${r.id === S.run ? 'primary' : ''}" data-run="${esc(r.id)}">${r.id === S.run ? 'Examining' : 'Examine'}</button> ` : '')
     + `<button class="btn small" data-open="${esc(r.arm_paths[0])}">Open folder</button>`
     + (made(r) ? ` <button class="btn small" data-clear="${esc(runDir(r))}" data-what="this run folder and its rows">Clear run</button>` : '');
   const line = (r) => `<tr class="${r.id === S.run ? 'picked' : ''}"><td class="small began">${whenCell(r.began)}</td><td class="small began">${whenCell(r.last_run)}</td>
