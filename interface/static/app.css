@@ -808,4 +808,7 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 /* the menu: a page's sub-entries are as wide as the main entries above them */
 .side .outline { margin-left: 0; }
 .side button.sub { margin-left: 0; width: 100%; }
+/* each step's first line: what it is for in bold, the tool it needs highlighted */
+.guide .sb-body > p b { color: var(--un-blue-deep); }
+.guide .sb-body > p mark { background: #fff1b8; color: #4a3600; font-weight: 700; border-radius: 6px; padding: 1px 7px; }
 /* === fit: end === */

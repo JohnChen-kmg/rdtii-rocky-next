@@ -188,7 +188,7 @@
           <div class="subblock">
             <div class="subblock-head"><b><span class="letter">A</span>Candidate selection</b></div>
             <div class="sb-body">
-              <p>Each provision gets a similarity score against the indicator. Those above a threshold, or the top N under a cap, go forward.</p>
+              <p><b>Removes the clearly irrelevant.</b> <mark>A basic local tool is enough</mark>: a similarity score per provision, no model paid. Those above a threshold, or the top N under a cap, go forward.</p>
               <div class="chat">
                 <div class="msg user"><span class="who">we send</span>The indicator’s name, <span class="el">definition</span> and <span class="el">keywords</span>.</div>
                 <div class="msg model"><span class="who">similarity index (BGE-M3)</span>A score from 0 to 1 for every provision.</div>
@@ -244,7 +244,7 @@
           <div class="subblock">
             <div class="subblock-head"><b><span class="letter">B</span>Quick screen</b></div>
             <div class="sb-body">
-              <p>A fast model drops the borderline candidates that are clearly unrelated.</p>
+              <p><b>Removes the unrelated among the borderline.</b> <mark>A cheap model is enough.</mark></p>
               <div class="chat">
                 <div class="msg user"><span class="who">we send</span>The indicator’s <span class="el">definition</span> and the provision: could it be relevant?</div>
                 <div class="msg model"><span class="who">fast model (Haiku 4.5 in the finale)</span>YES or NO.</div>
@@ -254,7 +254,7 @@
           <div class="subblock">
             <div class="subblock-head"><b><span class="letter">C</span>Careful reading</b></div>
             <div class="sb-body">
-              <p>A model reads each candidate against the rulebook and gives a verdict, with a quote and a score.</p>
+              <p><b>Decides each candidate</b> against the rulebook: applies or not, with a quote and a score. <mark>Needs a strong model.</mark></p>
               <div class="chat">
                 <div class="msg sys"><span class="who">standing instruction</span>The <span class="el">rulebook</span> of every indicator in the run.</div>
                 <div class="msg user"><span class="who">we send</span>The provision and its candidate indicators. Answer the <span class="el">question</span>, run every <span class="el">trap</span> check, give one verdict per candidate.</div>
@@ -265,7 +265,7 @@
           <div class="subblock">
             <div class="subblock-head"><b><span class="letter">D</span>Re-check</b></div>
             <div class="sb-body">
-              <p>A second model judges each match again, without seeing the first answer.</p>
+              <p><b>Checks each match again</b>, without seeing the first answer. <mark>A different model; a cheap one is enough.</mark></p>
               <div class="chat">
                 <div class="msg sys"><span class="who">standing instruction</span>The same <span class="el">rulebook</span>.</div>
                 <div class="msg user"><span class="who">we send</span>The provision and one indicator: is it evidence under the <span class="el">scoring tree</span>?</div>
@@ -276,7 +276,7 @@
           <div class="subblock">
             <div class="subblock-head"><b><span class="letter">E</span>Tie-break</b></div>
             <div class="sb-body">
-              <p>If the two disagree, a third model decides: two of three.</p>
+              <p><b>Settles a disagreement</b>: two of three. <mark>The strongest model, only when the two disagree.</mark></p>
               <div class="chat">
                 <div class="msg user"><span class="who">we send</span>The same question.</div>
                 <div class="msg model"><span class="who">third model (Opus 4.8 in the finale)</span>Its own answer.</div>
