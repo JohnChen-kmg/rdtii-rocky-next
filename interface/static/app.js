@@ -368,6 +368,7 @@ async function loadPicker() {
 async function loadRuns() {
   const j = await api('/api/map/runs');
   S.runs = j.runs;
+  S.unfinished = j.unfinished || [];   // run folders with no rows: listed, never examined
   if (!S.run || !S.runs.find((r) => r.id === S.run)) S.run = S.runs[0]?.id || null;
   renderRunRow();
   if (S.run) await loadRows(); else $('#map-table').innerHTML = '<tr><td class="muted">No finished mapping run found. OUT_DIR points nowhere with rows.</td></tr>';
@@ -375,12 +376,25 @@ async function loadRuns() {
 
 function renderRunRow() {
   const cur = S.runs.find((r) => r.id === S.run);
-  $('#map-run-row').innerHTML = `<div class="setup-row"><div class="setup-label">Run</div>
+  const TIPS = { running: 'a run is writing into this folder now', complete: 'the run wrote its rows',
+    stopped: 'Stop was pressed', 'not complete': 'the run ended before it wrote its rows: stopped, or failed. There is nothing to examine; Clear run removes the folder' };
+  const made = (r) => !!r.made_here;   // a run this interface started, under the runs root
+  const kind = (r) => r.kind === 'fixture' ? 'fixture' : r.kind === 'frozen' ? 'filed submission' : made(r) ? 'interface run' : 'OUT_DIR';
+  const runDir = (r) => r.dir;
+  const buttons = (r) => (r.selectable ? `<button class="btn small ${r.id === S.run ? 'primary' : ''}" data-run="${esc(r.id)}">${r.id === S.run ? 'Examining' : 'Examine'}</button> ` : '')
+    + `<button class="btn small" data-open="${esc(r.arm_paths[0])}">Open folder</button>`
+    + (made(r) ? ` <button class="btn small" data-clear="${esc(runDir(r))}" data-what="this run folder and its rows">Clear run</button>` : '');
+  const line = (r) => `<tr class="${r.id === S.run ? 'picked' : ''}"><td class="small began">${whenCell(r.began)}</td><td class="small began">${whenCell(r.last_run)}</td>
+      <td class="folder" title="${esc(r.arm_paths[0])}">${esc(r.id)}${carried(r)}</td><td class="small">${kind(r)}</td><td class="small state">${stateChip(r, TIPS)}</td>
+      <td class="small">${esc(r.economies.join(', ')) || '<span class="muted">–</span>'}</td><td class="num">${r.rows}</td><td class="small">${r.engine ? esc(engineText(r.engine)) : '<span class="muted">–</span>'}</td>
+      <td class="num">${r.cost_usd ? `$${Number(r.cost_usd).toFixed(2)}` : '<span class="muted">–</span>'}</td><td class="small">${buttons(r)}</td></tr>`;
+  const listed = [...S.runs, ...(S.unfinished || [])].sort((a, b) => (made(b) - made(a)) || (made(a) ? String(b.name).localeCompare(String(a.name)) : 0));
+  $('#map-run-row').innerHTML = `<div class="run-list">
+      <div class="table-wrap short"><table class="rows"><thead><tr><th>Began</th><th>Last run</th><th>Folder</th><th>Kind</th><th>Status</th><th>Economies</th><th>Rows</th><th>Engine</th><th>Cost</th><th></th></tr></thead><tbody>
+        ${listed.map(line).join('')}</tbody></table></div>
+      <p class="muted small"><b>Examine</b> picks the run whose rows are listed, reviewed and exported below. <b>Began</b> is when Start was pressed, read from the folder’s name (for the fixture, from its run manifest). <b>Last run</b> is the latest step the stage recorded. <b>Status</b>: complete once the run wrote its rows; running; stopped; or not complete. <b>Cost</b> is the run manifest’s own figure.</p>
+    </div>
     <div>
-      <div class="row"><select id="run-select" class="wide-select">${S.runs.map((r) => `<option value="${esc(r.id)}" ${r.id === S.run ? 'selected' : ''}>${esc(r.name)}: ${r.rows} rows, ${r.economies.join(', ')}</option>`).join('')}</select>
-        ${cur ? `<button class="btn small" data-open="${esc(cur.arm_paths[0])}">Open folder</button>
-        ${cur.id.startsWith('outputs/map/') ? `<button class="btn small" data-clear="${esc(cur.arm_paths[0].replace(/[\\/]out[^\\/]*$/, ''))}" data-what="this run folder and its rows">Clear run</button>` : ''}` : ''}
-      </div>
       ${cur && cur.kind === 'frozen' ? '<div class="muted small">Filed rows, read-only: review decisions are refused here.</div>' : ''}
       ${cur ? `<div class="record"><b class="record-title">Record</b><ul class="note-list">
         <li><b>What this is</b>: ${esc(cur.kind === 'fixture' ? 'a fixture slice of run_2026-09-27, shipped with the interface so the review screen works on a clean clone' : cur.kind === 'frozen' ? 'the filed rows of the submission, read-only' : 'the output of a run from this interface')}.</li>
@@ -391,10 +405,13 @@ function renderRunRow() {
         ${cur.git ? `<li><b>Stage commit</b>: <code>${esc(cur.git.slice(0, 10))}</code>, the mapping stage that produced it.</li>` : ''}
         <span id="record-corpus"></span>
       </ul></div>` : ''}
-    </div></div>`;
+    </div>`;
   bindClear('#map-run-row', () => { S.run = null; loadRuns(); });
   bindOpen('#map-run-row');
-  $('#run-select').addEventListener('change', (e) => { S.run = e.target.value; S.sel = null; $('#map-detail').innerHTML = ''; loadRows(); renderRunRow(); });
+  $('#map-run-row').querySelectorAll('button[data-run]').forEach((b) => b.addEventListener('click', () => {
+    if (b.dataset.run === S.run) return;
+    S.run = b.dataset.run; S.sel = null; $('#map-detail').innerHTML = ''; loadRows(); renderRunRow();
+  }));
 }
 
 async function loadRows() {

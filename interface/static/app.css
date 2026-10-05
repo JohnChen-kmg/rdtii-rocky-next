@@ -981,4 +981,16 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 #mp-compare-notice, #mp-price-notice { line-height: 1.5; }
 #mp-compare-notice ul { margin: 6px 0 2px; padding-left: 24px; } #mp-compare-notice li { margin: 3px 0; }
 #ov-steps { scroll-margin-top: 96px; }
+/* Mapping's Output: the runs as a table, as Scraping's and Extraction's are; the run being examined is tinted */
+#map-run-row .run-list { margin-bottom: 10px; } #map-run-row .run-list .table-wrap { max-height: 46vh; }
+#map-run-row td.began { font-variant-numeric: tabular-nums; } #map-run-row td.began span { display: block; white-space: nowrap; }
+#map-run-row th { white-space: normal; line-height: 1.25; vertical-align: bottom; }
+#map-run-row td.state .chip { white-space: nowrap; margin-right: 0; }
+#map-run-row td.num { white-space: nowrap; }
+#map-run-row td.folder { min-width: 190px; overflow-wrap: anywhere; }
+#map-run-row table.rows td:last-child, #map-run-row table.rows th:last-child { position: sticky; right: 0; background: var(--panel); box-shadow: -10px 0 10px -10px rgba(0, 0, 0, .18); white-space: nowrap; }
+#map-run-row table.rows th:last-child { z-index: 2; }
+#map-run-row tr.picked td, #map-run-row tr.picked td:last-child { background: #eaf4fc; }
+#map-run-row tr.picked td.folder { font-weight: 700; color: var(--un-blue-deep); }
+#map-run-row .btn.small.primary { background: var(--un-blue); color: #fff; border-color: var(--un-blue); cursor: default; }
 /* === fit: end === */

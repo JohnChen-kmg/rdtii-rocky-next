@@ -21,7 +21,8 @@ RECORDS_RX = re.compile(r"^records_([A-Z]{2})(?:_(.+))?\.csv$")
 def register(app: App) -> None:
     @app.route("GET", r"/api/map/runs")
     def runs(app: App, m, q, b):
-        return 200, {"runs": list_runs(app.settings)}
+        jobs = getattr(app, "jobs", None)
+        return 200, {"runs": list_runs(app.settings, jobs), "unfinished": list_unfinished(app.settings, jobs)}
 
     @app.route("GET", r"/api/map/rows")
     def rows(app: App, m, q, b):
@@ -67,7 +68,55 @@ def _run_note(path: Path) -> dict:
     return _notes.read(path)
 
 
-def _describe_run(run_id: str, name: str, arms: list[Path], kind: str) -> dict:
+_RUN_STAMP = re.compile(r"^(\d{8})-(\d{4})(\d{2})?(?:_|$)")
+
+
+def _minute(stamp) -> str:
+    """A time as "2026-10-05 02:17". One written with a zone is turned to this machine's time; one written
+    without is shown as written. Empty when it is not a time."""
+    from datetime import datetime
+    try:
+        when = datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+    except (ValueError, TypeError):
+        return ""
+    try:
+        return (when.astimezone() if when.tzinfo else when).strftime("%Y-%m-%d %H:%M")
+    except (ValueError, OSError):
+        return ""
+
+
+def run_times(folder_name: str, manifest: dict) -> tuple[str, str]:
+    """(began, last run) of a mapping run. Began is the stamp its folder's name starts with (a run from the
+    interface), else the manifest's `created`. Last run is the latest step the stage recorded in the manifest."""
+    began = ""
+    m = _RUN_STAMP.match(folder_name or "")
+    if m:
+        began = _minute(f"{m.group(1)[:4]}-{m.group(1)[4:6]}-{m.group(1)[6:]}T{m.group(2)[:2]}:{m.group(2)[2:]}:{m.group(3) or '00'}")
+    manifest = manifest if isinstance(manifest, dict) else {}
+    began = began or _minute(manifest.get("created"))
+    steps = [str(e.get("at")) for e in (manifest.get("entries") or []) if isinstance(e, dict) and e.get("at")]
+    return began, _minute(max(steps)) if steps else ""
+
+
+def run_state(folder: Path, has_rows: bool, jobs=None) -> str:
+    """How a mapping run stands: running, stopped (Stop was pressed in this session), complete (it wrote
+    its rows) or not complete (it ended before it did). Read only; nothing is written when a run stops, so a
+    run stopped before the interface was last started reads complete or not complete by its rows alone."""
+    mine = []
+    if jobs is not None:
+        try:
+            rp = folder.resolve()
+            mine = [j for j in jobs.all() if j.out_dir and Path(j.out_dir).resolve() == rp]
+        except (OSError, AttributeError):
+            mine = []
+    if any(j.status in ("queued", "running") for j in mine):
+        return "running"
+    if mine and mine[0].status == "cancelled":
+        return "stopped"
+    return "complete" if has_rows else "not complete"
+
+
+def _describe_run(run_id: str, name: str, arms: list[Path], kind: str, folder: Path | None = None, jobs=None) -> dict:
     economies: set[str] = set()
     total = 0
     for arm in arms:
@@ -77,8 +126,12 @@ def _describe_run(run_id: str, name: str, arms: list[Path], kind: str) -> dict:
             loaded = readers.records_csv(f)
             total += len(loaded[1]) if loaded else 0
     manifest = readers.run_manifest(arms[0] / "run_manifest.json") if arms else {}
+    began, last_run = run_times(folder.name if folder is not None else "", manifest)
     return {
         "id": run_id, "name": name, "kind": kind,
+        "began": began, "last_run": last_run, "selectable": True,
+        "made_here": folder is not None, "dir": str(folder) if folder is not None else "",     # a run this interface started, and its folder
+        "run_state": run_state(folder if folder is not None else (arms[0] if arms else Path(run_id)), total > 0, jobs),
         "arms": [a.name for a in arms], "arm_paths": [str(a) for a in arms],
         "economies": sorted(economies), "rows": total,
         "engine": readers.manifest_engine_label(manifest),
@@ -89,23 +142,45 @@ def _describe_run(run_id: str, name: str, arms: list[Path], kind: str) -> dict:
     }
 
 
-def list_runs(s: Settings) -> list[dict]:
+def list_runs(s: Settings, jobs=None) -> list[dict]:
     runs: list[dict] = []
     arms = [a for a in arm_dirs(s) if _records_files(a)]
     if arms:
         kind = "fixture" if s.out_dir.resolve() == FIXTURES_DIR.resolve() else "run"
         name = "fixtures (real rows from run_2026-09-27)" if kind == "fixture" else s.out_dir.name
-        runs.append(_describe_run(rel_or_abs(s.out_dir, REPO), name, arms, kind))
+        runs.append(_describe_run(rel_or_abs(s.out_dir, REPO), name, arms, kind, jobs=jobs))
     maps = s.runs_root / "map"
     if maps.is_dir():
         for d in sorted((p for p in maps.iterdir() if p.is_dir()), key=lambda p: p.name, reverse=True):
             run_arms = sorted(p for p in d.glob("out*") if p.is_dir() and _records_files(p))
             if run_arms:
-                runs.append(_describe_run(rel_or_abs(d, REPO), d.name, run_arms, "run"))
+                runs.append(_describe_run(rel_or_abs(d, REPO), d.name, run_arms, "run", folder=d, jobs=jobs))
     sub = s.submission_dir
     if sub.is_dir() and _records_files(sub):
-        runs.append(_describe_run(rel_or_abs(sub, REPO), "filed submission (frozen)", [sub], "frozen"))
+        runs.append(_describe_run(rel_or_abs(sub, REPO), "filed submission (frozen)", [sub], "frozen", jobs=jobs))
     return runs
+
+
+def list_unfinished(s: Settings, jobs=None) -> list[dict]:
+    """The run folders under the runs root that hold no rows: a run that is still going, was stopped, or
+    failed. They cannot be examined; they are listed so a run is never just missing, and can be cleared."""
+    out: list[dict] = []
+    maps = s.runs_root / "map"
+    if not maps.is_dir():
+        return out
+    for d in sorted((p for p in maps.iterdir() if p.is_dir()), key=lambda p: p.name, reverse=True):
+        arms = sorted(p for p in d.glob("out*") if p.is_dir())
+        if any(_records_files(a) for a in arms):
+            continue
+        manifest = readers.run_manifest(arms[0] / "run_manifest.json") if arms else {}
+        began, last_run = run_times(d.name, manifest)
+        out.append({"id": rel_or_abs(d, REPO), "name": d.name, "kind": "run", "began": began, "last_run": last_run,
+                    "selectable": False, "made_here": True, "run_state": run_state(d, False, jobs),
+                    "arms": [a.name for a in arms], "arm_paths": [str(a) for a in arms] or [str(d)], "dir": str(d),
+                    "economies": [], "rows": 0, "engine": readers.manifest_engine_label(manifest) if manifest else "",
+                    "cost_usd": readers.manifest_cost(manifest) if manifest else None,
+                    **(_run_note(arms[0]) if arms else {"note": "", "noted": ""})})
+    return out
 
 
 def find_run(s: Settings, run_id: str) -> dict:
