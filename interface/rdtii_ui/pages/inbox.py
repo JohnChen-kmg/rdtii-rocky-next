@@ -1,10 +1,12 @@
-"""The inbox: documents collected by hand from an economy's designated sources, filled from the Scraping tab.
+"""The inbox: documents collected by hand for an economy, filled from the Scraping tab.
 
-A file dropped on the page is written under inbox/<economy>/<source>/<batch>/ with its own name, once, and
-the address it came from is noted beside it in provenance.tsv, the way the China collection has always
-recorded its hand-collected files. Only the sources the stage's own files designate are offered: an
-economy's watchlist, and for China the publishers its tools mark "by hand". There is no box for anything
-else, because a file with no known source has no reading method and no citation.
+A file dropped on the page is written under inbox/<economy>/Hand_collected/<batch>/ with its own name, once,
+and the address it came from is noted beside it in provenance.tsv, the way the China collection has always
+recorded its hand-collected files. The page asks for the economy only: how a file is read follows from what
+it is and from the economy's language, not from which office published it. (A saved web page is the one
+exception: it is read by the parser of the portal it came from, so it needs its own address, recovered from
+the page or typed.) A folder of a designated source, the layout before this one, is still read and still
+takes a drop made with its key.
 
 Nothing but the files and that one sheet is ever written here: the manifest and the law table for these
 files go under the runs root when Extraction runs.
@@ -44,8 +46,8 @@ def register(app: App) -> None:
         s = app.settings
         code = economy_code(s, q.get("economy", ""))
         key = (q.get("source") or "").strip()
-        src = source_of(s, code, key) if key else None
-        folder = s.inbox_dir / code / src["key"] if src else s.inbox_dir / code
+        src = source_of(s, code, key)
+        folder = s.inbox_dir / code / src["key"]
         return 200, {"economy": code, "source": key, "files": list_files(folder, s, src)}
 
     @app.route("POST", r"/api/inbox/upload")
@@ -77,7 +79,10 @@ def economy_code(s: Settings, raw: str) -> str:
 
 
 def source_of(s: Settings, code: str, key: str) -> dict:
-    """The designated source of that economy with that folder key, or a refusal that names the choices."""
+    """Where a drop goes: the economy's hand-collected folder when no source is named, else the designated
+    source with that folder key, or a refusal that names the choices."""
+    if not (key or "").strip() or sources.is_hand(key):
+        return sources.hand_source()
     key = (key or "").strip().lower()
     listed = sources.designated(s, code)
     hit = next((x for x in listed if x["key"] == key), None)
@@ -183,7 +188,8 @@ def batches(folder: Path) -> list[dict]:
 
 
 def describe(s: Settings) -> dict:
-    """Every economy offered, each with its designated sources and what each source's folder holds."""
+    """Every economy offered, each with its hand-collected folder and what it holds, and its designated
+    sources (the layout before it) with what their folders hold."""
     names = economies(s)
     # the six economies built so far, plus any other folder that already holds files, so nothing is hidden
     held = sorted(p.name for p in s.inbox_dir.iterdir() if p.is_dir() and p.name in names and extract.document_files(p, limit=1)) if s.inbox_dir.is_dir() else []
@@ -201,9 +207,15 @@ def describe(s: Settings) -> dict:
             srcs.append({**src, "files": len(sfiles), "bytes": sum(p.stat().st_size for p in sfiles),
                          "id": rel_or_abs(sf, REPO), "path": str(sf), "batches": batches(sf),
                          "loose": sum(1 for p in sfiles if len(p.relative_to(sf).parts) == 1)})
+        hf = folder / sources.HAND
+        hfiles = extract.document_files(hf) if hf.is_dir() else []
+        hand = {**sources.hand_source(), "files": len(hfiles), "bytes": sum(p.stat().st_size for p in hfiles),
+                "id": rel_or_abs(hf, REPO), "path": str(hf), "batches": batches(hf),
+                "loose": sum(1 for p in hfiles if len(p.relative_to(hf).parts) == 1)}
         rows.append({"code": code, "name": names[code], "files": len(files), "bytes": sum(p.stat().st_size for p in files),
-                     "id": rel_or_abs(folder, REPO), "path": str(folder), "sources": srcs,
-                     "unsorted": len(files) - sorted_n,          # files of the older layout, filed under no source
+                     "id": rel_or_abs(folder, REPO), "path": str(folder), "sources": srcs, "hand": hand,
+                     "elsewhere": len(files) - len(hfiles),      # files outside the hand-collected folder: the layouts before it
+                     "unsorted": len(files) - sorted_n - len(hfiles),   # files of the oldest layout, filed under no folder
                      "batches": batches(folder),
                      "loose": sum(1 for p in files if len(p.relative_to(folder).parts) == 1)})
     return {"root": rel_or_abs(s.inbox_dir, REPO), "root_path": str(s.inbox_dir), "economies": rows}

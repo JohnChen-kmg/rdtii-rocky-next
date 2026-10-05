@@ -3,7 +3,8 @@
 Every result is filed under its economy and then its source, the same way on both sides:
 
     <runs root>/scrape/<CC>/<source>/<run>/     what the crawler fetched from a portal
-    <inbox>/<CC>/<source>/<batch>/              what a person fetched from a designated source
+    <inbox>/<CC>/Hand_collected/<batch>/        what a person fetched by hand, one dated batch per drop
+    <inbox>/<CC>/<source>/<batch>/              the same, filed under a designated source (the layout before it)
 
 A source is designated by the stage's own files, never by a list kept here: the portal an economy's adapter
 crawls comes from its source registry, the sources collected by hand come from its watchlist, and China's
@@ -26,6 +27,17 @@ BATCH_RX = re.compile(r"\d{4}-\d{2}-\d{2}_\d{6}")      # a drop's local time, na
 ECON_RX = re.compile(r"[A-Z]{2}")
 KEY_RX = re.compile(r"[a-z0-9][a-z0-9-]{0,63}")
 CHINA_TOOLS = "china-tools"                            # the source folder of a China tools run
+HAND = "Hand_collected"                                # the one folder of an economy for files fetched by hand
+
+
+def hand_source() -> dict:
+    """The folder every hand-collected file goes to, in the shape of a source. It has no page of its own: a file
+    is cited to the address noted for it, or to none."""
+    return {"key": HAND, "name": "Hand-collected", "url": "", "host": "", "kind": "", "why": "", "what": "", "mode": "hand"}
+
+
+def is_hand(key: str) -> bool:
+    return (key or "").strip().lower() == HAND.lower()
 
 
 def slug(text: str, limit: int = 40) -> str:
@@ -97,7 +109,9 @@ def designated(s: Settings, code: str) -> list[dict]:
 
 
 def find(s: Settings, code: str, key: str) -> dict | None:
-    """A source of an economy by its folder key: a designated one, or the crawled portal."""
+    """A source of an economy by its folder key: the hand-collected folder, a designated one, or the crawled portal."""
+    if is_hand(key):
+        return hand_source()
     key = (key or "").strip().lower()
     for src in designated(s, code):
         if src["key"] == key:
@@ -155,7 +169,9 @@ def inbox_identity(path: Path, inbox_dir: Path | None = None) -> dict:
     """What an inbox folder is, from its place: {"economy", "source", "batch", "legacy"}.
 
     inbox/CN                         -> the economy
-    inbox/CN/miit                    -> one source, every batch
+    inbox/CN/Hand_collected                    -> the hand-collected folder, every batch
+    inbox/CN/Hand_collected/2026-10-05_101522  -> one batch of it
+    inbox/CN/miit                    -> one designated source, every batch (the layout before it)
     inbox/CN/miit/2026-10-03_101522  -> one batch of a source
     inbox/CN/2026-09-30_101522       -> a batch of the older layout, with no source (legacy)
     Read from the folder names, so it also works for a folder given by its path alone.
@@ -173,7 +189,7 @@ def inbox_identity(path: Path, inbox_dir: Path | None = None) -> dict:
             return {}
     is_econ = lambda n: bool(re.fullmatch(r"[A-Za-z]{2}", n or ""))  # noqa: E731
     is_batch = lambda n: bool(BATCH_RX.fullmatch(n or ""))           # noqa: E731
-    is_key = lambda n: bool(KEY_RX.fullmatch(n or "")) and not is_batch(n) and not is_econ(n)  # noqa: E731
+    is_key = lambda n: n == HAND or (bool(KEY_RX.fullmatch(n or "")) and not is_batch(n) and not is_econ(n))  # noqa: E731
     a, b, c = names[0], names[1], names[2]
     if is_batch(a) and is_key(b) and is_econ(c):
         return {"economy": c.upper(), "source": b, "batch": a, "legacy": False}

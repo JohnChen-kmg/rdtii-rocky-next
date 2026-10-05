@@ -798,7 +798,7 @@ function renderExtractSetup() {
     </div>
     <details class="notes-box" ${EX.notesOpen ? 'open' : ''}><summary>Note:</summary>
       <p>* <b>Input</b> is a crawl folder from Scraping, with its manifest, or a folder of documents collected by hand.</p>
-      <p>* <b>Hand-collected files</b> go in the inbox, one folder per designated source of an economy: <code>${esc(inbox)}/CN/miit</code>, <code>${esc(inbox)}/SG/pdpc-gov-sg</code>. Drop them at 1 Scraping → Hand-collected. The folder names the economy and the source, and the language follows. The interface writes the manifest and the law table under the runs root and leaves the files as they are.</p>
+      <p>* <b>Hand-collected files</b> go in the inbox, one folder per economy: <code>${esc(inbox)}/CN/Hand_collected</code>, <code>${esc(inbox)}/SG/Hand_collected</code>, a dated subfolder per drop. Drop them at 1 Scraping → Hand-collected. The folder names the economy, and the language follows. The interface writes the manifest and the law table under the runs root and leaves the files as they are.</p>
       <p>* <b>Readiness</b> says, per file, how it is read or why it cannot be. Files that cannot be read are left out of the run and listed in <code>left_out.csv</code> beside the manifest.</p>
       <p>* <b>Language</b> is not chosen. The crawler records each document’s language; a document without one takes its economy’s language from the stage’s table (English, Chinese, Lao, Portuguese, Malay). Check reads the text of hand-collected files it can read and warns when a file does not fit its folder.</p>
       <p>* Each document is read by the lane its kind needs: A web page, B native PDF, C scanned PDF through OCR, D Word.${EX.htmlHosts && EX.htmlHosts.length ? ` Web pages parse for ${EX.htmlHosts.length} registered hosts only.` : ''}</p>
@@ -957,7 +957,7 @@ const IB = { data: null, economy: '', source: '', files: [], log: [], busy: fals
 const IB_SHOWN = 300;   // rows drawn in the file list; every file still goes to Extraction
 
 function ibEconomy() { return IB.data ? IB.data.economies.find((e) => e.code === IB.economy) : null; }
-function ibSource() { const e = ibEconomy(); return e ? e.sources.find((x) => x.key === IB.source) : null; }
+function ibSource() { const e = ibEconomy(); return e ? e.hand : null; }   // one folder per economy: its Hand_collected
 
 async function loadInbox() {
   const host = $('#inbox-body');
@@ -970,14 +970,13 @@ async function loadInbox() {
   try { IB.data = await api('/api/inbox'); } catch (e) { host.innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
   if (!IB.economy && SC.chosen && SC.chosen.size === 1) IB.economy = [...SC.chosen][0];
   if (IB.economy && !ibEconomy()) IB.economy = '';
-  if (IB.source && !ibSource()) IB.source = '';
   await loadInboxFiles();
   renderInbox();
 }
 
 async function loadInboxFiles() {
-  if (!IB.economy || !IB.source) { IB.files = []; return; }
-  try { IB.files = (await api(`/api/inbox/files?${new URLSearchParams({ economy: IB.economy, source: IB.source })}`)).files; } catch (e) { IB.files = []; }
+  if (!IB.economy) { IB.files = []; return; }
+  try { IB.files = (await api(`/api/inbox/files?${new URLSearchParams({ economy: IB.economy })}`)).files; } catch (e) { IB.files = []; }
 }
 
 function renderInbox() {
@@ -997,11 +996,11 @@ function renderInbox() {
   const fileRow = (f) => {
     const parts = f.name.split('/');
     const name = parts[parts.length - 1];
-    const direct = parts.length === (f.batch ? 2 : 1);   // an address is kept for a file that sits in the source's folder or one of its batches
+    const direct = parts.length === (f.batch ? 2 : 1);   // an address is kept for a file that sits in the folder or one of its batches
     const reads = f.status === 'cannot_read'
       ? `<span class="chip bad">cannot be read</span><div class="small">${esc(f.action || '')}</div>`
       : `<span class="chip ok">ready</span> <span class="small">${esc(f.method || '')}</span>${f.action ? `<div class="small muted">${esc(f.action)}</div>` : ''}`;
-    const basis = f.url ? (f.url_basis || 'noted beside the file') : 'none noted: cited to the source’s page';
+    const basis = f.url ? (f.url_basis || 'noted beside the file') : 'none noted';
     return `<tr><td>${esc(name)}</td><td>${reads}</td>
       <td class="addr">${direct ? `<input type="url" class="ib-url" data-file="${esc(name)}" data-batch="${esc(f.batch || '')}" value="${esc(f.url || '')}" placeholder="https://… the document’s own address">` : esc(f.url || '')}<div class="small muted">${esc(basis)}</div></td>
       <td class="small">${esc(f.batch || '')}</td><td class="num">${fmtBytes(f.size)}</td></tr>`;
@@ -1010,49 +1009,37 @@ function renderInbox() {
     <div class="callout cn-caution"><b>Why this block.</b>
       <ul>
         <li>Some sources cannot be crawled: a robots.txt ban, a host that refuses an automated client, a portal with no machine-readable list.</li>
-        <li>Each economy has a short list of them. Files you fetch by hand from one go in that source’s own folder; files from anywhere else are not taken.</li>
+        <li>Fetch those files by hand and drop them here. They go in the economy’s <code>Hand_collected</code> folder, one dated subfolder per drop.</li>
         <li>They sit beside the crawler’s results in Output and pass down to Extraction and Mapping through the same pipeline.</li>
       </ul></div>
     <div class="setup-row"><div class="setup-label">Economy</div>
       <div class="econ-grid">${d.economies.map((e) => `<label class="radio big ${IB.economy === e.code ? 'on' : ''}"><input type="radio" name="ib-econ" value="${e.code}" ${IB.economy === e.code ? 'checked' : ''}> <span class="name">${esc(e.name)}</span><span class="sub">${e.files ? n(e.files) : 'empty'}</span></label>`).join('')}</div>
     </div>
-    ${cur ? `<div class="setup-row"><div class="setup-label">Source</div>
-      <div>
-        ${cur.sources.length ? `<div class="src-grid">${cur.sources.map((x) => `<label class="radio big ${IB.source === x.key ? 'on' : ''}" title="${esc(x.key)}"><input type="radio" name="ib-src" value="${esc(x.key)}" ${IB.source === x.key ? 'checked' : ''}> <span class="name">${esc(x.name)}</span><span class="sub">${x.files ? n(x.files) : 'empty'}</span></label>`).join('')}</div>`
-          : '<p class="muted">No designated source is listed for this economy.</p>'}
-        ${src ? `<dl class="portal-facts src-facts">
-          ${src.url ? `<dt>Page</dt><dd><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.url)}</a></dd>` : ''}
-          ${src.what ? `<dt>Look for</dt><dd>${esc(src.what)}</dd>` : ''}
-          ${src.why ? `<dt>Why by hand</dt><dd>${esc(String(src.why).replace(/[*]{2}/g, ''))}</dd>` : ''}
-          <dt>Folder</dt><dd><code>${esc(target)}</code></dd>
-        </dl>` : ''}
-        ${cur.unsorted ? `<p class="small muted" style="margin:10px 0 0">${n(cur.unsorted)} from before sources had folders sit directly in <code>${esc(d.root)}/${esc(cur.code)}</code>. They still go to Extraction; move them into a source’s folder to file them.</p>` : ''}
-      </div>
-    </div>` : ''}
     <div class="setup-row"><div class="setup-label">Files</div>
       <div>
         <label class="dropzone ${src ? '' : 'off'}" id="ib-drop"><input type="file" id="ib-files" multiple accept=".pdf,.html,.htm,.docx,.doc,.zip" ${src ? '' : 'disabled'}>
-          ${src ? `Drop PDF, Word or saved web pages here, or a .zip of them, or click to choose. Each drop is one batch, saved under <code>${esc(target)}/&lt;date_time&gt;</code>.` : cur ? 'Choose the source first.' : 'Choose the economy, then the source.'}</label>
+          ${src ? `Drop PDF, Word or saved web pages here, or a .zip of them, or click to choose. Each drop is one batch, saved under <code>${esc(target)}/&lt;date_time&gt;</code>.` : 'Choose the economy first.'}</label>
         ${IB.log.length ? `<ul class="ib-log">${IB.log.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
       </div>
     </div>
     ${src ? `<div class="setup-row"><div class="setup-label">In the folder</div>
       <div><div class="row"><span><b>${src.files}</b> file${src.files === 1 ? '' : 's'} in <code>${esc(target)}</code></span> <button class="btn small" data-open="${esc(src.path)}">Open folder</button> ${src.files ? '<a href="#" id="ib-goto">Extract them: 2 Extraction → Input</a>' : ''}</div>
         ${batchLine ? `<p class="small muted" style="margin:6px 0 0">${esc(batchLine)}</p>` : ''}
+        ${cur.elsewhere ? `<p class="small muted" style="margin:6px 0 0">${n(cur.elsewhere)} filed before this folder existed sit elsewhere under <code>${esc(d.root)}/${esc(cur.code)}</code>. They still go to Extraction.</p>` : ''}
         ${cannot.length ? `<p class="ib-warn"><span class="chip bad">${cannot.length} cannot be read</span> Each says what to do. Extraction runs on the rest and leaves these out.</p>` : ''}
         ${IB.files.length ? `<details class="doclist" id="ib-list" ${filesOpen ? 'open' : ''}><summary>Files <span class="muted">(${IB.files.length}${IB.files.length > IB_SHOWN ? `, the first ${IB_SHOWN} shown` : ''})</span></summary><div class="table-wrap short"><table class="rows ib-files"><thead><tr><th>File</th><th>Reads as</th><th>Address it came from</th><th>Batch</th><th>Size</th></tr></thead><tbody>
           ${listed.map(fileRow).join('')}</tbody></table></div></details>` : ''}
       </div></div>` : ''}
     <details class="notes-box" ${IB.notesOpen ? 'open' : ''}><summary>Note:</summary>
-      <p>* One economy and one source at a time. The folders name both, and the language follows from the economy table. Each drop is a batch, a dated subfolder; 2 Extraction → Input lists the source (every batch) and each batch on its own.</p>
+      <p>* One economy at a time. The folder names it, and the language follows from the economy table. Each drop is a batch, a dated subfolder of <code>Hand_collected</code>; 2 Extraction → Input lists the folder (every batch) and each batch on its own.</p>
+      <p>* No source is asked for: how a file is read follows from what it is and from the economy’s language. The one exception is a saved web page, read by the parser of the portal it came from, so it needs its address.</p>
       <p>* PDF (native or scanned), Word .docx, and web pages saved from a portal the reader knows. A .zip is unpacked on arrival. A file already in the batch is kept once; a different file with the same name is saved under a numbered name.</p>
       <p>* <b>Reads as</b> is judged from what the file is, not from its name. An old .doc and a page from another site cannot be read; the line says what to do (Save As .docx, or print the page to PDF).</p>
-      <p>* <b>Address</b>: a saved web page brings its own; for anything else, paste the document’s address. A file with none is cited to its source’s page. Addresses are kept in <code>provenance.tsv</code> beside the files.</p>
+      <p>* <b>Address</b>: a saved web page brings its own; for anything else, paste the document’s address, so the output can cite it. Addresses are kept in <code>provenance.tsv</code> beside the files.</p>
     </details>`;
   const nb = host.querySelector('details.notes-box'); if (nb) nb.addEventListener('toggle', () => { IB.notesOpen = nb.open; });
   const fl = $('#ib-list'); if (fl) fl.addEventListener('toggle', () => { IB.filesOpen = fl.open; });
-  host.querySelectorAll('input[name=ib-econ]').forEach((inp) => inp.addEventListener('change', () => { IB.economy = inp.value; IB.source = ''; IB.files = []; IB.log = []; IB.filesOpen = null; renderInbox(); }));
-  host.querySelectorAll('input[name=ib-src]').forEach((inp) => inp.addEventListener('change', async () => { IB.source = inp.value; IB.log = []; IB.filesOpen = null; await loadInboxFiles(); renderInbox(); }));
+  host.querySelectorAll('input[name=ib-econ]').forEach((inp) => inp.addEventListener('change', async () => { IB.economy = inp.value; IB.files = []; IB.log = []; IB.filesOpen = null; await loadInboxFiles(); renderInbox(); }));
   host.querySelectorAll('input.ib-url').forEach((inp) => inp.addEventListener('change', () => saveAddress(inp)));
   const drop = $('#ib-drop');
   const input = $('#ib-files');
@@ -1070,7 +1057,7 @@ function renderInbox() {
 async function saveAddress(inp) {
   const note = inp.parentElement.querySelector('.small');
   try {
-    await api('/api/inbox/address', { method: 'POST', body: JSON.stringify({ economy: IB.economy, source: IB.source, batch: inp.dataset.batch, file: inp.dataset.file, url: inp.value.trim() }) });
+    await api('/api/inbox/address', { method: 'POST', body: JSON.stringify({ economy: IB.economy, batch: inp.dataset.batch, file: inp.dataset.file, url: inp.value.trim() }) });
     await loadInboxFiles();   // the address can change how a web page is read
     renderInbox();
     if (typeof EX !== 'undefined') EX.loaded = false;
@@ -1078,18 +1065,18 @@ async function saveAddress(inp) {
 }
 
 async function uploadFiles(fileList) {
-  if (!IB.economy || !IB.source || IB.busy) return;
+  if (!IB.economy || !ibSource() || IB.busy) return;
   const files = [...fileList];
   const batch = batchStamp();
   IB.busy = true;
   IB.filesOpen = null;
-  IB.log = [`Adding ${files.length} file${files.length === 1 ? '' : 's'} to ${IB.data.root}/${IB.economy}/${IB.source}/${batch}…`];
+  IB.log = [`Adding ${files.length} file${files.length === 1 ? '' : 's'} to ${IB.data.root}/${IB.economy}/${ibSource().key}/${batch}…`];
   renderInbox();
   const results = [];
   let done = 0;
   for (const f of files) {
     try {
-      const r = await fetch(`/api/inbox/upload?${new URLSearchParams({ economy: IB.economy, source: IB.source, name: f.name, batch })}`,
+      const r = await fetch(`/api/inbox/upload?${new URLSearchParams({ economy: IB.economy, name: f.name, batch })}`,
         { method: 'POST', headers: { 'Content-Type': 'application/octet-stream', 'X-RDTII-Token': TOKEN }, body: f });
       let j; try { j = await r.json(); } catch (e) { j = { error: r.statusText }; }
       if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
@@ -1775,7 +1762,7 @@ function renderChina() {
   const cac = src('cac'), miit = src('miit'), npc = src('npc-database'), govcn = src('govcn'), customs = src('customs');
   const ws = d.folders.find((f) => f.name.startsWith('CN_ws')) || {};
   const docLink = (p, label) => `<a href="#" data-doc="${esc(p)}">${esc(label || p.split('/').pop())}</a>`;
-  const inboxLink = (key) => `<a href="#" class="cn-inbox" data-src="${key}"><code>inbox/CN/${key}</code></a>`;
+  const inboxLink = () => '<a href="#" class="cn-inbox"><code>inbox/CN/Hand_collected</code></a>';   // one folder for every file fetched by hand
 
   $('#cn-body').innerHTML = `
     <div class="cn-lead">
@@ -1794,7 +1781,7 @@ function renderChina() {
       <ul class="plain-list big">
         <li><b>Quick to get:</b> ${esc(npc.index_rows || 945)} documents in eleven archives, about five minutes by hand.</li>
         <li><b>Covers:</b> 18 of 61 indicators and all of pillar 7. Consolidated and current.</li>
-        <li><b>Check:</b> download a fresh export into ${inboxLink('npc-database')}, then run the offline diff.</li>
+        <li><b>Check:</b> download a fresh export into ${inboxLink()}, then run the offline diff.</li>
       </ul>
     </div>
 
@@ -1803,7 +1790,7 @@ function renderChina() {
       <ul class="plain-list big">
         <li><b>Why:</b> a law states the rule; the number sits in a catalogue published elsewhere.</li>
         <li><b>Set aside:</b> twelve more publishers, not deleted; 31 indicators are still served.</li>
-        <li><b>Check:</b> run the update tool from 1 Scraping with China ticked (CAC, gov.cn). For MIIT and Customs, save the attachments into ${inboxLink('miit')} or ${inboxLink('customs')}.</li>
+        <li><b>Check:</b> run the update tool from 1 Scraping with China ticked (CAC, gov.cn). For MIIT and Customs, save the attachments into ${inboxLink()}.</li>
       </ul>
       <div class="table-wrap short"><table class="rows"><thead><tr><th>Source</th><th>Mode</th><th>Held</th><th>What</th></tr></thead><tbody>
         <tr><td>CAC 国家互联网信息办公室</td><td><span class="chip ok">crawled</span></td><td class="num">${cac.provenance_rows || ws.manifest_rows || ''}</td><td>Operative rules of pillars 6 and 7. Whole index: 42 of its 68 tier-2 rules were not on the hand list.</td></tr>
@@ -1837,7 +1824,7 @@ function renderChina() {
   }));
   $('#cn-body').querySelectorAll('a.cn-inbox').forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault();
-    if (typeof IB !== 'undefined') { IB.economy = 'CN'; IB.source = a.dataset.src || ''; IB.log = []; IB.filesOpen = null; }
+    if (typeof IB !== 'undefined') { IB.economy = 'CN'; IB.log = []; IB.filesOpen = null; }
     showTab('scrape');
     const block = $('#inbox-block');
     if (block) { block.open = true; try { localStorage.setItem('rdtii.inbox.open', '1'); } catch (err) { /* private window */ } }

@@ -1,5 +1,6 @@
-"""Files dropped on the Scraping tab land in inbox/<economy>/<source>/<batch>/ once, under their own safe
-name, with the address they came from noted beside them. Only an economy's designated sources are taken."""
+"""Files dropped on the Scraping tab land in inbox/<economy>/Hand_collected/<batch>/ once, under their own
+safe name, with the address they came from noted beside them. No source is asked for; a folder of a
+designated source, the layout before this one, still takes a drop made with its key."""
 import io
 import tempfile
 import unittest
@@ -68,16 +69,32 @@ class Save(unittest.TestCase):
             with self.assertRaises(ApiError):
                 inbox.save(s, "CN", "miit", "d.pdf", b"%PDF-1.4 d", "../evil")
 
-    def test_only_designated_sources_are_taken(self):
+    def test_a_drop_names_no_source_and_lands_in_the_hand_collected_folder(self):
         with tempfile.TemporaryDirectory() as d:
             s = self._settings(Path(d))
-            for bad in ("", "random-site", "../miit", "MIIT/.."):
+            r = inbox.save(s, "SG", "", "guide.pdf", b"%PDF-1.4", BATCH)
+            self.assertEqual((r["source"], r["batch"], r["folder"].replace("\\", "/").endswith(f"inbox/SG/Hand_collected/{BATCH}")),
+                             ("Hand_collected", BATCH, True))
+            self.assertTrue((Path(d) / "inbox" / "SG" / "Hand_collected" / BATCH / "guide.pdf").is_file())
+            self.assertEqual(inbox.save(s, "SG", "hand_collected", "b.pdf", b"%PDF-1.4 b", BATCH)["source"], "Hand_collected")   # by its name too
+            e = next(x for x in inbox.describe(s)["economies"] if x["code"] == "SG")
+            self.assertEqual((e["files"], e["hand"]["files"], e["elsewhere"], e["unsorted"]), (2, 2, 0, 0))
+            self.assertEqual([(b["name"], b["files"]) for b in e["hand"]["batches"]], [(BATCH, 2)])
+            self.assertEqual(Path(e["hand"]["path"]), Path(d) / "inbox" / "SG" / "Hand_collected")
+            self.assertEqual(inbox.set_address(s, "SG", "", BATCH, "guide.pdf", "https://www.pdpc.gov.sg/guide.pdf")["source"], "Hand_collected")
+
+    def test_a_folder_that_is_neither_is_refused(self):
+        with tempfile.TemporaryDirectory() as d:
+            s = self._settings(Path(d))
+            for bad in ("random-site", "../miit", "MIIT/..", "Hand_collected/.."):
                 with self.assertRaises(ApiError, msg=bad) as cm:
                     inbox.save(s, "CN", bad, "law.pdf", b"%PDF-1.4")
                 self.assertIn("designated", str(cm.exception))
             self.assertFalse((Path(d) / "inbox" / "CN").exists())       # a refused drop writes nothing
-            sg = sources.designated(s, "SG")[0]["key"]
+            sg = sources.designated(s, "SG")[0]["key"]                   # a designated source's folder still takes a drop
             self.assertEqual(inbox.save(s, "SG", sg, "guide.pdf", b"%PDF-1.4")["source"], sg)
+            e = next(x for x in inbox.describe(s)["economies"] if x["code"] == "SG")
+            self.assertEqual((e["files"], e["hand"]["files"], e["elsewhere"]), (1, 0, 1))
 
     def test_bad_economy_or_empty_file_is_refused(self):
         with tempfile.TemporaryDirectory() as d:

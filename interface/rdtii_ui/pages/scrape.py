@@ -572,8 +572,9 @@ def list_crawl_folders(s: Settings, jobs=None) -> list[dict]:
 
 
 def hand_collected_folders(s: Settings) -> list[dict]:
-    """The inbox folders that hold files, beside the crawl folders: they too feed Extraction. One row per
-    designated source of an economy, and one for files of the older layout filed under no source."""
+    """The inbox folders that hold files, beside the crawl folders: they too feed Extraction. One row for an
+    economy's hand-collected folder, one per designated source (the layout before it) that holds files, and
+    one for files of the oldest layout filed under no folder."""
     from .. import sources
     out = []
     if not s.inbox_dir.is_dir():
@@ -595,7 +596,7 @@ def hand_collected_folders(s: Settings) -> list[dict]:
         code = p.name.upper()
         docs = lambda d: [f for f in d.rglob("*") if f.is_file() and f.suffix.lower() in cn_run.SUFFIX]  # noqa: E731
         filed: set[Path] = set()
-        for src in sources.designated(s, code):
+        for src in [sources.hand_source()] + sources.designated(s, code):
             files = docs(p / src["key"]) if (p / src["key"]).is_dir() else []
             filed.update(files)
             if files:

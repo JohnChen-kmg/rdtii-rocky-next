@@ -265,13 +265,53 @@ class HandCollected(unittest.TestCase):
             with self.assertRaises(ApiError):
                 extract.plan_extract(app, {"input": str(folder)})
 
-    def test_the_inbox_has_a_folder_for_every_designated_source(self):
+    def test_the_inbox_has_one_hand_collected_folder_per_economy_and_none_per_source(self):
         with tempfile.TemporaryDirectory() as d:
             s = _settings(Path(d))
             extract.ensure_inbox(s)
             for code in extract.HAND_ECONOMIES:
-                for src in sources.designated(s, code):
-                    self.assertTrue((Path(d) / "inbox" / code / src["key"]).is_dir(), f"{code}/{src['key']}")
+                self.assertEqual([p.name for p in (Path(d) / "inbox" / code).iterdir()], ["Hand_collected"], code)
+
+    def test_the_hand_collected_folder_is_filed_listed_and_extracted_like_a_source(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            s = _settings(root)
+            app = App(s)
+            app.jobs = jobs.JobManager()
+            inbox.save(s, "SG", "", "guide.pdf", b"%PDF-1.4\n/Font", BATCH)
+            inbox.save(s, "SG", "", "old.doc", readiness.OLE2 + b"\x00" * 600, BATCH)
+            inbox.save(s, "SG", "", "act.html", b"<html><body>An Act</body></html>", "2026-10-05_090000")
+            folder = root / "inbox" / "SG" / "Hand_collected"
+            # its place says what it is
+            self.assertEqual(sources.inbox_identity(folder, s.inbox_dir), {"economy": "SG", "source": "Hand_collected", "batch": "", "legacy": False})
+            self.assertEqual(sources.inbox_identity(folder / BATCH, s.inbox_dir)["batch"], BATCH)
+            self.assertEqual(sources.find(s, "SG", "Hand_collected")["name"], "Hand-collected")
+            # Extraction offers the folder and each batch
+            inputs = extract.list_inputs(s)
+            whole = next(i for i in inputs if i["origin"] == "hand-collected source")
+            self.assertEqual((whole["economy"], whole["source"], whole["rows"], whole["out_name"]), ("SG", "Hand_collected", 3, "SG_Hand_collected"))
+            self.assertIn("hand-collected folder", whole["language_line"])
+            self.assertEqual(sorted(i["out_name"] for i in inputs if i["origin"] == "hand-collected batch"),
+                             [f"SG_Hand_collected_{BATCH}", "SG_Hand_collected_2026-10-05_090000"])
+            # a file is read by what it is; with no source there is no page to cite, and a web page needs its address
+            rows = {Path(r["local_path"]).name: r for r in extract.build_manifest_rows(folder, "", s=s)}
+            self.assertEqual({k: v["_status"] for k, v in rows.items()}, {"guide.pdf": "ready", "old.doc": "cannot_read", "act.html": "cannot_read"})
+            self.assertEqual((rows["guide.pdf"]["economy"], rows["guide.pdf"]["source_url"], rows["guide.pdf"]["_url_basis"]), ("SG", "", ""))
+            self.assertIn("Type the page's address", rows["act.html"]["_action"])
+            inbox.set_address(s, "SG", "", "2026-10-05_090000", "act.html", "https://www.legislation.gov.au/C2004A03712/latest/text")
+            rows = {Path(r["local_path"]).name: r for r in extract.build_manifest_rows(folder, "", s=s)}
+            self.assertEqual(rows["act.html"]["_method"], "web page, the legislation.gov.au parser")   # by its address, not by a source
+            # the run leaves out what cannot be read, and its manifest is filed like a crawl
+            job = extract.plan_extract(app, {"input": str(folder / BATCH)})
+            manifest = Path(next(st.argv[st.argv.index("--manifest") + 1] for st in job.steps if "--manifest" in st.argv))
+            self.assertEqual((manifest.parent.parent.parent.name, manifest.parent.parent.name), ("SG", "Hand_collected"))
+            self.assertIn("old.doc", (manifest.parent / "left_out.csv").read_text(encoding="utf-8-sig"))
+            # Scraping's Output lists the folder, and the manifest written for it
+            listed = scrape.list_crawl_folders(s)
+            hand = [f for f in listed if f["kind"] == "hand-collected"]
+            self.assertEqual([(f["economy"], f["source"], f["source_name"], f["rows"]) for f in hand], [("SG", "Hand_collected", "Hand-collected", 3)])
+            written = [f for f in listed if f["kind"] == "hand-collected manifest"]
+            self.assertEqual([(f["economy"], f["source_name"]) for f in written], [("SG", "Hand-collected")])
 
 
 class Judging(unittest.TestCase):

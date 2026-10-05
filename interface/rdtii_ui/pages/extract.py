@@ -271,7 +271,8 @@ def describe_hand_folder(path: Path, kind: str, economy: str | None = None, out_
     else:
         by_economy = {economy: len(files)} if economy and files else {}
         detected = detect_cached(path, files, economy, None) if files else None
-        econ_line = (f"{economy}, fixed by the China tools run" if fixed else f"{economy}, from the inbox folder of the source {source_key}" if source_key
+        econ_line = (f"{economy}, fixed by the China tools run" if fixed else f"{economy}, from its hand-collected folder in the inbox" if sources.is_hand(source_key)
+                     else f"{economy}, from the inbox folder of the source {source_key}" if source_key
                      else f"{economy}, from the folder {path.parent.name if batch else path.name}" if economy
                      else "not named by the folder; " + (f"the text points to {detected['suggested_economy']}" if detected and detected.get("suggested_economy") else "choose it in Run"))
     plan = language_plan(by_economy) if by_economy else []
@@ -290,13 +291,12 @@ def describe_hand_folder(path: Path, kind: str, economy: str | None = None, out_
 
 
 def ensure_inbox(s: Settings) -> None:
-    """The inbox and one subfolder per economy exist from the first start, so the guidance points at real folders."""
+    """The inbox, one subfolder per economy and its hand-collected folder exist from the first start, so the
+    guidance points at real folders. No folder is made per designated source any more."""
     try:
         s.inbox_dir.mkdir(parents=True, exist_ok=True)
         for code in HAND_ECONOMIES:
-            (s.inbox_dir / code).mkdir(exist_ok=True)
-            for src in sources.designated(s, code):
-                (s.inbox_dir / code / src["key"]).mkdir(exist_ok=True)
+            (s.inbox_dir / code / sources.HAND).mkdir(parents=True, exist_ok=True)
     except OSError:
         pass
 
