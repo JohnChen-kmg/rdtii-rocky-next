@@ -55,7 +55,8 @@ LANG_LABEL = {x["id"]: x["label"] for x in LANGUAGES}
 
 def recorded_languages(folder: Path) -> dict[str, str]:
     """doc_id -> the language the crawler recorded, read as the stage reads it: law_table.csv first, then the
-    link rows in links_used/documents.jsonl. Documents absent from both are the ones the default fills."""
+    link rows in links_used/documents.jsonl, then the adapters' facts beside the manifest. Documents absent
+    from all of them are the ones the default fills."""
     out: dict[str, str] = {}
     lt = folder / "law_table.csv"
     if lt.is_file():
@@ -79,7 +80,31 @@ def recorded_languages(folder: Path) -> dict[str, str]:
             return found
         for doc, lang in (readers.cached(lu, load) or {}).items():
             out.setdefault(doc, lang)
+    # a crawl run of the interface: the adapters' facts beside the manifest (a run of 4 October: inside it)
+    for name in ("manifest_meta.jsonl", "manifest.jsonl"):
+        side = folder / name
+        if side.is_file():
+            for doc, lang in (readers.cached(side, _meta_languages) or {}).items():
+                out.setdefault(doc, lang)
     return out
+
+
+def _meta_languages(path: Path) -> dict[str, str]:
+    """doc_id -> the language an adapter recorded for the file, from lines of {"doc_id", "contract_meta"}."""
+    found: dict[str, str] = {}
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            if not line.strip():
+                continue
+            try:
+                row = json.loads(line)
+            except ValueError:
+                continue
+            doc = str(row.get("doc_id") or "").strip()
+            lang = (row.get("contract_meta") or {}).get("language") if isinstance(row.get("contract_meta"), dict) else None
+            if doc and lang:
+                found[doc] = str(lang)
+    return found
 
 
 def language_plan(by_economy: dict) -> list[tuple[str, str]]:
@@ -531,7 +556,8 @@ def build_manifest_rows(folder: Path, economy: str, source_urls: dict | None = N
         rel = p.relative_to(folder).as_posix()
         own = urls.get(rel) or urls.get(p.name) or urls.get(p.stem) or urls.get(p.stem.split("__")[0]) or ""
         src = source_for(p, econ)
-        # a file with no address of its own is cited to its designated source's page, and says so
+        # a file with no address of its own is cited to its designated source's page, and says so; one in the
+        # hand-collected folder, which has no source page, has no address
         address = own or (src or {}).get("url", "")
         basis = "the file's own address" if own else ("the source's page" if address else "")
         verdict = readiness.judge(p, kind, sources.host_of(address), hosts)
@@ -774,8 +800,11 @@ def precheck(app: App, req: dict) -> list[dict]:
                     add("ok", "readiness", f"All {ready_n} file(s) can be read.")
                 unaddressed = sum(1 for r in hand_rows if r["_status"] == "ready" and r["_url_basis"] != "the file's own address")
                 if unaddressed and desc.get("source"):
-                    add("warn", "address", f"{unaddressed} file(s) have no address of their own and will be cited to the "
-                                           "source's page. Type each file's address in the Hand-collected block to cite the document itself.")
+                    # a designated source has a page to cite; the hand-collected folder has none
+                    fate = ("will be cited to the source's page" if desc.get("source_url")
+                            else "will have no address in the output")
+                    add("warn", "address", f"{unaddressed} file(s) have no address of their own and {fate}. "
+                                           "Type each file's address in the Hand-collected block to cite the document itself.")
             elif cannot:
                 add("warn", "readiness", f"{len(cannot)} of {len(hand_rows)} file(s) will fail in the run: "
                                          + " ".join(f"{Path(r['local_path']).name}: {r['_action']}" for r in cannot[:3]))

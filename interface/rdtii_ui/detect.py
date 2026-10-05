@@ -118,7 +118,10 @@ def read_text(path: Path, limit: int = 600_000) -> tuple[str, str]:
 
 
 def _readable_units(text: str) -> int:
-    return len(LATIN_WORD_RX.findall(text)) + len(CJK_RX.findall(text)) + len(LAO_RX.findall(text))
+    # Latin words of three letters or more: a PDF whose font maps characters to glyph ids gives single
+    # letters and scraps here, which are not text (found 5 October 2026: Singapore's PDPA read that way)
+    return (sum(1 for w in LATIN_WORD_RX.findall(text) if len(w) >= 3)
+            + len(CJK_RX.findall(text)) + len(LAO_RX.findall(text)))
 
 
 # ---- language and economy --------------------------------------------------------------------------------
@@ -126,7 +129,9 @@ def _readable_units(text: str) -> int:
 def detect_language(text: str) -> tuple[str | None, str]:
     """(language, basis). None when the text is too short or the stop words do not separate the candidates."""
     cjk, lao = len(CJK_RX.findall(text)), len(LAO_RX.findall(text))
-    words = [w.lower() for w in LATIN_WORD_RX.findall(text)]
+    # single letters are left out: "e", "a" and "o" are Portuguese words, and they are also what the noise of
+    # an undecodable PDF font is made of, which read an English act as Portuguese
+    words = [w.lower() for w in LATIN_WORD_RX.findall(text) if len(w) >= 2]
     latin = len(words)
     if cjk >= 40 and cjk > latin / 4:
         return "zho", "script"

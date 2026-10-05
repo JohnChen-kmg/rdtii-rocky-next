@@ -255,5 +255,23 @@ class DocumentsToCheck(unittest.TestCase):
             self.assertIn("to check", said)
 
 
+
+
+class CrawlersLanguages(unittest.TestCase):
+    """The adapters' facts about each file sit beside the manifest of a crawl run; Set up shows the languages."""
+
+    def test_the_language_is_read_from_the_file_beside_the_manifest(self):
+        import json
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            folder = Path(d)
+            (folder / "manifest_meta.jsonl").write_text(
+                json.dumps({"doc_id": "la-a-001", "contract_meta": {"language": "eng"}}) + "\n"
+                + json.dumps({"doc_id": "la-b-001", "contract_meta": {"language": "lao"}}) + "\nnot json\n"
+                + json.dumps({"doc_id": "la-c-001", "contract_meta": {}}) + "\n", encoding="utf-8")
+            (folder / "manifest.jsonl").write_text(json.dumps({"doc_id": "la-d-001", "contract_meta": {"language": "por"}}) + "\n", encoding="utf-8")
+            self.assertEqual(extract.recorded_languages(folder), {"la-a-001": "eng", "la-b-001": "lao", "la-d-001": "por"})
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -163,13 +163,17 @@ def _read_link_rows(path: Path, facts: dict[str, DocFacts]) -> None:
 
 
 def _read_manifest_meta(path: Path, facts: dict[str, DocFacts]) -> None:
-    """The crawler's own facts about each file, where the crawl run carries them in manifest.jsonl.
+    """The crawler's own facts about each file, where the crawl run carries them: one
+    {"doc_id", "contract_meta"} per line of manifest_meta.jsonl, beside the manifest.
 
     A corpus assembled in the workshop has `law_table.csv` and `links_used/`; a crawl run started from
     the interface has neither, and until 4 October 2026 the adapter's per-document facts stayed in the
     link list. The Lao gazette's English editions were therefore read as Lao and gave no provision.
     Same rule as the two side files (D3): a value here was written by the crawler from the portal's own
     field; nothing is detected. A side file that already named the language keeps its say.
+
+    For one day the crawler wrote the same facts into manifest.jsonl itself, which its own contract gate
+    refuses; a manifest.jsonl row has the same two keys, so this reads either file.
     """
     if not path.is_file():
         return
@@ -206,7 +210,8 @@ def load_facts(corpus_dir: Path, registry_default_language: str | None = None,
     """
     facts = _read_law_table(corpus_dir / "law_table.csv")
     _read_link_rows(corpus_dir / "links_used" / "documents.jsonl", facts)
-    _read_manifest_meta(corpus_dir / "manifest.jsonl", facts)
+    _read_manifest_meta(corpus_dir / "manifest_meta.jsonl", facts)
+    _read_manifest_meta(corpus_dir / "manifest.jsonl", facts)          # a run of 4 October carries them here
     for f in facts.values():
         if mismatch_language and "language_mismatch" in f.content_flags:
             f.language = mismatch_language

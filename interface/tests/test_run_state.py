@@ -64,6 +64,8 @@ class State(unittest.TestCase):
         self.assertEqual(scrape.run_state(self.folder, "interface run", {"state": "done"}, _Jobs(_job(self.folder, "queued"))), "running")   # a second pass waits
         self.assertEqual(scrape.run_state(self.folder, "interface run", crawling, _Jobs(_job(self.folder, "cancelled"))), "stopped")
         self.assertEqual(scrape.run_state(self.folder, "interface run", crawling, _Jobs(_job(self.folder, "failed"))), "not complete")
+        self.assertEqual(scrape.run_state(self.folder, "interface run", {"state": "done"}, _Jobs(_job(self.folder, "failed"))), "not complete")   # "done", then its manifest check failed
+        self.assertEqual(scrape.run_state(self.folder, "interface run", {"state": "done"}, _Jobs(_job(self.folder, "done"))), "complete")
         other = _Jobs(_job(self.folder.parent / "another", "running"))
         self.assertEqual(scrape.run_state(self.folder, "interface run", crawling, other), "not complete")                                    # another folder's run
 

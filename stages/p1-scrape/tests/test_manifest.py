@@ -127,9 +127,11 @@ def test_bad_doc_id_pattern_fails(tmp_path):
     assert not report.ok
 
 
-def test_the_adapters_facts_travel_in_the_jsonl_only(tmp_path):
+def test_the_adapters_facts_travel_beside_the_manifest_and_never_in_it(tmp_path):
     """What an adapter read from the portal about a file (its language, whether it is a translation) is
-    written to manifest.jsonl, so extraction can read it in a crawl run; the CSV keeps the contract's columns."""
+    written to manifest_meta.jsonl, so extraction can read it in a crawl run. Neither manifest carries it:
+    the contract's row allows no other field, and a manifest that had one failed its own gate (found by a
+    real crawl on 5 October 2026: every document stored, then exit code 1)."""
     import csv
     import json
 
@@ -138,7 +140,35 @@ def test_the_adapters_facts_travel_in_the_jsonl_only(tmp_path):
     plain = _valid_row(tmp_path, doc_id="sg-ca1967-001", sha=_sha(b"other"))
     csv_path, jsonl_path = write_manifest([row, plain], tmp_path)
     rows = [json.loads(line) for line in jsonl_path.read_text(encoding="utf-8").splitlines()]
-    assert rows[0]["contract_meta"]["language"] == "eng"
-    assert "contract_meta" not in rows[1]                       # an adapter that declares nothing adds nothing
+    assert all("contract_meta" not in r for r in rows)
     with csv_path.open(encoding="utf-8", newline="") as fh:
         assert "contract_meta" not in (csv.DictReader(fh).fieldnames or [])
+    side = [json.loads(line) for line in (tmp_path / "manifest_meta.jsonl").read_text(encoding="utf-8").splitlines()]
+    assert side == [{"doc_id": row["doc_id"], "contract_meta": row["contract_meta"]}]      # an adapter that declares nothing adds nothing
+    report = validate_manifest(csv_path, row["contract_version"], check_files=False)
+    assert report.ok, report.errors                                                        # the gate the crawl ends on
+
+
+def test_a_second_pass_keeps_what_the_side_file_said(tmp_path):
+    """A second pass loads its earlier rows from the manifest, which carries no adapter facts: the side file
+    keeps them for every document still in the manifest, and drops one that left it."""
+    import json
+
+    first = _valid_row(tmp_path)
+    first["contract_meta"] = {"language": "eng"}
+    gone = _valid_row(tmp_path, doc_id="sg-old-001", sha=_sha(b"gone"))
+    gone["contract_meta"] = {"language": "lao"}
+    write_manifest([first, gone], tmp_path)
+    again = {k: v for k, v in first.items() if k != "contract_meta"}                        # as the manifest gives it back
+    new = _valid_row(tmp_path, doc_id="sg-ca1967-001", sha=_sha(b"other"))
+    new["contract_meta"] = {"language": "por"}
+    write_manifest([again, new], tmp_path)
+    side = {json.loads(line)["doc_id"]: json.loads(line)["contract_meta"]
+            for line in (tmp_path / "manifest_meta.jsonl").read_text(encoding="utf-8").splitlines()}
+    assert side == {first["doc_id"]: {"language": "eng"}, "sg-ca1967-001": {"language": "por"}}
+    write_manifest([again], tmp_path)
+    write_manifest([{k: v for k, v in again.items()}], tmp_path)
+    assert (tmp_path / "manifest_meta.jsonl").is_file()
+    plain = _valid_row(tmp_path, doc_id="sg-plain-001", sha=_sha(b"plain"))
+    write_manifest([plain], tmp_path)
+    assert not (tmp_path / "manifest_meta.jsonl").exists()                                  # nothing to say: no file

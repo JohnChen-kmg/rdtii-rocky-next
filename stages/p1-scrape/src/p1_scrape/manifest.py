@@ -29,12 +29,47 @@ def _csv_value(val: Any) -> str:
     return str(val)
 
 
+META_FILE = "manifest_meta.jsonl"
+
+
+def write_manifest_meta(rows: list[dict[str, Any]], out_dir: Path) -> Path | None:
+    """Write the adapters' facts about each file beside the manifest: one {"doc_id", "contract_meta"} per line.
+
+    Not in the manifest itself: the contract's row allows no other field, and the gate below refuses a
+    manifest that has one. A second pass over the same folder loads its earlier rows from the manifest,
+    which does not carry these facts, so what the side file already says about a document still in the
+    manifest is kept. Returns the path, or None when no document has any (the file is then absent).
+    """
+    path = out_dir / META_FILE
+    known: dict[str, Any] = {}
+    if path.is_file():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            try:
+                obj = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(obj, dict) and obj.get("doc_id") and obj.get("contract_meta"):
+                known[str(obj["doc_id"])] = obj["contract_meta"]
+    lines = []
+    for row in rows:
+        doc_id = row.get("doc_id")
+        meta = row.get("contract_meta") or known.get(str(doc_id))
+        if doc_id and meta:
+            lines.append(json.dumps({"doc_id": doc_id, "contract_meta": meta}, ensure_ascii=False))
+    if not lines:
+        if path.is_file():
+            path.unlink()
+        return None
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
 def write_manifest(rows: list[dict[str, Any]], out_dir: Path) -> tuple[Path, Path]:
     """Write manifest.csv + manifest.jsonl into out_dir (handoff1/).
 
-    Each row is a dict keyed by MANIFEST_FIELDS. A row may additionally carry an
-    "http" dict and a "contract_meta" dict (the adapter's facts about the file, such as
-    its language); both are written only to the JSONL (nested), never to the CSV.
+    Each row is a dict keyed by MANIFEST_FIELDS. A row may additionally carry an "http" dict, written
+    only to the JSONL (nested), and a "contract_meta" dict (the adapter's facts about the file, such as
+    its language), written to the side file manifest_meta.jsonl and to neither manifest.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
     csv_path = out_dir / "manifest.csv"
@@ -51,10 +86,9 @@ def write_manifest(rows: list[dict[str, Any]], out_dir: Path) -> tuple[Path, Pat
             obj: dict[str, Any] = {k: row.get(k) for k in MANIFEST_FIELDS}
             if row.get("http") is not None:
                 obj["http"] = row["http"]
-            if row.get("contract_meta"):      # the adapter's facts about the file; extraction reads the language
-                obj["contract_meta"] = row["contract_meta"]
             fh.write(json.dumps(obj, ensure_ascii=False) + "\n")
 
+    write_manifest_meta(rows, out_dir)        # the adapter's facts about each file; extraction reads the language
     return csv_path, jsonl_path
 
 

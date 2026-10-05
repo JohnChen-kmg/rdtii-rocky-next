@@ -181,5 +181,20 @@ class Inbox(unittest.TestCase):
             self.assertFalse([c for c in checks if c["level"] == "fail"])
 
 
+class FontNoise(unittest.TestCase):
+    """A PDF whose font maps characters to glyph ids gives single letters and scraps, not text."""
+
+    def test_single_letters_are_not_portuguese(self):
+        noise = " ".join(["h", "g", "i", "d", "e", "a", "o", "j", "b", "k"] * 120)      # what Singapore's PDPA gave, 5 October 2026
+        self.assertEqual(detect.detect_language(noise), (None, "too little readable text"))
+        self.assertLess(detect._readable_units(noise), 40)
+
+    def test_real_portuguese_and_english_are_still_told_apart(self):
+        por = "Artigo 1 A presente lei estabelece o regime da concorrência e não se aplica aos casos previstos na lei dos mercados, para os fins que a lei determina. " * 4
+        eng = "Section 1 This Act shall apply to any person who collects personal data under this Act and such person may not disclose the data. " * 4
+        self.assertEqual(detect.detect_language(por)[0], "por")
+        self.assertEqual(detect.detect_language(eng)[0], "eng")
+
+
 if __name__ == "__main__":
     unittest.main()

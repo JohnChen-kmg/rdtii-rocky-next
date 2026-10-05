@@ -85,3 +85,17 @@ def test_a_side_file_keeps_its_say_over_the_manifest(tmp_path):
     (tmp_path / "manifest.jsonl").write_text(
         json.dumps({"doc_id": "la-la1-001", "contract_meta": {"language": "eng"}}) + "\n", encoding="utf-8")
     assert sidecars.load_facts(tmp_path)["la-la1-001"].language == "lao"
+
+
+def test_the_crawlers_language_is_read_from_the_file_beside_the_manifest(tmp_path):
+    """Since 5 October 2026 the crawler writes the adapters' facts to manifest_meta.jsonl, because its own
+    contract gate refuses any other field in the manifest. Extraction reads that file first."""
+    meta = [{"doc_id": "la-la2202en-001", "contract_meta": {"language": "eng", "language_source": "portal_field"}},
+            {"doc_id": "la-la2202-001", "contract_meta": {"language": "lao", "language_source": "portal_field"}}]
+    (tmp_path / "manifest_meta.jsonl").write_text("".join(json.dumps(r) + "\n" for r in meta), encoding="utf-8")
+    (tmp_path / "manifest.jsonl").write_text(
+        json.dumps({"doc_id": "la-la2202en-001"}) + "\n" + json.dumps({"doc_id": "la-la2202-001", "contract_meta": {"language": "por"}}) + "\n",
+        encoding="utf-8")
+    facts = sidecars.load_facts(tmp_path, registry_default_language="lao")
+    assert (facts["la-la2202en-001"].language, facts["la-la2202en-001"].language_source) == ("eng", "portal_field")
+    assert facts["la-la2202-001"].language == "lao"         # the file beside the manifest has its say first

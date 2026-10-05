@@ -516,6 +516,8 @@ def run_state(path: Path, kind: str, crawl_state: dict | None, jobs=None) -> str
             return "complete"
         return "running" if busy_here else "not complete"
     state = (crawl_state or {}).get("state")
+    if mine and mine[0].status == "failed":
+        return "not complete"        # the crawler writes "done" before its manifest check: a run that failed here is not complete
     if state == "done":
         return "complete"
     if state == "throttle_suspected":

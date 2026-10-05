@@ -395,7 +395,8 @@ def _build_row(settings, cand: Candidate, plan: FetchPlan, cls, sf, sha: str,
         "commencement_date": cand.commencement_date,
         "in_force_status": cand.in_force_status,
         # what the adapter read from the portal about this file (its language, whether it is a
-        # translation, its legal status). manifest.jsonl only: the CSV keeps the contract's columns.
+        # translation, its legal status). Written to manifest_meta.jsonl beside the manifest, never into
+        # it: the contract's row allows no other field.
         "contract_meta": getattr(cand, "contract_meta", None) or None,
         "http": {
             "status": http.status,
