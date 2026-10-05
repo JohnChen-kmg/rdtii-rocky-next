@@ -972,4 +972,5 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 /* a step's models sit in a grey tray, so the Model row reads apart from the Provider row above it */
 .subblock .picks.model-picks { background: #eef0f3; border: 1px solid #b4bec8; border-radius: 14px; padding: 9px 12px; }
 .subblock .stack-row.model-row { align-items: center; }
+.subblock .model-row .setup-label .sublabel { display: block; font-size: 13.5px; line-height: 1.3; margin-top: 2px; }
 /* === fit: end === */

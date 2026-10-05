@@ -1310,7 +1310,7 @@ function modelBlock(step) {
       <div class="subblock-head"><b><span class="letter">${step.letter}</span>${esc(step.title)}</b><span>${esc(step.sub)}</span></div>
       <div class="stack">
         <div class="stack-row"><span class="setup-label">Provider</span> <div class="picks">${provs}</div></div>
-        <div class="stack-row model-row"><span class="setup-label">Model</span> <div class="picks model-picks">${models || '<span class="muted">no model listed</span>'}</div></div>
+        <div class="stack-row model-row"><span class="setup-label">Model<span class="sublabel">US$ per million tokens: sent / written back</span></span> <div class="picks model-picks">${models || '<span class="muted">no model listed</span>'}</div></div>
         ${notes.length ? `<div class="stack-row"><span class="setup-label"></span> <div class="pick-note">${notes.map((n) => `<div>${n}</div>`).join('')}</div></div>` : ''}
       </div>
     </div>`;
