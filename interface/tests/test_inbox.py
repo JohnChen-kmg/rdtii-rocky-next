@@ -114,6 +114,7 @@ class Save(unittest.TestCase):
             self.assertEqual(by["LA"]["files"], 1)
             self.assertEqual(by["SG"]["files"], 0)
             self.assertEqual([e["code"] for e in desc["economies"]][:6], ["SG", "AU", "MY", "TL", "LA", "CN"])
+            self.assertIn("legislation.gov.au", desc["html_hosts"])              # the page names the portals whose saved pages are read
             self.assertTrue(all(e["sources"] for e in desc["economies"][:6]))      # every economy has its list
             files = inbox.list_files(Path(d) / "inbox" / "LA" / la)
             self.assertEqual([(f["name"], f["kind"], f["size"]) for f in files], [("a.pdf", "pdf", 8)])

@@ -1012,13 +1012,18 @@ function renderInbox() {
         <li>Fetch those files by hand and drop them here. They go in the economy’s <code>Hand_collected</code> folder, one dated subfolder per drop.</li>
         <li>They sit beside the crawler’s results in Output and pass down to Extraction and Mapping through the same pipeline.</li>
       </ul></div>
+    <div class="callout cn-caution"><b>Before you drop.</b>
+      <ul>
+        <li><mark><b>Use PDF or Word.</b></mark> A saved web page is read only from ${(d.html_hosts || []).length ? esc(d.html_hosts.join(', ')) : 'a few portals'}. From any other site, print the page to PDF first.</li>
+        <li><b>Unusual layouts.</b> Extraction splits a law at the headings common in that economy’s laws. A file laid out differently may not split well; check it in Extraction’s Output.</li>
+      </ul></div>
     <div class="setup-row"><div class="setup-label">Economy</div>
       <div class="econ-grid">${d.economies.map((e) => `<label class="radio big ${IB.economy === e.code ? 'on' : ''}"><input type="radio" name="ib-econ" value="${e.code}" ${IB.economy === e.code ? 'checked' : ''}> <span class="name">${esc(e.name)}</span><span class="sub">${e.files ? n(e.files) : 'empty'}</span></label>`).join('')}</div>
     </div>
     <div class="setup-row"><div class="setup-label">Files</div>
       <div>
         <label class="dropzone ${src ? '' : 'off'}" id="ib-drop"><input type="file" id="ib-files" multiple accept=".pdf,.html,.htm,.docx,.doc,.zip" ${src ? '' : 'disabled'}>
-          ${src ? `Drop PDF, Word or saved web pages here, or a .zip of them, or click to choose. Each drop is one batch, saved under <code>${esc(target)}/&lt;date_time&gt;</code>.` : 'Choose the economy first.'}</label>
+          ${src ? `Drop PDF or Word files here, or a .zip of them, or click to choose. Each drop is one batch, saved under <code>${esc(target)}/&lt;date_time&gt;</code>.` : 'Choose the economy first.'}</label>
         ${IB.log.length ? `<ul class="ib-log">${IB.log.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
       </div>
     </div>
@@ -1153,6 +1158,12 @@ function renderExtractRun() {
       ? `<div class="stack-row"><span class="setup-label">Economy</span> <span><b>${esc(econName(d.economy))}</b> (${esc(d.economy)}), from the folder name</span> <button class="btn small" id="ex-preview">Preview the manifest</button></div>`
       : `<label class="stack-row"><span class="setup-label">Economy</span> <select id="ex-econ"><option value="">choose the economy these documents belong to</option>${(EX.economies || []).map((e) => `<option value="${e.code}" ${EX.economy === e.code ? 'selected' : ''}>${esc(e.name)} (${e.code})</option>`).join('')}</select> ${EX.economy ? '<button class="btn small" id="ex-preview">Preview the manifest</button>' : ''}${det && det.suggested_economy ? `<span class="muted">${EX.economy === det.suggested_economy ? 'suggested by the text' : `the text points to ${esc(econName(det.suggested_economy))}`}</span>` : ''}</label>`;
   note.innerHTML = `
+    <div class="callout time-note"><b>How well extraction works.</b>
+      <ul>
+        <li>It splits each law at the headings common in the economy’s laws: Section 1, Article 1, Artigo 1.º, ມາດຕາ 1, 第一条.</li>
+        <li>A file laid out differently may come out as one piece, or split in the wrong places.</li>
+        <li>Output lists the documents that gave no provisions, <b>to check</b>. A wrong split is not flagged: read through an unusual file yourself.</li>
+      </ul></div>
     <div class="target"><span class="setup-label">Writes to</span> <code>${target}</code></div>
     <div class="stack">
       <label class="stack-row"><span class="setup-label">Output name</span> <input type="text" id="ex-out" size="22" value="${esc(outName)}" ${ok ? '' : 'disabled'}></label>

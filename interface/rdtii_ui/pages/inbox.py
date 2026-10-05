@@ -218,7 +218,8 @@ def describe(s: Settings) -> dict:
                      "unsorted": len(files) - sorted_n - len(hfiles),   # files of the oldest layout, filed under no folder
                      "batches": batches(folder),
                      "loose": sum(1 for p in files if len(p.relative_to(folder).parts) == 1)})
-    return {"root": rel_or_abs(s.inbox_dir, REPO), "root_path": str(s.inbox_dir), "economies": rows}
+    return {"root": rel_or_abs(s.inbox_dir, REPO), "root_path": str(s.inbox_dir), "economies": rows,
+            "html_hosts": list(extract.html_hosts(s))}       # the only portals whose saved pages the reader takes
 
 
 # ---- taking a file in ---------------------------------------------------------------------------------
