@@ -98,6 +98,24 @@ def run_times(folder_name: str, manifest: dict) -> tuple[str, str]:
     return began, _minute(max(steps)) if steps else ""
 
 
+def step_models(manifest: dict) -> dict:
+    """The model each step of a run used, by the page's step keys: {"screen", "mapper", "verifier",
+    "escalation"} -> model id. Read from the manifest's engine.roles; the quick screen is the model its own
+    step recorded, else the re-check's (the stage gives both the same role). Empty when nothing is recorded."""
+    manifest = manifest if isinstance(manifest, dict) else {}
+    roles = (manifest.get("engine") or {}).get("roles") or {}
+
+    def model(role: str) -> str:
+        r = roles.get(role)
+        return str((r.get("model") if isinstance(r, dict) else r) or "")
+
+    out = {k: model(k) for k in ("mapper", "verifier", "escalation")}
+    screened = [str(e.get("model")) for e in (manifest.get("entries") or [])
+                if isinstance(e, dict) and str(e.get("stage") or "").startswith("triage") and e.get("model")]
+    out["screen"] = screened[-1] if screened else out["verifier"]
+    return out if any(out.values()) else {}
+
+
 def run_state(folder: Path, has_rows: bool, jobs=None) -> str:
     """How a mapping run stands: running, stopped (Stop was pressed in this session), complete (it wrote
     its rows) or not complete (it ended before it did). Read only; nothing is written when a run stops, so a
@@ -135,6 +153,7 @@ def _describe_run(run_id: str, name: str, arms: list[Path], kind: str, folder: P
         "arms": [a.name for a in arms], "arm_paths": [str(a) for a in arms],
         "economies": sorted(economies), "rows": total,
         "engine": readers.manifest_engine_label(manifest),
+        "models": step_models(manifest),          # the model of each step, not only the careful reading's
         "created": manifest.get("created"), "run_id": manifest.get("run_id"),
         "cost_usd": readers.manifest_cost(manifest) if manifest else None,
         "git": (manifest.get("git") or {}).get("commit"),
@@ -178,6 +197,7 @@ def list_unfinished(s: Settings, jobs=None) -> list[dict]:
                     "selectable": False, "made_here": True, "run_state": run_state(d, False, jobs),
                     "arms": [a.name for a in arms], "arm_paths": [str(a) for a in arms] or [str(d)], "dir": str(d),
                     "economies": [], "rows": 0, "engine": readers.manifest_engine_label(manifest) if manifest else "",
+                    "models": step_models(manifest),
                     "cost_usd": readers.manifest_cost(manifest) if manifest else None,
                     **(_run_note(arms[0]) if arms else {"note": "", "noted": ""})})
     return out

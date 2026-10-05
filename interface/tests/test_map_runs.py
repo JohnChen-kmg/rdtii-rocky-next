@@ -42,6 +42,25 @@ class Times(unittest.TestCase):
         self.assertEqual(mapping.run_times("20269999-9999_A", {"created": "soon", "entries": [{"stage": "ingest"}, "x"]}), ("", ""))
 
 
+class Models(unittest.TestCase):
+    def test_a_run_names_the_model_of_each_step(self):
+        manifest = json.loads((INTERFACE / "fixtures" / "run_manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(mapping.step_models(manifest), {"mapper": "claude-sonnet-5", "verifier": "claude-haiku-4-5",
+                                                         "escalation": "claude-opus-4-8", "screen": "claude-haiku-4-5"})
+        fixture = mapping.list_runs(settings_mod.load({}))[0]
+        self.assertEqual(fixture["models"]["mapper"], "claude-sonnet-5")
+        self.assertEqual(fixture["models"]["escalation"], "claude-opus-4-8")
+
+    def test_the_quick_screen_is_the_model_its_own_step_recorded(self):
+        manifest = {"engine": {"roles": {"mapper": "kimi-k3", "verifier": {"model": "kimi-k2.6"}, "escalation": {"model": "kimi-k3"}}},
+                    "entries": [{"stage": "triage_haiku", "model": "deepseek-flash"}, {"stage": "verify"}]}
+        self.assertEqual(mapping.step_models(manifest), {"mapper": "kimi-k3", "verifier": "kimi-k2.6", "escalation": "kimi-k3", "screen": "deepseek-flash"})
+
+    def test_nothing_recorded_gives_nothing(self):
+        for manifest in ({}, {"engine": {}}, {"engine": {"roles": {}}, "entries": []}, None):
+            self.assertEqual(mapping.step_models(manifest), {})
+
+
 class State(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()

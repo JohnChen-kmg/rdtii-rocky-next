@@ -382,25 +382,32 @@ function renderRunRow() {
   const made = (r) => (r.made_here != null ? !!r.made_here : r.id.startsWith('outputs/map/'));
   const kind = (r) => r.kind === 'fixture' ? 'fixture' : r.kind === 'frozen' ? 'filed submission' : made(r) ? 'interface run' : 'OUT_DIR';
   const runDir = (r) => r.dir || r.arm_paths[0].replace(/[\\/]out[^\\/]*$/, '');
-  const buttons = (r) => (r.selectable !== false ? `<button class="btn small ${r.id === S.run ? 'primary' : ''}" data-run="${esc(r.id)}">${r.id === S.run ? 'Examining' : 'Examine'}</button> ` : '')
-    + `<button class="btn small" data-open="${esc(r.arm_paths[0])}">Open folder</button>`
+  const buttons = (r) => `<button class="btn small" data-open="${esc(r.arm_paths[0])}">Open folder</button>`
     + (made(r) ? ` <button class="btn small" data-clear="${esc(runDir(r))}" data-what="this run folder and its rows">Clear run</button>` : '');
-  const line = (r) => `<tr class="${r.id === S.run ? 'picked' : ''}"><td class="small began">${whenCell(r.began)}</td><td class="small began">${whenCell(r.last_run)}</td>
+  // a model by its name: the three of the finale and Qwen by heart, any other from the stage's list
+  const modelName = (id) => { if (MODEL_NAMES[id]) return MODEL_NAMES[id]; for (const e of engineList()) { const m = modelOf(e, id); if (m) return `${e.model_prefix || ''}${m.label}`; } return id; };
+  // the provider of a run's models, in one line: one name when one engine did every step. The model of each step is in the Record
+  const providerOf = (id) => { const e = engineList().find((x) => (x.models || []).some((m) => m.id === id)); return e ? e.name : modelName(id); };
+  const runEngine = (r) => (r.models && Object.keys(r.models).length ? esc([...new Set(MODEL_STEPS.map((s) => r.models[s.key]).filter(Boolean).map(providerOf))].join(', '))
+    : r.engine ? esc(engineText(r.engine)) : '<span class="muted">–</span>');
+  const can = (r) => r.selectable !== false;   // a run with rows; a folder listed as unfinished has none to examine
+  const line = (r) => `<tr class="${r.id === S.run ? 'picked' : ''} ${can(r) ? 'can' : ''}" ${can(r) ? `data-run="${esc(r.id)}" title="Click to examine this run"` : ''}><td class="small began">${whenCell(r.began)}</td><td class="small began">${whenCell(r.last_run)}</td>
       <td class="folder" title="${esc(r.arm_paths[0])}">${esc(r.id)}${carried(r)}</td><td class="small">${kind(r)}</td><td class="small state">${stateChip(r, TIPS)}</td>
-      <td class="small">${esc(r.economies.join(', ')) || '<span class="muted">–</span>'}</td><td class="num">${r.rows}</td><td class="small">${r.engine ? esc(engineText(r.engine)) : '<span class="muted">–</span>'}</td>
+      <td class="small">${esc(r.economies.join(', ')) || '<span class="muted">–</span>'}</td><td class="num">${r.rows}</td><td class="small">${runEngine(r)}</td>
       <td class="num">${r.cost_usd ? `$${Number(r.cost_usd).toFixed(2)}` : '<span class="muted">–</span>'}</td><td class="small">${buttons(r)}</td></tr>`;
   const listed = [...S.runs, ...(S.unfinished || [])].sort((a, b) => (made(b) - made(a)) || (made(a) ? String(b.name).localeCompare(String(a.name)) : 0));
   $('#map-run-row').innerHTML = `<div class="run-list">
       <div class="table-wrap short"><table class="rows"><thead><tr><th>Began</th><th>Last run</th><th>Folder</th><th>Kind</th><th>Status</th><th>Economies</th><th>Rows</th><th>Engine</th><th>Cost</th><th></th></tr></thead><tbody>
         ${listed.map(line).join('')}</tbody></table></div>
-      <p class="muted small"><b>Examine</b> picks the run whose rows are listed, reviewed and exported below. <b>Began</b> is when Start was pressed, read from the folder’s name (for the fixture, from its run manifest). <b>Last run</b> is the latest step the stage recorded. <b>Status</b>: complete once the run wrote its rows; running; stopped; or not complete. <b>Cost</b> is the run manifest’s own figure.</p>
+      <p class="muted small"><b>Click a run</b> to examine it: its record, then its rows to review and export, follow below. <b>Began</b> is when Start was pressed, read from the folder’s name (for the fixture, from its run manifest). <b>Last run</b> is the latest step the stage recorded. <b>Status</b>: complete once the run wrote its rows; running; stopped; or not complete. <b>Engine</b> is the provider of the run’s models; the Record names the model of each step. <b>Cost</b> is the run manifest’s own figure.</p>
     </div>
     <div>
       ${cur && cur.kind === 'frozen' ? '<div class="muted small">Filed rows, read-only: review decisions are refused here.</div>' : ''}
       ${cur ? `<div class="record"><b class="record-title">Record</b><ul class="note-list">
         <li><b>What this is</b>: ${esc(cur.kind === 'fixture' ? 'a fixture slice of run_2026-09-27, shipped with the interface so the review screen works on a clean clone' : cur.kind === 'frozen' ? 'the filed rows of the submission, read-only' : 'the output of a run from this interface')}.</li>
         ${cur.note ? `<li><b>Run note</b>: ${esc(cur.note)}${cur.noted ? ` <span class="muted">(${esc(cur.noted)})</span>` : ''}</li>` : ''}
-        ${cur.engine ? `<li><b>Engine</b>: ${esc(engineText(cur.engine))}.</li>` : ''}
+        ${cur.models && Object.keys(cur.models).length ? `<li><b>Models</b>: ${MODEL_STEPS.filter((s) => cur.models[s.key]).map((s) => `${esc(s.title.toLowerCase())} ${esc(modelName(cur.models[s.key]))}`).join(', ')}.</li>`
+          : cur.engine ? `<li><b>Engine</b>: ${esc(engineText(cur.engine))}.</li>` : ''}
         ${cur.cost_usd != null ? `<li><b>Recorded cost</b>: $${esc(Number(cur.cost_usd).toFixed(2))}, from the run manifest.</li>` : ''}
         ${cur.arms.length > 1 ? `<li><b>Arms</b>: ${cur.arms.length}, ${esc(cur.arms.join(', '))}; the rows of both are listed.</li>` : ''}
         ${cur.git ? `<li><b>Stage commit</b>: <code>${esc(cur.git.slice(0, 10))}</code>, the mapping stage that produced it.</li>` : ''}
@@ -409,9 +416,9 @@ function renderRunRow() {
     </div>`;
   bindClear('#map-run-row', () => { S.run = null; loadRuns(); });
   bindOpen('#map-run-row');
-  $('#map-run-row').querySelectorAll('button[data-run]').forEach((b) => b.addEventListener('click', () => {
-    if (b.dataset.run === S.run) return;
-    S.run = b.dataset.run; S.sel = null; $('#map-detail').innerHTML = ''; loadRows(); renderRunRow();
+  $('#map-run-row').querySelectorAll('tr[data-run]').forEach((tr) => tr.addEventListener('click', (e) => {
+    if (e.target.closest('button, a') || tr.dataset.run === S.run) return;   // a button in the row does its own thing
+    S.run = tr.dataset.run; S.sel = null; $('#map-detail').innerHTML = ''; loadRows(); renderRunRow();
   }));
 }
 

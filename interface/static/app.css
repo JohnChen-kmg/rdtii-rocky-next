@@ -993,4 +993,9 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 #map-run-row tr.picked td, #map-run-row tr.picked td:last-child { background: #eaf4fc; }
 #map-run-row tr.picked td.folder { font-weight: 700; color: var(--un-blue-deep); }
 #map-run-row .btn.small.primary { background: var(--un-blue); color: #fff; border-color: var(--un-blue); cursor: default; }
+#map-run-row td.models div { white-space: nowrap; line-height: 1.45; } #map-run-row td.models b { display: inline-block; min-width: 16px; color: var(--un-blue-deep); }
+/* a run is examined by a click on its row */
+#map-run-row tr.can { cursor: pointer; }
+#map-run-row tr.can:not(.picked):hover td { background: #f4f9fd; }
+#map-run-row tr.picked td:first-child { box-shadow: inset 4px 0 0 var(--un-blue); }
 /* === fit: end === */
