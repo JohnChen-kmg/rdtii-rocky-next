@@ -27,6 +27,7 @@
 <nav class="side" id="tabs">
   <div class="navgroup">
     <button data-tab="overview" class="active"><span class="label">Overview</span></button>
+    <div class="outline" data-for="overview"></div>
   </div>
   <div class="navgroup">
     <button data-tab="scrape"><span class="stage">Stage 1</span><span class="label">Scraping</span></button>
@@ -45,18 +46,18 @@
 </nav>
 <main>
   <section id="tab-overview" class="tab guide">
+    <div class="guide-head" id="ov-intro" data-outline="Introduction"><span class="col-title">Introduction</span></div>
     <div class="guide-intro">
       <p class="lead"><b>RDTII Rocky</b> collects an economy’s laws from its official portals <span class="stage-ref" data-go="scrape">(Stage 1 Scraping)</span>, splits them into numbered provisions <span class="stage-ref" data-go="extract">(Stage 2 Extraction)</span>, and maps each provision to the RDTII indicators <span class="stage-ref" data-go="map">(Stage 3 Mapping)</span>, with the quote, the score and a review by a person.</p>
       <p class="on-page">On this page:</p>
       <ul>
-        <li><a href="#ov-map">Workflow map</a>: the four stages, each with an example from Singapore.</li>
-        <li><a href="#ov-instrument">The instrument</a>: how the RDTII rules become a rulebook per indicator.</li>
+        <li><a href="#ov-map">Workflow map</a>: the four stages, each with an example from Singapore, and the instrument, the rulebook the mapping reads.</li>
         <li><a href="#ov-cost">Cost report</a>: what our finale run cost, and an estimate across models.</li>
         <li><a href="#ov-start">Before you start</a>: what must be ready.</li>
       </ul>
     </div>
 
-    <div class="guide-head" id="ov-map"><span class="col-title">Workflow Map</span></div>
+    <div class="guide-head" id="ov-map" data-outline="Workflow map"><span class="col-title">Workflow Map</span></div>
 
     <div class="guide-row">
       <div class="block node">
@@ -216,8 +217,7 @@
       <p><sup>2</sup> The language follows the economy. Scanned pages are recognised first, then read like the rest.</p>
     </div>
 
-    <div class="guide-head below" id="ov-instrument"><span class="col-title">The instrument</span></div>
-    <div class="block node instrument grey">
+    <div class="block node instrument grey" id="ov-instrument">
         <h2><span class="step">§</span>The RDTII rules as a rulebook</h2>
         <div class="io">
           <span class="io-box">RDTII 2.1 methodology<small>12 pillars, 61 indicators, the Guide’s pages</small></span>
@@ -240,7 +240,7 @@ Trap       a ban with a compliant transfer path is 6.4,
     </div>
 
 
-    <div class="guide-head below" id="ov-cost"><span class="col-title">Cost report</span></div>
+    <div class="guide-head below" id="ov-cost" data-outline="Cost report"><span class="col-title">Cost report</span></div>
     <div class="block node cost grey">
       <h2><span class="step">$</span>What the runs cost, and what a run would cost</h2>
       <p>Claude, from the run’s own ledger (<code>submission/reports/cost_ledger.json</code>). Qwen, local, is <b>$0</b> at every size.</p>
@@ -261,7 +261,7 @@ Trap       a ban with a compliant transfer path is 6.4,
       </ul>
     </div>
 
-    <div class="block grey" id="ov-start">
+    <div class="block grey" id="ov-start" data-outline="Before you start">
       <h2>Before you start</h2>
       <ul>
         <li>The <b>health dots</b> in the header: Ollama, Tesseract, Chromium, Key, Stages. Green means ready.</li>

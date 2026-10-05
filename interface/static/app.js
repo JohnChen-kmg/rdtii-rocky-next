@@ -67,7 +67,19 @@ function bindOverview() {
 /* ---------- the sidebar outline: the active page's blocks, click to jump ---------- */
 function renderOutline(tab) {
   document.querySelectorAll('#tabs .outline').forEach((o) => { o.innerHTML = ''; });
-  if (tab === 'overview') return;             // the Overview has no outline in the sidebar
+  if (tab === 'overview') {                    // the Overview lists its sections, not its blocks: Introduction, Workflow map, Cost report, Before you start
+    const list = document.querySelector('#tabs .outline[data-for="overview"]');
+    const marks = [...document.querySelectorAll('#tab-overview [data-outline]')];
+    if (!list) return;
+    list.innerHTML = marks.map((m, i) => `<button class="jump" data-mark="${i}">${esc(m.dataset.outline)}</button>`).join('');
+    list.querySelectorAll('button.jump').forEach((btn) => btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const m = marks[Number(btn.dataset.mark)]; if (!m) return;
+      const top = m.getBoundingClientRect().top + window.scrollY - (($('#topfix') || {}).offsetHeight || 92) - 10;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }));
+    return;
+  }
   const page = tab === 'cn' ? 'scrape' : tab;   // the China page has no outline of its own; Scraping's stays open above it
   const host = document.querySelector(`#tabs .outline[data-for="${page}"]`);
   const section = $(`#tab-${page}`);

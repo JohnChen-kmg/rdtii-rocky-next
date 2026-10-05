@@ -701,4 +701,7 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .guide-intro a { color: var(--un-blue); font-weight: 700; text-decoration: none; }
 .guide .guide-intro a:hover { text-decoration: underline; }
 #ov-map, #ov-instrument, #ov-cost, #ov-start { scroll-margin-top: 96px; }
+/* the instrument is part of the workflow map now: it follows the footnotes with no title of its own */
+.guide .block.instrument { margin-top: 24px; }
+#ov-intro { scroll-margin-top: 96px; }
 /* === fit: end === */
