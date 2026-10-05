@@ -908,4 +908,10 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .block.cost > p.caution mark { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 /* the label over the rulebook's nine elements: bolder to the eye (darker) and a little larger */
 .guide .rb-label { font-size: 19px; font-weight: 800; color: var(--ink); margin: 6px 20px 8px; }
+/* the run note is a box to write in: as wide as the note fold under it, three lines high, taller on a drag */
+.stack-row.note-row { grid-template-columns: 140px minmax(0, 1fr); align-items: start; width: 100%; max-width: 1000px; }
+.stack-row.note-row .setup-label { padding-top: 10px; }
+.note-cell { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.note-cell .muted { font-size: 15px; }
+textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px; padding: 10px 14px; line-height: 1.5; resize: vertical; }
 /* === fit: end === */
