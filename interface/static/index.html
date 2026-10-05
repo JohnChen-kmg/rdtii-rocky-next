@@ -304,31 +304,28 @@
           <summary>Example: Singapore <span class="fold"></span></summary>
           <div class="example-card">
         <div class="io-part in"><span class="io-tag">Input</span>
-<pre class="tree">Personal Data Protection Act 2012, s.26(1)
-  “An organisation must not transfer any personal data to a country
-   or territory outside Singapore except in accordance with
-   requirements prescribed…”
-Candidate indicators: 6.1, a ban on transfers; 6.4, a conditional rule</pre></div>
+          <div class="ex-pair">
+            <span class="ex-k">Provision</span><span class="ex-v"><b>Personal Data Protection Act 2012, s.26(1)</b><br>“An organisation must not transfer any personal data to a country or territory outside Singapore except in accordance with requirements prescribed…”</span>
+            <span class="ex-k">Indicator</span><span class="ex-v"><b>6.4</b> Conditional flow regimes</span>
+          </div></div>
+        <div class="ex-steps">
+          <div class="ex-step"><span class="letter">A</span><b>Candidate selection</b><span>Similarity score <b>0.76</b>. The threshold of 6.4 is 0.61, so it goes forward.</span></div>
+          <div class="ex-step skip"><span class="letter">B</span><b>Quick screen</b><span>Skipped: a score of 0.65 or more goes straight to the reading.</span></div>
+          <div class="ex-step"><span class="letter">C</span><b>Careful reading</b><span><b>Applies, score 1.</b> A way to transfer exists, so it is a conditional regime (not a 6.1 ban).</span></div>
+          <div class="ex-step"><span class="letter">D</span><b>Re-check</b><span>The second model gives the same answer: <b>verified</b>.</span></div>
+          <div class="ex-step skip"><span class="letter">E</span><b>Tie-break</b><span>Not needed: the two agree.</span></div>
+        </div>
         <div class="io-part out"><span class="io-tag">Output</span>
-        <p class="summary"><b>6.4 applies, score 1</b>, with the quote: a conditional transfer rule. <b>6.1 does not</b>: a way to transfer exists. The second model agrees. The row is KNOWN, already in the Round 1 baseline, and feeds Singapore’s 6.4.</p></div>
-        <details class="subfold light">
-          <summary>Step by step <span class="fold"></span></summary>
-        <ul class="steps">
-          <li><b>select</b> by meaning, a candidate for 6.1, a ban on transfers, and 6.4, a conditional rule</li>
-          <li><b>read</b>
-            <div class="chat">
-              <div class="msg user"><span class="who">we send</span>PROVISION sg-pdpa2012-001 s.26(1) · SG · Personal Data Protection Act 2012. TEXT: “An organisation must not transfer any personal data to a country or territory outside Singapore except in accordance with requirements prescribed…” CANDIDATES 6.1, 6.2, 6.4, 7.1, 7.3, 7.4.</div>
-              <div class="msg model"><span class="who">reading model · Claude Sonnet 5</span><b>6.1</b> no: a compliant transfer path exists, not a ban. <b>6.4</b> yes, horizontal, score 1, confidence 0.95, quote “must not transfer any personal data … except in accordance with requirements prescribed”. <b>7.1</b> yes, score 0: a framework exists.</div>
-            </div></li>
-          <li><b>re-check</b>
-            <div class="chat">
-              <div class="msg user"><span class="who">we send</span>The same provision. Does it constitute evidence for 6.4 under its scoring tree?</div>
-              <div class="msg model"><span class="who">second model · Claude Haiku 4.5</span>Applies, score 1, confidence 0.95: a conditional regime on cross-border transfer. Same as the first: <b>agree</b>.</div>
-            </div></li>
-          <li><b>tag</b> KNOWN: the Round 1 baseline already cites PDPA s.26 for 6.4</li>
-          <li><b>score</b> the row feeds Singapore’s 6.4</li>
-        </ul>
-        </details>
+          <div class="fake-row">
+            <span class="cell"><small>Economy</small>Singapore</span>
+            <span class="cell mid"><small>Law</small>Personal Data Protection Act 2012</span>
+            <span class="cell"><small>Provision</small>s.26(1)</span>
+            <span class="cell"><small>Indicator</small>6.4</span>
+            <span class="cell wide"><small>Quote</small>“must not transfer any personal data … except in accordance with requirements prescribed”</span>
+            <span class="cell"><small>Score</small>1</span>
+            <span class="cell"><small>Tag</small>KNOWN</span>
+          </div>
+          <p class="summary">One evidence row. With the other verified rows it gives Singapore’s 6.4: <b>1</b>.</p></div>
           </div>
         </details>
       </div>

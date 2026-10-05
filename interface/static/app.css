@@ -811,4 +811,17 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 /* each step's first line: what it is for in bold, the tool it needs highlighted */
 .guide .sb-body > p b { color: var(--un-blue-deep); }
 .guide .sb-body > p mark { background: #fff1b8; color: #4a3600; font-weight: 700; border-radius: 6px; padding: 1px 7px; }
+/* the Mapping example: one provision, one indicator, and what each step did with them */
+.guide .ex-pair { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 8px 12px; font-size: 16.5px; line-height: 1.45; }
+.guide .ex-pair .ex-k { font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #8f2620; padding-top: 3px; }
+.guide .ex-steps { display: grid; gap: 7px; margin: 2px 4px 14px; }
+.guide .ex-step { display: grid; grid-template-columns: 32px 170px minmax(0, 1fr); align-items: baseline; gap: 4px 10px; font-size: 16.5px; line-height: 1.45; }
+.guide .ex-step .letter { display: inline-block; width: 28px; height: 28px; line-height: 28px; border-radius: 14px; background: var(--un-blue); color: #fff; font-size: 15px; font-weight: 800; text-align: center; }
+.guide .ex-step > b { color: var(--un-blue-deep); }
+.guide .ex-step.skip { opacity: .6; } .guide .ex-step.skip .letter { background: #8a97a5; }
+.guide .io-part.out .fake-row { border: 0; padding: 0; margin: 0 0 10px; max-width: none; }
+.guide .io-part.out .fake-row .cell { background: transparent; border-color: #2a9455; color: #14532d; }
+.guide .io-part.out .fake-row .cell small { color: #3f6b4f; }
+.guide .io-part.out .fake-row .cell.mid { white-space: normal; }
+@media (max-width: 1150px) { .guide .ex-step { grid-template-columns: 32px minmax(0, 1fr); } .guide .ex-step > span:last-child { grid-column: 2; } }
 /* === fit: end === */
