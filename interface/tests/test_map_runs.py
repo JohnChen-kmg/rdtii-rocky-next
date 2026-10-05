@@ -131,5 +131,21 @@ class Listed(unittest.TestCase):
         self.assertEqual((runs[0]["began"], runs[0]["run_state"], runs[0]["made_here"]), ("2026-09-27 04:33", "complete", False))
 
 
+class RecordedCost(unittest.TestCase):
+    """A recorded zero is a figure; nothing recorded is not."""
+
+    def test_a_local_run_shows_its_zero_and_an_empty_manifest_shows_none(self):
+        self.assertEqual(mapping.recorded_cost({"entries": [{"stage": "map", "cost_usd": 0.0}, {"stage": "rollup", "cost_usd": 0}]}), 0.0)
+        self.assertEqual(mapping.recorded_cost({"entries": [{"stage": "map", "cost_usd": 1.25}, {"stage": "select"}]}), 1.25)
+        self.assertIsNone(mapping.recorded_cost({"entries": []}))
+        self.assertIsNone(mapping.recorded_cost({"entries": [{"stage": "select"}]}))
+        self.assertIsNone(mapping.recorded_cost({}))
+        self.assertIsNone(mapping.recorded_cost(None))
+
+    def test_the_run_table_draws_a_recorded_zero(self):
+        js = (Path(__file__).resolve().parents[1] / "static" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("r.cost_usd != null ? `$${Number(r.cost_usd).toFixed(2)}`", js)
+
+
 if __name__ == "__main__":
     unittest.main()

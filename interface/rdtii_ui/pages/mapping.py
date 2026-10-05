@@ -116,6 +116,14 @@ def step_models(manifest: dict) -> dict:
     return out if any(out.values()) else {}
 
 
+def recorded_cost(manifest):
+    """The run manifest's own total, or None when no step recorded a cost: a recorded $0.00 (a run on the
+    local model) is a figure, an empty manifest (a run stopped before its first step) is not."""
+    if not manifest or not any(e.get("cost_usd") is not None for e in manifest.get("entries", [])):
+        return None
+    return readers.manifest_cost(manifest)
+
+
 def run_state(folder: Path, has_rows: bool, jobs=None) -> str:
     """How a mapping run stands: running, stopped (Stop was pressed in this session), complete (it wrote
     its rows) or not complete (it ended before it did). Read only; nothing is written when a run stops, so a
@@ -155,7 +163,7 @@ def _describe_run(run_id: str, name: str, arms: list[Path], kind: str, folder: P
         "engine": readers.manifest_engine_label(manifest),
         "models": step_models(manifest),          # the model of each step, not only the careful reading's
         "created": manifest.get("created"), "run_id": manifest.get("run_id"),
-        "cost_usd": readers.manifest_cost(manifest) if manifest else None,
+        "cost_usd": recorded_cost(manifest),
         "git": (manifest.get("git") or {}).get("commit"),
         **(_run_note(arms[0]) if arms else {"note": "", "noted": ""}),       # the line written at Start
     }
@@ -198,7 +206,7 @@ def list_unfinished(s: Settings, jobs=None) -> list[dict]:
                     "arms": [a.name for a in arms], "arm_paths": [str(a) for a in arms] or [str(d)], "dir": str(d),
                     "economies": [], "rows": 0, "engine": readers.manifest_engine_label(manifest) if manifest else "",
                     "models": step_models(manifest),
-                    "cost_usd": readers.manifest_cost(manifest) if manifest else None,
+                    "cost_usd": recorded_cost(manifest),
                     **(_run_note(arms[0]) if arms else {"note": "", "noted": ""})})
     return out
 

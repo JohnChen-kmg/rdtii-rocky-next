@@ -390,7 +390,7 @@ function renderRunRow() {
   const line = (r) => `<tr class="${r.id === S.run ? 'picked' : ''} ${can(r) ? 'can' : ''}" ${can(r) ? `data-run="${esc(r.id)}" title="Click to examine this run"` : ''}><td class="small began">${whenCell(r.began)}</td><td class="small began">${whenCell(r.last_run)}</td>
       <td class="folder" title="${esc(r.arm_paths[0])}">${esc(r.id)}${carried(r)}</td><td class="small">${kind(r)}</td><td class="small state">${stateChip(r, TIPS)}</td>
       <td class="small">${esc(r.economies.join(', ')) || '<span class="muted">–</span>'}</td><td class="num">${r.rows}</td>
-      <td class="num">${r.cost_usd ? `$${Number(r.cost_usd).toFixed(2)}` : '<span class="muted">–</span>'}</td><td class="small">${buttons(r)}</td></tr>`;
+      <td class="num">${r.cost_usd != null ? `$${Number(r.cost_usd).toFixed(2)}` : '<span class="muted">–</span>'}</td><td class="small">${buttons(r)}</td></tr>`;
   const listed = [...S.runs, ...(S.unfinished || [])].sort((a, b) => (made(b) - made(a)) || (made(a) ? String(b.name).localeCompare(String(a.name)) : 0));
   $('#map-run-row').innerHTML = `<div class="run-list">
       <div class="table-wrap short"><table class="rows"><thead><tr><th>Began</th><th>Last run</th><th>Folder</th><th>Kind</th><th>Status</th><th>Economies</th><th>Rows</th><th>Cost</th><th></th></tr></thead><tbody>
