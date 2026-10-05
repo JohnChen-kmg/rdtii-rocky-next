@@ -775,4 +775,15 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide details.subfold.grey .example-inside { background: #eef1f4; border: 2.5px solid #6b7a89; }
 .guide details.subfold.grey .example-inside .rb-rows .k, .guide details.subfold.grey .example-inside .mini-io span { background: #fff; }
 .guide .fake-row { margin-bottom: 18px; }
+/* "Mapping, step by step": one sub-block per step, as on the Mapping page, each with its chat window */
+.guide details.subfold > .subblock { margin: 12px 16px 14px; max-width: none; }
+.guide details.subfold > p.models { margin: 12px 20px 4px; font-size: 16.5px; line-height: 1.5; }
+.guide .sb-body { padding: 12px 18px 12px; }
+.guide .sb-body > p { margin: 0 0 6px; font-size: 17.5px; line-height: 1.5; }
+.guide .sb-body ul { margin: 8px 0 6px; padding-left: 24px; font-size: 16.5px; line-height: 1.5; }
+.guide .sb-body ul li { margin: 6px 0; }
+.guide .sb-body .chat { margin: 8px 0 8px; }
+.guide .sb-body > details.subfold { margin: 10px 0 4px; }
+.guide .sb-body > details.subfold > summary { font-size: 16px; padding: 8px 14px; }
+.guide .sb-body > details.subfold > .dist { padding: 10px 14px 12px; }
 /* === fit: end === */
