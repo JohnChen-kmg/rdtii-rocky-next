@@ -1751,10 +1751,10 @@ async function loadChina() {
 function cnCaution(withLink) {
   return `<div class="callout cn-caution"><b>A personal note from the developer on China.</b>
     <ul>
-      <li>Its national database forbids automated tools in its robots.txt, and several ministries refuse an automated client.</li>
+      ${withLink ? '<li>Its national database forbids automated tools in its robots.txt, and several ministries refuse an automated client.</li>' : ''}
       <li><mark><b>One reason for the caution is my own personal concern:</b> as the developer I carry the risk of crawling where a host says no, so I treat those signals as limits, not obstacles to route around.</mark></li>
-      <li>Collecting the main files by hand is quick: the national database comes as eleven archives, 945 documents, about five minutes.</li>
-      <li>Automation can follow wherever a host lifts its ban or grants access; the China tools already read the publishers that permit us.${withLink ? ' See <a href="#" class="goto-cn">Scraping › China</a>.' : ''}</li>
+      ${withLink ? '<li>Collecting the main files by hand is quick: the national database comes as eleven archives, 945 documents, about five minutes.</li>' : ''}
+      <li>Automation can follow wherever a host lifts its ban or grants access${withLink ? '; the China tools already read the publishers that permit us. See <a href="#" class="goto-cn">Scraping › China</a>.' : '.'}</li>
     </ul></div>`;
 }
 
@@ -1782,47 +1782,44 @@ function renderChina() {
 
     <div class="block">
       <h2>Layer 1: the national database</h2>
-      <div class="callout"><b>Quick to get:</b> ${esc(npc.index_rows || 945)} documents in eleven archives, about five minutes by hand.</div>
       <ul class="plain-list big">
-        <li>Consolidated and current; every file name carries its version date.</li>
-        <li>Alone it answers 18 of 61 indicators and all of pillar 7.</li>
-        <li><b>Check:</b> download a fresh export into ${inboxLink('npc-database')}, run the offline diff, extract and map the changes.</li>
+        <li><b>Quick to get:</b> ${esc(npc.index_rows || 945)} documents in eleven archives, about five minutes by hand.</li>
+        <li><b>Covers:</b> 18 of 61 indicators and all of pillar 7. Consolidated and current.</li>
+        <li><b>Check:</b> download a fresh export into ${inboxLink('npc-database')}, then run the offline diff.</li>
       </ul>
     </div>
 
     <div class="block">
       <h2>Layer 2: what the laws delegate to</h2>
       <ul class="plain-list big">
-        <li><b>Why:</b> a law states the rule; the number sits in a catalogue published elsewhere. Five of five test documents confirmed it.</li>
-        <li><b>CAC:</b> the operative rules of pillars 6 and 7. Permits crawling, so its rules index was taken whole.</li>
-        <li><b>MIIT:</b> the telecom catalogue and licensing. <b>Customs:</b> the e-commerce thresholds. Both by hand.</li>
-        <li>Twelve more publishers set aside, not deleted; 31 indicators still served.</li>
-        <li><b>Check:</b> the update tool re-reads CAC and gov.cn (run it from 1 Scraping with China ticked); the worklist tool lists each MIIT and Customs page to open. Save the attachments into ${inboxLink('miit')} or ${inboxLink('customs')}.</li>
+        <li><b>Why:</b> a law states the rule; the number sits in a catalogue published elsewhere.</li>
+        <li><b>Set aside:</b> twelve more publishers, not deleted; 31 indicators are still served.</li>
+        <li><b>Check:</b> run the update tool from 1 Scraping with China ticked (CAC, gov.cn). For MIIT and Customs, save the attachments into ${inboxLink('miit')} or ${inboxLink('customs')}.</li>
       </ul>
       <div class="table-wrap short"><table class="rows"><thead><tr><th>Source</th><th>Mode</th><th>Held</th><th>What</th></tr></thead><tbody>
-        <tr><td>CAC 国家互联网信息办公室</td><td><span class="chip ok">crawled</span></td><td class="num">${cac.provenance_rows || ws.manifest_rows || ''}</td><td>Whole rules index; 42 of its 68 tier-2 rules were missing from the hand list.</td></tr>
-        <tr><td>MIIT 工业和信息化部</td><td><span class="chip warn">by hand</span></td><td class="num">${miit.provenance_rows || ''}</td><td>Service catalogue, licensing, 2024 equity pilot, domain rules.</td></tr>
-        <tr><td>Customs 海关总署</td><td><span class="chip warn">by hand</span></td><td class="num">${customs.provenance_rows || 0}</td><td>E-commerce supervision modes and lists.</td></tr>
+        <tr><td>CAC 国家互联网信息办公室</td><td><span class="chip ok">crawled</span></td><td class="num">${cac.provenance_rows || ws.manifest_rows || ''}</td><td>Operative rules of pillars 6 and 7. Whole index: 42 of its 68 tier-2 rules were not on the hand list.</td></tr>
+        <tr><td>MIIT 工业和信息化部</td><td><span class="chip warn">by hand</span></td><td class="num">${miit.provenance_rows || ''}</td><td>Telecom service catalogue, licensing, 2024 equity pilot, domain rules.</td></tr>
+        <tr><td>Customs 海关总署</td><td><span class="chip warn">by hand</span></td><td class="num">${customs.provenance_rows || 0}</td><td>E-commerce thresholds, supervision modes and lists.</td></tr>
         <tr><td>gov.cn 中国政府网</td><td><span class="chip ok">crawled</span></td><td class="num">${govcn.provenance_rows || 6}</td><td>Permitted copies, including the third cross-border transfer route.</td></tr>
       </tbody></table></div>
     </div>
 
-    <div class="block">
-      <h2>Sources to check by hand <span class="muted small">(${d.watchlist_total})</span></h2>
+    <details class="block">
+      <summary><h2>Sources to check by hand <span class="muted small">(${d.watchlist_total})</span> <span class="fold"></span></h2></summary>
       ${d.watchlist.map((g) => `<details class="wl"><summary>${esc(g.label)} <span class="muted small">(${g.rows.length})</span></summary>
         <div class="table-wrap short"><table class="rows"><thead><tr><th>Source</th><th>Why not automatic</th><th>What to look for</th><th>Indicators</th></tr></thead><tbody>
         ${g.rows.map((w) => `<tr><td><a href="${esc(w.url)}" target="_blank" rel="noopener">${esc(w.name)}</a></td><td class="small">${esc(String(w.why_not_automatic || '').replace(/\\*\\*/g, ''))}</td><td class="small">${esc(w.what_to_look_for)}</td><td class="small">${esc(w.indicators)}</td></tr>`).join('')}
         </tbody></table></div></details>`).join('')}
-    </div>
+    </details>
 
-    <div class="block">
-      <h2>What ships</h2>
+    <details class="block">
+      <summary><h2>What ships <span class="fold"></span></h2></summary>
       <div class="table-wrap short"><table class="rows"><thead><tr><th>Folder</th><th>Holds</th><th>Notes</th></tr></thead><tbody>
         ${d.folders.map((f) => `<tr><td class="small">${esc(f.name)}</td><td class="small">${f.manifest_rows ? `${f.manifest_rows} manifest rows` : ''}${f.provenance_rows ? `${f.manifest_rows ? ', ' : ''}${f.provenance_rows} provenance rows` : ''}${(f.sources || []).length ? (f.manifest_rows || f.provenance_rows ? '; ' : '') + f.sources.map((x) => `${x.source} ${x.provenance_rows || x.index_rows || 0}`).join(', ') : ''}</td><td class="small">${(f.notes || []).map((n) => docLink(n)).join(' · ')}</td></tr>`).join('')}
       </tbody></table></div>
       <p class="small muted">Manifests, provenance sheets and notes ship; the documents’ bytes do not. Click a note to read it here.</p>
       <pre class="doc" id="cn-doc-view" hidden></pre>
-    </div>`;
+    </details>`;
   renderOutline('cn');
   $('#cn-body').querySelectorAll('a[data-doc]').forEach((a) => a.addEventListener('click', async (e) => {
     e.preventDefault();

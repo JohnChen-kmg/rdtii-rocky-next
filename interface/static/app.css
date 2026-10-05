@@ -914,4 +914,13 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .note-cell { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .note-cell .muted { font-size: 15px; }
 textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px; padding: 10px 14px; line-height: 1.5; resize: vertical; }
+/* One text size for a page's notes: "Why this block" and the personal note on China read at the size of
+   "How long scraping takes" (18 px), and the China page's lists and callouts follow the Scraping page. */
+.callout.cn-caution, #cn-body .callout, #cn-body .callout.cn-caution { font-size: 18px; line-height: 1.5; }
+.callout.cn-caution { max-width: 1000px; }
+.callout.cn-caution ul { margin: 6px 0 2px; padding-left: 24px; } .callout.cn-caution li { margin: 4px 0; }
+#cn-body ul.plain-list.big { font-size: 18px; padding-left: 24px; } #cn-body ul.plain-list.big li { margin: 6px 0; }
+#cn-body details.wl summary { font-size: 18px; }
+#cn-body > .cn-caution { max-width: none; margin: 0 0 var(--block-gap); }
+#cn-body > details.block > summary > h2 .muted { margin-left: 4px; }
 /* === fit: end === */
