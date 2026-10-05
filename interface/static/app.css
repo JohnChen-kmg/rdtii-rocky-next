@@ -732,6 +732,11 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .map-io { margin-bottom: 22px; }
 /* the sentence under the Mapping picture: its two nouns in the picture's blue, the instrument in its grey */
 .guide .block.node > p.how { font-size: 19px; }
-.guide .k-blue { color: var(--un-blue); }
-.guide .k-grey { color: #4b5563; }
+/* provision, indicator and instrument as small boxes, in the colours of their boxes in the picture above */
+.guide .k-box { display: inline-block; border: 1px solid; border-radius: 9px; padding: 0 12px; margin: 0 2px; font-weight: 700; line-height: 1.5; }
+.guide .k-box.blue { background: #eaf4fc; border-color: var(--un-blue); color: var(--un-blue-deep); }
+.guide .k-box.grey { background: #f1f3f5; border-color: #8a97a5; color: #3b4652; }
+.guide .block.node > p.how { line-height: 1.9; }
+/* the chain carries the steps' full names, the letter first */
+.guide .guide-row .chain span b { color: var(--un-blue); margin-right: 3px; }
 /* === fit: end === */
