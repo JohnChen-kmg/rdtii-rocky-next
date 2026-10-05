@@ -334,16 +334,22 @@
 
     <div class="guide-row">
       <div class="block node">
-        <h2><span class="step">4</span>Review and export <button class="btn small go" data-go="map" data-block="Output">Open the page</button></h2>
-        <p>Open a row, read the quote and its English, then <b>Accept</b>, <b>Reject</b> or <b>Correct</b>. <b>Export</b> writes the CSV and the workbook with the decisions applied.</p>
+        <h2><span class="step">3</span>Mapping <span class="cont">(continued)</span>: Review and export <button class="btn small go" data-go="map" data-block="Output">Open the page</button></h2>
+        <p>Open a row, read the quote and its English, then <span class="opt ok">Accept</span> <span class="opt bad">Reject</span> or <span class="opt warn">Correct</span>. <span class="opt exp">Export</span> writes the CSV and the workbook with the decisions applied.</p>
         <details class="subfold example">
           <summary>Example: Singapore <span class="fold"></span></summary>
           <div class="example-card">
-        <div class="io-part in"><span class="io-tag">Input</span>
-        <div class="row-line">Singapore · Personal Data Protection Act 2012 · s.26(1) · <b>6.4</b> · KNOWN · agreed · score 1</div>
-        <button class="btn small" data-example-row="SG" data-indicator="6.4">Show this row</button></div>
-        <div class="io-part out"><span class="io-tag">Output</span>
-        <p class="summary">After <b>Accept</b>: the row in the exported CSV and workbook, in the host’s 14 columns, with the decision kept in <code>review_log.csv</code>.</p></div>
+          <div class="fake-row">
+            <span class="cell"><small>Economy</small>Singapore</span>
+            <span class="cell mid"><small>Law</small>Personal Data Protection Act 2012</span>
+            <span class="cell"><small>Provision</small>s.26(1)</span>
+            <span class="cell"><small>Indicator</small>6.4</span>
+            <span class="cell wide"><small>Quote</small>“must not transfer any personal data … except in accordance with requirements prescribed”</span>
+            <span class="cell"><small>Score</small>1</span>
+            <span class="cell"><small>Tag</small>KNOWN</span>
+          </div>
+          <div class="opt-row"><span class="opt big ok">Accept</span><span class="opt big bad">Reject</span><span class="opt big warn">Correct</span></div>
+          <div class="opt-row"><span class="opt big exp">Export</span> <button class="btn small" data-example-row="SG" data-indicator="6.4">Show the real row</button></div>
           </div>
         </details>
       </div>

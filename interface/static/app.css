@@ -824,4 +824,16 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .io-part.out .fake-row .cell small { color: #3f6b4f; }
 .guide .io-part.out .fake-row .cell.mid { white-space: normal; }
 @media (max-width: 1150px) { .guide .ex-step { grid-template-columns: 32px minmax(0, 1fr); } .guide .ex-step > span:last-child { grid-column: 2; } }
+/* Review and export on the Overview: the three decisions in the colours the Mapping page gives them
+   (accepted green, rejected red, corrected amber), Export in the page's blue. They are pictures, not buttons. */
+.guide .opt { display: inline-block; border: 1px solid; border-radius: 999px; padding: 0 13px; font-weight: 700; line-height: 1.55; cursor: default; }
+.guide .opt.ok { background: #dcfce7; color: #166534; border-color: #7fcf9d; }
+.guide .opt.bad { background: #fee2e2; color: #991b1b; border-color: #eb9d9d; }
+.guide .opt.warn { background: #fef3c7; color: #92400e; border-color: #e5bf5f; }
+.guide .opt.exp { background: #eaf4fc; color: var(--un-blue-deep); border-color: var(--un-blue); }
+.guide .opt.big { padding: 7px 26px; font-size: 17.5px; }
+.guide .opt-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 12px 0 0; }
+.guide .example-card > .fake-row { max-width: none; margin: 4px 0 0; }
+.guide .example-card > .fake-row .cell.mid { white-space: normal; }
+.guide .block > h2 .cont { font-weight: 500; opacity: .9; }
 /* === fit: end === */
