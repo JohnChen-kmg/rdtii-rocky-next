@@ -927,4 +927,10 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 #cn-body > .cn-lead { margin: 4px 4px 22px; }
 #cn-body > .cn-lead .cn-lead-title { font-size: 26px; font-weight: 800; color: var(--un-blue-deep); line-height: 1.25; margin-bottom: 8px; }
 #cn-body > .cn-lead ul.plain-list.big { margin: 0; }
+/* Scraping's Output: when a run began, on one line */
+#scrape-output td.began { font-variant-numeric: tabular-nums; } #scrape-output td.began span { display: block; white-space: nowrap; }
+#scrape-output th { white-space: normal; line-height: 1.25; vertical-align: bottom; }
+#scrape-output td.folder { width: 160px; min-width: 160px; max-width: 160px; overflow-wrap: anywhere; }
+#scrape-output td.state .chip { white-space: nowrap; margin-right: 0; }
+#scrape-output td.num { white-space: normal; }
 /* === fit: end === */

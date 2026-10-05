@@ -76,7 +76,7 @@ def register(app: App) -> None:
 
     @app.route("GET", r"/api/scrape/outputs")
     def outputs(app: App, m, q, b):
-        return 200, {"folders": list_crawl_folders(app.settings)}
+        return 200, {"folders": list_crawl_folders(app.settings, getattr(app, "jobs", None))}
 
     register_run(app)
 
@@ -461,7 +461,61 @@ def describe_crawl_folder(path: Path, sample: int = 200) -> dict:
     return info
 
 
-def list_crawl_folders(s: Settings) -> list[dict]:
+_RUN_STAMP = re.compile(r"(?:^|_)(\d{8})-(\d{6})$")
+RUN_KINDS = ("interface run", "link list", "China tools run")
+
+
+def run_began(name: str) -> str:
+    """When a run began, from the stamp its folder's name ends with: "2026-10-04 01:29", this machine's time.
+    Empty for a folder that has none (a shipped manifest, the inbox)."""
+    from datetime import datetime
+    m = _RUN_STAMP.search(name or "")
+    if not m:
+        return ""
+    try:
+        return datetime.strptime(m.group(1) + m.group(2), "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M")
+    except ValueError:
+        return ""
+
+
+def run_state(path: Path, kind: str, crawl_state: dict | None, jobs=None) -> str:
+    """How a run folder stands: running, complete, paused (the portal stopped answering), stopped (Stop was
+    pressed in this session) or not complete (it ended before the crawler finished). Empty where no record
+    says: files collected by hand, a shipped manifest, a China tools run that is not running.
+
+    Read only: the crawler's own crawl_status.json, a link list's catalogue_meta.json, and this session's runs.
+    Nothing is written when a run stops, so a run stopped before the interface was last started reads
+    "not complete"."""
+    if kind not in RUN_KINDS:
+        return ""
+    mine, busy_here = [], False
+    if jobs is not None:
+        try:
+            rp = path.resolve()
+            mine = [j for j in jobs.all() if j.out_dir and Path(j.out_dir).resolve() == rp]
+            # a link list is written by a crawl whose own folder is another one
+            busy_here = kind == "link list" and any(j.stage == "p1" and j.status in ("queued", "running") for j in jobs.all())
+        except (OSError, AttributeError):
+            mine = []
+    if any(j.status in ("queued", "running") for j in mine):
+        return "running"
+    if kind == "China tools run":
+        return ""
+    if kind == "link list":
+        if (path / "catalogue_meta.json").is_file():
+            return "complete"
+        return "running" if busy_here else "not complete"
+    state = (crawl_state or {}).get("state")
+    if state == "done":
+        return "complete"
+    if state == "throttle_suspected":
+        return "paused"
+    if crawl_state is None and (path / "manifest.csv").is_file() and not mine:
+        return ""        # a crawl folder with its manifest and no status file (an older one, or a copy): no record either way
+    return "stopped" if mine and mine[0].status == "cancelled" else "not complete"
+
+
+def list_crawl_folders(s: Settings, jobs=None) -> list[dict]:
     from .. import sources
     out = []
     seen = set()
@@ -499,6 +553,9 @@ def list_crawl_folders(s: Settings) -> list[dict]:
                 for p in sorted(cc.iterdir()):
                     if (p / "manifest.csv").is_file():
                         add(p, "shipped manifest")
+    for d in out:        # when each run began and how it stands, for Output's first column and its Status
+        d["began"] = run_began(d.get("name", "")) if d.get("kind") in RUN_KINDS + ("hand-collected manifest",) else ""
+        d["run_state"] = run_state(Path(d["path"]), d.get("kind", ""), d.get("crawl_state"), jobs)
     return out
 
 
