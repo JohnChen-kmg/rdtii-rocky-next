@@ -940,4 +940,7 @@ textarea.run-note-input { width: 100%; box-sizing: border-box; min-height: 104px
 /* Scraping's Output is wider than its box: the buttons stay in view while the other columns scroll under them */
 #scrape-output table.rows td:last-child, #scrape-output table.rows th:last-child { position: sticky; right: 0; background: var(--panel); box-shadow: -10px 0 10px -10px rgba(0, 0, 0, .18); }
 #scrape-output table.rows th:last-child { z-index: 2; }
+/* the Introduction's three stages: a small white circle with the number, not the section titles' blue one */
+.guide .guide-intro ol.stages li { padding-left: 40px; }
+.guide .guide-intro ol.stages li::before { left: 2px; top: 5px; width: 26px; height: 26px; box-sizing: border-box; background: #fff; color: var(--un-blue); border: 2px solid var(--un-blue); font-size: 16px; line-height: 1; }
 /* === fit: end === */
