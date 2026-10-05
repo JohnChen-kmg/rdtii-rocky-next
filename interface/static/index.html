@@ -184,18 +184,18 @@
         </details>
         <details class="subfold">
           <summary>Mapping, step by step <span class="fold"></span></summary>
-          <p class="models"><b>The models in the finale run:</b> quick screen and re-check Claude Haiku 4.5; careful reading Claude Sonnet 5; tie-break Claude Opus 4.8; translations Claude Haiku 4.5. Each step can be given another model on the Mapping page: Claude, Qwen (local), DeepSeek, Kimi or ChatGPT.</p>
+          <p class="models">Each step takes its own model, chosen on the Mapping page. The finale’s model is in brackets. Grey blocks are elements of the instrument.</p>
           <div class="subblock">
-            <div class="subblock-head"><b><span class="letter">A</span>Candidate selection</b><span>which provisions go forward</span></div>
+            <div class="subblock-head"><b><span class="letter">A</span>Candidate selection</b></div>
             <div class="sb-body">
-              <p>Every provision is compared with the indicator by meaning, with a similarity index (BGE-M3) built once per extraction output. The ones that go forward are chosen by a score threshold, the default, or by a cap on their number.</p>
+              <p>Each provision gets a similarity score against the indicator. Those above a threshold, or the top N under a cap, go forward.</p>
               <div class="chat">
-                <div class="msg user"><span class="who">we send</span>The indicator as a query: its name, its definition, its keywords and two example snippets.</div>
-                <div class="msg model"><span class="who">similarity index · BGE-M3</span>A score from 0 to 1 for every provision. Those that clear the threshold, or the best N under a cap, go forward.</div>
+                <div class="msg user"><span class="who">we send</span>The indicator’s name, <span class="el">definition</span> and <span class="el">keywords</span>.</div>
+                <div class="msg model"><span class="who">similarity index (BGE-M3)</span>A score from 0 to 1 for every provision.</div>
               </div>
               <ul>
-                <li><b>Score threshold</b>, the default: a provision goes forward when its score clears the indicator’s threshold, 0.53 to 0.62 for the nine, a little lower for a non-English text. At 0.65 or more it skips the quick screen.</li>
-                <li><b>Cap</b>, the Round 1 rule: keep the N best-scoring provisions per indicator and economy, 150 to 600. Kept for comparison, for pillars 6 and 7 only.</li>
+                <li><b>Score threshold</b>, the default: 0.53 to 0.62 for the nine, a little lower for non-English text.</li>
+                <li><b>Cap</b>, the Round 1 rule: the best 150 to 600 per indicator and economy.</li>
               </ul>
               <details class="subfold light">
                 <summary>How the scores fell in the finale run, by indicator <span class="fold"></span></summary>
@@ -212,60 +212,60 @@
             </div>
           </div>
           <div class="subblock">
-            <div class="subblock-head"><b><span class="letter">B</span>Quick screen</b><span>drop what is clearly unrelated</span></div>
+            <div class="subblock-head"><b><span class="letter">B</span>Quick screen</b></div>
             <div class="sb-body">
-              <p>Borderline candidates get a quick relevance screen by a fast model. Clear ones skip it.</p>
+              <p>A fast model drops the borderline candidates that are clearly unrelated.</p>
               <div class="chat">
-                <div class="msg user"><span class="who">we send</span>The indicator and its definition. The provision. Could this plausibly be relevant? Be lenient.</div>
-                <div class="msg model"><span class="who">fast model · Haiku 4.5 in the finale run</span>YES or NO, with a few words why.</div>
+                <div class="msg user"><span class="who">we send</span>The indicator’s <span class="el">definition</span> and the provision: could it be relevant?</div>
+                <div class="msg model"><span class="who">fast model (Haiku 4.5 in the finale)</span>YES or NO.</div>
               </div>
             </div>
           </div>
           <div class="subblock">
-            <div class="subblock-head"><b><span class="letter">C</span>Careful reading</b><span>each provision against the rulebook</span></div>
+            <div class="subblock-head"><b><span class="letter">C</span>Careful reading</b></div>
             <div class="sb-body">
-              <p>A model reads each candidate with the indicator’s whole rulebook. It says whether the provision applies, with a verbatim quote, a score and its reasoning. The quote must be in the text.</p>
+              <p>A model reads each candidate against the rulebook and gives a verdict, with a quote and a score.</p>
               <div class="chat">
-                <div class="msg sys"><span class="who">standing instruction</span>The rulebook of every indicator of the run, sent once and kept for the whole run.</div>
-                <div class="msg user"><span class="who">we send</span>The provision: economy, law, section, text. Its candidate indicators. Answer the core legal question first, run every trap check, then one verdict per candidate. The quote must be an exact piece of the text.</div>
-                <div class="msg model"><span class="who">reading model · Sonnet 5 in the finale run</span>Per indicator: applies or not, the score, confidence, the verbatim quote, the rationale.</div>
+                <div class="msg sys"><span class="who">standing instruction</span>The <span class="el">rulebook</span> of every indicator in the run.</div>
+                <div class="msg user"><span class="who">we send</span>The provision and its candidate indicators. Answer the <span class="el">question</span>, run every <span class="el">trap</span> check, give one verdict per candidate.</div>
+                <div class="msg model"><span class="who">reading model (Sonnet 5 in the finale)</span>Per indicator: applies or not, score, quote, reason.</div>
               </div>
             </div>
           </div>
           <div class="subblock">
-            <div class="subblock-head"><b><span class="letter">D</span>Re-check</b><span>a second reading, blind</span></div>
+            <div class="subblock-head"><b><span class="letter">D</span>Re-check</b></div>
             <div class="sb-body">
-              <p>A different model judges every “applies” again, without seeing the first answer. When it gives the same answer, the match is verified.</p>
+              <p>A second model judges each match again, without seeing the first answer.</p>
               <div class="chat">
-                <div class="msg sys"><span class="who">standing instruction</span>The same rulebook.</div>
-                <div class="msg user"><span class="who">we send</span>The same provision, one indicator: does it constitute evidence under the scoring tree? The first reading’s answer and reasoning are withheld.</div>
-                <div class="msg model"><span class="who">second model · Haiku 4.5 in the finale run</span>Applies or not, score, confidence, reason.</div>
+                <div class="msg sys"><span class="who">standing instruction</span>The same <span class="el">rulebook</span>.</div>
+                <div class="msg user"><span class="who">we send</span>The provision and one indicator: is it evidence under the <span class="el">scoring tree</span>?</div>
+                <div class="msg model"><span class="who">second model (Haiku 4.5 in the finale)</span>Applies or not, score, reason.</div>
               </div>
             </div>
           </div>
           <div class="subblock">
-            <div class="subblock-head"><b><span class="letter">E</span>Tie-break</b><span>a third reading, when the two disagree</span></div>
+            <div class="subblock-head"><b><span class="letter">E</span>Tie-break</b></div>
             <div class="sb-body">
-              <p>When the first two disagree, a third model decides: two of three. About a third of first answers are overturned at D and E.</p>
+              <p>If the two disagree, a third model decides: two of three.</p>
               <div class="chat">
-                <div class="msg user"><span class="who">we send</span>The same question as the re-check, again without the earlier answers.</div>
-                <div class="msg model"><span class="who">third model · Opus 4.8 in the finale run</span>Its own answer. The majority of the three stands.</div>
+                <div class="msg user"><span class="who">we send</span>The same question.</div>
+                <div class="msg model"><span class="who">third model (Opus 4.8 in the finale)</span>Its own answer.</div>
               </div>
             </div>
           </div>
           <div class="subblock">
-            <div class="subblock-head"><b>After the five steps</b><span>tag, score, evidence, review</span></div>
+            <div class="subblock-head"><b>After the five steps</b></div>
             <div class="sb-body">
               <ul>
-                <li><b>Tag.</b> Each verified match is compared with the Round 1 baseline: KNOWN when it reproduces a baseline row, NEW when it is a discovery. Ties go to KNOWN. A blank tag is deliberate.</li>
-                <li><b>Score.</b> Each economy’s indicator scores follow from the verified matches by the instrument’s own rules, with no model. The framework indicators, such as 7.1 and 7.2, run the other way and take one question each.
+                <li><b>Tag.</b> KNOWN if the row is in the Round 1 baseline, NEW if not.</li>
+                <li><b>Score.</b> From the verified rows, by the <span class="el">count rule</span> and the <span class="el">absence</span> score, with no model. A framework indicator, such as 7.1, takes one question:
               <div class="chat">
-                <div class="msg user"><span class="who">we send</span>The evidence rows collected for this economy and indicator. Does the economy lack a comprehensive framework?</div>
-                <div class="msg model"><span class="who">reading model · Sonnet 5 in the finale run</span>0, a framework exists; or 1, none.</div>
+                <div class="msg user"><span class="who">we send</span>The economy’s evidence rows: does it lack a framework?</div>
+                <div class="msg model"><span class="who">reading model (Sonnet 5 in the finale)</span>0, a framework exists; 1, none.</div>
               </div>
                 </li>
-                <li><b>Evidence.</b> The 14-column evidence rows, an English translation of every non-English quote for review, a workbook and an audit page. Everything the run did is recorded in its manifest.</li>
-                <li><b>Review.</b> People decide last. The export carries the decisions and leaves the machine translation out.</li>
+                <li><b>Evidence.</b> The rows in the host’s 14 columns, an English translation for review, a workbook and an audit page.</li>
+                <li><b>Review.</b> People decide last. The export carries their decisions.</li>
               </ul>
             </div>
           </div>
