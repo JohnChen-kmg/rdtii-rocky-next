@@ -900,4 +900,7 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 .guide .block.cost > ul + .cost-sub { margin-top: 14px; }
 #ov-perf { scroll-margin-top: 96px; }
 .guide .cost-key .few { font-size: 12px; font-weight: 700; color: #6b7280; border: 1px solid #cfd5db; border-radius: 999px; padding: 0 7px; margin-right: 4px; background: #fff; }
+/* the performance block's warning: one highlighted line, in the amber the pages use for a caution */
+.guide .block.cost > p.caution { margin: 2px 20px 12px; font-size: 19px; font-weight: 700; }
+.guide .block.cost > p.caution mark { background: #ffe08a; color: #5c3d00; padding: 3px 10px; border-radius: 6px; }
 /* === fit: end === */
