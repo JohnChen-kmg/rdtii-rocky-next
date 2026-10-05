@@ -879,4 +879,11 @@ td .carried { display: block; width: fit-content; margin-top: 5px; }
 @media (max-width: 700px) { .guide .calc-steps, .guide .calc-totals, .guide .calc-line { grid-template-columns: 1fr; } }
 .guide .calc-hint { font-size: 14.5px; color: var(--muted); margin: 6px 2px 0; }
 .guide .block.cost > details.subfold > .cost-key { margin: 0 14px 12px; }
+/* One space between the blocks of every page, and between the Overview's sections: the space that stands
+   between the Introduction and the Workflow map. Change the number here and every page follows. */
+:root { --block-gap: 58px; }
+.block, .engine-banner { margin-bottom: var(--block-gap); }
+.guide .guide-intro { margin-bottom: var(--block-gap); }
+.guide .guide-head.below, .guide .block.grey { margin-top: var(--block-gap); }
+.guide .guide-head + .block.grey { margin-top: 0; }   /* a section's first block sits under its title, as the others do */
 /* === fit: end === */
