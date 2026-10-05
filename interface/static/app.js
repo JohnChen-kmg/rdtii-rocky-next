@@ -1180,8 +1180,8 @@ function renderExtractRun() {
     <div class="stack">
       <label class="stack-row"><span class="setup-label">Output name</span> <input type="text" id="ex-out" size="22" value="${esc(outName)}" ${ok ? '' : 'disabled'}></label>
       ${econRow}
-      <label class="stack-row"><span class="setup-label">OCR pack</span> <select id="ex-pack"><option value="fast" ${EX.pack === 'fast' ? 'selected' : ''}>Fast: the measured choice</option><option value="best" ${EX.pack === 'best' ? 'selected' : ''}>Best: slower, for hard scans</option></select> <span class="muted">scanned PDFs only; Fast about 1 second a page, Best about 2</span></label>
-      <label class="stack-row"><span class="setup-label">OCR workers</span> <input type="text" id="ex-workers" size="3" value="${EX.workers}"> <span class="muted">pages read at once; 16 reads about 17 pages a second</span></label>
+      <label class="stack-row"><span class="setup-label">OCR pack</span> <select id="ex-pack"><option value="fast" ${EX.pack === 'fast' ? 'selected' : ''}>Fast: the measured choice</option><option value="best" ${EX.pack === 'best' ? 'selected' : ''}>Best: slower, for hard scans</option></select> <span class="muted">scanned PDFs only, no charge; Fast about 1 second a page, Best about 2</span></label>
+      <label class="stack-row"><span class="setup-label">OCR workers</span> <input type="text" id="ex-workers" size="3" value="${EX.workers}"> <span class="muted">pages read at once, one processor core each; 16 reads about 17 pages a second</span></label>
       <label class="stack-row note-row"><span class="setup-label">Run note</span> <span class="note-cell"><textarea id="ex-note" class="run-note-input" rows="3" maxlength="300" placeholder="a line to carry with this run, optional">${esc(EX.note || '')}</textarea><span class="muted">shown in Output and at Mapping’s Input</span></span></label>
       <details class="notes-box" ${EX.runNotesOpen ? 'open' : ''}><summary>Note:</summary>
         <p>* <b>Output name</b> names the folder under ${esc(root)}${BS}extract. Running into an existing folder reuses its OCR cache and frozen text; Clear OCR cache below forces a fresh OCR.</p>
