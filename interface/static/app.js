@@ -211,7 +211,7 @@ function renderOutline(tab) {
     const list = document.querySelector('#tabs .outline[data-for="overview"]');
     const marks = [...document.querySelectorAll('#tab-overview [data-outline]')];
     if (!list) return;
-    list.innerHTML = marks.map((m, i) => `<button class="jump" data-mark="${i}">${esc(m.dataset.outline)}</button>`).join('');
+    list.innerHTML = marks.map((m, i) => `<button class="jump" data-mark="${i}">${m.dataset.num ? `<span class="num">${esc(m.dataset.num)}</span>` : ''}${esc(m.dataset.outline)}</button>`).join('');
     list.querySelectorAll('button.jump').forEach((btn) => btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const m = marks[Number(btn.dataset.mark)]; if (!m) return;

@@ -131,5 +131,18 @@ class Performance(unittest.TestCase):
         self.assertIn("not run on that step", self.block)                 # a dash is never a guess
 
 
+class Sections(unittest.TestCase):
+    """The Overview's sections are numbered in the menu and on the page."""
+
+    def test_they_run_from_one_in_page_order_and_the_page_shows_the_same_number(self):
+        page = (INTERFACE / "static" / "index.html").read_text(encoding="utf-8")
+        overview = page[page.index('id="tab-overview"'):page.index('id="tab-scrape"')]
+        marks = re.findall(r'data-outline="([^"]+)" data-num="(\d+)">(.{0,160})', overview, re.S)
+        self.assertEqual([n for _, n, _ in marks], [str(i + 1) for i in range(len(marks))])
+        self.assertEqual(len(marks), overview.count("data-outline="))            # no section without a number
+        for name, n, after in marks:                                              # the title beside it shows that number
+            self.assertRegex(after, rf'<span class="(sec-num|step)">{n}</span>', name)
+
+
 if __name__ == "__main__":
     unittest.main()
