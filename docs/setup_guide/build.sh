@@ -1,5 +1,5 @@
 #!/bin/sh
-# Builds SETUP_GUIDE.pdf from SETUP_GUIDE.tex on a Mac or Linux. Run it from the folder it is in: ./build.sh
+# Builds the PDF of every .tex file in this folder on a Mac or Linux. Run it from the folder it is in: ./build.sh
 set -e
 cd "$(dirname "$0")"
 
@@ -17,14 +17,14 @@ if ! command -v pdflatex >/dev/null 2>&1; then
             ;;
     esac
     echo
-    echo "Without installing anything: upload SETUP_GUIDE.tex to https://www.overleaf.com"
+    echo "Without installing anything: upload the .tex file to https://www.overleaf.com"
     echo "as a new project, press Recompile and download the PDF from there."
     exit 1
 fi
 
-# Twice: the first pass records the cross-references, the second pass prints them.
-pdflatex -interaction=nonstopmode -halt-on-error SETUP_GUIDE.tex
-pdflatex -interaction=nonstopmode -halt-on-error SETUP_GUIDE.tex
-
-echo
-echo "Built SETUP_GUIDE.pdf"
+for f in *.tex; do
+    # Twice: the first pass records the cross-references, the second pass prints them.
+    pdflatex -interaction=nonstopmode -halt-on-error "$f"
+    pdflatex -interaction=nonstopmode -halt-on-error "$f"
+    echo "Built ${f%.tex}.pdf"
+done

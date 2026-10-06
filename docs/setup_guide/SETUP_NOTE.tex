@@ -1,0 +1,220 @@
+% RDTII Rocky - Setup note for a new computer: the installs only. The full guide is SETUP_GUIDE.tex beside it.
+% Plain LaTeX, pdfLaTeX, Overleaf-ready: upload this one file and press Recompile.
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}   % vector fonts under T1 on every installation (a basic MiKTeX has only bitmap EC fonts)
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage[colorlinks=true,linkcolor=rdtiiblue,urlcolor=rdtiiblue]{hyperref}
+
+\definecolor{rdtiiblue}{HTML}{1A4D8F}
+\definecolor{shell}{HTML}{F4F6F8}
+\definecolor{rule}{HTML}{C9D3DD}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{shell},
+  frame=single,
+  rulecolor=\color{rule},
+  framesep=6pt,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  aboveskip=8pt, belowskip=8pt,
+}
+
+\newcommand{\win}{\textbf{Windows}}
+\newcommand{\mac}{\textbf{Mac}}
+
+\title{\textbf{RDTII Rocky}\\[2mm]
+\large Setup note: the installs, in order, for a computer that has nothing on it}
+\author{Team: Rocky has a home run}
+\date{6 October 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Before you start}
+
+This note installs what the tool needs, in order, and stops when the tool opens. You do
+not need to be a programmer: every command below is copied and pasted whole into one
+window. Allow 30 minutes and 2\,GB of disk, plus 20 minutes and 9\,GB if you want the free
+local AI engine (Section 5), which is optional.
+
+\textbf{The one window you need.}
+\begin{itemize}[leftmargin=1.2em]
+  \item \win: press the Start button, type \texttt{PowerShell}, open \emph{Windows PowerShell}.
+  \item \mac: press \texttt{Cmd}+\texttt{Space}, type \texttt{Terminal}, press Enter.
+\end{itemize}
+
+Where a program may already be on the computer, a \emph{check} line comes first. If the
+window answers with a version number, skip the install and go on. If it says
+\emph{not found} or \emph{not recognized}, run the install lines under it. Whether
+everything works is not checked here: once the tool is open, the \textbf{Check} button on
+each stage page and the health dots along the top say what is missing.
+
+\section{Get the project onto the computer}
+
+Download the project as a ZIP from the repository page on GitHub (green \textbf{Code}
+button $\rightarrow$ \textbf{Download ZIP}) and unzip it to your Desktop. GitHub names the
+unzipped folder after the branch or tag it came from, \texttt{rdtii-rocky-next-main} or
+\texttt{rdtii-rocky-next-final-submission}: rename it to \texttt{rdtii-rocky-next}
+(right-click the folder, \emph{Rename}). It holds folders named \texttt{interface},
+\texttt{stages} and \texttt{submission}.
+
+Point the window at that folder; every later command assumes you are inside it.
+
+\win:
+\begin{lstlisting}
+cd $HOME\Desktop\rdtii-rocky-next
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+cd ~/Desktop/rdtii-rocky-next
+\end{lstlisting}
+
+If \texttt{git} is already installed, \texttt{git clone https://github.com/JohnChen-kmg/rdtii-rocky-next}
+followed by \texttt{cd rdtii-rocky-next} and \texttt{git checkout final-submission} does
+the same, without the rename.
+
+\section{Python}
+
+The tool is written in Python, 3.12 or newer. Check:
+
+\win:
+\begin{lstlisting}
+python --version
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+python3 --version
+\end{lstlisting}
+
+If \emph{not found}, if the Microsoft Store opens, or if the number is below 3.12, install:
+open \url{https://www.python.org/downloads/} and download the latest version.
+\win: in the installer, tick \textbf{``Add python.exe to PATH''} on the first screen before
+pressing Install; that tick is what makes the command above work.
+\mac: open the downloaded \texttt{.pkg} and accept every default.
+Close the window, open a new one, go back to the project folder (Section 1) and check again.
+
+\section{The packages of the three stages}
+
+Four commands, run once, inside the project folder. The first gives the project its own
+package area (a folder called \texttt{.venv}, so nothing is installed into the computer at
+large). The second installs the packages of all three stages from one list; allow 5
+minutes, it ends with \texttt{Successfully installed}. The third installs the extraction
+stage, which is part of the project itself. The fourth downloads the browser engine (about
+150\,MB) that the scraping stage uses on portals built with JavaScript.
+
+\win:
+\begin{lstlisting}
+python -m venv .venv
+.venv\Scripts\pip install -r requirements-demo.txt
+.venv\Scripts\pip install -e stages/p2-extract
+.venv\Scripts\python -m playwright install chromium
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+python3 -m venv .venv
+.venv/bin/pip install -r requirements-demo.txt
+.venv/bin/pip install -e stages/p2-extract
+.venv/bin/python -m playwright install chromium
+\end{lstlisting}
+
+\section{Tesseract --- only for scanned documents}
+
+Lao PDR's laws are 96\% scans, so Stage 2 reads them with OCR. Check:
+
+\begin{lstlisting}
+tesseract --version
+\end{lstlisting}
+
+If \emph{not found}, install:
+
+\win:
+\begin{lstlisting}
+winget install UB-Mannheim.TesseractOCR
+\end{lstlisting}
+
+\mac{} (needs Homebrew; if \texttt{brew} is not found, install it from \url{https://brew.sh} first):
+\begin{lstlisting}
+brew install tesseract
+\end{lstlisting}
+
+Close the window and open a new one, then check again. The language packs (English, Lao,
+Chinese, Portuguese) are already inside the project --- nothing to download.
+
+\section{The free local engine (optional)}
+
+Mapping uses an AI engine. \textbf{Engine A} is hosted (Claude) and needs a key you pay
+for; you type it into the tool, on the Mapping page under \textbf{Engine API keys}, and it
+is held in memory only. \textbf{Engine B} runs on your own computer and is free.
+Everything else in the tool works without either: an engine is needed only to start a
+\emph{new} mapping run. For Engine B, check:
+
+\begin{lstlisting}
+ollama --version
+\end{lstlisting}
+
+If \emph{not found}, install Ollama from \url{https://ollama.com} (a normal installer for
+Windows and Mac), then download the model the tool declares, about 9\,GB:
+
+\begin{lstlisting}
+ollama pull qwen2.5:14b
+\end{lstlisting}
+
+\section{Start the tool}
+
+There is nothing to configure: no file to edit, no \texttt{.env}, no environment variable.
+
+\win: double-click \texttt{Start-RDTII-Rocky.cmd} in the project folder.\\
+\mac: double-click \texttt{Start-RDTII-Rocky.command}.
+
+The pages open in a window of their own, using the Edge or Chrome already on your machine;
+closing that window stops the tool.
+
+A \mac{} may need one extra step, once: if the double-click opens the file as text, or
+says it cannot be executed, the unzip has dropped its permission to run. Give it back from
+the window, inside the project folder, then double-click again:
+
+\begin{lstlisting}
+chmod +x Start-RDTII-Rocky.command
+\end{lstlisting}
+
+If the double-click does nothing, start it from the window instead and open
+\url{http://127.0.0.1:8765/} in your browser; the message in the window says what is wrong.
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\python interface/app.py
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/python interface/app.py
+\end{lstlisting}
+
+From here the tool checks itself. The health dots along the top of the Overview show
+\textbf{Stages}, \textbf{Tesseract}, \textbf{Chromium}, \textbf{Ollama} and \textbf{Key}
+(grey for Ollama if you skipped Section 5, and for Key until you type one, which is
+correct), and the \textbf{Check} button on each stage page names anything still missing.
+Then carry on with the README's \emph{Verify} section.
+
+\vspace{4mm}
+\noindent\rule{\textwidth}{0.4pt}
+
+\small
+Questions: John (Jiaxiang) Chen, \href{mailto:jiaxiangchen.kmg@gmail.com}{jiaxiangchen.kmg@gmail.com}.
+The tool is Apache~2.0 licensed; this note covers the release tagged \texttt{final-submission}.
+The longer \texttt{SETUP\_GUIDE.pdf} beside it explains what each package is for, what a working setup looks like and what to do when something is not found.
+
+\end{document}
