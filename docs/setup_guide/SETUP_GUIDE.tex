@@ -93,8 +93,8 @@ and go to the next step. If it says \emph{not found}, \emph{not recognized} or
 \emph{command not found}, run the install box underneath.
 
 \textbf{When to open a new window.} A window opened before a program was installed does
-not know that program exists. So after installing a \emph{program} (Python, Tesseract,
-Ollama), close the window, open a new one and go back to the project folder as in
+not know that program exists. So after installing a \emph{program} (Python, Git,
+Tesseract, Ollama), close the window, open a new one and go back to the project folder as in
 Section~1. The \emph{packages} installed with \texttt{pip} (Sections 4 to 6) need no new
 window: they go into the project's own folder, where every command finds them at once.
 The tool itself looks for packages only when it starts, so after the meaning index of
@@ -142,6 +142,20 @@ live. The ZIP above needs no extra program.
 git clone https://github.com/JohnChen-kmg/rdtii-rocky-next
 cd rdtii-rocky-next
 git checkout final-submission
+\end{lstlisting}
+
+If there is no \texttt{git} (the check \texttt{git --version} answers \emph{not found}), either
+stay with the ZIP above, which needs no extra program, or install it; it is a program, so
+open a new window afterwards.
+
+\win:
+\begin{lstlisting}
+winget install Git.Git
+\end{lstlisting}
+
+\mac{} (a dialog opens; press Install):
+\begin{lstlisting}
+xcode-select --install
 \end{lstlisting}
 
 \section{Python: check, then install if missing}

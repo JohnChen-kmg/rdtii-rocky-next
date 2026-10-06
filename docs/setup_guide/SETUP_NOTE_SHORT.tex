@@ -73,8 +73,8 @@ everything works is not checked here: once the tool is open, the \textbf{Check} 
 each stage page and the health dots along the top say what is missing.
 
 \textbf{When to open a new window.} A window opened before a program was installed does
-not know that program exists. So after installing a \emph{program} (Python, Tesseract,
-Ollama), close the window, open a new one and go back to the project folder as in
+not know that program exists. So after installing a \emph{program} (Python, Git,
+Tesseract, Ollama), close the window, open a new one and go back to the project folder as in
 Section~1. The \emph{packages} installed with \texttt{pip} (Sections 3 and 6) need no new
 window: they go into the project's own folder, where every command finds them at once.
 The tool itself looks for packages only when it starts, so after Section~6 restart the
@@ -112,6 +112,20 @@ run them in the folder where the project should live:
 git clone https://github.com/JohnChen-kmg/rdtii-rocky-next
 cd rdtii-rocky-next
 git checkout final-submission
+\end{lstlisting}
+
+If there is no \texttt{git} (the check \texttt{git --version} answers \emph{not found}), either
+stay with the ZIP above, which needs no extra program, or install it; it is a program, so
+open a new window afterwards.
+
+\win:
+\begin{lstlisting}
+winget install Git.Git
+\end{lstlisting}
+
+\mac{} (a dialog opens; press Install):
+\begin{lstlisting}
+xcode-select --install
 \end{lstlisting}
 
 \section{Python}
