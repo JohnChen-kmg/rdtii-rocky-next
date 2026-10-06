@@ -81,7 +81,7 @@ obligations that have to be tracked and declared.
 ## 2026-09-12, revised the same day: the walkthrough recording is about four minutes, with five beats
 
 *5 October 2026: a recording was made on 1 October and a second on 5 October, on the rearranged screens:
-`walkthrough_RockyHasAHomeRun_Oct05.mp4`.*
+`walkthrough_RockyHasAHomeRun_Oct05_5min.mp4`.*
 
 **Decision:** Record to about four minutes, state the length on screen and in the file name, and
 cover all five beats that Section 6 of the Word template lists.

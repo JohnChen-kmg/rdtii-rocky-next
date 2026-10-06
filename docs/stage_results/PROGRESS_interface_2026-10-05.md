@@ -102,7 +102,7 @@ Written on 5 October, each from the code and the change log, not from memory.
 | `docs/stages/interface/DECISIONS.md` | Seven entries dated 5 October, the last saying what became of each entry of 12 September; a dated line under each earlier entry that a later decision changed |
 | `interface/README.md` | The layout table redrawn page by page; two cells still described the Overview of 1 October and hand collection by source |
 | `docs/stage_results/README.md` | The rows for the instrument's progress of 4 October and for this report |
-| `README.md` | The recording line names `walkthrough_RockyHasAHomeRun_Oct05.mp4`; the mapping test count is 505; the list of shipped OCR packs no longer names Malay |
+| `README.md` | The recording line names `walkthrough_RockyHasAHomeRun_Oct05_5min.mp4`; the mapping test count is 505; the list of shipped OCR packs no longer names Malay |
 | `docs/RELEASE_NOTES.md`, `docs/CHANGELOG_FINALE.md` | The mapping test count; an entry for this day's documentation and for commit `f20a6e2` |
 
 ---
@@ -121,9 +121,9 @@ the developer.
    mode, `python main.py --economy Singapore --pillar 6`, ends without error and writes the 14 column
    names and no rows: it keeps rows whose Indicator ID begins `P6-`, and the filed rows carry `6.1`. The
    interface does not use it. The two documents now say so; the file is unchanged.
-5. **The recording of 5 October is 46 minutes 26 seconds long** (read from the file's own header). The
-   host's templates ask for three to five minutes; the decision of 12 September was about four. To check
-   before it is uploaded.
+5. **The first recording of 5 October was 46 minutes 26 seconds long** (read from the file's own header),
+   against the three to five minutes the host's templates ask for. The developer recorded again the same
+   evening: `walkthrough_RockyHasAHomeRun_Oct05_5min.mp4`, 6 minutes 23 seconds, which is the one submitted.
 6. **`interface/DATA_PATHS.md`** lists eight variables the browser may set; the code's allowlist has
    twelve (`rdtii_ui/envbuild.py`, `ALLOWLIST`). The file is dated 29 September and was not edited.
 7. **`ASSEMBLY.md`** at the top of the repository describes the assembly of 29 September. Not edited.

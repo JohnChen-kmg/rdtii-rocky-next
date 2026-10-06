@@ -166,9 +166,9 @@ runs in every Output block (when it began, when it last ran, complete or not); c
 the index and run folders clearable from the page, only under the runs root, with a preview and a confirm.
 The filed submission is shown read-only.
 
-**Walkthrough recording:** `walkthrough_RockyHasAHomeRun_Oct05.mp4`, submitted with the Word document. It was
-recorded on 5 October 2026 and replaces the recording of 1 October, which showed the screens before they were
-rearranged (the engine choice moved from a banner into the steps of 3.2 Run).
+**Walkthrough recording:** `walkthrough_RockyHasAHomeRun_Oct05_5min.mp4`, submitted with the Word document. It
+was recorded on 5 October 2026 and replaces the recording of 1 October, which showed the screens before they
+were rearranged (the engine choice moved from a banner into the steps of 3.2 Run).
 
 ---
 

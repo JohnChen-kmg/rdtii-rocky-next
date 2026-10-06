@@ -102,7 +102,7 @@ second part of this file. Where each stands today:
 | Caches and downloaded documents can be cleared on screen | Clear in every Output; only under the runs root |
 | Export into the host's workbook | not in the interface: item 2 above |
 | Run Record and Engine Comparison sheets | not built: item 1 above |
-| A walkthrough recording | `walkthrough_RockyHasAHomeRun_Oct05.mp4`, recorded on 5 October, submitted with the Word document |
+| A walkthrough recording | `walkthrough_RockyHasAHomeRun_Oct05_5min.mp4`, recorded on 5 October, submitted with the Word document |
 | The interface can be left available for the marking period | the address and the port are settings; not rehearsed on another machine |
 
 ## Rubric criteria this task carries
