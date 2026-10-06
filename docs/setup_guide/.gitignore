@@ -1,0 +1,4 @@
+# pdflatex's working files. The PDF itself is committed.
+*.aux
+*.log
+*.out

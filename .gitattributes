@@ -9,3 +9,7 @@ demo_data/** -text
 # The interface's icons are bytes.
 /interface/static/*.ico binary
 /interface/static/*.png binary
+# The setup guide's build scripts follow the same rule; its PDF is bytes.
+/docs/setup_guide/build.cmd text eol=crlf
+/docs/setup_guide/build.sh text eol=lf
+/docs/setup_guide/*.pdf binary

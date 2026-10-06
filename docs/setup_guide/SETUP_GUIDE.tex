@@ -1,0 +1,454 @@
+% RDTII Rocky - Setup guide for a new computer.
+% Plain LaTeX, pdfLaTeX, Overleaf-ready: upload this one file and press Recompile.
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}   % vector fonts under T1 on every installation (a basic MiKTeX has only bitmap EC fonts)
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage[colorlinks=true,linkcolor=rdtiiblue,urlcolor=rdtiiblue]{hyperref}
+
+\definecolor{rdtiiblue}{HTML}{1A4D8F}
+\definecolor{shell}{HTML}{F4F6F8}
+\definecolor{rule}{HTML}{C9D3DD}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{shell},
+  frame=single,
+  rulecolor=\color{rule},
+  framesep=6pt,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  aboveskip=8pt, belowskip=8pt,
+}
+
+\newcommand{\win}{\textbf{Windows}}
+\newcommand{\mac}{\textbf{Mac}}
+
+\title{\textbf{RDTII Rocky}\\[2mm]
+\large Setup guide: getting the tool running on a computer that has nothing installed}
+\author{Team: Rocky has a home run}
+\date{6 October 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Before you start}
+
+This guide takes a computer with nothing on it and leaves you at the tool's own
+instructions (the README's \emph{Verify} step). You do not need to be a programmer.
+You will type commands into one black window; every command below can be copied and
+pasted whole.
+
+\textbf{What you are setting up.} The tool has three stages, and this guide installs
+what each one needs, in that order:
+
+\begin{center}
+\begin{tabular}{@{}lp{0.44\textwidth}p{0.32\textwidth}@{}}
+\toprule
+\textbf{Stage} & \textbf{What it does} & \textbf{Needs} \\
+\midrule
+1. Scraping & collects an economy's laws from its official portals & Python packages + a browser engine \\
+2. Extraction & splits the laws into numbered provisions & Python packages + Tesseract (for scans) \\
+3. Mapping & maps each provision to the RDTII indicators & Python packages + Ollama (free engine) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Time and space.} About 30 minutes of typing and waiting, 2\,GB of disk.
+A further 20 minutes and 9\,GB if you want the free local AI engine (Section 7).
+Everything runs on your own computer; nothing is uploaded anywhere.
+
+\textbf{The one window you need.}
+\begin{itemize}[leftmargin=1.2em]
+  \item \win: press the Start button, type \texttt{PowerShell}, open \emph{Windows PowerShell}.
+  \item \mac: press \texttt{Cmd}+\texttt{Space}, type \texttt{Terminal}, press Enter.
+\end{itemize}
+
+\textbf{How to read this guide.} Each step first \emph{checks} whether something is
+already on the computer. If the window answers with a version number, skip the install
+and go to the next step. If it says \emph{not found}, \emph{not recognized} or
+\emph{command not found}, run the install box underneath.
+
+\section{Get the project onto the computer}
+
+Download the project as a ZIP from the repository page on GitHub
+(green \textbf{Code} button $\rightarrow$ \textbf{Download ZIP}), then unzip it to your
+Desktop. GitHub names the unzipped folder after the branch or tag it came from:
+\texttt{rdtii-rocky-next-main} or \texttt{rdtii-rocky-next-final-submission}. Rename it
+to \texttt{rdtii-rocky-next} (right-click the folder, \emph{Rename}) so that the commands
+below find it. You should end up with a folder called \texttt{rdtii-rocky-next} holding
+folders named \texttt{interface}, \texttt{stages} and \texttt{submission}.
+
+Now point the window at that folder. Every later command assumes you are inside it.
+
+\win:
+\begin{lstlisting}
+cd $HOME\Desktop\rdtii-rocky-next
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+cd ~/Desktop/rdtii-rocky-next
+\end{lstlisting}
+
+Check you are in the right place --- this lists the project's files:
+
+\begin{lstlisting}
+dir        (Windows)
+ls         (Mac)
+\end{lstlisting}
+
+\emph{If you prefer the developer's way:} if \texttt{git} is already installed, you can
+instead run \texttt{git clone https://github.com/JohnChen-kmg/rdtii-rocky-next} followed
+by \texttt{cd rdtii-rocky-next} and \texttt{git checkout final-submission}. The ZIP above
+needs no extra program.
+
+\section{Python: check, then install if missing}
+
+Python is the language the tool is written in. Check first.
+
+\win:
+\begin{lstlisting}
+python --version
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+python3 --version
+\end{lstlisting}
+
+\textbf{Good:} it answers \texttt{Python 3.12.x} or higher. Go to Section 3.
+
+\textbf{Not good:} it says \texttt{not recognized} / \texttt{command not found}, it opens
+the Microsoft Store, or the number is below 3.12. Install Python:
+
+\begin{enumerate}[leftmargin=1.4em]
+  \item Open \url{https://www.python.org/downloads/} and download the latest 3.12 or newer.
+  \item \win: in the installer, \textbf{tick ``Add python.exe to PATH''} on the first screen
+        before pressing Install. This one tick is what makes the command above work.
+  \item \mac: open the downloaded \texttt{.pkg} and accept every default.
+  \item \textbf{Close the window and open a new one} (it only notices the new Python then),
+        go back to your project folder as in Section 1, and run the check again.
+\end{enumerate}
+
+\section{Give the project its own package area}
+
+Rather than installing packages into your whole computer, the tool keeps them in one
+folder inside the project, called \texttt{.venv}. This is one command and takes a few
+seconds.
+
+\win:
+\begin{lstlisting}
+python -m venv .venv
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+python3 -m venv .venv
+\end{lstlisting}
+
+Nothing is printed when it works. From here on, commands say \texttt{.venv\textbackslash Scripts\textbackslash}
+(Windows) or \texttt{.venv/bin/} (Mac) so that the project's own Python is used.
+
+\section{Stage 1 --- Scraping: the packages that fetch the laws}
+
+\subsection*{Check}
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\python -c "import playwright, requests, tenacity, dateutil, yaml, jsonschema, cryptography; print('Stage 1 ready')"
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/python -c "import playwright, requests, tenacity, dateutil, yaml, jsonschema, cryptography; print('Stage 1 ready')"
+\end{lstlisting}
+
+\textbf{Good:} it prints \texttt{Stage 1 ready}. \textbf{Not good:} it prints
+\texttt{ModuleNotFoundError: No module named '...'}. Install below.
+
+\subsection*{Install}
+
+One command installs the packages of all three stages (they come from one list), so you
+only run this once:
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\pip install -r requirements-demo.txt
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/pip install -r requirements-demo.txt
+\end{lstlisting}
+
+It prints a long list and ends with \texttt{Successfully installed ...}. Allow 5 minutes.
+
+Stage 1 also needs a browser engine to read portals that build their pages with
+JavaScript. It is about 150\,MB:
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\python -m playwright install chromium
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/python -m playwright install chromium
+\end{lstlisting}
+
+Then run the \emph{Check} box again; it should now print \texttt{Stage 1 ready}.
+
+\subsection*{What these are for}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Package} & \textbf{Why Stage 1 needs it} \\
+\midrule
+\texttt{playwright} (+ Chromium) & drives a real browser for portals that need one \\
+\texttt{requests}, \texttt{httpx} & downloads a document over the web \\
+\texttt{tenacity} & waits and retries politely when a portal is busy \\
+\texttt{python-dateutil} & reads the dates portals print in their own styles \\
+\texttt{PyYAML} & reads the list of portals for each economy \\
+\texttt{jsonschema} & checks the record of what was collected before handing it on \\
+\texttt{cryptography} & Laws of Malaysia serves its listings encrypted \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Stage 2 --- Extraction: reading documents, including scans}
+
+\subsection*{Check}
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\python -c "import rdtii_p2.cli, pypdfium2, pytesseract, pydantic; print('Stage 2 ready')"
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/python -c "import rdtii_p2.cli, pypdfium2, pytesseract, pydantic; print('Stage 2 ready')"
+\end{lstlisting}
+
+\subsection*{Install}
+
+The extraction stage is part of the project, so it is installed from the project folder
+itself:
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\pip install -e stages/p2-extract
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/pip install -e stages/p2-extract
+\end{lstlisting}
+
+\subsection*{Tesseract --- only for scanned documents}
+
+Lao PDR's laws are 96\% scans, so Stage 2 reads them with OCR. Check:
+
+\begin{lstlisting}
+tesseract --version
+\end{lstlisting}
+
+\textbf{Good:} it prints \texttt{tesseract 5.x}. \textbf{Not good:} \emph{not found}. Install:
+
+\win:
+\begin{lstlisting}
+winget install UB-Mannheim.TesseractOCR
+\end{lstlisting}
+
+\mac{} (needs Homebrew; if \texttt{brew} is not found, install it from \url{https://brew.sh} first):
+\begin{lstlisting}
+brew install tesseract
+\end{lstlisting}
+
+Close the window and open a new one, then check again. The language packs (English, Lao,
+Chinese, Portuguese) are already inside the project --- nothing to download.
+
+\subsection*{What these are for}
+
+\begin{center}
+\begin{tabular}{@{}lp{0.5\textwidth}@{}}
+\toprule
+\textbf{Package} & \textbf{Why Stage 2 needs it} \\
+\midrule
+\texttt{pypdfium2} & opens a PDF and takes out its text, or a picture of the page \\
+\texttt{pytesseract} + Tesseract & reads a scanned page into text (OCR) \\
+\texttt{Pillow} & cleans up the page image before OCR \\
+\texttt{beautifulsoup4}, \texttt{lxml}, \texttt{selectolax} & read a law published as a web page \\
+\texttt{pydantic} & checks each provision has the fields the next stage expects \\
+\texttt{jiwer} & measures how accurate the OCR was \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Stage 3 --- Mapping: matching provisions to indicators}
+
+\subsection*{Check}
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\python -c "import numpy, bm25s, pandas, openpyxl, anthropic, ollama; print('Stage 3 ready')"
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/python -c "import numpy, bm25s, pandas, openpyxl, anthropic, ollama; print('Stage 3 ready')"
+\end{lstlisting}
+
+These came with the one \texttt{pip install} of Section 4. If anything is missing, run
+that command again.
+
+\subsection*{What these are for}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Package} & \textbf{Why Stage 3 needs it} \\
+\midrule
+\texttt{bm25s}, \texttt{PyStemmer} & finds the provisions worth reading, by keyword, at no cost \\
+\texttt{numpy} & the arithmetic behind that search \\
+\texttt{anthropic} & talks to the hosted engine (Engine A), if you choose it \\
+\texttt{ollama} & talks to the free local engine (Engine B) \\
+\texttt{pandas} & builds the per-economy reports \\
+\texttt{openpyxl} & writes the Excel evidence workbook \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{The free local engine (optional, but it costs nothing)}
+
+The tool declares two AI engines. \textbf{Engine A} is hosted (Claude) and needs a key you
+pay for. \textbf{Engine B} runs on your own computer and is free. For Engine B, check:
+
+\begin{lstlisting}
+ollama --version
+\end{lstlisting}
+
+If it is not found, install Ollama from \url{https://ollama.com} (a normal installer for
+Windows and Mac), then download the model the tool declares --- about 9\,GB, so allow time:
+
+\begin{lstlisting}
+ollama pull qwen2.5:14b
+\end{lstlisting}
+
+Confirm it is the exact model we declared (the digest should start \texttt{sha256:7cdf5a0187d5}):
+
+\begin{lstlisting}
+ollama list --digests
+\end{lstlisting}
+
+\textbf{You can skip this section} and still open the tool, read every filed result,
+review rows and export them. You need an engine only to start a \emph{new} mapping run.
+
+\section{Keys, settings and configuration files}
+
+There is nothing to configure. No file to edit, no \texttt{.env}, no environment variable
+to set: every location has a working default inside the project folder.
+
+If you want to use the hosted engine (Engine A), you type its key \emph{into the tool} ---
+Mapping tab, \textbf{Engine API keys} at the top of the page. The key is held in memory for
+as long as the tool is open and is never written to disk, never shown again, and never sent
+anywhere except to that provider.
+
+\section{Start the tool}
+
+\win: double-click \texttt{Start-RDTII-Rocky.cmd} in the project folder.\\
+\mac: double-click \texttt{Start-RDTII-Rocky.command}.
+
+The pages open in a window of their own, using the Edge or Chrome already on your machine.
+Closing that window stops the tool.
+
+A \mac{} may need one extra step, once: if the double-click opens the file as text, or
+says it cannot be executed, the unzip has dropped its permission to run. Give it back from
+the window, inside the project folder, then double-click again:
+
+\begin{lstlisting}
+chmod +x Start-RDTII-Rocky.command
+\end{lstlisting}
+
+If the double-click does nothing, start it from the window instead:
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\python interface/app.py
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/python interface/app.py
+\end{lstlisting}
+
+\dots{} then open \url{http://127.0.0.1:8765/} in your browser.
+
+\section{What a successful setup looks like}
+
+You are ready for the tool's own instructions when all of this is true:
+
+\begin{enumerate}[leftmargin=1.4em]
+  \item The three check commands print \texttt{Stage 1 ready}, \texttt{Stage 2 ready},
+        \texttt{Stage 3 ready}.
+  \item The tool opens and shows the \textbf{Overview} page.
+  \item Along the top of the page, the health dots read: \textbf{Stages} green;
+        \textbf{Tesseract} green; \textbf{Chromium} green; \textbf{Ollama} green if you did
+        Section 7, grey if you skipped it; \textbf{Key} grey until you type one, which is
+        correct.
+  \item Mapping tab $\rightarrow$ \textbf{3.3 Output} lists the finale's run (52 rows, six
+        economies). Clicking a row shows the original law text beside its English, with the
+        source link.
+  \item Appendix tab $\rightarrow$ \textbf{Check the run layer} ends with
+        \textbf{Finished}.
+\end{enumerate}
+
+If all five hold, go to the README's \emph{Verify} section and carry on there.
+
+\section{If the window says something is not found}
+
+\begin{center}
+\begin{tabular}{@{}p{0.42\textwidth}p{0.52\textwidth}@{}}
+\toprule
+\textbf{What you see} & \textbf{What to do} \\
+\midrule
+\texttt{python is not recognized} (Windows) &
+Python is missing or was installed without the PATH tick. Re-run the installer,
+tick \emph{Add python.exe to PATH}, open a new window. \\[2pt]
+Typing \texttt{python} opens the Microsoft Store &
+Same answer: install from python.org with the PATH tick. \\[2pt]
+\texttt{ModuleNotFoundError: No module named 'x'} &
+A package is missing. Re-run \texttt{pip install -r requirements-demo.txt} from
+Section 4, inside the project folder. \\[2pt]
+\texttt{No such file or directory: requirements-demo.txt} &
+You are in the wrong folder. Repeat the \texttt{cd} command of Section 1. \\[2pt]
+\texttt{tesseract: command not found} &
+Section 5. On Mac you need Homebrew first. Open a new window afterwards. \\[2pt]
+The Ollama dot stays red &
+Ollama is installed but not running: open the Ollama app once, then refresh the page. \\[2pt]
+The page does not open &
+Start the tool from the window (Section 9) --- the message there says what is wrong. \\[2pt]
+A stage's \textbf{Start} button stays greyed out &
+Press \textbf{Check} on that page first. The failed line tells you exactly what is missing. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4mm}
+\noindent\rule{\textwidth}{0.4pt}
+
+\small
+Questions: John (Jiaxiang) Chen, \href{mailto:jiaxiangchen.kmg@gmail.com}{jiaxiangchen.kmg@gmail.com}.
+The tool is Apache~2.0 licensed; this guide covers the release tagged \texttt{final-submission}.
+
+\end{document}
