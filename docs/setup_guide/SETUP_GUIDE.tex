@@ -74,7 +74,8 @@ what each one needs, in that order:
 \end{center}
 
 \textbf{Time and space.} About 30 minutes of typing and waiting, 2\,GB of disk.
-A further 20 minutes and 9\,GB if you want the free local AI engine (Section 7).
+A further 20 minutes and 9\,GB for the free local AI engine (Section 7), and 2\,GB for the
+meaning index (Section 6); both are optional.
 Everything runs on your own computer; nothing is uploaded anywhere.
 
 \textbf{The one window you need.}
@@ -339,6 +340,38 @@ that command again.
 \end{tabular}
 \end{center}
 
+\subsection*{The meaning index --- optional, needed for Chinese and Lao}
+
+Before an engine reads anything, Mapping has to pick, out of thousands of provisions, the
+few worth reading for each indicator. The tool does this in two ways. The \emph{keyword
+index} looks for the indicator's words; it is built in a minute and needs nothing beyond
+the packages of Section~4. The \emph{meaning index} compares what a provision says with
+what an indicator asks, whatever words and whatever language are used, so it also finds
+the right provisions in Chinese or Lao laws, where keywords alone find almost nothing;
+the score thresholds, the tool's default selection rule, are read on it. It needs two
+more packages and, the first time a run builds it, a model download of about 2\,GB;
+building it takes a while on a computer without a graphics card.
+
+\textbf{You can skip it} for English laws: on the Mapping page set \textbf{Selection} to
+\textbf{Caps} and \textbf{Meaning index} to \textbf{Skip}, and the tool uses the keyword
+index alone. For Chinese or Lao laws, or to use the score thresholds, install it:
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\pip install torch --index-url https://download.pytorch.org/whl/cpu
+.venv\Scripts\pip install sentence-transformers
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
+.venv/bin/pip install sentence-transformers
+\end{lstlisting}
+
+If the tool is already open, close it and start it again: it looks for packages only
+when it starts. The model download happens by itself during the first run that builds
+the index.
+
 \section{The free local engine (optional, but it costs nothing)}
 
 The tool declares two AI engines. \textbf{Engine A} is hosted (Claude) and needs a key you
@@ -450,6 +483,8 @@ The Ollama dot stays red &
 Ollama is installed but not running: open the Ollama app once, then refresh the page. \\[2pt]
 The page does not open &
 Start the tool from the window (Section 9) --- the message there says what is wrong. \\[2pt]
+\texttt{The meaning index needs torch and sentence-transformers} &
+Section 6: install the two packages, or set \textbf{Meaning index} to \textbf{Skip} for English laws. \\[2pt]
 A stage's \textbf{Start} button stays greyed out &
 Press \textbf{Check} on that page first. The failed line tells you exactly what is missing. \\
 \bottomrule

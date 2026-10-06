@@ -54,8 +54,8 @@
 
 This note installs what the tool needs, in order, and stops when the tool opens. You do
 not need to be a programmer: every command below is copied and pasted whole into one
-window. Allow 30 minutes and 2\,GB of disk, plus 20 minutes and 9\,GB if you want the free
-local AI engine (Section 5), which is optional.
+window. Allow 30 minutes and 2\,GB of disk, plus 20 minutes and 9\,GB for the free local
+AI engine (Section 5) and 2\,GB for the meaning index (Section 6), both optional.
 
 \textbf{The one window you need.}
 \begin{itemize}[leftmargin=1.2em]
@@ -183,6 +183,38 @@ Windows and Mac), then download the model the tool declares, about 9\,GB:
 \begin{lstlisting}
 ollama pull qwen2.5:14b
 \end{lstlisting}
+
+\section{The meaning index (optional; needed for Chinese and Lao laws)}
+
+Before an engine reads anything, Mapping has to pick, out of thousands of provisions, the
+few worth reading for each indicator. The tool does this in two ways. The \emph{keyword
+index} looks for the indicator's words; it is built in a minute and needs nothing beyond
+the packages of Section~3. The \emph{meaning index} compares what a provision says with
+what an indicator asks, whatever words and whatever language are used, so it also finds
+the right provisions in Chinese or Lao laws, where keywords alone find almost nothing;
+the score thresholds, the tool's default selection rule, are read on it. It needs two
+more packages and, the first time a run builds it, a model download of about 2\,GB;
+building it takes a while on a computer without a graphics card.
+
+\textbf{You can skip it} for English laws: on the Mapping page set \textbf{Selection} to
+\textbf{Caps} and \textbf{Meaning index} to \textbf{Skip}, and the tool uses the keyword
+index alone. For Chinese or Lao laws, or to use the score thresholds, install it:
+
+\win:
+\begin{lstlisting}
+.venv\Scripts\pip install torch --index-url https://download.pytorch.org/whl/cpu
+.venv\Scripts\pip install sentence-transformers
+\end{lstlisting}
+
+\mac:
+\begin{lstlisting}
+.venv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
+.venv/bin/pip install sentence-transformers
+\end{lstlisting}
+
+If the tool is already open, close it and start it again: it looks for packages only
+when it starts. The model download happens by itself during the first run that builds
+the index.
 
 \section{Start the tool}
 
