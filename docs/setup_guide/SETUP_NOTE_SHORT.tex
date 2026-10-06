@@ -52,16 +52,19 @@
 
 \section*{Before you start}
 
-This note installs what the tool needs, in order, and stops when the tool opens. You do
-not need to be a programmer: every command below is copied and pasted whole into one
-window. Allow 30 minutes and 2\,GB of disk, plus 20 minutes and 9\,GB for the free local
-AI engine (Section 5) and 2\,GB for the meaning index (Section 6), both optional.
-
-\textbf{The one window you need.}
-\begin{itemize}[leftmargin=1.2em]
+{\setlength{\fboxsep}{8pt}%
+\noindent\fcolorbox{rule}{shell}{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+\textbf{Everything here starts from the terminal}, the black window where commands are
+typed. Open it first and keep it open: every command below is pasted into it.
+\begin{itemize}[leftmargin=1.2em,nosep]
   \item \win: press the Start button, type \texttt{PowerShell}, open \emph{Windows PowerShell}.
   \item \mac: press \texttt{Cmd}+\texttt{Space}, type \texttt{Terminal}, press Enter.
-\end{itemize}
+\end{itemize}}}}
+
+This note installs what the tool needs, in order, and stops when the tool opens. You do
+not need to be a programmer: every command is copied and pasted whole. Allow 30 minutes
+and 2\,GB of disk, plus 20 minutes and 9\,GB for the free local AI engine (Section 5) and
+2\,GB for the meaning index (Section 6), both optional.
 
 Where a program may already be on the computer, a \emph{check} line comes first. If the
 window answers with a version number, skip the install and go on. If it says
@@ -69,23 +72,35 @@ window answers with a version number, skip the install and go on. If it says
 everything works is not checked here: once the tool is open, the \textbf{Check} button on
 each stage page and the health dots along the top say what is missing.
 
+\textbf{When to open a new window.} A window opened before a program was installed does
+not know that program exists. So after installing a \emph{program} (Python, Tesseract,
+Ollama), close the window, open a new one and go back to the project folder as in
+Section~1. The \emph{packages} installed with \texttt{pip} (Sections 3 and 6) need no new
+window: they go into the project's own folder, where every command finds them at once.
+The tool itself looks for packages only when it starts, so after Section~6 restart the
+tool, not the window. Each step below says which applies.
+
 \section{Get the project onto the computer}
 
 Download the project as a ZIP from the repository page on GitHub (green \textbf{Code}
-button $\rightarrow$ \textbf{Download ZIP}) and unzip it to your Desktop. GitHub names the
+button $\rightarrow$ \textbf{Download ZIP}) and unzip it wherever you like to keep it; the
+Desktop is the example used below. GitHub names the
 unzipped folder after the branch or tag it came from, \texttt{rdtii-rocky-next-main} or
 \texttt{rdtii-rocky-next-final-submission}: rename it to \texttt{rdtii-rocky-next}
 (right-click the folder, \emph{Rename}). It holds folders named \texttt{interface},
 \texttt{stages} and \texttt{submission}.
 
-Point the window at that folder; every later command assumes you are inside it.
+Point the window at that folder; every later command assumes you are inside it. If the
+folder is not on your Desktop, change the path in the command to where you put it. The
+easy way: type \texttt{cd} and a space, drag the folder from its file window into the
+black window (its path appears there), then press Enter.
 
-\win:
+\win{} (the folder on the Desktop):
 \begin{lstlisting}
 cd $HOME\Desktop\rdtii-rocky-next
 \end{lstlisting}
 
-\mac:
+\mac{} (the folder on the Desktop):
 \begin{lstlisting}
 cd ~/Desktop/rdtii-rocky-next
 \end{lstlisting}
@@ -124,7 +139,8 @@ package area (a folder called \texttt{.venv}, so nothing is installed into the c
 large). The second installs the packages of all three stages from one list; allow 5
 minutes, it ends with \texttt{Successfully installed}. The third installs the extraction
 stage, which is part of the project itself. The fourth downloads the browser engine (about
-150\,MB) that the scraping stage uses on portals built with JavaScript.
+150\,MB) that the scraping stage uses on portals built with JavaScript. None of the four
+needs a new window afterwards.
 
 \win:
 \begin{lstlisting}
@@ -178,7 +194,8 @@ ollama --version
 \end{lstlisting}
 
 If \emph{not found}, install Ollama from \url{https://ollama.com} (a normal installer for
-Windows and Mac), then download the model the tool declares, about 9\,GB:
+Windows and Mac). Then close the window, open a new one, go back to the project folder
+and download the model the tool declares, about 9\,GB:
 
 \begin{lstlisting}
 ollama pull qwen2.5:14b

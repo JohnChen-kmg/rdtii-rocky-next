@@ -53,6 +53,15 @@
 
 \section*{Before you start}
 
+{\setlength{\fboxsep}{8pt}%
+\noindent\fcolorbox{rule}{shell}{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+\textbf{Everything here starts from the terminal}, the black window where commands are
+typed. Open it first and keep it open: every command below is pasted into it.
+\begin{itemize}[leftmargin=1.2em,nosep]
+  \item \win: press the Start button, type \texttt{PowerShell}, open \emph{Windows PowerShell}.
+  \item \mac: press \texttt{Cmd}+\texttt{Space}, type \texttt{Terminal}, press Enter.
+\end{itemize}}}}
+
 This guide takes a computer with nothing on it and leaves you at the tool's own
 instructions (the README's \emph{Verify} step). You do not need to be a programmer.
 You will type commands into one black window; every command below can be copied and
@@ -78,35 +87,42 @@ A further 20 minutes and 9\,GB for the free local AI engine (Section 7), and 2\,
 meaning index (Section 6); both are optional.
 Everything runs on your own computer; nothing is uploaded anywhere.
 
-\textbf{The one window you need.}
-\begin{itemize}[leftmargin=1.2em]
-  \item \win: press the Start button, type \texttt{PowerShell}, open \emph{Windows PowerShell}.
-  \item \mac: press \texttt{Cmd}+\texttt{Space}, type \texttt{Terminal}, press Enter.
-\end{itemize}
-
 \textbf{How to read this guide.} Each step first \emph{checks} whether something is
 already on the computer. If the window answers with a version number, skip the install
 and go to the next step. If it says \emph{not found}, \emph{not recognized} or
 \emph{command not found}, run the install box underneath.
 
+\textbf{When to open a new window.} A window opened before a program was installed does
+not know that program exists. So after installing a \emph{program} (Python, Tesseract,
+Ollama), close the window, open a new one and go back to the project folder as in
+Section~1. The \emph{packages} installed with \texttt{pip} (Sections 4 to 6) need no new
+window: they go into the project's own folder, where every command finds them at once.
+The tool itself looks for packages only when it starts, so after the meaning index of
+Section~6 restart the tool, not the window. Each step says which applies.
+
 \section{Get the project onto the computer}
 
+\begin{sloppypar}
 Download the project as a ZIP from the repository page on GitHub
-(green \textbf{Code} button $\rightarrow$ \textbf{Download ZIP}), then unzip it to your
-Desktop. GitHub names the unzipped folder after the branch or tag it came from:
+(green \textbf{Code} button $\rightarrow$ \textbf{Download ZIP}), then unzip it wherever
+you like to keep it; the Desktop is the example used below. GitHub names the unzipped folder after the branch or tag it came from:
 \texttt{rdtii-rocky-next-main} or \texttt{rdtii-rocky-next-final-submission}. Rename it
 to \texttt{rdtii-rocky-next} (right-click the folder, \emph{Rename}) so that the commands
 below find it. You should end up with a folder called \texttt{rdtii-rocky-next} holding
 folders named \texttt{interface}, \texttt{stages} and \texttt{submission}.
+\end{sloppypar}
 
-Now point the window at that folder. Every later command assumes you are inside it.
+Now point the window at that folder. Every later command assumes you are inside it. If
+the folder is not on your Desktop, change the path in the command to where you put it. The
+easy way: type \texttt{cd} and a space, drag the folder from its file window into the
+black window (its path appears there), then press Enter.
 
-\win:
+\win{} (the folder on the Desktop):
 \begin{lstlisting}
 cd $HOME\Desktop\rdtii-rocky-next
 \end{lstlisting}
 
-\mac:
+\mac{} (the folder on the Desktop):
 \begin{lstlisting}
 cd ~/Desktop/rdtii-rocky-next
 \end{lstlisting}
@@ -203,6 +219,8 @@ only run this once:
 \end{lstlisting}
 
 It prints a long list and ends with \texttt{Successfully installed ...}. Allow 5 minutes.
+No new window is needed after \texttt{pip}: the packages go into the project folder, where
+every later command finds them at once.
 
 Stage 1 also needs a browser engine to read portals that build their pages with
 JavaScript. It is about 150\,MB:
@@ -382,7 +400,8 @@ ollama --version
 \end{lstlisting}
 
 If it is not found, install Ollama from \url{https://ollama.com} (a normal installer for
-Windows and Mac), then download the model the tool declares --- about 9\,GB, so allow time:
+Windows and Mac). Then close the window, open a new one, go back to the project folder
+and download the model the tool declares --- about 9\,GB, so allow time:
 
 \begin{lstlisting}
 ollama pull qwen2.5:14b
