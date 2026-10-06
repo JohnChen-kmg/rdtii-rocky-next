@@ -13,6 +13,16 @@
 \usepackage{parskip}
 \usepackage[colorlinks=true,linkcolor=rdtiiblue,urlcolor=rdtiiblue]{hyperref}
 
+% Headings: every numbered section starts a new page (the unnumbered "Before you start" stays with the
+% title), and section and subsection headings carry more space above and below than article's default.
+\makeatletter
+\renewcommand\section{\@ifstar{\spaced@section*}{\clearpage\spaced@section}}
+\newcommand\spaced@section{\@startsection{section}{1}{\z@}%
+  {-6ex \@plus -1ex \@minus -.2ex}{4ex \@plus .2ex}{\normalfont\Large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-5ex \@plus -1ex \@minus -.2ex}{2.5ex \@plus .2ex}{\normalfont\large\bfseries}}
+\makeatother
+
 \definecolor{rdtiiblue}{HTML}{1A4D8F}
 \definecolor{shell}{HTML}{F4F6F8}
 \definecolor{rule}{HTML}{C9D3DD}

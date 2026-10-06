@@ -6,7 +6,7 @@ PDF built beside it:
 | Source | Built copy | What it is |
 | --- | --- | --- |
 | `SETUP_GUIDE.tex` | `SETUP_GUIDE.pdf` | The full guide. Each step checks first and installs what is missing, says what each package is for, what a working setup looks like, and what to do when something is not found. |
-| `SETUP_NOTE.tex` | `SETUP_NOTE.pdf` | The short note. The installs only, in order, until the tool opens. Whether everything works is left to the tool's own Check buttons and health dots. |
+| `SETUP_NOTE_SHORT.tex` | `SETUP_NOTE_SHORT.pdf` | The short note. The installs only, in order, until the tool opens. Whether everything works is left to the tool's own Check buttons and health dots. |
 
 Both PDFs are committed, so nobody has to build them to read them. Rebuild after editing
 a `.tex`.
